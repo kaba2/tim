@@ -1,5 +1,5 @@
-#ifndef TIMCORE_MYTYPES_H
-#define TIMCORE_MYTYPES_H
+#ifndef TIM_MYTYPES_H
+#define TIM_MYTYPES_H
 
 #include "tim/core/timcore_library.h"
 

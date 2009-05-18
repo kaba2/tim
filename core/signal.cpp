@@ -24,17 +24,40 @@ namespace Tim
 		return data_.width();
 	}
 
-	View<2, real, ArrayView<2, Array<2, real> > > Signal::view()
+	SignalView Signal::view()
 	{
 		return arrayView(data_);
 	}
 
-	ConstView<2, real, ConstArrayView<2, Array<2, real> > > Signal::constView() const
+	ConstSignalView Signal::constView() const
 	{
 		return constArrayView(data_);
 	}
 
-	SignalPtr mergeSignalDimensions(
+	TIMCORE void constructPointSet(
+		const SignalView& view,
+		std::vector<DynamicPoint>& resultPointSet)
+	{
+		const integer points = view.height();
+		const integer dimension = view.width();
+
+		std::vector<DynamicPoint> pointSet;
+		pointSet.reserve(points);
+		for (integer i = 0;i < points;++i)
+		{
+			pointSet.push_back(
+				DynamicPoint(ofDimension(0),
+				withAliasing(0)));
+			DynamicPoint temp(ofDimension(dimension),
+				withAliasing(&jointSignal.constView()(0, i)));
+			pointSet.back() = temp.asTemporary();
+			ASSERT(&pointSet.back()[0] == &jointSignal.constView(0, i));
+		}
+
+		pointSet.swap(resultPointSet);
+	}
+
+	TIMCORE SignalPtr mergeSignalDimensions(
 		const std::vector<SignalPtr>& signalList)
 	{
 		if (signalList.empty())
