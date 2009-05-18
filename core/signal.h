@@ -1,5 +1,5 @@
-#ifndef TIMCORE_SIGNAL_H
-#define TIMCORE_SIGNAL_H
+#ifndef TIM_SIGNAL_H
+#define TIM_SIGNAL_H
 
 #include "tim/core/mytypes.h"
 
@@ -12,6 +12,9 @@
 namespace Tim
 {
 
+	typedef View<2, real, ArrayView<2, Array<2, real> > > SignalView;
+	typedef ConstView<2, real, ConstArrayView<2, Array<2, real> > > ConstSignalView;
+
 	class TIMCORE Signal
 		: public Pastel::ReferenceCounted
 	{
@@ -23,8 +26,8 @@ namespace Tim
 		integer dimension() const;
 		integer size() const;
 
-		View<2, real, ArrayView<2, Array<2, real> > > view();
-		ConstView<2, real, ConstArrayView<2, Array<2, real> > > constView() const;
+		SignalView view();
+		ConstSignalView constView() const;
 
 	private:
 		integer dimension_;
@@ -33,7 +36,11 @@ namespace Tim
 
 	typedef Pastel::CountedPtr<Signal> SignalPtr;
 
-	SignalPtr mergeSignalDimensions(
+	TIMCORE void constructPointSet(
+		const SignalView& view,
+		std::vector<DynamicPoint>& resultPointSet);
+	
+	TIMCORE SignalPtr mergeSignalDimensions(
 		const std::vector<SignalPtr>& signalList);
 
 }

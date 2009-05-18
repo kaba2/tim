@@ -1,5 +1,5 @@
-#ifndef TIMCORE_TIMCORE_LIBRARY_H
-#define TIMCORE_TIMCORE_LIBRARY_H
+#ifndef TIM_TIMCORE_LIBRARY_H
+#define TIM_TIMCORE_LIBRARY_H
 
 #include <pastel/sys/environment.h>
 

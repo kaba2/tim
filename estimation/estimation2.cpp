@@ -1,8 +1,8 @@
 #define TIM_MULTI_THREADED 1
 #define TIM_DYNAMIC 1
-#define TIM_LATEX_OUTPUT 1
-#define TIM_ANN_BDTREE 0
-#define TIM_ANN_KDTREE 0
+#define TIM_LATEX_OUTPUT 0
+#define TIM_ANN_BDTREE 1
+#define TIM_ANN_KDTREE 1
 #define TIM_BRUTE_FORCE 1
 #define TIM_KDTREE 1
 
@@ -563,7 +563,7 @@ void timings()
 
 	if (!multiThreaded)
 	{
-		omp_set_num_threads(1);
+		//omp_set_num_threads(1);
 		timLog() << "Single-threaded." << logNewLine;
 	}
 	else
