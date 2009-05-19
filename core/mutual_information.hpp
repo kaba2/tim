@@ -3,6 +3,9 @@
 
 #include "tim/core/mutual_information.h"
 
+#include <pastel/geometry/all_nearest_neighbors_kdtree.h>
+#include <pastel/geometry/count_all_nearest_neighbors_kdtree.h>
+
 namespace Tim
 {
 
