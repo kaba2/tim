@@ -8,8 +8,12 @@ namespace Tim
 
 	//! Computes mutual information between a set of signals.
 
+	template <typename NormBijection>
 	real mutualInformation(
-		const std::vector<SignalPtr>& signalSet);
+		const std::vector<SignalPtr>& signalSet,
+		integer kNearest,
+		real maxRelativeError,
+		const NormBijection& normBijection);
 
 	//! Computes mutual information between two signals.
 	/*!
@@ -17,9 +21,13 @@ namespace Tim
 	more general mutualInformation().
 	*/
 
-	TIMCORE real mutualInformation(
+	template <typename NormBijection>
+	real mutualInformation(
 		const SignalPtr& aSignal,
-		const SignalPtr& bSignal);
+		const SignalPtr& bSignal,
+		integer kNearest,
+		real maxRelativeError,
+		const NormBijection& normBijection);
 
 }
 

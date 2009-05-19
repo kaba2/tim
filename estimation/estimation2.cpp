@@ -1,8 +1,8 @@
-#define TIM_MULTI_THREADED 1
+#define TIM_MULTI_THREADED 0
 #define TIM_DYNAMIC 1
 #define TIM_LATEX_OUTPUT 0
-#define TIM_ANN_BDTREE 1
-#define TIM_ANN_KDTREE 1
+//#define TIM_ANN_BDTREE 1
+//#define TIM_ANN_KDTREE 1
 #define TIM_BRUTE_FORCE 1
 #define TIM_KDTREE 1
 
@@ -436,9 +436,13 @@ void testIt(integer dimension, integer points, integer kNearest, const Real& max
 			timer.setStart();
 
 			allNearestNeighborsKdTree(
-				pointSet, kNearest, infinity<Real>(), maxRelativeError,
+				pointSet,
+				0,
+				kNearest, 
+				infinity<Real>(), 
+				maxRelativeError,
 				normBijection,
-				kdNearest);
+				&kdNearest);
 
 			timer.store();
 
@@ -557,13 +561,15 @@ Relative error range
 
 void timings()
 {
-	const bool multiThreaded = (TIM_MULTI_THREADED != 0);
+	const bool multiThreaded = (TIM_MULTI_THREADED != 0 && PASTEL_ENABLE_OMP != 0);
 	const bool fixed = (TIM_DYNAMIC == 0);
 	const real maxRelativeError = 0;
 
 	if (!multiThreaded)
 	{
-		//omp_set_num_threads(1);
+#if PASTEL_ENABLE_OMP != 0
+		omp_set_num_threads(1);
+#endif
 		timLog() << "Single-threaded." << logNewLine;
 	}
 	else
