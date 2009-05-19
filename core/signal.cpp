@@ -47,11 +47,12 @@ namespace Tim
 		{
 			pointSet.push_back(
 				DynamicPoint(ofDimension(0),
-				withAliasing(0)));
-			DynamicPoint temp(ofDimension(dimension),
-				withAliasing(&jointSignal.constView()(0, i)));
+				withAliasing<real>(0)));
+			DynamicPoint temp(
+				ofDimension(dimension),
+				withAliasing(&view(0, i)));
 			pointSet.back() = temp.asTemporary();
-			ASSERT(&pointSet.back()[0] == &jointSignal.constView(0, i));
+			ASSERT(&pointSet.back()[0] == &view(0, i));
 		}
 
 		pointSet.swap(resultPointSet);

@@ -54,7 +54,7 @@ namespace Tim
 			std::vector<DynamicPoint> pointSet;
 			constructPointSet(signal->view(), pointSet);
 
-			countInRangeKdTree(
+			countAllNearestNeighborsKdTree(
 				pointSet,
 				0,
 				pointSet.size() - 1,
@@ -62,6 +62,25 @@ namespace Tim
 				maxRelativeError,
 				normBijection);
 		}
+	}
+
+	template <typename NormBijection>
+	real mutualInformation(
+		const SignalPtr& aSignal,
+		const SignalPtr& bSignal,
+		integer kNearest,
+		real maxRelativeError,
+		const NormBijection& normBijection)
+	{
+		std::vector<SignalPtr> signalSet;
+		signalSet.push_back(aSignal);
+		signalSet.push_back(bSignal);
+		
+		return Tim::mutualInformation(
+			signalSet,
+			kNearest,
+			maxRelativeError,
+			normBijection);
 	}
 
 }
