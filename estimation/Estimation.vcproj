@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/D &quot;_SECURE_SCL=0&quot; /D &quot;_HAS_ITERATOR_DEBUGGING=0&quot;&#x0D;&#x0A;"
 				Optimization="0"
-				AdditionalIncludeDirectories="e:\ohjelmointi\hgproject\pastel_main"
+				AdditionalIncludeDirectories="$(SolutionDir)\..\"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -122,7 +122,7 @@
 				AdditionalOptions="/D &quot;_SECURE_SCL=0&quot; /D &quot;_HAS_ITERATOR_DEBUGGING=0&quot;&#x0D;&#x0A;"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="e:\ohjelmointi\hgproject\pastel_main"
+				AdditionalIncludeDirectories="$(SolutionDir)\..\"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -180,11 +180,23 @@
 	</References>
 	<Files>
 		<File
+			RelativePath=".\estimation.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\estimation.h"
+			>
+		</File>
+		<File
 			RelativePath=".\estimation2.cpp"
 			>
 		</File>
 		<File
 			RelativePath=".\estimation_main.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\test_mutual_information.cpp"
 			>
 		</File>
 	</Files>

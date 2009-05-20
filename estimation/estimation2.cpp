@@ -563,7 +563,7 @@ void timings()
 {
 	const bool multiThreaded = (TIM_MULTI_THREADED != 0 && PASTEL_ENABLE_OMP != 0);
 	const bool fixed = (TIM_DYNAMIC == 0);
-	const real maxRelativeError = 0;
+	const real maxRelativeError = 3;
 
 	if (!multiThreaded)
 	{

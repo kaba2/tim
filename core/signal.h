@@ -29,20 +29,23 @@ namespace Tim
 		SignalView view();
 		ConstSignalView constView() const;
 
+		const std::vector<DynamicPoint>& pointSet() const;
+
 	private:
 		integer dimension_;
 		Array<2, real> data_;
+		std::vector<DynamicPoint> pointSet_;
 	};
 
 	typedef Pastel::CountedPtr<Signal> SignalPtr;
 
-	TIMCORE void constructPointSet(
-		const SignalView& view,
-		std::vector<DynamicPoint>& resultPointSet);
-	
 	TIMCORE SignalPtr mergeSignalDimensions(
 		const std::vector<SignalPtr>& signalList);
 
+	SignalPtr newSignal(integer dimension, integer size);
+
 }
+
+#include "tim/core/signal.hpp"
 
 #endif

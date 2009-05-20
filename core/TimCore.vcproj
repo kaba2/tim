@@ -181,6 +181,14 @@
 	</References>
 	<Files>
 		<File
+			RelativePath=".\embed.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\embed.h"
+			>
+		</File>
+		<File
 			RelativePath=".\mutual_information.cpp"
 			>
 		</File>
@@ -202,6 +210,10 @@
 		</File>
 		<File
 			RelativePath=".\signal.h"
+			>
+		</File>
+		<File
+			RelativePath=".\signal.hpp"
 			>
 		</File>
 		<File

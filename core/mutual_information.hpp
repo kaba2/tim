@@ -27,12 +27,8 @@ namespace Tim
 		Array<2, real> distanceArray(1, points);
 
 		{
-			std::vector<DynamicPoint> pointSet;
-			constructPointSet(jointSignal->view(),
-				pointSet);
-
 			allNearestNeighborsKdTree(
-				pointSet,
+				jointSignal->pointSet(),
 				kNearest - 1,
 				kNearest,
 				infinity<real>(),
@@ -42,29 +38,30 @@ namespace Tim
 				&distanceArray);
 		}
 
-		/*
-		for (integer i = 0;i < points;++i)
-		{
-			distanceArray(0, i) = normBijection.toNorm(
-				distanceArray(0, i));
-		}
-		*/
-		
+		real estimate = 0;
 		for (integer i = 0;i < signals;++i)
 		{
 			const SignalPtr signal = signalSet[i];
 			
-			std::vector<DynamicPoint> pointSet;
-			constructPointSet(signal->view(), pointSet);
-
-			countAllNearestNeighborsKdTree(
-				pointSet,
+			const integer totalNeighbors =
+				countAllNearestNeighborsKdTree(
+				signal->pointSet(),
 				0,
-				pointSet.size() - 1,
+				signal->size() - 1,
 				distanceArray,
 				maxRelativeError,
 				normBijection);
+
+			// Should this be digamma<real>(totalNeighbors) or 
+			// digamma<real>(totalNeighbors + 1)?
+			estimate -= digamma<real>(totalNeighbors + 1);
 		}
+
+		estimate /= points;
+		estimate += digamma<real>(kNearest);
+		estimate += (dimension - 1) * digamma<real>(points);
+
+		return estimate;
 	}
 
 	template <typename NormBijection>
