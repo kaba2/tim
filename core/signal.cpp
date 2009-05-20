@@ -9,9 +9,22 @@ namespace Tim
 	Signal::Signal(integer dimension, integer size)
 		: dimension_(dimension)
 		, data_(dimension, size, 0)
+		, pointSet_()
 	{
 		ENSURE1(dimension > 0, dimension);
 		ENSURE1(size >= 0, size);
+
+		pointSet_.resize(size, nullPoint<Dynamic, real>());
+
+		for (integer i = 0;i < size;++i)
+		{
+			DynamicPoint temp(
+				aliasPoint<Dynamic, real>(dimension, &data_(0, i)));
+
+			pointSet_[i].swap(temp);
+
+			ASSERT(&pointSet_[i][0] == &data_(0, i));
+		}
 	}
 
 	integer Signal::size() const
@@ -34,28 +47,9 @@ namespace Tim
 		return constArrayView(data_);
 	}
 
-	TIMCORE void constructPointSet(
-		const SignalView& view,
-		std::vector<DynamicPoint>& resultPointSet)
+	const std::vector<DynamicPoint>& Signal::pointSet() const
 	{
-		const integer points = view.height();
-		const integer dimension = view.width();
-
-		std::vector<DynamicPoint> pointSet;
-		pointSet.reserve(points);
-		for (integer i = 0;i < points;++i)
-		{
-			pointSet.push_back(
-				DynamicPoint(ofDimension(0),
-				withAliasing<real>(0)));
-			DynamicPoint temp(
-				ofDimension(dimension),
-				withAliasing(&view(0, i)));
-			pointSet.back() = temp.asTemporary();
-			ASSERT(&pointSet.back()[0] == &view(0, i));
-		}
-
-		pointSet.swap(resultPointSet);
+		return pointSet_;
 	}
 
 	TIMCORE SignalPtr mergeSignalDimensions(
