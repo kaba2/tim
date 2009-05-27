@@ -392,10 +392,10 @@ void testIt(integer dimension, integer points, integer kNearest, const Real& max
 	}
 	*/
 
-	EuclideanNormBijection<N, Real> normBijection;
-	//InfinityNormBijection<N, Real> normBijection;
-	//ManhattanNormBijection<N, Real> normBijection;
-	//MinkowskiNormBijection<N, Real> normBijection(1.5);
+	EuclideanNormBijection<Real> normBijection;
+	//InfinityNormBijection<Real> normBijection;
+	//ManhattanNormBijection<Real> normBijection;
+	//MinkowskiNormBijection<Real> normBijection(1.5);
 
 	Array<2, integer> bruteNearest(kNearest, pointSet.size());
 

@@ -31,6 +31,9 @@ namespace Tim
 
 		const std::vector<DynamicPoint>& pointSet() const;
 
+		DynamicPoint& operator[](integer index);
+		const DynamicPoint& operator[](integer index) const;
+
 	private:
 		integer dimension_;
 		Array<2, real> data_;
