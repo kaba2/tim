@@ -181,6 +181,14 @@
 	</References>
 	<Files>
 		<File
+			RelativePath=".\differential_entropy.h"
+			>
+		</File>
+		<File
+			RelativePath=".\differential_entropy.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\embed.cpp"
 			>
 		</File>

@@ -52,6 +52,20 @@ namespace Tim
 		return pointSet_;
 	}
 
+	DynamicPoint& Signal::operator[](integer index)
+	{
+		PENSURE2(index >= 0 && index < pointSet_.size(), index, pointSet_.size());
+
+		return pointSet_[index];
+	}
+
+	const DynamicPoint& Signal::operator[](integer index) const
+	{
+		PENSURE2(index >= 0 && index < pointSet_.size(), index, pointSet_.size());
+
+		return pointSet_[index];
+	}
+
 	TIMCORE SignalPtr mergeSignalDimensions(
 		const std::vector<SignalPtr>& signalList)
 	{
