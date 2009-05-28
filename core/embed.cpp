@@ -1,4 +1,5 @@
 #include "tim/core/embed.h"
+#include "tim/core/signal_tools.h"
 
 namespace Tim
 {
@@ -16,7 +17,7 @@ namespace Tim
 		const integer points = 
 			(data.size() + (stride - 1)) / stride;
 
-		SignalPtr signal = newSignal(dimension, points);
+		SignalPtr signal = SignalPtr(new Signal(dimension, points));
 
 		SignalView view = signal->view();
 

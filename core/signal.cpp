@@ -7,24 +7,39 @@ namespace Tim
 {
 
 	Signal::Signal(integer dimension, integer size)
-		: dimension_(dimension)
-		, data_(dimension, size, 0)
+		: data_(size, dimension, 0)
 		, pointSet_()
 	{
-		ENSURE1(dimension > 0, dimension);
+		ENSURE1(dimension >= 0, dimension);
 		ENSURE1(size >= 0, size);
 
-		pointSet_.resize(size, nullPoint<Dynamic, real>());
+		updatePointSet();
+	}
 
-		for (integer i = 0;i < size;++i)
-		{
-			DynamicPoint temp(
-				aliasPoint<Dynamic, real>(dimension, &data_(0, i)));
+	Signal::Signal(
+		const SignalPtr& signalToAlias,
+		integer dimensionBegin,
+		integer dimensionEnd)
+		: data_(signalToAlias->size(), std::abs(dimensionEnd - dimensionBegin), 
+		withAliasing(&signalToAlias->view()(0, dimensionBegin)))
+		, pointSet_()
+	{
+		// Note the mabs() above is just because we want 
+		// to catch precondition violations here.
 
-			pointSet_[i].swap(temp);
+		ENSURE2(dimensionBegin >= 0 && dimensionBegin < signalToAlias->dimension(), 
+			dimensionBegin, signalToAlias->dimension());
+		ENSURE2(dimensionEnd >= 0 && dimensionEnd <= signalToAlias->dimension(), 
+			dimensionEnd, signalToAlias->dimension());
+		ENSURE2(dimensionBegin <= dimensionEnd, dimensionBegin, dimensionEnd);
 
-			ASSERT(&pointSet_[i][0] == &data_(0, i));
-		}
+		updatePointSet();
+	}
+
+	void Signal::swap(Signal& that)
+	{
+		data_.swap(that.data_);
+		pointSet_.swap(that.pointSet_);
 	}
 
 	integer Signal::size() const
@@ -66,40 +81,25 @@ namespace Tim
 		return pointSet_[index];
 	}
 
-	TIMCORE SignalPtr mergeSignalDimensions(
-		const std::vector<SignalPtr>& signalList)
+	// Private
+
+	void Signal::updatePointSet()
 	{
-		if (signalList.empty())
+		const integer size = data_.width();
+		const integer dimension = data_.height();
+
+		pointSet_.resize(size, nullPoint<Dynamic, real>());
+
+		for (integer i = 0;i < size;++i)
 		{
-			return SignalPtr();
+			DynamicPoint temp(
+				ofDimension(dimension),
+				withAliasing(&data_(i, 0)));
+
+			pointSet_[i].swap(temp);
+
+			ASSERT(&pointSet_[i][0] == &data_(0, i));
 		}
-
-		const integer size = signalList.front()->size();
-
-		const integer signals = signalList.size();
-		integer bigDimension = 0;
-		for (integer i = 0;i < signals;++i)
-		{
-			bigDimension += signalList[i]->dimension();
-			ENSURE2(signalList[0]->size() == signalList[i]->size(), 
-				signalList[0]->size(), signalList[i]->size());
-		}
-
-		SignalPtr bigSignal(new Signal(bigDimension, size));
-		
-		integer dimensionOffset = 0;
-
-		for (integer i = 0;i < signals;++i)
-		{
-			copy(signalList[i]->constView(),
-				subView(bigSignal->view(), 
-				Rectangle2(dimensionOffset, 0, 
-				dimensionOffset + signalList[i]->dimension(), size)));
-
-			dimensionOffset += signalList[i]->dimension();
-		}
-
-		return bigSignal;
 	}
 
 }

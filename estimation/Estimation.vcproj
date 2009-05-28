@@ -196,6 +196,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\test_differential_entropy.cpp"
+			>
+		</File>
+		<File
 			RelativePath=".\test_mutual_information.cpp"
 			>
 		</File>
