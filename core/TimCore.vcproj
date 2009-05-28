@@ -225,6 +225,18 @@
 			>
 		</File>
 		<File
+			RelativePath=".\signal_tools.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\signal_tools.h"
+			>
+		</File>
+		<File
+			RelativePath=".\signal_tools.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\timcore_library.cpp"
 			>
 		</File>

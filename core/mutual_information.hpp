@@ -11,18 +11,29 @@ namespace Tim
 
 	template <typename NormBijection>
 	real mutualInformation(
-		const std::vector<SignalPtr>& signalSet,
+		const SignalPtr& jointSignal,
+		const std::vector<SignalPtr>& marginalSignalSet,
 		integer kNearest,
 		real maxRelativeError,
 		const NormBijection& normBijection)
 	{
-		const integer signals = signalSet.size();
+		ENSURE1(kNearest > 0, kNearest);
+		ENSURE1(maxRelativeError >= 0, maxRelativeError);
 
-		const SignalPtr jointSignal =
-			mergeSignalDimensions(signalSet);
-
+		const integer signals = marginalSignalSet.size();
 		const integer points = jointSignal->size();
-		const integer jointDimension = jointSignal->dimension();
+		
+		integer jointDimension = 0;
+		for (integer i = 0;i < signals;++i)
+		{
+			ENSURE1(jointSignal->size() == marginalSignalSet[i]->size()
+				jointSignal->size(), marginalSignalSet[i]->size());
+
+			jointDimension += marginalSignalSet[i]->dimension();
+		}
+
+		ENSURE2(jointDimension == jointSignal->dimension(),
+			jointDimension, jointSignal->dimension());
 
 		Array<2, real> distanceArray(1, points);
 
@@ -41,7 +52,7 @@ namespace Tim
 		real estimate = 0;
 		for (integer i = 0;i < signals;++i)
 		{
-			const SignalPtr signal = signalSet[i];
+			const SignalPtr signal = marginalSignalSet[i];
 			
 			const integer totalNeighbors =
 				countAllNearestNeighborsKdTree(
@@ -66,18 +77,54 @@ namespace Tim
 
 	template <typename NormBijection>
 	real mutualInformation(
-		const SignalPtr& aSignal,
-		const SignalPtr& bSignal,
+		const std::vector<SignalPtr>& marginalSignalSet,
 		integer kNearest,
 		real maxRelativeError,
 		const NormBijection& normBijection)
 	{
-		std::vector<SignalPtr> signalSet;
-		signalSet.push_back(aSignal);
-		signalSet.push_back(bSignal);
+		const SignalPtr jointSignal =
+			mergeSignalDimensions(marginalSignalSet);
+		
+		return Pastel::mutualInformation(
+			jointSignal,
+			marginalSignalSet,
+			kNearest,
+			maxRelativeError,
+			normBijection);
+	}
+
+	template <typename NormBijection>
+	real mutualInformation(
+		const SignalPtr& jointSignal,
+		integer kNearest,
+		real maxRelativeError,
+		const NormBijection& normBijection)
+	{
+		std::vector<SignalPtr> marginalSignalSet;
+		splitDimensions(jointSignal, marginalSignalSet);
+		
+		return Pastel::mutualInformation(
+			jointSignal,
+			marginalSignalSet,
+			kNearest,
+			maxRelativeError,
+			normBijection);
+	}
+
+	template <typename NormBijection>
+	real mutualInformation(
+		const SignalPtr& aMarginalSignal,
+		const SignalPtr& bMarginalSignal,
+		integer kNearest,
+		real maxRelativeError,
+		const NormBijection& normBijection)
+	{
+		std::vector<SignalPtr> marginalSignalSet;
+		marginalSignalSet.push_back(aMarginalSignal);
+		marginalSignalSet.push_back(bMarginalSignal);
 		
 		return Tim::mutualInformation(
-			signalSet,
+			marginalSignalSet,
 			kNearest,
 			maxRelativeError,
 			normBijection);
