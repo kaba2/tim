@@ -51,7 +51,7 @@ namespace Tim
 		{
 			// Here we should add the logarithm of 
 			// _twice_ the distance to the k:th neighbor.
-			// However, we delay this by
+			// However, we delay this by noting that:
 			// log(dist * 2) = log(dist) + log(2)
 			estimate += normBijection.toLnNorm(distanceArray(0, i));
 		}
@@ -61,7 +61,7 @@ namespace Tim
 		estimate *= (real)dimension / points;
 		estimate -= digamma<real>(kNearest);
 		estimate += digamma<real>(points);
-		// Here we should add the logarithm of the volume of 
+		// Here we add the logarithm of the volume of 
 		// a sphere with _diameter_ 1. That is, the logarithm
 		// of the volume of a sphere with radius 1/2:
 		// log(unitVol * (1/2)^d) = log(unitVol) - d * log(2)

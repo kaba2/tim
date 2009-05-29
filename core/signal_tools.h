@@ -16,8 +16,8 @@ namespace Tim
 	*/
 
 	TIMCORE SignalPtr generateUniform(
-		integer dimension,
-		integer size);
+		integer size,
+		integer dimension);
 
 	//! Generates standard gaussian random variables in R^n.
 	/*!
@@ -27,8 +27,8 @@ namespace Tim
 	*/
 
 	TIMCORE SignalPtr generateGaussian(
-		integer dimension,
-		integer size);
+		integer size,
+		integer dimension);
 
 	//! Generates correlated gaussian random variables in R^n.
 	/*!
@@ -49,8 +49,8 @@ namespace Tim
 	*/
 
 	TIMCORE SignalPtr generateCorrelatedGaussian(
-		integer dimension,
 		integer size,
+		integer dimension,
 		const DynamicMatrix& correlation);
 
 	/*!

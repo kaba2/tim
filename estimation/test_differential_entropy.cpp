@@ -10,26 +10,35 @@ namespace
 
 	void testDifferentialEntropy()
 	{
-		const integer dimension = 3;
+		const integer dimension = 10;
 		const integer points = 10000;
 		const integer kNearest = 1;
+		const real maxRelativeError = 0;
 
 		log() << "Estimates of differential entropies:" << logNewLine;
 
+		//EuclideanNormBijection<real> normBijection;
+		InfinityNormBijection<real> normBijection;
+		//ManhattanNormBijection<real> normBijection;
+
 		{
-			SignalPtr signal = generateGaussian(dimension, points);
-			const real estimate = differentialEntropy(signal, kNearest, 0, EuclideanNormBijection<real>());
+			SignalPtr signal = generateGaussian(points, dimension);
+			const real estimate = differentialEntropy(signal, kNearest, maxRelativeError, 
+				normBijection);
 			
 			log() << "Gaussian: " << estimate << ", correct: " 
-				<< ((real)dimension / 2) * std::log(2 * constantPi<real>() * constantNeper<real>())
+				<< gaussianDifferentialEntropy(dimension, 1)
 				<< logNewLine;
 		}
 
 		{
-			SignalPtr signal = generateUniform(dimension, points);
-			const real estimate = differentialEntropy(signal, kNearest, 0, EuclideanNormBijection<real>());
+			SignalPtr signal = generateUniform(points, dimension);
+			const real estimate = differentialEntropy(signal, kNearest, maxRelativeError, 
+				normBijection);
 			
-			log() << "Uniform: " << estimate << ", correct: 0" << logNewLine;
+			log() << "Uniform: " << estimate << ", correct: " 
+				<< uniformDifferentialEntropy(1)
+				<< logNewLine;
 		}
 	}
 

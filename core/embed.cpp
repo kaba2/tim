@@ -17,7 +17,7 @@ namespace Tim
 		const integer points = 
 			(data.size() + (stride - 1)) / stride;
 
-		SignalPtr signal = SignalPtr(new Signal(dimension, points));
+		SignalPtr signal = SignalPtr(new Signal(points, dimension));
 
 		SignalView view = signal->view();
 

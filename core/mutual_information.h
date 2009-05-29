@@ -3,6 +3,8 @@
 
 #include "tim/core/signal.h"
 
+#include <pastel/math/matrix.h>
+
 namespace Tim
 {
 
@@ -23,8 +25,10 @@ namespace Tim
 	(X_1, ..., X_n)	then the total correlation between 
 	them is defined by:
 	I(X_1, ..., X_n) = (sum_i H(X_i)) - H(X_1, ..., X_n)
-	Note that while differential entropy does not make
+	While differential entropy does not make
 	sense w.r.t the amount of information, total correlation does.
+	See 'tim/core/differential_entropy.h' for more information
+	on differential entropy.
 	
 	The mutual information is estimated by an algorithm
 	that uses nearest neighbor searching heavily.
@@ -116,6 +120,9 @@ namespace Tim
 		integer kNearest,
 		real maxRelativeError,
 		const NormBijection& normBijection);
+
+	TIMCORE real correlatedGaussianMutualInformation(
+		const DynamicMatrix& correlation);
 
 }
 

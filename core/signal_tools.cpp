@@ -9,13 +9,13 @@ namespace Tim
 {
 
 	TIMCORE SignalPtr generateUniform(
-		integer dimension,
-		integer size)
+		integer size,
+		integer dimension)
 	{
 		ENSURE1(dimension > 0, dimension);
 		ENSURE1(size >= 0, size);
 
-		SignalPtr signal = SignalPtr(new Signal(dimension, size));
+		SignalPtr signal = SignalPtr(new Signal(size, dimension));
 
 		for (integer i = 0;i < size;++i)
 		{
@@ -26,13 +26,13 @@ namespace Tim
 	}
 
 	TIMCORE SignalPtr generateGaussian(
-		integer dimension,
-		integer size)
+		integer size,
+		integer dimension)
 	{
 		ENSURE1(dimension > 0, dimension);
 		ENSURE1(size >= 0, size);
 
-		SignalPtr signal = SignalPtr(new Signal(dimension, size));
+		SignalPtr signal = SignalPtr(new Signal(size, dimension));
 
 		for (integer i = 0;i < size;++i)
 		{
@@ -43,14 +43,14 @@ namespace Tim
 	}
 
 	TIMCORE SignalPtr generateCorrelatedGaussian(
-		integer dimension,
 		integer size,
+		integer dimension,
 		const DynamicMatrix& correlation)
 	{
 		ENSURE1(dimension > 0, dimension);
 		ENSURE1(size >= 0, size);
 
-		SignalPtr correlatedGaussian = generateGaussian(dimension, size);
+		SignalPtr correlatedGaussian = generateGaussian(size, dimension);
 
 		const CholeskyDecomposition<Dynamic, real> cholesky(correlation);
 		
@@ -109,7 +109,7 @@ namespace Tim
 				signalList[0]->size(), signalList[i]->size());
 		}
 
-		SignalPtr bigSignal(new Signal(bigDimension, size));
+		SignalPtr bigSignal(new Signal(size, bigDimension));
 		
 		integer dimensionOffset = 0;
 
@@ -117,8 +117,8 @@ namespace Tim
 		{
 			copy(signalList[i]->constView(),
 				subView(bigSignal->view(), 
-				Rectangle2(dimensionOffset, 0, 
-				dimensionOffset + signalList[i]->dimension(), size)));
+				Rectangle2(0, dimensionOffset, size, 
+				dimensionOffset + signalList[i]->dimension())));
 
 			dimensionOffset += signalList[i]->dimension();
 		}
