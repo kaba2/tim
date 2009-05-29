@@ -6,7 +6,7 @@
 namespace Tim
 {
 
-	Signal::Signal(integer dimension, integer size)
+	Signal::Signal(integer size, integer dimension)
 		: data_(size, dimension, 0)
 		, pointSet_()
 	{
@@ -24,7 +24,7 @@ namespace Tim
 		withAliasing(&signalToAlias->view()(0, dimensionBegin)))
 		, pointSet_()
 	{
-		// Note the mabs() above is just because we want 
+		// Note the std::abs() above is just because we want 
 		// to catch precondition violations here.
 
 		ENSURE2(dimensionBegin >= 0 && dimensionBegin < signalToAlias->dimension(), 
@@ -44,12 +44,12 @@ namespace Tim
 
 	integer Signal::size() const
 	{
-		return data_.height();
+		return data_.width();
 	}
 
 	integer Signal::dimension() const
 	{
-		return data_.width();
+		return data_.height();
 	}
 
 	SignalView Signal::view()
@@ -98,7 +98,7 @@ namespace Tim
 
 			pointSet_[i].swap(temp);
 
-			ASSERT(&pointSet_[i][0] == &data_(0, i));
+			ASSERT(&pointSet_[i][0] == &data_(i, 0));
 		}
 	}
 

@@ -26,7 +26,7 @@ namespace Tim
 		integer jointDimension = 0;
 		for (integer i = 0;i < signals;++i)
 		{
-			ENSURE1(jointSignal->size() == marginalSignalSet[i]->size()
+			ENSURE2(jointSignal->size() == marginalSignalSet[i]->size(),
 				jointSignal->size(), marginalSignalSet[i]->size());
 
 			jointDimension += marginalSignalSet[i]->dimension();
@@ -49,6 +49,13 @@ namespace Tim
 				&distanceArray);
 		}
 
+		std::vector<real> distanceVector;
+		distanceVector.reserve(points);
+		for (integer i = 0;i < points;++i)
+		{
+			distanceVector.push_back(distanceArray(0, i));
+		}
+
 		real estimate = 0;
 		for (integer i = 0;i < signals;++i)
 		{
@@ -57,9 +64,7 @@ namespace Tim
 			const integer totalNeighbors =
 				countAllNearestNeighborsKdTree(
 				signal->pointSet(),
-				0,
-				signal->size() - 1,
-				distanceArray,
+				distanceVector,
 				maxRelativeError,
 				normBijection);
 
@@ -70,7 +75,7 @@ namespace Tim
 
 		estimate /= points;
 		estimate += digamma<real>(kNearest);
-		estimate += (dimension - 1) * digamma<real>(points);
+		estimate += (jointDimension - 1) * digamma<real>(points);
 
 		return estimate;
 	}
@@ -85,7 +90,7 @@ namespace Tim
 		const SignalPtr jointSignal =
 			mergeSignalDimensions(marginalSignalSet);
 		
-		return Pastel::mutualInformation(
+		return Tim::mutualInformation(
 			jointSignal,
 			marginalSignalSet,
 			kNearest,
@@ -103,7 +108,7 @@ namespace Tim
 		std::vector<SignalPtr> marginalSignalSet;
 		splitDimensions(jointSignal, marginalSignalSet);
 		
-		return Pastel::mutualInformation(
+		return Tim::mutualInformation(
 			jointSignal,
 			marginalSignalSet,
 			kNearest,
