@@ -95,7 +95,7 @@ void generateGaussianSet(integer points,
 	for (integer i = 0;i < points;++i)
 	{
 		result.push_back(
-			asPoint(randomVectorGaussian<N, Real>(dimension)));
+			asPoint(randomGaussianVector<N, Real>(dimension)));
 	}
 
 	result.swap(pointSet);

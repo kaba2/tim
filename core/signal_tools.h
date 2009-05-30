@@ -53,6 +53,12 @@ namespace Tim
 		integer dimension,
 		const DynamicMatrix& correlation);
 
+	TIMCORE SignalPtr generateGeneralizedGaussian(
+		integer size,
+		integer dimension,
+		real shape,
+		real scale);
+
 	/*!
 	Preconditions:
 	!signal.empty()

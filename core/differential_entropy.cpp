@@ -36,4 +36,11 @@ namespace Tim
 		return std::log(supportVolume);
 	}
 
+	TIMCORE real generalizedGaussianDifferentialEntropy(
+		integer dimension, real shape, real scale)
+	{
+		const real invShape = 1 / shape;
+		return dimension * (invShape - std::log(shape / (2 * scale * gamma<real>(invShape))));
+	}
+
 }
