@@ -3,42 +3,58 @@
 #include "tim/core/differential_entropy.h"
 #include "tim/core/signal_tools.h"
 
+#include <pastel/sys/string_tools.h>
+
 using namespace Tim;
 
 namespace
 {
 
-	void testDifferentialEntropy()
+	void testDifferentialEntropyCase(
+		const std::string& name,
+		const SignalPtr& signal,
+		real correct)
 	{
-		const integer dimension = 10;
-		const integer points = 10000;
-		const integer kNearest = 1;
-		const real maxRelativeError = 0;
-
-		log() << "Estimates of differential entropies:" << logNewLine;
-
 		//EuclideanNormBijection<real> normBijection;
 		InfinityNormBijection<real> normBijection;
 		//ManhattanNormBijection<real> normBijection;
 
-		{
-			SignalPtr signal = generateGaussian(points, dimension);
-			const real estimate = differentialEntropy(signal, kNearest, maxRelativeError, 
-				normBijection);
-			
-			log() << "Gaussian: " << estimate << ", correct: " 
-				<< gaussianDifferentialEntropy(dimension, 1)
-				<< logNewLine;
-		}
+		const integer kNearest = 1;
+		const real maxRelativeError = 0;
 
+		const real estimate = differentialEntropy(signal, kNearest, maxRelativeError, 
+			normBijection);
+		
+		log() << name << ": " << estimate << ", correct: " 
+			<< correct << logNewLine;
+	}
+
+	void testDifferentialEntropy()
+	{
+		log() << "Estimates of differential entropies:" << logNewLine;
+
+		const integer dimension = 10;
+		const integer points = 10000;
+
+		testDifferentialEntropyCase(
+			"Gaussian",
+			generateGaussian(points, dimension),
+			gaussianDifferentialEntropy(dimension, 1));
+
+		testDifferentialEntropyCase(
+			"Uniform",
+			generateUniform(points, dimension),
+			uniformDifferentialEntropy(1));
+
+		for (integer i = 2;i < 10;i += 2)
 		{
-			SignalPtr signal = generateUniform(points, dimension);
-			const real estimate = differentialEntropy(signal, kNearest, maxRelativeError, 
-				normBijection);
-			
-			log() << "Uniform: " << estimate << ", correct: " 
-				<< uniformDifferentialEntropy(1)
-				<< logNewLine;
+			const real shape = i;
+			const real scale = std::sqrt((real)i);
+
+			testDifferentialEntropyCase(
+				"Generalized gaussian " + integerToString(i) + ", sqrt(" + integerToString(i) + ")",
+				generateGeneralizedGaussian(points, dimension, shape, scale),
+				generalizedGaussianDifferentialEntropy(dimension, shape, scale));
 		}
 	}
 

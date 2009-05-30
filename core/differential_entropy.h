@@ -46,6 +46,9 @@ namespace Tim
 	TIMCORE real uniformDifferentialEntropy(
 		real supportVolume);
 
+	TIMCORE real generalizedGaussianDifferentialEntropy(
+		integer dimension, real shape, real scale);
+
 }
 
 #include "tim/core/differential_entropy.hpp"

@@ -1,8 +1,8 @@
 #include "tim/core/signal_tools.h"
 
 #include <pastel/math/cholesky_decomposition.h>
-#include <pastel/math/uniformsampling.h>
 
+#include <pastel/sys/random.h>
 #include <pastel/sys/view_all.h>
 
 namespace Tim
@@ -36,7 +36,7 @@ namespace Tim
 
 		for (integer i = 0;i < size;++i)
 		{
-			(*signal)[i] = asPoint(randomVectorGaussian<Dynamic, real>(dimension));
+			(*signal)[i] = asPoint(randomGaussianVector<Dynamic, real>(dimension));
 		}
 
 		return signal;
@@ -67,6 +67,25 @@ namespace Tim
 		}
 
 		return correlatedGaussian;
+	}
+
+	TIMCORE SignalPtr generateGeneralizedGaussian(
+		integer size,
+		integer dimension,
+		real shape,
+		real scale)
+	{
+		ENSURE1(dimension > 0, dimension);
+		ENSURE1(size >= 0, size);
+
+		SignalPtr signal = SignalPtr(new Signal(size, dimension));
+
+		for (integer i = 0;i < size;++i)
+		{
+			(*signal)[i] = asPoint(randomGeneralizedGaussianVector<Dynamic, real>(dimension, shape, scale));
+		}
+
+		return signal;
 	}
 
 	TIMCORE void splitDimensions(
