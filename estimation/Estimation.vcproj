@@ -180,15 +180,15 @@
 	</References>
 	<Files>
 		<File
+			RelativePath=".\config_performance.txt"
+			>
+		</File>
+		<File
 			RelativePath=".\estimation.cpp"
 			>
 		</File>
 		<File
 			RelativePath=".\estimation.h"
-			>
-		</File>
-		<File
-			RelativePath=".\estimation2.cpp"
 			>
 		</File>
 		<File
@@ -201,6 +201,10 @@
 		</File>
 		<File
 			RelativePath=".\test_mutual_information.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\test_nearest_performance.cpp"
 			>
 		</File>
 	</Files>
