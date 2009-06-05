@@ -11,7 +11,7 @@ namespace Tim
 
 	inline Pastel::TestRunner& timTestList()
 	{
-		static Pastel::TestRunner timTestRunner;
+		static Pastel::TestRunner timTestRunner("Tim library");
 		return timTestRunner;
 	}
 

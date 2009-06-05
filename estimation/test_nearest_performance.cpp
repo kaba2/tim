@@ -176,11 +176,18 @@ namespace
 		const real incorrectPercent = 
 			((real)incorrect * 100) / (points * kNearest);
 
+		if (incorrect > 0)
+		{
+			log() << incorrect << " incorrect results detected!" 
+				<< logNewLine;
+		}
+		/*
 		log() << logNewLine;
 		log() << name << " consistency:" << logNewLine;
 		log() << differPercent << "% differs." << logNewLine;
 		log() << incorrectPercent << "% incorrect." << logNewLine;
 		log() << maxError << " max relative error." << logNewLine;
+		*/
 		/*
 		timLog() << aNotFound << " not found with a, "
 			<< bNotFound << " not found with b." << logNewLine;
@@ -459,8 +466,11 @@ namespace
 				timLog() << space << report(timer.seconds(), bruteTime);
 			}
 
-			checkConsistency("pkdtree" + integerToString(maxRelativeError), 
-				pointSet, bruteNearest, kdNearest, maxRelativeError, normBijection);
+			if (configIncludeBruteForce)
+			{
+				checkConsistency("pkdtree" + integerToString(maxRelativeError), 
+					pointSet, bruteNearest, kdNearest, maxRelativeError, normBijection);
+			}
 			drawNearest("pkdtree" + integerToString(maxRelativeError), pointSet, kdNearest);
 		}
 
@@ -483,8 +493,11 @@ namespace
 				timLog() << space << report(timer.seconds(), bruteTime);
 			}
 
-			checkConsistency("akdtree" + integerToString(maxRelativeError),
-				pointSet, bruteNearest, kdNearest, maxRelativeError, normBijection);
+			if (configIncludeBruteForce)
+			{
+				checkConsistency("akdtree" + integerToString(maxRelativeError),
+					pointSet, bruteNearest, kdNearest, maxRelativeError, normBijection);
+			}
 			drawNearest("akdtree" + integerToString(maxRelativeError), pointSet, kdNearest);
 		}
 
@@ -507,8 +520,11 @@ namespace
 				timLog() << space << report(timer.seconds(), bruteTime);
 			}
 
-			checkConsistency("bkdtree" + integerToString(maxRelativeError), 
-				pointSet, bruteNearest, bdNearest, maxRelativeError, normBijection);
+			if (configIncludeBruteForce)
+			{
+				checkConsistency("bkdtree" + integerToString(maxRelativeError), 
+					pointSet, bruteNearest, bdNearest, maxRelativeError, normBijection);
+			}
 			drawNearest("bkdtree" + integerToString(maxRelativeError), pointSet, bdNearest);
 		}
 
@@ -566,29 +582,9 @@ namespace
 
 	void timings()
 	{
-		if (!configUseMultiThreading)
-		{
-	#if PASTEL_ENABLE_OMP != 0
-			omp_set_num_threads(1);
-	#endif
-			timLog() << "Single-threaded." << logNewLine;
-		}
-		else
-		{
-			timLog() << "Multi-threaded." << logNewLine;
-		}
-
-		if (!configUseDynamicVectors)
-		{
-			timLog() << "Static dimension." << logNewLine;
-		}
-		else
-		{
-			timLog() << "Dynamic dimension." << logNewLine;
-		}
-
-		timLog() << "Max relative error " << configMaxRelativeError 
-			<< logNewLine;
+		#if PASTEL_ENABLE_OMP != 0
+				omp_set_num_threads(1);
+		#endif
 
 		timLog() 
 			<< "Dim" << space
