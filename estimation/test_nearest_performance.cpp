@@ -5,6 +5,7 @@
 
 #include <pastel/geometry/pointkdtree_tools.h>
 #include <pastel/geometry/all_nearest_neighbors.h>
+#include <pastel/geometry/point_patterns.h>
 
 #include <pastel/sys/tuplebase.h>
 
@@ -58,57 +59,6 @@ namespace
 		static Log theTimLog;
 
 		return theTimLog;
-	}
-
-	template <int N, typename Real>
-	void generateUniformBallSet(integer points,
-						 integer dimension,
-						 std::vector<Point<N, Real> >& pointSet)
-	{
-		std::vector<Point<N, Real> > result;
-		result.reserve(points);
-
-		for (integer i = 0;i < points;++i)
-		{
-			result.push_back(
-				asPoint(randomVectorBall<N, Real>(dimension)));
-		}
-
-		result.swap(pointSet);
-	}
-
-	template <int N, typename Real>
-	void generateUniformCubeSet(integer points,
-						 integer dimension,
-						 std::vector<Point<N, Real> >& pointSet)
-	{
-		std::vector<Point<N, Real> > result;
-		result.reserve(points);
-
-		for (integer i = 0;i < points;++i)
-		{
-			result.push_back(
-				asPoint(randomVectorCube<N, Real>(dimension)));
-		}
-
-		result.swap(pointSet);
-	}
-
-	template <int N, typename Real>
-	void generateGaussianSet(integer points,
-						 integer dimension,
-						 std::vector<Point<N, Real> >& pointSet)
-	{
-		std::vector<Point<N, Real> > result;
-		result.reserve(points);
-
-		for (integer i = 0;i < points;++i)
-		{
-			result.push_back(
-				asPoint(randomGaussianVector<N, Real>(dimension)));
-		}
-
-		result.swap(pointSet);
 	}
 
 	template <int N, typename Real, typename NormBijection>
@@ -229,7 +179,8 @@ namespace
 			new ANNkd_tree(
 			annPointSet,		
 			points,			
-			dimension);
+			dimension,
+			16);
 
 		for (integer i = 0;i < points;++i)
 		{
@@ -293,7 +244,7 @@ namespace
 			annPointSet,		
 			points,			
 			dimension,
-			4);
+			16);
 
 		for (integer i = 0;i < points;++i)
 		{
@@ -385,9 +336,10 @@ namespace
 	void testIt(integer dimension, integer points, integer kNearest, const Real& maxRelativeError)
 	{
 		std::vector<Point<N, Real> > pointSet;
-		generateGaussianSet(points, dimension, pointSet);
-		//generateUniformBallSet(points, dimension, gpPointSet);
-		//generateUniformCubeSet(points, dimension, gpPointSet);
+		generateGaussianPointSet(points, dimension, pointSet);
+		//generateUniformBallPointSet(points, dimension, pointSet);
+		//generateClusteredPointSet(points, dimension,	10, pointSet);
+		//generateUniformCubePointSet(points, dimension, pointSet);
 
 		// Pack the points for nice locality.
 
@@ -459,6 +411,8 @@ namespace
 					infinity<Real>(), 
 					maxRelativeError,
 					normBijection,
+					16,
+					SlidingMidpoint2_SplitRule(),
 					&kdNearest);
 
 				timer.store();
