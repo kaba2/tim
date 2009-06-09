@@ -8,6 +8,7 @@
 #include <pastel/geometry/point_patterns.h>
 
 #include <pastel/sys/tuplebase.h>
+#include <pastel/sys/randomdistribution.h>
 
 #include <pastel/gfx/pcx.h>
 #include "pastel/gfx/drawing.h"
@@ -336,10 +337,43 @@ namespace
 	void testIt(integer dimension, integer points, integer kNearest, const Real& maxRelativeError)
 	{
 		std::vector<Point<N, Real> > pointSet;
-		generateGaussianPointSet(points, dimension, pointSet);
+		//generateGaussianPointSet(points, dimension, pointSet);
 		//generateUniformBallPointSet(points, dimension, pointSet);
-		//generateClusteredPointSet(points, dimension,	10, pointSet);
+		//generateClusteredPointSet(points, dimension, 10, pointSet);
 		//generateUniformCubePointSet(points, dimension, pointSet);
+
+		CountedPtr<Clustered_RandomDistribution<N, Real> >
+			clusteredDistribution = clusteredRandomDistribution<N, Real>(dimension);
+
+		const integer clusters = 10;
+		for (integer i = 0;i < clusters;++i)
+		{
+			clusteredDistribution->add(
+				translate(
+				scale(
+				gaussianRandomDistribution<N, Real>(dimension), 
+				evaluate(randomVector<N, Real>(dimension) * 0.05)),
+				randomVector<N, Real>(dimension)));
+		}
+
+		CountedPtr<RandomDistribution<N, Real> >
+			randomDistribution = clusteredDistribution;
+
+		/*
+		CountedPtr<RandomDistribution<N, Real> >
+			randomDistribution = 
+			translate(
+			scale(
+			gaussianRandomDistribution<N, Real>(dimension), 
+			randomVector<N, Real>(dimension)),
+			randomVector<N, Real>(dimension));
+		*/
+
+		for (integer i = 0;i < points;++i)
+		{
+			pointSet.push_back(
+				randomDistribution->sample());
+		}
 
 		// Pack the points for nice locality.
 
