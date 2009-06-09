@@ -43,6 +43,8 @@ namespace Tim
 			infinity<real>(),
 			maxRelativeError,
 			normBijection,
+			16,
+			SlidingMidpoint2_SplitRule(),
 			0,
 			&distanceArray);
 

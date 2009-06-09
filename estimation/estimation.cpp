@@ -19,6 +19,7 @@ int estimationMain()
 	log().addObserver(LogObserverPtr(new FileLogObserver("log.txt")));
 
 	timTestList().console();
+	//timTestList().run("nearest_performance");
 
 	deviceSystem().deInitialize();
 
