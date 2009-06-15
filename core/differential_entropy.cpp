@@ -39,8 +39,25 @@ namespace Tim
 	TIMCORE real generalizedGaussianDifferentialEntropy(
 		integer dimension, real shape, real scale)
 	{
+		// Let
+		// a = scale
+		// b = shape
+		//
+		// Then
+		//
+		// differential entropy 
+		// = (1 / b) - log(b / (2a gamma(1 / b)))
+		// = (1 / b) - (log(b / (2a)) - log(gamma(1 / b)))
+		// = (1 / b) - log(b / (2a)) + log(gamma(1 / b))
+		// = (1 / b) + log((2a) / b) + log(gamma(1 / b))
+		//
+		// The point of this derivation is to evaluate lnGamma 
+		// instead of gamma for better numerical behaviour.
+
 		const real invShape = 1 / shape;
-		return dimension * (invShape - std::log(shape / (2 * scale * gamma<real>(invShape))));
+
+		return dimension * (invShape + std::log(2 * scale * invShape) +
+			lnGamma<real>(invShape));
 	}
 
 }
