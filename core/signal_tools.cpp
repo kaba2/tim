@@ -2,7 +2,7 @@
 
 #include <pastel/math/cholesky_decomposition.h>
 
-#include <pastel/sys/random.h>
+#include <pastel/sys/random_vector.h>
 #include <pastel/sys/view_all.h>
 
 namespace Tim
@@ -19,7 +19,7 @@ namespace Tim
 
 		for (integer i = 0;i < size;++i)
 		{
-			(*signal)[i] = asPoint(randomVector<Dynamic, real>(dimension));
+			(*signal)[i] = asPoint(randomVectorCube<Dynamic, real>(dimension));
 		}
 
 		return signal;

@@ -3,6 +3,7 @@
 #include "tim/core/differential_entropy.h"
 #include "tim/core/signal_tools.h"
 
+#include <pastel/sys/random.h>
 #include <pastel/sys/string_tools.h>
 
 using namespace Tim;
@@ -15,8 +16,8 @@ namespace
 		const SignalPtr& signal,
 		real correct)
 	{
-		//EuclideanNormBijection<real> normBijection;
-		InfinityNormBijection<real> normBijection;
+		EuclideanNormBijection<real> normBijection;
+		//InfinityNormBijection<real> normBijection;
 		//ManhattanNormBijection<real> normBijection;
 
 		const integer kNearest = 1;
@@ -37,22 +38,47 @@ namespace
 		const integer points = 10000;
 
 		testDifferentialEntropyCase(
-			"Gaussian",
+			"Standard gaussian",
 			generateGaussian(points, dimension),
 			gaussianDifferentialEntropy(dimension, 1));
 
 		testDifferentialEntropyCase(
-			"Uniform",
+			"Uniform [-1, 1]",
 			generateUniform(points, dimension),
-			uniformDifferentialEntropy(1));
+			uniformDifferentialEntropy(std::pow((real)2, (real)dimension)));
 
-		for (integer i = 2;i < 10;i += 2)
+		for (integer i = 2;i < 40;i += 8)
 		{
 			const real shape = i;
-			const real scale = std::sqrt((real)i);
+			const real scale = varianceToGeneralizedGaussianScale<real>(shape, 1);
 
 			testDifferentialEntropyCase(
-				"Generalized gaussian " + integerToString(i) + ", sqrt(" + integerToString(i) + ")",
+				"Generalized gaussian (shape " + integerToString(shape) + 
+				", variance 1)",
+				generateGeneralizedGaussian(points, dimension, shape, scale),
+				generalizedGaussianDifferentialEntropy(dimension, shape, scale));
+		}
+
+		for (integer i = 2;i < 40;i += 8)
+		{
+			const real shape = i;
+			const real scale = 1;
+
+			testDifferentialEntropyCase(
+				"Generalized gaussian (shape " + integerToString(shape) + 
+				", scale 1)",
+				generateGeneralizedGaussian(points, dimension, shape, scale),
+				generalizedGaussianDifferentialEntropy(dimension, shape, scale));
+		}
+
+		for (integer i = 1;i < 10;++i)
+		{
+			const real shape = 2 - i * 0.1;
+			const real scale = 1;
+
+			testDifferentialEntropyCase(
+				"Generalized gaussian (shape " + integerToString(shape) + 
+				", scale 1)",
 				generateGeneralizedGaussian(points, dimension, shape, scale),
 				generalizedGaussianDifferentialEntropy(dimension, shape, scale));
 		}
