@@ -23,7 +23,7 @@
 #include <pastel/sys/config_tools.h>
 #include <pastel/sys/configfile.h>
 
-#include <pastel/math/uniformsampling.h>
+#include <pastel/math/uniform_sampling.h>
 
 #include <ANN/ANN.h>
 

@@ -45,25 +45,18 @@ namespace Tim
 	TIMCORE SignalPtr generateCorrelatedGaussian(
 		integer size,
 		integer dimension,
-		const DynamicMatrix& correlation)
+		const CholeskyDecomposition<Dynamic, real>& correlationCholesky)
 	{
 		ENSURE1(dimension > 0, dimension);
 		ENSURE1(size >= 0, size);
+		ENSURE(correlationCholesky.lower().width() == dimension);
+		ENSURE(correlationCholesky.succeeded());
 
 		SignalPtr correlatedGaussian = generateGaussian(size, dimension);
-
-		const CholeskyDecomposition<Dynamic, real> cholesky(correlation);
-		
-		if (!cholesky.succeeded())
-		{
-			log() << "Correlation matrix not (numerically) positive definite! Can't generate correlated gaussians." 
-				<< logNewLine;
-			return correlatedGaussian;
-		}
 	
 		for (integer i = 0;i < size;++i)
 		{
-			(*correlatedGaussian)[i] = asPoint((*correlatedGaussian)[i].asVector() * cholesky.lower());
+			(*correlatedGaussian)[i] = asPoint((*correlatedGaussian)[i].asVector() * correlationCholesky.lower());
 		}
 
 		return correlatedGaussian;

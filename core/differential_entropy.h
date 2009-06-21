@@ -32,7 +32,7 @@ namespace Tim
 	variance >= 0
 	*/
 	TIMCORE real gaussianDifferentialEntropy(
-		integer dimension, real variance);
+		integer dimension, real varianceDeterminant);
 
 	//! Returns the differential entropy of a uniform random variable.
 	/*!
