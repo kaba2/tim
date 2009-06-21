@@ -4,6 +4,7 @@
 #include "tim/core/signal.h"
 
 #include <pastel/math/matrix.h>
+#include <pastel/math/cholesky_decomposition.h>
 
 namespace Tim
 {
@@ -51,7 +52,7 @@ namespace Tim
 	TIMCORE SignalPtr generateCorrelatedGaussian(
 		integer size,
 		integer dimension,
-		const DynamicMatrix& correlation);
+		const CholeskyDecomposition<Dynamic, real>& correlationCholesky);
 
 	TIMCORE SignalPtr generateGeneralizedGaussian(
 		integer size,

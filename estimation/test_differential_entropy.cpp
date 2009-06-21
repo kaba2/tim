@@ -6,6 +6,9 @@
 #include <pastel/sys/random.h>
 #include <pastel/sys/string_tools.h>
 
+#include <pastel/math/cholesky_decomposition_tools.h>
+#include <pastel/math/matrix_tools.h>
+
 using namespace Tim;
 
 namespace
@@ -41,6 +44,27 @@ namespace
 			"Standard gaussian",
 			generateGaussian(points, dimension),
 			gaussianDifferentialEntropy(dimension, 1));
+
+		DynamicMatrix covariance(dimension, dimension);
+		const real det = 0.5;
+		const real cond = 1.5;
+		setRandomSymmetricPositiveDefinite(
+			det, cond, covariance);
+
+		std::cout << "det = " << determinant(covariance) << " (" << det << ")" << std::endl;
+		std::cout << "cond = " << condition(covariance) << " (" << cond << ")" << std::endl;
+
+		CholeskyDecomposition<Dynamic, real> cholesky(
+			covariance);
+
+		log() << determinant(cholesky) << logNewLine;
+
+		REPORT(absoluteError<real>(determinant(cholesky), det) > 0.01);
+
+		testDifferentialEntropyCase(
+			"Correlated gaussian",
+			generateCorrelatedGaussian(points, dimension, cholesky),
+			gaussianDifferentialEntropy(dimension, determinant(cholesky)));
 
 		testDifferentialEntropyCase(
 			"Uniform [-1, 1]",

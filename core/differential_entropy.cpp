@@ -4,13 +4,15 @@ namespace Tim
 {
 
 	TIMCORE real gaussianDifferentialEntropy(
-		integer dimension, real variance)
+		integer dimension, real varianceDeterminant)
 	{
 		PENSURE1(dimension > 0, dimension);
-		PENSURE1(variance >= 0, variance);
+		PENSURE1(varianceDeterminant >= 0, varianceDeterminant);
 
-		return ((real)dimension / 2) * std::log(
-			variance * 2 * constantPi<real>() * constantNeper<real>());
+		static const real ConstantFactor = std::log(
+			2 * constantPi<real>() * constantNeper<real>());
+
+		return 0.5 * (std::log(varianceDeterminant) + dimension * ConstantFactor);
 	}
 
 	TIMCORE real uniformDifferentialEntropy(real supportVolume)

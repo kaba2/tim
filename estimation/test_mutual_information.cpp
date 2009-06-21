@@ -20,14 +20,17 @@ namespace
 		log() << "Mutual information estimates: " << logNewLine;
 
 		{
+			const real p = 0.5;
 			DynamicMatrix correlation(2, 2);
-			
 			correlation(0, 0) = 1;
-			correlation(0, 1) = 0.5;
-			correlation(1, 0) = 0.5;
+			correlation(1, 0) = p;
+			correlation(0, 1) = p;
 			correlation(1, 1) = 1;
+
+			CholeskyDecomposition<Dynamic, real> cholesky(
+				correlation);
 			
-			SignalPtr jointSignal = generateCorrelatedGaussian(size, dimension, correlation);
+			SignalPtr jointSignal = generateCorrelatedGaussian(size, dimension, cholesky);
 			const real mi = mutualInformation(
 				jointSignal,
 				kNearest,
