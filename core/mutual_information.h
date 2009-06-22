@@ -122,7 +122,7 @@ namespace Tim
 		const NormBijection& normBijection);
 
 	TIMCORE real correlatedGaussianMutualInformation(
-		const DynamicMatrix& correlation);
+		real covarianceDeterminant);
 
 }
 

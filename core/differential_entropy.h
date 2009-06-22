@@ -29,10 +29,10 @@ namespace Tim
 	/*!
 	Preconditions:
 	dimension > 0
-	variance >= 0
+	covariance >= 0
 	*/
 	TIMCORE real gaussianDifferentialEntropy(
-		integer dimension, real varianceDeterminant);
+		integer dimension, real covarianceDeterminant);
 
 	//! Returns the differential entropy of a uniform random variable.
 	/*!
