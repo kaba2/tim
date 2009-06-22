@@ -72,7 +72,7 @@ namespace Tim
 
 			// Should this be digamma<real>(totalNeighbors) or 
 			// digamma<real>(totalNeighbors + 1)?
-			estimate -= digamma<real>(totalNeighbors + 1);
+			estimate -= digamma<real>(totalNeighbors);
 		}
 
 		estimate /= points;
