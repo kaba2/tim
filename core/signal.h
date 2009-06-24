@@ -142,6 +142,8 @@ namespace Tim
 
 		Array<2, real> data_;
 		std::vector<DynamicPoint> pointSet_;
+		integer dimensionBegin_;
+		integer dimension_;
 	};
 
 }

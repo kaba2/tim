@@ -7,8 +7,10 @@ namespace Tim
 {
 
 	Signal::Signal(integer size, integer dimension)
-		: data_(size, dimension, 0)
+		: data_(dimension, size, 0)
 		, pointSet_()
+		, dimensionBegin_(0)
+		, dimension_(dimension)
 	{
 		ENSURE1(dimension >= 0, dimension);
 		ENSURE1(size >= 0, size);
@@ -19,19 +21,17 @@ namespace Tim
 	Signal::Signal(
 		const SignalPtr& signalToAlias,
 		integer dimensionBegin,
-		integer dimensionEnd)
-		: data_(signalToAlias->size(), std::abs(dimensionEnd - dimensionBegin), 
-		withAliasing(&signalToAlias->view()(0, dimensionBegin)))
+		integer dimension)
+		: data_(signalToAlias->dimension(), signalToAlias->size(),
+		withAliasing(&signalToAlias->view()(0, 0)))
 		, pointSet_()
+		, dimensionBegin_(dimensionBegin)
+		, dimension_(dimension)
 	{
-		// Note the std::abs() above is just because we want 
-		// to catch precondition violations here.
-
-		ENSURE2(dimensionBegin >= 0 && dimensionBegin < signalToAlias->dimension(), 
-			dimensionBegin, signalToAlias->dimension());
-		ENSURE2(dimensionEnd >= 0 && dimensionEnd <= signalToAlias->dimension(), 
-			dimensionEnd, signalToAlias->dimension());
-		ENSURE2(dimensionBegin <= dimensionEnd, dimensionBegin, dimensionEnd);
+		ENSURE1(dimension > 0, dimension);
+		ENSURE1(dimensionBegin >= 0, dimensionBegin);
+		ENSURE2(dimensionBegin + dimension <= signalToAlias->dimension(),
+			dimensionBegin + dimension, signalToAlias->dimension());
 
 		updatePointSet();
 	}
@@ -40,16 +40,18 @@ namespace Tim
 	{
 		data_.swap(that.data_);
 		pointSet_.swap(that.pointSet_);
+		std::swap(dimensionBegin_, that.dimensionBegin_);
+		std::swap(dimension_, that.dimension_);
 	}
 
 	integer Signal::size() const
 	{
-		return data_.width();
+		return data_.height();
 	}
 
 	integer Signal::dimension() const
 	{
-		return data_.height();
+		return dimension_;
 	}
 
 	SignalView Signal::view()
@@ -85,20 +87,19 @@ namespace Tim
 
 	void Signal::updatePointSet()
 	{
-		const integer size = data_.width();
-		const integer dimension = data_.height();
+		const integer points = size();
 
-		pointSet_.resize(size, nullPoint<Dynamic, real>());
+		pointSet_.resize(points, nullPoint<Dynamic, real>());
 
-		for (integer i = 0;i < size;++i)
+		for (integer i = 0;i < points;++i)
 		{
 			DynamicPoint temp(
-				ofDimension(dimension),
-				withAliasing(&data_(i, 0)));
+				ofDimension(dimension_),
+				withAliasing(&data_(dimensionBegin_, i)));
 
 			pointSet_[i].swap(temp);
 
-			ASSERT(&pointSet_[i][0] == &data_(i, 0));
+			ASSERT(&pointSet_[i][0] == &data_(dimensionBegin_, i));
 		}
 	}
 

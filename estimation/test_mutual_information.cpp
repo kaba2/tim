@@ -15,7 +15,7 @@ namespace
 	void testMutualInformation()
 	{
 		const integer dimension = 2;
-		const integer size = 1000;
+		const integer size = 10000;
 		const integer kNearest = 1;
 		const real maxRelativeError = 0;
 		//const EuclideanNormBijection<real> normBijection;
@@ -33,7 +33,7 @@ namespace
 				det, cond, covariance);
 			*/
 
-			const real r = 0.5;
+			const real r = 0;
 			covariance(0, 0) = 1;
 			covariance(1, 0) = r;
 			covariance(0, 1) = r;
@@ -41,6 +41,10 @@ namespace
 
 			const CholeskyDecomposition<Dynamic, real> cholesky(
 				covariance);
+
+			ENSURE(cholesky.succeeded());
+
+			std::cout << cholesky.lower() << std::endl;
 			
 			const SignalPtr jointSignal = 
 				generateCorrelatedGaussian(size, dimension, cholesky);

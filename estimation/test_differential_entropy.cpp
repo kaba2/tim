@@ -102,7 +102,7 @@ namespace
 			const real scale = varianceToGeneralizedGaussianScale<real>(shape, 1);
 
 			testDifferentialEntropyCase(
-				"Gen.G.(" + realToString(shape, 2) + ", " + realToString(scale, 2) + ")",
+				"Gen.G.(" + realToString(shape, 2) + ", " + realToString(scale, 3) + ")",
 				generateGeneralizedGaussian(points, dimension, shape, scale),
 				generalizedGaussianDifferentialEntropy(dimension, shape, scale));
 		}
