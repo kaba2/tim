@@ -95,7 +95,7 @@ namespace Tim
 		for (integer i = 0;i < dimension;++i)
 		{
 			const SignalPtr smallAliasSignal = 
-				SignalPtr(new Signal(signal, i, i + 1));
+				SignalPtr(new Signal(signal, i, 1));
 			result.push_back(smallAliasSignal);
 		}
 		
