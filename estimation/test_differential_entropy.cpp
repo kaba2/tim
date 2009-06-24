@@ -24,7 +24,7 @@ namespace
 		//ManhattanNormBijection<real> normBijection;
 
 		const integer kNearest = 1;
-		const real maxRelativeError = 0;
+		const real maxRelativeError = 3;
 
 		const real estimate = differentialEntropy(signal, kNearest, maxRelativeError, 
 			normBijection);
@@ -40,10 +40,13 @@ namespace
 
 	void testDifferentialEntropy()
 	{
+		//for (integer iter = 0;iter < 50;++iter)
+		{
+
 		log() << "Computing differential entropies using Kozachenko-Leonenko estimator..." << logNewLine;
 		log() << "Relative errors to correct analytic results shown in brackets." << logNewLine;
 
-		const integer dimension = 2;
+		const integer dimension = 10;
 		const integer points = 10000;
 
 		testDifferentialEntropyCase(
@@ -124,6 +127,7 @@ namespace
 				"Gen.G.(" + realToString(shape, 2) + ", " + realToString(scale, 2) + ")",
 				generateGeneralizedGaussian(points, dimension, shape, scale),
 				generalizedGaussianDifferentialEntropy(dimension, shape, scale));
+		}
 		}
 	}
 

@@ -9,6 +9,24 @@
 namespace Tim
 {
 
+	class MutualInformation_CountFunctor
+	{
+	public:
+		explicit MutualInformation_CountFunctor(real& mi)
+			: mi_(mi)
+		{
+		}
+
+		void operator()(integer index, integer count) const
+		{
+			// Should this be digamma<real>(totalNeighbors) or 
+			// digamma<real>(totalNeighbors + 1)?
+			mi_ -= digamma<real>(count);
+		}
+	private:
+		real& mi_;
+	};
+
 	template <typename NormBijection>
 	real mutualInformation(
 		const SignalPtr& jointSignal,
@@ -55,29 +73,28 @@ namespace Tim
 		distanceVector.reserve(points);
 		for (integer i = 0;i < points;++i)
 		{
-			distanceVector.push_back(distanceArray(0, i));
+			distanceVector.push_back(distanceArray(0, i) * normBijection.scalingFactor(0.5));
 		}
 
 		real estimate = 0;
+
+		MutualInformation_CountFunctor miCountFunctor(estimate);
+
 		for (integer i = 0;i < signals;++i)
 		{
 			const SignalPtr signal = marginalSignalSet[i];
 			
-			const integer totalNeighbors =
-				countAllNearestNeighborsKdTree(
+			countAllNearestNeighborsKdTree(
 				signal->pointSet(),
 				distanceVector,
 				maxRelativeError,
-				normBijection);
-
-			// Should this be digamma<real>(totalNeighbors) or 
-			// digamma<real>(totalNeighbors + 1)?
-			estimate -= digamma<real>(totalNeighbors);
+				normBijection,
+				miCountFunctor);
 		}
 
 		estimate /= points;
 		estimate += digamma<real>(kNearest);
-		estimate += (jointDimension - 1) * digamma<real>(points);
+		estimate += (signals - 1) * digamma<real>(points);
 
 		return estimate;
 	}
