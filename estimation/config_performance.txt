@@ -13,9 +13,9 @@ integer include_brute_force = 1
 
 // Parameters for searching.
 
-real max_relative_error = 3
+real max_relative_error = 0
 integer use_dynamic_vectors = 1
-integer use_multi_threading = 0
+integer use_multi_threading = 1
 
 // Reporting.
 

@@ -18,7 +18,8 @@ namespace
 		const integer size = 1000;
 		const integer kNearest = 1;
 		const real maxRelativeError = 0;
-		const EuclideanNormBijection<real> normBijection;
+		//const EuclideanNormBijection<real> normBijection;
+		const InfinityNormBijection<real> normBijection;
 
 		log() << "Mutual information estimates: " << logNewLine;
 

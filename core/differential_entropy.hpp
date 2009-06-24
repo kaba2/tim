@@ -49,6 +49,7 @@ namespace Tim
 			&distanceArray);
 
 		real estimate = 0;
+#pragma omp parallel for reduction(+ : estimate)
 		for (integer i = 0;i < points;++i)
 		{
 			// Here we should add the logarithm of 

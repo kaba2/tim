@@ -570,10 +570,6 @@ namespace
 
 	void timings()
 	{
-		#if PASTEL_ENABLE_OMP != 0
-				omp_set_num_threads(1);
-		#endif
-
 		timLog() 
 			<< "Dim" << space
 			<< "Points" << space
