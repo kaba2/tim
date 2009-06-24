@@ -6,8 +6,8 @@
 namespace Tim
 {
 
-	Signal::Signal(integer size, integer dimension)
-		: data_(dimension, size, 0)
+	Signal::Signal(integer dimension, integer size, real defaultData)
+		: data_(dimension, size, defaultData)
 		, pointSet_()
 		, dimensionBegin_(0)
 		, dimension_(dimension)
@@ -20,8 +20,8 @@ namespace Tim
 
 	Signal::Signal(
 		const SignalPtr& signalToAlias,
-		integer dimensionBegin,
-		integer dimension)
+		integer dimension,
+		integer dimensionBegin)
 		: data_(signalToAlias->dimension(), signalToAlias->size(),
 		withAliasing(&signalToAlias->view()(0, 0)))
 		, pointSet_()

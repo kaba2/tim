@@ -6,8 +6,12 @@
 #include <pastel/math/matrix.h>
 #include <pastel/math/cholesky_decomposition.h>
 
+#include <iostream>
+
 namespace Tim
 {
+
+	TIMCORE std::ostream& operator<<(std::ostream& stream, const Signal& signal);
 
 	//! Generates uniform random variables in [0, 1]^n.
 	/*!

@@ -8,6 +8,29 @@
 namespace Tim
 {
 
+	TIMCORE std::ostream& operator<<(
+		std::ostream& stream, const Signal& signal)
+	{
+		const integer dimension = signal.dimension();
+		const integer size = signal.size();
+		if (dimension > 1)
+		{
+			for (integer i = 0;i < size;++i)
+			{
+				stream << signal[i] << std::endl;
+			}
+		}
+		else
+		{
+			for (integer i = 0;i < size;++i)
+			{
+				stream << signal[i][0] << ", ";
+			}
+		}
+
+		return stream;
+	}
+
 	TIMCORE SignalPtr generateUniform(
 		integer size,
 		integer dimension)
@@ -15,7 +38,7 @@ namespace Tim
 		ENSURE1(dimension > 0, dimension);
 		ENSURE1(size >= 0, size);
 
-		SignalPtr signal = SignalPtr(new Signal(size, dimension));
+		SignalPtr signal = SignalPtr(new Signal(dimension, size));
 
 		for (integer i = 0;i < size;++i)
 		{
@@ -32,7 +55,7 @@ namespace Tim
 		ENSURE1(dimension > 0, dimension);
 		ENSURE1(size >= 0, size);
 
-		SignalPtr signal = SignalPtr(new Signal(size, dimension));
+		SignalPtr signal = SignalPtr(new Signal(dimension, size));
 
 		for (integer i = 0;i < size;++i)
 		{
@@ -71,7 +94,7 @@ namespace Tim
 		ENSURE1(dimension > 0, dimension);
 		ENSURE1(size >= 0, size);
 
-		SignalPtr signal = SignalPtr(new Signal(size, dimension));
+		SignalPtr signal = SignalPtr(new Signal(dimension, size));
 
 		for (integer i = 0;i < size;++i)
 		{
@@ -95,7 +118,7 @@ namespace Tim
 		for (integer i = 0;i < dimension;++i)
 		{
 			const SignalPtr smallAliasSignal = 
-				SignalPtr(new Signal(signal, i, 1));
+				SignalPtr(new Signal(signal, 1, i));
 			result.push_back(smallAliasSignal);
 		}
 		
@@ -121,7 +144,7 @@ namespace Tim
 				signalList[0]->size(), signalList[i]->size());
 		}
 
-		SignalPtr bigSignal(new Signal(size, bigDimension));
+		SignalPtr bigSignal(new Signal(bigDimension, size));
 		
 		integer dimensionOffset = 0;
 
