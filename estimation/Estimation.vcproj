@@ -207,6 +207,10 @@
 			RelativePath=".\test_nearest_performance.cpp"
 			>
 		</File>
+		<File
+			RelativePath=".\test_signal.cpp"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

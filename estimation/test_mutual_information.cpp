@@ -15,7 +15,7 @@ namespace
 	void testMutualInformation()
 	{
 		const integer dimension = 2;
-		const integer size = 10000;
+		const integer size = 1000;
 		const integer kNearest = 1;
 		const real maxRelativeError = 0;
 		//const EuclideanNormBijection<real> normBijection;

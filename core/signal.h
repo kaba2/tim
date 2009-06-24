@@ -44,7 +44,8 @@ namespace Tim
 		*/
 		Signal(
 			integer dimension,
-			integer size);
+			integer size,
+			real defaultData = 0);
 
 		//! Constructs an aliasing signal.
 		/*!
@@ -64,8 +65,8 @@ namespace Tim
 		*/
 		Signal(
 			const SignalPtr& signalToAlias,
-			integer dimensionBegin,
-			integer dimensionEnd);
+			integer dimension,
+			integer dimensionBegin =  0);
 
 		//! Swaps contents with another signal.
 		/*!
