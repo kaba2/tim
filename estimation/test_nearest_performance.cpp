@@ -73,14 +73,14 @@ namespace
 		ENSURE(correctNearest.extent() == approxNearest.extent());
 
 		const integer kNearest = correctNearest.width();
-		const integer points = correctNearest.height();
+		const integer samples = correctNearest.height();
 
 		Real maxError = 0;
 		integer differ = 0;
 		integer incorrect = 0;
 		integer aNotFound = 0;
 		integer bNotFound = 0;
-		for (integer y = 0;y < points;++y)
+		for (integer y = 0;y < samples;++y)
 		{
 			for (integer x = 0;x < kNearest;++x)
 			{
@@ -122,10 +122,10 @@ namespace
 		}
 
 		const real differPercent = 
-			((real)differ * 100) / (points * kNearest);
+			((real)differ * 100) / (samples * kNearest);
 
 		const real incorrectPercent = 
-			((real)incorrect * 100) / (points * kNearest);
+			((real)incorrect * 100) / (samples * kNearest);
 
 		if (incorrect > 0)
 		{
@@ -159,16 +159,16 @@ namespace
 		ENSURE1(maxDistance > 0, maxDistance);
 		ENSURE1(maxRelativeError >= 0, maxRelativeError);
 
-		const integer points = pointSet.size();
-		if (points == 0)
+		const integer samples = pointSet.size();
+		if (samples == 0)
 		{
 			return;
 		}
 
 		const integer dimension = pointSet.front().size();
 		
-		ANNpointArray annPointSet = new ANNpoint[points];
-		for (integer i = 0;i < points;++i)
+		ANNpointArray annPointSet = new ANNpoint[samples];
+		for (integer i = 0;i < samples;++i)
 		{
 			annPointSet[i] = (real*)&pointSet[i][0];
 		}
@@ -179,11 +179,11 @@ namespace
 		ANNkd_tree* kdTree = 
 			new ANNkd_tree(
 			annPointSet,		
-			points,			
+			samples,			
 			dimension,
 			16);
 
-		for (integer i = 0;i < points;++i)
+		for (integer i = 0;i < samples;++i)
 		{
 			kdTree->annkSearch(
 				annPointSet[i],
@@ -223,8 +223,8 @@ namespace
 		ENSURE1(maxDistance > 0, maxDistance);
 		ENSURE1(maxRelativeError >= 0, maxRelativeError);
 
-		const integer points = pointSet.size();
-		if (points == 0)
+		const integer samples = pointSet.size();
+		if (samples == 0)
 		{
 			return;
 		}
@@ -234,8 +234,8 @@ namespace
 		ANNidxArray annNearestSet = new ANNidx[kNearest + 1];
 		ANNdistArray annDistanceSet = new ANNdist[kNearest + 1];
 
-		ANNpointArray annPointSet = new ANNpoint[points];
-		for (integer i = 0;i < points;++i)
+		ANNpointArray annPointSet = new ANNpoint[samples];
+		for (integer i = 0;i < samples;++i)
 		{
 			annPointSet[i] = (real*)&pointSet[i][0];
 		}
@@ -243,11 +243,11 @@ namespace
 		ANNbd_tree* bdTree = 
 			new ANNbd_tree(
 			annPointSet,		
-			points,			
+			samples,			
 			dimension,
 			16);
 
-		for (integer i = 0;i < points;++i)
+		for (integer i = 0;i < samples;++i)
 		{
 			bdTree->annkSearch(
 				annPointSet[i],
@@ -292,7 +292,7 @@ namespace
 			return;
 		}
 
-		const integer points = neighborSet.height();
+		const integer samples = neighborSet.height();
 		const integer kNearest = neighborSet.width();
 
 		Array<2, Color> image(768, 768);
@@ -302,7 +302,7 @@ namespace
 		renderer.setViewWindow(AlignedBox2(-1, -1, 1, 1));
 		renderer.setFilled(false);
 
-		for (integer i = 0;i < points;++i)
+		for (integer i = 0;i < samples;++i)
 		{
 			if (neighborSet(0, i) >= 0 && neighborSet(0, i) < pointSet.size())
 			{
@@ -334,13 +334,13 @@ namespace
 	}
 
 	template <int N, typename Real>
-	void testIt(integer dimension, integer points, integer kNearest, const Real& maxRelativeError)
+	void testIt(integer dimension, integer samples, integer kNearest, const Real& maxRelativeError)
 	{
 		std::vector<Point<N, Real> > pointSet;
-		//generateGaussianPointSet(points, dimension, pointSet);
-		//generateUniformBallPointSet(points, dimension, pointSet);
-		//generateClusteredPointSet(points, dimension, 10, pointSet);
-		//generateUniformCubePointSet(points, dimension, pointSet);
+		//generateGaussianPointSet(samples, dimension, pointSet);
+		//generateUniformBallPointSet(samples, dimension, pointSet);
+		//generateClusteredPointSet(samples, dimension, 10, pointSet);
+		//generateUniformCubePointSet(samples, dimension, pointSet);
 
 		CountedPtr<Clustered_RandomDistribution<N, Real> >
 			clusteredDistribution = clusteredRandomDistribution<N, Real>(dimension);
@@ -369,19 +369,19 @@ namespace
 			randomVector<N, Real>(dimension));
 		*/
 
-		for (integer i = 0;i < points;++i)
+		for (integer i = 0;i < samples;++i)
 		{
 			pointSet.push_back(
 				randomDistribution->sample());
 		}
 
-		// Pack the points for nice locality.
+		// Pack the samples for nice locality.
 
 		/*
-		Array<2, Real> pointArray(dimension, points);
+		Array<2, Real> pointArray(dimension, samples);
 		std::vector<Point<N, Real> > pointSet;
-		pointSet.reserve(points);
-		for (integer i = 0;i < points;++i)
+		pointSet.reserve(samples);
+		for (integer i = 0;i < samples;++i)
 		{
 
 			pointSet.push_back(Point<N, Real>(ofDimension(0)));
@@ -402,7 +402,7 @@ namespace
 
 		Array<2, integer> bruteNearest(kNearest, pointSet.size());
 
-		timLog() << dimension << space << points << space << kNearest;
+		timLog() << dimension << space << samples << space << kNearest;
 
 		// Brute force
 
@@ -519,34 +519,34 @@ namespace
 		timLog() << endOfLine << logNewLine;
 	}
 
-	void test(integer dimension, integer points, integer kNearest, 
+	void test(integer dimension, integer samples, integer kNearest, 
 			  bool fixed, real maxRelativeError)
 	{
 		if (!fixed)
 		{
-			testIt<Dynamic, real>(dimension, points, kNearest, maxRelativeError);
+			testIt<Dynamic, real>(dimension, samples, kNearest, maxRelativeError);
 		}
 		else
 		{
 			switch(dimension)
 			{
 				case 1:
-					testIt<1, real>(dimension, points, kNearest, maxRelativeError);
+					testIt<1, real>(dimension, samples, kNearest, maxRelativeError);
 					break;
 				case 2:
-					testIt<2, real>(dimension, points, kNearest, maxRelativeError);
+					testIt<2, real>(dimension, samples, kNearest, maxRelativeError);
 					break;
 				case 4:
-					testIt<4, real>(dimension, points, kNearest, maxRelativeError);
+					testIt<4, real>(dimension, samples, kNearest, maxRelativeError);
 					break;
 				case 8:
-					testIt<8, real>(dimension, points, kNearest, maxRelativeError);
+					testIt<8, real>(dimension, samples, kNearest, maxRelativeError);
 					break;
 				case 16:
-					testIt<16, real>(dimension, points, kNearest, maxRelativeError);
+					testIt<16, real>(dimension, samples, kNearest, maxRelativeError);
 					break;
 				case 32:
-					testIt<32, real>(dimension, points, kNearest, maxRelativeError);
+					testIt<32, real>(dimension, samples, kNearest, maxRelativeError);
 					break;
 			};
 		}

@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="Estimation"
-	ProjectGUID="{66E30DC6-D769-4D04-AD28-58DD4C7E5A49}"
-	RootNamespace="Estimation"
+	Name="TimMex"
+	ProjectGUID="{21768932-BCCB-4EC2-AF80-32F8334FB594}"
+	RootNamespace="TimMex"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -18,9 +18,9 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)\lib"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
+			ConfigurationType="2"
 			CharacterSet="1"
 			>
 			<Tool
@@ -40,10 +40,10 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/D &quot;_SECURE_SCL=0&quot; /D &quot;_HAS_ITERATOR_DEBUGGING=0&quot;&#x0D;&#x0A;"
+				AdditionalOptions="/D &quot;_SECURE_SCL=0&quot; /D &quot;_HAS_ITERATOR_DEBUGGING=0&quot;"
 				Optimization="0"
 				AdditionalIncludeDirectories="$(SolutionDir)\..\"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;TIMMEX_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -65,11 +65,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="pastelsysd.lib pasteldeviced.lib ann.lib sdl.lib pastelgfxd.lib pastelmathd.lib pasteldspd.lib timcored.lib pastelgeometryd.lib"
+				AdditionalDependencies="timcored.lib pasteldeviced.lib pastelsysd.lib pastelmathd.lib pastelgeometryd.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="e:\ohjelmointi\hgproject\pastel_main\pastel\lib"
+				AdditionalLibraryDirectories="$(SolutionDir)\lib"
 				GenerateDebugInformation="true"
-				SubSystem="1"
+				SubSystem="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -96,9 +96,9 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)\lib"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
+			ConfigurationType="2"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -119,11 +119,11 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/D &quot;_SECURE_SCL=0&quot; /D &quot;_HAS_ITERATOR_DEBUGGING=0&quot;&#x0D;&#x0A;"
+				AdditionalOptions="/D &quot;_SECURE_SCL=0&quot; /D &quot;_HAS_ITERATOR_DEBUGGING=0&quot;"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="$(SolutionDir)\..\"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;TIMMEX_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				DisableLanguageExtensions="true"
@@ -144,11 +144,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="pastelsys.lib pasteldevice.lib ann.lib sdl.lib pastelgfx.lib pastelmath.lib pasteldsp.lib timcore.lib pastelgeometry.lib"
+				AdditionalDependencies="timcore.lib pasteldevice.lib pastelsys.lib pastelmath.lib pastelgeometry.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="e:\ohjelmointi\hgproject\pastel_main\pastel\lib"
+				AdditionalLibraryDirectories="$(SolutionDir)\lib"
 				GenerateDebugInformation="true"
-				SubSystem="1"
+				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				TargetMachine="1"
@@ -180,35 +180,7 @@
 	</References>
 	<Files>
 		<File
-			RelativePath=".\config_performance.txt"
-			>
-		</File>
-		<File
-			RelativePath=".\estimation.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\estimation.h"
-			>
-		</File>
-		<File
-			RelativePath=".\estimation_main.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\test_differential_entropy.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\test_mutual_information.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\test_nearest_performance.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\test_signal.cpp"
+			RelativePath=".\timDifferentialEntropy.cpp"
 			>
 		</File>
 	</Files>

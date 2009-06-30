@@ -3,6 +3,8 @@
 #include "tim/core/differential_entropy.h"
 #include "tim/core/signal_tools.h"
 
+#include <pastel/device/timer.h>
+
 #include <pastel/sys/random.h>
 #include <pastel/sys/string_tools.h>
 
@@ -19,11 +21,19 @@ namespace
 		const SignalPtr& signal,
 		real correct)
 	{
-		EuclideanNormBijection<real> normBijection;
+		//EuclideanNormBijection<real> normBijection;
 		//InfinityNormBijection<real> normBijection;
-		//ManhattanNormBijection<real> normBijection;
+		ManhattanNormBijection<real> normBijection;
 
 		const integer kNearest = 1;
+		/*
+		const real radiusRatio = 
+			std::exp((
+			lnVolumeUnitSphereInfinity<real>(signal->width()) - 
+			normBijection.lnVolumeUnitSphere(signal->width())) / signal->width());
+		const real maxRelativeError = 3 * radiusRatio;
+		log() << radiusRatio << logNewLine;
+		*/
 		const real maxRelativeError = 3;
 
 		const real estimate = differentialEntropy(signal, kNearest, maxRelativeError, 
@@ -40,6 +50,9 @@ namespace
 
 	void testDifferentialEntropy()
 	{
+		Timer timer;
+		timer.setStart();
+
 		//for (integer iter = 0;iter < 50;++iter)
 		{
 
@@ -47,53 +60,53 @@ namespace
 		log() << "Relative errors to correct analytic results shown in brackets." << logNewLine;
 
 		const integer dimension = 10;
-		const integer points = 10000;
+		const integer samples = 1000;
 
 		testDifferentialEntropyCase(
 			"Gaussian(0, 1)",
-			generateGaussian(points, dimension),
+			generateGaussian(samples, dimension),
 			gaussianDifferentialEntropy(dimension, 1));
 
 		if (dimension > 1)
 		{
 			for (integer i = 1;i <= 32;i *= 2)
 			{
-				DynamicMatrix covariance(dimension, dimension);
+				MatrixD covariance(dimension, dimension);
 				const real det = (real)i;
 				const real cond = 1;
 				setRandomSymmetricPositiveDefinite(
 					det, cond, covariance);
 
-				const CholeskyDecomposition<Dynamic, real> cholesky(
+				const CholeskyDecompositionD cholesky(
 					covariance);
 
 				testDifferentialEntropyCase(
 					"Cor.G.(" + realToString(determinant(covariance), 2) + ", " + realToString(conditionManhattan(covariance), 2) + ")",
-					generateCorrelatedGaussian(points, dimension, cholesky),
+					generateCorrelatedGaussian(samples, dimension, cholesky),
 					gaussianDifferentialEntropy(dimension, determinant(cholesky)));
 			}
 
 			for (integer i = 1;i <= 32;i *= 2)
 			{
-				DynamicMatrix covariance(dimension, dimension);
+				MatrixD covariance(dimension, dimension);
 				const real det = 1;
 				const real cond = (real)i;
 				setRandomSymmetricPositiveDefinite(
 					det, cond, covariance);
 
-				const CholeskyDecomposition<Dynamic, real> cholesky(
+				const CholeskyDecompositionD cholesky(
 					covariance);
 
 				testDifferentialEntropyCase(
 					"Cor.G.(" + realToString(determinant(covariance), 2) + ", " + realToString(conditionManhattan(covariance), 2) + ")",
-					generateCorrelatedGaussian(points, dimension, cholesky),
+					generateCorrelatedGaussian(samples, dimension, cholesky),
 					gaussianDifferentialEntropy(dimension, determinant(cholesky)));
 			}
 		}
 
 		testDifferentialEntropyCase(
 			"Uniform(-1, 1)",
-			generateUniform(points, dimension),
+			generateUniform(samples, dimension),
 			uniformDifferentialEntropy(std::pow((real)2, (real)dimension)));
 
 		for (integer i = 2;i < 40;i += 8)
@@ -103,7 +116,7 @@ namespace
 
 			testDifferentialEntropyCase(
 				"Gen.G.(" + realToString(shape, 2) + ", " + realToString(scale, 3) + ")",
-				generateGeneralizedGaussian(points, dimension, shape, scale),
+				generateGeneralizedGaussian(samples, dimension, shape, scale),
 				generalizedGaussianDifferentialEntropy(dimension, shape, scale));
 		}
 
@@ -114,7 +127,7 @@ namespace
 
 			testDifferentialEntropyCase(
 				"Gen.G.(" + realToString(shape, 2) + ", " + realToString(scale, 2) + ")",
-				generateGeneralizedGaussian(points, dimension, shape, scale),
+				generateGeneralizedGaussian(samples, dimension, shape, scale),
 				generalizedGaussianDifferentialEntropy(dimension, shape, scale));
 		}
 
@@ -125,10 +138,13 @@ namespace
 
 			testDifferentialEntropyCase(
 				"Gen.G.(" + realToString(shape, 2) + ", " + realToString(scale, 2) + ")",
-				generateGeneralizedGaussian(points, dimension, shape, scale),
+				generateGeneralizedGaussian(samples, dimension, shape, scale),
 				generalizedGaussianDifferentialEntropy(dimension, shape, scale));
 		}
 		}
+
+		timer.store();
+		log() << "Finished in " << timer.seconds() << " seconds." << logNewLine;
 	}
 
 	void testAdd()

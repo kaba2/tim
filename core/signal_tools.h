@@ -21,25 +21,25 @@ namespace Tim
 	*/
 
 	TIMCORE SignalPtr generateUniform(
-		integer size,
+		integer samples,
 		integer dimension);
 
 	//! Generates standard gaussian random variables in R^n.
 	/*!
 	Preconditions:
 	dimension > 0
-	size >= 0
+	samples >= 0
 	*/
 
 	TIMCORE SignalPtr generateGaussian(
-		integer size,
+		integer samples,
 		integer dimension);
 
 	//! Generates correlated gaussian random variables in R^n.
 	/*!
 	Preconditions:
 	dimension > 0
-	size >= 0
+	samples >= 0
 
 	The correlated gaussian random variable is given by
 	multiplying a standard gaussian random variable
@@ -54,27 +54,34 @@ namespace Tim
 	*/
 
 	TIMCORE SignalPtr generateCorrelatedGaussian(
-		integer size,
+		integer samples,
 		integer dimension,
-		const CholeskyDecomposition<Dynamic, real>& correlationCholesky);
+		const CholeskyDecompositionD& correlationCholesky);
 
 	TIMCORE SignalPtr generateGeneralizedGaussian(
-		integer size,
+		integer samples,
 		integer dimension,
 		real shape,
 		real scale);
 
-	/*!
-	Preconditions:
-	!signal.empty()
-	*/
-
-	TIMCORE void splitDimensions(
-		const SignalPtr& signal,
-		std::vector<SignalPtr>& signalSet);
-
 	TIMCORE SignalPtr mergeDimensions(
 		const std::vector<SignalPtr>& signalList);
+
+	TIMCORE void splitDimensions(
+		const SignalPtr& jointSignal,
+		std::vector<SignalPtr>& marginalSet);
+
+	TIMCORE void constructPointSet(
+		const SignalPtr& signal,
+		std::vector<PointD>& resultPointSet);
+
+	TIMCORE void computeCovariance(
+		const SignalPtr& signal,
+		MatrixD& result);
+
+	TIMCORE void normalizeCovariance(
+		const SignalPtr& signal,
+		const MatrixD& covariance);
 
 }
 

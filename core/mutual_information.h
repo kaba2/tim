@@ -4,15 +4,20 @@
 #include "tim/core/signal.h"
 
 #include <pastel/math/matrix.h>
+#include <pastel/math/cholesky_decomposition.h>
 
 namespace Tim
 {
 
+	TIMCORE real correlatedGaussianMutualInformation(
+		real marginalCovarianceDeterminantProduct,
+		real jointCovarianceDeterminant);
+
 	//! Computes mutual information between a set of signals.
 	/*!
 	Preconditions:
-	jointSignal->size() == marginalSignalSet[i]->size()
-	jointSignal->dimension() = sum_i marginalSignalSet[i]->dimension()
+	jointSignal->height() == marginalSignalSet[i]->height()
+	jointSignal->width() = sum_i marginalSignalSet[i]->width()
 	kNearest > 0
 	maxRelativeError >= 0
 	
@@ -121,9 +126,11 @@ namespace Tim
 		real maxRelativeError,
 		const NormBijection& normBijection);
 
-	TIMCORE real correlatedGaussianMutualInformation(
-		real covarianceDeterminant);
-
+	TIMCORE void mutualInformationNaive(
+		const SignalPtr& signal,
+		integer bins,
+		MatrixD& result);
+				
 }
 
 #include "tim/core/mutual_information.hpp"

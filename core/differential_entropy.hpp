@@ -3,6 +3,8 @@
 
 #include "tim/core/differential_entropy.h"
 
+#include "tim/core/signal_tools.h"
+
 #include <pastel/geometry/all_nearest_neighbors_kdtree.h>
 
 namespace Tim
@@ -31,13 +33,16 @@ namespace Tim
 		// of Epilepsy Patients and Clustering of Data",
 		// Alexander Kraskov, Ph.D. thesis, 2004
 
-		const integer points = signal->size();
-		const integer dimension = signal->dimension();
+		const integer samples = signal->height();
+		const integer dimension = signal->width();
 
-		Array<2, real> distanceArray(1, points);
+		Array<2, real> distanceArray(1, samples);
+
+		std::vector<PointD> pointSet;
+		constructPointSet(signal, pointSet);
 
 		allNearestNeighborsKdTree(
-			signal->pointSet(),
+			pointSet,
 			kNearest - 1,
 			kNearest,
 			infinity<real>(),
@@ -50,7 +55,7 @@ namespace Tim
 
 		real estimate = 0;
 #pragma omp parallel for reduction(+ : estimate)
-		for (integer i = 0;i < points;++i)
+		for (integer i = 0;i < samples;++i)
 		{
 			// Here we should add the logarithm of 
 			// _twice_ the distance to the k:th neighbor.
@@ -59,11 +64,11 @@ namespace Tim
 			estimate += normBijection.toLnNorm(distanceArray(0, i));
 		}
 		// Here we take into account doubling the distances.
-		estimate += points * constantLn2<real>();
+		estimate += samples * constantLn2<real>();
 
-		estimate *= (real)dimension / points;
+		estimate *= (real)dimension / samples;
 		estimate -= digamma<real>(kNearest);
-		estimate += digamma<real>(points);
+		estimate += digamma<real>(samples);
 		// Here we add the logarithm of the volume of 
 		// a sphere with _diameter_ 1. That is, the logarithm
 		// of the volume of a sphere with radius 1/2:
