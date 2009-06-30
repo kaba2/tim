@@ -14,14 +14,14 @@ namespace Tim
 
 		const integer stride = dimension * step;
 
-		const integer points = 
+		const integer samples = 
 			(data.size() + (stride - 1)) / stride;
 
-		SignalPtr signal = SignalPtr(new Signal(dimension, points));
+		SignalPtr signal = SignalPtr(new Signal(samples, dimension));
 
-		SignalView view = signal->view();
+		Signal::View view = signal->view();
 
-		for (integer i = 0;i < points;++i)
+		for (integer i = 0;i < samples;++i)
 		{
 			for (integer j = 0;j < dimension;++j)
 			{

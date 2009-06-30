@@ -5,27 +5,10 @@
 
 #include <pastel/geometry/all_nearest_neighbors_kdtree.h>
 #include <pastel/geometry/count_all_nearest_neighbors_kdtree.h>
+#include <pastel/geometry/count_all_nearest_neighbors_bruteforce.h>
 
 namespace Tim
 {
-
-	class MutualInformation_CountFunctor
-	{
-	public:
-		explicit MutualInformation_CountFunctor(real& mi)
-			: mi_(mi)
-		{
-		}
-
-		void operator()(integer index, integer count) const
-		{
-			// Should this be digamma<real>(totalNeighbors) or 
-			// digamma<real>(totalNeighbors + 1)?
-			mi_ -= digamma<real>(count);
-		}
-	private:
-		real& mi_;
-	};
 
 	template <typename NormBijection>
 	real mutualInformation(
@@ -39,25 +22,49 @@ namespace Tim
 		ENSURE1(maxRelativeError >= 0, maxRelativeError);
 
 		const integer signals = marginalSignalSet.size();
-		const integer points = jointSignal->size();
-		
+		const integer samples = jointSignal->height();
+
+		/*
+		real estimate2 = 0;
+
+		for (integer i = 0;i < signals;++i)
+		{
+			estimate2 += differentialEntropy(
+				marginalSignalSet[i],
+				kNearest,
+				maxRelativeError,
+				normBijection);
+		}
+
+		estimate2 -= differentialEntropy(
+			jointSignal,
+			kNearest,
+			maxRelativeError,
+			normBijection);
+
+		return estimate2;
+		*/
+
 		integer jointDimension = 0;
 		for (integer i = 0;i < signals;++i)
 		{
-			ENSURE2(jointSignal->size() == marginalSignalSet[i]->size(),
-				jointSignal->size(), marginalSignalSet[i]->size());
+			ENSURE2(jointSignal->height() == marginalSignalSet[i]->height(),
+				jointSignal->height(), marginalSignalSet[i]->height());
 
-			jointDimension += marginalSignalSet[i]->dimension();
+			jointDimension += marginalSignalSet[i]->width();
 		}
 
-		ENSURE2(jointDimension == jointSignal->dimension(),
-			jointDimension, jointSignal->dimension());
+		ENSURE2(jointDimension == jointSignal->width(),
+			jointDimension, jointSignal->width());
 
-		Array<2, real> distanceArray(1, points);
+		Array<2, real> distanceArray(1, samples);
 
 		{
+			std::vector<PointD> jointPointSet;
+			constructPointSet(jointSignal, jointPointSet);
+
 			allNearestNeighborsKdTree(
-				jointSignal->pointSet(),
+				jointPointSet,
 				kNearest - 1,
 				kNearest,
 				infinity<real>(),
@@ -69,32 +76,42 @@ namespace Tim
 				&distanceArray);
 		}
 
-		std::vector<real> distanceVector;
-		distanceVector.reserve(points);
-		for (integer i = 0;i < points;++i)
+		std::vector<real> distanceSet;
+		distanceSet.reserve(samples);
+		for (integer i = 0;i < samples;++i)
 		{
-			distanceVector.push_back(distanceArray(0, i) * normBijection.scalingFactor(0.5));
+			distanceSet.push_back(distanceArray(0, i));
 		}
 
 		real estimate = 0;
 
-		MutualInformation_CountFunctor miCountFunctor(estimate);
+		std::vector<integer> countSet(samples, 0);
 
 		for (integer i = 0;i < signals;++i)
 		{
 			const SignalPtr signal = marginalSignalSet[i];
 			
+			std::vector<PointD> marginalPointSet;
+			constructPointSet(signal, marginalPointSet);
+
 			countAllNearestNeighborsKdTree(
-				signal->pointSet(),
-				distanceVector,
-				maxRelativeError,
+				marginalPointSet,
+				distanceSet,
+				0,
+				//maxRelativeError,
 				normBijection,
-				miCountFunctor);
+				countSet);
+
+#pragma omp parallel for reduction(+ : estimate)
+			for (integer j = 0;j < samples;++j)
+			{
+				estimate -= digamma<real>(countSet[j] + 1);
+			}
 		}
 
-		estimate /= points;
+		estimate /= samples;
 		estimate += digamma<real>(kNearest);
-		estimate += (signals - 1) * digamma<real>(points);
+		estimate += (signals - 1) * digamma<real>(samples);
 
 		return estimate;
 	}

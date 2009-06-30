@@ -15,39 +15,27 @@ namespace
 		// and of size 10.
 
 		const SignalPtr signal = 
-			SignalPtr(new Signal(4, 10));
-
-		// Create a signal which shares memory
-		// with the signal just created. This
-		// is called aliasing. Aliasing
-		// is a cheap operation to create
-		// time-slice views of the same underlying data.
-		// This technique relies on the used storage
-		// convention and so can't be used
-		// to create subspace slices.
-
-		const SignalPtr aliasSignal =
-			SignalPtr(new Signal(signal, 2, 2));
+			SignalPtr(new Signal(10, 4));
 
 		// The signals can be output to a stream
 		// to see the contents.
 
 		std::cout << *signal << std::endl;
 
-		const integer dimension = signal->dimension();
-		const integer size = signal->size();
+		const integer dimension = signal->width();
+		const integer samples = signal->height();
 
 		// The most primitive way to view the signal data
 		// is as a collection of numbers. One obtains
 		// the element at (y, x)
 
 		// One way to view the signal data is as
-		// a collection of points. One obtains
+		// a collection of samples. One obtains
 		// the y:th point by the bracket notation [y].
 		// See 'pastel/sys/point.h' for info
-		// on points.
+		// on samples.
 
-		for (integer y = 0;y < size;++y)
+		for (integer y = 0;y < samples;++y)
 		{
 			for (integer x = 0;x < dimension;++x)
 			{
@@ -78,11 +66,9 @@ namespace
 		clear(-1, 
 			sparseView(
 			subView(signal->view(), Rectangle2(0, 3, 4, 7)), 
-			IPoint2(1, 1), IVector2(2, 2)));
+			Point2i(1, 1), Vector2i(2, 2)));
 
 		std::cout << *signal << std::endl;
-
-		std::cout << *aliasSignal << std::endl;
 	}
 
 	void addTest()
