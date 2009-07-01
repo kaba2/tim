@@ -8,6 +8,7 @@
 #include <pastel/math/cholesky_decomposition_tools.h>
 
 #include <pastel/sys/string_tools.h>
+#include <pastel/sys/measuretable_tools.h>
 
 using namespace Tim;
 
@@ -39,7 +40,7 @@ namespace
 		log() << "Mutual information estimates: " << logNewLine;
 
 		const integer samples = 10000;
-		const integer kNearest = 10;
+		const integer kNearest = 1;
 		const real maxRelativeError = 0;
 		//const EuclideanNormBijection<real> normBijection;
 		const InfinityNormBijection<real> normBijection;
@@ -84,7 +85,7 @@ namespace
 
 		log() << "nD correlated gaussian cond-det covariances" << logNewLine;
 		{
-			const integer dimension = 5;
+			const integer dimension = 10;
 			for (integer i = 0;i < 10;++i)
 			{
 				MatrixD covariance(dimension, dimension);
@@ -173,9 +174,120 @@ namespace
 		}
 	}
 
+	void testTiming()
+	{
+		log() << "Mutual information estimates: " << logNewLine;
+
+		MeasureTable measureTable;
+		measureTable.setCaption("Comparison between eeglab and tim.");
+		measureTable.setSize(7, 21);
+
+		enum
+		{
+			Samples_Column,
+			Covariance_Column,
+			ElTime_Column,
+			TimTime_Column,
+			ElMi_Column,
+			TimMi_Column,
+			CorrectMi_Column
+		};
+
+		measureTable(Samples_Column, 0).text() = "Samples";
+		measureTable(Covariance_Column, 0).text() = "Cov.";
+		measureTable(ElTime_Column, 0).text() = "El time";
+		measureTable(TimTime_Column, 0).text() = "Tim time";
+		measureTable(ElMi_Column, 0).text() = "El mi";
+		measureTable(TimMi_Column, 0).text() = "Tim mi";
+		measureTable(CorrectMi_Column, 0).text() = "Cor. mi";
+		measureTable.addHorizontalSeparator(0);
+		measureTable.addHorizontalSeparator(1);
+		measureTable.addHorizontalSeparator(6);
+		measureTable.addHorizontalSeparator(11);
+		measureTable.addHorizontalSeparator(16);
+		measureTable.addHorizontalSeparator(21);
+		measureTable.addVerticalSeparator(0);
+		measureTable.addVerticalSeparator(2);
+		measureTable.addVerticalSeparator(4);
+		measureTable.addVerticalSeparator(7);
+
+		integer experiment = 1;
+		const integer kNearest = 1;
+		const integer dimension = 2;
+		const real maxRelativeError = 0;
+		const InfinityNormBijection<real> normBijection;
+		for (integer i = 0;i < 4;++i)
+		{
+			const integer samples = 100 * (integer)std::pow((real)10, (real)i);
+
+			for (integer j = 0;j < 5;++j)
+			{
+				MatrixD covariance(dimension, dimension);
+
+				const real r = (real)j / 5;
+
+				covariance |= 
+					1, r,
+					r, 1;
+
+				const CholeskyDecompositionD cholesky(
+					covariance);
+
+				ENSURE(cholesky.succeeded());
+
+				const SignalPtr jointSignal = 
+					generateCorrelatedGaussian(samples, dimension, cholesky);
+
+				const real correctMi = correlatedGaussianMutualInformation(
+					diagonalProduct(covariance), determinant(cholesky));
+
+				measureTable(Samples_Column, experiment).text() = 
+					integerToString(samples);
+				measureTable(Covariance_Column, experiment).text() =
+					realToString(r, 4);
+				measureTable(CorrectMi_Column, experiment).text() = 
+					realToString(correctMi, 4);
+
+				Timer timer;
+
+				timer.setStart();
+				const real mi = mutualInformation(
+					jointSignal,
+					kNearest,
+					maxRelativeError,
+					normBijection);
+				timer.store();
+
+				measureTable(TimTime_Column, experiment).text() = 
+					realToString(timer.seconds(), 4);
+				measureTable(TimMi_Column, experiment).text() = 
+					realToString(mi, 4);
+
+				MatrixD pairwiseMi;
+				timer.setStart();
+				mutualInformationNaive(
+					jointSignal,
+					100,
+					pairwiseMi);
+				timer.store();
+
+				measureTable(ElTime_Column, experiment).text() = 
+					realToString(timer.seconds(), 4);
+				measureTable(ElMi_Column, experiment).text() = 
+					realToString(pairwiseMi(1, 0), 4);
+
+				++experiment;
+			}
+		}
+
+		//printPretty(measureTable, std::cout);
+		printLatex(measureTable, std::cout);
+	}
+
 	void testAdd()
 	{
 		timTestList().add("mutual_information", testMutualInformation);
+		timTestList().add("mi_timing", testTiming);
 	}
 
 	CallFunction run(testAdd);
