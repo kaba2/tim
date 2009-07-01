@@ -3,6 +3,9 @@
 #include "tim/core/signal_tools.h"
 
 #include <pastel/sys/view_all.h>
+#include <pastel/sys/random.h>
+#include <pastel/sys/string_tools.h>
+#include <pastel/sys/measuretable_tools.h>
 
 using namespace Tim;
 

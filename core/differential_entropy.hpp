@@ -5,7 +5,7 @@
 
 #include "tim/core/signal_tools.h"
 
-#include <pastel/geometry/all_nearest_neighbors_kdtree.h>
+#include <pastel/geometry/search_all_neighbors_kdtree.h>
 
 namespace Tim
 {
@@ -41,7 +41,7 @@ namespace Tim
 		std::vector<PointD> pointSet;
 		constructPointSet(signal, pointSet);
 
-		allNearestNeighborsKdTree(
+		searchAllNeighborsKdTree(
 			pointSet,
 			kNearest - 1,
 			kNearest,

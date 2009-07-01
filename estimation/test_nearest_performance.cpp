@@ -4,7 +4,7 @@
 #include <pastel/device/timer.h>
 
 #include <pastel/geometry/pointkdtree_tools.h>
-#include <pastel/geometry/all_nearest_neighbors.h>
+#include <pastel/geometry/search_all_neighbors.h>
 #include <pastel/geometry/point_patterns.h>
 
 #include <pastel/sys/tuplebase.h>
@@ -129,6 +129,7 @@ namespace
 
 		if (incorrect > 0)
 		{
+			log() << logNewLine;
 			log() << incorrect << " incorrect results detected!" 
 				<< logNewLine;
 		}
@@ -146,7 +147,7 @@ namespace
 	}
 
 	template <int N, typename Real, typename NormBijection>
-	void allNearestNeighborsKdTreeAnn(
+	void searchAllNeighborsKdTreeAnn(
 		const std::vector<Point<N, Real> >& pointSet,
 		integer kNearest,
 		const PASTEL_NO_DEDUCTION(Real)& maxDistance,
@@ -210,7 +211,7 @@ namespace
 	}
 
 	template <int N, typename Real, typename NormBijection>
-	void allNearestNeighborsBdTreeAnn(
+	void searchAllNeighborsBdTreeAnn(
 		const std::vector<Point<N, Real> >& pointSet,
 		integer kNearest,
 		const PASTEL_NO_DEDUCTION(Real)& maxDistance,
@@ -414,7 +415,7 @@ namespace
 
 			timer.setStart();
 
-			allNearestNeighborsBruteForce(
+			searchAllNeighborsBruteForce(
 				pointSet, kNearest, infinity<Real>(),
 				normBijection,
 				bruteNearest);
@@ -438,7 +439,7 @@ namespace
 
 				timer.setStart();
 
-				allNearestNeighborsKdTree(
+				searchAllNeighborsKdTree(
 					pointSet,
 					0,
 					kNearest, 
@@ -471,7 +472,7 @@ namespace
 
 				timer.setStart();
 
-				allNearestNeighborsKdTreeAnn(
+				searchAllNeighborsKdTreeAnn(
 					pointSet, kNearest, infinity<Real>(), maxRelativeError,
 					normBijection,
 					kdNearest);
@@ -498,7 +499,7 @@ namespace
 
 				timer.setStart();
 
-				allNearestNeighborsBdTreeAnn(
+				searchAllNeighborsBdTreeAnn(
 					pointSet, kNearest, infinity<Real>(), maxRelativeError,
 					normBijection,
 					bdNearest);
