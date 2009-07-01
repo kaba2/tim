@@ -101,8 +101,13 @@ namespace
 				const real det = 2;
 				*/
 
+				setRandomMatrix(covariance);
+				covariance *= transpose(covariance);
+
+				/*
 				setRandomSymmetricPositiveDefinite(
 					det, cond, covariance);
+				*/
 
 				/*
 				log() << "cond = " << conditionManhattan(covariance)
@@ -136,40 +141,6 @@ namespace
 				computeCovariance(jointSignal, sampleCovariance);
 				std::cout << sampleCovariance << std::endl;
 				*/
-			}
-		}
-
-		log() << "2D correlated gaussian pairwise" << logNewLine;
-		{
-			const integer dimension = 2;
-
-			for (integer i = 0;i < 10;++i)
-			{
-				MatrixD covariance(dimension, dimension);
-
-				const real r = (real)i / 10;
-
-				covariance |= 
-					1, r,
-					r, 1;
-
-				const CholeskyDecompositionD cholesky(
-					covariance);
-
-				const real det = determinant(cholesky);
-				const real cond = r;
-
-				ENSURE(cholesky.succeeded());
-
-				const SignalPtr jointSignal = 
-					generateCorrelatedGaussian(samples, dimension, cholesky);
-
-				MatrixD pairwiseMi;
-				mutualInformationNaive(
-					jointSignal,
-					100,
-					pairwiseMi);
-				std::cout << pairwiseMi << std::endl;
 			}
 		}
 	}
@@ -280,8 +251,8 @@ namespace
 			}
 		}
 
-		//printPretty(measureTable, std::cout);
-		printLatex(measureTable, std::cout);
+		printPretty(measureTable, std::cout);
+		//printLatex(measureTable, std::cout);
 	}
 
 	void testAdd()
