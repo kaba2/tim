@@ -21,6 +21,8 @@ namespace
 		const SignalPtr signal = 
 			SignalPtr(new Signal(4, 10));
 
+		signal->setName("Experiment 1");
+
 		// The signals can be output to a stream
 		// to see the contents.
 
@@ -33,21 +35,24 @@ namespace
 		// is as a collection of numbers. One obtains
 		// the element at (y, x)
 
-		// One way to view the signal data is as
-		// a collection of samples. One obtains
-		// the y:th point by the bracket notation [y].
-		// See 'pastel/sys/point.h' for info
-		// on samples.
-
-		for (integer x = 0;x < dimension;++x)
+		for (integer i = 0;i < dimension;++i)
 		{
-			for (integer y = 0;y < samples;++y)
+			for (integer j = 0;j < samples;++j)
 			{
-				signal->data()[x][y] = x * y;
+				signal->data()(i, j) = i * j;
 			}
 		}
 
 		std::cout << *signal << std::endl;
+	}
+
+	void testSplit()
+	{
+		SignalPtr xy = 
+			SignalPtr(new Signal(2, 5));
+
+		SignalPtr x = slice(xy, 0, 2);
+		SignalPtr y = slice(xy, 2, 5);
 	}
 
 	void addTest()

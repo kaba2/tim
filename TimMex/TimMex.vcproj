@@ -191,6 +191,10 @@
 			RelativePath=".\timMutualInformationNaive.cpp"
 			>
 		</File>
+		<File
+			RelativePath=".\timPartialMutualInformation.cpp"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

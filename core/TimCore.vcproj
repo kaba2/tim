@@ -217,6 +217,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\partial_mutual_information.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\partial_mutual_information.h"
+			>
+		</File>
+		<File
 			RelativePath=".\signal.cpp"
 			>
 		</File>
@@ -226,6 +234,10 @@
 		</File>
 		<File
 			RelativePath=".\signal.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\signal.txt"
 			>
 		</File>
 		<File

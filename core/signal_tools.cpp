@@ -16,9 +16,9 @@ namespace Tim
 		const integer samples = signal.samples();
 		if (dimension > 1)
 		{
-			for (integer i = 0;i < dimension;++i)
+			for (integer j = 0;j < samples;++j)
 			{
-				for (integer j = 0;j < samples;++j)
+				for (integer i = 0;i < dimension;++i)
 				{
 					stream << signal.data()(i, j) << " ";
 				}
@@ -32,6 +32,8 @@ namespace Tim
 				stream << signal.data()(0, j) << ", ";
 			}
 		}
+
+		stream << signal.name() << std::endl;
 
 		return stream;
 	}
@@ -118,7 +120,7 @@ namespace Tim
 		return signal;
 	}
 
-	TIMCORE void splitMarginal(
+	TIMCORE void slice(
 		const SignalPtr& jointSignal,
 		std::vector<SignalPtr>& marginalSet)
 	{
@@ -132,13 +134,10 @@ namespace Tim
 			partition.insert(i);
 		}
 
-		Tim::splitMarginal(
-			jointSignal,
-			partition,
-			marginalSet);
+		Tim::slice(jointSignal, partition, marginalSet);
 	}
 
-	TIMCORE void splitMarginal(
+	TIMCORE void slice(
 		const SignalPtr& jointSignal,
 		const SmallSet<integer>& partition,
 		std::vector<SignalPtr>& marginalSet)
@@ -153,19 +152,29 @@ namespace Tim
 				partition[x + 1] - partition[x];
 			ENSURE1(marginalDimension > 0, marginalDimension);
 
-			const SignalPtr signal = SignalPtr(new Signal(
-				marginalDimension, samples, &jointSignal->data()(partition[x], 0)));
-			/*
-			signal->data() = jointSignal->data()(
-				Range(partition[x], partition[x + 1] - 1),
-				Range(0, samples - 1));
-			*/
-
-			marginalSet.push_back(signal);
+			marginalSet.push_back(Tim::slice(jointSignal, partition[x], 
+				partition[x] + marginalDimension));
 		}
 	}
 
-	TIMCORE SignalPtr mergeMarginal(
+	TIMCORE SignalPtr slice(
+		const SignalPtr& signal,
+		integer dimensionBegin,
+		integer dimensionEnd)
+	{
+		ENSURE2(dimensionBegin <= dimensionEnd, 
+			dimensionBegin, dimensionEnd);
+		ENSURE1(dimensionBegin >= 0, dimensionBegin);
+		ENSURE2(dimensionEnd <= signal->dimension(), dimensionEnd, signal->dimension());
+
+		const integer dimension = dimensionEnd - dimensionBegin;
+
+		return SignalPtr(new Signal(
+			dimension, signal->samples(), 
+			&signal->data()(dimensionBegin, 0)));
+	}
+
+	TIMCORE SignalPtr merge(
 		const std::vector<SignalPtr>& signalList)
 	{
 		if (signalList.empty())
@@ -199,6 +208,17 @@ namespace Tim
 		}
 
 		return jointSignal;
+	}
+
+	TIMCORE SignalPtr merge(
+		const SignalPtr& aSignal,
+		const SignalPtr& bSignal)
+	{
+		std::vector<SignalPtr> signalSet;
+		signalSet.reserve(2);
+		signalSet.push_back(aSignal);
+		signalSet.push_back(bSignal);
+		return Tim::merge(signalSet);
 	}
 
 	TIMCORE void constructPointSet(
