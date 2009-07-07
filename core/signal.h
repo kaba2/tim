@@ -31,9 +31,9 @@ namespace Tim
 		// Using default destructor.
 
 		Signal();
-		Signal(integer samples, integer dimension,
+		Signal(integer dimension, integer samples,
 			real* dataToAlias);
-		Signal(integer samples, integer dimension);
+		Signal(integer dimension, integer samples);
 
 		void setName(const std::string& name);
 		const std::string& name() const;

@@ -12,16 +12,16 @@ namespace Tim
 	{
 	}
 
-	Signal::Signal(integer samples, integer dimension,
+	Signal::Signal(integer dimension, integer samples,
 		real* dataToAlias)
 		: name_()
-		, data_(samples, dimension, withAliasing(dataToAlias))
+		, data_(dimension, samples, withAliasing(dataToAlias))
 	{
 	}
 
-	Signal::Signal(integer samples, integer dimension)
+	Signal::Signal(integer dimension, integer samples)
 		: name_()
-		, data_(samples, dimension)
+		, data_(dimension, samples)
 	{
 	}
 
@@ -37,12 +37,12 @@ namespace Tim
 
 	integer Signal::dimension() const
 	{
-		return data_.width();
+		return data_.height();
 	}
 
 	integer Signal::samples() const
 	{
-		return data_.height();
+		return data_.width();
 	}
 
 	MatrixD& Signal::data()

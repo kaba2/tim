@@ -16,20 +16,20 @@ namespace Tim
 		const integer samples = signal.samples();
 		if (dimension > 1)
 		{
-			for (integer i = 0;i < samples;++i)
+			for (integer i = 0;i < dimension;++i)
 			{
-				for (integer j = 0;j < dimension;++j)
+				for (integer j = 0;j < samples;++j)
 				{
-					stream << signal.data()[i][j] << " ";
+					stream << signal.data()(i, j) << " ";
 				}
 				stream << std::endl;
 			}
 		}
 		else
 		{
-			for (integer i = 0;i < samples;++i)
+			for (integer j = 0;j < samples;++j)
 			{
-				stream << signal.data()[i][0] << ", ";
+				stream << signal.data()(0, j) << ", ";
 			}
 		}
 
@@ -43,7 +43,7 @@ namespace Tim
 		ENSURE1(dimension > 0, dimension);
 		ENSURE1(samples >= 0, samples);
 
-		SignalPtr signal = SignalPtr(new Signal(samples, dimension));
+		SignalPtr signal = SignalPtr(new Signal(dimension, samples));
 
 		MatrixD::Iterator iter = signal->data().begin();
 		const MatrixD::Iterator iterEnd = signal->data().end();
@@ -64,7 +64,7 @@ namespace Tim
 		ENSURE1(dimension > 0, dimension);
 		ENSURE1(samples >= 0, samples);
 
-		SignalPtr signal = SignalPtr(new Signal(samples, dimension));
+		SignalPtr signal = SignalPtr(new Signal(dimension, samples));
 
 		MatrixD::Iterator iter = signal->data().begin();
 		const MatrixD::Iterator iterEnd = signal->data().end();
@@ -81,20 +81,16 @@ namespace Tim
 	TIMCORE SignalPtr generateCorrelatedGaussian(
 		integer samples,
 		integer dimension,
-		const CholeskyDecompositionD& correlationCholesky)
+		const CholeskyDecompositionD& covarianceCholesky)
 	{
 		ENSURE1(dimension > 0, dimension);
 		ENSURE1(samples >= 0, samples);
-		ENSURE(correlationCholesky.lower().width() == dimension);
-		ENSURE(correlationCholesky.succeeded());
+		ENSURE(covarianceCholesky.lower().width() == dimension);
+		ENSURE(covarianceCholesky.succeeded());
 
 		SignalPtr correlatedGaussian = generateGaussian(samples, dimension);
-	
-		for (integer i = 0;i < samples;++i)
-		{
-			correlatedGaussian->data()[i] = 
-				correlationCholesky.lower() * correlatedGaussian->data()[i];
-		}
+
+		correlatedGaussian->data() = covarianceCholesky.lower() * correlatedGaussian->data();
 
 		return correlatedGaussian;
 	}
@@ -108,7 +104,7 @@ namespace Tim
 		ENSURE1(dimension > 0, dimension);
 		ENSURE1(samples >= 0, samples);
 
-		SignalPtr signal = SignalPtr(new Signal(samples, dimension));
+		SignalPtr signal = SignalPtr(new Signal(dimension, samples));
 
 		MatrixD::Iterator iter = signal->data().begin();
 		const MatrixD::Iterator iterEnd = signal->data().end();
@@ -157,16 +153,19 @@ namespace Tim
 				partition[x + 1] - partition[x];
 			ENSURE1(marginalDimension > 0, marginalDimension);
 
-			const SignalPtr signal = SignalPtr(new Signal(samples, marginalDimension));
+			const SignalPtr signal = SignalPtr(new Signal(
+				marginalDimension, samples, &jointSignal->data()(partition[x], 0)));
+			/*
 			signal->data() = jointSignal->data()(
-				Range(0, samples - 1), 
-				Range(partition[x], partition[x + 1] - 1));
+				Range(partition[x], partition[x + 1] - 1),
+				Range(0, samples - 1));
+			*/
 
 			marginalSet.push_back(signal);
 		}
 	}
 
-	TIMCORE SignalPtr mergeDimensions(
+	TIMCORE SignalPtr mergeMarginal(
 		const std::vector<SignalPtr>& signalList)
 	{
 		if (signalList.empty())
@@ -174,32 +173,32 @@ namespace Tim
 			return SignalPtr();
 		}
 
-		const integer size = signalList.front()->samples();
+		const integer samples = signalList.front()->samples();
 
 		const integer signals = signalList.size();
-		integer bigDimension = 0;
+		integer jointDimension = 0;
 		for (integer i = 0;i < signals;++i)
 		{
-			bigDimension += signalList[i]->dimension();
+			jointDimension += signalList[i]->dimension();
 			ENSURE2(signalList[0]->samples() == signalList[i]->samples(), 
 				signalList[0]->samples(), signalList[i]->samples());
 		}
 
-		SignalPtr bigSignal(new Signal(size, bigDimension));
+		SignalPtr jointSignal(new Signal(jointDimension, samples));
 		
 		integer dimensionOffset = 0;
 
 		for (integer i = 0;i < signals;++i)
 		{
-			copy(signalList[i]->data().constView(),
-				subView(bigSignal->data().view(), 
-				Rectangle2(0, dimensionOffset, size, 
-				dimensionOffset + signalList[i]->dimension())));
+			std::copy(
+				signalList[i]->data().begin(),
+				signalList[i]->data().end(),
+				jointSignal->data().rowBegin(dimensionOffset));
 
 			dimensionOffset += signalList[i]->dimension();
 		}
 
-		return bigSignal;
+		return jointSignal;
 	}
 
 	TIMCORE void constructPointSet(
@@ -212,9 +211,15 @@ namespace Tim
 		std::vector<PointD> pointSet;
 		pointSet.reserve(n);
 
-		for (integer i = 0;i < n;++i)
+		PointD point(ofDimension(dimension));
+		for (integer j = 0;j < n;++j)
 		{
-			pointSet.push_back(PointD(signal->data()[i]));
+			for (integer i = 0;i < dimension;++i)
+			{
+				point[i] = signal->data()(i, j);
+			}
+
+			pointSet.push_back(point);
 		}
 
 		pointSet.swap(resultPointSet);
@@ -230,13 +235,10 @@ namespace Tim
 		result.setSize(dimension, dimension);
 		result.set(0);
 
-		const VectorD mean = sum(signal->data()) / samples;
+		const VectorD mean = sum(transpose(signal->data())) / samples;
 
-		for (integer i = 0;i < samples;++i)
-		{
-			result += outerProduct(signal->data()[i] - mean, signal->data()[i] - mean);
-		}
-
+		result = (signal->data() - outerProduct(mean, VectorConstant<Dynamic, real>(1, samples))) * 
+			transpose(signal->data() - outerProduct(mean, VectorConstant<Dynamic, real>(1, samples)));
 		result /= samples;
 	}
 
@@ -280,10 +282,7 @@ namespace Tim
 		const CholeskyDecompositionD invCholesky(
 			inverse(covariance));
 		
-		// Our samples are row vectors so we
-		// multiply by the A^T from the right.
-
-		signal->data() *= invCholesky.lower();
+		signal->data() = transpose(invCholesky.lower()) * signal->data();
 	}		
 
 }

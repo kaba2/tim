@@ -58,7 +58,7 @@ namespace Tim
 	TIMCORE SignalPtr generateCorrelatedGaussian(
 		integer samples,
 		integer dimension,
-		const CholeskyDecompositionD& correlationCholesky);
+		const CholeskyDecompositionD& covarianceCholesky);
 
 	TIMCORE SignalPtr generateGeneralizedGaussian(
 		integer samples,
@@ -66,7 +66,7 @@ namespace Tim
 		real shape,
 		real scale);
 
-	TIMCORE SignalPtr mergeDimensions(
+	TIMCORE SignalPtr mergeMarginal(
 		const std::vector<SignalPtr>& signalList);
 
 	TIMCORE void splitMarginal(

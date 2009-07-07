@@ -19,7 +19,7 @@ namespace
 		// and of size 10.
 
 		const SignalPtr signal = 
-			SignalPtr(new Signal(10, 4));
+			SignalPtr(new Signal(4, 10));
 
 		// The signals can be output to a stream
 		// to see the contents.
@@ -39,40 +39,15 @@ namespace
 		// See 'pastel/sys/point.h' for info
 		// on samples.
 
-		for (integer y = 0;y < samples;++y)
+		for (integer x = 0;x < dimension;++x)
 		{
-			for (integer x = 0;x < dimension;++x)
+			for (integer y = 0;y < samples;++y)
 			{
-				signal->data()[y][x] = x * y;
+				signal->data()[x][y] = x * y;
 			}
 		}
 
-		std::cout << signal << std::endl;
-
-		// Another way to view the signal data is
-		// as an 2d array of values. Such arrays
-		// can be handled efficiently via so-called
-		// views. A view is an abstract array
-		// (in generic programming sense), which
-		// allows to concentrate on subsets of
-		// a concrete array without copying it.
-		// Because of being based on generic programming
-		// and cursors (similar to iterators), 
-		// the resulting code should be close to
-		// performance to an equivalent hand-written code.
-		// For example, one could take
-		// some rectangular subset of the array, and
-		// then out of that subset pick only those
-		// coordinates which are odd, and finally
-		// assign -1 to those elements.
-		// Let us do that.
-
-		clear(-1, 
-			sparseView(
-			subView(signal->data().view(), Rectangle2(0, 3, 4, 7)), 
-			Point2i(1, 1), Vector2i(2, 2)));
-
-		std::cout << signal << std::endl;
+		std::cout << *signal << std::endl;
 	}
 
 	void addTest()
