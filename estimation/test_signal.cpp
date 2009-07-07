@@ -5,7 +5,8 @@
 #include <pastel/sys/view_all.h>
 #include <pastel/sys/random.h>
 #include <pastel/sys/string_tools.h>
-#include <pastel/sys/measuretable_tools.h>
+
+#include "tim/core/mutual_information.h"
 
 using namespace Tim;
 
@@ -25,8 +26,8 @@ namespace
 
 		std::cout << *signal << std::endl;
 
-		const integer dimension = signal->width();
-		const integer samples = signal->height();
+		const integer dimension = signal->dimension();
+		const integer samples = signal->samples();
 
 		// The most primitive way to view the signal data
 		// is as a collection of numbers. One obtains
@@ -42,11 +43,11 @@ namespace
 		{
 			for (integer x = 0;x < dimension;++x)
 			{
-				(*signal)[y][x] = x * y;
+				signal->data()[y][x] = x * y;
 			}
 		}
 
-		std::cout << *signal << std::endl;
+		std::cout << signal << std::endl;
 
 		// Another way to view the signal data is
 		// as an 2d array of values. Such arrays
@@ -68,10 +69,10 @@ namespace
 
 		clear(-1, 
 			sparseView(
-			subView(signal->view(), Rectangle2(0, 3, 4, 7)), 
+			subView(signal->data().view(), Rectangle2(0, 3, 4, 7)), 
 			Point2i(1, 1), Vector2i(2, 2)));
 
-		std::cout << *signal << std::endl;
+		std::cout << signal << std::endl;
 	}
 
 	void addTest()

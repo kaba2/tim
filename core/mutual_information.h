@@ -6,6 +6,8 @@
 #include <pastel/math/matrix.h>
 #include <pastel/math/cholesky_decomposition.h>
 
+#include <pastel/sys/smallset.h>
+
 namespace Tim
 {
 
@@ -16,8 +18,8 @@ namespace Tim
 	//! Computes mutual information between a set of signals.
 	/*!
 	Preconditions:
-	jointSignal->height() == marginalSignalSet[i]->height()
-	jointSignal->width() = sum_i marginalSignalSet[i]->width()
+	jointSignal->samples() == marginalSignalSet[i]->samples()
+	jointSignal->dimension() = sum_i marginalSignalSet[i]->dimension()
 	kNearest > 0
 	maxRelativeError >= 0
 	
@@ -36,27 +38,20 @@ namespace Tim
 	on differential entropy.
 	
 	The mutual information is estimated by an algorithm
-	that uses nearest neighbor searching heavily.
+	that relies heavily on nearest neighbor searching.
 
 	jointSignal:
 	The joint signal must contain the same data 
 	as the marginal signals, arranged subsequently
 	in subdimension ranges. For example, 
-	dimensions 0 contain 1-d marginalSignalSet[0],
-	dimensions 1-2 contains 2-d marginalSignalSet[1], and
+	dimension 0 contains 1-d marginalSignalSet[0],
+	dimensions 1-2 contain 2-d marginalSignalSet[1], and
 	dimension 3 contains 1-d marginalSignalSet[2].
 	
 	marginalSignalSet:
 	A set of marginal signals. They must all
 	have the same size. However, their dimension
 	can vary.
-
-	normBijection:
-	Different norms can be used in the nearest
-	neighbor search. The norms are varied by supplying
-	different kinds of 'norm bijections'. 
-	See 'pastel/math/normbijection.h' in the Pastel library
-	for documentation and predefined norm bijections.
 
 	kNearest:
 	The number of nearest neighbors to use in the estimation.
@@ -68,6 +63,13 @@ namespace Tim
 	by one to two orders of magnitude in higher dimensions.
 	0 = exact, 1 = 100% relative error, 2 = 200% relative error,
 	etc.
+
+	normBijection:
+	Different norms can be used in the nearest
+	neighbor search. The norms are varied by supplying
+	different kinds of 'norm bijections'. 
+	See 'pastel/math/normbijection.h' in the Pastel library
+	for documentation and predefined norm bijections.
 	*/
 
 	template <typename NormBijection>
@@ -110,18 +112,10 @@ namespace Tim
 		real maxRelativeError,
 		const NormBijection& normBijection);
 
-	//! Computes mutual information between two marginal signals.
-	/*!
-	This is a convenience function that calls the
-	more general mutualInformation() by pushing
-	the marginal signals into a vector.
-	See the documentation for the more general mutualInformation().
-	*/
-
 	template <typename NormBijection>
 	real mutualInformation(
-		const SignalPtr& aMarginalSignal,
-		const SignalPtr& bMarginalSignal,
+		const SignalPtr& jointSignal,
+		const SmallSet<integer>& partition,
 		integer kNearest,
 		real maxRelativeError,
 		const NormBijection& normBijection);
@@ -134,7 +128,7 @@ namespace Tim
 	template <typename NormBijection>
 	real mutualInformationFromEntropy(
 		const SignalPtr& jointSignal,
-		const std::vector<SignalPtr>& marginalSignalSet,
+		const SmallSet<integer>& partition,
 		integer kNearest,
 		real maxRelativeError,
 		const NormBijection& normBijection);

@@ -33,8 +33,8 @@ namespace Tim
 		// of Epilepsy Patients and Clustering of Data",
 		// Alexander Kraskov, Ph.D. thesis, 2004
 
-		const integer samples = signal->height();
-		const integer dimension = signal->width();
+		const integer samples = signal->samples();
+		const integer dimension = signal->dimension();
 
 		Array<2, real> distanceArray(1, samples);
 

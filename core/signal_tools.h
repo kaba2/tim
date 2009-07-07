@@ -6,6 +6,8 @@
 #include <pastel/math/matrix.h>
 #include <pastel/math/cholesky_decomposition.h>
 
+#include <pastel/sys/smallset.h>
+
 #include <iostream>
 
 namespace Tim
@@ -67,8 +69,13 @@ namespace Tim
 	TIMCORE SignalPtr mergeDimensions(
 		const std::vector<SignalPtr>& signalList);
 
-	TIMCORE void splitDimensions(
+	TIMCORE void splitMarginal(
 		const SignalPtr& jointSignal,
+		std::vector<SignalPtr>& marginalSet);
+
+	TIMCORE void splitMarginal(
+		const SignalPtr& jointSignal,
+		const SmallSet<integer>& partition,
 		std::vector<SignalPtr>& marginalSet);
 
 	TIMCORE void constructPointSet(

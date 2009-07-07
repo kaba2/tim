@@ -24,19 +24,19 @@ namespace Tim
 		ENSURE1(maxRelativeError >= 0, maxRelativeError);
 
 		const integer signals = marginalSignalSet.size();
-		const integer samples = jointSignal->height();
+		const integer samples = jointSignal->samples();
 
 		integer jointDimension = 0;
 		for (integer i = 0;i < signals;++i)
 		{
-			ENSURE2(jointSignal->height() == marginalSignalSet[i]->height(),
-				jointSignal->height(), marginalSignalSet[i]->height());
+			ENSURE2(jointSignal->samples() == marginalSignalSet[i]->samples(),
+				jointSignal->samples(), marginalSignalSet[i]->samples());
 
-			jointDimension += marginalSignalSet[i]->width();
+			jointDimension += marginalSignalSet[i]->dimension();
 		}
 
-		ENSURE2(jointDimension == jointSignal->width(),
-			jointDimension, jointSignal->width());
+		ENSURE2(jointDimension == jointSignal->dimension(),
+			jointDimension, jointSignal->dimension());
 
 		Array<2, integer> nearestArray(1, samples);
 
@@ -66,7 +66,7 @@ namespace Tim
 		for (integer i = 0;i < signals;++i)
 		{
 			const SignalPtr signal = marginalSignalSet[i];
-			const integer marginalDimension = signal->width();
+			const integer marginalDimension = signal->dimension();
 			
 			constructPointSet(signal, marginalPointSet);
 
@@ -97,7 +97,7 @@ namespace Tim
 #pragma omp parallel for reduction(+ : estimate)
 			for (integer j = 0;j < samples;++j)
 			{
-				estimate -= digamma<real>(countSet[j] + 1);
+				estimate -= digamma<real>(countSet[j]);
 			}
 		}
 
@@ -107,7 +107,7 @@ namespace Tim
 		// up being zero. However, this is not the case with other
 		// norms.
 		logVolumeSum -= 
-			normBijection.lnVolumeUnitSphere(jointSignal->width());
+			normBijection.lnVolumeUnitSphere(jointSignal->dimension());
 
 		estimate /= samples;
 		estimate += logVolumeSum;
@@ -130,19 +130,19 @@ namespace Tim
 		ENSURE1(maxRelativeError >= 0, maxRelativeError);
 
 		const integer signals = marginalSignalSet.size();
-		const integer samples = jointSignal->height();
+		const integer samples = jointSignal->samples();
 
 		integer jointDimension = 0;
 		for (integer i = 0;i < signals;++i)
 		{
-			ENSURE2(jointSignal->height() == marginalSignalSet[i]->height(),
-				jointSignal->height(), marginalSignalSet[i]->height());
+			ENSURE2(jointSignal->samples() == marginalSignalSet[i]->samples(),
+				jointSignal->samples(), marginalSignalSet[i]->samples());
 
-			jointDimension += marginalSignalSet[i]->width();
+			jointDimension += marginalSignalSet[i]->dimension();
 		}
 
-		ENSURE2(jointDimension == jointSignal->width(),
-			jointDimension, jointSignal->width());
+		ENSURE2(jointDimension == jointSignal->dimension(),
+			jointDimension, jointSignal->dimension());
 
 		Array<2, real> distanceArray(1, samples);
 
@@ -179,7 +179,7 @@ namespace Tim
 		for (integer i = 0;i < signals;++i)
 		{
 			const SignalPtr signal = marginalSignalSet[i];
-			const integer marginalDimension = signal->width();
+			const integer marginalDimension = signal->dimension();
 			
 			std::vector<PointD> marginalPointSet;
 			constructPointSet(signal, marginalPointSet);
@@ -202,7 +202,7 @@ namespace Tim
 #pragma omp parallel for reduction(+ : estimate)
 			for (integer j = 0;j < samples;++j)
 			{
-				estimate -= digamma<real>(countSet[j] + 1);
+				estimate -= digamma<real>(countSet[j]);
 			}
 		}
 
@@ -212,7 +212,7 @@ namespace Tim
 		// up being zero. However, this is not the case with other
 		// norms.
 		logVolumeSum -= 
-			normBijection.lnVolumeUnitSphere(jointSignal->width());
+			normBijection.lnVolumeUnitSphere(jointSignal->dimension());
 
 		estimate /= samples;
 		estimate += logVolumeSum;
@@ -248,8 +248,27 @@ namespace Tim
 		const NormBijection& normBijection)
 	{
 		std::vector<SignalPtr> marginalSignalSet;
-		splitDimensions(jointSignal, marginalSignalSet);
+		splitMarginal(jointSignal, marginalSignalSet);
 		
+		return Tim::mutualInformation(
+			jointSignal,
+			marginalSignalSet,
+			kNearest,
+			maxRelativeError,
+			normBijection);
+	}
+
+	template <typename NormBijection>
+	real mutualInformation(
+		const SignalPtr& jointSignal,
+		const SmallSet<integer>& partition,
+		integer kNearest,
+		real maxRelativeError,
+		const NormBijection& normBijection)
+	{
+		std::vector<SignalPtr> marginalSignalSet;
+		splitMarginal(jointSignal, partition, marginalSignalSet);
+
 		return Tim::mutualInformation(
 			jointSignal,
 			marginalSignalSet,
@@ -280,7 +299,7 @@ namespace Tim
 	template <typename NormBijection>
 	real mutualInformationFromEntropy(
 		const SignalPtr& jointSignal,
-		const std::vector<SignalPtr>& marginalSignalSet,
+		const SmallSet<integer>& partition,
 		integer kNearest,
 		real maxRelativeError,
 		const NormBijection& normBijection)
@@ -288,20 +307,23 @@ namespace Tim
 		ENSURE1(kNearest > 0, kNearest);
 		ENSURE1(maxRelativeError >= 0, maxRelativeError);
 
+		std::vector<SignalPtr> marginalSignalSet;
+		splitMarginal(jointSignal, partition, marginalSignalSet);
+
 		const integer signals = marginalSignalSet.size();
-		const integer samples = jointSignal->height();
+		const integer samples = jointSignal->samples();
 
 		integer jointDimension = 0;
 		for (integer i = 0;i < signals;++i)
 		{
-			ENSURE2(jointSignal->height() == marginalSignalSet[i]->height(),
-				jointSignal->height(), marginalSignalSet[i]->height());
+			ENSURE2(jointSignal->samples() == marginalSignalSet[i]->samples(),
+				jointSignal->samples(), marginalSignalSet[i]->samples());
 
-			jointDimension += marginalSignalSet[i]->width();
+			jointDimension += marginalSignalSet[i]->dimension();
 		}
 
-		ENSURE2(jointDimension == jointSignal->width(),
-			jointDimension, jointSignal->width());
+		ENSURE2(jointDimension == jointSignal->dimension(),
+			jointDimension, jointSignal->dimension());
 
 		real estimate = 0;
 

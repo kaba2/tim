@@ -69,32 +69,44 @@ namespace Tim
 		/*
 		We consider 'signal' as a set of 1d signals. Each such signal has
 		a continuous pdf. We approximate the mutual information
-		for two 1d signals from their samplings as follows:
+		for two 1d signals (called pairwise mutual information) 
+		from their samplings as follows:
 		1) Compute the min-max range of a signal.
 		2) Divide the min-max range uniformly into bins. Enumerate
 		these bins as integers in [0, 'bins'[.
 		3) Associate each real number with the bin it falls into, giving
-		a discrete distribution.
-		4) Repeat 1-3 for another signal.
-		5) Compute discrete mutual information for the two discrete distributions.
+		a piecewise-constant distribution.
+		4) Repeat 1-3 for the other signal.
+		5) Compute mutual information for the piecewise-constant distributions.
 		*/
 
-		const integer samples = signal->height();
-		const integer n = signal->width();
+		const integer samples = signal->samples();
+		const integer n = signal->dimension();
 
 		result.setSize(n, n);
 
-		const VectorD minBound = min(*signal);
-		const VectorD maxBound = max(*signal);
-		const VectorD binExtent = (maxBound - minBound) / bins;
+		VectorD minBound = min(signal->data());
+		VectorD maxBound = max(signal->data());
+		VectorD binExtent = (maxBound - minBound) / bins;
+		
+		// Extend the bin support by a half bin
+		// to guarantee that all samples fall into
+		// some bin. Strictly, this is not needed,
+		// but we want to make this function
+		// behave almost equivalent to the implementation
+		// in EEGLAB for comparison purposes.
+
+		minBound -= binExtent / 2;
+		maxBound += binExtent / 2;
+		binExtent = (maxBound - minBound) / bins;
 
 		Array<2, real> marginalHistogram(bins, n);
 
 		for (integer i = 0;i < n;++i)
 		{
 			computeHistogram(
-				signal->columnBegin(i),
-				signal->columnEnd(i),
+				signal->data().columnBegin(i),
+				signal->data().columnEnd(i),
 				minBound[i],
 				maxBound[i],
 				bins,
@@ -108,12 +120,12 @@ namespace Tim
 			for (integer j = i + 1;j < n;++j)
 			{
 				computeJointHistogram(
-					signal->columnBegin(i),
-					signal->columnEnd(i),
+					signal->data().columnBegin(i),
+					signal->data().columnEnd(i),
 					minBound[i],
 					maxBound[i],
-					signal->columnBegin(j),
-					signal->columnEnd(j),
+					signal->data().columnBegin(j),
+					signal->data().columnEnd(j),
 					minBound[j],
 					maxBound[j],
 					arrayView(jointHistogram));

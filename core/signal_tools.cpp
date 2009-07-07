@@ -12,15 +12,15 @@ namespace Tim
 	TIMCORE std::ostream& operator<<(
 		std::ostream& stream, const Signal& signal)
 	{
-		const integer dimension = signal.width();
-		const integer samples = signal.height();
+		const integer dimension = signal.dimension();
+		const integer samples = signal.samples();
 		if (dimension > 1)
 		{
 			for (integer i = 0;i < samples;++i)
 			{
 				for (integer j = 0;j < dimension;++j)
 				{
-					stream << signal[i][j] << " ";
+					stream << signal.data()[i][j] << " ";
 				}
 				stream << std::endl;
 			}
@@ -29,7 +29,7 @@ namespace Tim
 		{
 			for (integer i = 0;i < samples;++i)
 			{
-				stream << signal[i][0] << ", ";
+				stream << signal.data()[i][0] << ", ";
 			}
 		}
 
@@ -45,8 +45,8 @@ namespace Tim
 
 		SignalPtr signal = SignalPtr(new Signal(samples, dimension));
 
-		Signal::Iterator iter = signal->begin();
-		const Signal::Iterator iterEnd = signal->end();
+		MatrixD::Iterator iter = signal->data().begin();
+		const MatrixD::Iterator iterEnd = signal->data().end();
 
 		while(iter != iterEnd)
 		{
@@ -66,8 +66,8 @@ namespace Tim
 
 		SignalPtr signal = SignalPtr(new Signal(samples, dimension));
 
-		Signal::Iterator iter = signal->begin();
-		const Signal::Iterator iterEnd = signal->end();
+		MatrixD::Iterator iter = signal->data().begin();
+		const MatrixD::Iterator iterEnd = signal->data().end();
 
 		while(iter != iterEnd)
 		{
@@ -92,8 +92,8 @@ namespace Tim
 	
 		for (integer i = 0;i < samples;++i)
 		{
-			(*correlatedGaussian)[i] = 
-				correlationCholesky.lower() * (*correlatedGaussian)[i];
+			correlatedGaussian->data()[i] = 
+				correlationCholesky.lower() * correlatedGaussian->data()[i];
 		}
 
 		return correlatedGaussian;
@@ -110,8 +110,8 @@ namespace Tim
 
 		SignalPtr signal = SignalPtr(new Signal(samples, dimension));
 
-		Signal::Iterator iter = signal->begin();
-		const Signal::Iterator iterEnd = signal->end();
+		MatrixD::Iterator iter = signal->data().begin();
+		const MatrixD::Iterator iterEnd = signal->data().end();
 
 		while(iter != iterEnd)
 		{
@@ -122,20 +122,45 @@ namespace Tim
 		return signal;
 	}
 
-	TIMCORE void splitDimensions(
+	TIMCORE void splitMarginal(
 		const SignalPtr& jointSignal,
 		std::vector<SignalPtr>& marginalSet)
 	{
-		const integer dimension = jointSignal->width();
-		const integer n = jointSignal->height();
+		const integer dimension = jointSignal->dimension();
 
-		for (integer x = 0;x < dimension;++x)
+		SmallSet<integer> partition;
+		partition.reserve(dimension);
+
+		for (integer i = 0;i <= dimension;++i)
 		{
-			const SignalPtr signal = SignalPtr(new Signal(n, 1));
-			for (integer y = 0;y < n;++y)
-			{
-				(*signal)(y) = (*jointSignal)(y, x);
-			}
+			partition.insert(i);
+		}
+
+		Tim::splitMarginal(
+			jointSignal,
+			partition,
+			marginalSet);
+	}
+
+	TIMCORE void splitMarginal(
+		const SignalPtr& jointSignal,
+		const SmallSet<integer>& partition,
+		std::vector<SignalPtr>& marginalSet)
+	{
+		const integer dimension = jointSignal->dimension();
+		const integer samples = jointSignal->samples();
+		const integer signals = partition.size() - 1;
+
+		for (integer x = 0;x < signals;++x)
+		{
+			const integer marginalDimension = 
+				partition[x + 1] - partition[x];
+			ENSURE1(marginalDimension > 0, marginalDimension);
+
+			const SignalPtr signal = SignalPtr(new Signal(samples, marginalDimension));
+			signal->data() = jointSignal->data()(
+				Range(0, samples - 1), 
+				Range(partition[x], partition[x + 1] - 1));
 
 			marginalSet.push_back(signal);
 		}
@@ -149,15 +174,15 @@ namespace Tim
 			return SignalPtr();
 		}
 
-		const integer size = signalList.front()->height();
+		const integer size = signalList.front()->samples();
 
 		const integer signals = signalList.size();
 		integer bigDimension = 0;
 		for (integer i = 0;i < signals;++i)
 		{
-			bigDimension += signalList[i]->width();
-			ENSURE2(signalList[0]->height() == signalList[i]->height(), 
-				signalList[0]->height(), signalList[i]->height());
+			bigDimension += signalList[i]->dimension();
+			ENSURE2(signalList[0]->samples() == signalList[i]->samples(), 
+				signalList[0]->samples(), signalList[i]->samples());
 		}
 
 		SignalPtr bigSignal(new Signal(size, bigDimension));
@@ -166,12 +191,12 @@ namespace Tim
 
 		for (integer i = 0;i < signals;++i)
 		{
-			copy(signalList[i]->constView(),
-				subView(bigSignal->view(), 
+			copy(signalList[i]->data().constView(),
+				subView(bigSignal->data().view(), 
 				Rectangle2(0, dimensionOffset, size, 
-				dimensionOffset + signalList[i]->width())));
+				dimensionOffset + signalList[i]->dimension())));
 
-			dimensionOffset += signalList[i]->width();
+			dimensionOffset += signalList[i]->dimension();
 		}
 
 		return bigSignal;
@@ -181,15 +206,15 @@ namespace Tim
 		const SignalPtr& signal,
 		std::vector<PointD>& resultPointSet)
 	{
-		const integer dimension = signal->width();
-		const integer n = signal->height();
+		const integer dimension = signal->dimension();
+		const integer n = signal->samples();
 		
 		std::vector<PointD> pointSet;
 		pointSet.reserve(n);
 
 		for (integer i = 0;i < n;++i)
 		{
-			pointSet.push_back(PointD((*signal)[i]));
+			pointSet.push_back(PointD(signal->data()[i]));
 		}
 
 		pointSet.swap(resultPointSet);
@@ -199,17 +224,17 @@ namespace Tim
 		const SignalPtr& signal,
 		MatrixD& result)
 	{
-		const integer dimension = signal->width();
-		const integer samples = signal->height();
+		const integer dimension = signal->dimension();
+		const integer samples = signal->samples();
 
 		result.setSize(dimension, dimension);
 		result.set(0);
 
-		const VectorD mean = sum(*signal) / samples;
+		const VectorD mean = sum(signal->data()) / samples;
 
 		for (integer i = 0;i < samples;++i)
 		{
-			result += outerProduct((*signal)[i] - mean, (*signal)[i] - mean);
+			result += outerProduct(signal->data()[i] - mean, signal->data()[i] - mean);
 		}
 
 		result /= samples;
@@ -226,36 +251,39 @@ namespace Tim
 		//
 		// C = X X^T
 		//
-		// Problem: find a matrix L
+		// Problem: find an invertible matrix A
 		// by which the signal X transforms
-		// into a signal Y = LX 
+		// into a signal Y = AX 
 		// having identity covariance.
 		//
 		// Solution:
 		// 
 		// Y Y^T = I
 		// =>
-		// (LX) (LX)^T = I
+		// (AX) (AX)^T = I
 		// =>
-		// L X X^T L^T = I
+		// A X X^T A^T = I
 		// =>
-		// L C L^T = I
+		// A C A^T = I
 		// =>
-		// C = L^-1 L^-T
+		// C = A^-1 A^-T
 		// =>
-		// C^-T = L L^T
-		// => (C is symmetric)
-		// C^-1 = L L^T
+		// C^-1 = (A^-1 A^-T)^-1
 		// =>
-		// L = Cholesky(C^-1)
+		// C^-1 = A^T A
+
+		// One solution is given by:
+		// A^T = Cholesky(C^-1)
+		// =>
+		// A = Cholesky(C^-1)^T
 
 		const CholeskyDecompositionD invCholesky(
 			inverse(covariance));
 		
 		// Our samples are row vectors so we
-		// multiply by the transpose from the right.
+		// multiply by the A^T from the right.
 
-		*signal *= transpose(invCholesky.lower());
+		signal->data() *= invCholesky.lower();
 	}		
 
 }
