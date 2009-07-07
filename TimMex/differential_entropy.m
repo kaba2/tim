@@ -39,8 +39,8 @@ end
 % The limit for the dimension is arbitrary, but
 % protects for the case when the user accidentally
 % passes the transpose of the intended data.
-if size(S, 1) > 32
-    error('The height of S must be less than 32.');
+if size(S, 2) > 32
+    error('The width of S must be less than 32.');
 end
 
 if size(epsilon, 1) ~= 1 || ...

@@ -85,8 +85,8 @@ namespace Tim
 
 		result.setSize(n, n);
 
-		VectorD minBound = min(signal->data());
-		VectorD maxBound = max(signal->data());
+		VectorD minBound = min(transpose(signal->data()));
+		VectorD maxBound = max(transpose(signal->data()));
 		VectorD binExtent = (maxBound - minBound) / bins;
 		
 		// Extend the bin support by a half bin
@@ -105,8 +105,8 @@ namespace Tim
 		for (integer i = 0;i < n;++i)
 		{
 			computeHistogram(
-				signal->data().columnBegin(i),
-				signal->data().columnEnd(i),
+				signal->data().rowBegin(i),
+				signal->data().rowEnd(i),
 				minBound[i],
 				maxBound[i],
 				bins,
@@ -120,12 +120,12 @@ namespace Tim
 			for (integer j = i + 1;j < n;++j)
 			{
 				computeJointHistogram(
-					signal->data().columnBegin(i),
-					signal->data().columnEnd(i),
+					signal->data().rowBegin(i),
+					signal->data().rowEnd(i),
 					minBound[i],
 					maxBound[i],
-					signal->data().columnBegin(j),
-					signal->data().columnEnd(j),
+					signal->data().rowBegin(j),
+					signal->data().rowEnd(j),
 					minBound[j],
 					maxBound[j],
 					arrayView(jointHistogram));

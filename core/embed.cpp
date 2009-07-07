@@ -17,15 +17,13 @@ namespace Tim
 		const integer samples = 
 			(data.size() + (stride - 1)) / stride;
 
-		SignalPtr signal = SignalPtr(new Signal(samples, dimension));
+		SignalPtr signal = SignalPtr(new Signal(dimension, samples));
 
-		MatrixD::View view = signal->data().view();
-
-		for (integer i = 0;i < samples;++i)
+		for (integer i = 0;i < dimension;++i)
 		{
-			for (integer j = 0;j < dimension;++j)
+			for (integer j = 0;j < samples;++j)
 			{
-				view(j, i) = data[(i * dimension + j) * step];
+				signal->data()(i, j) = data[(i * samples + j) * step];
 			}
 		}
 
