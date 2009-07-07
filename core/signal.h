@@ -23,7 +23,31 @@ namespace Tim
 	be used to modify the signal.
 	*/
 
-	typedef MatrixD Signal;
+	class TIMCORE Signal
+	{
+	public:
+		// Using default copy constructor.
+		// Using default assignment.
+		// Using default destructor.
+
+		Signal();
+		Signal(integer samples, integer dimension,
+			real* dataToAlias);
+		Signal(integer samples, integer dimension);
+
+		void setName(const std::string& name);
+		const std::string& name() const;
+
+		integer dimension() const;
+		integer samples() const;
+
+		MatrixD& data();
+		const MatrixD& data() const;
+
+	private:
+		std::string name_;
+		MatrixD data_;
+	};
 
 	typedef boost::shared_ptr<Signal> SignalPtr;
 

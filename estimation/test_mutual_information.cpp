@@ -10,6 +10,8 @@
 #include <pastel/sys/string_tools.h>
 #include <pastel/sys/measuretable_tools.h>
 
+#include <iomanip>
+
 using namespace Tim;
 
 namespace
@@ -85,7 +87,7 @@ namespace
 
 		log() << "nD correlated gaussian cond-det covariances" << logNewLine;
 		{
-			const integer dimension = 10;
+			const integer dimension = 5;
 			for (integer i = 0;i < 10;++i)
 			{
 				MatrixD covariance(dimension, dimension);
@@ -101,13 +103,13 @@ namespace
 				const real det = 2;
 				*/
 
+				/*
 				setRandomMatrix(covariance);
 				covariance *= transpose(covariance);
+				*/
 
-				/*
 				setRandomSymmetricPositiveDefinite(
 					det, cond, covariance);
-				*/
 
 				/*
 				log() << "cond = " << conditionManhattan(covariance)
@@ -119,12 +121,26 @@ namespace
 
 				ENSURE(cholesky.succeeded());
 
-				//std::cout << covariance << std::endl;
+				std::cout << std::fixed << std::setprecision(4);
+				
+				/*
+				std::cout << covariance << std::endl;
 
-				//std::cout << cholesky.lower() << std::endl;
+				std::cout << cholesky.lower() << std::endl;
+
+				std::cout << determinant(cholesky) << ", " << det << std::endl;
+				*/
 
 				const SignalPtr jointSignal = 
 					generateCorrelatedGaussian(samples, dimension, cholesky);
+
+				normalizeCovariance(jointSignal, covariance);
+
+				/*
+				MatrixD sampleCovariance;
+				computeCovariance(jointSignal, sampleCovariance);
+				std::cout << sampleCovariance << std::endl;
+				*/
 
 				testMutualInformationCase(
 					"Cor.Gauss. det " + realToString(det) +
@@ -135,12 +151,6 @@ namespace
 					normBijection,
 					correlatedGaussianMutualInformation(
 					diagonalProduct(covariance), determinant(cholesky)));
-
-				/*
-				MatrixD sampleCovariance;
-				computeCovariance(jointSignal, sampleCovariance);
-				std::cout << sampleCovariance << std::endl;
-				*/
 			}
 		}
 	}
@@ -177,10 +187,10 @@ namespace
 		measureTable.addHorizontalSeparator(11);
 		measureTable.addHorizontalSeparator(16);
 		measureTable.addHorizontalSeparator(21);
-		measureTable.addVerticalSeparator(0);
-		measureTable.addVerticalSeparator(2);
-		measureTable.addVerticalSeparator(4);
-		measureTable.addVerticalSeparator(7);
+		measureTable.addVerticalSeparator(Samples_Column);
+		measureTable.addVerticalSeparator(ElTime_Column);
+		measureTable.addVerticalSeparator(ElMi_Column);
+		measureTable.addVerticalSeparator(CorrectMi_Column + 1);
 
 		integer experiment = 1;
 		const integer kNearest = 1;

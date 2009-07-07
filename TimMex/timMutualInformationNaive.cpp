@@ -1,6 +1,6 @@
 #include "mex.h"
 
-#include "tim/core/differential_entropy.h"
+#include "tim/core/mutual_information.h"
 
 #include <boost/static_assert.hpp>
 
@@ -23,15 +23,15 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	const mwSize height = mxGetN(inputSet[0]);
 
 	real* rawData = mxGetPr(inputSet[0]);
-	real maxRelativeError = *mxGetPr(inputSet[1]);
-	integer kNearest = *mxGetPr(inputSet[2]);
+	integer bins = *mxGetPr(inputSet[1]);
 
 	const SignalPtr data = SignalPtr(
-		new Signal(height, width, rawData));
+		new Signal(height, width, withAliasing(rawData)));
 	
-	outputSet[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
+	outputSet[0] = mxCreateDoubleMatrix(width, width, mxREAL);
 	real* rawResult = mxGetPr(outputSet[0]);
 
-	*rawResult = differentialEntropy(data, kNearest, 
-		maxRelativeError, EuclideanNormBijection<real>());
+	MatrixD result(width, width, withAliasing(rawResult));
+
+	mutualInformationNaive(data, bins, result);
 }

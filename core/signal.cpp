@@ -6,51 +6,53 @@
 namespace Tim
 {
 
-	/*
-
-	Signal::Signal(integer dimension, integer size, real defaultData)
-		: data_(size, dimension)
+	Signal::Signal()
+		: name_()
+		, data_()
 	{
-		ENSURE1(dimension >= 0, dimension);
-		ENSURE1(size >= 0, size);
-
-		data_.set(defaultData);
 	}
 
-	void Signal::swap(Signal& that)
+	Signal::Signal(integer samples, integer dimension,
+		real* dataToAlias)
+		: name_()
+		, data_(samples, dimension, withAliasing(dataToAlias))
 	{
-		data_.swap(that.data_);
 	}
 
-	integer Signal::size() const
+	Signal::Signal(integer samples, integer dimension)
+		: name_()
+		, data_(samples, dimension)
 	{
-		return data_.height();
 	}
 
-	integer Signal::width() const
+	void Signal::setName(const std::string& name)
+	{
+		name_ = name;
+	}
+
+	const std::string& Signal::name() const
+	{
+		return name_;
+	}
+
+	integer Signal::dimension() const
 	{
 		return data_.width();
 	}
 
-	SignalView Signal::view()
+	integer Signal::samples() const
 	{
-		return data_.view();
+		return data_.height();
 	}
 
-	ConstSignalView Signal::constView() const
+	MatrixD& Signal::data()
 	{
-		return data_.constView();
+		return data_;
 	}
 
-	MatrixD::Row Signal::operator[](integer index)
+	const MatrixD& Signal::data() const
 	{
-		return data_[index];
+		return data_;
 	}
-
-	MatrixD::ConstRow Signal::operator[](integer index) const
-	{
-		return data_[index];
-	}
-	*/
 
 }

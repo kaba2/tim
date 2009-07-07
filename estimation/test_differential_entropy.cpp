@@ -29,8 +29,8 @@ namespace
 		/*
 		const real radiusRatio = 
 			std::exp((
-			lnVolumeUnitSphereInfinity<real>(signal->width()) - 
-			normBijection.lnVolumeUnitSphere(signal->width())) / signal->width());
+			lnVolumeUnitSphereInfinity<real>(signal->dimension()) - 
+			normBijection.lnVolumeUnitSphere(signal->dimension())) / signal->dimension());
 		const real maxRelativeError = 3 * radiusRatio;
 		log() << radiusRatio << logNewLine;
 		*/

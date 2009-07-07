@@ -19,7 +19,7 @@ namespace Tim
 
 		SignalPtr signal = SignalPtr(new Signal(samples, dimension));
 
-		Signal::View view = signal->view();
+		MatrixD::View view = signal->data().view();
 
 		for (integer i = 0;i < samples;++i)
 		{
