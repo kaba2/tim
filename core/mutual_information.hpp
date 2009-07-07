@@ -6,7 +6,6 @@
 
 #include <pastel/geometry/search_all_neighbors_kdtree.h>
 #include <pastel/geometry/count_all_neighbors_kdtree.h>
-#include <pastel/geometry/count_all_neighbors_bruteforce.h>
 #include <pastel/geometry/distance_point_point.h>
 
 namespace Tim
@@ -248,7 +247,7 @@ namespace Tim
 		const NormBijection& normBijection)
 	{
 		std::vector<SignalPtr> marginalSignalSet;
-		splitMarginal(jointSignal, marginalSignalSet);
+		slice(jointSignal, marginalSignalSet);
 		
 		return Tim::mutualInformation(
 			jointSignal,
@@ -267,7 +266,7 @@ namespace Tim
 		const NormBijection& normBijection)
 	{
 		std::vector<SignalPtr> marginalSignalSet;
-		splitMarginal(jointSignal, partition, marginalSignalSet);
+		slice(jointSignal, partition, marginalSignalSet);
 
 		return Tim::mutualInformation(
 			jointSignal,
@@ -308,7 +307,7 @@ namespace Tim
 		ENSURE1(maxRelativeError >= 0, maxRelativeError);
 
 		std::vector<SignalPtr> marginalSignalSet;
-		splitMarginal(jointSignal, partition, marginalSignalSet);
+		slice(jointSignal, partition, marginalSignalSet);
 
 		const integer signals = marginalSignalSet.size();
 		const integer samples = jointSignal->samples();

@@ -12,16 +12,7 @@
 namespace Tim
 {
 
-	//! A finite sequence in R^n.
-	/*!
-	A signal is a finite sequence (m-tuple) in R^n. 
-	Its dimension is n. Its size is m. The data
-	of a signal can be accessed in two ways:
-	via a 2-dimensional nxm array view, or
-	as a sequence of samples in R^n.
-	Both refer to the same memory and thus can
-	be used to modify the signal.
-	*/
+	//! A time series.
 
 	class TIMCORE Signal
 	{

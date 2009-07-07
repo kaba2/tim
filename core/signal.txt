@@ -1,0 +1,42 @@
+Signal
+======
+
+Theory
+------
+
+The Signal class represents a time-series in R^n. If the number of stored 
+samples from the time series is m, the data is stored as an nxm-matrix. It 
+is the intent that this data is manipulated directly via the Matrix class, 
+see its documentation in the Pastel library.
+
+Signal aliasing
+---------------
+
+A Signal can use existing memory, given extents and a pointer to memory.
+This is called aliasing. You can use this ability to import data from
+other applications. However, remember that the data is assumed to be
+in row-major order (for example, Matlab uses column-major order).
+
+Fast signal splitting
+---------------------
+
+Because of the storage guarantees that the Matrix class makes (sequential 
+row-major ordering), it is possible in constant time to 'slice' signals
+in dimensions by aliasing. For example, if a signal is 3-dimensional, then 
+it is possible to form two new signals with dimensions 1 and 2 which share 
+to the same memory. Use the function 'slice' to achieve this.
+
+Matrix interface
+----------------
+
+The signal data is accessed directly as a Matrix object. The
+Matrix class has a rich interface for the modification of signals.
+See the documentation for the Matrix class in Pastel library.
+Here we just mention the most important ones:
+
+* A Matrix can be accessed via 2d (i, j)-indexing .
+* A Matrix can be accessed as a 1d sequence of values via iterators
+to enable the use of STL algorithms where appropriate.
+* Submatrices of a Matrix can be accessed in Matlab style, e.g.
+M(Range(0, 1), Range(0, 10, 2)).
+
