@@ -19,14 +19,14 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	// and height the wrong way. The reason
 	// is that Matlab uses column-major storage
 	// while we use row-major storage.
-	const mwSize samples = mxGetM(inputSet[0]);
-	const mwSize dimension = mxGetN(inputSet[0]);
+	const mwSize samples = mxGetN(inputSet[0]);
+	const mwSize dimension = mxGetM(inputSet[0]);
 
 	real* rawData = mxGetPr(inputSet[0]);
 	integer bins = *mxGetPr(inputSet[1]);
 
 	const SignalPtr data = SignalPtr(
-		new Signal(dimension, samples, withAliasing(rawData)));
+		new Signal(samples, dimension, withAliasing(rawData)));
 	
 	outputSet[0] = mxCreateDoubleMatrix(dimension, dimension, mxREAL);
 	real* rawResult = mxGetPr(outputSet[0]);

@@ -5,7 +5,7 @@
 
 #include <pastel/math/matrix.h>
 
-#include <boost/shared_ptr.hpp>
+#include <pastel/sys/countedptr.h>
 
 #include <vector>
 
@@ -15,6 +15,7 @@ namespace Tim
 	//! A time series.
 
 	class TIMCORE Signal
+		: public ReferenceCounted
 	{
 	public:
 		// Using default copy constructor.
@@ -22,9 +23,9 @@ namespace Tim
 		// Using default destructor.
 
 		Signal();
-		Signal(integer dimension, integer samples,
+		Signal(integer samples, integer dimension);
+		Signal(integer samples, integer dimension,
 			real* dataToAlias);
-		Signal(integer dimension, integer samples);
 
 		void setName(const std::string& name);
 		const std::string& name() const;
@@ -40,7 +41,7 @@ namespace Tim
 		MatrixD data_;
 	};
 
-	typedef boost::shared_ptr<Signal> SignalPtr;
+	typedef CountedPtr<Signal> SignalPtr;
 
 }
 

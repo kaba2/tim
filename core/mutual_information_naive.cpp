@@ -1,64 +1,36 @@
-#include "tim/core/mutual_information.h"
-#include "tim/core/signal_tools.h"
-
-#include <pastel/sys/histogram.h>
-#include <pastel/sys/string_tools.h>
+#include "tim/core/mutual_information_naive.h"
 
 #include <pastel/math/matrix_tools.h>
-#include <pastel/math/cholesky_decomposition_tools.h>
 
-#include <pastel/gfx/pcx.h>
-#include <pastel/gfx/image_tools.h>
+#include <pastel/sys/histogram.h>
 
 namespace Tim
 {
 
-	TIMCORE real correlatedGaussianMutualInformation(
-		real marginalCovarianceDeterminantProduct,
-		real jointCovarianceDeterminant)
+	namespace
 	{
-		/*
-		The differential entropy of a multivariate gaussian
-		with covariance C is given by:
 
-		H(x) = 0.5 log((2 pi e)^d |C|)
-
-		This is used to derive mutual information (total correlation)
-		between x = (x_1, ..., x_m) and x_i's. Here x_i in R^(d_i),
-		x in R^d, and sum_i d_i = d.
-		
-		MI = sum_i[H(x_i)] - H(x)
-		= 0.5 sum_i[log((2 pi e)^d_i |C_i|)] - 0.5 log((2 pi e)^d |C|)
-		= 0.5 sum_i log(|C_i|) + 0.5 sum_i[log((2 pi e)^d_i)] - 
-		0.5 log((2 pi e)^d) - 0.5 log(|C|)
-		= 0.5 sum_i log(|C_i|) - 0.5 log(|C|)
-		= 0.5 log((|C_1| * ... * |C_m|) / |C|)
-		*/
-		
-		return 0.5 * std::log(
-			marginalCovarianceDeterminantProduct /
-			jointCovarianceDeterminant);
-	}
-
-	template <typename ConstIterator>
-	real entropy(
-		const ConstIterator& begin,
-		const ConstIterator& end,
-		real binSize)
-	{
-		real result = 0;
-		ConstIterator iter = begin;
-		while(iter != end)
+		template <typename ConstIterator>
+		real entropy(
+			const ConstIterator& begin,
+			const ConstIterator& end,
+			real binSize)
 		{
-			const real value = *iter;
-			if (value > 0)
+			real result = 0;
+			ConstIterator iter = begin;
+			while(iter != end)
 			{
-				result -= value * std::log(value) * binSize;
+				const real value = *iter;
+				if (value > 0)
+				{
+					result -= value * std::log(value) * binSize;
+				}
+				++iter;
 			}
-			++iter;
+			
+			return result;
 		}
-		
-		return result;
+
 	}
 
 	TIMCORE void mutualInformationNaive(
@@ -85,8 +57,8 @@ namespace Tim
 
 		result.setSize(n, n);
 
-		VectorD minBound = min(transpose(signal->data()));
-		VectorD maxBound = max(transpose(signal->data()));
+		VectorD minBound = min(signal->data());
+		VectorD maxBound = max(signal->data());
 		VectorD binExtent = (maxBound - minBound) / bins;
 		
 		// Extend the bin support by a half bin
@@ -105,8 +77,8 @@ namespace Tim
 		for (integer i = 0;i < n;++i)
 		{
 			computeHistogram(
-				signal->data().rowBegin(i),
-				signal->data().rowEnd(i),
+				signal->data().columnBegin(i),
+				signal->data().columnEnd(i),
 				minBound[i],
 				maxBound[i],
 				bins,
@@ -120,12 +92,12 @@ namespace Tim
 			for (integer j = i + 1;j < n;++j)
 			{
 				computeJointHistogram(
-					signal->data().rowBegin(i),
-					signal->data().rowEnd(i),
+					signal->data().columnBegin(i),
+					signal->data().columnEnd(i),
 					minBound[i],
 					maxBound[i],
-					signal->data().rowBegin(j),
-					signal->data().rowEnd(j),
+					signal->data().columnBegin(j),
+					signal->data().columnEnd(j),
 					minBound[j],
 					maxBound[j],
 					arrayView(jointHistogram));
@@ -168,4 +140,3 @@ namespace Tim
 	}
 
 }
-

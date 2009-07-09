@@ -68,11 +68,10 @@ namespace Tim
 
 	//! Merges signals into a higher-dimensional signal.
 	/*!
-	Preconditions:
-	All signals must have the same number of samples.
-
 	Note that in contrast to slicing, merging needs 
 	to allocate new memory and copy the signals.
+	The output signal will have as many samples as
+	the input signal with the least number of samples.
 	*/
 	TIMCORE SignalPtr merge(
 		const std::vector<SignalPtr>& signalList);
@@ -119,10 +118,17 @@ namespace Tim
 		integer dimensionBegin,
 		integer dimensionEnd);
 
-	//! Creates an std::vector of the signal samples.
+	//! Creates a point set of the signal samples.
 	TIMCORE void constructPointSet(
 		const SignalPtr& signal,
-		std::vector<PointD>& resultPointSet);
+		std::vector<PointD>& pointSet);
+
+	//! Creates a point set of the signal samples.
+	TIMCORE void constructPointSet(
+		const SignalPtr& signal,
+		integer dimensionBegin,
+		integer dimensionEnd,
+		std::vector<PointD>& pointSet);
 
 	//! Computes the covariance of the signal samples.
 	TIMCORE void computeCovariance(
