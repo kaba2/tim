@@ -8,24 +8,22 @@
 namespace Tim
 {
 
-	//! Delay-embeds a signal to a higher dimensional space.
+	//! Delay-embeds a signal into a higher dimensional space.
 	/*!
 	Preconditions:
 	k > 0
 	shift >= 0
 	step >= 1
 
-	Let 
-	t0 in Z be the embedding shift ('shift')
-	dt in Z be the embedding step ('step')
-	k in Z be the embedding factor ('k')
-	x be a signal N -> R^n ('signal')
-
-	Then the delay embedding of x is given by:
-	y(t) = (x(t0 + dt t), x(t0 + dt (t + 1)), ..., x(t0 + dt (t + k - 1)))
-	where
-	y is a signal N -> R^(k n) (not (R^k)^n: the samples from x are concatenated).
-	The embedding dimension is thus given by kn.
+	Given is a signal S : Z -> R^n.
+	Form a signal R : Z -> R^n : 
+	R(t) = (S(t0 + t), S(t0 + t + dt), ..., S(t0 + t + dt * (k - 1)).
+	
+	Then R is the delay-embedding and
+	t0 is the embedding shift
+	dt is the embedding delay
+	k is the 'embedding factor'
+	d = k n is the embedding dimension
 	*/
 
 	TIMCORE SignalPtr delayEmbed(

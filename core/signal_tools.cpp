@@ -20,7 +20,7 @@ namespace Tim
 			{
 				for (integer i = 0;i < dimension;++i)
 				{
-					stream << signal.data()(i, j) << " ";
+					stream << signal.data()(j, i) << " ";
 				}
 				stream << std::endl;
 			}
@@ -29,7 +29,7 @@ namespace Tim
 		{
 			for (integer j = 0;j < samples;++j)
 			{
-				stream << signal.data()(0, j) << ", ";
+				stream << signal.data()(j, 0) << ", ";
 			}
 		}
 
@@ -45,7 +45,7 @@ namespace Tim
 		ENSURE1(dimension > 0, dimension);
 		ENSURE1(samples >= 0, samples);
 
-		SignalPtr signal = SignalPtr(new Signal(dimension, samples));
+		SignalPtr signal = SignalPtr(new Signal(samples, dimension));
 
 		MatrixD::Iterator iter = signal->data().begin();
 		const MatrixD::Iterator iterEnd = signal->data().end();
@@ -66,7 +66,7 @@ namespace Tim
 		ENSURE1(dimension > 0, dimension);
 		ENSURE1(samples >= 0, samples);
 
-		SignalPtr signal = SignalPtr(new Signal(dimension, samples));
+		SignalPtr signal = SignalPtr(new Signal(samples, dimension));
 
 		MatrixD::Iterator iter = signal->data().begin();
 		const MatrixD::Iterator iterEnd = signal->data().end();
@@ -92,7 +92,7 @@ namespace Tim
 
 		SignalPtr correlatedGaussian = generateGaussian(samples, dimension);
 
-		correlatedGaussian->data() = covarianceCholesky.lower() * correlatedGaussian->data();
+		correlatedGaussian->data() *= transpose(covarianceCholesky.lower());
 
 		return correlatedGaussian;
 	}
@@ -106,7 +106,7 @@ namespace Tim
 		ENSURE1(dimension > 0, dimension);
 		ENSURE1(samples >= 0, samples);
 
-		SignalPtr signal = SignalPtr(new Signal(dimension, samples));
+		SignalPtr signal = SignalPtr(new Signal(samples, dimension));
 
 		MatrixD::Iterator iter = signal->data().begin();
 		const MatrixD::Iterator iterEnd = signal->data().end();
@@ -168,10 +168,16 @@ namespace Tim
 		ENSURE2(dimensionEnd <= signal->dimension(), dimensionEnd, signal->dimension());
 
 		const integer dimension = dimensionEnd - dimensionBegin;
+		const integer samples = signal->samples();
 
-		return SignalPtr(new Signal(
-			dimension, signal->samples(), 
-			&signal->data()(dimensionBegin, 0)));
+		SignalPtr sliceSignal(new Signal(
+			signal->samples(), dimension));
+
+		sliceSignal->data() = signal->data()(
+			Range(0, samples - 1), 
+			Range(dimensionBegin, dimensionEnd - 1));
+
+		return sliceSignal;
 	}
 
 	TIMCORE SignalPtr merge(
@@ -182,29 +188,39 @@ namespace Tim
 			return SignalPtr();
 		}
 
-		const integer samples = signalList.front()->samples();
+		integer samples = signalList.front()->samples();
 
 		const integer signals = signalList.size();
 		integer jointDimension = 0;
 		for (integer i = 0;i < signals;++i)
 		{
-			jointDimension += signalList[i]->dimension();
-			ENSURE2(signalList[0]->samples() == signalList[i]->samples(), 
-				signalList[0]->samples(), signalList[i]->samples());
+			const SignalPtr signal = signalList[i];
+			jointDimension += signal->dimension();
+			if (signal->samples() < samples)
+			{
+				samples = signal->samples();
+			}
 		}
 
-		SignalPtr jointSignal(new Signal(jointDimension, samples));
+		SignalPtr jointSignal(new Signal(samples, jointDimension));
 		
 		integer dimensionOffset = 0;
 
-		for (integer i = 0;i < signals;++i)
+		for (integer j = 0;j < signals;++j)
 		{
-			std::copy(
-				signalList[i]->data().begin(),
-				signalList[i]->data().end(),
-				jointSignal->data().rowBegin(dimensionOffset));
+			const SignalPtr signal = signalList[j];
+			const integer dimension = signal->dimension();
+			const integer samples = signal->samples();
 
-			dimensionOffset += signalList[i]->dimension();
+			for (integer i = 0;i < samples;++i)
+			{
+				std::copy(
+					signal->data().rowBegin(i),
+					signal->data().rowEnd(i),
+					jointSignal->data().rowBegin(i) + dimensionOffset);
+			}
+
+			dimensionOffset += dimension;
 		}
 
 		return jointSignal;
@@ -223,26 +239,38 @@ namespace Tim
 
 	TIMCORE void constructPointSet(
 		const SignalPtr& signal,
-		std::vector<PointD>& resultPointSet)
+		std::vector<PointD>& pointSet)
 	{
-		const integer dimension = signal->dimension();
+		Tim::constructPointSet(
+			signal,
+			0, signal->dimension(),
+			pointSet);
+	}
+
+	TIMCORE void constructPointSet(
+		const SignalPtr& signal,
+		integer dimensionBegin,
+		integer dimensionEnd,
+		std::vector<PointD>& pointSet)
+	{
+		ENSURE2(dimensionBegin < dimensionEnd,
+			dimensionBegin, dimensionEnd);
+		ENSURE1(dimensionBegin >= 0, dimensionBegin);
+		ENSURE2(dimensionEnd <= signal->dimension(), 
+			dimensionEnd, signal->dimension());
+
+		const integer dimension = dimensionEnd - dimensionBegin;
 		const integer n = signal->samples();
 		
-		std::vector<PointD> pointSet;
-		pointSet.reserve(n);
+		pointSet.resize(n);
 
-		PointD point(ofDimension(dimension));
-		for (integer j = 0;j < n;++j)
+		for (integer i = 0;i < n;++i)
 		{
-			for (integer i = 0;i < dimension;++i)
-			{
-				point[i] = signal->data()(i, j);
-			}
+			PointD point(ofDimension(dimension),
+				withAliasing(&signal->data()(i, dimensionBegin)));
 
-			pointSet.push_back(point);
+			pointSet[i].swap(point);
 		}
-
-		pointSet.swap(resultPointSet);
 	}
 
 	TIMCORE void computeCovariance(
@@ -255,7 +283,7 @@ namespace Tim
 		result.setSize(dimension, dimension);
 		result.set(0);
 
-		const VectorD mean = sum(transpose(signal->data())) / samples;
+		const VectorD mean = sum(signal->data()) / samples;
 
 		result = (signal->data() - outerProduct(mean, VectorConstant<Dynamic, real>(1, samples))) * 
 			transpose(signal->data() - outerProduct(mean, VectorConstant<Dynamic, real>(1, samples)));
@@ -302,7 +330,10 @@ namespace Tim
 		const CholeskyDecompositionD invCholesky(
 			inverse(covariance));
 		
-		signal->data() = transpose(invCholesky.lower()) * signal->data();
+		// The samples are row vectors, so we
+		// multiply with the transpose from the right.
+
+		signal->data() *= invCholesky.lower();
 	}		
 
 }

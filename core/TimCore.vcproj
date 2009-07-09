@@ -201,19 +201,35 @@
 			>
 		</File>
 		<File
-			RelativePath=".\multivariate_transfer_entropy.h"
-			>
-		</File>
-		<File
-			RelativePath=".\mutual_information.cpp"
-			>
-		</File>
-		<File
 			RelativePath=".\mutual_information.h"
 			>
 		</File>
 		<File
-			RelativePath=".\mutual_information.hpp"
+			RelativePath=".\mutual_information_analytic.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\mutual_information_analytic.h"
+			>
+		</File>
+		<File
+			RelativePath=".\mutual_information_kraskow.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\mutual_information_kraskow.h"
+			>
+		</File>
+		<File
+			RelativePath=".\mutual_information_naive.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\mutual_information_naive.h"
+			>
+		</File>
+		<File
+			RelativePath=".\mutual_information_naive.hpp"
 			>
 		</File>
 		<File
@@ -262,6 +278,14 @@
 		</File>
 		<File
 			RelativePath=".\timcore_library.h"
+			>
+		</File>
+		<File
+			RelativePath=".\transfer_entropy.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\transfer_entropy.h"
 			>
 		</File>
 	</Files>

@@ -19,20 +19,17 @@ using namespace Tim;
 namespace
 {
 
-	template <typename NormBijection>
 	void testMutualInformationCase(
 		const std::string& name,
 		const SignalPtr& jointSignal,
 		integer kNearest,
 		real maxRelativeError,
-		const NormBijection& normBijection,
 		real correctMi)
 	{
 		const real mi = mutualInformation(
 			jointSignal,
 			kNearest,
-			maxRelativeError,
-			normBijection);
+			maxRelativeError);
 
 		log() << name << ": " << mi
 			<< " (" << mi - correctMi << ")"
@@ -43,11 +40,9 @@ namespace
 	{
 		log() << "Mutual information estimates: " << logNewLine;
 
-		const integer samples = 10000;
+		const integer samples = 100000;
 		const integer kNearest = 1;
 		const real maxRelativeError = 0;
-		//const EuclideanNormBijection<real> normBijection;
-		const InfinityNormBijection<real> normBijection;
 
 		log() << "2d correlated gaussian" << logNewLine;
 
@@ -81,7 +76,6 @@ namespace
 					jointSignal,
 					kNearest,
 					maxRelativeError,
-					normBijection,
 					correlatedGaussianMutualInformation(
 					diagonalProduct(covariance), determinant(cholesky)));
 			}
@@ -136,7 +130,7 @@ namespace
 				const SignalPtr jointSignal = 
 					generateCorrelatedGaussian(samples, dimension, cholesky);
 
-				normalizeCovariance(jointSignal, covariance);
+				//normalizeCovariance(jointSignal, covariance);
 
 				/*
 				MatrixD sampleCovariance;
@@ -150,7 +144,6 @@ namespace
 					jointSignal,
 					kNearest,
 					maxRelativeError,
-					normBijection,
 					correlatedGaussianMutualInformation(
 					diagonalProduct(covariance), determinant(cholesky)));
 			}
@@ -198,7 +191,6 @@ namespace
 		const integer kNearest = 1;
 		const integer dimension = 2;
 		const real maxRelativeError = 0;
-		const InfinityNormBijection<real> normBijection;
 		for (integer i = 0;i < 4;++i)
 		{
 			const integer samples = 100 * (integer)std::pow((real)10, (real)i);
@@ -237,8 +229,7 @@ namespace
 				const real mi = mutualInformation(
 					jointSignal,
 					kNearest,
-					maxRelativeError,
-					normBijection);
+					maxRelativeError);
 				timer.store();
 
 				measureTable(TimTime_Column, experiment).text() = 
