@@ -8,20 +8,30 @@
 namespace Tim
 {
 
-	//! Delay-embeds a signal to a high-dimensional space.
+	//! Delay-embeds a signal to a higher dimensional space.
 	/*!
 	Preconditions:
-	dimension > 0
+	k > 0
+	shift >= 0
 	step >= 1
 
-	Delay embedding constructs a vector set 
-	{v_1, ..., v_m} in R^n by
-	v_i[j] = data[(i * n + j) * step]
+	Let 
+	t0 in Z be the embedding shift ('shift')
+	dt in Z be the embedding step ('step')
+	k in Z be the embedding factor ('k')
+	x be a signal N -> R^n ('signal')
+
+	Then the delay embedding of x is given by:
+	y(t) = (x(t0 + dt t), x(t0 + dt (t + 1)), ..., x(t0 + dt (t + k - 1)))
+	where
+	y is a signal N -> R^(k n) (not (R^k)^n: the samples from x are concatenated).
+	The embedding dimension is thus given by kn.
 	*/
 
 	TIMCORE SignalPtr delayEmbed(
-		const std::vector<real>& data,
-		integer dimension,
+		const SignalPtr& signal,
+		integer k,
+		integer shift = 0,
 		integer step = 1);
 
 }

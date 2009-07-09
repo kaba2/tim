@@ -201,6 +201,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\multivariate_transfer_entropy.h"
+			>
+		</File>
+		<File
 			RelativePath=".\mutual_information.cpp"
 			>
 		</File>

@@ -3,6 +3,7 @@
 #include <pastel/device/devicesystem.h>
 
 #include <pastel/sys/log_all.h>
+#include <pastel/sys/testreport.h>
 
 #include <iostream>
 
@@ -19,7 +20,7 @@ int estimationMain()
 	log().addObserver(LogObserverPtr(new FileLogObserver("log.txt")));
 
 	timTestList().console();
-	//timTestList().run("nearest_performance");
+	generateTestReport(timTestReport(), log());
 
 	deviceSystem().deInitialize();
 

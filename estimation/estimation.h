@@ -3,6 +3,7 @@
 
 #include <pastel/sys/testrunner.h>
 #include <pastel/sys/callfunction.h>
+#include <pastel/sys/testsuite.h>
 
 #include "tim/core/mytypes.h"
 
@@ -15,6 +16,11 @@ namespace Tim
 		return timTestRunner;
 	}
 
+	inline Pastel::TestReport& timTestReport()
+	{
+		static Pastel::TestReport theTestReport("Tim");
+		return theTestReport;
+	}
 
 }
 

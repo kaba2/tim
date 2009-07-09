@@ -1,58 +1,139 @@
 #include "estimation.h"
 
 #include "tim/core/signal_tools.h"
+#include "tim/core/mutual_information.h"
+#include "tim/core/embed.h"
 
 #include <pastel/sys/view_all.h>
 #include <pastel/sys/random.h>
 #include <pastel/sys/string_tools.h>
-
-#include "tim/core/mutual_information.h"
 
 using namespace Tim;
 
 namespace
 {
 
-	void testSignal()
+	class SignalTest
+		: public TestSuite
 	{
-		// Create a signal of dimension 4
-		// and of size 10.
-
-		const SignalPtr signal = 
-			SignalPtr(new Signal(4, 10));
-
-		signal->setName("Experiment 1");
-
-		// The signals can be output to a stream
-		// to see the contents.
-
-		std::cout << *signal << std::endl;
-
-		const integer dimension = signal->dimension();
-		const integer samples = signal->samples();
-
-		// The most primitive way to view the signal data
-		// is as a collection of numbers. One obtains
-		// the element at (y, x)
-
-		for (integer i = 0;i < dimension;++i)
+	public:
+		SignalTest()
+			: TestSuite(&timTestReport())
 		{
-			for (integer j = 0;j < samples;++j)
-			{
-				signal->data()(i, j) = i * j;
-			}
 		}
 
-		std::cout << *signal << std::endl;
-	}
+		virtual void run()
+		{
+			testEmbed();
+			testSplit();
+		}
 
-	void testSplit()
+		void testSplit()
+		{
+			SignalPtr xy = 
+				SignalPtr(new Signal(3, 5));
+
+			xy->data() |=
+				0, 1, 2, 3, 4,
+				5, 6, 7, 8, 9,
+				10, 11, 12, 13, 14;
+
+			SignalPtr x = slice(xy, 0, 1);
+			SignalPtr xCorrect =
+				SignalPtr(new Signal(1, 5));
+			xCorrect->data() |=
+				0, 1, 2, 3, 4;
+
+			TEST_ENSURE(x->data() == xCorrect->data());
+
+			SignalPtr y = slice(xy, 1, 3);
+			SignalPtr yCorrect =
+				SignalPtr(new Signal(2, 5));
+			yCorrect->data() |=
+				5, 6, 7, 8, 9,
+				10, 11, 12, 13, 14;
+
+			TEST_ENSURE(y->data() == yCorrect->data());
+		}
+
+		void testEmbed()
+		{
+			SignalPtr x = 
+				SignalPtr(new Signal(1, 15));
+			x->data() |= 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14;
+
+			{
+				SignalPtr y = delayEmbed(x, 3);
+				SignalPtr yCorrect =
+					SignalPtr(new Signal(3, 13));
+				yCorrect->data() |=
+					0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+					1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
+					2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14;
+
+				TEST_ENSURE(y->data() == yCorrect->data());
+			}
+
+			{
+				SignalPtr y = delayEmbed(x, 3, 1);
+				SignalPtr yCorrect =
+					SignalPtr(new Signal(3, 12));
+				yCorrect->data() |=
+					1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+					2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
+					3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14;
+
+				TEST_ENSURE(y->data() == yCorrect->data());
+			}
+
+			{
+				SignalPtr y = delayEmbed(x, 3, 2);
+				SignalPtr yCorrect =
+					SignalPtr(new Signal(3, 11));
+				yCorrect->data() |=
+					2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+					3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
+					4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14;
+		
+				TEST_ENSURE(y->data() == yCorrect->data());
+			}
+
+			{
+				SignalPtr y = delayEmbed(x, 3, 0, 2);
+				SignalPtr yCorrect =
+					SignalPtr(new Signal(3, 11));
+				yCorrect->data() |=
+					0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+					2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+					4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14;
+				/*
+				yCorrect->data() |=
+					0, 2, 4, 6, 8, 10,
+					2, 4, 6, 8, 10, 12,
+					4, 6, 8, 10, 12, 14;
+				*/
+		
+				TEST_ENSURE(y->data() == yCorrect->data());
+			}
+
+			{
+				SignalPtr y = delayEmbed(x, 3, 1, 2);
+				SignalPtr yCorrect =
+					SignalPtr(new Signal(3, 10));
+				yCorrect->data() |=
+					1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+					3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+					5, 6, 7, 8, 9, 10, 11, 12, 13, 14;
+		
+				TEST_ENSURE(y->data() == yCorrect->data());
+			}
+		}
+	};
+
+	void testSignal()
 	{
-		SignalPtr xy = 
-			SignalPtr(new Signal(2, 5));
-
-		SignalPtr x = slice(xy, 0, 2);
-		SignalPtr y = slice(xy, 2, 5);
+		SignalTest test;
+		test.run();
 	}
 
 	void addTest()
