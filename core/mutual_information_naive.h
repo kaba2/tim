@@ -17,12 +17,13 @@ namespace Tim
 
 	template <typename NormBijection>
 	real mutualInformationFromEntropy(
-		const SignalPtr& jointSignal,
-		const SmallSet<integer>& partition,
+		const std::vector<SignalPtr>& signalSet,
 		integer kNearest,
 		real maxRelativeError,
 		const NormBijection& normBijection);
 
 }
+
+#include "tim/core/mutual_information_naive.hpp"
 
 #endif

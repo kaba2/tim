@@ -4,6 +4,8 @@
 
 #include <boost/static_assert.hpp>
 
+#include <pastel/sys/pastelomp.h>
+
 using namespace Tim;
 
 void mexFunction(int outputs, mxArray *outputSet[],
@@ -25,6 +27,9 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	real* rawData = mxGetPr(inputSet[0]);
 	real maxRelativeError = *mxGetPr(inputSet[1]);
 	integer kNearest = *mxGetPr(inputSet[2]);
+	const integer threads = *mxGetPr(inputSet[3]);
+
+	omp_set_num_threads(threads);
 
 	const SignalPtr data = SignalPtr(
 		new Signal(samples, dimension, rawData));

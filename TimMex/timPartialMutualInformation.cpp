@@ -4,6 +4,8 @@
 
 #include <boost/static_assert.hpp>
 
+#include <pastel/sys/pastelomp.h>
+
 using namespace Tim;
 
 void mexFunction(int outputs, mxArray *outputSet[],
@@ -14,6 +16,8 @@ void mexFunction(int outputs, mxArray *outputSet[],
 		RealIsDouble = boost::is_same<real, double>::value
 	};
 	BOOST_STATIC_ASSERT(RealIsDouble);
+
+	omp_set_num_threads(4);
 
 	// It is intentional to assign the width
 	// and height the wrong way. The reason

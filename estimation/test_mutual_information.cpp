@@ -31,8 +31,21 @@ namespace
 			kNearest,
 			maxRelativeError);
 
+		/*
+		std::vector<SignalPtr> signalSet;
+		slice(jointSignal, signalSet);
+
+		const real mi = mutualInformationFromEntropy(
+			signalSet,
+			kNearest,
+			maxRelativeError,
+			EuclideanNormBijection<real>());
+		*/
+
+		const real re = relativeError<real>(mi, correctMi);
+
 		log() << name << ": " << mi
-			<< " (" << mi - correctMi << ")"
+			<< " (de = " << mi - correctMi << ", " << re * 100 << "%)"
 			<< logNewLine;
 	}
 
@@ -40,7 +53,7 @@ namespace
 	{
 		log() << "Mutual information estimates: " << logNewLine;
 
-		const integer samples = 100000;
+		const integer samples = 1000000;
 		const integer kNearest = 1;
 		const real maxRelativeError = 0;
 
@@ -83,7 +96,7 @@ namespace
 
 		log() << "nD correlated gaussian cond-det covariances" << logNewLine;
 		{
-			const integer dimension = 5;
+			const integer dimension = 2;
 			for (integer i = 0;i < 10;++i)
 			{
 				MatrixD covariance(dimension, dimension);
