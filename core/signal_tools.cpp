@@ -127,7 +127,7 @@ namespace Tim
 		const integer dimension = jointSignal->dimension();
 
 		SmallSet<integer> partition;
-		partition.reserve(dimension);
+		partition.reserve(dimension + 1);
 
 		for (integer i = 0;i <= dimension;++i)
 		{

@@ -8,8 +8,7 @@ namespace Tim
 
 	template <typename NormBijection>
 	real mutualInformationFromEntropy(
-		const SignalPtr& jointSignal,
-		const SmallSet<integer>& partition,
+		const std::vector<SignalPtr>& signalSet,
 		integer kNearest,
 		real maxRelativeError,
 		const NormBijection& normBijection)
@@ -17,30 +16,15 @@ namespace Tim
 		ENSURE1(kNearest > 0, kNearest);
 		ENSURE1(maxRelativeError >= 0, maxRelativeError);
 
-		std::vector<SignalPtr> marginalSignalSet;
-		slice(jointSignal, partition, marginalSignalSet);
-
-		const integer signals = marginalSignalSet.size();
-		const integer samples = jointSignal->samples();
-
-		integer jointDimension = 0;
-		for (integer i = 0;i < signals;++i)
-		{
-			ENSURE2(jointSignal->samples() == marginalSignalSet[i]->samples(),
-				jointSignal->samples(), marginalSignalSet[i]->samples());
-
-			jointDimension += marginalSignalSet[i]->dimension();
-		}
-
-		ENSURE2(jointDimension == jointSignal->dimension(),
-			jointDimension, jointSignal->dimension());
+		const integer signals = signalSet.size();
+		const SignalPtr jointSignal = merge(signalSet);
 
 		real estimate = 0;
 
 		for (integer i = 0;i < signals;++i)
 		{
 			estimate += differentialEntropy(
-				marginalSignalSet[i],
+				signalSet[i],
 				kNearest,
 				maxRelativeError,
 				normBijection);

@@ -24,8 +24,8 @@ if nargin < 2
     bins = 100;
 end
 
-if ~isfloat(S)
-    error('S must be real and non-complex.');
+if ~isa(S, 'double')
+    error('S must be of type double.');
 end
 
 if size(bins, 1) ~= 1 || ...
