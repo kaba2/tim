@@ -1,3 +1,5 @@
+// Description: An aggregate file for mutual information
+
 #ifndef TIM_MUTUAL_INFORMATION_H
 #define TIM_MUTUAL_INFORMATION_H
 

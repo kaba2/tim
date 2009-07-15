@@ -1,17 +1,28 @@
-% PARTIAL_MUTUAL_INFORMATION 
+% PARTIAL_MUTUAL_INFORMATION
 % A partial mutual information estimate I(X, Y | Z) from samples.
+%
 % I = partial_mutual_information(X, Y, Z, k)
+%
 % where
+%
 % X is a real (m x n)-matrix that contains n samples of an
 % m-dimensional signal.
+%
 % Y is a real (p x n)-matrix that contains n samples of a
 % p-dimensional signal.
+%
 % Z is a real (q x n)-matrix that contains n samples of a
 % q-dimensional signal.
+%
 % K determines which k:th nearest neighbor the algorithm
 % uses for estimation. Default 1.
 
 function I = partial_mutual_information(X, Y, Z, k)
+
+% The limit for the dimension is arbitrary, but
+% protects for the case when the user accidentally
+% passes the transpose of the intended data.
+maxDimension = 32;
 
 if nargin < 3
     error('Not enough input arguments.');

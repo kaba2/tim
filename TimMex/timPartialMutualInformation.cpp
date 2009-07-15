@@ -17,6 +17,25 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	};
 	BOOST_STATIC_ASSERT(RealIsDouble);
 
+	//% PARTIAL_MUTUAL_INFORMATION
+	//% A partial mutual information estimate I(X, Y | Z) from samples.
+	//%
+	//% I = partial_mutual_information(X, Y, Z, k)
+	//%
+	//% where
+	//%
+	//% X is a real (m x n)-matrix that contains n samples of an
+	//% m-dimensional signal.
+	//%
+	//% Y is a real (p x n)-matrix that contains n samples of a
+	//% p-dimensional signal.
+	//%
+	//% Z is a real (q x n)-matrix that contains n samples of a
+	//% q-dimensional signal.
+	//%
+	//% K determines which k:th nearest neighbor the algorithm
+	//% uses for estimation. Default 1.
+
 	omp_set_num_threads(4);
 
 	// It is intentional to assign the width

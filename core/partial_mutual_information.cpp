@@ -19,11 +19,9 @@ namespace Tim
 		const SignalPtr& cSignal,
 		integer kNearest)
 	{
-		ENSURE1(kNearest > 0, kNearest);
-		ENSURE2(aSignal->samples() == bSignal->samples(),
-			aSignal->samples(), bSignal->samples());
-		ENSURE2(aSignal->samples() == cSignal->samples(),
-			aSignal->samples(), cSignal->samples());
+		ENSURE_OP(kNearest, >, 0);
+		ENSURE_OP(aSignal->samples(), ==, bSignal->samples());
+		ENSURE_OP(aSignal->samples(), ==, cSignal->samples());
 
 		const real maxRelativeError = 0;
 		const integer samples = aSignal->samples();
@@ -34,7 +32,7 @@ namespace Tim
 		// Stefan Frenzel and Bernd Pompe,
 		// Physical Review Letters, 2007.
 
-		const InfinityNormBijection<real> normBijection;
+		const Infinity_NormBijection<real> normBijection;
 
 		std::vector<SignalPtr> marginalSet;
 		marginalSet.reserve(3);
@@ -96,6 +94,8 @@ namespace Tim
 
 			searchAllNeighborsKdTree(
 				jointPointSet,
+				CountingIterator<integer>(0),
+				CountingIterator<integer>(samples),
 				kNearest - 1,
 				kNearest,
 				infinity<real>(),
@@ -129,10 +129,11 @@ namespace Tim
 
 			countAllNeighborsKdTree(
 				marginalPointSet,
-				distanceSet,
-				0,
+				CountingIterator<integer>(0),
+				CountingIterator<integer>(samples),
+				distanceSet.begin(),
 				normBijection,
-				countSet);
+				countSet.begin());
 
 #pragma omp parallel for reduction(+ : estimate)
 			for (integer j = 0;j < samples;++j)
@@ -148,10 +149,11 @@ namespace Tim
 
 			countAllNeighborsKdTree(
 				marginalPointSet,
-				distanceSet,
-				0,
+				CountingIterator<integer>(0),
+				CountingIterator<integer>(samples),
+				distanceSet.begin(),
 				normBijection,
-				countSet);
+				countSet.begin());
 
 #pragma omp parallel for reduction(+ : estimate)
 			for (integer j = 0;j < samples;++j)
@@ -167,10 +169,11 @@ namespace Tim
 
 			countAllNeighborsKdTree(
 				marginalPointSet,
-				distanceSet,
-				0,
+				CountingIterator<integer>(0),
+				CountingIterator<integer>(samples),
+				distanceSet.begin(),
 				normBijection,
-				countSet);
+				countSet.begin());
 
 #pragma omp parallel for reduction(+ : estimate)
 			for (integer j = 0;j < samples;++j)

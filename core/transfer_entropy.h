@@ -1,7 +1,11 @@
+// Description: Estimation of multivariate transfer entropy.
+
 #ifndef TIM_TRANSFER_ENTROPY_H
 #define TIM_TRANSFER_ENTROPY_H
 
 #include "tim/core/signal.h"
+
+#include <vector>
 
 namespace Tim
 {
@@ -9,11 +13,8 @@ namespace Tim
 	//! Computes the multivariate transfer entropy.
 	/*!
 	Preconditions:
-
-	(aEmbedded->dimension() % aFuture->dimension()) == 0
-	!aEmbedded.empty()
-	!bEmbedded.empty()
-	for all cEmbedded in cEmbeddedSet : !cEmbedded.empty()
+	sigma >= 0
+	kNearest > 0	
 
 	Usage:
 
@@ -53,11 +54,14 @@ namespace Tim
 	If cEmbeddedSet is empty, this function effectively 
 	computes bivariate transfer entropy.
 	*/
-	TIMCORE real transferEntropy(
-		const SignalPtr& aEmbedded,
-		const SignalPtr& aFuture,
-		const SignalPtr& bEmbedded,
-		const std::vector<SignalPtr>& cEmbeddedSet);
+	TIMCORE void transferEntropy(
+		const std::vector<SignalPtr>& aEnsemble,
+		const std::vector<SignalPtr>& aFutureEnsemble,
+		const std::vector<SignalPtr>& bEnsemble,
+		const Array<2, SignalPtr>& cEnsembleSet,
+		integer sigma,
+		integer kNearest,
+		std::vector<real>& estimateSet);
 
 }
 

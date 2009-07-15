@@ -1,14 +1,21 @@
-% DIFFERENTIAL_ENTROPY A differential entropy estimate from samples.
+% DIFFERENTIAL_ENTROPY
+% A differential entropy estimate from samples.
+%
 % H = differential_entropy(S, epsilon, k, threads)
+%
 % where
+%
 % S is a real (m x n)-matrix that contains n samples of an
 % m-dimensional signal.
+%
 % EPSILON is the maximum relative error in distance that
 % nearest neighbor searching is allowed to result in.
 % Higher tolerances result in enhanced performance, but
 % increases errors in the estimate. Default 0.
+%
 % K determines which k:th nearest neighbor the algorithm
 % uses for estimation. Default 1.
+%
 % THREADS determines the number of threads to use for parallelization.
 % To fully take advantage of multiple cores in your machine, set this
 % to the number of cores in your machine. Note however that this makes 
@@ -16,6 +23,11 @@
 % spare one core for other work. Default 1 (no parallelization).
 
 function H = differential_entropy(S, epsilon, k, threads)
+
+% The limit for the dimension is arbitrary, but
+% protects for the case when the user accidentally
+% passes the transpose of the intended data.
+maxDimension = 32;
 
 if nargin < 1
     error('Not enough input arguments.');
@@ -45,11 +57,9 @@ if ~isa(S, 'double')
     error('S must be of type double.');
 end
 
-% The limit for the dimension is arbitrary, but
-% protects for the case when the user accidentally
-% passes the transpose of the intended data.
-if size(S, 1) > 32
-    error('The dimension of the signal must be less than 32.');
+if size(S, 1) > maxDimension
+    error(['Some signal of S has dimension greater than ', ...
+        int2str(maxDimension), '.']);
 end
 
 if size(epsilon, 1) ~= 1 || ...

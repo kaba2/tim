@@ -1,7 +1,7 @@
-#ifndef TIM_DIFFERENTIAL_ENTROPY_HPP
-#define TIM_DIFFERENTIAL_ENTROPY_HPP
+#ifndef TIM_DIFFERENTIAL_ENTROPY_KL_HPP
+#define TIM_DIFFERENTIAL_ENTROPY_KL_HPP
 
-#include "tim/core/differential_entropy.h"
+#include "tim/core/differential_entropy_kl.h"
 
 #include "tim/core/signal_tools.h"
 
@@ -17,6 +17,9 @@ namespace Tim
 		real maxRelativeError,
 		const NormBijection& normBijection)
 	{
+		ENSURE_OP(kNearest, >, 0);
+		ENSURE_OP(maxRelativeError, >=, 0);
+
 		// This function computes the Kozachenko-Leonenko
 		// estimator for the differential entropy.
 		// Apparently the original paper seems to be:
@@ -43,6 +46,8 @@ namespace Tim
 
 		searchAllNeighborsKdTree(
 			pointSet,
+			CountingIterator<integer>(0),
+			CountingIterator<integer>(samples),
 			kNearest - 1,
 			kNearest,
 			infinity<real>(),
@@ -61,7 +66,10 @@ namespace Tim
 			// _twice_ the distance to the k:th neighbor.
 			// However, we delay this by noting that:
 			// log(dist * 2) = log(dist) + log(2)
-			estimate += normBijection.toLnNorm(distanceArray(0, i));
+			if (distanceArray(0, i) > 0)
+			{
+				estimate += normBijection.toLnNorm(distanceArray(0, i));
+			}
 		}
 		// Here we take into account doubling the distances.
 		estimate += samples * constantLn2<real>();

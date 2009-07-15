@@ -9,46 +9,111 @@
 namespace Tim
 {
 
-	TIMCORE real transferEntropy(
-		const SignalPtr& aEmbedded,
-		const SignalPtr& aFuture,
-		const SignalPtr& bEmbedded,
-		const std::vector<SignalPtr>& cEmbeddedSet,
+	TIMCORE void transferEntropy(
+		const std::vector<SignalPtr>& aEnsemble,
+		const std::vector<SignalPtr>& aFutureEnsemble,
+		const std::vector<SignalPtr>& bEnsemble,
+		const Array<2, SignalPtr>& cEnsembleSet,
 		integer sigma,
-		integer kNearest)
+		integer kNearest,
+		std::vector<real>& estimateSet)
 	{
-		ENSURE((aEmbedded->dimension() % aFuture->dimension()) == 0);
-		ENSURE(!aEmbedded.empty());
-		ENSURE(!aFuture.empty());
-		ENSURE(!bEmbedded.empty());
+		ENSURE_OP(sigma, >=, 0);
+		ENSURE_OP(kNearest, >, 0);
 
-		// Because the delay-embeddings can result in signals
+		const integer trials = aEnsemble.size();
+
+		// Check that each ensemble contains the same number
+		// of trials.
+
+		ENSURE_OP(aFutureEnsemble.size(), ==, trials);
+		ENSURE_OP(bEnsemble.size(), ==, trials);
+		ENSURE_OP(cEnsembleSet.width(), ==, trials);
+
+		if (trials == 0)
+		{
+			return;
+		}
+
+		const integer cSize = cEnsembleSet.height();
+
+		// 1) Check that ensemble signals are of the same
+		// dimension. 
+		// 2) Because the delay-embeddings can result in signals
 		// with slightly different number of samples,
 		// we shall use the minimum of the sample count
-		// among the signals.
+		// among the signals. So we shall also find
+		// the minimum sample count.
 
-		// Find the minimum sample count.
+		const integer aDimension = aEnsemble.front()->dimension();
+		const integer aFutureDimension = aFutureEnsemble.front()->dimension();
+		const integer bDimension = bEnsemble.front()->dimension();
+		const integer cDimension = cSize > 0 ? cEnsembleSet(0, 0)->dimension() : 0;
 
-		integer samples =
-			std::min(aEmbedded->samples(),
-			std::min(aFuture->samples(), 
-			bEmbedded->samples()));
+		integer samples = 0;
 
-		integer cDimension = 0;
-		const integer cSize = cEmbeddedSet.size();
-		for (integer i = 0;i < cSize;++i)
+		for (integer i = 0;i < trials;++i)
 		{
-			const SignalPtr cEmbedded = cEmbeddedSet[i];
+			ENSURE_OP(aDimension, ==, aEnsemble[i]->dimension());
+			ENSURE_OP(bDimension, ==, bEnsemble[i]->dimension());
+			ENSURE_OP(aFutureDimension, ==, aFutureEnsemble[i]->dimension());
 
-			ENSURE(!cEmbedded.empty());
+			samples = std::min(samples, aEnsemble[i]->samples());
+			samples = std::min(samples, aFutureEnsemble[i]->samples());
+			samples = std::min(samples, bEnsemble[i]->samples());
 
-			const integer cSamples = cEmbedded->samples();
-			if (cSamples < samples)
+			for (integer j = 0;j < cSize;++j)
 			{
-				samples = cSamples;
+				ENSURE_OP(cDimension, ==, cEnsembleSet(i, j)->dimension());
+
+				samples = std::min(samples, cEnsembleSet(i, j)->samples());
 			}
-			
-			cDimension += cEmbedded->dimension();
+		}
+
+		// Find the sum of the dimensions of the cEnsemble.
+
+		integer cDimensionTotal = 0;
+		for (integer j = 0;j < cSize;++j)
+		{
+			cDimensionTotal += cEnsembleSet(0, j)->dimension();
+		}
+
+		// Form joint signals for each trial.
+
+		// We need the following joint signals
+		// (w is the future of X):
+		//
+		// 1) wXYZ
+		// 2) XYZ
+		// 3) XZ
+		// 4) wXz
+		//
+		// By a clever reordering, we get away by just forming
+		// the biggest joint signal wXZY and aliasing the
+		// other joint signals from that:
+		//
+		// 1) wXZY
+		// 2)  XZY
+		// 3)  XZ
+		// 4) wXZ
+
+		std::vector<SignalPtr> jointEnsemble;
+		jointEnsemble.reserve(trials);
+
+		for (integer i = 0;i < trials;++i)
+		{
+			std::vector<SignalPtr> jointSet;
+			jointSet.reserve(3 + cSize);
+
+			jointSet.push_back(aEnsemble[i]);
+			jointSet.push_back(aFutureEnsemble[i]);
+			for (integer j = 0;j < cSize;++j)
+			{
+				jointSet.push_back(cEnsembleSet(i, j));
+			}
+			jointSet.push_back(bEnsemble[i]);
+
+			jointEnsemble.push_back(merge(jointSet));
 		}
 
 		/*
@@ -65,116 +130,147 @@ namespace Tim
 		vol. 85, num. 2, 2000.
 		*/
 
-		// We need the following joint signals
-		// (w is the future of X):
-		//
-		// 1) wXYZ
-		// 2) XYZ
-		// 3) XZ
-		// 4) wXz
-		//
-		// By a clever reordering, we get away by just forming
-		// the biggest joint signal wXZY and slicing the
-		// other joint signals from that:
-		//
-		// 1) wXZY
-		// 2)  XZY
-		// 3)  XZ
-		// 4) wXZ
-
-		// Form the joint signal.
-
-		std::vector<SignalPtr> jointSet;
-		jointSet.reserve(3 + cSize);
-		jointSet.push_back(aFuture);
-		jointSet.push_back(aEmbedded);
-		for (integer i = 0;i < cSize;++i)
-		{
-			jointSet.push_back(cEmbeddedSet[i]);
-		}
-		jointSet.push_back(bEmbedded);
-
-		const SignalPtr jointSignal = merge(jointSet);
-
-		// Slice the smaller joint signals from
-		// bigger one. Note here we need the signals to be merged
-		// in the right order.
+		// Slice the smaller joint signals from the
+		// bigger one. Note that here we need the signals 
+		// to be merged in the right order.
 
 		const integer wBegin = 0;
-		const integer wEnd = aFuture->dimension();
+		const integer wEnd = aFutureDimension;
 		const integer xBegin = wEnd;
-		const integer xEnd = xBegin + aEmbedded->dimension();
+		const integer xEnd = xBegin + aDimension;
 		const integer zBegin = xEnd;
-		const integer zEnd = xBegin + cDimension;
+		const integer zEnd = xBegin + cDimensionTotal;
 		const integer yBegin = zEnd;
-		const integer yEnd = yBegin + bEmbedded->dimension();
+		const integer yEnd = yBegin + bDimension;
 
-		const SignalPtr xzySignal = slice(jointSignal, xBegin, yEnd);
-		const SignalPtr xzSignal = slice(jointSignal, xBegin, zEnd);
-		const SignalPtr wxzSignal = slice(jointSignal, wBegin, zEnd);
+		const integer xzyDimension = yEnd - xBegin;
+		const integer xzDimension = zEnd - xBegin;
+		const integer wxzDimension = zEnd - wBegin;
+		const integer jointDimension = yEnd - wBegin;
 
-		const integer xzyDimension = xzySignal->dimension();
-		const integer xzDimension = xzSignal->dimension();
-		const integer wxzDimension = wxzSignal->dimension();
-
-		// Compute for each point in the joint space its
-		// distance to the k:th nearest neighbor.
-
-		const InfinityNormBijection<real> normBijection;
+		const Infinity_NormBijection<real> normBijection;
 		Array<2, real> distanceArray(1, samples);
-
-		std::vector<PointD> jointPointSet;
-		constructPointSet(jointSignal, jointPointSet);
-
-		searchAllNeighborsKdTree(
-			jointPointSet,
-			kNearest - 1,
-			kNearest,
-			infinity<real>(),
-			0,
-			normBijection,
-			16,
-			SlidingMidpoint2_SplitRule(),
-			0,
-			&distanceArray);
-
-		std::vector<real> distanceSet;
-		distanceSet.reserve(samples);
-		for (integer i = 0;i < samples;++i)
-		{
-			distanceSet.push_back(distanceArray(0, i));
-		}
-
-		std::vector<integer> countSet(samples);
-		std::vector<real> estimate(samples, 0);
 
 		const integer sigmaSamples = 2 * sigma + 1;
 
-		std::vector<PointD> marginalPointSet;
+		std::vector<integer> countSet(trials, 0);
+		std::vector<real> distanceSet(samples, 0);
+		std::vector<PointD> pointSet;
+		pointSet.reserve(trials * sigmaSamples);
 
-		// Project all points to wXZ and count the number of
-		// points that are within the computed nn-distance.
+		estimateSet.resize(samples);
+		std::fill(estimateSet.begin(), estimateSet.end(), 0);
 
 		for (integer i = sigma;i < samples - sigma;++i)
 		{
-			constructPointSet(jointSignal, wBegin, zEnd, marginalPointSet);
+			const integer sampleBegin = i - sigma;
+			const integer sampleEnd = i + sigma + 1;
 
-			countAllNeighborsKdTree(
-				marginalPointSet,
-				distanceSet,
+			// Compute for the current point its distance 
+			// to the k:th nearest neighbor in the joint space,
+			// which includes all samples from the ensemble
+			// across the time window of sigma width.
+
+			constructPointSet(jointEnsemble, 
+				sampleBegin, sampleEnd, 
+				wBegin, yEnd, pointSet);
+
+			PointD jointPoint(
+				ofDimension(jointDimension),
+				withAliasing((real*)0));
+
+			const ConstSparseIterator<CountingIterator<integer> >
+				sparseIndexBegin(CountingIterator<integer>(sigma), sigmaSamples);
+
+			searchAllNeighborsKdTree(
+				pointSet,
+				sparseIndexBegin,
+				sparseIndexBegin + trials,
+				kNearest - 1,
+				kNearest,
+				infinity<real>(),
 				0,
 				normBijection,
-				countSet);
+				16,
+				SlidingMidpoint2_SplitRule(),
+				0,
+				&distanceArray);
 
-#pragma omp parallel for
-			for (integer j = 0;j < samples;++j)
+			std::copy(
+				distanceArray.columnBegin(0),
+				distanceArray.columnEnd(0),
+				distanceSet.begin());
+
+			// Project all points to wXZ and count the number of
+			// points that are within the computed nn-distance.
+
+			constructPointSet(jointEnsemble,
+				sampleBegin, sampleEnd, 
+				wBegin, zEnd, pointSet);
+
+			countAllNeighborsKdTree(
+				pointSet,
+				sparseIndexBegin,
+				sparseIndexBegin + trials,
+				distanceSet.begin(),
+				normBijection,
+				countSet.begin());
+
+			real estimate = 0;
+
+#pragma omp parallel for reduction(+ : estimate)
+			for (integer j = 0;j < trials;++j)
 			{
-				estimate[j] -= digamma<real>(countSet[j]);
+				estimate -= harmonicNumber<real>(countSet[j]);
 			}
-						
-		}
 
-		return 0;
+			// Project all points to XZY and count the number of
+			// points that are within the computed nn-distance.
+
+			constructPointSet(jointEnsemble, 
+				sampleBegin, sampleEnd, 
+				xBegin, yEnd, pointSet);
+
+			countAllNeighborsKdTree(
+				pointSet,
+				sparseIndexBegin,
+				sparseIndexBegin + trials,
+				distanceSet.begin(),
+				normBijection,
+				countSet.begin());
+
+#pragma omp parallel for reduction(+ : estimate)
+			for (integer j = 0;j < trials;++j)
+			{
+				estimate += harmonicNumber<real>(countSet[j]);
+			}
+
+			// Project all points to XZ and count the number of
+			// points that are within the computed nn-distance.
+
+			constructPointSet(jointEnsemble, 
+				sampleBegin, sampleEnd, 
+				xBegin, zEnd, pointSet);
+
+			countAllNeighborsKdTree(
+				pointSet,
+				sparseIndexBegin,
+				sparseIndexBegin + trials,
+				distanceSet.begin(),
+				normBijection,
+				countSet.begin());
+
+#pragma omp parallel for reduction(+ : estimate)
+			for (integer j = 0;j < trials;++j)
+			{
+				estimate -= harmonicNumber<real>(countSet[j]);
+			}
+
+			estimate /= trials;
+			estimate -= harmonicNumber<real>(kNearest - 1);
+
+			estimateSet[i] = estimate;
+		}
 	}
 
 }

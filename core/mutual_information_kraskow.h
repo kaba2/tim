@@ -1,3 +1,5 @@
+// Description: Mutual information estimation via Kraskow's algorithm
+
 #ifndef TIM_MUTUAL_INFORMATION_KRASKOW_H
 #define TIM_MUTUAL_INFORMATION_KRASKOW_H
 
@@ -32,9 +34,6 @@ namespace Tim
 	sense w.r.t the amount of information, total correlation does.
 	See 'tim/core/differential_entropy.h' for more information
 	on differential entropy.
-	
-	The mutual information is estimated by an algorithm
-	that relies heavily on nearest neighbor searching.
 
 	jointSignal:
 	The joint signal must contain the same data 
@@ -81,34 +80,6 @@ namespace Tim
 
 	TIMCORE real mutualInformation(
 		const SignalPtr& jointSignal,
-		integer kNearest = 1,
-		real maxRelativeError = 0);
-
-	//! Computes mutual information.
-	/*!
-	This is a convenience function that calls the
-	more general mutualInformation() by splitting
-	marginal signals from the joint signal as defined
-	by the 'partition'.
-	See the documentation for the more general mutualInformation().
-	*/
-	TIMCORE real mutualInformation(
-		const SignalPtr& jointSignal,
-		const SmallSet<integer>& partition,
-		integer kNearest = 1,
-		real maxRelativeError = 0);
-
-	//! Computes mutual information.
-	/*!
-	This is a convenience function that calls the
-	more general mutualInformation() by first
-	computing the joint signal from the marginal signals.
-	See the documentation for the more general mutualInformation().
-	*/
-
-	TIMCORE real mutualInformation(
-		const SignalPtr& aMarginalSignal,
-		const SignalPtr& bMarginalSignal,
 		integer kNearest = 1,
 		real maxRelativeError = 0);
 

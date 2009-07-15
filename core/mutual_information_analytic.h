@@ -1,3 +1,5 @@
+// Description: Some analytic solutions of mutual information
+
 #ifndef TIM_MUTUAL_INFORMATION_ANALYTIC_H
 #define TIM_MUTUAL_INFORMATION_ANALYTIC_H
 

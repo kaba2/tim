@@ -39,7 +39,7 @@ namespace
 			signalSet,
 			kNearest,
 			maxRelativeError,
-			EuclideanNormBijection<real>());
+			Euclidean_NormBijection<real>());
 		*/
 
 		const real re = relativeError<real>(mi, correctMi);
@@ -53,7 +53,7 @@ namespace
 	{
 		log() << "Mutual information estimates: " << logNewLine;
 
-		const integer samples = 1000000;
+		const integer samples = 100000;
 		const integer kNearest = 1;
 		const real maxRelativeError = 0;
 
@@ -252,7 +252,7 @@ namespace
 
 				MatrixD pairwiseMi;
 				timer.setStart();
-				mutualInformationNaive(
+				mutualInformationFromBinning(
 					jointSignal,
 					100,
 					pairwiseMi);

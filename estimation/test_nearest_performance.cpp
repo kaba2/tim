@@ -155,10 +155,10 @@ namespace
 		const NormBijection& normBijection,
 		Array<2, integer>& nearestArray)
 	{
-		ENSURE1(kNearest > 0, kNearest);
-		ENSURE2(kNearest < pointSet.size(), kNearest, pointSet.size());
-		ENSURE1(maxDistance > 0, maxDistance);
-		ENSURE1(maxRelativeError >= 0, maxRelativeError);
+		ENSURE_OP(kNearest, >, 0);
+		ENSURE_OP(kNearest, <, pointSet.size());
+		ENSURE_OP(maxDistance, >, 0);
+		ENSURE_OP(maxRelativeError, >=, 0);
 
 		const integer samples = pointSet.size();
 		if (samples == 0)
@@ -219,10 +219,10 @@ namespace
 		const NormBijection& normBijection,
 		Array<2, integer>& nearestArray)
 	{
-		ENSURE1(kNearest > 0, kNearest);
-		ENSURE2(kNearest < pointSet.size(), kNearest, pointSet.size());
-		ENSURE1(maxDistance > 0, maxDistance);
-		ENSURE1(maxRelativeError >= 0, maxRelativeError);
+		ENSURE_OP(kNearest, >, 0);
+		ENSURE_OP(kNearest, <, pointSet.size());
+		ENSURE_OP(maxDistance, >, 0);
+		ENSURE_OP(maxRelativeError, >=, 0);
 
 		const integer samples = pointSet.size();
 		if (samples == 0)
@@ -396,10 +396,10 @@ namespace
 		}
 		*/
 
-		EuclideanNormBijection<Real> normBijection;
-		//InfinityNormBijection<Real> normBijection;
-		//ManhattanNormBijection<Real> normBijection;
-		//MinkowskiNormBijection<Real> normBijection(1.5);
+		Euclidean_NormBijection<Real> normBijection;
+		//Infinity_NormBijection<Real> normBijection;
+		//Manhattan_NormBijection<Real> normBijection;
+		//Minkowski_NormBijection<Real> normBijection(1.5);
 
 		Array<2, integer> bruteNearest(kNearest, pointSet.size());
 
@@ -416,7 +416,10 @@ namespace
 			timer.setStart();
 
 			searchAllNeighborsBruteForce(
-				pointSet, kNearest, infinity<Real>(),
+				pointSet, 
+				CountingIterator<integer>(0),
+				CountingIterator<integer>(samples),
+				kNearest, infinity<Real>(),
 				normBijection,
 				bruteNearest);
 
@@ -441,6 +444,8 @@ namespace
 
 				searchAllNeighborsKdTree(
 					pointSet,
+					CountingIterator<integer>(0),
+					CountingIterator<integer>(samples),
 					0,
 					kNearest, 
 					infinity<Real>(), 
