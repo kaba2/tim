@@ -211,6 +211,10 @@
 			RelativePath=".\test_signal.cpp"
 			>
 		</File>
+		<File
+			RelativePath=".\test_transfer_entropy.cpp"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
