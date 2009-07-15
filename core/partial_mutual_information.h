@@ -1,3 +1,5 @@
+// Description: Partial mutual information estimation.
+
 #ifndef TIM_PARTIAL_MUTUAL_INFORMATION_H
 #define TIM_PARTIAL_MUTUAL_INFORMATION_H
 

@@ -1,4 +1,4 @@
-#include "tim/core/differential_entropy.h"
+#include "tim/core/differential_entropy_analytic.h"
 
 namespace Tim
 {
@@ -6,8 +6,8 @@ namespace Tim
 	TIMCORE real gaussianDifferentialEntropy(
 		integer dimension, real covarianceDeterminant)
 	{
-		PENSURE1(dimension > 0, dimension);
-		PENSURE1(covarianceDeterminant >= 0, covarianceDeterminant);
+		PENSURE_OP(dimension, >, 0);
+		PENSURE_OP(covarianceDeterminant, >=, 0);
 
 		static const real ConstantFactor = std::log(
 			2 * constantPi<real>() * constantNeper<real>());
@@ -17,7 +17,7 @@ namespace Tim
 
 	TIMCORE real uniformDifferentialEntropy(real supportVolume)
 	{
-		PENSURE1(supportVolume >= 0, supportVolume);
+		PENSURE_OP(supportVolume, >=, 0);
 
 		/*
 		Let X be a random variable in R^n 

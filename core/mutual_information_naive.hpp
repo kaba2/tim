@@ -13,8 +13,8 @@ namespace Tim
 		real maxRelativeError,
 		const NormBijection& normBijection)
 	{
-		ENSURE1(kNearest > 0, kNearest);
-		ENSURE1(maxRelativeError >= 0, maxRelativeError);
+		ENSURE_OP(kNearest, >, 0);
+		ENSURE_OP(maxRelativeError, >=, 0);
 
 		const integer signals = signalSet.size();
 		const SignalPtr jointSignal = merge(signalSet);

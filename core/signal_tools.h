@@ -126,6 +126,17 @@ namespace Tim
 	//! Creates a point set of the signal samples.
 	TIMCORE void constructPointSet(
 		const SignalPtr& signal,
+		integer sampleBegin,
+		integer sampleEnd,
+		integer dimensionBegin,
+		integer dimensionEnd,
+		std::vector<PointD>& pointSet);
+
+	//! Creates a point set of the signal samples.
+	TIMCORE void constructPointSet(
+		const std::vector<SignalPtr>& ensemble,
+		integer sampleBegin,
+		integer sampleEnd,
 		integer dimensionBegin,
 		integer dimensionEnd,
 		std::vector<PointD>& pointSet);

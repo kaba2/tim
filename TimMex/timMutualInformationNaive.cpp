@@ -1,6 +1,6 @@
 #include "mex.h"
 
-#include "tim/core/mutual_information.h"
+#include "tim/core/mutual_information_naive.h"
 
 #include <boost/static_assert.hpp>
 
@@ -14,6 +14,19 @@ void mexFunction(int outputs, mxArray *outputSet[],
 		RealIsDouble = boost::is_same<real, double>::value
 	};
 	BOOST_STATIC_ASSERT(RealIsDouble);
+
+	//% MUTUAL_INFORMATION_NAIVE
+	//% A mutual information estimate from samples.
+	//%
+	//% I = mutual_information_naive(S, bins)
+	//%
+	//% where
+	//%
+	//% S is a real (m x n)-matrix that contains n samples of an
+	//% m-dimensional signal.
+	//%
+	//% BINS determines the number of bins to use for 1d
+	//% distribution estimation. Default 100.
 
 	// It is intentional to assign the width
 	// and height the wrong way. The reason
@@ -33,5 +46,5 @@ void mexFunction(int outputs, mxArray *outputSet[],
 
 	MatrixD result(dimension, dimension, withAliasing(rawResult));
 
-	mutualInformationNaive(data, bins, result);
+	mutualInformationFromBinning(data, bins, result);
 }

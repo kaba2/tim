@@ -1,6 +1,6 @@
 #include "mex.h"
 
-#include "tim/core/mutual_information.h"
+#include "tim/core/mutual_information_kraskow.h"
 
 #include <boost/static_assert.hpp>
 
@@ -17,20 +17,28 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	};
 	BOOST_STATIC_ASSERT(RealIsDouble);
 
-	//% MUTUAL_INFORMATION A mutual information estimate from samples.
+	//% MUTUAL_INFORMATION 
+	//% A mutual information estimate from samples.
+	//%
 	//% I = mutual_information(S, k, threads)
+	//%
 	//% where
-	//% S is a cell array of arbitrary dimension that contains p signals 
+	//%
+	//% S is a cell-array of arbitrary dimension that contains p signals 
 	//% (it is addressed as a 1d cell-array).
+	//%
+	//% K determines which k:th nearest neighbor the algorithm
+	//% uses for estimation. Default 1.
+	//%
+	//% THREADS determines the number of threads to use for parallelization.
+	//% To fully take advantage of multiple cores in your machine, set this
+	//% to the number of cores in your machine. Note however that this makes 
+	//% your computer unresponsive to other tasks. When you need responsiveness, 
+	//% spare one core for other work. Default 1 (no parallelization).
+	//%
 	//% Each signal is a real (m x n)-matrix that contains n samples of an
 	//% m-dimensional signal. If the number of samples varies with each
 	//% signal, the function uses the minimum sample count among the signals.
-	//% K determines which k:th nearest neighbor the algorithm
-	//% uses for estimation. Default 1.
-	//% THREADS determines the number of threads to use for parallelization.
-	//% A good value is to set the number of threads to the number of
-	//% cores a machine has. To keep the machine responsive, you might
-	//% choose to spare one core for other work. Default 1 (no parallelization).
 
 	const integer signals = mxGetNumberOfElements(inputSet[0]);
 	std::vector<SignalPtr> signalSet;

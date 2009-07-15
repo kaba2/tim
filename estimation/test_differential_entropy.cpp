@@ -21,9 +21,9 @@ namespace
 		const SignalPtr& signal,
 		real correct)
 	{
-		//EuclideanNormBijection<real> normBijection;
-		//InfinityNormBijection<real> normBijection;
-		ManhattanNormBijection<real> normBijection;
+		//Euclidean_NormBijection<real> normBijection;
+		//Infinity_NormBijection<real> normBijection;
+		Manhattan_NormBijection<real> normBijection;
 
 		const integer kNearest = 1;
 		/*

@@ -33,11 +33,13 @@ namespace Tim
 
 	}
 
-	TIMCORE void mutualInformationNaive(
+	TIMCORE void mutualInformationFromBinning(
 		const SignalPtr& signal,
 		integer bins,
 		MatrixD& result)
 	{
+		ENSURE_OP(bins, >, 0);
+
 		/*
 		We consider 'signal' as a set of 1d signals. Each such signal has
 		a continuous pdf. We approximate the mutual information

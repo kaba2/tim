@@ -10,9 +10,9 @@ namespace Tim
 		integer shift,
 		integer step)
 	{
-		ENSURE1(k > 0, k);
-		ENSURE1(shift >= 0, shift);
-		ENSURE1(step >= 1, step);
+		ENSURE_OP(k, >, 0);
+		ENSURE_OP(shift, >=, 0);
+		ENSURE_OP(step, >=, 1);
 
 		// Given is a signal S : Z -> R^n.
 		// Form a signal R : Z -> R^n : 

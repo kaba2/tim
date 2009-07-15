@@ -1,8 +1,13 @@
-% MUTUAL_INFORMATION_NAIVE A mutual information estimate from samples.
+% MUTUAL_INFORMATION_NAIVE
+% A mutual information estimate from samples.
+%
 % I = mutual_information_naive(S, bins)
+%
 % where
+%
 % S is a real (m x n)-matrix that contains n samples of an
 % m-dimensional signal.
+%
 % BINS determines the number of bins to use for 1d
 % distribution estimation. Default 100.
 

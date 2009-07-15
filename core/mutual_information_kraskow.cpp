@@ -21,8 +21,8 @@ namespace Tim
 		integer kNearest,
 		real maxRelativeError)
 	{
-		ENSURE1(kNearest > 0, kNearest);
-		ENSURE1(maxRelativeError >= 0, maxRelativeError);
+		ENSURE_OP(kNearest, >, 0);
+		ENSURE_OP(maxRelativeError, >=, 0);
 
 		if (signalSet.empty())
 		{
@@ -38,11 +38,13 @@ namespace Tim
 		std::vector<PointD> pointSet;
 		constructPointSet(jointSignal, pointSet);
 
-		const InfinityNormBijection<real> normBijection;
+		const Infinity_NormBijection<real> normBijection;
 		Array<2, real> distanceArray(1, samples);
 
 		searchAllNeighborsKdTree(
 			pointSet,
+			CountingIterator<integer>(0),
+			CountingIterator<integer>(samples),
 			kNearest - 1,
 			kNearest,
 			infinity<real>(),
@@ -55,10 +57,11 @@ namespace Tim
 
 		std::vector<real> distanceSet;
 		distanceSet.reserve(samples);
-		for (integer i = 0;i < samples;++i)
-		{
-			distanceSet.push_back(distanceArray(0, i));
-		}
+
+		std::copy(
+			distanceArray.columnBegin(0),
+			distanceArray.columnEnd(0),
+			std::back_inserter(distanceSet));
 
 		real estimate = 0;
 
@@ -70,17 +73,19 @@ namespace Tim
 			const integer dimension = signalSet[i]->dimension();
 			
 			constructPointSet(
-				jointSignal, 
+				jointSignal,
+				0, samples,
 				dimensionOffset, 
 				dimensionOffset + dimension,
 				pointSet);
 
 			countAllNeighborsKdTree(
 				pointSet,
-				distanceSet,
-				0,
+				CountingIterator<integer>(0),
+				CountingIterator<integer>(samples),
+				distanceSet.begin(),
 				normBijection,
-				countSet);
+				countSet.begin());
 
 #pragma omp parallel for reduction(+ : estimate)
 			for (integer j = 0;j < samples;++j)
@@ -103,8 +108,8 @@ namespace Tim
 		integer kNearest,
 		real maxRelativeError)
 	{
-		ENSURE1(kNearest > 0, kNearest);
-		ENSURE1(maxRelativeError >= 0, maxRelativeError);
+		ENSURE_OP(kNearest, >, 0);
+		ENSURE_OP(maxRelativeError, >=, 0);
 
 		const integer signals = signalSet.size();
 		const integer samples = signalSet.front()->samples();
@@ -112,13 +117,12 @@ namespace Tim
 		integer jointDimension = 0;
 		for (integer i = 0;i < signals;++i)
 		{
-			ENSURE2(signalSet[i]->samples() == samples,
-				signalSet[i]->samples(), samples);
+			ENSURE_OP(signalSet[i]->samples(), ==, samples);
 
 			jointDimension += signalSet[i]->dimension();
 		}
 
-		const InfinityNormBijection<real> normBijection;
+		const Infinity_NormBijection<real> normBijection;
 
 		const SignalPtr jointSignal = merge(signalSet);
 
@@ -129,6 +133,8 @@ namespace Tim
 
 		searchAllNeighborsKdTree(
 			pointSet,
+			CountingIterator<integer>(0),
+			CountingIterator<integer>(samples),
 			kNearest - 1,
 			kNearest,
 			infinity<real>(),
@@ -149,7 +155,8 @@ namespace Tim
 			const integer dimension = signalSet[i]->dimension();
 			
 			constructPointSet(
-				jointSignal, 
+				jointSignal,
+				0, samples,
 				dimensionOffset,
 				dimensionOffset + dimension,
 				pointSet);
@@ -165,10 +172,11 @@ namespace Tim
 
 			countAllNeighborsKdTree(
 				pointSet,
-				distanceSet,
-				0,
+				CountingIterator<integer>(0),
+				CountingIterator<integer>(samples),
+				distanceSet.begin(),
 				normBijection,
-				countSet);
+				countSet.begin());
 
 #pragma omp parallel for reduction(+ : estimate)
 			for (integer j = 0;j < samples;++j)
@@ -194,37 +202,6 @@ namespace Tim
 	{
 		std::vector<SignalPtr> signalSet;
 		slice(jointSignal, signalSet);
-		
-		return Tim::mutualInformation(
-			signalSet,
-			kNearest,
-			maxRelativeError);
-	}
-
-	TIMCORE real mutualInformation(
-		const SignalPtr& jointSignal,
-		const SmallSet<integer>& partition,
-		integer kNearest,
-		real maxRelativeError)
-	{
-		std::vector<SignalPtr> signalSet;
-		slice(jointSignal, partition, signalSet);
-
-		return Tim::mutualInformation(
-			signalSet,
-			kNearest,
-			maxRelativeError);
-	}
-
-	TIMCORE real mutualInformation(
-		const SignalPtr& aMarginalSignal,
-		const SignalPtr& bMarginalSignal,
-		integer kNearest,
-		real maxRelativeError)
-	{
-		std::vector<SignalPtr> signalSet;
-		signalSet.push_back(aMarginalSignal);
-		signalSet.push_back(bMarginalSignal);
 		
 		return Tim::mutualInformation(
 			signalSet,

@@ -42,8 +42,8 @@ namespace Tim
 		integer samples,
 		integer dimension)
 	{
-		ENSURE1(dimension > 0, dimension);
-		ENSURE1(samples >= 0, samples);
+		ENSURE_OP(dimension, >, 0);
+		ENSURE_OP(samples, >=, 0);
 
 		SignalPtr signal = SignalPtr(new Signal(samples, dimension));
 
@@ -63,8 +63,8 @@ namespace Tim
 		integer samples,
 		integer dimension)
 	{
-		ENSURE1(dimension > 0, dimension);
-		ENSURE1(samples >= 0, samples);
+		ENSURE_OP(dimension, >, 0);
+		ENSURE_OP(samples, >=, 0);
 
 		SignalPtr signal = SignalPtr(new Signal(samples, dimension));
 
@@ -85,9 +85,9 @@ namespace Tim
 		integer dimension,
 		const CholeskyDecompositionD& covarianceCholesky)
 	{
-		ENSURE1(dimension > 0, dimension);
-		ENSURE1(samples >= 0, samples);
-		ENSURE(covarianceCholesky.lower().width() == dimension);
+		ENSURE_OP(dimension, >, 0);
+		ENSURE_OP(samples, >=, 0);
+		ENSURE_OP(covarianceCholesky.lower().width(), ==, dimension);
 		ENSURE(covarianceCholesky.succeeded());
 
 		SignalPtr correlatedGaussian = generateGaussian(samples, dimension);
@@ -103,8 +103,8 @@ namespace Tim
 		real shape,
 		real scale)
 	{
-		ENSURE1(dimension > 0, dimension);
-		ENSURE1(samples >= 0, samples);
+		ENSURE_OP(dimension, >, 0);
+		ENSURE_OP(samples, >=, 0);
 
 		SignalPtr signal = SignalPtr(new Signal(samples, dimension));
 
@@ -150,7 +150,7 @@ namespace Tim
 		{
 			const integer marginalDimension = 
 				partition[x + 1] - partition[x];
-			ENSURE1(marginalDimension > 0, marginalDimension);
+			ENSURE_OP(marginalDimension, >, 0);
 
 			marginalSet.push_back(Tim::slice(jointSignal, partition[x], 
 				partition[x] + marginalDimension));
@@ -162,10 +162,9 @@ namespace Tim
 		integer dimensionBegin,
 		integer dimensionEnd)
 	{
-		ENSURE2(dimensionBegin <= dimensionEnd, 
-			dimensionBegin, dimensionEnd);
-		ENSURE1(dimensionBegin >= 0, dimensionBegin);
-		ENSURE2(dimensionEnd <= signal->dimension(), dimensionEnd, signal->dimension());
+		ENSURE_OP(dimensionBegin, <=, dimensionEnd);
+		ENSURE_OP(dimensionBegin, >=, 0);
+		ENSURE_OP(dimensionEnd, <=, signal->dimension());
 
 		const integer dimension = dimensionEnd - dimensionBegin;
 		const integer samples = signal->samples();
@@ -243,33 +242,106 @@ namespace Tim
 	{
 		Tim::constructPointSet(
 			signal,
+			0, signal->samples(),
 			0, signal->dimension(),
 			pointSet);
 	}
 
 	TIMCORE void constructPointSet(
 		const SignalPtr& signal,
+		integer sampleBegin,
+		integer sampleEnd,
 		integer dimensionBegin,
 		integer dimensionEnd,
 		std::vector<PointD>& pointSet)
 	{
-		ENSURE2(dimensionBegin < dimensionEnd,
-			dimensionBegin, dimensionEnd);
-		ENSURE1(dimensionBegin >= 0, dimensionBegin);
-		ENSURE2(dimensionEnd <= signal->dimension(), 
-			dimensionEnd, signal->dimension());
+		ENSURE_OP(sampleBegin, <=, sampleEnd);
+		ENSURE_OP(sampleBegin, >= , 0);
+		ENSURE_OP(sampleEnd, <=, signal->samples());
+		ENSURE_OP(dimensionBegin, <=, dimensionEnd);
+		ENSURE_OP(dimensionBegin, >=, 0);
+		ENSURE_OP(dimensionEnd, <=, signal->dimension());
 
 		const integer dimension = dimensionEnd - dimensionBegin;
-		const integer n = signal->samples();
+		const integer samples = sampleEnd - sampleBegin;
 		
-		pointSet.resize(n);
+		pointSet.resize(samples);
+		std::fill(pointSet.begin(), pointSet.end(), PointD());
 
-		for (integer i = 0;i < n;++i)
+		if (dimension == 0 ||
+			samples == 0)
+		{
+			return;
+		}
+
+		for (integer i = sampleBegin;i < sampleEnd;++i)
 		{
 			PointD point(ofDimension(dimension),
 				withAliasing(&signal->data()(i, dimensionBegin)));
 
-			pointSet[i].swap(point);
+			pointSet[i - sampleBegin].swap(point);
+		}
+	}
+
+	TIMCORE void constructPointSet(
+		const std::vector<SignalPtr>& ensemble,
+		integer sampleBegin,
+		integer sampleEnd,
+		integer dimensionBegin,
+		integer dimensionEnd,
+		std::vector<PointD>& pointSet)
+	{
+		// Check that the trials all have the
+		// same dimension and the number of samples.
+
+		const integer trials = ensemble.size();
+		if (trials == 0)
+		{
+			pointSet.clear();
+			return;
+		}
+
+		const integer signalSamples = ensemble.front()->samples();
+		const integer signalDimension = ensemble.front()->dimension();
+		for (integer i = 0;i < trials;++i)
+		{
+			ENSURE_OP(ensemble[i]->samples(), ==, signalSamples);
+			ENSURE_OP(ensemble[i]->dimension(), ==, signalDimension);
+		}
+
+		ENSURE_OP(sampleBegin, <=, sampleEnd);
+		ENSURE_OP(sampleBegin, >= , 0);
+		ENSURE_OP(sampleEnd, <=, signalSamples);
+		ENSURE_OP(dimensionBegin, <=, dimensionEnd);
+		ENSURE_OP(dimensionBegin, >=, 0);
+		ENSURE_OP(dimensionEnd, <=, signalDimension);
+
+		const integer dimension = dimensionEnd - dimensionBegin;
+		const integer samples = sampleEnd - sampleBegin;
+
+		pointSet.resize(samples * trials);
+		std::fill(pointSet.begin(), pointSet.end(), PointD());
+
+		if (dimension == 0 ||
+			samples == 0 ||
+			trials == 0)
+		{
+			return;
+		}
+
+		integer index = 0;
+		for (integer j = 0;j < trials;++j)
+		{
+			const SignalPtr signal = ensemble[j];
+
+			for (integer i = sampleBegin;i < sampleEnd;++i)
+			{
+				PointD point(ofDimension(dimension),
+					withAliasing(&signal->data()(i, dimensionBegin)));
+
+				pointSet[index].swap(point);
+				++index;
+			}
 		}
 	}
 
