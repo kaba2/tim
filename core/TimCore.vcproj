@@ -312,6 +312,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\signal_generate.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\signal_generate.h"
+					>
+				</File>
+				<File
 					RelativePath=".\signal_tools.cpp"
 					>
 				</File>

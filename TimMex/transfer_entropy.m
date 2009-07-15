@@ -66,7 +66,7 @@ if nargin < 4
 end
 
 if nargin < 5
-    sigma = 5
+    sigma = 5;
 end
 
 if nargin < 6

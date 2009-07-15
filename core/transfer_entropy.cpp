@@ -28,7 +28,8 @@ namespace Tim
 
 		ENSURE_OP(aFutureEnsemble.size(), ==, trials);
 		ENSURE_OP(bEnsemble.size(), ==, trials);
-		ENSURE_OP(cEnsembleSet.width(), ==, trials);
+		ENSURE2(cEnsembleSet.empty() || cEnsembleSet.width() == trials,
+			cEnsembleSet.width(), trials);
 
 		if (trials == 0)
 		{
@@ -48,9 +49,8 @@ namespace Tim
 		const integer aDimension = aEnsemble.front()->dimension();
 		const integer aFutureDimension = aFutureEnsemble.front()->dimension();
 		const integer bDimension = bEnsemble.front()->dimension();
-		const integer cDimension = cSize > 0 ? cEnsembleSet(0, 0)->dimension() : 0;
 
-		integer samples = 0;
+		integer samples = aEnsemble.front()->samples();
 
 		for (integer i = 0;i < trials;++i)
 		{
@@ -64,7 +64,8 @@ namespace Tim
 
 			for (integer j = 0;j < cSize;++j)
 			{
-				ENSURE_OP(cDimension, ==, cEnsembleSet(i, j)->dimension());
+				ENSURE_OP(cEnsembleSet(0, j)->dimension(), ==, 
+					cEnsembleSet(i, j)->dimension());
 
 				samples = std::min(samples, cEnsembleSet(i, j)->samples());
 			}
@@ -139,7 +140,7 @@ namespace Tim
 		const integer xBegin = wEnd;
 		const integer xEnd = xBegin + aDimension;
 		const integer zBegin = xEnd;
-		const integer zEnd = xBegin + cDimensionTotal;
+		const integer zEnd = zBegin + cDimensionTotal;
 		const integer yBegin = zEnd;
 		const integer yEnd = yBegin + bDimension;
 
@@ -161,8 +162,16 @@ namespace Tim
 		estimateSet.resize(samples);
 		std::fill(estimateSet.begin(), estimateSet.end(), 0);
 
+		integer percent = 0;
 		for (integer i = sigma;i < samples - sigma;++i)
 		{
+			integer newPercent = (real)(i * 100) / samples;
+			if (newPercent != percent)
+			{
+				log() << newPercent << "%, ";
+				percent = newPercent;
+			}
+
 			const integer sampleBegin = i - sigma;
 			const integer sampleEnd = i + sigma + 1;
 
