@@ -4,6 +4,9 @@
 #include "tim/core/signal_tools.h"
 #include "tim/core/embed.h"
 
+#include <pastel/gfx/drawing.h>
+#include <pastel/gfx/pcx.h>
+
 #include <pastel/device/timer.h>
 
 #include <pastel/sys/random.h>
@@ -51,7 +54,26 @@ namespace
 
 		std::vector<real> estimateSet;
 		transferEntropy(xEnsemble, xFutureEnsemble,
-			yEnsemble, Array<2, SignalPtr>(), 5, 1, estimateSet);
+			yEnsemble, Array<2, SignalPtr>(), 20, 1, estimateSet);
+
+		real xMax = 0;
+		for (integer x = 0;x < estimateSet.size();++x)
+		{
+			if (mabs(estimateSet[x]) > xMax)
+			{
+				xMax = mabs(estimateSet[x]);
+			}
+		}
+
+		Array<2, Color> image(estimateSet.size(), 100);
+		for (integer x = 0;x < estimateSet.size();++x)
+		{
+			const real y = mabs(estimateSet[x]) / xMax;
+
+			drawPixel(Point2(x + 0.5, y * 99), Color(0, 1, 0), arrayView(image));
+		}
+
+		savePcx(image, "transfer_entropy.pcx");
 
 		timer.store();
 		log() << "Finished in " << timer.seconds() << " seconds." << logNewLine;
