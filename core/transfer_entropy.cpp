@@ -150,12 +150,12 @@ namespace Tim
 		const integer jointDimension = yEnd - wBegin;
 
 		const Infinity_NormBijection<real> normBijection;
-		Array<2, real> distanceArray(1, samples);
+		Array<2, real> distanceArray(1, trials);
 
 		const integer sigmaSamples = 2 * sigma + 1;
 
 		std::vector<integer> countSet(trials, 0);
-		std::vector<real> distanceSet(samples, 0);
+		std::vector<real> distanceSet(trials, 0);
 		std::vector<PointD> pointSet;
 		pointSet.reserve(trials * sigmaSamples);
 
@@ -183,10 +183,6 @@ namespace Tim
 			constructPointSet(jointEnsemble, 
 				sampleBegin, sampleEnd, 
 				wBegin, yEnd, pointSet);
-
-			PointD jointPoint(
-				ofDimension(jointDimension),
-				withAliasing((real*)0));
 
 			const ConstSparseIterator<CountingIterator<integer> >
 				sparseIndexBegin(CountingIterator<integer>(sigma), sigmaSamples);
