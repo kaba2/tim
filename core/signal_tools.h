@@ -5,6 +5,8 @@
 
 #include <pastel/math/matrix.h>
 
+#include <pastel/gfx/color.h>
+
 #include <pastel/sys/smallset.h>
 
 #include <iostream>
@@ -14,19 +16,60 @@ namespace Tim
 
 	TIMCORE std::ostream& operator<<(std::ostream& stream, const Signal& signal);
 
-	//! Merges signals into a higher-dimensional signal.
+	//! Returns the minimum number of samples among the signals.
 	/*!
-	Note that in contrast to slicing, merging needs 
-	to allocate new memory and copy the signals.
+	Preconditions:
+	Signal_ForwardIterator must dereference to SignalPtr.
+	*/
+	template <typename Signal_ForwardIterator>
+	integer minSamples(
+		const Signal_ForwardIterator& begin,
+		integer signals,
+		integer maxLag = 0);
+
+	//! Returns true if all signals have the same dimension.
+	/*!
+	Preconditions:
+	Signal_ForwardIterator must dereference to SignalPtr.
+	*/
+	template <typename Signal_ForwardIterator>
+	bool equalDimension(
+		const Signal_ForwardIterator& begin,
+		integer signals);
+
+	//! Merges a signal set into a higher-dimensional signal.
+	/*!
+	Preconditions:
+	Signal_ForwardIterator dereferences to SignalPtr.
+
+	The output signal will have as many samples as
+	the input signal with the least number of samples.
+	*/
+	template <
+		typename Signal_ForwardIterator,
+		typename Lag_ForwardIterator>
+	SignalPtr merge(
+		const Signal_ForwardIterator& signalBegin,
+		integer signals,
+		const Lag_ForwardIterator& lagBegin);
+
+	template <typename Signal_ForwardIterator>
+	SignalPtr merge(
+		const Signal_ForwardIterator& signalBegin,
+		integer signals);
+
+	//! Merges two signals into a higher-dimensional signal.
+	/*!
+	Preconditions:
+	Signal_ForwardIterator dereferences to SignalPtr.
+
 	The output signal will have as many samples as
 	the input signal with the least number of samples.
 	*/
 	TIMCORE SignalPtr merge(
-		const std::vector<SignalPtr>& signalList);
-
-	TIMCORE SignalPtr merge(
 		const SignalPtr& aSignal,
-		const SignalPtr& bSignal);
+		const SignalPtr& bSignal,
+		integer bLag = 0);
 
 	//! Creates aliases for 1d-marginal signals.
 	/*!
@@ -99,8 +142,15 @@ namespace Tim
 		const SignalPtr& signal,
 		const MatrixD& covariance);
 
+	template <typename Image_View>
+	void drawSignal(
+		const SignalPtr& signal,
+		const View<2, Color, Image_View>& image);
+
 }
 
 #include "tim/core/signal_generate.h"
+
+#include "tim/core/signal_tools.hpp"
 
 #endif

@@ -175,9 +175,11 @@ void mexFunction(int outputs, mxArray *outputSet[],
 
 	std::vector<real> estimateSet;
 
+	/*
 	transferEntropy(
 		xEnsemble, wEnsemble, yEnsemble, 
 		zEnsembleSet, sigma, kNearest, estimateSet);
+	*/
 
 	const integer samples = estimateSet.size();
 

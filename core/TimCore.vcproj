@@ -48,7 +48,7 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				DisableLanguageExtensions="true"
-				OpenMP="true"
+				OpenMP="false"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="4"
@@ -128,7 +128,7 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				DisableLanguageExtensions="true"
-				OpenMP="true"
+				OpenMP="false"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
@@ -232,6 +232,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\mutual_information_kraskow.hpp"
+					>
+				</File>
+				<File
 					RelativePath=".\mutual_information_naive.cpp"
 					>
 				</File>
@@ -265,6 +269,10 @@
 				</File>
 				<File
 					RelativePath=".\transfer_entropy.h"
+					>
+				</File>
+				<File
+					RelativePath=".\transfer_entropy.hpp"
 					>
 				</File>
 				<File
@@ -341,6 +349,10 @@
 				</File>
 				<File
 					RelativePath=".\embed.h"
+					>
+				</File>
+				<File
+					RelativePath=".\embed.hpp"
 					>
 				</File>
 			</Filter>

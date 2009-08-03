@@ -13,56 +13,74 @@ namespace Tim
 	//! Computes the multivariate transfer entropy.
 	/*!
 	Preconditions:
+	flowFrom >= 0
+	flowFrom < signalSet.height()
+	flowTo >= 0
+	flowTo < signalSet.height()
+	fromDimension > 0
 	sigma >= 0
-	kNearest > 0	
+	kNearest > 0
+	Signal_ForwardIterator dereferences to SignalPtr.
 
-	Usage:
+	embeddedSet:
+	An array containing signals for which the multivariate
+	transfer entropy (MTE) is computed.
+	Each row of the array represents a signal from the 
+	same source, and each column represents a trial. I.e. the
+	same test has been repeated and measured for a number of
+	signal sources and the signals have been measured in parallel
+	for each trial. The signals must already have been delay-embedded.
 
-	Assume that you want to analyze the information
-	flow from signal B to signal A while
-	excluding the effect of signals {C_i}:
+	xIndex, yIndex:
+	The row indices of the signals x and y in 'embeddedSet' 
+	between which the directed information flow from x to y is of interest. 
+	The effect of other signals will be removed from the end result 
+	so that, for example, if the connectivity between signals x, y, 
+	and z is x->y->z, then x->z won't report information flow.
 
-	A : Z -> R^a
-	B : Z -> R^b
-	C_i : Z -> R^c_i
+	xFutureBegin, xFutureEnd:
+	The future of signal x _before_ the delay-embedding, for each trial.
+	Let x : R -> R^n. The future of x is then defined by:
+	xFuture[t] = last n components of xEmbedded[t + 1].
+	If you used the 'delayEmbed' function to do the delay-embedding,
+	you can use the 'delayEmbedFuture' function to compute the future.
 
-	One way to do this is via Multivariate
-	Transfer Entropy (MTE). To use this function, you are expected 
-	to delay-embed all of the signals A, B and {C_i} properly 
-	before giving them as input to this function (see
-	'tim/core/embed.h' for this). This results in the signals:
+	sigma:
+	The radius of the time-window in samples to use for MTE estimation
+	at each time instant. Smaller 'sigma's give better temporal resolution,
+	but greater errors. In the other direction, if the underlying
+	connectivity pattern stays fixed, then the error can be made 
+	smaller by using a larger 'sigma'. In the general case, the MTE 
+	estimate is averaged over the time window and thus its correspondence 
+	to the actual temporal MTE is dependent on how rapidly the underlying
+	connectivity changes.
 
-	A' : Z -> R^a'
-	B' : Z -> R^b'
-	C'_i : Z -> R^c'_i
+	kNearest:
+	The k:th neighbor to use in the estimation.
 
-	In addition to these signals, you are required to pass
-	the 'future' of the signal A. Assume you want to do the delay-
-	embedding of A with embedding factor k. Then the future
-	of A is the last component of the signal A' if you
-	delay-embed it with embedding factor (k + 1).
-	You can obtain the future conveniently as follows:
+	estimateSet (output):
+	For each time instant, an MTE estimate.
 	
-	SignalPtr aEmbeddedBig = embed(aSignal, k + 1, shift, step);
-	SignalPtr aEmbedded = slice(aEmbeddedBig, 0, k);
-	SignalPtr aFuture = slice(aEmbeddedBig, k, k + 1);
-
-	The embedding can result in signals that have slightly 
+	The embedding and shifting can result in signals that have slightly 
 	different number of samples in them. This is handled by using
 	the minimum sample count and ignoring the rest of the samples.
 
-	If cEmbeddedSet is empty, this function effectively 
-	computes bivariate transfer entropy.
+	If the 'signalSet' contains only two signals, this function
+	reduces to the bivariate transfer entropy.
 	*/
-	TIMCORE void transferEntropy(
-		const std::vector<SignalPtr>& aEnsemble,
-		const std::vector<SignalPtr>& aFutureEnsemble,
-		const std::vector<SignalPtr>& bEnsemble,
-		const Array<2, SignalPtr>& cEnsembleSet,
+	template <typename Signal_ForwardIterator>
+	void transferEntropy(
+		const Array<2, SignalPtr>& embeddedSet,
+		integer xIndex,
+		integer yIndex,
+		const Signal_ForwardIterator& xFutureBegin,
+		const Signal_ForwardIterator& xFutureEnd,
 		integer sigma,
 		integer kNearest,
 		std::vector<real>& estimateSet);
 
 }
+
+#include "tim/core/transfer_entropy.hpp"
 
 #endif
