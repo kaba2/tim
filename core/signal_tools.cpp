@@ -88,66 +88,25 @@ namespace Tim
 			signal->samples(), dimension));
 
 		sliceSignal->data() = signal->data()(
-			Range(0, samples - 1), 
-			Range(dimensionBegin, dimensionEnd - 1));
+			Point2i(0, dimensionBegin), Point2i(samples, dimensionEnd));
 
 		return sliceSignal;
 	}
 
 	TIMCORE SignalPtr merge(
-		const std::vector<SignalPtr>& signalList)
-	{
-		if (signalList.empty())
-		{
-			return SignalPtr();
-		}
-
-		integer samples = signalList.front()->samples();
-
-		const integer signals = signalList.size();
-		integer jointDimension = 0;
-		for (integer i = 0;i < signals;++i)
-		{
-			const SignalPtr signal = signalList[i];
-			jointDimension += signal->dimension();
-			if (signal->samples() < samples)
-			{
-				samples = signal->samples();
-			}
-		}
-
-		SignalPtr jointSignal(new Signal(samples, jointDimension));
-		
-		integer dimensionOffset = 0;
-
-		for (integer j = 0;j < signals;++j)
-		{
-			const SignalPtr signal = signalList[j];
-			const integer dimension = signal->dimension();
-
-			for (integer i = 0;i < samples;++i)
-			{
-				std::copy(
-					signal->data().rowBegin(i),
-					signal->data().rowEnd(i),
-					jointSignal->data().rowBegin(i) + dimensionOffset);
-			}
-
-			dimensionOffset += dimension;
-		}
-
-		return jointSignal;
-	}
-
-	TIMCORE SignalPtr merge(
 		const SignalPtr& aSignal,
-		const SignalPtr& bSignal)
+		const SignalPtr& bSignal,
+		integer bLag)
 	{
-		std::vector<SignalPtr> signalSet;
-		signalSet.reserve(2);
-		signalSet.push_back(aSignal);
-		signalSet.push_back(bSignal);
-		return Tim::merge(signalSet);
+		ENSURE_OP(bLag, >=, 0);
+
+		const SignalPtr signalSet[2] = {aSignal, bSignal};
+		const integer lag[2] = {0, bLag};
+
+		return Tim::merge(
+			(const SignalPtr*)signalSet, 
+			2,
+			(const integer*)lag);
 	}
 
 	TIMCORE void constructPointSet(

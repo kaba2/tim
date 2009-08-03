@@ -61,6 +61,31 @@ namespace Tim
 		real shape,
 		real scale);
 
+	//! Generates a signal with time-varying coupling.
+	/*!
+	Preconditions:
+	samples >= 0
+	yzShift >= 0
+	zyShift >= 0
+
+	The signals are divide into three time regions.
+	In the first and the third time regions, there is
+	no coupling between x, y, and z. However, in
+	the second time region x drives y, and y drives z.
+	The amplitudes of these drives are given by a sine
+	wave for the x->y, and by a cosine wave for the
+	y->z. Thus, those estimators which are sensitive
+	to temporal changes in coupling (e.g. multivariate 
+	transfer entropy) should give similar coupling curves.	
+	*/
+	TIMCORE void generateTimeVaryingCoupling(
+		integer samples,
+		integer yxShift,
+		integer zyShift,
+		const SignalPtr& xSignal,
+		const SignalPtr& ySignal,
+		const SignalPtr& zSignal);
+
 }
 
 #endif

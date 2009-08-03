@@ -19,6 +19,7 @@ namespace Tim
 		const SignalPtr& cSignal,
 		integer kNearest)
 	{
+		/*
 		ENSURE_OP(kNearest, >, 0);
 		ENSURE_OP(aSignal->samples(), ==, bSignal->samples());
 		ENSURE_OP(aSignal->samples(), ==, cSignal->samples());
@@ -58,7 +59,8 @@ namespace Tim
 		marginalSet.push_back(cSignal);
 		marginalSet.push_back(bSignal);
 		
-		const SignalPtr jointSignal = merge(marginalSet);
+		const SignalPtr jointSignal = merge(
+			marginalSet.begin(), marginalSet.end());
 		
 		const integer xBegin = 0;
 		const integer xEnd = aSignal->dimension();
@@ -71,20 +73,6 @@ namespace Tim
 		const SignalPtr xzSignal = slice(jointSignal, xBegin, zEnd);
 		const SignalPtr yzSignal = slice(jointSignal, zBegin, yEnd);
 				
-		/*
-		MatrixD xCovariance(xSignal->dimension(), xSignal->dimension());
-		computeCovariance(xSignal, xCovariance);
-		normalizeCovariance(xSignal, xCovariance);
-
-		MatrixD yCovariance(ySignal->dimension(), ySignal->dimension());
-		computeCovariance(ySignal, yCovariance);
-		normalizeCovariance(ySignal, yCovariance);
-
-		MatrixD zCovariance(zSignal->dimension(), zSignal->dimension());
-		computeCovariance(zSignal, zCovariance);
-		normalizeCovariance(zSignal, zCovariance);
-		*/
-
 		// For each sample point in the joint space,
 		// find the distance to the k:th nearest neighbor.
 		Array<2, real> distanceArray(1, samples);
@@ -94,6 +82,7 @@ namespace Tim
 
 			searchAllNeighborsKdTree(
 				jointPointSet,
+				DepthFirst_SearchAlgorithm_PointKdTree(),
 				CountingIterator<integer>(0),
 				CountingIterator<integer>(samples),
 				kNearest - 1,
@@ -133,6 +122,7 @@ namespace Tim
 				CountingIterator<integer>(samples),
 				distanceSet.begin(),
 				normBijection,
+				16,
 				countSet.begin());
 
 #pragma omp parallel for reduction(+ : estimate)
@@ -153,6 +143,7 @@ namespace Tim
 				CountingIterator<integer>(samples),
 				distanceSet.begin(),
 				normBijection,
+				16,
 				countSet.begin());
 
 #pragma omp parallel for reduction(+ : estimate)
@@ -173,6 +164,7 @@ namespace Tim
 				CountingIterator<integer>(samples),
 				distanceSet.begin(),
 				normBijection,
+				16, 
 				countSet.begin());
 
 #pragma omp parallel for reduction(+ : estimate)
@@ -189,6 +181,8 @@ namespace Tim
 		estimate += harmonicNumber<real>(kNearest - 1);
 
 		return estimate;
+		*/
+		return 0;
 	}
 		
 

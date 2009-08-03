@@ -54,4 +54,31 @@ namespace Tim
 		return embedSignal;
 	}
 
+	TIMCORE SignalPtr delayEmbedFuture(
+		const SignalPtr& signal,
+		integer k,
+		integer shift,
+		integer step)
+	{
+		ENSURE_OP(k, >, 0);
+		ENSURE_OP(shift, >=, 0);
+		ENSURE_OP(step, >=, 1);
+
+		const integer futureShift = shift + step * k;
+
+		return delayEmbed(signal, 1, futureShift);
+	}
+
+	TIMCORE integer delayEmbedFutureShift(
+		integer k, 
+		integer shift, 
+		integer step)
+	{
+		ENSURE_OP(k, >, 0);
+		ENSURE_OP(shift, >=, 0);
+		ENSURE_OP(step, >=, 1);
+
+		return shift + step * k;
+	}
+
 }

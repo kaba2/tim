@@ -20,12 +20,32 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	//% MUTUAL_INFORMATION 
 	//% A mutual information estimate from samples.
 	//%
-	//% I = mutual_information(S, k, threads)
+	//% I = mutual_information(X, Y, lagSet, sigma, k, threads)
 	//%
 	//% where
 	//%
-	//% S is a cell-array of arbitrary dimension that contains p signals 
-	//% (it is addressed as a 1d cell-array).
+	//% I is 1-dimensional row matrix which contains the mutual 
+	//% information estimates [I(X, Y_1), ..., I(X, Y_p)],
+	//% where Y_i is the signal y delayed by lagSet(i) samples.
+	//%
+	//% X is an arbitrary-dimensional cell-array whose linearization
+	//% contains q trials of signal x.
+	//%
+	//% Y is an arbitrary-dimensional cell-array whose linearization 
+	//% contains q trials of signal y.
+	//%
+	//% LAGSET is an arbitrary-dimensional array whose linearization
+	//% contains p lag values. Each such value determines how much
+	//% the signal y is delayed from signal x. Default 0.
+	//%
+	//% SIGMA determines the radius of the time-window inside which
+	//% samples are taken into consideration to the mutual information
+	//% estimate at time instant t. The time window at time instant t
+	//% is given by [t - sigma, t + sigma]. This allows the estimate to
+	//% be adaptive to temporal changes in mutual information. If no
+	//% such changes should happen, better accuracy can be achieved by
+	//% setting 'sigma' larger than (half) the number of samples.
+	//% Default: number of samples (i.e. everything).
 	//%
 	//% K determines which k:th nearest neighbor the algorithm
 	//% uses for estimation. Default 1.
@@ -37,14 +57,17 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	//% spare one core for other work. Default 1 (no parallelization).
 	//%
 	//% Each signal is a real (m x n)-matrix that contains n samples of an
-	//% m-dimensional signal. If the number of samples varies with each
-	//% signal, the function uses the minimum sample count among the signals.
+	//% m-dimensional signal. The dimension of X and Y need not coincide.
+	//% However, the number of trials has to coincide.
+	//% If the number of samples varies with trials, the function uses 
+	//% the minimum sample count among the trials of X and Y.
 
-	const integer signals = mxGetNumberOfElements(inputSet[0]);
-	std::vector<SignalPtr> signalSet;
-	signalSet.reserve(signals);
+	const mwSize signals = mxGetDimensions(inputSet[0])[0];
+	const mwSize trials = mxGetDimensions(inputSet[0])[1];
 
-	for (integer i = 0;i < signals;++i)
+	std::vector<SignalPtr> xEnsemble(trials);
+
+	for (integer i = 0;i < trials;++i)
 	{
 		mxArray* signalArray = mxGetCell(inputSet[0], i);
 
@@ -57,17 +80,56 @@ void mexFunction(int outputs, mxArray *outputSet[],
 
 		real* rawData = mxGetPr(signalArray);
 
-		signalSet.push_back(SignalPtr(
-			new Signal(samples, dimension, rawData)));
+		xEnsemble[i] = SignalPtr(
+			new Signal(samples, dimension, rawData));
 	}
 
-	const integer kNearest = *mxGetPr(inputSet[1]);
-	const integer threads = *mxGetPr(inputSet[2]);
+	std::vector<SignalPtr> yEnsemble(trials);
+
+	for (integer i = 0;i < trials;++i)
+	{
+		mxArray* signalArray = mxGetCell(inputSet[1], i);
+
+		// It is intentional to assign the width
+		// and height the wrong way. The reason
+		// is that Matlab uses column-major storage
+		// while we use row-major storage.
+		const mwSize samples = mxGetN(signalArray);
+		const mwSize dimension = mxGetM(signalArray);
+
+		real* rawData = mxGetPr(signalArray);
+
+		yEnsemble[i] = SignalPtr(
+			new Signal(samples, dimension, rawData));
+	}
+
+	const integer lags = mxGetNumberOfElements(inputSet[2]);
+	std::vector<integer> lagSet(lags);
+
+	{
+		real* rawData = mxGetPr(inputSet[2]);
+
+		for (integer i = 0;i < lags;++i)
+		{
+			lagSet[i] = rawData[i];
+		}
+	}
+
+	const integer sigma = *mxGetPr(inputSet[3]);
+	const integer kNearest = *mxGetPr(inputSet[4]);
+	const integer threads = *mxGetPr(inputSet[5]);
 
 	omp_set_num_threads(threads);
 
-	outputSet[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
+	outputSet[0] = mxCreateDoubleMatrix(1, lags, mxREAL);
 	real* rawResult = mxGetPr(outputSet[0]);
 
-	*rawResult = mutualInformation(signalSet, kNearest);
+	*rawResult = mutualInformation(
+		xEnsemble.begin(),
+		yEnsemble.begin(),
+		trials,
+		lagSet.begin(),
+		lags,
+		sigma,
+		kNearest);
 }

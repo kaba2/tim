@@ -156,7 +156,6 @@ namespace
 		Array<2, integer>& nearestArray)
 	{
 		ENSURE_OP(kNearest, >, 0);
-		ENSURE_OP(kNearest, <, pointSet.size());
 		ENSURE_OP(maxDistance, >, 0);
 		ENSURE_OP(maxRelativeError, >=, 0);
 
@@ -220,7 +219,6 @@ namespace
 		Array<2, integer>& nearestArray)
 	{
 		ENSURE_OP(kNearest, >, 0);
-		ENSURE_OP(kNearest, <, pointSet.size());
 		ENSURE_OP(maxDistance, >, 0);
 		ENSURE_OP(maxRelativeError, >=, 0);
 
@@ -297,7 +295,7 @@ namespace
 		const integer kNearest = neighborSet.width();
 
 		Array<2, Color> image(768, 768);
-		ImageGfxRenderer<Color> renderer;
+		Image_GfxRenderer<Color> renderer;
 		renderer.setImage(&image);
 		renderer.setColor(Color(1));
 		renderer.setViewWindow(AlignedBox2(-1, -1, 1, 1));
@@ -417,6 +415,7 @@ namespace
 
 			searchAllNeighborsBruteForce(
 				pointSet, 
+				DepthFirst_SearchAlgorithm_PointKdTree(),
 				CountingIterator<integer>(0),
 				CountingIterator<integer>(samples),
 				kNearest, infinity<Real>(),
@@ -444,6 +443,7 @@ namespace
 
 				searchAllNeighborsKdTree(
 					pointSet,
+					DepthFirst_SearchAlgorithm_PointKdTree(),
 					CountingIterator<integer>(0),
 					CountingIterator<integer>(samples),
 					0,

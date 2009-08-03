@@ -46,6 +46,7 @@ namespace Tim
 
 		searchAllNeighborsKdTree(
 			pointSet,
+			DepthFirst_SearchAlgorithm_PointKdTree(),
 			CountingIterator<integer>(0),
 			CountingIterator<integer>(samples),
 			kNearest - 1,
