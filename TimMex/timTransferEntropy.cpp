@@ -140,7 +140,7 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	const mwSize zSignals = mxGetDimensions(inputSet[3])[0];
 	const mwSize trials = mxGetDimensions(inputSet[3])[1];
 
-	Array<2, SignalPtr> zEnsembleSet(trials, zSignals);
+	Array<SignalPtr, 2> zEnsembleSet(trials, zSignals);
 
 	integer index = 0;
 

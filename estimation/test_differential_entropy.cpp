@@ -34,7 +34,7 @@ namespace
 		const real maxRelativeError = 3 * radiusRatio;
 		log() << radiusRatio << logNewLine;
 		*/
-		const real maxRelativeError = 3;
+		const real maxRelativeError = 0;
 
 		const real estimate = differentialEntropy(signal, kNearest, maxRelativeError, 
 			normBijection);

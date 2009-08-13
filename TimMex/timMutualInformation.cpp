@@ -20,7 +20,7 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	//% MUTUAL_INFORMATION 
 	//% A mutual information estimate from samples.
 	//%
-	//% I = mutual_information(X, Y, lagSet, sigma, k, threads)
+	//% I = mutual_information(X, Y, yLag, sigma, k, threads)
 	//%
 	//% where
 	//%
@@ -34,9 +34,7 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	//% Y is an arbitrary-dimensional cell-array whose linearization 
 	//% contains q trials of signal y.
 	//%
-	//% LAGSET is an arbitrary-dimensional array whose linearization
-	//% contains p lag values. Each such value determines how much
-	//% the signal y is delayed from signal x. Default 0.
+	//% YLAG is the lag in samples which is applied to signal Y.
 	//%
 	//% SIGMA determines the radius of the time-window inside which
 	//% samples are taken into consideration to the mutual information
@@ -103,33 +101,23 @@ void mexFunction(int outputs, mxArray *outputSet[],
 			new Signal(samples, dimension, rawData));
 	}
 
-	const integer lags = mxGetNumberOfElements(inputSet[2]);
-	std::vector<integer> lagSet(lags);
-
-	{
-		real* rawData = mxGetPr(inputSet[2]);
-
-		for (integer i = 0;i < lags;++i)
-		{
-			lagSet[i] = rawData[i];
-		}
-	}
-
+	const integer yLag = *mxGetPr(inputSet[2]);
 	const integer sigma = *mxGetPr(inputSet[3]);
 	const integer kNearest = *mxGetPr(inputSet[4]);
 	const integer threads = *mxGetPr(inputSet[5]);
 
 	omp_set_num_threads(threads);
 
-	outputSet[0] = mxCreateDoubleMatrix(1, lags, mxREAL);
-	real* rawResult = mxGetPr(outputSet[0]);
-
-	*rawResult = mutualInformation(
-		xEnsemble.begin(),
-		yEnsemble.begin(),
-		trials,
-		lagSet.begin(),
-		lags,
+	std::vector<real> result;
+	mutualInformation(
+		forwardRange(xEnsemble.begin(), xEnsemble.end()),
+		forwardRange(yEnsemble.begin(), yEnsemble.end()),
+		std::back_inserter(result),
+		yLag,
 		sigma,
 		kNearest);
+
+	outputSet[0] = mxCreateDoubleMatrix(1, result.size(), mxREAL);
+	real* rawResult = mxGetPr(outputSet[0]);
+	std::copy(result.begin(), result.end(), rawResult);
 }

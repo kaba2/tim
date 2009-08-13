@@ -1,3 +1,4 @@
+/*
 #include "estimation.h"
 
 #include "tim/core/mutual_information.h"
@@ -43,7 +44,7 @@ namespace
 	}
 
 	void generateCouplingTest(
-		Array<2, SignalPtr>& signalSet)
+		Array<SignalPtr, 2>& signalSet)
 	{
 		const integer samples = 1500;
 		const integer trials = 50;
@@ -67,40 +68,6 @@ namespace
 		}
 	}
 
-	template <
-		typename Signal_ForwardIterator_A,
-		typename Signal_ForwardIterator_B,
-		typename OutputIterator>
-	void mutualInformationLag(
-		const Signal_ForwardIterator_A& aBegin,
-		const Signal_ForwardIterator_A& aEnd,
-		const Signal_ForwardIterator_B& bBegin,
-		integer lagBegin,
-		integer lagEnd,
-		integer kNearest,
-		integer maxRelativeError,
-		const OutputIterator& outputBegin)
-	{
-		const integer trials = std::distance(aBegin, aEnd);
-
-		Array<2, SignalPtr> signalSet(trials, 2);
-		std::copy(aBegin, aEnd, signalSet.rowBegin(0));
-		std::copy(bBegin, bBegin + trials, signalSet.rowBegin(1));
-
-		OutputIterator outputIter = outputBegin;
-		std::vector<integer> lagSet(2, 0);
-		for (integer i = lagBegin;i < lagEnd;++i)
-		{
-			lagSet[1] = i;
-
-			(*outputIter) = mutualInformation(
-				signalSet, lagSet.begin(),
-				kNearest, maxRelativeError);
-
-			++outputIter;
-		}
-	}
-
 	void testTransferEntropy()
 	{
 		Timer timer;
@@ -109,34 +76,25 @@ namespace
 		log() << "Computing transfer entropies..." << logNewLine;
 		log() << "Relative errors to correct analytic results shown in brackets." << logNewLine;
 
-		Array<2, SignalPtr> signalSet;
+		Array<SignalPtr, 2> signalSet;
 		std::vector<real> estimateSet;
 
-		/*
-		generateGaussianTest(
-			xEnsemble, xFutureEnsemble, yEnsemble);
+		//generateGaussianTest(
+		//	xEnsemble, xFutureEnsemble, yEnsemble);
 
-		transferEntropy(xEnsemble, xFutureEnsemble,
-			yEnsemble, zEnsembleSet, 5, 20, estimateSet);
+		//transferEntropy(xEnsemble, xFutureEnsemble,
+		//	yEnsemble, zEnsembleSet, 5, 20, estimateSet);
 
-		drawTransferEntropy(estimateSet, "test_mte_gaussian.pcx");
-		*/
+		//drawTransferEntropy(estimateSet, "test_mte_gaussian.pcx");
 
 		generateCouplingTest(signalSet);
 
 		std::vector<real> miSet;
 		miSet.reserve(50);
 
-		mutualInformationLag(
-			signalSet.rowBegin(0), signalSet.rowEnd(0),
-			signalSet.rowBegin(1),
-			0, 50,
-			1, 0,
-			std::back_inserter(miSet));
-
 		const integer signals = signalSet.height();
 
-		Array<2, SignalPtr> futureSet(signalSet.extent());
+		Array<SignalPtr, 2> futureSet(signalSet.extent());
 
 		for (integer i = 0;i < signals;++i)
 		{
@@ -160,7 +118,7 @@ namespace
 			estimateSet.end(),
 			estimate->data().begin());
 
-		Array<2, Color> image(estimateSet.size(), 100);
+		Array<Color, 2> image(estimateSet.size(), 100);
 
 		drawSignal(estimate, arrayView(image));
 		savePcx(image, "test_mte_coupling.pcx");
@@ -197,3 +155,4 @@ namespace
 	CallFunction run(testAdd);
 
 }
+*/

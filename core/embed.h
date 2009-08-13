@@ -40,13 +40,13 @@ namespace Tim
 	k > 0
 	shift >= 0
 	step >= 1
-	Signal_ForwardIterator dereferences to a SignalPtr.
+	Signal_Iterator dereferences to a SignalPtr.
 	OutputIterator dereferences to a SignalPtr&.
 	*/
-	template <typename Signal_ForwardIterator, typename OutputIterator>
+	template <typename Signal_Iterator, typename OutputIterator>
 	void delayEmbed(
-		const Signal_ForwardIterator& signalBegin,
-		const Signal_ForwardIterator& signalEnd,
+		const Signal_Iterator& signalBegin,
+		const Signal_Iterator& signalEnd,
 		const OutputIterator& outputBegin,
 		integer k,
 		integer shift = 0,
@@ -85,10 +85,10 @@ namespace Tim
 		integer shift = 0,
 		integer step = 1);
 
-	template <typename Signal_ForwardIterator, typename OutputIterator>
+	template <typename Signal_Iterator, typename OutputIterator>
 	void delayEmbedFuture(
-		const Signal_ForwardIterator& signalBegin,
-		const Signal_ForwardIterator& signalEnd,
+		const Signal_Iterator& signalBegin,
+		const Signal_Iterator& signalEnd,
 		const OutputIterator& outputBegin,
 		integer k,
 		integer shift = 0,

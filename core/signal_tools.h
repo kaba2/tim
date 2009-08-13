@@ -8,6 +8,7 @@
 #include <pastel/gfx/color.h>
 
 #include <pastel/sys/smallset.h>
+#include <pastel/sys/forwardrange.h>
 
 #include <iostream>
 
@@ -19,49 +20,62 @@ namespace Tim
 	//! Returns the minimum number of samples among the signals.
 	/*!
 	Preconditions:
-	Signal_ForwardIterator must dereference to SignalPtr.
+	Signal_Iterator must dereference to SignalPtr.
 	*/
-	template <typename Signal_ForwardIterator>
+	template <typename Signal_Iterator>
 	integer minSamples(
-		const Signal_ForwardIterator& begin,
-		integer signals,
-		integer maxLag = 0);
+		const ForwardRange<Signal_Iterator>& signalSet);
 
 	//! Returns true if all signals have the same dimension.
 	/*!
 	Preconditions:
-	Signal_ForwardIterator must dereference to SignalPtr.
+	Signal_Iterator must dereference to SignalPtr.
 	*/
-	template <typename Signal_ForwardIterator>
+	template <typename Signal_Iterator>
 	bool equalDimension(
-		const Signal_ForwardIterator& begin,
-		integer signals);
+		const ForwardRange<Signal_Iterator>& signalSet);
 
 	//! Merges a signal set into a higher-dimensional signal.
 	/*!
 	Preconditions:
-	Signal_ForwardIterator dereferences to SignalPtr.
+	Signal_Iterator dereferences to SignalPtr.
 
 	The output signal will have as many samples as
 	the input signal with the least number of samples.
 	*/
 	template <
-		typename Signal_ForwardIterator,
-		typename Lag_ForwardIterator>
+		typename Signal_Iterator,
+		typename Integer_Iterator>
 	SignalPtr merge(
-		const Signal_ForwardIterator& signalBegin,
-		integer signals,
-		const Lag_ForwardIterator& lagBegin);
+		const ForwardRange<Signal_Iterator>& signalSet,
+		const ForwardRange<Integer_Iterator>& lagSet);
 
-	template <typename Signal_ForwardIterator>
+	//! Merges two signal sets pairwise into a new signal set.
+	/*!
+	Preconditions:
+	Signal_A_Iterator dereferences to SignalPtr.
+	Signal_A_Iterator dereferences to SignalPtr.
+	Signal_OutputIterator dereferences to SignalPtr.
+	bLag >= 0
+	*/
+	template <
+		typename Signal_A_Iterator,
+		typename Signal_B_Iterator,
+		typename Signal_OutputIterator>
+	void merge(
+		const ForwardRange<Signal_A_Iterator>& aSignalSet,
+		const ForwardRange<Signal_B_Iterator>& bSignalSet,
+		Signal_OutputIterator result,
+		integer bLag = 0);
+
+	template <typename Signal_Iterator>
 	SignalPtr merge(
-		const Signal_ForwardIterator& signalBegin,
-		integer signals);
+		const ForwardRange<Signal_Iterator>& signalSet);
 
 	//! Merges two signals into a higher-dimensional signal.
 	/*!
 	Preconditions:
-	Signal_ForwardIterator dereferences to SignalPtr.
+	Signal_Iterator dereferences to SignalPtr.
 
 	The output signal will have as many samples as
 	the input signal with the least number of samples.
@@ -74,11 +88,12 @@ namespace Tim
 	//! Creates aliases for 1d-marginal signals.
 	/*!
 	See the more specialized
-	'slice' function for more information.
+	'split' function for more information.
 	*/
-	TIMCORE void slice(
+	template <typename Signal_OutputIterator>
+	void split(
 		const SignalPtr& jointSignal,
-		std::vector<SignalPtr>& marginalSet);
+		Signal_OutputIterator signalSet);
 
 	//! Creates aliases for marginal signals.
 	/*!
@@ -86,14 +101,14 @@ namespace Tim
 	by the 'partition' set. Assume that 'jointSignal'
 	is of dimension 4 and 'partition' contains the 
 	numbers 0, 2, 3, 4. Then the marginal signals
-	are sliced with the dimension subranges
-	[0, 2[, [2, 3[, [3, 4[, see the more specialized
-	'slice' function for more information.
+	are splitd with the dimension subranges
+	[0, 2[, [2, 3[, [3, 4[.
 	*/
-	TIMCORE void slice(
+	template <typename Signal_OutputIterator>
+	void split(
 		const SignalPtr& jointSignal,
 		const SmallSet<integer>& partition,
-		std::vector<SignalPtr>& marginalSet);
+		Signal_OutputIterator signalSet);
 
 	//! Creates an alias for a marginal signal.
 	/*
@@ -104,7 +119,7 @@ namespace Tim
 	with P and thus changes in either are reflected in
 	the other.
 	*/
-	TIMCORE SignalPtr slice(
+	TIMCORE SignalPtr split(
 		const SignalPtr& signal,
 		integer dimensionBegin,
 		integer dimensionEnd);
@@ -124,8 +139,9 @@ namespace Tim
 		std::vector<PointD>& pointSet);
 
 	//! Creates a point set of the signal samples.
-	TIMCORE void constructPointSet(
-		const std::vector<SignalPtr>& ensemble,
+	template <typename Signal_Iterator>
+	void constructPointSet(
+		const ForwardRange<Signal_Iterator>& signalSet,
 		integer sampleBegin,
 		integer sampleEnd,
 		integer dimensionBegin,

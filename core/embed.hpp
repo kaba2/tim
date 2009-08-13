@@ -6,10 +6,10 @@
 namespace Tim
 {
 
-	template <typename Signal_ForwardIterator, typename OutputIterator>
+	template <typename Signal_Iterator, typename OutputIterator>
 	void delayEmbed(
-		const Signal_ForwardIterator& signalBegin,
-		const Signal_ForwardIterator& signalEnd,
+		const Signal_Iterator& signalBegin,
+		const Signal_Iterator& signalEnd,
 		const OutputIterator& outputBegin,
 		integer k,
 		integer shift,
@@ -19,7 +19,7 @@ namespace Tim
 		ENSURE_OP(shift, >=, 0);
 		ENSURE_OP(step, >=, 1);
 
-		Signal_ForwardIterator signalIter = signalBegin;
+		Signal_Iterator signalIter = signalBegin;
 		OutputIterator outputIter = outputBegin;
 		while(signalIter != signalEnd)
 		{
@@ -29,10 +29,10 @@ namespace Tim
 		}
 	}
 
-	template <typename Signal_ForwardIterator, typename OutputIterator>
+	template <typename Signal_Iterator, typename OutputIterator>
 	void delayEmbedFuture(
-		const Signal_ForwardIterator& signalBegin,
-		const Signal_ForwardIterator& signalEnd,
+		const Signal_Iterator& signalBegin,
+		const Signal_Iterator& signalEnd,
 		const OutputIterator& outputBegin,
 		integer k,
 		integer shift,
@@ -42,7 +42,7 @@ namespace Tim
 		ENSURE_OP(shift, >=, 0);
 		ENSURE_OP(step, >=, 1);
 
-		Signal_ForwardIterator signalIter = signalBegin;
+		Signal_Iterator signalIter = signalBegin;
 		OutputIterator outputIter = outputBegin;
 		while(signalIter != signalEnd)
 		{

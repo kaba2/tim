@@ -9,6 +9,8 @@
 
 #include <pastel/sys/tuplebase.h>
 #include <pastel/sys/randomdistribution.h>
+#include <pastel/sys/constantiterator.h>
+#include <pastel/sys/countingiterator.h>
 
 #include <pastel/gfx/pcx.h>
 #include "pastel/gfx/drawing.h"
@@ -64,9 +66,9 @@ namespace
 
 	template <int N, typename Real, typename NormBijection>
 	void checkConsistency(const std::string& name,
-						  const std::vector<Point<N, Real> >& pointSet,
-						  const Array<2, integer>& correctNearest,
-						  const Array<2, integer>& approxNearest,
+						  const std::vector<Point<Real, N> >& pointSet,
+						  const Array<integer, 2>& correctNearest,
+						  const Array<integer, 2>& approxNearest,
 						  const PASTEL_NO_DEDUCTION(Real)& maxRelativeError,
 						  const NormBijection& normBijection)
 	{
@@ -147,13 +149,13 @@ namespace
 	}
 
 	template <int N, typename Real, typename NormBijection>
-	void searchAllNeighborsKdTreeAnn(
-		const std::vector<Point<N, Real> >& pointSet,
+	void searchAllNeighborsAnn(
+		const std::vector<Point<Real, N> >& pointSet,
 		integer kNearest,
 		const PASTEL_NO_DEDUCTION(Real)& maxDistance,
 		const PASTEL_NO_DEDUCTION(Real)& maxRelativeError,
 		const NormBijection& normBijection,
-		Array<2, integer>& nearestArray)
+		Array<integer, 2>& nearestArray)
 	{
 		ENSURE_OP(kNearest, >, 0);
 		ENSURE_OP(maxDistance, >, 0);
@@ -211,12 +213,12 @@ namespace
 
 	template <int N, typename Real, typename NormBijection>
 	void searchAllNeighborsBdTreeAnn(
-		const std::vector<Point<N, Real> >& pointSet,
+		const std::vector<Point<Real, N> >& pointSet,
 		integer kNearest,
 		const PASTEL_NO_DEDUCTION(Real)& maxDistance,
 		const PASTEL_NO_DEDUCTION(Real)& maxRelativeError,
 		const NormBijection& normBijection,
-		Array<2, integer>& nearestArray)
+		Array<integer, 2>& nearestArray)
 	{
 		ENSURE_OP(kNearest, >, 0);
 		ENSURE_OP(maxDistance, >, 0);
@@ -275,16 +277,16 @@ namespace
 	template <int N, typename Real>
 	typename boost::disable_if_c<(N == 2)>::type
 		drawNearest(const std::string& name,
-		const std::vector<Point<N, Real> >& pointSet,
-		const Array<2, integer>& neighborSet)
+		const std::vector<Point<Real, N> >& pointSet,
+		const Array<integer, 2>& neighborSet)
 	{
 	}
 
 	template <int N, typename Real>
 	typename boost::enable_if_c<(N == 2)>::type
 		drawNearest(const std::string& name,
-		const std::vector<Point<N, Real> >& pointSet,
-		const Array<2, integer>& neighborSet)
+		const std::vector<Point<Real, N> >& pointSet,
+		const Array<integer, 2>& neighborSet)
 	{
 		if (pointSet.size() > 100)
 		{
@@ -294,7 +296,7 @@ namespace
 		const integer samples = neighborSet.height();
 		const integer kNearest = neighborSet.width();
 
-		Array<2, Color> image(768, 768);
+		Array<Color, 2> image(768, 768);
 		Image_GfxRenderer<Color> renderer;
 		renderer.setImage(&image);
 		renderer.setColor(Color(1));
@@ -335,7 +337,7 @@ namespace
 	template <int N, typename Real>
 	void testIt(integer dimension, integer samples, integer kNearest, const Real& maxRelativeError)
 	{
-		std::vector<Point<N, Real> > pointSet;
+		std::vector<Point<Real, N> > pointSet;
 		//generateGaussianPointSet(samples, dimension, pointSet);
 		//generateUniformBallPointSet(samples, dimension, pointSet);
 		//generateClusteredPointSet(samples, dimension, 10, pointSet);
@@ -377,13 +379,13 @@ namespace
 		// Pack the samples for nice locality.
 
 		/*
-		Array<2, Real> pointArray(dimension, samples);
-		std::vector<Point<N, Real> > pointSet;
+		Array<Real, 2> pointArray(dimension, samples);
+		std::vector<Point<Real, N> > pointSet;
 		pointSet.reserve(samples);
 		for (integer i = 0;i < samples;++i)
 		{
 
-			pointSet.push_back(Point<N, Real>(ofDimension(0)));
+			pointSet.push_back(Point<Real, N>(ofDimension(0)));
 	#if TIM_DYNAMIC != 0
 			pointSet.back() = TemporaryPoint<N, Real>(
 				ofDimension(dimension),
@@ -399,7 +401,7 @@ namespace
 		//Manhattan_NormBijection<Real> normBijection;
 		//Minkowski_NormBijection<Real> normBijection(1.5);
 
-		Array<2, integer> bruteNearest(kNearest, pointSet.size());
+		Array<integer, 2> bruteNearest(kNearest, pointSet.size());
 
 		timLog() << dimension << space << samples << space << kNearest;
 
@@ -415,7 +417,6 @@ namespace
 
 			searchAllNeighborsBruteForce(
 				pointSet, 
-				DepthFirst_SearchAlgorithm_PointKdTree(),
 				CountingIterator<integer>(0),
 				CountingIterator<integer>(samples),
 				kNearest, infinity<Real>(),
@@ -435,29 +436,50 @@ namespace
 
 		if (configIncludePastelKdTree)
 		{
-			Array<2, integer> kdNearest(kNearest, pointSet.size());
+			Array<integer, 2> kdNearest(kNearest, pointSet.size());
+
 			{
+				typedef PointKdTree<Real, N, Pointer_ObjectPolicy_PointKdTree<Real, N> > KdTree;
+				typedef typename KdTree::ConstObjectIterator ConstObjectIterator;
+				
+				Array<ConstObjectIterator, 2> kdNearestIter(kNearest, pointSet.size());
+
 				Timer timer;
 
 				timer.setStart();
 
-				searchAllNeighborsKdTree(
-					pointSet,
+				KdTree kdTree(ofDimension(dimension));
+				kdTree.insert(
+					countingIterator(&pointSet.front()), 
+					countingIterator(&pointSet.front() + pointSet.size()));
+
+				std::vector<ConstObjectIterator> iteratorSet;
+				iteratorSet.reserve(pointSet.size());
+				std::copy(countingIterator(kdTree.begin()),
+					countingIterator(kdTree.end()), 
+					std::back_inserter(iteratorSet));
+
+				kdTree.refine(SlidingMidpoint2_SplitRule_PointKdTree());
+
+				searchAllNeighbors(
+					kdTree,
 					DepthFirst_SearchAlgorithm_PointKdTree(),
-					CountingIterator<integer>(0),
-					CountingIterator<integer>(samples),
+					randomAccessRange(iteratorSet.begin(), iteratorSet.end()),
 					0,
 					kNearest, 
-					infinity<Real>(), 
+					randomAccessRange(constantIterator(infinity<Real>()), pointSet.size()),
 					maxRelativeError,
 					normBijection,
-					16,
-					SlidingMidpoint2_SplitRule(),
-					&kdNearest);
+					&kdNearestIter);
 
 				timer.store();
 
 				timLog() << space << report(timer.seconds(), bruteTime);
+
+				for (integer i = 0;i < kdNearestIter.size();++i)
+				{
+					kdNearest(i) = kdNearestIter(i)->object() - &pointSet.front();
+				}
 			}
 
 			if (configIncludeBruteForce)
@@ -471,13 +493,13 @@ namespace
 		if (configIncludeAnnKdTree)
 		{
 			// ANN kd-tree
-			Array<2, integer> kdNearest(kNearest, pointSet.size());
+			Array<integer, 2> kdNearest(kNearest, pointSet.size());
 			{
 				Timer timer;
 
 				timer.setStart();
 
-				searchAllNeighborsKdTreeAnn(
+				searchAllNeighborsAnn(
 					pointSet, kNearest, infinity<Real>(), maxRelativeError,
 					normBijection,
 					kdNearest);
@@ -498,7 +520,7 @@ namespace
 		if (configIncludeAnnBdTree)
 		{
 			// ANN bd-tree
-			Array<2, integer> bdNearest(kNearest, pointSet.size());
+			Array<integer, 2> bdNearest(kNearest, pointSet.size());
 			{
 				Timer timer;
 

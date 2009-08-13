@@ -1,5 +1,7 @@
 #include "tim/core/signal_tools.h"
 
+#include <pastel/sys/constantiterator.h>
+
 #include <pastel/math/cholesky_decomposition.h>
 #include <pastel/math/matrix_tools.h>
 
@@ -35,44 +37,7 @@ namespace Tim
 		return stream;
 	}
 
-	TIMCORE void slice(
-		const SignalPtr& jointSignal,
-		std::vector<SignalPtr>& marginalSet)
-	{
-		const integer dimension = jointSignal->dimension();
-
-		SmallSet<integer> partition;
-		partition.reserve(dimension + 1);
-
-		for (integer i = 0;i <= dimension;++i)
-		{
-			partition.insert(i);
-		}
-
-		Tim::slice(jointSignal, partition, marginalSet);
-	}
-
-	TIMCORE void slice(
-		const SignalPtr& jointSignal,
-		const SmallSet<integer>& partition,
-		std::vector<SignalPtr>& marginalSet)
-	{
-		const integer dimension = jointSignal->dimension();
-		const integer samples = jointSignal->samples();
-		const integer signals = partition.size() - 1;
-
-		for (integer x = 0;x < signals;++x)
-		{
-			const integer marginalDimension = 
-				partition[x + 1] - partition[x];
-			ENSURE_OP(marginalDimension, >, 0);
-
-			marginalSet.push_back(Tim::slice(jointSignal, partition[x], 
-				partition[x] + marginalDimension));
-		}
-	}
-
-	TIMCORE SignalPtr slice(
+	TIMCORE SignalPtr split(
 		const SignalPtr& signal,
 		integer dimensionBegin,
 		integer dimensionEnd)
@@ -84,13 +49,13 @@ namespace Tim
 		const integer dimension = dimensionEnd - dimensionBegin;
 		const integer samples = signal->samples();
 
-		SignalPtr sliceSignal(new Signal(
+		SignalPtr splitSignal(new Signal(
 			signal->samples(), dimension));
 
-		sliceSignal->data() = signal->data()(
+		splitSignal->data() = signal->data()(
 			Point2i(0, dimensionBegin), Point2i(samples, dimensionEnd));
 
-		return sliceSignal;
+		return splitSignal;
 	}
 
 	TIMCORE SignalPtr merge(
@@ -104,9 +69,8 @@ namespace Tim
 		const integer lag[2] = {0, bLag};
 
 		return Tim::merge(
-			(const SignalPtr*)signalSet, 
-			2,
-			(const integer*)lag);
+			forwardRange((const SignalPtr*)signalSet, 2),
+			forwardRange((const integer*)lag, 2));
 	}
 
 	TIMCORE void constructPointSet(
@@ -128,94 +92,11 @@ namespace Tim
 		integer dimensionEnd,
 		std::vector<PointD>& pointSet)
 	{
-		ENSURE_OP(sampleBegin, <=, sampleEnd);
-		ENSURE_OP(sampleBegin, >= , 0);
-		ENSURE_OP(sampleEnd, <=, signal->samples());
-		ENSURE_OP(dimensionBegin, <=, dimensionEnd);
-		ENSURE_OP(dimensionBegin, >=, 0);
-		ENSURE_OP(dimensionEnd, <=, signal->dimension());
-
-		const integer dimension = dimensionEnd - dimensionBegin;
-		const integer samples = sampleEnd - sampleBegin;
-		
-		pointSet.resize(samples);
-		std::fill(pointSet.begin(), pointSet.end(), PointD());
-
-		if (dimension == 0 ||
-			samples == 0)
-		{
-			return;
-		}
-
-		for (integer i = sampleBegin;i < sampleEnd;++i)
-		{
-			PointD point(ofDimension(dimension),
-				withAliasing(&signal->data()(i, dimensionBegin)));
-
-			pointSet[i - sampleBegin].swap(point);
-		}
-	}
-
-	TIMCORE void constructPointSet(
-		const std::vector<SignalPtr>& ensemble,
-		integer sampleBegin,
-		integer sampleEnd,
-		integer dimensionBegin,
-		integer dimensionEnd,
-		std::vector<PointD>& pointSet)
-	{
-		// Check that the trials all have the
-		// same dimension and the number of samples.
-
-		const integer trials = ensemble.size();
-		if (trials == 0)
-		{
-			pointSet.clear();
-			return;
-		}
-
-		const integer signalSamples = ensemble.front()->samples();
-		const integer signalDimension = ensemble.front()->dimension();
-		for (integer i = 0;i < trials;++i)
-		{
-			ENSURE_OP(ensemble[i]->samples(), ==, signalSamples);
-			ENSURE_OP(ensemble[i]->dimension(), ==, signalDimension);
-		}
-
-		ENSURE_OP(sampleBegin, <=, sampleEnd);
-		ENSURE_OP(sampleBegin, >= , 0);
-		ENSURE_OP(sampleEnd, <=, signalSamples);
-		ENSURE_OP(dimensionBegin, <=, dimensionEnd);
-		ENSURE_OP(dimensionBegin, >=, 0);
-		ENSURE_OP(dimensionEnd, <=, signalDimension);
-
-		const integer dimension = dimensionEnd - dimensionBegin;
-		const integer samples = sampleEnd - sampleBegin;
-
-		pointSet.resize(samples * trials);
-		std::fill(pointSet.begin(), pointSet.end(), PointD());
-
-		if (dimension == 0 ||
-			samples == 0 ||
-			trials == 0)
-		{
-			return;
-		}
-
-		integer index = 0;
-		for (integer j = 0;j < trials;++j)
-		{
-			const SignalPtr signal = ensemble[j];
-
-			for (integer i = sampleBegin;i < sampleEnd;++i)
-			{
-				PointD point(ofDimension(dimension),
-					withAliasing(&signal->data()(i, dimensionBegin)));
-
-				pointSet[index].swap(point);
-				++index;
-			}
-		}
+		Tim::constructPointSet(
+			forwardRange(constantIterator(signal)),
+			sampleBegin, sampleEnd,
+			dimensionBegin, dimensionEnd,
+			pointSet);
 	}
 
 	TIMCORE void computeCovariance(
@@ -230,8 +111,8 @@ namespace Tim
 
 		const VectorD mean = sum(signal->data()) / samples;
 
-		result = (signal->data() - outerProduct(mean, VectorConstant<Dynamic, real>(1, samples))) * 
-			transpose(signal->data() - outerProduct(mean, VectorConstant<Dynamic, real>(1, samples)));
+		result = (signal->data() - outerProduct(mean, VectorConstant<real, Dynamic>(1, samples))) * 
+			transpose(signal->data() - outerProduct(mean, VectorConstant<real, Dynamic>(1, samples)));
 		result /= samples;
 	}
 
