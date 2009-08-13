@@ -6,19 +6,19 @@
 
 #include <pastel/math/normbijection.h>
 
-#include <pastel/geometry/search_all_neighbors_kdtree.h>
-#include <pastel/geometry/count_all_neighbors_kdtree.h>
+#include <pastel/geometry/search_all_neighbors_pointkdtree.h>
+#include <pastel/geometry/count_all_neighbors_pointkdtree.h>
 
 namespace Tim
 {
 
-	template <typename Signal_ForwardIterator>
+	template <typename Signal_Iterator>
 	void transferEntropy(
-		const Array<2, SignalPtr>& embeddedSet,
+		const Array<SignalPtr, 2>& embeddedSet,
 		integer xIndex,
 		integer yIndex,
-		const Signal_ForwardIterator& xFutureBegin,
-		const Signal_ForwardIterator& xFutureEnd,
+		const Signal_Iterator& xFutureBegin,
+		const Signal_Iterator& xFutureEnd,
 		integer sigma,
 		integer kNearest,
 		std::vector<real>& estimateSet)
@@ -71,7 +71,7 @@ namespace Tim
 		std::vector<SignalPtr> jointEnsemble;
 		jointEnsemble.reserve(trials);
 
-		Signal_ForwardIterator xFutureIter = xFutureBegin;
+		Signal_Iterator xFutureIter = xFutureBegin;
 		for (integer i = 0;i < trials;++i)
 		{
 			std::vector<SignalPtr> jointSet;
@@ -117,7 +117,7 @@ namespace Tim
 		// Data structures for nearest neighbors searching.
 
 		const Infinity_NormBijection<real> normBijection;
-		Array<2, real> distanceArray(1, trials);
+		Array<real, 2> distanceArray(1, trials);
 		std::vector<PointD> pointSet;
 		pointSet.reserve(trials * sigmaSamples);
 
@@ -153,7 +153,7 @@ namespace Tim
 			const ConstSparseIterator<CountingIterator<integer> >
 				sparseIndexBegin(CountingIterator<integer>(sigma), sigmaSamples);
 
-			searchAllNeighborsKdTree(
+			searchAllNeighbors(
 				pointSet,
 				DepthFirst_SearchAlgorithm_PointKdTree(),
 				sparseIndexBegin,
@@ -164,7 +164,7 @@ namespace Tim
 				0,
 				normBijection,
 				16,
-				SlidingMidpoint2_SplitRule(),
+				SlidingMidpoint2_SplitRule_PointKdTree(),
 				0,
 				&distanceArray);
 
@@ -175,7 +175,7 @@ namespace Tim
 				sampleBegin, sampleEnd, 
 				wBegin, zEnd, pointSet);
 
-			countAllNeighborsKdTree(
+			countAllNeighbors(
 				pointSet,
 				sparseIndexBegin,
 				sparseIndexBegin + trials,
@@ -199,7 +199,7 @@ namespace Tim
 				sampleBegin, sampleEnd, 
 				xBegin, yEnd, pointSet);
 
-			countAllNeighborsKdTree(
+			countAllNeighbors(
 				pointSet,
 				sparseIndexBegin,
 				sparseIndexBegin + trials,
@@ -221,7 +221,7 @@ namespace Tim
 				sampleBegin, sampleEnd, 
 				xBegin, zEnd, pointSet);
 
-			countAllNeighborsKdTree(
+			countAllNeighbors(
 				pointSet,
 				sparseIndexBegin,
 				sparseIndexBegin + trials,

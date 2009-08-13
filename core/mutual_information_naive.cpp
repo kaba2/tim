@@ -74,7 +74,7 @@ namespace Tim
 		maxBound += binExtent / 2;
 		binExtent = (maxBound - minBound) / bins;
 
-		Array<2, real> marginalHistogram(bins, n);
+		Array<real, 2> marginalHistogram(bins, n);
 
 		for (integer i = 0;i < n;++i)
 		{
@@ -87,7 +87,7 @@ namespace Tim
 				marginalHistogram.rowBegin(i));
 		}
 
-		Array<2, real> jointHistogram(bins, bins);
+		Array<real, 2> jointHistogram(bins, bins);
 
 		for (integer i = 0;i < n;++i)
 		{

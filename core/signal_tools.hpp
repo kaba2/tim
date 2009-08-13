@@ -13,26 +13,24 @@
 namespace Tim
 {
 
-	template <typename Signal_ForwardIterator>
+	template <typename Signal_Iterator>
 	integer minSamples(
-		const Signal_ForwardIterator& signalBegin,
-		integer signals,
-		integer maxLag)
+		const ForwardRange<Signal_Iterator>& signalSet)
 	{
-		ENSURE_OP(signals, >=, 0);
-
-		if (signals == 0)
+		if (signalSet.empty())
 		{
 			return 0;
 		}
 
-		Signal_ForwardIterator iter = signalBegin;
-		integer samples = (*iter)->samples() - maxLag;
+		Signal_Iterator iter = signalSet.begin();
+		const Signal_Iterator iterEnd = signalSet.end();
+
+		integer samples = (*iter)->samples();
 		++iter;
 
-		for (integer i = 1;i < samples;++i)
+		while(iter != iterEnd)
 		{
-			samples = std::max(samples, (*iter)->samples() - maxLag);
+			samples = std::max(samples, (*iter)->samples());
 
 			++iter;
 		}
@@ -40,23 +38,22 @@ namespace Tim
 		return samples;
 	}
 
-	template <typename Signal_ForwardIterator>
+	template <typename Signal_Iterator>
 	bool equalDimension(
-		const Signal_ForwardIterator& begin,
-		integer signals)
+		const ForwardRange<Signal_Iterator>& signalSet)
 	{
-		ENSURE_OP(signals, >=, 0);
-
-		if (signals == 0)
+		if (signalSet.empty())
 		{
 			return true;
 		}
 
-		Signal_ForwardIterator iter = begin;
-		integer dimension = (*begin)->dimension();
+		Signal_Iterator iter = signalSet.begin();
+		const Signal_Iterator iterEnd = signalSet.end();
+
+		integer dimension = signalSet.front()->dimension();
 		++iter;
 
-		for (integer i = 1;i < signals;++i)
+		while(iter != iterEnd)
 		{
 			if ((*iter)->dimension() != dimension)
 			{
@@ -70,22 +67,20 @@ namespace Tim
 	}
 
 	template <
-		typename Signal_ForwardIterator,
-		typename Lag_ForwardIterator>
+		typename Signal_Iterator,
+		typename Integer_Iterator>
 	SignalPtr merge(
-		const Signal_ForwardIterator& signalBegin,
-		integer signals,
-		const Lag_ForwardIterator& lagBegin)
+		const ForwardRange<Signal_Iterator>& signalSet,
+		const ForwardRange<Integer_Iterator>& lagSet)
 	{
-		ENSURE_OP(signals, >=, 0);
-
-		if (signals == 0)
+		if (signalSet.empty() ||
+			lagSet.empty())
 		{
 			return SignalPtr();
 		}
 
-		const integer maxLag = *std::max_element(lagBegin, lagBegin + signals);
-		const integer samples = minSamples(signalBegin, signals, maxLag);
+		const integer maxLag = *std::max_element(lagSet.begin(), lagSet.end());
+		const integer samples = minSamples(signalSet) - maxLag;
 
 		if  (samples <= 0)
 		{
@@ -93,8 +88,10 @@ namespace Tim
 		}
 
 		integer jointDimension = 0;
-		Signal_ForwardIterator signalIter = signalBegin;
-		for (integer i = 0;i < signals;++i)
+		Signal_Iterator signalIter = signalSet.begin();
+		const Signal_Iterator signalIterEnd = signalSet.end();
+
+		while(signalIter != signalIterEnd)
 		{
 			const SignalPtr signal = *signalIter;
 			jointDimension += signal->dimension();
@@ -110,10 +107,11 @@ namespace Tim
 
 		integer dimensionOffset = 0;
 
-		Lag_ForwardIterator lagIter = lagBegin;
+		Integer_Iterator lagIter = lagSet.begin();
+		const Integer_Iterator lagIterEnd = lagSet.end();
 
-		signalIter = signalBegin;
-		for (integer i = 0;i < signals;++i)
+		signalIter = signalSet.begin();
+		while(lagIter != lagIterEnd)
 		{
 			const SignalPtr signal = *signalIter;
 			const integer lagOffset = maxLag - *lagIter;
@@ -136,13 +134,79 @@ namespace Tim
 		return jointSignal;
 	}
 
-	template <typename Signal_ForwardIterator>
-	SignalPtr merge(
-		const Signal_ForwardIterator& signalBegin,
-		integer signals)
+	template <
+		typename Signal_A_Iterator,
+		typename Signal_B_Iterator,
+		typename Signal_OutputIterator>
+	void merge(
+		const ForwardRange<Signal_A_Iterator>& aSignalSet,
+		const ForwardRange<Signal_B_Iterator>& bSignalSet,
+		Signal_OutputIterator result,
+		integer bLag)
 	{
-		return Tim::merge(signalBegin, signals,
-			ConstantIterator<integer>(0, 0));
+		ENSURE_OP(aSignalSet.size(), ==, bSignalSet.size());
+		ENSURE_OP(bLag, >=, 0);
+		
+		Signal_A_Iterator aIter = aSignalSet.begin();
+		const Signal_A_Iterator aIterEnd = aSignalSet.end();
+		Signal_B_Iterator bIter = bSignalSet.begin();
+
+		while(aIter != aIterEnd)
+		{
+			*result = merge(*aIter, *bIter, bLag);
+			
+			++result;
+			++aIter;
+			++bIter;
+		}
+	}
+
+	template <typename Signal_Iterator>
+	SignalPtr merge(
+		const ForwardRange<Signal_Iterator>& signalSet)
+	{
+		return Tim::merge(signalSet,
+			forwardRange(constantIterator(0)));
+	}
+
+	template <typename Signal_OutputIterator>
+	void split(
+		const SignalPtr& jointSignal,
+		Signal_OutputIterator signalSet)
+	{
+		const integer dimension = jointSignal->dimension();
+
+		SmallSet<integer> partition;
+		partition.reserve(dimension + 1);
+		for (integer i = 0;i <= dimension;++i)
+		{
+			partition.insert(i);
+		}
+
+		Tim::split(jointSignal, partition, signalSet);
+	}
+
+	template <typename Signal_OutputIterator>
+	void split(
+		const SignalPtr& jointSignal,
+		const SmallSet<integer>& partition,
+		Signal_OutputIterator signalSet)
+	{
+		ENSURE_OP(partition.size(), >=, 2);
+
+		const integer dimension = jointSignal->dimension();
+		const integer samples = jointSignal->samples();
+		const integer signals = partition.size() - 1;
+
+		for (integer x = 0;x < signals;++x)
+		{
+			const integer marginalDimension = 
+				partition[x + 1] - partition[x];
+
+			*signalSet = Tim::split(jointSignal, partition[x], 
+				partition[x] + marginalDimension);
+			++signalSet;
+		}
 	}
 
 	template <typename Image_View>
@@ -170,6 +234,68 @@ namespace Tim
 				drawPixel(Point2(x + 0.5, y * (height - 1)), 
 					Color(0, 1, 0), image);
 			}
+		}
+	}
+
+	template <typename Signal_Iterator>
+	void constructPointSet(
+		const ForwardRange<Signal_Iterator>& signalSet,
+		integer sampleBegin,
+		integer sampleEnd,
+		integer dimensionBegin,
+		integer dimensionEnd,
+		std::vector<PointD>& pointSet)
+	{
+		if (signalSet.empty())
+		{
+			pointSet.clear();
+			return;
+		}
+
+		ENSURE(equalDimension(signalSet));
+
+		const integer signalSamples = minSamples(signalSet);
+		const integer signalDimension = signalSet.front()->dimension();
+
+		ENSURE_OP(sampleBegin, <=, sampleEnd);
+		ENSURE_OP(sampleBegin, >= , 0);
+		ENSURE_OP(sampleEnd, <=, signalSamples);
+		ENSURE_OP(dimensionBegin, <=, dimensionEnd);
+		ENSURE_OP(dimensionBegin, >=, 0);
+		ENSURE_OP(dimensionEnd, <=, signalDimension);
+
+		const integer dimension = dimensionEnd - dimensionBegin;
+		const integer samples = sampleEnd - sampleBegin;
+		const integer trials = signalSet.size();
+
+		if (dimension == 0 ||
+			samples == 0)
+		{
+			pointSet.clear();
+			return;
+		}
+
+		pointSet.resize(samples * trials);
+
+		Signal_Iterator iter = signalSet.begin();
+		const Signal_Iterator iterEnd = signalSet.end();
+		integer trial = 0;
+		while(iter != iterEnd)
+		{
+			const SignalPtr signal = *iter;
+
+			for (integer i = sampleBegin;i < sampleEnd;++i)
+			{
+				// The samples from the trials are interleaved.
+				PointD point(ofDimension(dimension),
+					withCopying(&signal->data()(i, dimensionBegin)));
+
+				const integer index = (i - sampleBegin) * trials + trial;
+				pointSet[index].swap(point);
+			}
+
+			++trial;
+			++iter;
 		}
 	}
 

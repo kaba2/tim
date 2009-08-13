@@ -196,6 +196,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\signal_usecase.cpp"
+			>
+		</File>
+		<File
 			RelativePath=".\test_differential_entropy.cpp"
 			>
 		</File>

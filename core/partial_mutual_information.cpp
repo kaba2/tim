@@ -3,8 +3,8 @@
 #include "tim/core/partial_mutual_information.h"
 #include "tim/core/signal_tools.h"
 
-#include <pastel/geometry/search_all_neighbors_kdtree.h>
-#include <pastel/geometry/count_all_neighbors_kdtree.h>
+#include <pastel/geometry/search_all_neighbors_pointkdtree.h>
+#include <pastel/geometry/count_all_neighbors_pointkdtree.h>
 #include <pastel/geometry/distance_point_point.h>
 
 #include <pastel/sys/math_functions.h>
@@ -69,18 +69,18 @@ namespace Tim
 		const integer yBegin = zEnd;
 		const integer yEnd = zEnd + bSignal->dimension();
 
-		const SignalPtr zSignal = slice(jointSignal, zBegin, zEnd);
-		const SignalPtr xzSignal = slice(jointSignal, xBegin, zEnd);
-		const SignalPtr yzSignal = slice(jointSignal, zBegin, yEnd);
+		const SignalPtr zSignal = split(jointSignal, zBegin, zEnd);
+		const SignalPtr xzSignal = split(jointSignal, xBegin, zEnd);
+		const SignalPtr yzSignal = split(jointSignal, zBegin, yEnd);
 				
 		// For each sample point in the joint space,
 		// find the distance to the k:th nearest neighbor.
-		Array<2, real> distanceArray(1, samples);
+		Array<real, 2> distanceArray(1, samples);
 		{
 			std::vector<PointD> jointPointSet;
 			constructPointSet(jointSignal, jointPointSet);
 
-			searchAllNeighborsKdTree(
+			searchAllNeighbors(
 				jointPointSet,
 				DepthFirst_SearchAlgorithm_PointKdTree(),
 				CountingIterator<integer>(0),
@@ -91,7 +91,7 @@ namespace Tim
 				maxRelativeError,
 				normBijection,
 				16,
-				SlidingMidpoint2_SplitRule(),
+				SlidingMidpoint2_SplitRule_PointKdTree(),
 				0,
 				&distanceArray);
 		}
@@ -116,7 +116,7 @@ namespace Tim
 			std::vector<PointD> marginalPointSet;
 			constructPointSet(xzSignal, marginalPointSet);
 
-			countAllNeighborsKdTree(
+			countAllNeighbors(
 				marginalPointSet,
 				CountingIterator<integer>(0),
 				CountingIterator<integer>(samples),
@@ -137,7 +137,7 @@ namespace Tim
 			std::vector<PointD> marginalPointSet;
 			constructPointSet(yzSignal, marginalPointSet);
 
-			countAllNeighborsKdTree(
+			countAllNeighbors(
 				marginalPointSet,
 				CountingIterator<integer>(0),
 				CountingIterator<integer>(samples),
@@ -158,7 +158,7 @@ namespace Tim
 			std::vector<PointD> marginalPointSet;
 			constructPointSet(zSignal, marginalPointSet);
 
-			countAllNeighborsKdTree(
+			countAllNeighbors(
 				marginalPointSet,
 				CountingIterator<integer>(0),
 				CountingIterator<integer>(samples),

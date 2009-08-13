@@ -2,10 +2,15 @@
 #define TIM_DIFFERENTIAL_ENTROPY_KL_HPP
 
 #include "tim/core/differential_entropy_kl.h"
-
 #include "tim/core/signal_tools.h"
 
-#include <pastel/geometry/search_all_neighbors_kdtree.h>
+#include <pastel/sys/constantiterator.h>
+#include <pastel/sys/countingiterator.h>
+#include <pastel/sys/randomaccessrange.h>
+
+#include <pastel/geometry/search_all_neighbors_pointkdtree.h>
+
+#include <algorithm>
 
 namespace Tim
 {
@@ -39,23 +44,36 @@ namespace Tim
 		const integer samples = signal->samples();
 		const integer dimension = signal->dimension();
 
-		Array<2, real> distanceArray(1, samples);
+		Array<real, 2> distanceArray(1, samples);
 
 		std::vector<PointD> pointSet;
 		constructPointSet(signal, pointSet);
 
-		searchAllNeighborsKdTree(
-			pointSet,
+		typedef PointKdTree<real, Dynamic, Pointer_ObjectPolicy_PointKdTree<real, Dynamic> > KdTree;
+		typedef typename KdTree::ConstObjectIterator ConstObjectIterator;
+		
+		KdTree kdTree(ofDimension(dimension));
+		kdTree.insert(
+			countingIterator(&pointSet.front()), 
+			countingIterator(&pointSet.front() + pointSet.size()));
+
+		std::vector<ConstObjectIterator> iteratorSet;
+		iteratorSet.reserve(pointSet.size());
+		std::copy(countingIterator(kdTree.begin()),
+			countingIterator(kdTree.end()), 
+			std::back_inserter(iteratorSet));
+
+		kdTree.refine(SlidingMidpoint2_SplitRule_PointKdTree());
+
+		searchAllNeighbors(
+			kdTree,
 			DepthFirst_SearchAlgorithm_PointKdTree(),
-			CountingIterator<integer>(0),
-			CountingIterator<integer>(samples),
+			randomAccessRange(iteratorSet.begin(), iteratorSet.end()),
 			kNearest - 1,
-			kNearest,
-			infinity<real>(),
+			kNearest, 
+			randomAccessRange(constantIterator(infinity<real>()), pointSet.size()),
 			maxRelativeError,
 			normBijection,
-			16,
-			SlidingMidpoint2_SplitRule(),
 			0,
 			&distanceArray);
 

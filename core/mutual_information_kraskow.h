@@ -9,59 +9,75 @@
 #include <pastel/math/cholesky_decomposition.h>
 
 #include <pastel/sys/smallset.h>
+#include <pastel/sys/forwardrange.h>
 
 namespace Tim
 {
 
-	//! Computes mutual information between a set of signals.
+	//! Computes mutual information between two signals.
 	/*!
 	Preconditions:
+	Signal_A_Iterator dereferences to SignalPtr.
+	Signal_B_Iterator dereferences to SignalPtr.
+	Real_OutputIterator dereferences to a convertible to real.
+	bLag >= 0
+	sigma >= 0
 	kNearest > 0
-	maxRelativeError >= 0
-	Signal_ForwardIterator dereferences to SignalPtr.
 	
-	signalBegin, signalEnd:
-	A set of signals. If the number of samples varies between
-	signals, then the minimum number of samples among the signals
-	is used to compute the mi.
+	aSignalSet:
+	A set of measurements (trials) of signal A. 
+
+	bSignalSet:
+	A set of measurements (trials) of signal B. 
+
+	bLag:
+	The delay in samples that is applied to signal B.
+
+	sigma:
+	The radius of a time-window in samples over which
+	the mutual information is estimated for a given
+	time instant. Smaller values give sensitivity to
+	temporal changes in mutual information, while larger 
+	values give smaller variance.
 
 	kNearest:
 	The number of nearest neighbors to use in the estimation.
 
-	maxRelativeError:
-	The maximum relative error in the distance of the
-	nearest neighbors. Allowing approximate results in
-	nearest neighbor searching can accelerate performance 
-	by one to two orders of magnitude in higher dimensions.
-	0 = exact, 1 = 100% relative error, 2 = 200% relative error,
-	etc.
+	If the number of samples varies between trials, 
+	then the minimum number of samples among the trials
+	is used to compute the mi.
 
-	By 'mutual information' we actually mean 'total correlation' 
-	which is one generalization of mutual information for higher 
-	number of signals than two.
 	If H(X) denotes the differential entropy of a real 
-	random variable X, and we are given n random variables
-	(X_1, ..., X_n)	then the total correlation between 
-	them is defined by:
-	I(X_1, ..., X_n) = (sum_i H(X_i)) - H(X_1, ..., X_n)
-	While differential entropy does not make
-	sense w.r.t the amount of information, total correlation does.
+	random variable X, and we are given random variables
+	X and Y, then mutual information is given by:
+	
+	I(X, Y) = H(X) + H(Y) - H(X, Y)
+
 	See 'tim/core/differential_entropy.h' for more information
 	on differential entropy.
 	*/
 
 	template <
-		typename Signal_A_ForwardIterator,
-		typename Signal_B_ForwardIterator,
-		typename Lag_ForwardIterator>
-	real mutualInformation(
-		const Signal_A_ForwardIterator& aTrialBegin,
-		const Signal_B_ForwardIterator& bTrialBegin,
-		integer trials,
-		const Lag_ForwardIterator& lagBegin,
-		integer lags,
+		typename Signal_A_Iterator,
+		typename Signal_B_Iterator,
+		typename Real_OutputIterator>
+	void mutualInformation(
+		const ForwardRange<Signal_A_Iterator>& aSignalSet,
+		const ForwardRange<Signal_B_Iterator>& bSignalSet,
+		Real_OutputIterator result,
+		integer bLag = 0,
 		integer sigma = -1,
-		integer kNearest = 1)
+		integer kNearest = 1);
+
+	template <
+		typename Real_OutputIterator>
+	void mutualInformation(
+		const SignalPtr& aSignal,
+		const SignalPtr& bSignal,
+		Real_OutputIterator result,
+		integer bLag = 0,
+		integer sigma = -1,
+		integer kNearest = 1);
 
 }
 

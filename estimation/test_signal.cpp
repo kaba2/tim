@@ -1,7 +1,6 @@
 #include "estimation.h"
 
 #include "tim/core/signal_tools.h"
-#include "tim/core/mutual_information.h"
 #include "tim/core/embed.h"
 
 #include <pastel/sys/view_all.h>
@@ -26,10 +25,10 @@ namespace
 		{
 			testMerge();
 			testEmbed();
-			testSplit();
+			testSlice();
 		}
 
-		void testSplit()
+		void testSlice()
 		{
 			SignalPtr xy = 
 				SignalPtr(new Signal(5, 3));
@@ -41,7 +40,7 @@ namespace
 				3, 8, 13,
 				4, 9, 14;
 
-			SignalPtr x = slice(xy, 0, 1);
+			SignalPtr x = split(xy, 0, 1);
 			SignalPtr xCorrect =
 				SignalPtr(new Signal(5, 1));
 			xCorrect->data() |=
@@ -49,7 +48,7 @@ namespace
 
 			TEST_ENSURE(x->data() == xCorrect->data());
 
-			SignalPtr y = slice(xy, 1, 3);
+			SignalPtr y = split(xy, 1, 3);
 			SignalPtr yCorrect =
 				SignalPtr(new Signal(5, 2));
 			yCorrect->data() |=
@@ -96,11 +95,11 @@ namespace
 
 			TEST_ENSURE(w->data() == wCorrect->data());
 
-			SignalPtr u = slice(wCorrect, 0, 2);
+			SignalPtr u = split(wCorrect, 0, 2);
 
 			TEST_ENSURE(u->data() == zCorrect->data());
 
-			SignalPtr v = slice(wCorrect, 2, 4);
+			SignalPtr v = split(wCorrect, 2, 4);
 
 			TEST_ENSURE(v->data() == zCorrect->data());
 		}
