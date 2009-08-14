@@ -7,8 +7,8 @@ Pastel Config File
 // Data structures to include in the measurement.
 
 integer include_pastel_kdtree = 1
-integer include_ann_kdtree = 1
-integer include_ann_bdtree = 1
+integer include_ann_kdtree = 0
+integer include_ann_bdtree = 0
 integer include_brute_force = 1
 
 // Parameters for searching.
@@ -31,7 +31,6 @@ integer fixed_neighbors = 4
 
 integer * dimension_set = 1, 2, 4, 8, 16, 32
 integer fixed_dimension = 8
-
 
 
 
