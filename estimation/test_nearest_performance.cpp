@@ -27,6 +27,8 @@
 
 #include <pastel/math/uniform_sampling.h>
 
+#include <boost/iterator/transform_iterator.hpp>
+
 #include <ANN/ANN.h>
 
 #include <cmath>
@@ -337,6 +339,8 @@ namespace
 	template <int N, typename Real>
 	void testIt(integer dimension, integer samples, integer kNearest, const Real& maxRelativeError)
 	{
+		ASSERT(N == Dynamic || N == dimension);
+
 		std::vector<Point<Real, N> > pointSet;
 		//generateGaussianPointSet(samples, dimension, pointSet);
 		//generateUniformBallPointSet(samples, dimension, pointSet);
@@ -346,7 +350,7 @@ namespace
 		CountedPtr<Clustered_RandomDistribution<N, Real> >
 			clusteredDistribution = clusteredRandomDistribution<N, Real>(dimension);
 
-		const integer clusters = 10;
+		const integer clusters = 100;
 		for (integer i = 0;i < clusters;++i)
 		{
 			clusteredDistribution->add(
@@ -439,7 +443,7 @@ namespace
 			Array<integer, 2> kdNearest(kNearest, pointSet.size());
 
 			{
-				typedef PointKdTree<Real, N, Pointer_ObjectPolicy_PointKdTree<Real, N> > KdTree;
+				typedef PointKdTree<Real, N, Array_ObjectPolicy_PointKdTree<Real> > KdTree;
 				typedef typename KdTree::ConstObjectIterator ConstObjectIterator;
 				
 				Array<ConstObjectIterator, 2> kdNearestIter(kNearest, pointSet.size());
@@ -449,17 +453,18 @@ namespace
 				timer.setStart();
 
 				KdTree kdTree(ofDimension(dimension));
-				kdTree.insert(
-					countingIterator(&pointSet.front()), 
-					countingIterator(&pointSet.front() + pointSet.size()));
-
+				
 				std::vector<ConstObjectIterator> iteratorSet;
 				iteratorSet.reserve(pointSet.size());
-				std::copy(countingIterator(kdTree.begin()),
-					countingIterator(kdTree.end()), 
+
+				kdTree.insert(
+					boost::make_transform_iterator(
+					pointSet.begin(), std::mem_fun_ref(&Point<Real, N>::data)),
+					boost::make_transform_iterator(
+					pointSet.end(), std::mem_fun_ref(&Point<Real, N>::data)),
 					std::back_inserter(iteratorSet));
 
-				kdTree.refine(SlidingMidpoint2_SplitRule_PointKdTree());
+				kdTree.refine(SlidingMidpoint_SplitRule_PointKdTree());
 
 				searchAllNeighbors(
 					kdTree,
@@ -476,9 +481,22 @@ namespace
 
 				timLog() << space << report(timer.seconds(), bruteTime);
 
+				std::map<const Real*, integer> indexMap;
+				for (integer i = 0;i < pointSet.size();++i)
+				{
+					indexMap.insert(std::make_pair(pointSet[i].data(), i));
+				}
+
 				for (integer i = 0;i < kdNearestIter.size();++i)
 				{
-					kdNearest(i) = kdNearestIter(i)->object() - &pointSet.front();
+					if (kdNearestIter(i) != kdTree.end())
+					{
+						kdNearest(i) = indexMap[kdNearestIter(i)->object()];
+					}
+					else
+					{
+						kdNearest(i) = -1;
+					}
 				}
 			}
 
