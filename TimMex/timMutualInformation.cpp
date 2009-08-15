@@ -17,16 +17,15 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	};
 	BOOST_STATIC_ASSERT(RealIsDouble);
 
-	//% MUTUAL_INFORMATION 
-	//% A mutual information estimate from samples.
+	//% TEMPORAL_MUTUAL_INFORMATION 
+	//% A temporal mutual information estimate from samples.
 	//%
-	//% I = mutual_information(X, Y, yLag, sigma, k, threads)
+	//% I = temporal_mutual_information(X, Y, yLag, timeWindowRadius, k, threads)
 	//%
 	//% where
 	//%
 	//% I is 1-dimensional row matrix which contains the mutual 
-	//% information estimates [I(X, Y_1), ..., I(X, Y_p)],
-	//% where Y_i is the signal y delayed by lagSet(i) samples.
+	//% information estimates I(X(t), Y(t - yLag)) at each time instant.
 	//%
 	//% X is an arbitrary-dimensional cell-array whose linearization
 	//% contains q trials of signal x.
@@ -36,13 +35,14 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	//%
 	//% YLAG is the lag in samples which is applied to signal Y.
 	//%
-	//% SIGMA determines the radius of the time-window inside which
+	//% TIMEWINDOWRADIUS determines the radius of the time-window inside which
 	//% samples are taken into consideration to the mutual information
 	//% estimate at time instant t. The time window at time instant t
-	//% is given by [t - sigma, t + sigma]. This allows the estimate to
+	//% is given by [t - timeWindowRadius, t + timeWindowRadius]. This allows the estimate to
 	//% be adaptive to temporal changes in mutual information. If no
 	//% such changes should happen, better accuracy can be achieved by
-	//% setting 'sigma' larger than (half) the number of samples.
+	//% either setting 'timeWindowRadius' to the number of samples or
+	//% using the mutual_information() function instead.
 	//% Default: number of samples (i.e. everything).
 	//%
 	//% K determines which k:th nearest neighbor the algorithm
@@ -102,7 +102,7 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	}
 
 	const integer yLag = *mxGetPr(inputSet[2]);
-	const integer sigma = *mxGetPr(inputSet[3]);
+	const integer timeWindowRadius = *mxGetPr(inputSet[3]);
 	const integer kNearest = *mxGetPr(inputSet[4]);
 	const integer threads = *mxGetPr(inputSet[5]);
 
@@ -114,7 +114,7 @@ void mexFunction(int outputs, mxArray *outputSet[],
 		forwardRange(yEnsemble.begin(), yEnsemble.end()),
 		std::back_inserter(result),
 		yLag,
-		sigma,
+		timeWindowRadius,
 		kNearest);
 
 	outputSet[0] = mxCreateDoubleMatrix(1, result.size(), mxREAL);

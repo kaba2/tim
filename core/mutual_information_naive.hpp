@@ -6,30 +6,46 @@
 namespace Tim
 {
 
-	template <typename NormBijection>
+	template <
+		typename Signal_Iterator,
+		typename NormBijection,
+		typename Real_OutputIterator>
 	real mutualInformationFromEntropy(
-		const std::vector<SignalPtr>& signalSet,
+		const ForwardRange<Signal_Iterator>& signalSet,
+		integer timeWindowRadius,
 		integer kNearest,
 		real maxRelativeError,
-		const NormBijection& normBijection)
+		const NormBijection& normBijection,
+		Real_OutputIterator result)
 	{
 		ENSURE_OP(kNearest, >, 0);
 		ENSURE_OP(maxRelativeError, >=, 0);
 
-		const integer signals = signalSet.size();
-		const SignalPtr jointSignal = merge(signalSet);
+		if (signalSet.empty())
+		{
+			return 0;
+		}
+
+		Signal_Iterator iter = signalSet.begin();
+		Signal_Iterator iterEnd = signalSet.end();
+
+		std::vector<real> estimate;
 
 		real estimate = 0;
-
-		for (integer i = 0;i < signals;++i)
+		while(iter != iterEnd)
 		{
+			const SignalPtr signal = *iter;
+
 			estimate += differentialEntropy(
-				signalSet[i],
+				signal,
 				kNearest,
 				maxRelativeError,
 				normBijection);
+
+			++iter;
 		}
 
+		const SignalPtr jointSignal = merge(signalSet);
 		estimate -= differentialEntropy(
 			jointSignal,
 			kNearest,

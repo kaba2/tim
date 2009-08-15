@@ -66,11 +66,11 @@ namespace Tim
 		ENSURE_OP(bLag, >=, 0);
 
 		const SignalPtr signalSet[2] = {aSignal, bSignal};
-		const integer lag[2] = {0, bLag};
+		const integer lagSet[2] = {0, bLag};
 
 		return Tim::merge(
-			forwardRange((const SignalPtr*)signalSet, 2),
-			forwardRange((const integer*)lag, 2));
+			forwardRange(signalSet),
+			forwardRange(lagSet));
 	}
 
 	TIMCORE void computeCovariance(

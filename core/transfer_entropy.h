@@ -18,7 +18,7 @@ namespace Tim
 	flowTo >= 0
 	flowTo < signalSet.height()
 	fromDimension > 0
-	sigma >= 0
+	timeWindowRadius >= 0
 	kNearest > 0
 	Signal_Iterator dereferences to SignalPtr.
 
@@ -45,12 +45,12 @@ namespace Tim
 	If you used the 'delayEmbed' function to do the delay-embedding,
 	you can use the 'delayEmbedFuture' function to compute the future.
 
-	sigma:
+	timeWindowRadius:
 	The radius of the time-window in samples to use for MTE estimation
-	at each time instant. Smaller 'sigma's give better temporal resolution,
+	at each time instant. Smaller 'timeWindowRadius's give better temporal resolution,
 	but greater errors. In the other direction, if the underlying
 	connectivity pattern stays fixed, then the error can be made 
-	smaller by using a larger 'sigma'. In the general case, the MTE 
+	smaller by using a larger 'timeWindowRadius'. In the general case, the MTE 
 	estimate is averaged over the time window and thus its correspondence 
 	to the actual temporal MTE is dependent on how rapidly the underlying
 	connectivity changes.
@@ -75,7 +75,7 @@ namespace Tim
 		integer yIndex,
 		const Signal_Iterator& xFutureBegin,
 		const Signal_Iterator& xFutureEnd,
-		integer sigma,
+		integer timeWindowRadius,
 		integer kNearest,
 		std::vector<real>& estimateSet);
 

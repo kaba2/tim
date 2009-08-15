@@ -65,7 +65,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="pastelsysd.lib pastelmathd.lib pastelgfxd.lib"
+				AdditionalDependencies="pastelsysd.lib pastelmathd.lib pastelgfxd.lib pastelgeometryd.lib"
 				OutputFile="$(OutDir)\$(ProjectName)d.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(SolutionDir)\lib"
@@ -145,7 +145,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="pastelsys.lib pastelmath.lib pastelgfx.lib"
+				AdditionalDependencies="pastelsys.lib pastelmath.lib pastelgfx.lib pastelgeometry.lib"
 				ShowProgress="0"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(SolutionDir)\lib"
@@ -197,6 +197,10 @@
 				</File>
 				<File
 					RelativePath=".\differential_entropy_analytic.h"
+					>
+				</File>
+				<File
+					RelativePath=".\differential_entropy_kl.cpp"
 					>
 				</File>
 				<File

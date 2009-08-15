@@ -30,7 +30,7 @@ namespace Tim
 		const ForwardRange<Signal_B_Iterator>& bSignalSet,
 		Real_OutputIterator result,
 		integer bLag,
-		integer sigma,
+		integer timeWindowRadius,
 		integer kNearest)
 	{
 		ENSURE_OP(bLag, >=, 0);
@@ -73,9 +73,9 @@ namespace Tim
 			return;
 		}
 
-		if (sigma < 0)
+		if (timeWindowRadius < 0)
 		{
-			sigma = samples;
+			timeWindowRadius = samples;
 		}
 
 		Infinity_NormBijection<real> normBijection;
@@ -107,8 +107,8 @@ namespace Tim
 #pragma omp for
 		for (integer t = 0;t < samples;++t)
 		{
-			const integer tLeft = std::max(t - sigma, 0);
-			const integer tRight = std::min(t + sigma + 1, samples);
+			const integer tLeft = std::max(t - timeWindowRadius, 0);
+			const integer tRight = std::min(t + timeWindowRadius + 1, samples);
 			const integer tDelta = t - tLeft;
 			const integer tWidth = tRight - tLeft;
 
@@ -166,17 +166,15 @@ namespace Tim
 		const SignalPtr& bSignal,
 		Real_OutputIterator result,
 		integer bLag,
-		integer sigma,
+		integer timeWindowRadius,
 		integer kNearest)
 	{
-		SignalPtr signalSet[2] = {aSignal, bSignal};
-
 		Tim::mutualInformation(
 			forwardRange(constantIterator(aSignal)),
 			forwardRange(constantIterator(bSignal)),
 			result,
 			bLag,
-			sigma,
+			timeWindowRadius,
 			kNearest);
 	}
 

@@ -52,19 +52,19 @@ namespace
 		// works as an example how iterators can be used 
 		// to output to a container. 
 
-		std::vector<SignalPtr> splitdSet;
-		split(xy, std::back_inserter(splitdSet));
+		std::vector<SignalPtr> splitSet;
+		split(xy, std::back_inserter(splitSet));
 
 		// The split() function can be given a partition
 		// set which determines the dimensions of the
-		// subsignals to be splitd. Here the subsignals
+		// subsignals to be splitted. Here the subsignals
 		// will cover dimensions [0, 1[ and [1, 3[:
 
 		SmallSet<integer> partition;
 		partition.insert(0);
 		partition.insert(1);
 		partition.insert(3);
-		split(xy, partition, std::back_inserter(splitdSet));
+		split(xy, partition, std::back_inserter(splitSet));
 	}
 
 	void mergeUseCase()
@@ -129,6 +129,11 @@ namespace
 		SignalPtr cDelayedXyyx = merge(
 			forwardRange(signalSet.begin(), signalSet.end()),
 			forwardRange(sparseIterator(countingIterator(3), 2), signalSet.size()));
+
+		// Arrays can be used to form iterator ranges.
+
+		SignalPtr signalArray[3] = {x, y, yx};
+		SignalPtr eXyyx = merge(forwardRange(signalArray));
 	}
 
 }

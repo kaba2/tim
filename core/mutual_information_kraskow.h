@@ -21,7 +21,7 @@ namespace Tim
 	Signal_B_Iterator dereferences to SignalPtr.
 	Real_OutputIterator dereferences to a convertible to real.
 	bLag >= 0
-	sigma >= 0
+	timeWindowRadius >= 0
 	kNearest > 0
 	
 	aSignalSet:
@@ -33,7 +33,7 @@ namespace Tim
 	bLag:
 	The delay in samples that is applied to signal B.
 
-	sigma:
+	timeWindowRadius:
 	The radius of a time-window in samples over which
 	the mutual information is estimated for a given
 	time instant. Smaller values give sensitivity to
@@ -66,7 +66,7 @@ namespace Tim
 		const ForwardRange<Signal_B_Iterator>& bSignalSet,
 		Real_OutputIterator result,
 		integer bLag = 0,
-		integer sigma = -1,
+		integer timeWindowRadius = -1,
 		integer kNearest = 1);
 
 	template <
@@ -76,7 +76,7 @@ namespace Tim
 		const SignalPtr& bSignal,
 		Real_OutputIterator result,
 		integer bLag = 0,
-		integer sigma = -1,
+		integer timeWindowRadius = -1,
 		integer kNearest = 1);
 
 }

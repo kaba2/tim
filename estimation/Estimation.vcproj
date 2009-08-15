@@ -184,6 +184,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\differential_entropy_usecase.cpp"
+			>
+		</File>
+		<File
 			RelativePath=".\estimation.cpp"
 			>
 		</File>
