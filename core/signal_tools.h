@@ -124,30 +124,6 @@ namespace Tim
 		integer dimensionBegin,
 		integer dimensionEnd);
 
-	//! Creates a point set of the signal samples.
-	TIMCORE void constructPointSet(
-		const SignalPtr& signal,
-		std::vector<PointD>& pointSet);
-
-	//! Creates a point set of the signal samples.
-	TIMCORE void constructPointSet(
-		const SignalPtr& signal,
-		integer sampleBegin,
-		integer sampleEnd,
-		integer dimensionBegin,
-		integer dimensionEnd,
-		std::vector<PointD>& pointSet);
-
-	//! Creates a point set of the signal samples.
-	template <typename Signal_Iterator>
-	void constructPointSet(
-		const ForwardRange<Signal_Iterator>& signalSet,
-		integer sampleBegin,
-		integer sampleEnd,
-		integer dimensionBegin,
-		integer dimensionEnd,
-		std::vector<PointD>& pointSet);
-
 	//! Computes the covariance of the signal samples.
 	TIMCORE void computeCovariance(
 		const SignalPtr& signal,

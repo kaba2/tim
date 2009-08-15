@@ -244,7 +244,7 @@ namespace Tim
 		integer sampleEnd,
 		integer dimensionBegin,
 		integer dimensionEnd,
-		std::vector<PointD>& pointSet)
+		std::vector<const real*>& pointSet)
 	{
 		if (signalSet.empty())
 		{
@@ -287,11 +287,9 @@ namespace Tim
 			for (integer i = sampleBegin;i < sampleEnd;++i)
 			{
 				// The samples from the trials are interleaved.
-				PointD point(ofDimension(dimension),
-					withCopying(&signal->data()(i, dimensionBegin)));
 
 				const integer index = (i - sampleBegin) * trials + trial;
-				pointSet[index].swap(point);
+				pointSet[index] = &signal->data()(i, dimensionBegin);
 			}
 
 			++trial;

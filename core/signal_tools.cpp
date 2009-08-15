@@ -73,32 +73,6 @@ namespace Tim
 			forwardRange((const integer*)lag, 2));
 	}
 
-	TIMCORE void constructPointSet(
-		const SignalPtr& signal,
-		std::vector<PointD>& pointSet)
-	{
-		Tim::constructPointSet(
-			signal,
-			0, signal->samples(),
-			0, signal->dimension(),
-			pointSet);
-	}
-
-	TIMCORE void constructPointSet(
-		const SignalPtr& signal,
-		integer sampleBegin,
-		integer sampleEnd,
-		integer dimensionBegin,
-		integer dimensionEnd,
-		std::vector<PointD>& pointSet)
-	{
-		Tim::constructPointSet(
-			forwardRange(constantIterator(signal)),
-			sampleBegin, sampleEnd,
-			dimensionBegin, dimensionEnd,
-			pointSet);
-	}
-
 	TIMCORE void computeCovariance(
 		const SignalPtr& signal,
 		MatrixD& result)

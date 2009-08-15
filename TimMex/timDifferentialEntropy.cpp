@@ -20,12 +20,16 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	//% DIFFERENTIAL_ENTROPY
 	//% A differential entropy estimate from samples.
 	//%
-	//% H = differential_entropy(S, epsilon, k, threads)
+	//% H = differential_entropy(S, sigma, epsilon, k, threads)
 	//%
 	//% where
 	//%
 	//% S is a real (m x n)-matrix that contains n samples of an
 	//% m-dimensional signal.
+	//%
+	//% SIGMA is the radius of the time window over which the
+	//% samples to estimate differential entropy are drawn from 
+	//% at each time instant.
 	//%
 	//% EPSILON is the maximum relative error in distance that
 	//% nearest neighbor searching is allowed to result in.
@@ -49,9 +53,10 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	const mwSize dimension = mxGetM(inputSet[0]);
 
 	real* rawData = mxGetPr(inputSet[0]);
-	real maxRelativeError = *mxGetPr(inputSet[1]);
-	integer kNearest = *mxGetPr(inputSet[2]);
-	const integer threads = *mxGetPr(inputSet[3]);
+	const integer sigma = *mxGetPr(inputSet[1]);
+	const real maxRelativeError = *mxGetPr(inputSet[2]);
+	const integer kNearest = *mxGetPr(inputSet[3]);
+	const integer threads = *mxGetPr(inputSet[4]);
 
 	omp_set_num_threads(threads);
 
@@ -61,6 +66,6 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	outputSet[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
 	real* rawResult = mxGetPr(outputSet[0]);
 
-	*rawResult = differentialEntropy(data, kNearest, 
+	*rawResult = differentialEntropy(data, sigma, kNearest, 
 		maxRelativeError, Euclidean_NormBijection<real>());
 }

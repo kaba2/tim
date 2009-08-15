@@ -356,6 +356,22 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="SignalPointSet"
+				>
+				<File
+					RelativePath=".\signalpointset.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\signalpointset.h"
+					>
+				</File>
+				<File
+					RelativePath=".\signalpointset.hpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

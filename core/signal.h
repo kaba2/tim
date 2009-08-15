@@ -6,6 +6,8 @@
 #include <pastel/math/matrix.h>
 
 #include <pastel/sys/countedptr.h>
+#include <pastel/sys/sparseiterator.h>
+#include <pastel/sys/countingiterator.h>
 
 #include <vector>
 
@@ -17,6 +19,10 @@ namespace Tim
 	class TIMCORE Signal
 		: public ReferenceCounted
 	{
+	private:
+		typedef SparseIterator<CountingIterator<real*> > PointIterator;
+		typedef ConstSparseIterator<CountingIterator<const real*> > ConstPointIterator;
+
 	public:
 		// Using default copy constructor.
 		// Using default assignment.
@@ -35,6 +41,12 @@ namespace Tim
 
 		MatrixD& data();
 		const MatrixD& data() const;
+
+		PointIterator pointBegin(integer dimensionBegin = 0);
+		ConstPointIterator pointBegin(integer dimensionBegin = 0) const;
+
+		PointIterator pointEnd(integer dimensionBegin = 0);
+		ConstPointIterator pointEnd(integer dimensionBegin = 0) const;
 
 	private:
 		std::string name_;

@@ -5,10 +5,12 @@
 
 #include "tim/core/signal.h"
 
+#include <pastel/sys/forwardrange.h>
+
 namespace Tim
 {
 
-	//! Computes the differential entropy of a signal.
+	//! Computes temporal differential entropy of a signal.
 	/*!
 	Preconditions:
 	kNearest > 0
@@ -24,9 +26,49 @@ namespace Tim
 	entropy and thus does not measure information content.
 	*/
 
+	template <
+		typename Signal_Iterator, 
+		typename NormBijection,
+		typename Real_OutputIterator>
+	void differentialEntropy(
+		const ForwardRange<Signal_Iterator>& signalSet,
+		integer sigma,
+		integer kNearest,
+		real maxRelativeError,
+		const NormBijection& normBijection,
+		Real_OutputIterator result);
+
+	//! Computes temporal differential entropy of a signal.
+
+	template <
+		typename NormBijection,
+		typename Real_OutputIterator>
+	void differentialEntropy(
+		const SignalPtr& signal,
+		integer sigma,
+		integer kNearest,
+		real maxRelativeError,
+		const NormBijection& normBijection,
+		Real_OutputIterator result);
+
+	//! Computes average differential entropy of a signal.
+
+	template <
+		typename Signal_Iterator, 
+		typename NormBijection>
+	real differentialEntropy(
+		const ForwardRange<Signal_Iterator>& signalSet,
+		integer sigma,
+		integer kNearest,
+		real maxRelativeError,
+		const NormBijection& normBijection);
+
+	//! Computes average differential entropy of a signal.
+
 	template <typename NormBijection>
 	real differentialEntropy(
 		const SignalPtr& signal,
+		integer sigma,
 		integer kNearest,
 		real maxRelativeError,
 		const NormBijection& normBijection);
