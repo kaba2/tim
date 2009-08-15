@@ -47,7 +47,7 @@ namespace
 		*/
 
 		const real averageMi = 
-			std::accumulate(mi.begin(), mi.end(), 0) / mi.size();
+			std::accumulate(mi.begin(), mi.end(), (real)0) / mi.size();
 
 		const real re = relativeError<real>(averageMi, correctMi);
 
@@ -60,7 +60,8 @@ namespace
 	{
 		log() << "Mutual information estimates: " << logNewLine;
 
-		const integer samples = 100000;
+		const integer samples = 10000;
+		const integer sigma = samples;
 		const integer kNearest = 1;
 		const real maxRelativeError = 0;
 
@@ -99,7 +100,7 @@ namespace
 					aSignal,
 					bSignal,
 					0,
-					samples,
+					sigma,
 					kNearest,
 					correlatedGaussianMutualInformation(
 					diagonalProduct(covariance), determinant(cholesky)));
@@ -171,7 +172,7 @@ namespace
 					aSignal,
 					bSignal,
 					0,
-					samples,
+					sigma,
 					kNearest,
 					correlatedGaussianMutualInformation(
 					diagonalProduct(covariance), determinant(cholesky)));
@@ -269,7 +270,7 @@ namespace
 					maxRelativeError);
 				timer.store();
 
-				const real mi = std::accumulate(miSet.begin(), miSet.end(), 0) / miSet.size();
+				const real mi = std::accumulate(miSet.begin(), miSet.end(), (real)0) / miSet.size();
 
 				measureTable(TimTime_Column, experiment).text() = 
 					realToString(timer.seconds(), 4);

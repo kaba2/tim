@@ -21,9 +21,9 @@ namespace
 		const SignalPtr& signal,
 		real correct)
 	{
-		//Euclidean_NormBijection<real> normBijection;
+		Euclidean_NormBijection<real> normBijection;
 		//Infinity_NormBijection<real> normBijection;
-		Manhattan_NormBijection<real> normBijection;
+		//Manhattan_NormBijection<real> normBijection;
 
 		const integer kNearest = 1;
 		/*
@@ -35,8 +35,9 @@ namespace
 		log() << radiusRatio << logNewLine;
 		*/
 		const real maxRelativeError = 0;
+		const integer sigma = signal->samples() / 10;
 
-		const real estimate = differentialEntropy(signal, kNearest, maxRelativeError, 
+		const real estimate = differentialEntropy(signal, sigma, kNearest, maxRelativeError, 
 			normBijection);
 
 		/*
@@ -60,7 +61,7 @@ namespace
 		log() << "Relative errors to correct analytic results shown in brackets." << logNewLine;
 
 		const integer dimension = 10;
-		const integer samples = 1000;
+		const integer samples = 10000;
 
 		testDifferentialEntropyCase(
 			"Gaussian(0, 1)",

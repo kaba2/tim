@@ -3,9 +3,10 @@
 
 #include "tim/core/mutual_information_kraskow.h"
 #include "tim/core/signal_tools.h"
+#include "tim/core/signalpointset.h"
 
 #include <pastel/geometry/pointkdtree.h>
-#include <pastel/geometry/pointkdtree_refine.h>
+#include <pastel/geometry/slidingmidpoint_splitrule_pointkdtree.h>
 #include <pastel/geometry/search_all_neighbors_pointkdtree.h>
 #include <pastel/geometry/count_all_neighbors_pointkdtree.h>
 
@@ -43,34 +44,41 @@ namespace Tim
 			return;
 		}
 
+		aSignalSet.updateCache();
+		bSignalSet.updateCache();
+
 		const integer trials = aSignalSet.size();
 
-		const integer samples = std::min(
-			minSamples(aSignalSet),
-			minSamples(bSignalSet));
+		enum
+		{
+			Signals = 2
+		};
+
+		// Determine start index for each signal.
+
+		Vector<integer, Signals> signalLag(0, bLag);
+		const integer signalMaxLag = max(signalLag);
+		Vector<integer, Signals> signalStartIndex(signalMaxLag - signalLag);
+
+		// Determine the number of samples.
+
+		Vector<integer, Signals> signalSamples(
+			minSamples(aSignalSet) - signalLag[0],
+			minSamples(bSignalSet) - signalLag[1]);
+
+		const integer samples = min(signalSamples);
+
+		if (samples <= 0)
+		{
+			return;
+		}
 
 		if (sigma < 0)
 		{
 			sigma = samples;
 		}
 
-		const integer sigmaSamples = sigma * 2 + 1;
-
-		const integer aDimension = aSignalSet.front()->dimension();
-		const integer bDimension = bSignalSet.front()->dimension();
-		const integer jointDimension = aDimension + bDimension;
-
-		const integer maxPointsPerNode = 16;
-		SlidingMidpoint2_SplitRule_PointKdTree splitRule;
-
-		const Infinity_NormBijection<real> normBijection;
-		Array<real, 2> distanceArray(1, samples);
-
-		typedef PointKdTree<real, Dynamic, Pointer_ObjectPolicy_PointKdTree<real, Dynamic> > KdTree;
-		typedef typename KdTree::ConstObjectIterator ConstObjectIterator;
-		typedef typename KdTree::Object Object;
-
-		const integer initialSamples = std::max(sigma + 1, samples);
+		Infinity_NormBijection<real> normBijection;
 
 		// Form the joint signal.
 
@@ -80,124 +88,39 @@ namespace Tim
 		merge(aSignalSet, bSignalSet, 
 			std::back_inserter(jointSignalSet), bLag);
 
-		// Compute kd-tree for joint samples
-		// ---------------------------------
+		// Compute SignalPointSets.
 
-		std::vector<PointD> jointPointSet;
-		constructPointSet(
-			forwardRange(jointSignalSet.begin(), jointSignalSet.end()),
-			0, samples,
-			0, jointDimension,
-			jointPointSet);
-
-		KdTree jointKdTree(ofDimension(jointDimension), maxPointsPerNode);
-
-		jointKdTree.insert(
-			countingIterator(&jointPointSet.front()), 
-			countingIterator(&jointPointSet.front() + jointPointSet.size()));
-
-		// Compute a fine subdivision for the points.
-
-		jointKdTree.refine(splitRule);
-
-		// Remove all objects but leave subdivision intact.
-
-		jointKdTree.eraseObjects();
-
-		// Insert the first time-window.
-
-		std::deque<ConstObjectIterator> jointIteratorSet;
-		for (integer i = 0;i < initialSamples;++i)
+		std::vector<real> estimateSet(samples);
+#pragma omp parallel
 		{
-			jointIteratorSet.push_back(jointKdTree.insert(&jointPointSet[i]));
-		}
+		SignalPointSetPtr jointPointSet(
+			new SignalPointSet(
+			forwardRange(jointSignalSet.begin(), jointSignalSet.end())));
 
-		// Compute kd-tree for marginal A samples
-		// --------------------------------------
+		Tuple<SignalPointSetPtr, 2> pointSet(
+			SignalPointSetPtr(new SignalPointSet(aSignalSet)),
+			SignalPointSetPtr(new SignalPointSet(bSignalSet)));
 
-		std::vector<PointD> aPointSet;
-		constructPointSet(
-			aSignalSet,
-			0, samples,
-			0, aDimension,
-			aPointSet);
+		Array<real, 2> distanceArray(1, trials);
+		std::vector<integer> countSet(trials, 0);
 
-		KdTree aKdTree(ofDimension(aDimension), maxPointsPerNode);
-
-		aKdTree.insert(
-			countingIterator(&aPointSet.front()), 
-			countingIterator(&aPointSet.front() + aPointSet.size()));
-
-		// Compute a fine subdivision for the points.
-
-		aKdTree.refine(splitRule);
-
-		// Remove all objects but leave subdivision intact.
-
-		aKdTree.eraseObjects();
-
-		// Insert the first time-window.
-		
-		std::deque<ConstObjectIterator> aIteratorSet;
-		for (integer i = 0;i < initialSamples;++i)
-		{
-			aIteratorSet.push_back(aKdTree.insert(&aPointSet[i]));
-		}
-
-		// Compute kd-tree for marginal B samples
-		// --------------------------------------
-
-		std::vector<PointD> bPointSet;
-		constructPointSet(
-			bSignalSet, 
-			0, samples,
-			0, bDimension,
-			bPointSet);
-
-		KdTree bKdTree(ofDimension(bDimension), maxPointsPerNode);
-
-		bKdTree.insert(
-			countingIterator(&bPointSet.front()), 
-			countingIterator(&bPointSet.front() + bPointSet.size()));
-
-		// Compute a fine subdivision for the points.
-
-		bKdTree.refine(splitRule);
-
-		// Remove all objects but leave subdivision intact.
-
-		bKdTree.eraseObjects();
-
-		// Insert the first time-window.
-		
-		std::deque<ConstObjectIterator> bIteratorSet;
-		for (integer i = 0;i < initialSamples;++i)
-		{
-			bIteratorSet.push_back(bKdTree.insert(&bPointSet[i]));
-		}
-
-		// Compute temporal mutual information
-		// -----------------------------------
-
-		integer tLeft = -sigma;
-		integer tRight = sigma;
-
-		std::deque<ConstObjectIterator>::iterator jointIter = 
-			jointIteratorSet.begin();
-		std::deque<ConstObjectIterator>::iterator aIter = 
-			aIteratorSet.begin();
-		std::deque<ConstObjectIterator>::iterator bIter = 
-			bIteratorSet.begin();
-		
-		// For all time instants...
+#pragma omp for
 		for (integer t = 0;t < samples;++t)
 		{
+			const integer tLeft = std::max(t - sigma, 0);
+			const integer tRight = std::min(t + sigma + 1, samples);
+			const integer tDelta = t - tLeft;
+			const integer tWidth = tRight - tLeft;
+
+			jointPointSet->setTimeWindow(tLeft, tRight);
+			
 			searchAllNeighbors(
-				jointKdTree,
+				jointPointSet->kdTree(),
 				DepthFirst_SearchAlgorithm_PointKdTree(),
-				randomAccessRange(jointIter, trials),
+				randomAccessRange(jointPointSet->begin() + tDelta * trials, 
+				jointPointSet->begin() + (tDelta + 1) * trials),
 				kNearest - 1,
-				kNearest,
+				kNearest, 
 				randomAccessRange(constantIterator(infinity<real>()), trials),
 				0,
 				normBijection,
@@ -206,64 +129,34 @@ namespace Tim
 
 			real estimate = 0;
 
-			std::vector<integer> countSet(trials, 0);
-
-			countAllNeighbors(
-				aKdTree,
-				randomAccessRange(aIter, trials),
-				randomAccessRange(distanceArray.begin(), trials),
-				normBijection,
-				countSet.begin());
-
-#pragma omp parallel for reduction(+ : estimate)
-			for (integer j = 0;j < trials;++j)
+			for (integer i = 0;i < Signals;++i)
 			{
-				estimate -= digamma<real>(countSet[j]);
+				pointSet[i]->setTimeWindow(tLeft, tRight);
+
+				countAllNeighbors(
+					pointSet[i]->kdTree(),
+					randomAccessRange(pointSet[i]->begin() + tDelta * trials, 
+					pointSet[i]->begin() + (tDelta + 1) * trials),
+					randomAccessRange(distanceArray.begin(), trials),
+					normBijection,
+					countSet.begin());
+
+//#pragma omp parallel for reduction(+ : estimate)
+				for (integer j = 0;j < trials;++j)
+				{
+					estimate -= digamma<real>(countSet[j]);
+				}
 			}
 
 			estimate /= trials;
 			estimate += digamma<real>(kNearest);
-			estimate += digamma<real>(samples);
+			estimate += digamma<real>(tWidth * trials);
 
-			*result = estimate;
-			++result;
-
-			// Update time window
-			std::advance(jointIter, trials);
-			std::advance(aIter, trials);
-			std::advance(bIter, trials);
-			++tLeft;
-			++tRight;
-
-			if (tLeft > 0)
-			{
-				for (integer i = 0;i < trials;++i)
-				{
-					jointKdTree.erase(jointIteratorSet.front());
-					jointIteratorSet.pop_front();
-					
-					aKdTree.erase(aIteratorSet.front());
-					aIteratorSet.pop_front();
-					
-					bKdTree.erase(bIteratorSet.front());
-					bIteratorSet.pop_front();
-				}
-			}
-			if (tRight < samples)
-			{
-				integer index = tRight * trials;
-				for (integer i = 0;i < trials;++i)
-				{
-					jointIteratorSet.push_back(
-						jointKdTree.insert(&jointPointSet[index]));
-					aIteratorSet.push_back(
-						aKdTree.insert(&aPointSet[index]));
-					bIteratorSet.push_back(
-						bKdTree.insert(&bPointSet[index]));
-					++index;
-				}
-			}
+			estimateSet[t] = estimate;
 		}
+		}
+
+		std::copy(estimateSet.begin(), estimateSet.end(), result);
 	}
 
 	template <

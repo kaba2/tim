@@ -459,9 +459,9 @@ namespace
 
 				kdTree.insert(
 					boost::make_transform_iterator(
-					pointSet.begin(), std::mem_fun_ref(&Point<Real, N>::data)),
+					pointSet.begin(), std::mem_fun_ref(&Point<Real, N>::rawBegin)),
 					boost::make_transform_iterator(
-					pointSet.end(), std::mem_fun_ref(&Point<Real, N>::data)),
+					pointSet.end(), std::mem_fun_ref(&Point<Real, N>::rawBegin)),
 					std::back_inserter(iteratorSet));
 
 				kdTree.refine(SlidingMidpoint_SplitRule_PointKdTree());
@@ -484,7 +484,7 @@ namespace
 				std::map<const Real*, integer> indexMap;
 				for (integer i = 0;i < pointSet.size();++i)
 				{
-					indexMap.insert(std::make_pair(pointSet[i].data(), i));
+					indexMap.insert(std::make_pair(pointSet[i].rawBegin(), i));
 				}
 
 				for (integer i = 0;i < kdNearestIter.size();++i)

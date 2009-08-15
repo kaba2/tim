@@ -55,4 +55,30 @@ namespace Tim
 		return data_;
 	}
 
+	Signal::PointIterator Signal::pointBegin(integer dimensionBegin)
+	{
+		return sparseIterator(countingIterator(
+			data_.rawBegin() + dimensionBegin), dimension());
+	}
+
+	Signal::ConstPointIterator Signal::pointBegin(integer dimensionBegin) const
+	{
+		return constSparseIterator(countingIterator(
+			data_.rawBegin() + dimensionBegin), dimension());
+	}
+
+	Signal::PointIterator Signal::pointEnd(integer dimensionBegin)
+	{
+		return sparseIterator(countingIterator(
+			data_.rawBegin() + dimensionBegin + data_.size()), 
+			dimension());
+	}
+
+	Signal::ConstPointIterator Signal::pointEnd(integer dimensionBegin) const
+	{
+		return constSparseIterator(countingIterator(
+			data_.rawBegin() + dimensionBegin + data_.size()), 
+			dimension());
+	}
+
 }
