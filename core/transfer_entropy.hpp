@@ -19,7 +19,7 @@ namespace Tim
 		integer yIndex,
 		const Signal_Iterator& xFutureBegin,
 		const Signal_Iterator& xFutureEnd,
-		integer sigma,
+		integer timeWindowRadius,
 		integer kNearest,
 		std::vector<real>& estimateSet)
 	{
@@ -35,7 +35,7 @@ namespace Tim
 		ENSURE_OP(xIndex, <, signals);
 		ENSURE_OP(yIndex, >=, 0);
 		ENSURE_OP(yIndex, <, signals);
-		ENSURE_OP(sigma, >=, 0);
+		ENSURE_OP(timeWindowRadius, >=, 0);
 		ENSURE_OP(kNearest, >, 0);
 		ENSURE_OP(std::distance(xFutureBegin, xFutureEnd), ==, trials);
 		ENSURE(equalDimension(xFutureBegin, xFutureEnd));
@@ -112,14 +112,14 @@ namespace Tim
 		const integer yBegin = zEnd;
 		const integer yEnd = yBegin + yDimension;
 
-		const integer sigmaSamples = 2 * sigma + 1;
+		const integer timeWindowRadiusSamples = 2 * timeWindowRadius + 1;
 
 		// Data structures for nearest neighbors searching.
 
 		const Infinity_NormBijection<real> normBijection;
 		Array<real, 2> distanceArray(1, trials);
 		std::vector<PointD> pointSet;
-		pointSet.reserve(trials * sigmaSamples);
+		pointSet.reserve(trials * timeWindowRadiusSamples);
 
 		// Data structures for nearest neighbors counting.
 
@@ -129,7 +129,7 @@ namespace Tim
 		std::fill(estimateSet.begin(), estimateSet.end(), 0);
 
 		integer percent = 0;
-		for (integer i = sigma;i < samples - sigma;++i)
+		for (integer i = timeWindowRadius;i < samples - timeWindowRadius;++i)
 		{
 			integer newPercent = (real)(i * 100) / samples;
 			if (newPercent != percent)
@@ -138,20 +138,20 @@ namespace Tim
 				percent = newPercent;
 			}
 
-			const integer sampleBegin = i - sigma;
-			const integer sampleEnd = i + sigma + 1;
+			const integer sampleBegin = i - timeWindowRadius;
+			const integer sampleEnd = i + timeWindowRadius + 1;
 
 			// Compute for the current point its distance 
 			// to the k:th nearest neighbor in the joint space,
 			// which includes all samples from the ensemble
-			// across the time window of sigma radius.
+			// across the time window of timeWindowRadius radius.
 
 			constructPointSet(jointEnsemble, 
 				sampleBegin, sampleEnd, 
 				wBegin, yEnd, pointSet);
 
 			const ConstSparseIterator<CountingIterator<integer> >
-				sparseIndexBegin(CountingIterator<integer>(sigma), sigmaSamples);
+				sparseIndexBegin(CountingIterator<integer>(timeWindowRadius), timeWindowRadiusSamples);
 
 			searchAllNeighbors(
 				pointSet,

@@ -7,8 +7,14 @@
 
 #include <pastel/sys/forwardrange.h>
 
+#include <boost/utility/enable_if.hpp>
+#include <boost/type_traits/is_convertible.hpp>
+
 namespace Tim
 {
+
+	// Overloads for a set of signal trials
+	// ------------------------------------
 
 	//! Computes temporal differential entropy of a signal.
 	/*!
@@ -28,50 +34,118 @@ namespace Tim
 
 	template <
 		typename Signal_Iterator, 
-		typename NormBijection,
-		typename Real_OutputIterator>
+		typename Real_OutputIterator,
+		typename NormBijection>
 	void differentialEntropy(
 		const ForwardRange<Signal_Iterator>& signalSet,
-		integer sigma,
-		integer kNearest,
+		integer timeWindowRadius,
+		Real_OutputIterator result,
 		real maxRelativeError,
-		const NormBijection& normBijection,
-		Real_OutputIterator result);
-
-	//! Computes temporal differential entropy of a signal.
+		integer kNearest,
+		const NormBijection& normBijection);
 
 	template <
-		typename NormBijection,
+		typename Signal_Iterator, 
 		typename Real_OutputIterator>
-	void differentialEntropy(
-		const SignalPtr& signal,
-		integer sigma,
-		integer kNearest,
-		real maxRelativeError,
-		const NormBijection& normBijection,
-		Real_OutputIterator result);
+	typename boost::disable_if<
+		boost::is_convertible<Real_OutputIterator, integer> >::type
+	differentialEntropy(
+		const ForwardRange<Signal_Iterator>& signalSet,
+		integer timeWindowRadius,
+		Real_OutputIterator result,
+		real maxRelativeError = 0,
+		integer kNearest = 1);
 
-	//! Computes average differential entropy of a signal.
+	//! Computes differential entropy of a signal.
+	/*!
+	Preconditions:
+	kNearest > 0
+	maxRelativeError >= 0
+	*/
 
 	template <
 		typename Signal_Iterator, 
 		typename NormBijection>
 	real differentialEntropy(
 		const ForwardRange<Signal_Iterator>& signalSet,
-		integer sigma,
-		integer kNearest,
 		real maxRelativeError,
+		integer kNearest,
 		const NormBijection& normBijection);
 
-	//! Computes average differential entropy of a signal.
+	//! Computes differential entropy of a signal.
+	/*!
+	differentialEntropy(
+		signalSet, maxRelativeError, kNearest, 
+		Euclidean_NormBijection());
+	*/
+
+	template <typename Signal_Iterator>
+	real differentialEntropy(
+		const ForwardRange<Signal_Iterator>& signalSet,
+		real maxRelativeError = 0,
+		integer kNearest = 1);
+
+	// Overloads for a single signal
+	// -----------------------------
+
+	//! Computes temporal differential entropy of a signal.
+
+	template <
+		typename Real_OutputIterator,
+		typename NormBijection>
+	void differentialEntropy(
+		const SignalPtr& signal,
+		integer timeWindowRadius,
+		Real_OutputIterator result,
+		real maxRelativeError,
+		integer kNearest,
+		const NormBijection& normBijection);
+
+	//! Computes temporal differential entropy of a signal.
+	/*!
+	differentialEntropy(signal, timeWindowRadius, result, 
+		maxRelativeError, kNearest, Euclidean_NormBijection());
+	*/
+	template <typename Real_OutputIterator>
+	typename boost::disable_if<
+		boost::is_convertible<Real_OutputIterator, integer> >::type
+	differentialEntropy(
+		const SignalPtr& signal,
+		integer timeWindowRadius,
+		Real_OutputIterator result,
+		real maxRelativeError = 0,
+		integer kNearest = 1);
+
+	//! Computes differential entropy of a signal.
+	/*!
+	Preconditions:
+	kNearest > 0
+	maxRelativeError >= 0
+
+	differentialEntropy(
+		forwardRange(constantIterator(signal)),
+		maxRelativeError,
+		kNearest,
+		normBijection);
+	*/
 
 	template <typename NormBijection>
 	real differentialEntropy(
 		const SignalPtr& signal,
-		integer sigma,
-		integer kNearest,
 		real maxRelativeError,
+		integer kNearest,
 		const NormBijection& normBijection);
+
+	//! Computes differential entropy of a signal.
+	/*!
+	differentialEntropy(
+		signal, maxRelativeError,
+		kNearest, Euclidean_NormBijection());
+	*/
+	TIMCORE real differentialEntropy(
+		const SignalPtr& signal,
+		real maxRelativeError = 0,
+		integer kNearest = 1);
 
 }
 

@@ -35,9 +35,10 @@ namespace
 		log() << radiusRatio << logNewLine;
 		*/
 		const real maxRelativeError = 0;
-		const integer sigma = signal->samples() / 10;
+		//const integer timeWindowRadius = signal->samples() / 10;
 
-		const real estimate = differentialEntropy(signal, sigma, kNearest, maxRelativeError, 
+		const real estimate = differentialEntropy(
+			signal, kNearest, maxRelativeError, 
 			normBijection);
 
 		/*

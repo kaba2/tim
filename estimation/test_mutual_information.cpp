@@ -25,7 +25,7 @@ namespace
 		const SignalPtr& aSignal,
 		const SignalPtr& bSignal,
 		integer bLag,
-		integer sigma,
+		integer timeWindowRadius,
 		integer kNearest,
 		real correctMi)
 	{
@@ -33,7 +33,7 @@ namespace
 		mutualInformation(
 			aSignal, bSignal, 
 			std::back_inserter(mi), 
-			bLag, sigma, kNearest);
+			bLag, timeWindowRadius, kNearest);
 
 		/*
 		std::vector<SignalPtr> signalSet;
@@ -61,7 +61,7 @@ namespace
 		log() << "Mutual information estimates: " << logNewLine;
 
 		const integer samples = 10000;
-		const integer sigma = samples;
+		const integer timeWindowRadius = samples;
 		const integer kNearest = 1;
 		const real maxRelativeError = 0;
 
@@ -100,7 +100,7 @@ namespace
 					aSignal,
 					bSignal,
 					0,
-					sigma,
+					timeWindowRadius,
 					kNearest,
 					correlatedGaussianMutualInformation(
 					diagonalProduct(covariance), determinant(cholesky)));
@@ -172,7 +172,7 @@ namespace
 					aSignal,
 					bSignal,
 					0,
-					sigma,
+					timeWindowRadius,
 					kNearest,
 					correlatedGaussianMutualInformation(
 					diagonalProduct(covariance), determinant(cholesky)));

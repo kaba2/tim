@@ -22,7 +22,7 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	//% TRANSFER_ENTROPY 
 	//% A multivariate transfer entropy estimate from samples.
 	//%
-	//% I = transfer_entropy(X, W, Y, Z, sigma, k, threads)
+	//% I = transfer_entropy(X, W, Y, Z, timeWindowRadius, k, threads)
 	//%
 	//% where
 	//%
@@ -40,7 +40,7 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	//% of each of the p already embedded Z-signals. 
 	//% Default empty cell array.
 	//%
-	//% SIGMA determines the width of the time window in samples which is
+	//% TIMEWINDOWRADIUS determines the width of the time window in samples which is
 	//% used for the estimation of multivariate transfer entropy at each time 
 	//% instant. Larger windows give smaller errors, but less sensitivity
 	//% to temporal changes in transfer entropy, and vice versa.
@@ -167,7 +167,7 @@ void mexFunction(int outputs, mxArray *outputSet[],
 
 	// Other parameters
 
-	const integer sigma = *mxGetPr(inputSet[4]);
+	const integer timeWindowRadius = *mxGetPr(inputSet[4]);
 	const integer kNearest = *mxGetPr(inputSet[5]);
 	const integer threads = *mxGetPr(inputSet[6]);
 
@@ -178,7 +178,7 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	/*
 	transferEntropy(
 		xEnsemble, wEnsemble, yEnsemble, 
-		zEnsembleSet, sigma, kNearest, estimateSet);
+		zEnsembleSet, timeWindowRadius, kNearest, estimateSet);
 	*/
 
 	const integer samples = estimateSet.size();

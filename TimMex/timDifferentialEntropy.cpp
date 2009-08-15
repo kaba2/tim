@@ -20,14 +20,14 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	//% DIFFERENTIAL_ENTROPY
 	//% A differential entropy estimate from samples.
 	//%
-	//% H = differential_entropy(S, sigma, epsilon, k, threads)
+	//% H = differential_entropy(S, timeWindowRadius, epsilon, k, threads)
 	//%
 	//% where
 	//%
 	//% S is a real (m x n)-matrix that contains n samples of an
 	//% m-dimensional signal.
 	//%
-	//% SIGMA is the radius of the time window over which the
+	//% TIMEWINDOWRADIUS is the radius of the time window over which the
 	//% samples to estimate differential entropy are drawn from 
 	//% at each time instant.
 	//%
@@ -53,7 +53,7 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	const mwSize dimension = mxGetM(inputSet[0]);
 
 	real* rawData = mxGetPr(inputSet[0]);
-	const integer sigma = *mxGetPr(inputSet[1]);
+	const integer timeWindowRadius = *mxGetPr(inputSet[1]);
 	const real maxRelativeError = *mxGetPr(inputSet[2]);
 	const integer kNearest = *mxGetPr(inputSet[3]);
 	const integer threads = *mxGetPr(inputSet[4]);
@@ -63,9 +63,17 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	const SignalPtr data = SignalPtr(
 		new Signal(samples, dimension, rawData));
 	
-	outputSet[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
+	std::vector<real> estimateSet;
+
+	differentialEntropy(
+		data, 
+		timeWindowRadius, std::back_inserter(estimateSet),
+		kNearest, 
+		maxRelativeError, Euclidean_NormBijection<real>());
+
+	outputSet[0] = mxCreateDoubleMatrix(1, estimateSet.size(), mxREAL);
 	real* rawResult = mxGetPr(outputSet[0]);
 
-	*rawResult = differentialEntropy(data, sigma, kNearest, 
-		maxRelativeError, Euclidean_NormBijection<real>());
+	std::copy(estimateSet.begin(), estimateSet.end(),
+		rawResult);
 }

@@ -21,17 +21,17 @@ namespace Tim
 
 	template <
 		typename Signal_Iterator, 
-		typename NormBijection,
-		typename Real_OutputIterator>
+		typename Real_OutputIterator,
+		typename NormBijection>
 	void differentialEntropy(
 		const ForwardRange<Signal_Iterator>& signalSet,
-		integer sigma,
-		integer kNearest,
+		integer timeWindowRadius,
+		Real_OutputIterator result,
 		real maxRelativeError,
-		const NormBijection& normBijection,
-		Real_OutputIterator result)
+		integer kNearest,
+		const NormBijection& normBijection)
 	{
-		ENSURE_OP(sigma, >=, 0);
+		ENSURE_OP(timeWindowRadius, >=, 0);
 		ENSURE_OP(kNearest, >, 0);
 		ENSURE_OP(maxRelativeError, >=, 0);
 
@@ -61,23 +61,23 @@ namespace Tim
 		const integer trials = signalSet.size();
 		const integer samples = minSamples(signalSet);
 		const integer dimension = signalSet.front()->dimension();
-		const integer sigmaSamples = 2 * sigma + 1;
+		const integer timeWindowRadiusSamples = 2 * timeWindowRadius + 1;
 
-		if (sigma < samples - 1)
+		if (timeWindowRadius < samples - 1)
 		{
 			std::vector<real> estimateSet(samples);
 #pragma omp parallel
 			{
 			Array<real, 2> distanceArray(1, trials);
 			SignalPointSet pointSet(signalSet, 
-				(sigma < samples / 2) ? SignalPointSet_TimeWindow::StartEmpty : 
+				(timeWindowRadius < samples / 2) ? SignalPointSet_TimeWindow::StartEmpty : 
 				SignalPointSet_TimeWindow::StartFull);
 
 #pragma omp for
 			for (integer t = 0;t < samples;++t)
 			{
-				const integer tLeft = std::max(t - sigma, 0);
-				const integer tRight = std::min(t + sigma + 1, samples);
+				const integer tLeft = std::max(t - timeWindowRadius, 0);
+				const integer tRight = std::min(t + timeWindowRadius + 1, samples);
 				const integer tDelta = t - tLeft;
 				const integer tWidth = tRight - tLeft;
 
@@ -103,9 +103,9 @@ namespace Tim
 					// _twice_ the distance to the k:th neighbor.
 					// However, we delay this by noting that:
 					// log(dist * 2) = log(dist) + log(2)
-					if (distanceArray(0, i) > 0)
+					if (distanceArray(i) > 0)
 					{
-						estimate += normBijection.toLnNorm(distanceArray(0, i));
+						estimate += normBijection.toLnNorm(distanceArray(i));
 					}
 				}
 				// Here we take into account doubling the distances.
@@ -129,75 +129,35 @@ namespace Tim
 		}
 		else
 		{
-			const integer estimateSamples = samples * trials;
-
-			Array<real, 2> distanceArray(1, estimateSamples);
-			SignalPointSet pointSet(signalSet, SignalPointSet_TimeWindow::StartFull);
-		
-			searchAllNeighbors(
-				pointSet.kdTree(),
-				DepthFirst_SearchAlgorithm_PointKdTree(),
-				randomAccessRange(pointSet.begin(), pointSet.end()),
-				kNearest - 1,
-				kNearest, 
-				randomAccessRange(constantIterator(infinity<real>()), estimateSamples),
-				maxRelativeError,
-				normBijection,
-				0,
-				&distanceArray);
-
-			real estimate = 0;
-	#pragma omp parallel for reduction(+ : estimate)
-			for (integer i = 0;i < estimateSamples;++i)
-			{
-				// Here we should add the logarithm of 
-				// _twice_ the distance to the k:th neighbor.
-				// However, we delay this by noting that:
-				// log(dist * 2) = log(dist) + log(2)
-				if (distanceArray(0, i) > 0)
-				{
-					estimate += normBijection.toLnNorm(distanceArray(0, i));
-				}
-			}
-			// Here we take into account doubling the distances.
-			estimate += estimateSamples * constantLn2<real>();
-
-			estimate *= (real)dimension / estimateSamples;
-			estimate -= digamma<real>(kNearest);
-			estimate += digamma<real>(estimateSamples);
-			// Here we add the logarithm of the volume of 
-			// a sphere with _diameter_ 1. That is, the logarithm
-			// of the volume of a sphere with radius 1/2:
-			// log(unitVol * (1/2)^d) = log(unitVol) - d * log(2)
-			estimate += normBijection.lnVolumeUnitSphere(dimension);
-			estimate -= dimension * constantLn2<real>();
+			const real estimate = 
+				Tim::differentialEntropy(
+				signalSet, 
+				kNearest, maxRelativeError, 
+				normBijection);
 
 			std::fill_n(result, samples, estimate);
 		}
 	}
 
 	template <
-		typename NormBijection,
+		typename Signal_Iterator, 
 		typename Real_OutputIterator>
-	void differentialEntropy(
-		const SignalPtr& signal,
-		integer sigma,
-		integer kNearest,
+	typename boost::disable_if<
+		boost::is_convertible<Real_OutputIterator, integer> >::type
+	differentialEntropy(
+		const ForwardRange<Signal_Iterator>& signalSet,
+		integer timeWindowRadius,
+		Real_OutputIterator result,
 		real maxRelativeError,
-		const NormBijection& normBijection,
-		Real_OutputIterator result)
+		integer kNearest)
 	{
-		ENSURE_OP(sigma, >=, 0);
-		ENSURE_OP(kNearest, >, 0);
-		ENSURE_OP(maxRelativeError, >=, 0);
-
 		Tim::differentialEntropy(
-			forwardRange(constantIterator(signal)),
-			sigma,
-			kNearest,
+			signalSet,
+			timeWindowRadius,
+			result,
 			maxRelativeError,
-			normBijection,
-			result);
+			kNearest,
+			Euclidean_NormBijection<real>());
 	}
 
 	template <
@@ -205,46 +165,135 @@ namespace Tim
 		typename NormBijection>
 	real differentialEntropy(
 		const ForwardRange<Signal_Iterator>& signalSet,
-		integer sigma,
-		integer kNearest,
 		real maxRelativeError,
+		integer kNearest,
 		const NormBijection& normBijection)
 	{
-		ENSURE_OP(sigma, >=, 0);
 		ENSURE_OP(kNearest, >, 0);
 		ENSURE_OP(maxRelativeError, >=, 0);
 
-		std::vector<real> temporalEntropy;
-		temporalEntropy.reserve(minSamples(signalSet));
+		const integer trials = signalSet.size();
+		const integer samples = minSamples(signalSet);
+		const integer dimension = signalSet.front()->dimension();
+		const integer estimateSamples = samples * trials;
 
-		differentialEntropy(
-			signalSet, sigma, kNearest, maxRelativeError, normBijection,
-			std::back_inserter(temporalEntropy));
+		Array<real, 2> distanceArray(1, estimateSamples);
+		SignalPointSet pointSet(signalSet, SignalPointSet_TimeWindow::StartFull);
+	
+		searchAllNeighbors(
+			pointSet.kdTree(),
+			DepthFirst_SearchAlgorithm_PointKdTree(),
+			randomAccessRange(pointSet.begin(), pointSet.end()),
+			kNearest - 1,
+			kNearest, 
+			randomAccessRange(constantIterator(infinity<real>()), estimateSamples),
+			maxRelativeError,
+			normBijection,
+			0,
+			&distanceArray);
 
-		const real averageEntropy = 
-			std::accumulate(temporalEntropy.begin(), temporalEntropy.end(), (real)0) / 
-			temporalEntropy.size();
-		
-		return averageEntropy;
+		real estimate = 0;
+#pragma omp parallel for reduction(+ : estimate)
+		for (integer i = 0;i < estimateSamples;++i)
+		{
+			// Here we should add the logarithm of 
+			// _twice_ the distance to the k:th neighbor.
+			// However, we delay this by noting that:
+			// log(dist * 2) = log(dist) + log(2)
+			if (distanceArray(i) > 0)
+			{
+				estimate += normBijection.toLnNorm(distanceArray(i));
+			}
+		}
+		// Here we take into account doubling the distances.
+		estimate += estimateSamples * constantLn2<real>();
+
+		estimate *= (real)dimension / estimateSamples;
+		estimate -= digamma<real>(kNearest);
+		estimate += digamma<real>(estimateSamples);
+		// Here we add the logarithm of the volume of 
+		// a sphere with _diameter_ 1. That is, the logarithm
+		// of the volume of a sphere with radius 1/2:
+		// log(unitVol * (1/2)^d) = log(unitVol) - d * log(2)
+		estimate += normBijection.lnVolumeUnitSphere(dimension);
+		estimate -= dimension * constantLn2<real>();
+
+		return estimate;
+	}
+
+	template <typename Signal_Iterator>
+	real differentialEntropy(
+		const ForwardRange<Signal_Iterator>& signalSet,
+		real maxRelativeError,
+		integer kNearest)
+	{
+		return Tim::differentialEntropy(
+			signalSet,
+			maxRelativeError,
+			kNearest,
+			Euclidean_NormBijection<real>());
+	}
+
+	// Overloads for a single signal
+	// -----------------------------
+
+	template <
+		typename Real_OutputIterator,
+		typename NormBijection>
+	void differentialEntropy(
+		const SignalPtr& signal,
+		integer timeWindowRadius,
+		Real_OutputIterator result,
+		real maxRelativeError,
+		integer kNearest,
+		const NormBijection& normBijection)
+	{
+		ENSURE_OP(timeWindowRadius, >=, 0);
+		ENSURE_OP(kNearest, >, 0);
+		ENSURE_OP(maxRelativeError, >=, 0);
+
+		Tim::differentialEntropy(
+			forwardRange(constantIterator(signal)),
+			timeWindowRadius,
+			result,
+			maxRelativeError,
+			kNearest,
+			normBijection);
+	}
+
+	template <typename Real_OutputIterator>
+	typename boost::disable_if<
+		boost::is_convertible<Real_OutputIterator, integer> >::type
+	differentialEntropy(
+		const SignalPtr& signal,
+		integer timeWindowRadius,
+		Real_OutputIterator result,
+		real maxRelativeError,
+		integer kNearest)
+	{
+		Tim::differentialEntropy(
+			signal,
+			timeWindowRadius,
+			result,
+			maxRelativeError,
+			kNearest, 
+			Euclidean_NormBijection<real>());
 	}
 
 	template <typename NormBijection>
 	real differentialEntropy(
 		const SignalPtr& signal,
-		integer sigma,
-		integer kNearest,
 		real maxRelativeError,
+		integer kNearest,
 		const NormBijection& normBijection)
 	{
-		ENSURE_OP(sigma, >=, 0);
 		ENSURE_OP(kNearest, >, 0);
 		ENSURE_OP(maxRelativeError, >=, 0);
 
 		return Tim::differentialEntropy(
 			forwardRange(constantIterator(signal)),
-			sigma,
-			kNearest,
 			maxRelativeError,
+			kNearest,
 			normBijection);
 	}
 
