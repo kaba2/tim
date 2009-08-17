@@ -1,13 +1,21 @@
-% PARTIAL_MUTUAL_INFORMATION 
-% A partial mutual information estimate from samples.
+% TEMPORAL_PARTIAL_MUTUAL_INFORMATION 
+% A temporal partial mutual information estimate from samples.
 %
-% I = partial_mutual_information(X, Y, Z, yLag, zLag, k, threads)
+% I = temporal_partial_mutual_information(
+%         X, Y, Z, timeWindowRadius, yLag, zLag, k, threads)
 %
 % where
 %
 % X, Y, and Z are arbitrary-dimensional cell-arrays whose 
 % linearizations contain q trials of signal x, y, and z, 
 % respectively.
+%
+% TIMEWINDOWRADIUS determines the radius of the time-window in samples 
+% inside which samples are taken into consideration to the estimate at 
+% time instant t. This allows the estimate to be adaptive to temporal changes.
+% If no such changes should happen, better accuracy can be 
+% achieved by either setting 'timeWindowRadius' maximally wide
+% or by using the partial_mutual_information() function instead.
 %
 % YLAG and ZLAG are the lags in samples applied to signals
 % y and z, respectively.
@@ -27,19 +35,19 @@
 % If the number of samples varies with trials, the function uses 
 % the minimum sample count among the trials of X and Y.
 
-function I = partial_mutual_information(...
-    X, Y, Z, yLag, zLag, k, threads)
+function I = temporal_partial_mutual_information(...
+    X, Y, Z, timeWindowRadius, yLag, zLag, k, threads)
 
 % The limit for the dimension is arbitrary, but
 % protects for the case when the user accidentally
 % passes the transpose of the intended data.
 maxDimension = 32;
 
-if nargin < 3
+if nargin < 4
     error('Not enough input arguments.');
 end
 
-if nargin > 7
+if nargin > 8
     error('Too many input arguments.');
 end
 
@@ -47,19 +55,19 @@ if nargout > 1
     error('Too many output arguments.');
 end
 
-if nargin < 4
+if nargin < 5
     yLag = 0;
 end
 
-if nargin < 5
+if nargin < 6
     zLag = 0;
 end
 
-if nargin < 6
+if nargin < 7
     k = 1;
 end
 
-if nargin < 7
+if nargin < 8
     threads = 1;
 end
 
@@ -114,6 +122,15 @@ for i = 1 : signals
     end
 end
 
+if size(timeWindowRadius, 1) ~= 1 || ...
+   size(timeWindowRadius, 2) ~= 1
+    error('TIMEWINDOWRADIUS must be a scalar integer.');
+end
+
+if timeWindowRadius < 0
+    error('TIMEWINDOWRADIUS must be non-negative.');
+end
+
 if size(yLag, 1) ~= 1 || ...
    size(yLag, 2) ~= 1
     error('YLAG must be a scalar integer.');
@@ -150,5 +167,6 @@ if threads < 1
     error('THREADS must be at least 1.');
 end
 
-%I = timPartialMutualInformation(X, Y, Z, yLag, zLag, k, threads);
+%I = timTemporalPartialMutualInformation(...
+%    X, Y, Z, timeWindowRadius, yLag, zLag, k, threads);
 

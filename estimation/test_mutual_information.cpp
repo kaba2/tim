@@ -22,18 +22,27 @@ namespace
 
 	void testMutualInformationCase(
 		const std::string& name,
-		const SignalPtr& aSignal,
-		const SignalPtr& bSignal,
-		integer bLag,
+		const SignalPtr& xSignal,
+		const SignalPtr& ySignal,
+		integer yLag,
 		integer timeWindowRadius,
 		integer kNearest,
 		real correctMi)
 	{
+		const real averageMi = mutualInformation(
+			xSignal, ySignal, 
+			yLag, kNearest);
+
+		/*
 		std::vector<real> mi;
-		mutualInformation(
-			aSignal, bSignal, 
+		temporalMutualInformation(
+			xSignal, ySignal, 
+			timeWindowRadius,
 			std::back_inserter(mi), 
-			bLag, timeWindowRadius, kNearest);
+			yLag, kNearest);
+		const real averageMi = 
+			std::accumulate(mi.begin(), mi.end(), (real)0) / mi.size();
+		*/
 
 		/*
 		std::vector<SignalPtr> signalSet;
@@ -45,9 +54,6 @@ namespace
 			maxRelativeError,
 			Euclidean_NormBijection<real>());
 		*/
-
-		const real averageMi = 
-			std::accumulate(mi.begin(), mi.end(), (real)0) / mi.size();
 
 		const real re = relativeError<real>(averageMi, correctMi);
 
@@ -91,14 +97,14 @@ namespace
 				const SignalPtr jointSignal = 
 					generateCorrelatedGaussian(samples, dimension, cholesky);
 
-				SignalPtr aSignal = split(jointSignal, 0, 1);
-				SignalPtr bSignal = split(jointSignal, 1, 2);
+				SignalPtr xSignal = split(jointSignal, 0, 1);
+				SignalPtr ySignal = split(jointSignal, 1, 2);
 
 				testMutualInformationCase(
 					"Cor.Gauss. det " + realToString(det) +
 					" cond " + realToString(cond),
-					aSignal,
-					bSignal,
+					xSignal,
+					ySignal,
 					0,
 					timeWindowRadius,
 					kNearest,
@@ -155,8 +161,8 @@ namespace
 
 				const SignalPtr jointSignal = 
 					generateCorrelatedGaussian(samples, dimension, cholesky);
-				const SignalPtr aSignal = split(jointSignal, 0, 1);
-				const SignalPtr bSignal = split(jointSignal, 1, 2);
+				const SignalPtr xSignal = split(jointSignal, 0, 1);
+				const SignalPtr ySignal = split(jointSignal, 1, 2);
 
 				//normalizeCovariance(jointSignal, covariance);
 
@@ -169,8 +175,8 @@ namespace
 				testMutualInformationCase(
 					"Cor.Gauss. det " + realToString(det) +
 					" cond " + realToString(cond),
-					aSignal,
-					bSignal,
+					xSignal,
+					ySignal,
 					0,
 					timeWindowRadius,
 					kNearest,
@@ -253,24 +259,18 @@ namespace
 				measureTable(CorrectMi_Column, experiment).text() = 
 					realToString(correctMi, 4);
 
-				SignalPtr aSignal = split(jointSignal, 0, 1);
-				SignalPtr bSignal = split(jointSignal, 1, 2);
+				SignalPtr xSignal = split(jointSignal, 0, 1);
+				SignalPtr ySignal = split(jointSignal, 1, 2);
 
 				Timer timer;
 				
-				std::vector<real> miSet;
-
 				timer.setStart();
-				mutualInformation(
-					aSignal,
-					bSignal,
-					std::back_inserter(miSet),
+				const real mi = mutualInformation(
+					xSignal,
+					ySignal,
 					0,
-					kNearest,
-					maxRelativeError);
+					kNearest);
 				timer.store();
-
-				const real mi = std::accumulate(miSet.begin(), miSet.end(), (real)0) / miSet.size();
 
 				measureTable(TimTime_Column, experiment).text() = 
 					realToString(timer.seconds(), 4);

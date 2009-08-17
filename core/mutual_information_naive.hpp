@@ -38,8 +38,8 @@ namespace Tim
 
 			estimate += differentialEntropy(
 				signal,
-				kNearest,
 				maxRelativeError,
+				kNearest,
 				normBijection);
 
 			++iter;
@@ -48,8 +48,8 @@ namespace Tim
 		const SignalPtr jointSignal = merge(signalSet);
 		estimate -= differentialEntropy(
 			jointSignal,
-			kNearest,
 			maxRelativeError,
+			kNearest,
 			normBijection);
 
 		return estimate;

@@ -17,20 +17,20 @@ namespace Tim
 	//! Computes mutual information between two signals.
 	/*!
 	Preconditions:
-	Signal_A_Iterator dereferences to SignalPtr.
-	Signal_B_Iterator dereferences to SignalPtr.
+	Signal_X_Iterator dereferences to SignalPtr.
+	Signal_Y_Iterator dereferences to SignalPtr.
 	Real_OutputIterator dereferences to a convertible to real.
-	bLag >= 0
+	yLag >= 0
 	timeWindowRadius >= 0
 	kNearest > 0
-	
-	aSignalSet:
+
+	xSignalSet:
 	A set of measurements (trials) of signal A. 
 
-	bSignalSet:
+	ySignalSet:
 	A set of measurements (trials) of signal B. 
 
-	bLag:
+	yLag:
 	The delay in samples that is applied to signal B.
 
 	timeWindowRadius:
@@ -50,7 +50,7 @@ namespace Tim
 	If H(X) denotes the differential entropy of a real 
 	random variable X, and we are given random variables
 	X and Y, then mutual information is given by:
-	
+
 	I(X, Y) = H(X) + H(Y) - H(X, Y)
 
 	See 'tim/core/differential_entropy.h' for more information
@@ -58,25 +58,39 @@ namespace Tim
 	*/
 
 	template <
-		typename Signal_A_Iterator,
-		typename Signal_B_Iterator,
+		typename Signal_X_Iterator,
+		typename Signal_Y_Iterator,
 		typename Real_OutputIterator>
-	void mutualInformation(
-		const ForwardRange<Signal_A_Iterator>& aSignalSet,
-		const ForwardRange<Signal_B_Iterator>& bSignalSet,
+	void temporalMutualInformation(
+		const ForwardRange<Signal_X_Iterator>& xSignalSet,
+		const ForwardRange<Signal_Y_Iterator>& ySignalSet,
+		integer timeWindowRadius,
 		Real_OutputIterator result,
-		integer bLag = 0,
-		integer timeWindowRadius = -1,
+		integer yLag = 0,
+		integer kNearest = 1);
+
+	template <typename Real_OutputIterator>
+	void temporalMutualInformation(
+		const SignalPtr& xSignal,
+		const SignalPtr& ySignal,
+		integer timeWindowRadius,
+		Real_OutputIterator result,
+		integer yLag = 0,
 		integer kNearest = 1);
 
 	template <
-		typename Real_OutputIterator>
-	void mutualInformation(
-		const SignalPtr& aSignal,
-		const SignalPtr& bSignal,
-		Real_OutputIterator result,
-		integer bLag = 0,
-		integer timeWindowRadius = -1,
+		typename Signal_X_Iterator,
+		typename Signal_Y_Iterator>
+	real mutualInformation(
+		const ForwardRange<Signal_X_Iterator>& xSignalSet,
+		const ForwardRange<Signal_Y_Iterator>& ySignalSet,
+		integer yLag = 0,
+		integer kNearest = 1);
+
+	TIMCORE real mutualInformation(
+		const SignalPtr& xSignal,
+		const SignalPtr& ySignal,
+		integer yLag = 0,
 		integer kNearest = 1);
 
 }

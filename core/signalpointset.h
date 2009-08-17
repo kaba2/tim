@@ -49,6 +49,13 @@ namespace Tim
 			SignalPointSet_TimeWindow::Enum timeWindowStart = 
 			SignalPointSet_TimeWindow::StartEmpty);
 
+		template <typename Signal_Iterator>
+		explicit SignalPointSet(
+			const ForwardRange<Signal_Iterator>& signalSet,
+			SignalPointSet_TimeWindow::Enum timeWindowStart,
+			integer dimensionBegin,
+			integer dimensionEnd);
+
 		//! Swaps the contents of two SignalPointSet's.
 		void swap(SignalPointSet& that);
 
@@ -74,9 +81,18 @@ namespace Tim
 
 		integer samples() const;
 
+		integer dimension() const;
+
 	private:
 		// Prohibited, for now.
 		SignalPointSet(const SignalPointSet& that);
+
+		template <typename Signal_Iterator>
+		void construct(
+			const ForwardRange<Signal_Iterator>& signalSet,
+			SignalPointSet_TimeWindow::Enum timeWindowStart,
+			integer dimensionBegin,
+			integer dimensionEnd);
 
 		KdTree kdTree_;
 		std::vector<SignalPtr> signalSet_;
@@ -84,6 +100,8 @@ namespace Tim
 		integer samples_;
 		integer timeBegin_;
 		integer timeEnd_;
+		integer dimensionBegin_;
+		integer dimension_;
 	};
 
 	typedef CountedPtr<SignalPointSet> SignalPointSetPtr;

@@ -48,7 +48,7 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				DisableLanguageExtensions="true"
-				OpenMP="true"
+				OpenMP="false"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="4"
@@ -128,7 +128,7 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				DisableLanguageExtensions="true"
-				OpenMP="true"
+				OpenMP="false"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
@@ -263,6 +263,10 @@
 					RelativePath=".\partial_mutual_information.h"
 					>
 				</File>
+				<File
+					RelativePath=".\partial_mutual_information.hpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Transfer entropy"
@@ -285,6 +289,18 @@
 				</File>
 				<File
 					RelativePath=".\transfer_entropy_analytic.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Entropy combination"
+				>
+				<File
+					RelativePath=".\entropy_combination.h"
+					>
+				</File>
+				<File
+					RelativePath=".\entropy_combination.hpp"
 					>
 				</File>
 			</Filter>

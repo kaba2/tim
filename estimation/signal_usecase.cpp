@@ -92,13 +92,13 @@ namespace
 
 		// You could have also used any other container:
 
-		std::set<SignalPtr> bSignalSet;
-		bSignalSet.insert(x);
-		bSignalSet.insert(y);
-		bSignalSet.insert(yx);
+		std::set<SignalPtr> ySignalSet;
+		ySignalSet.insert(x);
+		ySignalSet.insert(y);
+		ySignalSet.insert(yx);
 
 		SignalPtr bXyyx = merge(
-			forwardRange(bSignalSet.begin(), bSignalSet.end()));
+			forwardRange(ySignalSet.begin(), ySignalSet.end()));
 		
 		// When merging signals, each of the signals
 		// can be delayed. In the following we delay

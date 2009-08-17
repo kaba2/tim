@@ -59,14 +59,14 @@ namespace Tim
 	}
 
 	TIMCORE SignalPtr merge(
-		const SignalPtr& aSignal,
-		const SignalPtr& bSignal,
-		integer bLag)
+		const SignalPtr& xSignal,
+		const SignalPtr& ySignal,
+		integer yLag)
 	{
-		ENSURE_OP(bLag, >=, 0);
+		ENSURE_OP(yLag, >=, 0);
 
-		const SignalPtr signalSet[2] = {aSignal, bSignal};
-		const integer lagSet[2] = {0, bLag};
+		const SignalPtr signalSet[2] = {xSignal, ySignal};
+		const integer lagSet[2] = {0, yLag};
 
 		return Tim::merge(
 			forwardRange(signalSet),
