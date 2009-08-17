@@ -38,7 +38,7 @@ namespace
 		//const integer timeWindowRadius = signal->samples() / 10;
 
 		const real estimate = differentialEntropy(
-			signal, kNearest, maxRelativeError, 
+			signal, maxRelativeError, kNearest, 
 			normBijection);
 
 		/*

@@ -53,20 +53,20 @@ namespace Tim
 	//! Merges two signal sets pairwise into a new signal set.
 	/*!
 	Preconditions:
-	Signal_A_Iterator dereferences to SignalPtr.
-	Signal_A_Iterator dereferences to SignalPtr.
+	Signal_X_Iterator dereferences to SignalPtr.
+	Signal_X_Iterator dereferences to SignalPtr.
 	Signal_OutputIterator dereferences to SignalPtr.
-	bLag >= 0
+	yLag >= 0
 	*/
 	template <
-		typename Signal_A_Iterator,
-		typename Signal_B_Iterator,
+		typename Signal_X_Iterator,
+		typename Signal_Y_Iterator,
 		typename Signal_OutputIterator>
 	void merge(
-		const ForwardRange<Signal_A_Iterator>& aSignalSet,
-		const ForwardRange<Signal_B_Iterator>& bSignalSet,
+		const ForwardRange<Signal_X_Iterator>& xSignalSet,
+		const ForwardRange<Signal_Y_Iterator>& ySignalSet,
 		Signal_OutputIterator result,
-		integer bLag = 0);
+		integer yLag = 0);
 
 	template <typename Signal_Iterator>
 	SignalPtr merge(
@@ -81,9 +81,9 @@ namespace Tim
 	the input signal with the least number of samples.
 	*/
 	TIMCORE SignalPtr merge(
-		const SignalPtr& aSignal,
-		const SignalPtr& bSignal,
-		integer bLag = 0);
+		const SignalPtr& xSignal,
+		const SignalPtr& ySignal,
+		integer yLag = 0);
 
 	//! Creates aliases for 1d-marginal signals.
 	/*!

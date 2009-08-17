@@ -17,16 +17,23 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	};
 	BOOST_STATIC_ASSERT(RealIsDouble);
 
-	//% DIFFERENTIAL_ENTROPY
-	//% A differential entropy estimate from samples.
+	//% TEMPORAL_DIFFERENTIAL_ENTROPY
+	//% A temporal differential entropy estimate from samples.
 	//%
-	//% H = differential_entropy(S, epsilon, k, threads)
+	//% H = temporal_differential_entropy(S, timeWindowRadius, epsilon, k, threads)
 	//%
 	//% where
 	//%
 	//% S is an arbitrary dimensional cell array whose linearization contains
 	//% q trials of a signal. Each signal is a real (m x n)-matrix that 
 	//% contains n samples of an m-dimensional signal.
+	//%
+	//% TIMEWINDOWRADIUS determines the radius of the time-window in samples 
+	//% inside which samples are taken into consideration to the estimate at 
+	//% time instant t. This allows the estimate to be adaptive to temporal changes.
+	//% If no such changes should happen, better accuracy can be 
+	//% achieved by either setting 'timeWindowRadius' maximally wide
+	//% or by using the differential_entropy() function instead.
 	//%
 	//% EPSILON is the maximum relative error in distance that
 	//% nearest neighbor searching is allowed to result in.
@@ -46,6 +53,7 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	// and height the wrong way. The reason
 	// is that Matlab uses column-major storage
 	// while we use row-major storage.
+
 	const mwSize signals = mxGetDimensions(inputSet[0])[0];
 	const mwSize trials = mxGetDimensions(inputSet[0])[1];
 
@@ -75,12 +83,17 @@ void mexFunction(int outputs, mxArray *outputSet[],
 
 	omp_set_num_threads(threads);
 	
-	outputSet[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
+	std::vector<real> estimateSet;
+
+	temporalDifferentialEntropy(
+		forwardRange(xEnsemble.begin(), xEnsemble.end()), 
+		timeWindowRadius, std::back_inserter(estimateSet),
+		kNearest, 
+		maxRelativeError, Euclidean_NormBijection<real>());
+
+	outputSet[0] = mxCreateDoubleMatrix(1, estimateSet.size(), mxREAL);
 	real* rawResult = mxGetPr(outputSet[0]);
 
-	*rawResult = differentialEntropy(
-		forwardRange(xEnsemble.begin(), xEnsemble.end()), 
-		maxRelativeError,
-		kNearest, 
-		Euclidean_NormBijection<real>());
+	std::copy(estimateSet.begin(), estimateSet.end(),
+		rawResult);
 }

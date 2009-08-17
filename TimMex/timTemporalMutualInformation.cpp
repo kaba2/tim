@@ -17,15 +17,28 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	};
 	BOOST_STATIC_ASSERT(RealIsDouble);
 
-	//% MUTUAL_INFORMATION 
-	//% A mutual information estimate from samples.
+	//% TEMPORAL_MUTUAL_INFORMATION 
+	//% A temporal mutual information estimate from samples.
 	//%
-	//% I = mutual_information(X, Y, yLag, k, threads)
+	//% I = temporal_mutual_information(X, Y, timeWindowRadius, yLag, k, threads)
 	//%
 	//% where
 	//%
-	//% X and Y are arbitrary-dimensional cell-arrays whose linearizations
-	//% contain q trials of signal x and y, respectively.
+	//% I is 1-dimensional row matrix which contains the mutual 
+	//% information estimates I(X(t), Y(t - yLag)) at each time instant.
+	//%
+	//% X is an arbitrary-dimensional cell-array whose linearization
+	//% contains q trials of signal x.
+	//%
+	//% Y is an arbitrary-dimensional cell-array whose linearization 
+	//% contains q trials of signal y.
+	//%
+	//% TIMEWINDOWRADIUS determines the radius of the time-window in samples 
+	//% inside which samples are taken into consideration to the estimate at 
+	//% time instant t. This allows the estimate to be adaptive to temporal changes.
+	//% If no such changes should happen, better accuracy can be 
+	//% achieved by either setting 'timeWindowRadius' maximally wide
+	//% or by using the mutual_information() function instead.
 	//%
 	//% YLAG is the lag in samples which is applied to signal Y.
 	//%
@@ -39,7 +52,7 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	//% spare one core for other work. Default 1 (no parallelization).
 	//%
 	//% Each signal is a real (m x n)-matrix that contains n samples of an
-	//% m-dimensional signal. The dimensions of X and Y need not coincide.
+	//% m-dimensional signal. The dimension of X and Y need not coincide.
 	//% However, the number of trials has to coincide.
 	//% If the number of samples varies with trials, the function uses 
 	//% the minimum sample count among the trials of X and Y.
@@ -85,19 +98,24 @@ void mexFunction(int outputs, mxArray *outputSet[],
 			new Signal(samples, dimension, rawData));
 	}
 
-	const integer yLag = *mxGetPr(inputSet[2]);
-	const integer timeWindowRadius = *mxGetPr(inputSet[3]);
+	const integer timeWindowRadius = *mxGetPr(inputSet[2]);
+	const integer yLag = *mxGetPr(inputSet[3]);
 	const integer kNearest = *mxGetPr(inputSet[4]);
 	const integer threads = *mxGetPr(inputSet[5]);
 
 	omp_set_num_threads(threads);
 
-	outputSet[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
-	real* rawResult = mxGetPr(outputSet[0]);
-
-	*rawResult = mutualInformation(
+	std::vector<real> result;
+	temporalMutualInformation(
 		forwardRange(xEnsemble.begin(), xEnsemble.end()),
 		forwardRange(yEnsemble.begin(), yEnsemble.end()),
+		timeWindowRadius,
+		std::back_inserter(result),
 		yLag,
 		kNearest);
+
+	outputSet[0] = mxCreateDoubleMatrix(1, result.size(), mxREAL);
+	real* rawResult = mxGetPr(outputSet[0]);
+
+	std::copy(result.begin(), result.end(), rawResult);
 }

@@ -20,9 +20,49 @@ namespace Tim
 		, samples_(minSamples(signalSet))
 		, timeBegin_(samples_)
 		, timeEnd_(samples_)
+		, dimensionBegin_(0)
+		, dimension_(0)
+	{
+		ENSURE(!signalSet.empty());
+
+		construct(signalSet, timeWindowStart,
+			0, signalSet.front()->dimension());
+	}
+
+	template <typename Signal_Iterator>
+	SignalPointSet::SignalPointSet(
+		const ForwardRange<Signal_Iterator>& signalSet,
+		SignalPointSet_TimeWindow::Enum timeWindowStart,
+		integer dimensionBegin,
+		integer dimensionEnd)
+		: kdTree_(ofDimension(dimensionEnd - dimensionBegin))
+		, signalSet_(signalSet.begin(), signalSet.end())
+		, objectSet_()
+		, samples_(minSamples(signalSet))
+		, timeBegin_(samples_)
+		, timeEnd_(samples_)
+		, dimensionBegin_(0)
+		, dimension_(0)
+	{
+		construct(signalSet, timeWindowStart,
+			dimensionBegin, dimensionEnd);
+	}
+
+	template <typename Signal_Iterator>
+	void SignalPointSet::construct(
+		const ForwardRange<Signal_Iterator>& signalSet,
+		SignalPointSet_TimeWindow::Enum timeWindowStart,
+		integer dimensionBegin,
+		integer dimensionEnd)
 	{
 		ENSURE(!signalSet.empty());
 		PENSURE(equalDimension(signalSet));
+		ENSURE_OP(dimensionBegin, <=, dimensionEnd);
+		ENSURE_OP(dimensionBegin, >=, 0);
+		ENSURE_OP(dimensionEnd, <=, signalSet.front()->dimension());
+
+		dimensionBegin_ = dimensionBegin;
+		dimension_ = dimensionEnd - dimensionBegin;
 
 		// Insert all the points into the tree.
 
@@ -34,13 +74,13 @@ namespace Tim
 				if (timeWindowStart == SignalPointSet_TimeWindow::StartEmpty)
 				{
 					kdTree_.insert(
-						signalSet_[i]->pointBegin()[t]);
+						signalSet_[i]->pointBegin(dimensionBegin_)[t]);
 				}
 				else
 				{
 					objectSet_.push_back(
 						kdTree_.insert(
-						signalSet_[i]->pointBegin()[t]));
+						signalSet_[i]->pointBegin(dimensionBegin_)[t]));
 				}
 			}
 		}
@@ -61,7 +101,6 @@ namespace Tim
 			timeEnd_ = samples_;
 		}
 	}
-
 }
 
 #endif

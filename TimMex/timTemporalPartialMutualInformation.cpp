@@ -1,6 +1,6 @@
 #include "mex.h"
 
-#include "tim/core/mutual_information_kraskow.h"
+#include "tim/core/partial_mutual_information.h"
 
 #include <boost/static_assert.hpp>
 
@@ -17,17 +17,27 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	};
 	BOOST_STATIC_ASSERT(RealIsDouble);
 
-	//% MUTUAL_INFORMATION 
-	//% A mutual information estimate from samples.
+	//% TEMPORAL_PARTIAL_MUTUAL_INFORMATION 
+	//% A temporal partial mutual information estimate from samples.
 	//%
-	//% I = mutual_information(X, Y, yLag, k, threads)
+	//% I = temporal_partial_mutual_information(
+	//%         X, Y, Z, timeWindowRadius, yLag, zLag, k, threads)
 	//%
 	//% where
 	//%
-	//% X and Y are arbitrary-dimensional cell-arrays whose linearizations
-	//% contain q trials of signal x and y, respectively.
+	//% X, Y, and Z are arbitrary-dimensional cell-arrays whose 
+	//% linearizations contain q trials of signal x, y, and z, 
+	//% respectively.
 	//%
-	//% YLAG is the lag in samples which is applied to signal Y.
+	//% TIMEWINDOWRADIUS determines the radius of the time-window in samples 
+	//% inside which samples are taken into consideration to the estimate at 
+	//% time instant t. This allows the estimate to be adaptive to temporal changes.
+	//% If no such changes should happen, better accuracy can be 
+	//% achieved by either setting 'timeWindowRadius' maximally wide
+	//% or by using the partial_mutual_information() function instead.
+	//%
+	//% YLAG and ZLAG are the lags in samples applied to signals
+	//% y and z, respectively.
 	//%
 	//% K determines which k:th nearest neighbor the algorithm
 	//% uses for estimation. Default 1.
@@ -39,7 +49,7 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	//% spare one core for other work. Default 1 (no parallelization).
 	//%
 	//% Each signal is a real (m x n)-matrix that contains n samples of an
-	//% m-dimensional signal. The dimensions of X and Y need not coincide.
+	//% m-dimensional signal. The dimensions of X, Y, and Z need not coincide.
 	//% However, the number of trials has to coincide.
 	//% If the number of samples varies with trials, the function uses 
 	//% the minimum sample count among the trials of X and Y.
@@ -85,19 +95,47 @@ void mexFunction(int outputs, mxArray *outputSet[],
 			new Signal(samples, dimension, rawData));
 	}
 
-	const integer yLag = *mxGetPr(inputSet[2]);
+	std::vector<SignalPtr> zEnsemble(trials);
+
+	for (integer i = 0;i < trials;++i)
+	{
+		mxArray* signalArray = mxGetCell(inputSet[2], i);
+
+		// It is intentional to assign the width
+		// and height the wrong way. The reason
+		// is that Matlab uses column-major storage
+		// while we use row-major storage.
+		const mwSize samples = mxGetN(signalArray);
+		const mwSize dimension = mxGetM(signalArray);
+
+		real* rawData = mxGetPr(signalArray);
+
+		zEnsemble[i] = SignalPtr(
+			new Signal(samples, dimension, rawData));
+	}
+
 	const integer timeWindowRadius = *mxGetPr(inputSet[3]);
-	const integer kNearest = *mxGetPr(inputSet[4]);
-	const integer threads = *mxGetPr(inputSet[5]);
+	const integer yLag = *mxGetPr(inputSet[4]);
+	const integer zLag = *mxGetPr(inputSet[5]);
+	const integer kNearest = *mxGetPr(inputSet[6]);
+	const integer threads = *mxGetPr(inputSet[7]);
 
 	omp_set_num_threads(threads);
 
-	outputSet[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
-	real* rawResult = mxGetPr(outputSet[0]);
+	std::vector<real> estimateSet;
 
-	*rawResult = mutualInformation(
+	temporalPartialMutualInformation(
 		forwardRange(xEnsemble.begin(), xEnsemble.end()),
 		forwardRange(yEnsemble.begin(), yEnsemble.end()),
+		forwardRange(zEnsemble.begin(), zEnsemble.end()),
+		timeWindowRadius,
+		std::back_inserter(estimateSet),
 		yLag,
+		zLag,
 		kNearest);
+
+	outputSet[0] = mxCreateDoubleMatrix(1, estimateSet.size(), mxREAL);
+	real* rawResult = mxGetPr(outputSet[0]);
+	
+	std::copy(estimateSet.begin(), estimateSet.end(), rawResult);
 }

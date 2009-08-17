@@ -70,14 +70,14 @@ namespace Tim
 	Signal::PointIterator Signal::pointEnd(integer dimensionBegin)
 	{
 		return sparseIterator(countingIterator(
-			data_.rawBegin() + dimensionBegin + data_.size()), 
+			data_.rawBegin() + dimensionBegin + samples() * dimension()), 
 			dimension());
 	}
 
 	Signal::ConstPointIterator Signal::pointEnd(integer dimensionBegin) const
 	{
 		return constSparseIterator(countingIterator(
-			data_.rawBegin() + dimensionBegin + data_.size()), 
+			data_.rawBegin() + dimensionBegin + samples() * dimension()), 
 			dimension());
 	}
 

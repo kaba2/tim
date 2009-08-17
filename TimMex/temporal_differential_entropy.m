@@ -1,13 +1,21 @@
-% DIFFERENTIAL_ENTROPY
-% A differential entropy estimate from samples.
+% TEMPORAL_DIFFERENTIAL_ENTROPY
+% A temporal differential entropy estimate from samples.
 %
-% H = differential_entropy(S, epsilon, k, threads)
+% H = temporal_differential_entropy(
+%     S, timeWindowRadius, epsilon, k, threads)
 %
 % where
 %
 % S is an arbitrary dimensional cell array whose linearization contains
 % q trials of a signal. Each signal is a real (m x n)-matrix that 
 % contains n samples of an m-dimensional signal.
+%
+% TIMEWINDOWRADIUS determines the radius of the time-window in samples 
+% inside which samples are taken into consideration to the estimate at 
+% time instant t. This allows the estimate to be adaptive to temporal changes.
+% If no such changes should happen, better accuracy can be 
+% achieved by either setting 'timeWindowRadius' maximally wide
+% or by using the differential_entropy() function instead.
 %
 % EPSILON is the maximum relative error in distance that
 % nearest neighbor searching is allowed to result in.
@@ -23,7 +31,8 @@
 % your computer unresponsive to other tasks. When you need responsiveness, 
 % spare one core for other work. Default 1 (no parallelization).
 
-function H = differential_entropy(S, epsilon, k, threads)
+function H = temporal_differential_entropy(...
+    S, timeWindowRadius, epsilon, k, threads)
 
 % The limit for the dimension is arbitrary, but
 % protects for the case when the user accidentally
@@ -34,7 +43,7 @@ if nargin < 1
     error('Not enough input arguments.');
 end
 
-if nargin > 4
+if nargin > 5
     error('Too many input arguments.');
 end
 
@@ -42,15 +51,15 @@ if nargout > 1
     error('Too many output arguments.');
 end
 
-if nargin < 2
+if nargin < 3
     epsilon = 0;
 end
 
-if nargin < 3
+if nargin < 4
     k = 1;
 end
 
-if nargin < 4
+if nargin < 5
     threads = 1;
 end
 
@@ -75,18 +84,27 @@ for i = 1 : signals
     end
 end
 
+if size(timeWindowRadius, 1) ~= 1 || ...
+   size(timeWindowRadius, 2) ~= 1
+    error('TIMEWINDOWRADIUS must be a scalar.');
+end
+
+if timeWindowRadius < 0
+    error('TIMEWINDOWRADIUS must be non-negative'.');
+end
+
 if size(epsilon, 1) ~= 1 || ...
    size(epsilon, 2) ~= 1
     error('EPSILON must be a scalar.');
 end
 
+if epsilon < 0
+    error('EPSILON must be non-negative'.');
+end
+
 if size(k, 1) ~= 1 || ...
    size(k, 2) ~= 1
     error('K must be a scalar integer.');
-end
-
-if epsilon < 0
-    error('EPSILON must be non-negative'.');
 end
 
 if k < 1
@@ -102,4 +120,5 @@ if threads < 1
     error('THREADS must be at least 1.');
 end
 
-%H = timDifferentialEntropy(S, epsilon, k, threads);
+%H = timTemporalDifferentialEntropy(...
+%    S, timeWindowRadius, epsilon, k, threads);

@@ -60,8 +60,8 @@ namespace Tim
 			for (integer i = 0;i < signals;++i)
 			{
 				kdTree_.insert(
-					signalSet_[i]->pointBegin() + newTimeBegin,
-					signalSet_[i]->pointBegin() + newTimeEnd,
+					signalSet_[i]->pointBegin(dimensionBegin_) + newTimeBegin,
+					signalSet_[i]->pointBegin(dimensionBegin_) + newTimeEnd,
 					std::back_inserter(objectSet_));
 			}
 		}
@@ -90,8 +90,8 @@ namespace Tim
 				for (integer i = 0;i < signals;++i)
 				{
 					kdTree_.insert(
-						signalSet_[i]->pointBegin() + timeEnd_,
-						signalSet_[i]->pointBegin() + newTimeEnd,
+						signalSet_[i]->pointBegin(dimensionBegin_) + timeEnd_,
+						signalSet_[i]->pointBegin(dimensionBegin_) + newTimeEnd,
 						std::back_inserter(objectSet_));
 				}
 			}
@@ -104,8 +104,10 @@ namespace Tim
 				for (integer i = 0;i < signals;++i)
 				{
 					kdTree_.insert(
-						boost::make_reverse_iterator(signalSet_[i]->pointBegin() + timeBegin_),
-						boost::make_reverse_iterator(signalSet_[i]->pointBegin() + newTimeBegin),
+						boost::make_reverse_iterator(
+						signalSet_[i]->pointBegin(dimensionBegin_) + timeBegin_),
+						boost::make_reverse_iterator(
+						signalSet_[i]->pointBegin(dimensionBegin_) + newTimeBegin),
 						std::front_inserter(objectSet_));
 				}
 			}
@@ -156,6 +158,11 @@ namespace Tim
 	integer SignalPointSet::samples() const
 	{
 		return samples_;
+	}
+
+	integer SignalPointSet::dimension() const
+	{
+		return dimension_;
 	}
 
 }
