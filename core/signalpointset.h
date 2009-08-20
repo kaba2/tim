@@ -10,7 +10,6 @@
 #include <pastel/sys/forwardrange.h>
 #include <pastel/sys/array.h>
 
-#include <boost/iterator/transform_iterator.hpp>
 #include <boost/iterator/reverse_iterator.hpp>
 
 #include <deque>
@@ -34,6 +33,7 @@ namespace Tim
 	public:
 		typedef PointKdTree<real, Dynamic, Array_ObjectPolicy_PointKdTree<real> > KdTree;
 		typedef KdTree::ConstObjectIterator ConstObjectIterator;
+		typedef KdTree::Object Object;
 
 	private:
 		typedef std::deque<ConstObjectIterator> ObjectSet;
@@ -83,13 +83,13 @@ namespace Tim
 
 		integer dimension() const;
 
+		PointD point(const Object& object) const;
+
 	private:
 		// Prohibited, for now.
 		SignalPointSet(const SignalPointSet& that);
 
-		template <typename Signal_Iterator>
 		void construct(
-			const ForwardRange<Signal_Iterator>& signalSet,
 			SignalPointSet_TimeWindow::Enum timeWindowStart,
 			integer dimensionBegin,
 			integer dimensionEnd);

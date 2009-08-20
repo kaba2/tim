@@ -11,8 +11,6 @@
 
 #include <pastel/geometry/search_all_neighbors_pointkdtree.h>
 
-#include <boost/iterator/transform_iterator.hpp>
-
 #include <algorithm>
 #include <numeric>
 

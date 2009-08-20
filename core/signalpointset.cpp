@@ -1,6 +1,8 @@
 #include "tim/core/signalpointset.h"
+#include "tim/core/signal_tools.h"
 
 #include <pastel/geometry/search_all_neighbors_pointkdtree.h>
+#include <pastel/geometry/slidingmidpoint_splitrule_pointkdtree.h>
 
 #include <pastel/sys/constantiterator.h>
 
@@ -12,6 +14,67 @@ namespace Tim
 	SignalPointSet::SignalPointSet(const SignalPointSet& that)
 	{
 		ENSURE(false);
+	}
+
+	void SignalPointSet::construct(
+		SignalPointSet_TimeWindow::Enum timeWindowStart,
+		integer dimensionBegin,
+		integer dimensionEnd)
+	{
+		ENSURE_OP(dimensionBegin, <=, dimensionEnd);
+		ENSURE_OP(dimensionBegin, >=, 0);
+		ENSURE_OP(dimensionEnd, <=, signalSet_.front()->dimension());
+
+		dimensionBegin_ = dimensionBegin;
+		dimension_ = dimensionEnd - dimensionBegin;
+
+		// Insert all the points into the tree.
+
+		const integer signals = signalSet_.size();
+		for (integer t = 0;t < samples_;++t)
+		{
+			for (integer i = 0;i < signals;++i)
+			{
+				if (timeWindowStart == SignalPointSet_TimeWindow::StartEmpty)
+				{
+					kdTree_.insert(
+						signalSet_[i]->pointBegin(dimensionBegin_)[t]);
+
+					/*
+					kdTree_.insert(
+						*(signalSet_[i]->pointBegin(dimensionBegin_) + t));
+					*/
+				}
+				else
+				{
+					objectSet_.push_back(
+						kdTree_.insert(
+						signalSet_[i]->pointBegin(dimensionBegin_)[t]));
+
+					/*
+					objectSet_.push_back(
+						kdTree_.insert(
+						*(signalSet_[i]->pointBegin(dimensionBegin_) + t)));
+					*/
+				}
+			}
+		}
+
+		// Compute a fine subdivision for the points.
+
+		kdTree_.refine(SlidingMidpoint2_SplitRule_PointKdTree());
+
+		if (timeWindowStart == SignalPointSet_TimeWindow::StartEmpty)
+		{
+			// Remove all objects but leave subdivision intact.
+
+			kdTree_.eraseObjects();
+		}
+		else
+		{
+			timeBegin_ = 0;
+			timeEnd_ = samples_;
+		}
 	}
 
 	void SignalPointSet::swap(SignalPointSet& that)
@@ -163,6 +226,11 @@ namespace Tim
 	integer SignalPointSet::dimension() const
 	{
 		return dimension_;
+	}
+
+	PointD SignalPointSet::point(const Object& object) const
+	{
+		return kdTree_.point(object);
 	}
 
 }
