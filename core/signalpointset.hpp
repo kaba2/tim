@@ -8,9 +8,9 @@
 namespace Tim
 {
 
-	template <typename Signal_Iterator>
+	template <typename SignalPtr_Iterator>
 	SignalPointSet::SignalPointSet(
-		const ForwardRange<Signal_Iterator>& signalSet)
+		const ForwardRange<SignalPtr_Iterator>& signalSet)
 		: kdTree_(ofDimension(signalSet.empty() ? 0 : signalSet.front()->dimension()))
 		, signalSet_(signalSet.begin(), signalSet.end())
 		, pointSet_()
@@ -28,9 +28,9 @@ namespace Tim
 			0, signalSet.front()->dimension());
 	}
 
-	template <typename Signal_Iterator>
+	template <typename SignalPtr_Iterator>
 	SignalPointSet::SignalPointSet(
-		const ForwardRange<Signal_Iterator>& signalSet,
+		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeBegin,
 		integer timeEnd)
 		: kdTree_(ofDimension(signalSet.empty() ? 0 : signalSet.front()->dimension()))
@@ -50,9 +50,9 @@ namespace Tim
 			0, signalSet.front()->dimension());
 	}
 
-	template <typename Signal_Iterator>
+	template <typename SignalPtr_Iterator>
 	SignalPointSet::SignalPointSet(
-		const ForwardRange<Signal_Iterator>& signalSet,
+		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeBegin,
 		integer timeEnd,
 		integer dimensionBegin,

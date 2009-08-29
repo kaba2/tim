@@ -36,19 +36,19 @@ namespace Tim
 
 		typedef ObjectSet::const_iterator ConstObjectIterator_Iterator;
 
-		template <typename Signal_Iterator>
+		template <typename SignalPtr_Iterator>
 		explicit SignalPointSet(
-			const ForwardRange<Signal_Iterator>& signalSet);
+			const ForwardRange<SignalPtr_Iterator>& signalSet);
 
-		template <typename Signal_Iterator>
+		template <typename SignalPtr_Iterator>
 		SignalPointSet(
-			const ForwardRange<Signal_Iterator>& signalSet,
+			const ForwardRange<SignalPtr_Iterator>& signalSet,
 			integer timeBegin,
 			integer timeEnd);
 
-		template <typename Signal_Iterator>
+		template <typename SignalPtr_Iterator>
 		explicit SignalPointSet(
-			const ForwardRange<Signal_Iterator>& signalSet,
+			const ForwardRange<SignalPtr_Iterator>& signalSet,
 			integer timeBegin,
 			integer timeEnd,
 			integer dimensionBegin,

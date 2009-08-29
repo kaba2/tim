@@ -16,12 +16,12 @@ namespace Tim
 	{
 
 		template <
-			typename Signal_X_Iterator,
-			typename Signal_Y_Iterator,
+			typename SignalPtr_X_Iterator,
+			typename SignalPtr_Y_Iterator,
 			typename Real_OutputIterator>
 		real mutualInformation(
-			const ForwardRange<Signal_X_Iterator>& xSignalSet,
-			const ForwardRange<Signal_Y_Iterator>& ySignalSet,
+			const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
+			const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
 			integer timeWindowRadius,
 			Real_OutputIterator result,
 			integer yLag,
@@ -84,12 +84,12 @@ namespace Tim
 	}
 
 	template <
-		typename Signal_X_Iterator,
-		typename Signal_Y_Iterator,
+		typename SignalPtr_X_Iterator,
+		typename SignalPtr_Y_Iterator,
 		typename Real_OutputIterator>
 	void temporalMutualInformation(
-		const ForwardRange<Signal_X_Iterator>& xSignalSet,
-		const ForwardRange<Signal_Y_Iterator>& ySignalSet,
+		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
 		integer yLag,
@@ -124,11 +124,11 @@ namespace Tim
 	}
 
 	template <
-		typename Signal_X_Iterator,
-		typename Signal_Y_Iterator>
+		typename SignalPtr_X_Iterator,
+		typename SignalPtr_Y_Iterator>
 	real mutualInformation(
-		const ForwardRange<Signal_X_Iterator>& xSignalSet,
-		const ForwardRange<Signal_Y_Iterator>& ySignalSet,
+		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
 		integer yLag,
 		integer kNearest)
 	{

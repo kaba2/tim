@@ -20,7 +20,7 @@ namespace Tim
 	fromDimension > 0
 	timeWindowRadius >= 0
 	kNearest > 0
-	Signal_Iterator dereferences to SignalPtr.
+	SignalPtr_Iterator dereferences to SignalPtr.
 
 	embeddedSet:
 	An array containing signals for which the multivariate
@@ -68,13 +68,13 @@ namespace Tim
 	If the 'signalSet' contains only two signals, this function
 	reduces to the bivariate transfer entropy.
 	*/
-	template <typename Signal_Iterator>
+	template <typename SignalPtr_Iterator>
 	void transferEntropy(
 		const Array<SignalPtr, 2>& embeddedSet,
 		integer xIndex,
 		integer yIndex,
-		const Signal_Iterator& xFutureBegin,
-		const Signal_Iterator& xFutureEnd,
+		const SignalPtr_Iterator& xFutureBegin,
+		const SignalPtr_Iterator& xFutureEnd,
 		integer timeWindowRadius,
 		integer kNearest,
 		std::vector<real>& estimateSet);

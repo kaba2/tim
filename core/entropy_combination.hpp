@@ -19,11 +19,11 @@ namespace Tim
 {
 
 	template <
-		typename Signal_Iterator,
+		typename SignalPtr_Iterator,
 		typename Integer3_Iterator,
 		typename Real_OutputIterator>
 	void temporalEntropyCombination(
-		const ForwardRange<Signal_Iterator>& signalSet,
+		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		const ForwardRange<Integer3_Iterator>& rangeSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
@@ -166,10 +166,10 @@ namespace Tim
 	}
 
 	template <
-		typename Signal_Iterator,
+		typename SignalPtr_Iterator,
 		typename Integer3_Iterator>
 	real entropyCombination(
-		const ForwardRange<Signal_Iterator>& signalSet,
+		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		const ForwardRange<Integer3_Iterator>& rangeSet,
 		integer kNearest)
 	{

@@ -22,75 +22,75 @@ namespace Tim
 	//! Returns the minimum number of samples among the signals.
 	/*!
 	Preconditions:
-	Signal_Iterator must dereference to SignalPtr.
+	SignalPtr_Iterator must dereference to SignalPtr.
 	*/
-	template <typename Signal_Iterator>
+	template <typename SignalPtr_Iterator>
 	integer minSamples(
-		const ForwardRange<Signal_Iterator>& signalSet);
+		const ForwardRange<SignalPtr_Iterator>& signalSet);
 
 	//! Returns true if all signals have the same dimension.
 	/*!
 	Preconditions:
-	Signal_Iterator must dereference to SignalPtr.
+	SignalPtr_Iterator must dereference to SignalPtr.
 	*/
-	template <typename Signal_Iterator>
+	template <typename SignalPtr_Iterator>
 	bool equalDimension(
-		const ForwardRange<Signal_Iterator>& signalSet);
+		const ForwardRange<SignalPtr_Iterator>& signalSet);
 
 	//! Merges a signal set into a higher-dimensional signal.
 	/*!
 	Preconditions:
-	Signal_Iterator dereferences to SignalPtr.
+	SignalPtr_Iterator dereferences to SignalPtr.
 
 	The output signal will have as many samples as
 	the input signal with the least number of samples.
 	*/
 	template <
-		typename Signal_Iterator,
+		typename SignalPtr_Iterator,
 		typename Integer_Iterator>
 	SignalPtr merge(
-		const ForwardRange<Signal_Iterator>& signalSet,
+		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		const ForwardRange<Integer_Iterator>& lagSet);
 
 	//! Merges two signal sets pairwise into a new signal set.
 	/*!
 	Preconditions:
-	Signal_X_Iterator dereferences to SignalPtr.
-	Signal_X_Iterator dereferences to SignalPtr.
-	Signal_OutputIterator dereferences to SignalPtr.
+	SignalPtr_X_Iterator dereferences to SignalPtr.
+	SignalPtr_X_Iterator dereferences to SignalPtr.
+	SignalPtr_OutputIterator dereferences to SignalPtr.
 	yLag >= 0
 	*/
 	template <
-		typename Signal_X_Iterator,
-		typename Signal_Y_Iterator,
-		typename Signal_OutputIterator>
+		typename SignalPtr_X_Iterator,
+		typename SignalPtr_Y_Iterator,
+		typename SignalPtr_OutputIterator>
 	void merge(
-		const ForwardRange<Signal_X_Iterator>& xSignalSet,
-		const ForwardRange<Signal_Y_Iterator>& ySignalSet,
-		Signal_OutputIterator result,
+		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
+		SignalPtr_OutputIterator result,
 		integer yLag = 0);
 
 	template <
-		typename Signal_X_Iterator,
-		typename Signal_Y_Iterator,
-		typename Signal_Z_Iterator,
-		typename Signal_OutputIterator>
+		typename SignalPtr_X_Iterator,
+		typename SignalPtr_Y_Iterator,
+		typename SignalPtr_Z_Iterator,
+		typename SignalPtr_OutputIterator>
 	void merge(
-		const ForwardRange<Signal_X_Iterator>& xSignalSet,
-		const ForwardRange<Signal_Y_Iterator>& ySignalSet,
-		const ForwardRange<Signal_Z_Iterator>& zSignalSet,
-		Signal_OutputIterator result,
+		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
+		const ForwardRange<SignalPtr_Z_Iterator>& zSignalSet,
+		SignalPtr_OutputIterator result,
 		integer yLag = 0,
 		integer zLag = 0);
 
-	template <typename Signal_Iterator>
+	template <typename SignalPtr_Iterator>
 	SignalPtr merge(
-		const ForwardRange<Signal_Iterator>& signalSet);
+		const ForwardRange<SignalPtr_Iterator>& signalSet);
 
 	//! Merges two signals into a higher-dimensional signal.
 	/*!
 	Preconditions:
-	Signal_Iterator dereferences to SignalPtr.
+	SignalPtr_Iterator dereferences to SignalPtr.
 
 	The output signal will have as many samples as
 	the input signal with the least number of samples.
@@ -105,10 +105,10 @@ namespace Tim
 	See the more specialized
 	'split' function for more information.
 	*/
-	template <typename Signal_OutputIterator>
+	template <typename SignalPtr_OutputIterator>
 	void split(
 		const SignalPtr& jointSignal,
-		Signal_OutputIterator signalSet);
+		SignalPtr_OutputIterator signalSet);
 
 	//! Creates aliases for marginal signals.
 	/*!
@@ -119,11 +119,11 @@ namespace Tim
 	are splitd with the dimension subranges
 	[0, 2[, [2, 3[, [3, 4[.
 	*/
-	template <typename Signal_OutputIterator>
+	template <typename SignalPtr_OutputIterator>
 	void split(
 		const SignalPtr& jointSignal,
 		const SmallSet<integer>& partition,
-		Signal_OutputIterator signalSet);
+		SignalPtr_OutputIterator signalSet);
 
 	//! Creates an alias for a marginal signal.
 	/*

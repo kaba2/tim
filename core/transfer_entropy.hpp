@@ -12,13 +12,13 @@
 namespace Tim
 {
 
-	template <typename Signal_Iterator>
+	template <typename SignalPtr_Iterator>
 	void transferEntropy(
 		const Array<SignalPtr, 2>& embeddedSet,
 		integer xIndex,
 		integer yIndex,
-		const Signal_Iterator& xFutureBegin,
-		const Signal_Iterator& xFutureEnd,
+		const SignalPtr_Iterator& xFutureBegin,
+		const SignalPtr_Iterator& xFutureEnd,
 		integer timeWindowRadius,
 		integer kNearest,
 		std::vector<real>& estimateSet)
@@ -71,7 +71,7 @@ namespace Tim
 		std::vector<SignalPtr> jointEnsemble;
 		jointEnsemble.reserve(trials);
 
-		Signal_Iterator xFutureIter = xFutureBegin;
+		SignalPtr_Iterator xFutureIter = xFutureBegin;
 		for (integer i = 0;i < trials;++i)
 		{
 			std::vector<SignalPtr> jointSet;

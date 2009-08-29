@@ -16,42 +16,80 @@ namespace Tim
 	//! Computes temporal differential entropy of a signal.
 	/*!
 	Preconditions:
-	kNearest > 0
+	timeWindowRadius >= 0
 	maxRelativeError >= 0
+	kNearest > 0
 
-	Let X be a real random variable with
-	probability density function p(x).
-	The differential entropy H of X is defined by:
-	H(X) = -int(p(x) ln(p(x)), x = -Infinity..Infinity)
-	where 'int' denotes integration.
-	Note that differential entropy is _not_
-	a generalization of (Shannon's discrete) 
-	entropy and thus does not measure information content.
+	signalSet:
+	An ensemble of signals representing trials
+	of the same experiment.
+
+	timeWindowRadius:
+	The radius of the time window in samples to use.
+	Smaller values give more temporal adaptivity,
+	but increase errors.
+
+	maxRelativeError:
+	The maximum relative error allowed for
+	distance in nearest neighbor searching.
+	Zero gives exact matches. Higher values can
+	result in improved performance.
+
+	kNearest:
+	The k:th nearest neighbor that is used to
+	estimate differential entropy.
+
+	normBijection:
+	A measure of distance to use. See 
+	'pastel/math/normbijection.txt'	for documentation.
+
+	Returns:
+	An array of temporal differential entropy
+	estimates.
 	*/
 
 	template <
-		typename Signal_Iterator, 
+		typename SignalPtr_Iterator, 
 		typename Real_OutputIterator,
 		typename NormBijection>
 	void temporalDifferentialEntropy(
-		const ForwardRange<Signal_Iterator>& signalSet,
+		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
 		real maxRelativeError,
 		integer kNearest,
 		const NormBijection& normBijection);
 
+	//! Computes temporal differential entropy of a signal.
+	/*!
+	This is a convenience function that calls:
+
+	temporalDifferentialEntropy(
+		signalSet, timeWindowRadius, result, 
+		maxRelativeError, kNearest, Euclidean_NormBijection());
+
+	See the documentation for that function.
+	*/
 	template <
-		typename Signal_Iterator, 
+		typename SignalPtr_Iterator, 
 		typename Real_OutputIterator>
 	void temporalDifferentialEntropy(
-		const ForwardRange<Signal_Iterator>& signalSet,
+		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
 		real maxRelativeError = 0,
 		integer kNearest = 1);
 
 	//! Computes temporal differential entropy of a signal.
+	/*!
+	This is a convenience function that calls:
+
+	temporalDifferentialEntropy(
+		signalSet, timeWindowRadius, result, 
+		maxRelativeError, kNearest, Euclidean_NormBijection());
+
+	See the documentation for that function.
+	*/
 
 	template <
 		typename Real_OutputIterator,
@@ -66,9 +104,16 @@ namespace Tim
 
 	//! Computes temporal differential entropy of a signal.
 	/*!
-	differentialEntropy(signal, timeWindowRadius, result, 
-		maxRelativeError, kNearest, Euclidean_NormBijection());
+	This is a convenience function that calls:
+
+	temporalDifferentialEntropy(
+		forwardRange(constantIterator(signal)),
+		timeWindowRadius, result, maxRelativeError, 
+		kNearest, Euclidean_NormBijection());
+
+	See the documentation for that function.
 	*/
+
 	template <typename Real_OutputIterator>
 	void temporalDifferentialEntropy(
 		const SignalPtr& signal,
@@ -85,41 +130,67 @@ namespace Tim
 	Preconditions:
 	kNearest > 0
 	maxRelativeError >= 0
+	signalSet contains SignalPtr's.
+
+	signalSet:
+	An ensemble of signals representing trials
+	of the same experiment.
+
+	maxRelativeError:
+	The maximum relative error allowed for
+	distance in nearest neighbor searching.
+	Zero gives exact matches. Higher values can
+	result in improved performance.
+
+	kNearest:
+	The k:th nearest neighbor that is used to
+	estimate differential entropy.
+
+	normBijection:
+	A measure of distance to use. See 
+	'pastel/math/normbijection.txt'	for documentation.
+
+	Returns:
+	A differential entropy estimate.
 	*/
 
 	template <
-		typename Signal_Iterator, 
+		typename SignalPtr_Iterator, 
 		typename NormBijection>
 	real differentialEntropy(
-		const ForwardRange<Signal_Iterator>& signalSet,
+		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		real maxRelativeError,
 		integer kNearest,
 		const NormBijection& normBijection);
 
 	//! Computes differential entropy of a signal.
 	/*!
+	This is a convenience function that calls:
+
 	differentialEntropy(
 		signalSet, maxRelativeError, kNearest, 
 		Euclidean_NormBijection());
+
+	See the documentation for that function.
 	*/
 
-	template <typename Signal_Iterator>
+	template <typename SignalPtr_Iterator>
 	real differentialEntropy(
-		const ForwardRange<Signal_Iterator>& signalSet,
+		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		real maxRelativeError = 0,
 		integer kNearest = 1);
 
 	//! Computes differential entropy of a signal.
 	/*!
-	Preconditions:
-	kNearest > 0
-	maxRelativeError >= 0
+	This is a convenience function that calls:
 
 	differentialEntropy(
 		forwardRange(constantIterator(signal)),
 		maxRelativeError,
 		kNearest,
 		normBijection);
+
+	See the documentation for that function.
 	*/
 
 	template <typename NormBijection>
@@ -131,9 +202,13 @@ namespace Tim
 
 	//! Computes differential entropy of a signal.
 	/*!
+	This is a convenience function that calls:
+
 	differentialEntropy(
 		signal, maxRelativeError,
 		kNearest, Euclidean_NormBijection());
+
+	See the documentation for that function.
 	*/
 	TIMCORE real differentialEntropy(
 		const SignalPtr& signal,
