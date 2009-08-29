@@ -8,7 +8,7 @@
 namespace Tim
 {
 
-	TIMCORE std::ostream& operator<<(
+	TIM std::ostream& operator<<(
 		std::ostream& stream, const Signal& signal)
 	{
 		const integer dimension = signal.dimension();
@@ -37,7 +37,7 @@ namespace Tim
 		return stream;
 	}
 
-	TIMCORE SignalPtr split(
+	TIM SignalPtr split(
 		const SignalPtr& signal,
 		integer dimensionBegin,
 		integer dimensionEnd)
@@ -58,7 +58,7 @@ namespace Tim
 		return splitSignal;
 	}
 
-	TIMCORE SignalPtr merge(
+	TIM SignalPtr merge(
 		const SignalPtr& xSignal,
 		const SignalPtr& ySignal,
 		integer yLag)
@@ -73,7 +73,7 @@ namespace Tim
 			forwardRange(lagSet));
 	}
 
-	TIMCORE void computeCovariance(
+	TIM void computeCovariance(
 		const SignalPtr& signal,
 		MatrixD& result)
 	{
@@ -90,7 +90,7 @@ namespace Tim
 		result /= samples;
 	}
 
-	TIMCORE void normalizeCovariance(
+	TIM void normalizeCovariance(
 		const SignalPtr& signal,
 		const MatrixD& covariance)
 	{

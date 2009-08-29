@@ -1,7 +1,7 @@
 #ifndef TIM_MUTUAL_INFORMATION_KRASKOW_HPP
 #define TIM_MUTUAL_INFORMATION_KRASKOW_HPP
 
-#include "tim/core/mutual_information_kraskow.h"
+#include "tim/core/mutual_information_ec.h"
 #include "tim/core/signal_tools.h"
 #include "tim/core/signalpointset.h"
 #include "tim/core/entropy_combination.h"

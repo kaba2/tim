@@ -1,7 +1,7 @@
 // Description: Mutual information estimation via entropy combination
 
-#ifndef TIM_MUTUAL_INFORMATION_KRASKOW_H
-#define TIM_MUTUAL_INFORMATION_KRASKOW_H
+#ifndef TIM_MUTUAL_INFORMATION_EC_H
+#define TIM_MUTUAL_INFORMATION_EC_H
 
 #include "tim/core/signal.h"
 
@@ -17,9 +17,6 @@ namespace Tim
 	//! Computes mutual information between two signals.
 	/*!
 	Preconditions:
-	SignalPtr_X_Iterator dereferences to SignalPtr.
-	SignalPtr_Y_Iterator dereferences to SignalPtr.
-	Real_OutputIterator dereferences to a convertible to real.
 	yLag >= 0
 	timeWindowRadius >= 0
 	kNearest > 0
@@ -87,7 +84,7 @@ namespace Tim
 		integer yLag = 0,
 		integer kNearest = 1);
 
-	TIMCORE real mutualInformation(
+	TIM real mutualInformation(
 		const SignalPtr& xSignal,
 		const SignalPtr& ySignal,
 		integer yLag = 0,
@@ -95,6 +92,6 @@ namespace Tim
 
 }
 
-#include "tim/core/mutual_information_kraskow.hpp"
+#include "tim/core/mutual_information_ec.hpp"
 
 #endif

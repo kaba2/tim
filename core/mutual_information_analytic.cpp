@@ -5,7 +5,7 @@
 namespace Tim
 {
 
-	TIMCORE real correlatedGaussianMutualInformation(
+	TIM real correlatedGaussianMutualInformation(
 		real marginalCovarianceDeterminantProduct,
 		real jointCovarianceDeterminant)
 	{

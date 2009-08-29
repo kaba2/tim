@@ -29,3 +29,10 @@ form an interval in the time-series. Thus SignalPointSet offers a time-windowed
 view to the point set, with the ability to set the position and extent of the time 
 window arbitrarily.
 
+See also
+--------
+
+[Multi-resolution kd-tree in Pastel library][Pastel_PointKdTree]
+
+[Pastel_PointKdTree]: pastel/geometry/pointkdtree.txt
+

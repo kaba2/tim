@@ -1,9 +1,9 @@
-#include "tim/core/mutual_information_kraskow.h"
+#include "tim/core/mutual_information_ec.h"
 
 namespace Tim
 {
 
-	TIMCORE real mutualInformation(
+	TIM real mutualInformation(
 		const SignalPtr& xSignal,
 		const SignalPtr& ySignal,
 		integer yLag,

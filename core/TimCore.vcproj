@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="TimCore"
+	Name="Tim"
 	ProjectGUID="{E643EDCE-54D8-4DC0-8DBB-5B7121906D7B}"
 	RootNamespace="TimCore"
 	Keyword="Win32Proj"
@@ -43,7 +43,7 @@
 				AdditionalOptions="/D &quot;_SECURE_SCL=0&quot; /D &quot;_HAS_ITERATOR_DEBUGGING=0&quot;"
 				Optimization="0"
 				AdditionalIncludeDirectories="$(SolutionDir)\..\"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;TIMCORE_EXPORTS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;TIM_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -124,7 +124,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="$(SolutionDir)\..\"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;TIMCORE_EXPORTS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;TIM_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				DisableLanguageExtensions="true"
@@ -196,6 +196,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\differential_entropy.txt"
+					>
+				</File>
+				<File
 					RelativePath=".\differential_entropy_analytic.cpp"
 					>
 				</File>
@@ -224,6 +228,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\mutual_information.txt"
+					>
+				</File>
+				<File
 					RelativePath=".\mutual_information_analytic.cpp"
 					>
 				</File>
@@ -232,15 +240,15 @@
 					>
 				</File>
 				<File
-					RelativePath=".\mutual_information_kraskow.cpp"
+					RelativePath=".\mutual_information_ec.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\mutual_information_kraskow.h"
+					RelativePath=".\mutual_information_ec.h"
 					>
 				</File>
 				<File
-					RelativePath=".\mutual_information_kraskow.hpp"
+					RelativePath=".\mutual_information_ec.hpp"
 					>
 				</File>
 				<File
@@ -269,6 +277,10 @@
 				</File>
 				<File
 					RelativePath=".\partial_mutual_information.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\partial_mutual_information.txt"
 					>
 				</File>
 			</Filter>
@@ -307,6 +319,10 @@
 					RelativePath=".\entropy_combination.hpp"
 					>
 				</File>
+				<File
+					RelativePath=".\entropy_combination.txt"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -317,53 +333,13 @@
 				>
 			</File>
 			<File
-				RelativePath=".\timcore_library.cpp"
+				RelativePath=".\tim_library.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\timcore_library.h"
+				RelativePath=".\tim_library.h"
 				>
 			</File>
-			<Filter
-				Name="Signal"
-				>
-				<File
-					RelativePath=".\signal.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\signal.h"
-					>
-				</File>
-				<File
-					RelativePath=".\signal.hpp"
-					>
-				</File>
-				<File
-					RelativePath=".\signal.txt"
-					>
-				</File>
-				<File
-					RelativePath=".\signal_generate.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\signal_generate.h"
-					>
-				</File>
-				<File
-					RelativePath=".\signal_tools.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\signal_tools.h"
-					>
-				</File>
-				<File
-					RelativePath=".\signal_tools.hpp"
-					>
-				</File>
-			</Filter>
 			<Filter
 				Name="Delay embedding"
 				>
@@ -380,26 +356,66 @@
 					>
 				</File>
 			</Filter>
-			<Filter
-				Name="SignalPointSet"
+		</Filter>
+		<Filter
+			Name="Signal"
+			>
+			<File
+				RelativePath=".\signal.cpp"
 				>
-				<File
-					RelativePath=".\signalpointset.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\signalpointset.h"
-					>
-				</File>
-				<File
-					RelativePath=".\signalpointset.hpp"
-					>
-				</File>
-				<File
-					RelativePath=".\signalpointset.txt"
-					>
-				</File>
-			</Filter>
+			</File>
+			<File
+				RelativePath=".\signal.h"
+				>
+			</File>
+			<File
+				RelativePath=".\signal.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\signal.txt"
+				>
+			</File>
+			<File
+				RelativePath=".\signal_generate.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\signal_generate.h"
+				>
+			</File>
+			<File
+				RelativePath=".\signal_tools.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\signal_tools.h"
+				>
+			</File>
+			<File
+				RelativePath=".\signal_tools.hpp"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="SignalPointSet"
+			>
+			<File
+				RelativePath=".\signalpointset.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\signalpointset.h"
+				>
+			</File>
+			<File
+				RelativePath=".\signalpointset.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\signalpointset.txt"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\tim.txt"

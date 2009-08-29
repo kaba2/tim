@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="Estimation"
+	Name="TimTest"
 	ProjectGUID="{66E30DC6-D769-4D04-AD28-58DD4C7E5A49}"
 	RootNamespace="Estimation"
 	Keyword="Win32Proj"
@@ -65,7 +65,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="pastelsysd.lib pasteldeviced.lib ann.lib sdl.lib pastelgfxd.lib pastelmathd.lib pasteldspd.lib timcored.lib pastelgeometryd.lib"
+				AdditionalDependencies="pastelsysd.lib pasteldeviced.lib ann.lib sdl.lib pastelgfxd.lib pastelmathd.lib pasteldspd.lib timd.lib pastelgeometryd.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="e:\ohjelmointi\hgproject\pastel_main\pastel\lib"
 				GenerateDebugInformation="true"
@@ -144,7 +144,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="pastelsys.lib pasteldevice.lib ann.lib sdl.lib pastelgfx.lib pastelmath.lib pasteldsp.lib timcore.lib pastelgeometry.lib"
+				AdditionalDependencies="pastelsys.lib pasteldevice.lib ann.lib sdl.lib pastelgfx.lib pastelmath.lib pasteldsp.lib tim.lib pastelgeometry.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="e:\ohjelmointi\hgproject\pastel_main\pastel\lib"
 				GenerateDebugInformation="true"

@@ -14,6 +14,36 @@ representing it as a matrix of values and allowing it to be
 manipulated correspondingly. The SignalPointSet class in turn models a
 reinterpretation of a time series as a semidynamic set of points.
 
+Iterators and iterator ranges
+-----------------------------
+
+TIM uses iterator ranges to abstract away the differences
+between different kinds of containers, as well as to make up for
+an efficient implementation. An iterator range is essentially
+a triple (b, e, d) where b and e form an iterator range [b, e[ and
+where the distance between e and b is d. Apart from making the interface
+of functions compact, iterator ranges also offer a form of concept-based 
+overloading, compared to non-restricted templates when using only iterators.
+
+Whenever a template function parametrizes an iterator range, the types
+of the iterators are named in the form DereferencedType_Iterator. 
+Examples include SignalPtr_Iterator and Real_Iterator. This documents
+the requirement of the former to dereference to a SignalPtr and the latter
+to dereference to a real.
+
+Iterator ranges do not always make sense for output. For example,
+if the output of the function is varying in number of writes, then
+no fixed size iterator range does. Therefore, outputs are always specified
+with a single output iterator. Whenever a template function parametrizes an 
+output iterator, the type is named in the form DereferencedType_OutputIterator.
+An example is given by Real_OutputIterator, which documents the requirement
+of the iterator to dereference to a real.
+
+You can read more about special iterators and iterator ranges from
+the Pastel library's documentation [here][Pastel_Iterator].
+
+[Pastel_Iterator]: pastel/sys/iterator.txt
+
 Learn more
 ----------
 

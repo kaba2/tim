@@ -210,7 +210,7 @@ namespace Tim
 
 	See the documentation for that function.
 	*/
-	TIMCORE real differentialEntropy(
+	TIM real differentialEntropy(
 		const SignalPtr& signal,
 		real maxRelativeError = 0,
 		integer kNearest = 1);

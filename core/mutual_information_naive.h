@@ -46,7 +46,7 @@ namespace Tim
 	this function is to demonstrate the non-applicability
 	of the technique.
 	*/
-	TIMCORE void mutualInformationFromBinning(
+	TIM void mutualInformationFromBinning(
 		const SignalPtr& signal,
 		integer bins,
 		MatrixD& result);

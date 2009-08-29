@@ -3,7 +3,7 @@
 namespace Tim
 {
 
-	TIMCORE real gaussianDifferentialEntropy(
+	TIM real gaussianDifferentialEntropy(
 		integer dimension, real covarianceDeterminant)
 	{
 		PENSURE_OP(dimension, >, 0);
@@ -15,7 +15,7 @@ namespace Tim
 		return 0.5 * (std::log(covarianceDeterminant) + dimension * ConstantFactor);
 	}
 
-	TIMCORE real uniformDifferentialEntropy(real supportVolume)
+	TIM real uniformDifferentialEntropy(real supportVolume)
 	{
 		PENSURE_OP(supportVolume, >=, 0);
 
@@ -36,7 +36,7 @@ namespace Tim
 		return std::log(supportVolume);
 	}
 
-	TIMCORE real generalizedGaussianDifferentialEntropy(
+	TIM real generalizedGaussianDifferentialEntropy(
 		integer dimension, real shape, real scale)
 	{
 		PENSURE_OP(dimension, >, 0);

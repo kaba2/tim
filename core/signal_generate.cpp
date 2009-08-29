@@ -7,7 +7,7 @@
 namespace Tim
 {
 
-	TIMCORE SignalPtr generateUniform(
+	TIM SignalPtr generateUniform(
 		integer samples,
 		integer dimension)
 	{
@@ -28,7 +28,7 @@ namespace Tim
 		return signal;
 	}
 
-	TIMCORE SignalPtr generateGaussian(
+	TIM SignalPtr generateGaussian(
 		integer samples,
 		integer dimension)
 	{
@@ -49,7 +49,7 @@ namespace Tim
 		return signal;
 	}
 
-	TIMCORE SignalPtr generateCorrelatedGaussian(
+	TIM SignalPtr generateCorrelatedGaussian(
 		integer samples,
 		integer dimension,
 		const CholeskyDecompositionD& covarianceCholesky)
@@ -66,7 +66,7 @@ namespace Tim
 		return correlatedGaussian;
 	}
 
-	TIMCORE SignalPtr generateGeneralizedGaussian(
+	TIM SignalPtr generateGeneralizedGaussian(
 		integer samples,
 		integer dimension,
 		real shape,
@@ -89,7 +89,7 @@ namespace Tim
 		return signal;
 	}
 
-	TIMCORE void generateTimeVaryingCoupling(
+	TIM void generateTimeVaryingCoupling(
 		integer samples,
 		integer yxShift,
 		integer zyShift,
