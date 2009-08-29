@@ -208,6 +208,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\tim_matlab.txt"
+			>
+		</File>
+		<File
 			RelativePath=".\timDifferentialEntropy.cpp"
 			>
 		</File>

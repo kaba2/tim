@@ -25,6 +25,9 @@
 % If the number of samples varies with trials, the function uses 
 % the minimum sample count among the trials of X and Y.
 
+% Description: Mutual information estimation
+% Documentation: tim_matlab.txt
+
 function I = mutual_information(X, Y, yLag, k, threads)
 
 % The limit for the dimension is arbitrary, but

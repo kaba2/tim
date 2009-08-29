@@ -27,6 +27,9 @@
 % If the number of samples varies with trials, the function uses 
 % the minimum sample count among the trials of X and Y.
 
+% Description: Partial mutual information estimation
+% Documentation: tim_matlab.txt
+
 function I = partial_mutual_information(...
     X, Y, Z, yLag, zLag, k, threads)
 
