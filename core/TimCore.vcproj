@@ -48,7 +48,7 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				DisableLanguageExtensions="true"
-				OpenMP="false"
+				OpenMP="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="4"
@@ -128,7 +128,7 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				DisableLanguageExtensions="true"
-				OpenMP="false"
+				OpenMP="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
@@ -184,6 +184,10 @@
 		<Filter
 			Name="Estimators"
 			>
+			<File
+				RelativePath=".\estimators.txt"
+				>
+			</File>
 			<Filter
 				Name="Differential entropy"
 				>
@@ -391,8 +395,20 @@
 					RelativePath=".\signalpointset.hpp"
 					>
 				</File>
+				<File
+					RelativePath=".\signalpointset.txt"
+					>
+				</File>
 			</Filter>
 		</Filter>
+		<File
+			RelativePath=".\tim.txt"
+			>
+		</File>
+		<File
+			RelativePath=".\tim_cpp.txt"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

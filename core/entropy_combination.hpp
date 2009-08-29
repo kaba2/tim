@@ -73,7 +73,7 @@ namespace Tim
 
 			pointSet.push_back(
 				SignalPointSetPtr(new SignalPointSet(
-				signalSet, SignalPointSet_TimeWindow::StartEmpty, 
+				signalSet, samples, samples,
 				range[0], range[1])));
 
 			weightSet.push_back(range[2]);
@@ -183,7 +183,7 @@ namespace Tim
 
 		// Construct point sets
 
-		SignalPointSet jointPointSet(signalSet, SignalPointSet_TimeWindow::StartFull);
+		SignalPointSet jointPointSet(signalSet, 0, samples);
 	
 		std::vector<integer> weightSet;
 		weightSet.reserve(signals);
@@ -196,7 +196,7 @@ namespace Tim
 			const Integer3& range = *iter;
 			pointSet.push_back(
 				SignalPointSetPtr(new SignalPointSet(
-				signalSet, SignalPointSet_TimeWindow::StartFull, 
+				signalSet, 0, samples,
 				range[0], range[1])));
 			weightSet.push_back(range[2]);
 			++iter;
@@ -257,123 +257,6 @@ namespace Tim
 		integer kNearest)
 	{
 		return Tim::entropyCombination(
-			forwardRange(constantIterator(signal)),
-			rangeSet,
-			kNearest);
-	}
-
-	template <
-		typename Signal_Iterator,
-		typename Integer3_Iterator>
-	real entropyCombination2(
-		const ForwardRange<Signal_Iterator>& signalSet,
-		const ForwardRange<Integer3_Iterator>& rangeSet,
-		integer kNearest)
-	{
-		ENSURE_OP(kNearest, >, 0);
-
-		const integer trials = signalSet.size();
-		const integer samples = minSamples(signalSet);
-		const integer dimension = signalSet.front()->dimension();
-		const integer estimateSamples = samples * trials;
-		const integer signals = rangeSet.size();
-
-		// Construct point sets
-
-		SignalPointSet jointPointSet(signalSet, 
-			SignalPointSet_TimeWindow::StartFull);
-	
-		std::vector<integer> weightSet;
-		weightSet.reserve(signals);
-
-		std::vector<Integer3> storedRangeSet;
-		storedRangeSet.reserve(signals);
-		std::copy(rangeSet.begin(), rangeSet.end(),
-			std::back_inserter(storedRangeSet));
-
-		Integer3_Iterator iter = rangeSet.begin();
-		std::vector<SignalPointSetPtr> pointSet;
-		pointSet.reserve(signals);
-		for (integer i = 0;i < signals;++i)
-		{
-			const Integer3& range = *iter;
-			pointSet.push_back(
-				SignalPointSetPtr(new SignalPointSet(
-				signalSet, SignalPointSet_TimeWindow::StartFull, 
-				range[0], range[1])));
-			weightSet.push_back(range[2]);
-			++iter;
-		}
-
-		Infinity_NormBijection<real> normBijection;
-		Array<SignalPointSet::ConstObjectIterator, 2> nearestArray(1, estimateSamples);
-
-		// Start estimation.
-
-		searchAllNeighbors(
-			jointPointSet.kdTree(),
-			DepthFirst_SearchAlgorithm_PointKdTree(),
-			randomAccessRange(jointPointSet.begin(), jointPointSet.end()),
-			kNearest - 1,
-			kNearest, 
-			randomAccessRange(constantIterator(infinity<real>()), estimateSamples),
-			0,
-			normBijection,
-			&nearestArray);
-
-		std::vector<real> marginalDistanceSet(estimateSamples);
-
-		real estimate = 0;
-		std::vector<integer> countSet(estimateSamples, 0);
-		for (integer i = 0;i < signals;++i)
-		{
-		#pragma omp parallel for
-			for (integer j = 0;j < estimateSamples;++j)
-			{
-				marginalDistanceSet[j] = 
-					distance2(
-					pointSet[i]->point(pointSet[i]->begin()[j]->object()), 
-					pointSet[i]->point(nearestArray(j)->object() + storedRangeSet[i][0]),
-					normBijection);
-			}
-			countAllNeighbors(
-				pointSet[i]->kdTree(),
-				randomAccessRange(pointSet[i]->begin(), pointSet[i]->end()),
-				randomAccessRange(marginalDistanceSet.begin(), estimateSamples),
-				normBijection,
-				countSet.begin());
-
-			const integer subSignals = 1;
-
-			real signalEstimate = 0;
-#pragma omp parallel for reduction(+ : signalEstimate)
-			for (integer j = 0;j < estimateSamples;++j)
-			{
-				signalEstimate += digamma<real>(countSet[j]);
-				signalEstimate -= (subSignals - 1) * inverse((real)countSet[j]);
-			}
-
-			estimate -= signalEstimate * weightSet[i];
-		}
-		estimate /= estimateSamples;
-		estimate += digamma<real>(kNearest);
-		estimate -= (signals - 1) * inverse((real)kNearest);
-
-		const real sumWeight = 
-			std::accumulate(weightSet.begin(), weightSet.end(), (real)0);
-
-		estimate += (sumWeight - 1) * digamma<real>(estimateSamples);
-
-		return estimate;
-	}
-
-	template <typename Integer3_Iterator>
-	real entropyCombination2(
-		const SignalPtr& signal,
-		const ForwardRange<Integer3_Iterator>& rangeSet,
-		integer kNearest)
-	{
-		return Tim::entropyCombination2(
 			forwardRange(constantIterator(signal)),
 			rangeSet,
 			kNearest);

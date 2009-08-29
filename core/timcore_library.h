@@ -1,3 +1,5 @@
+// Description: Dll-keywords for the TimCore library
+
 #ifndef TIM_TIMCORE_LIBRARY_H
 #define TIM_TIMCORE_LIBRARY_H
 

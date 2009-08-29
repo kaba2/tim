@@ -161,6 +161,41 @@ namespace Tim
 		}
 	}
 
+	template <
+		typename Signal_X_Iterator,
+		typename Signal_Y_Iterator,
+		typename Signal_Z_Iterator,
+		typename Signal_OutputIterator>
+	void merge(
+		const ForwardRange<Signal_X_Iterator>& xSignalSet,
+		const ForwardRange<Signal_Y_Iterator>& ySignalSet,
+		const ForwardRange<Signal_Z_Iterator>& zSignalSet,
+		Signal_OutputIterator result,
+		integer yLag,
+		integer zLag)
+	{
+		ENSURE_OP(ySignalSet.size(), ==, xSignalSet.size());
+		ENSURE_OP(zSignalSet.size(), ==, xSignalSet.size());
+		ENSURE_OP(yLag, >=, 0);
+		ENSURE_OP(zLag, >=, 0);
+		
+		Signal_X_Iterator xIter = xSignalSet.begin();
+		Signal_Y_Iterator yIter = ySignalSet.begin();
+		Signal_Z_Iterator zIter = zSignalSet.begin();
+		const Signal_X_Iterator xIterEnd = xSignalSet.end();
+
+		while(xIter != xIterEnd)
+		{
+			const SignalPtr temp = merge(*xIter, *yIter, yLag);
+			*result = merge(temp, *zIter, zLag);
+			
+			++result;
+			++xIter;
+			++yIter;
+			++zIter;
+		}
+	}
+
 	template <typename Signal_Iterator>
 	SignalPtr merge(
 		const ForwardRange<Signal_Iterator>& signalSet)

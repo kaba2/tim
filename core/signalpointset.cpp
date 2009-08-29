@@ -17,10 +17,14 @@ namespace Tim
 	}
 
 	void SignalPointSet::construct(
-		SignalPointSet_TimeWindow::Enum timeWindowStart,
+		integer timeBegin,
+		integer timeEnd,
 		integer dimensionBegin,
 		integer dimensionEnd)
 	{
+		ENSURE_OP(timeBegin, <=, timeEnd);
+		ENSURE_OP(timeBegin, >=, 0);
+		ENSURE_OP(timeEnd, <=, samples_);
 		ENSURE_OP(dimensionBegin, <=, dimensionEnd);
 		ENSURE_OP(dimensionBegin, >=, 0);
 		ENSURE_OP(dimensionEnd, <=, signalSet_.front()->dimension());
@@ -28,52 +32,59 @@ namespace Tim
 		dimensionBegin_ = dimensionBegin;
 		dimension_ = dimensionEnd - dimensionBegin;
 
-		// Insert all the points into the tree.
-
 		const integer signals = signalSet_.size();
+
+		// Store points in an interleaved
+		// manner.
+
+		pointSet_.reserve(samples_ * signals);
+
 		for (integer t = 0;t < samples_;++t)
 		{
 			for (integer i = 0;i < signals;++i)
 			{
-				if (timeWindowStart == SignalPointSet_TimeWindow::StartEmpty)
-				{
-					kdTree_.insert(
-						signalSet_[i]->pointBegin(dimensionBegin_)[t]);
-
-					/*
-					kdTree_.insert(
-						*(signalSet_[i]->pointBegin(dimensionBegin_) + t));
-					*/
-				}
-				else
-				{
-					objectSet_.push_back(
-						kdTree_.insert(
-						signalSet_[i]->pointBegin(dimensionBegin_)[t]));
-
-					/*
-					objectSet_.push_back(
-						kdTree_.insert(
-						*(signalSet_[i]->pointBegin(dimensionBegin_) + t)));
-					*/
-				}
+				pointSet_.push_back(
+					signalSet_[i]->pointBegin(dimensionBegin_)[t]);
 			}
+		}
+
+		const integer timeWidth = timeEnd - timeBegin;
+		const bool gonnaEraseAll = 
+			timeWidth <= samples_ / 2;
+
+		// Insert all the points into the tree.
+
+		if (gonnaEraseAll)
+		{
+			kdTree_.insert(pointSet_.begin(), pointSet_.end());
+		}
+		else
+		{
+			kdTree_.insert(
+				pointSet_.begin(), 
+				pointSet_.begin() + timeBegin);
+			kdTree_.insert(
+				pointSet_.begin() + timeBegin, 
+				pointSet_.begin() + timeEnd,
+				std::back_inserter(objectSet_));
+			kdTree_.insert(
+				pointSet_.begin() + timeEnd, 
+				pointSet_.end());
+			
+			timeBegin_ = timeBegin;
+			timeEnd_ = timeEnd;
 		}
 
 		// Compute a fine subdivision for the points.
 
 		kdTree_.refine(SlidingMidpoint2_SplitRule_PointKdTree());
 
-		if (timeWindowStart == SignalPointSet_TimeWindow::StartEmpty)
-		{
-			// Remove all objects but leave subdivision intact.
+		// Set the initial time window.
 
-			kdTree_.eraseObjects();
-		}
-		else
+		if (gonnaEraseAll)
 		{
-			timeBegin_ = 0;
-			timeEnd_ = samples_;
+			kdTree_.eraseObjects();
+			setTimeWindow(timeBegin, timeEnd);
 		}
 	}
 
@@ -81,6 +92,7 @@ namespace Tim
 	{
 		kdTree_.swap(that.kdTree_);
 		signalSet_.swap(that.signalSet_);
+		pointSet_.swap(that.pointSet_);
 		objectSet_.swap(that.objectSet_);
 		std::swap(samples_, that.samples_);
 		std::swap(timeBegin_, that.timeBegin_);
@@ -120,13 +132,10 @@ namespace Tim
 
 			// And insert the new ones.
 
-			for (integer i = 0;i < signals;++i)
-			{
-				kdTree_.insert(
-					signalSet_[i]->pointBegin(dimensionBegin_) + newTimeBegin,
-					signalSet_[i]->pointBegin(dimensionBegin_) + newTimeEnd,
-					std::back_inserter(objectSet_));
-			}
+			kdTree_.insert(
+				pointSet_.begin() + newTimeBegin * signals,
+				pointSet_.begin() + newTimeEnd * signals,
+				std::back_inserter(objectSet_));
 		}
 		else
 		{
@@ -150,13 +159,10 @@ namespace Tim
 			{
 				// Adds objects to the right.
 
-				for (integer i = 0;i < signals;++i)
-				{
-					kdTree_.insert(
-						signalSet_[i]->pointBegin(dimensionBegin_) + timeEnd_,
-						signalSet_[i]->pointBegin(dimensionBegin_) + newTimeEnd,
-						std::back_inserter(objectSet_));
-				}
+				kdTree_.insert(
+					pointSet_.begin() + timeEnd_ * signals,
+					pointSet_.begin() + newTimeEnd * signals,
+					std::back_inserter(objectSet_));
 			}
 
 			integer deltaLeft = timeBegin_ - newTimeBegin;
@@ -164,15 +170,12 @@ namespace Tim
 			{
 				// Add objects to the left.
 
-				for (integer i = 0;i < signals;++i)
-				{
-					kdTree_.insert(
-						boost::make_reverse_iterator(
-						signalSet_[i]->pointBegin(dimensionBegin_) + timeBegin_),
-						boost::make_reverse_iterator(
-						signalSet_[i]->pointBegin(dimensionBegin_) + newTimeBegin),
-						std::front_inserter(objectSet_));
-				}
+				kdTree_.insert(
+					boost::make_reverse_iterator(
+					pointSet_.begin() + timeBegin_ * signals),
+					boost::make_reverse_iterator(
+					pointSet_.begin() + newTimeBegin * signals),
+					std::front_inserter(objectSet_));
 			}
 			else if (deltaLeft < 0)
 			{

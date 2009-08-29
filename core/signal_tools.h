@@ -1,3 +1,5 @@
+// Description: Tools for working with Signal's
+
 #ifndef TIM_SIGNAL_TOOLS_H
 #define TIM_SIGNAL_TOOLS_H
 
@@ -67,6 +69,19 @@ namespace Tim
 		const ForwardRange<Signal_Y_Iterator>& ySignalSet,
 		Signal_OutputIterator result,
 		integer yLag = 0);
+
+	template <
+		typename Signal_X_Iterator,
+		typename Signal_Y_Iterator,
+		typename Signal_Z_Iterator,
+		typename Signal_OutputIterator>
+	void merge(
+		const ForwardRange<Signal_X_Iterator>& xSignalSet,
+		const ForwardRange<Signal_Y_Iterator>& ySignalSet,
+		const ForwardRange<Signal_Z_Iterator>& zSignalSet,
+		Signal_OutputIterator result,
+		integer yLag = 0,
+		integer zLag = 0);
 
 	template <typename Signal_Iterator>
 	SignalPtr merge(

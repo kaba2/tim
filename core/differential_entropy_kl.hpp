@@ -71,8 +71,7 @@ namespace Tim
 			{
 			Array<real, 2> distanceArray(1, trials);
 			SignalPointSet pointSet(signalSet, 
-				(timeWindowRadius < samples / 2) ? SignalPointSet_TimeWindow::StartEmpty : 
-				SignalPointSet_TimeWindow::StartFull);
+				0, std::min(timeWindowRadius + 1, 0));
 
 #pragma omp for
 			for (integer t = 0;t < samples;++t)
@@ -221,7 +220,7 @@ namespace Tim
 		const integer estimateSamples = samples * trials;
 
 		Array<real, 2> distanceArray(1, estimateSamples);
-		SignalPointSet pointSet(signalSet, SignalPointSet_TimeWindow::StartFull);
+		SignalPointSet pointSet(signalSet, 0, samples);
 	
 		searchAllNeighbors(
 			pointSet.kdTree(),
