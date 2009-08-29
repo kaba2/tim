@@ -1,5 +1,3 @@
-#include <boost/random.hpp>
-
 #include <pastel/device/devicesystem.h>
 #include <pastel/device/timer.h>
 

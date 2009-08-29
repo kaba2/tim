@@ -35,6 +35,9 @@
 % If the number of samples varies with trials, the function uses 
 % the minimum sample count among the trials of X and Y.
 
+% Description: Temporal partial mutual information estimation
+% Documentation: tim_matlab.txt
+
 function I = temporal_partial_mutual_information(...
     X, Y, Z, timeWindowRadius, yLag, zLag, k, threads)
 

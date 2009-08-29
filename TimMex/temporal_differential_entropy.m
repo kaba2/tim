@@ -31,6 +31,9 @@
 % your computer unresponsive to other tasks. When you need responsiveness, 
 % spare one core for other work. Default 1 (no parallelization).
 
+% Description: Temporal differential entropy estimation
+% Documentation: tim_matlab.txt
+
 function H = temporal_differential_entropy(...
     S, timeWindowRadius, epsilon, k, threads)
 

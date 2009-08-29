@@ -23,6 +23,9 @@
 % your computer unresponsive to other tasks. When you need responsiveness, 
 % spare one core for other work. Default 1 (no parallelization).
 
+% Description: Differential entropy estimation
+% Documentation: tim_matlab.txt
+
 function H = differential_entropy(S, epsilon, k, threads)
 
 % The limit for the dimension is arbitrary, but
