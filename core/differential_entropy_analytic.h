@@ -12,7 +12,16 @@ namespace Tim
 	/*!
 	Preconditions:
 	dimension > 0
-	covariance >= 0
+	covarianceDeterminant >= 0
+
+	dimension:
+	The dimension of the distribution.
+
+	covarianceDeterminant:
+	Determinant of the covariance matrix of the distribution.
+
+	Returns:
+	The differential entropy of the distribution.
 	*/
 	TIMCORE real gaussianDifferentialEntropy(
 		integer dimension, real covarianceDeterminant);
@@ -25,6 +34,9 @@ namespace Tim
 	supportVolume:
 	The measure m of the support of the probability density
 	function p: m({x in R^n: p(x) != 0})
+
+	Returns:
+	The differential entropy of the distribution.
 	*/
 	TIMCORE real uniformDifferentialEntropy(
 		real supportVolume);
@@ -35,6 +47,18 @@ namespace Tim
 	dimension > 0
 	shape > 0
 	scale > 0
+
+	dimension:
+	The dimension of the distribution.
+
+	shape:
+	The shape parameter of the distribution.
+
+	scale:
+	The scale parameter of the distribution.
+
+	Returns:
+	The differential entropy of the distribution.
 	*/
 	TIMCORE real generalizedGaussianDifferentialEntropy(
 		integer dimension, real shape, real scale);

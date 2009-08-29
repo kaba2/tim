@@ -13,17 +13,17 @@
 namespace Tim
 {
 
-	template <typename Signal_Iterator>
+	template <typename SignalPtr_Iterator>
 	integer minSamples(
-		const ForwardRange<Signal_Iterator>& signalSet)
+		const ForwardRange<SignalPtr_Iterator>& signalSet)
 	{
 		if (signalSet.empty())
 		{
 			return 0;
 		}
 
-		Signal_Iterator iter = signalSet.begin();
-		const Signal_Iterator iterEnd = signalSet.end();
+		SignalPtr_Iterator iter = signalSet.begin();
+		const SignalPtr_Iterator iterEnd = signalSet.end();
 
 		integer samples = (*iter)->samples();
 		++iter;
@@ -38,17 +38,17 @@ namespace Tim
 		return samples;
 	}
 
-	template <typename Signal_Iterator>
+	template <typename SignalPtr_Iterator>
 	bool equalDimension(
-		const ForwardRange<Signal_Iterator>& signalSet)
+		const ForwardRange<SignalPtr_Iterator>& signalSet)
 	{
 		if (signalSet.empty())
 		{
 			return true;
 		}
 
-		Signal_Iterator iter = signalSet.begin();
-		const Signal_Iterator iterEnd = signalSet.end();
+		SignalPtr_Iterator iter = signalSet.begin();
+		const SignalPtr_Iterator iterEnd = signalSet.end();
 
 		integer dimension = signalSet.front()->dimension();
 		++iter;
@@ -67,10 +67,10 @@ namespace Tim
 	}
 
 	template <
-		typename Signal_Iterator,
+		typename SignalPtr_Iterator,
 		typename Integer_Iterator>
 	SignalPtr merge(
-		const ForwardRange<Signal_Iterator>& signalSet,
+		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		const ForwardRange<Integer_Iterator>& lagSet)
 	{
 		if (signalSet.empty() ||
@@ -88,8 +88,8 @@ namespace Tim
 		}
 
 		integer jointDimension = 0;
-		Signal_Iterator signalIter = signalSet.begin();
-		const Signal_Iterator signalIterEnd = signalSet.end();
+		SignalPtr_Iterator signalIter = signalSet.begin();
+		const SignalPtr_Iterator signalIterEnd = signalSet.end();
 
 		while(signalIter != signalIterEnd)
 		{
@@ -135,21 +135,21 @@ namespace Tim
 	}
 
 	template <
-		typename Signal_X_Iterator,
-		typename Signal_Y_Iterator,
-		typename Signal_OutputIterator>
+		typename SignalPtr_X_Iterator,
+		typename SignalPtr_Y_Iterator,
+		typename SignalPtr_OutputIterator>
 	void merge(
-		const ForwardRange<Signal_X_Iterator>& xSignalSet,
-		const ForwardRange<Signal_Y_Iterator>& ySignalSet,
-		Signal_OutputIterator result,
+		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
+		SignalPtr_OutputIterator result,
 		integer yLag)
 	{
 		ENSURE_OP(xSignalSet.size(), ==, ySignalSet.size());
 		ENSURE_OP(yLag, >=, 0);
 		
-		Signal_X_Iterator xIter = xSignalSet.begin();
-		const Signal_X_Iterator xIterEnd = xSignalSet.end();
-		Signal_Y_Iterator yIter = ySignalSet.begin();
+		SignalPtr_X_Iterator xIter = xSignalSet.begin();
+		const SignalPtr_X_Iterator xIterEnd = xSignalSet.end();
+		SignalPtr_Y_Iterator yIter = ySignalSet.begin();
 
 		while(xIter != xIterEnd)
 		{
@@ -162,15 +162,15 @@ namespace Tim
 	}
 
 	template <
-		typename Signal_X_Iterator,
-		typename Signal_Y_Iterator,
-		typename Signal_Z_Iterator,
-		typename Signal_OutputIterator>
+		typename SignalPtr_X_Iterator,
+		typename SignalPtr_Y_Iterator,
+		typename SignalPtr_Z_Iterator,
+		typename SignalPtr_OutputIterator>
 	void merge(
-		const ForwardRange<Signal_X_Iterator>& xSignalSet,
-		const ForwardRange<Signal_Y_Iterator>& ySignalSet,
-		const ForwardRange<Signal_Z_Iterator>& zSignalSet,
-		Signal_OutputIterator result,
+		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
+		const ForwardRange<SignalPtr_Z_Iterator>& zSignalSet,
+		SignalPtr_OutputIterator result,
 		integer yLag,
 		integer zLag)
 	{
@@ -179,10 +179,10 @@ namespace Tim
 		ENSURE_OP(yLag, >=, 0);
 		ENSURE_OP(zLag, >=, 0);
 		
-		Signal_X_Iterator xIter = xSignalSet.begin();
-		Signal_Y_Iterator yIter = ySignalSet.begin();
-		Signal_Z_Iterator zIter = zSignalSet.begin();
-		const Signal_X_Iterator xIterEnd = xSignalSet.end();
+		SignalPtr_X_Iterator xIter = xSignalSet.begin();
+		SignalPtr_Y_Iterator yIter = ySignalSet.begin();
+		SignalPtr_Z_Iterator zIter = zSignalSet.begin();
+		const SignalPtr_X_Iterator xIterEnd = xSignalSet.end();
 
 		while(xIter != xIterEnd)
 		{
@@ -196,18 +196,18 @@ namespace Tim
 		}
 	}
 
-	template <typename Signal_Iterator>
+	template <typename SignalPtr_Iterator>
 	SignalPtr merge(
-		const ForwardRange<Signal_Iterator>& signalSet)
+		const ForwardRange<SignalPtr_Iterator>& signalSet)
 	{
 		return Tim::merge(signalSet,
 			forwardRange(constantIterator(0)));
 	}
 
-	template <typename Signal_OutputIterator>
+	template <typename SignalPtr_OutputIterator>
 	void split(
 		const SignalPtr& jointSignal,
-		Signal_OutputIterator signalSet)
+		SignalPtr_OutputIterator signalSet)
 	{
 		const integer dimension = jointSignal->dimension();
 
@@ -221,11 +221,11 @@ namespace Tim
 		Tim::split(jointSignal, partition, signalSet);
 	}
 
-	template <typename Signal_OutputIterator>
+	template <typename SignalPtr_OutputIterator>
 	void split(
 		const SignalPtr& jointSignal,
 		const SmallSet<integer>& partition,
-		Signal_OutputIterator signalSet)
+		SignalPtr_OutputIterator signalSet)
 	{
 		ENSURE_OP(partition.size(), >=, 2);
 
@@ -272,9 +272,9 @@ namespace Tim
 		}
 	}
 
-	template <typename Signal_Iterator>
+	template <typename SignalPtr_Iterator>
 	void constructPointSet(
-		const ForwardRange<Signal_Iterator>& signalSet,
+		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer sampleBegin,
 		integer sampleEnd,
 		integer dimensionBegin,
@@ -312,8 +312,8 @@ namespace Tim
 
 		pointSet.resize(samples * trials);
 
-		Signal_Iterator iter = signalSet.begin();
-		const Signal_Iterator iterEnd = signalSet.end();
+		SignalPtr_Iterator iter = signalSet.begin();
+		const SignalPtr_Iterator iterEnd = signalSet.end();
 		integer trial = 0;
 		while(iter != iterEnd)
 		{

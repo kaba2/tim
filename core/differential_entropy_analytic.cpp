@@ -19,21 +19,19 @@ namespace Tim
 	{
 		PENSURE_OP(supportVolume, >=, 0);
 
-		/*
-		Let X be a random variable in R^n 
-		with a probability density function p.
-		Let S subset R^n be the support set of p.
-		The measure of S is m(S). Then because
-		of uniformity p(x) = 1 / m(S).
-		Now
-		H(X) = -int_S p(x) ln(p(x)) dx
-		= -int_S (1 / m(s)) ln(1 / m(S)) dx
-		= -int_S (1 / m(s)) (ln(1) - ln(m(S))) dx
-		= -int_S (1 / m(s)) (-ln(m(S))) dx
-		= (ln(m(S)) / m(S)) int_S 1 dx
-		= (ln(m(S)) / m(S)) m(S)
-		= ln(m(S))
-		*/
+		// Let X be a random variable in R^n 
+		// with a probability density function p.
+		// Let S subset R^n be the support set of p.
+		// The measure of S is m(S). Then because
+		// of uniformity p(x) = 1 / m(S).
+		// Now
+		// H(X) = -int_S p(x) ln(p(x)) dx
+		// = -int_S (1 / m(s)) ln(1 / m(S)) dx
+		// = -int_S (1 / m(s)) (ln(1) - ln(m(S))) dx
+		// = -int_S (1 / m(s)) (-ln(m(S))) dx
+		// = (ln(m(S)) / m(S)) int_S 1 dx
+		// = (ln(m(S)) / m(S)) m(S)
+		// = ln(m(S))
 
 		return std::log(supportVolume);
 	}
@@ -41,6 +39,10 @@ namespace Tim
 	TIMCORE real generalizedGaussianDifferentialEntropy(
 		integer dimension, real shape, real scale)
 	{
+		PENSURE_OP(dimension, >, 0);
+		PENSURE_OP(shape, >, 0);
+		PENSURE_OP(scale, >, 0);
+
 		// Let
 		// a = scale
 		// b = shape

@@ -9,6 +9,8 @@
 #include <pastel/sys/countingiterator.h>
 #include <pastel/sys/randomaccessrange.h>
 
+#include <pastel/math/euclidean_normbijection.h>
+
 #include <pastel/geometry/search_all_neighbors_pointkdtree.h>
 
 #include <algorithm>
@@ -21,11 +23,11 @@ namespace Tim
 	// -----------------------------
 
 	template <
-		typename Signal_Iterator, 
+		typename SignalPtr_Iterator, 
 		typename Real_OutputIterator,
 		typename NormBijection>
 	void temporalDifferentialEntropy(
-		const ForwardRange<Signal_Iterator>& signalSet,
+		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
 		real maxRelativeError,
@@ -33,8 +35,8 @@ namespace Tim
 		const NormBijection& normBijection)
 	{
 		ENSURE_OP(timeWindowRadius, >=, 0);
-		ENSURE_OP(kNearest, >, 0);
 		ENSURE_OP(maxRelativeError, >=, 0);
+		ENSURE_OP(kNearest, >, 0);
 
 		// This function computes the Kozachenko-Leonenko
 		// estimator for the differential entropy.
@@ -57,6 +59,9 @@ namespace Tim
 			return;
 		}
 
+		// This is done to avoid parallelization
+		// issues with iterator range caching.
+
 		signalSet.updateCache();
 
 		const integer trials = signalSet.size();
@@ -66,23 +71,52 @@ namespace Tim
 
 		if (timeWindowRadius < samples - 1)
 		{
+			// We create an own array to hold the results since the
+			// 'result' iterator is not necessarily random-access
+			// (which is needed for parallelization below).
+
 			std::vector<real> estimateSet(samples);
+
 #pragma omp parallel
 			{
+			// Each worker thread has to create its own copy of
+			// the signal point set. This is because the call
+			// to SignalPointSet::setTimeWindow() is mutating.
+			// This is a bit wasteful in memory, but I don't
+			// know how else this could be done.
+
 			Array<real, 2> distanceArray(1, trials);
 			SignalPointSet pointSet(signalSet, 
-				0, std::min(timeWindowRadius + 1, 0));
+				0, std::min(timeWindowRadius + 1, samples));
 
 #pragma omp for
 			for (integer t = 0;t < samples;++t)
 			{
+				// Compute the window extents. At the start and the
+				// end of the signal there are less samples available
+				// for the estimation and thus the estimation has a greater
+				// error. Remember to document this to the user.
+
 				const integer tLeft = std::max(t - timeWindowRadius, 0);
 				const integer tRight = std::min(t + timeWindowRadius + 1, samples);
 				const integer tDelta = t - tLeft;
 				const integer tWidth = tRight - tLeft;
 
+				// Update the position of the time window.
+
 				pointSet.setTimeWindow(tLeft, tRight);
 				
+				// For each point at the current time instant in all
+				// ensemble signals, find the distance to the k:th nearest 
+				// neighbor. Note that the SignalPointSet stores the
+				// point iterators interleaved so that for a given time instant
+				// the samples of ensemble signals are listed sequentially.
+				// I.e. if the ensemble signals are A, B and C, then
+				// SignalPointSet stores point iterators to 
+				// A(1), B(1), C(1), A(2), B(2), C(2), etc.
+				// That is, the distance between subsequent samples of a
+				// specific signal are 'trials' samples away.
+
 				searchAllNeighbors(
 					pointSet.kdTree(),
 					DepthFirst_SearchAlgorithm_PointKdTree(),
@@ -96,54 +130,57 @@ namespace Tim
 					0,
 					&distanceArray);
 
+				// After we have found the distances, we simply evaluate
+				// the differential entropy estimator over the samples of
+				// the current time instant.
+
 				real estimate = 0;
 				for (integer i = 0;i < trials;++i)
 				{
-					// Here we should add the logarithm of 
-					// _twice_ the distance to the k:th neighbor.
-					// However, we delay this by noting that:
-					// log(dist * 2) = log(dist) + log(2)
+					// The logarithm of zero would give -infinity,
+					// so we must avoid that.
 					if (distanceArray(i) > 0)
 					{
 						estimate += normBijection.toLnNorm(distanceArray(i));
 					}
 				}
-				// Here we take into account doubling the distances.
-				estimate += trials * constantLn2<real>();
-
 				estimate *= (real)dimension / trials;
 				estimate -= digamma<real>(kNearest);
 				estimate += digamma<real>(tWidth * trials);
-				// Here we add the logarithm of the volume of 
-				// a sphere with _diameter_ 1. That is, the logarithm
-				// of the volume of a sphere with radius 1/2:
-				// log(unitVol * (1/2)^d) = log(unitVol) - d * log(2)
 				estimate += normBijection.lnVolumeUnitSphere(dimension);
-				estimate -= dimension * constantLn2<real>();
 
 				estimateSet[t] = estimate;
 			}
 			}
 
+			// Copy the results to the output.
+
 			std::copy(estimateSet.begin(), estimateSet.end(), result);
 		}
 		else
 		{
+			// In this case the time window is so big that it covers
+			// all the samples all the time. It is then equivalent and
+			// more efficient to call the non-temporal version and repeat
+			// its results.
+
 			const real estimate = 
 				Tim::differentialEntropy(
 				signalSet, 
 				maxRelativeError, kNearest,  
 				normBijection);
 
+			// Copy the results to the output.
+
 			std::fill_n(result, samples, estimate);
 		}
 	}
 
 	template <
-		typename Signal_Iterator, 
+		typename SignalPtr_Iterator, 
 		typename Real_OutputIterator>
 	void temporalDifferentialEntropy(
-		const ForwardRange<Signal_Iterator>& signalSet,
+		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
 		real maxRelativeError,
@@ -169,10 +206,6 @@ namespace Tim
 		integer kNearest,
 		const NormBijection& normBijection)
 	{
-		ENSURE_OP(timeWindowRadius, >=, 0);
-		ENSURE_OP(kNearest, >, 0);
-		ENSURE_OP(maxRelativeError, >=, 0);
-
 		Tim::temporalDifferentialEntropy(
 			forwardRange(constantIterator(signal)),
 			timeWindowRadius,
@@ -203,10 +236,10 @@ namespace Tim
 	// --------------------
 
 	template <
-		typename Signal_Iterator, 
+		typename SignalPtr_Iterator, 
 		typename NormBijection>
 	real differentialEntropy(
-		const ForwardRange<Signal_Iterator>& signalSet,
+		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		real maxRelativeError,
 		integer kNearest,
 		const NormBijection& normBijection)
@@ -221,7 +254,9 @@ namespace Tim
 
 		Array<real, 2> distanceArray(1, estimateSamples);
 		SignalPointSet pointSet(signalSet, 0, samples);
-	
+
+		// Find the distance to the k:th nearest neighbor for all points.
+
 		searchAllNeighbors(
 			pointSet.kdTree(),
 			DepthFirst_SearchAlgorithm_PointKdTree(),
@@ -234,38 +269,31 @@ namespace Tim
 			0,
 			&distanceArray);
 
+		// After we have found the distances, we simply evaluate
+		// the differential entropy estimator over all samples.
+
 		real estimate = 0;
 #pragma omp parallel for reduction(+ : estimate)
 		for (integer i = 0;i < estimateSamples;++i)
 		{
-			// Here we should add the logarithm of 
-			// _twice_ the distance to the k:th neighbor.
-			// However, we delay this by noting that:
-			// log(dist * 2) = log(dist) + log(2)
+			// The logarithm of zero would give -infinity,
+			// so we must avoid that.
 			if (distanceArray(i) > 0)
 			{
 				estimate += normBijection.toLnNorm(distanceArray(i));
 			}
 		}
-		// Here we take into account doubling the distances.
-		estimate += estimateSamples * constantLn2<real>();
-
 		estimate *= (real)dimension / estimateSamples;
 		estimate -= digamma<real>(kNearest);
 		estimate += digamma<real>(estimateSamples);
-		// Here we add the logarithm of the volume of 
-		// a sphere with _diameter_ 1. That is, the logarithm
-		// of the volume of a sphere with radius 1/2:
-		// log(unitVol * (1/2)^d) = log(unitVol) - d * log(2)
 		estimate += normBijection.lnVolumeUnitSphere(dimension);
-		estimate -= dimension * constantLn2<real>();
 
 		return estimate;
 	}
 
-	template <typename Signal_Iterator>
+	template <typename SignalPtr_Iterator>
 	real differentialEntropy(
-		const ForwardRange<Signal_Iterator>& signalSet,
+		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		real maxRelativeError,
 		integer kNearest)
 	{
@@ -283,9 +311,6 @@ namespace Tim
 		integer kNearest,
 		const NormBijection& normBijection)
 	{
-		ENSURE_OP(kNearest, >, 0);
-		ENSURE_OP(maxRelativeError, >=, 0);
-
 		return Tim::differentialEntropy(
 			forwardRange(constantIterator(signal)),
 			maxRelativeError,

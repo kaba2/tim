@@ -7,11 +7,11 @@ namespace Tim
 {
 
 	template <
-		typename Signal_Iterator,
+		typename SignalPtr_Iterator,
 		typename NormBijection,
 		typename Real_OutputIterator>
 	real mutualInformationFromEntropy(
-		const ForwardRange<Signal_Iterator>& signalSet,
+		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		integer kNearest,
 		real maxRelativeError,
@@ -26,8 +26,8 @@ namespace Tim
 			return 0;
 		}
 
-		Signal_Iterator iter = signalSet.begin();
-		Signal_Iterator iterEnd = signalSet.end();
+		SignalPtr_Iterator iter = signalSet.begin();
+		SignalPtr_Iterator iterEnd = signalSet.end();
 
 		std::vector<real> estimate;
 

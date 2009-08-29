@@ -17,8 +17,8 @@ namespace Tim
 	//! Computes mutual information between two signals.
 	/*!
 	Preconditions:
-	Signal_X_Iterator dereferences to SignalPtr.
-	Signal_Y_Iterator dereferences to SignalPtr.
+	SignalPtr_X_Iterator dereferences to SignalPtr.
+	SignalPtr_Y_Iterator dereferences to SignalPtr.
 	Real_OutputIterator dereferences to a convertible to real.
 	yLag >= 0
 	timeWindowRadius >= 0
@@ -58,12 +58,12 @@ namespace Tim
 	*/
 
 	template <
-		typename Signal_X_Iterator,
-		typename Signal_Y_Iterator,
+		typename SignalPtr_X_Iterator,
+		typename SignalPtr_Y_Iterator,
 		typename Real_OutputIterator>
 	void temporalMutualInformation(
-		const ForwardRange<Signal_X_Iterator>& xSignalSet,
-		const ForwardRange<Signal_Y_Iterator>& ySignalSet,
+		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
 		integer yLag = 0,
@@ -79,11 +79,11 @@ namespace Tim
 		integer kNearest = 1);
 
 	template <
-		typename Signal_X_Iterator,
-		typename Signal_Y_Iterator>
+		typename SignalPtr_X_Iterator,
+		typename SignalPtr_Y_Iterator>
 	real mutualInformation(
-		const ForwardRange<Signal_X_Iterator>& xSignalSet,
-		const ForwardRange<Signal_Y_Iterator>& ySignalSet,
+		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
 		integer yLag = 0,
 		integer kNearest = 1);
 
