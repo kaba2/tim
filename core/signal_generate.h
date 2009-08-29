@@ -17,7 +17,7 @@ namespace Tim
 	size >= 0
 	*/
 
-	TIMCORE SignalPtr generateUniform(
+	TIM SignalPtr generateUniform(
 		integer samples,
 		integer dimension);
 
@@ -28,7 +28,7 @@ namespace Tim
 	samples >= 0
 	*/
 
-	TIMCORE SignalPtr generateGaussian(
+	TIM SignalPtr generateGaussian(
 		integer samples,
 		integer dimension);
 
@@ -50,12 +50,12 @@ namespace Tim
 	correlation matrix being identity).
 	*/
 
-	TIMCORE SignalPtr generateCorrelatedGaussian(
+	TIM SignalPtr generateCorrelatedGaussian(
 		integer samples,
 		integer dimension,
 		const CholeskyDecompositionD& covarianceCholesky);
 
-	TIMCORE SignalPtr generateGeneralizedGaussian(
+	TIM SignalPtr generateGeneralizedGaussian(
 		integer samples,
 		integer dimension,
 		real shape,
@@ -78,7 +78,7 @@ namespace Tim
 	to temporal changes in coupling (e.g. multivariate 
 	transfer entropy) should give similar coupling curves.	
 	*/
-	TIMCORE void generateTimeVaryingCoupling(
+	TIM void generateTimeVaryingCoupling(
 		integer samples,
 		integer yxShift,
 		integer zyShift,

@@ -4,7 +4,7 @@
 namespace Tim
 {
 
-	TIMCORE SignalPtr delayEmbed(
+	TIM SignalPtr delayEmbed(
 		const SignalPtr& signal,
 		integer k,
 		integer shift,
@@ -54,7 +54,7 @@ namespace Tim
 		return embedSignal;
 	}
 
-	TIMCORE SignalPtr delayEmbedFuture(
+	TIM SignalPtr delayEmbedFuture(
 		const SignalPtr& signal,
 		integer k,
 		integer shift,
@@ -69,7 +69,7 @@ namespace Tim
 		return delayEmbed(signal, 1, futureShift);
 	}
 
-	TIMCORE integer delayEmbedFutureShift(
+	TIM integer delayEmbedFutureShift(
 		integer k, 
 		integer shift, 
 		integer step)

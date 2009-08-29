@@ -1,13 +1,16 @@
-Signal
-======
+Signal class
+============
+
+[Back to TIM C++ implementation][Parent]
+
+[Parent]: tim_cpp.txt
 
 Theory
 ------
 
 The Signal class represents a time-series in R^n. If the number of stored 
-samples from the time series is m, the data is stored as an nxm-matrix. It 
-is the intent that this data is manipulated directly via the Matrix class, 
-see its documentation in the Pastel library.
+samples from the time series is m, the data is stored as an nxm-matrix. This
+data can be manipulated directly via the Matrix class from the Pastel library.
 
 Signal aliasing
 ---------------
@@ -16,15 +19,6 @@ A Signal can use existing memory, given extents and a pointer to memory.
 This is called aliasing. You can use this ability to import data from
 other applications. However, remember that the data is assumed to be
 in row-major order (for example, Matlab uses column-major order).
-
-Fast signal splitting
----------------------
-
-Because of the storage guarantees that the Matrix class makes (sequential 
-row-major ordering), it is possible in constant time to 'split' signals
-in dimensions by aliasing. For example, if a signal is 3-dimensional, then 
-it is possible to form two new signals with dimensions 1 and 2 which share 
-to the same memory. Use the function 'split' to achieve this.
 
 Matrix interface
 ----------------
@@ -40,3 +34,7 @@ to enable the use of STL algorithms where appropriate.
 * Submatrices of a Matrix can be accessed in Matlab style, e.g.
 M(Range(0, 1), Range(0, 10, 2)).
 
+See also
+--------
+
+[Matrix class in Pastel library]: pastel/geometry/matrix.txt

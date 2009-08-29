@@ -3,7 +3,7 @@
 namespace Tim
 {
 
-	TIMCORE real differentialEntropy(
+	TIM real differentialEntropy(
 		const SignalPtr& signal,
 		real maxRelativeError,
 		integer kNearest)

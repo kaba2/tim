@@ -33,7 +33,7 @@ namespace Tim
 
 	}
 
-	TIMCORE void mutualInformationFromBinning(
+	TIM void mutualInformationFromBinning(
 		const SignalPtr& signal,
 		integer bins,
 		MatrixD& result)

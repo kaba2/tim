@@ -1,0 +1,4 @@
+Entropy combination estimation
+==============================
+
+[Parent]: estimators.txt

@@ -8,6 +8,8 @@
 
 #include <pastel/math/normbijection.h>
 
+#include <boost/iterator/reverse_iterator.hpp>
+
 namespace Tim
 {
 

@@ -1,6 +1,6 @@
 #include "mex.h"
 
-#include "tim/core/mutual_information_kraskow.h"
+#include "tim/core/mutual_information_ec.h"
 
 #include <boost/static_assert.hpp>
 

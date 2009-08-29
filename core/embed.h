@@ -28,7 +28,7 @@ namespace Tim
 	d = k n is the embedding dimension
 	*/
 
-	TIMCORE SignalPtr delayEmbed(
+	TIM SignalPtr delayEmbed(
 		const SignalPtr& signal,
 		integer k,
 		integer shift = 0,
@@ -73,13 +73,13 @@ namespace Tim
 	for the delay embedding.
 	*/
 
-	TIMCORE integer delayEmbedFutureShift(
+	TIM integer delayEmbedFutureShift(
 		integer k, 
 		integer shift = 0, 
 		integer step = 1);
 
 
-	TIMCORE SignalPtr delayEmbedFuture(
+	TIM SignalPtr delayEmbedFuture(
 		const SignalPtr& signal,
 		integer k,
 		integer shift = 0,

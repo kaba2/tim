@@ -19,7 +19,7 @@ namespace Tim
 
 	//! A time series.
 
-	class TIMCORE Signal
+	class TIM Signal
 		: public ReferenceCounted
 	{
 	private:

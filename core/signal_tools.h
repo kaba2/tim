@@ -17,7 +17,7 @@
 namespace Tim
 {
 
-	TIMCORE std::ostream& operator<<(std::ostream& stream, const Signal& signal);
+	TIM std::ostream& operator<<(std::ostream& stream, const Signal& signal);
 
 	//! Returns the minimum number of samples among the signals.
 	/*!
@@ -95,7 +95,7 @@ namespace Tim
 	The output signal will have as many samples as
 	the input signal with the least number of samples.
 	*/
-	TIMCORE SignalPtr merge(
+	TIM SignalPtr merge(
 		const SignalPtr& xSignal,
 		const SignalPtr& ySignal,
 		integer yLag = 0);
@@ -134,18 +134,18 @@ namespace Tim
 	with P and thus changes in either are reflected in
 	the other.
 	*/
-	TIMCORE SignalPtr split(
+	TIM SignalPtr split(
 		const SignalPtr& signal,
 		integer dimensionBegin,
 		integer dimensionEnd);
 
 	//! Computes the covariance of the signal samples.
-	TIMCORE void computeCovariance(
+	TIM void computeCovariance(
 		const SignalPtr& signal,
 		MatrixD& result);
 
 	//! Transforms the given signal to identity covariance.
-	TIMCORE void normalizeCovariance(
+	TIM void normalizeCovariance(
 		const SignalPtr& signal,
 		const MatrixD& covariance);
 

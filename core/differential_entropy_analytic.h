@@ -23,7 +23,7 @@ namespace Tim
 	Returns:
 	The differential entropy of the distribution.
 	*/
-	TIMCORE real gaussianDifferentialEntropy(
+	TIM real gaussianDifferentialEntropy(
 		integer dimension, real covarianceDeterminant);
 
 	//! Differential entropy of a uniform distribution.
@@ -38,7 +38,7 @@ namespace Tim
 	Returns:
 	The differential entropy of the distribution.
 	*/
-	TIMCORE real uniformDifferentialEntropy(
+	TIM real uniformDifferentialEntropy(
 		real supportVolume);
 
 	//! Differential entropy of a generalized gaussian distribution.
@@ -60,7 +60,7 @@ namespace Tim
 	Returns:
 	The differential entropy of the distribution.
 	*/
-	TIMCORE real generalizedGaussianDifferentialEntropy(
+	TIM real generalizedGaussianDifferentialEntropy(
 		integer dimension, real shape, real scale);
 
 }

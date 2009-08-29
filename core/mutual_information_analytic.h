@@ -14,7 +14,7 @@ namespace Tim
 	random variables (X_1, ..., X_m). Then the mutual information
 	(total correlation) between X_i is given by:
 	
-	I(X_1, ..., X_m) = 0.5 (|cov(X_1)| ... |cov(X_m)| / |cov(X))
+	I(X_1, ..., X_m) = 0.5 log((|cov(X_1)| ... |cov(X_m)| / |cov(X)))
 
 	marginalCovarianceDeterminantProduct:
 	|cov(X_1)| ... |cov(X_m)|
@@ -23,7 +23,7 @@ namespace Tim
 	|cov(X)|
 	*/
 
-	TIMCORE real correlatedGaussianMutualInformation(
+	TIM real correlatedGaussianMutualInformation(
 		real marginalCovarianceDeterminantProduct,
 		real jointCovarianceDeterminant);
 
