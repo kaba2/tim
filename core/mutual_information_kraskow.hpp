@@ -75,7 +75,7 @@ namespace Tim
 				return 0;
 			}
 
-			return entropyCombination2(
+			return entropyCombination(
 				forwardRange(jointSignalSet.begin(), jointSignalSet.end()),
 				forwardRange(rangeSet),
 				kNearest);

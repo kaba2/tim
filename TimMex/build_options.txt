@@ -1,4 +1,5 @@
--I'e:\ohjelmointi\hgproject\pastel_main\' -I'e:\ohjelmointi\hgproject\'
+-I'e:\ohjelmointi\hgproject\pastel_main\' 
+-I'e:\ohjelmointi\hgproject\'
 -I'e:\ohjelmointi\external\boost_1_38'
 -L'e:\ohjelmointi\hgproject\pastel_main\pastel\lib'
 -L'e:\ohjelmointi\hgproject\tim\lib'

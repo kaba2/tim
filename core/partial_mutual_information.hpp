@@ -55,7 +55,7 @@ namespace Tim
 			jointSignalSet.reserve(trials);
 
 			merge(xSignalSet, zSignalSet, ySignalSet,
-				std::back_inserter(jointSignalSet), yLag, zLag);
+				std::back_inserter(jointSignalSet), zLag, yLag);
 
 			// Describe the marginal signals.
 
@@ -101,7 +101,7 @@ namespace Tim
 	void temporalPartialMutualInformation(
 		const ForwardRange<Signal_X_Iterator>& xSignalSet,
 		const ForwardRange<Signal_Y_Iterator>& ySignalSet,
-		const ForwardRange<Signal_Y_Iterator>& zSignalSet,
+		const ForwardRange<Signal_Z_Iterator>& zSignalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
 		integer yLag,

@@ -1,3 +1,6 @@
+// Description: Signal class
+// Detail: Models a time series
+
 #ifndef TIM_SIGNAL_H
 #define TIM_SIGNAL_H
 

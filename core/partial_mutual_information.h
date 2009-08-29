@@ -60,4 +60,6 @@ namespace Tim
 
 }
 
+#include "tim/core/partial_mutual_information.hpp"
+
 #endif

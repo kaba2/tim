@@ -48,7 +48,7 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				DisableLanguageExtensions="true"
-				OpenMP="false"
+				OpenMP="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="4"
@@ -127,7 +127,7 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				DisableLanguageExtensions="true"
-				OpenMP="false"
+				OpenMP="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
@@ -180,6 +180,34 @@
 	</References>
 	<Files>
 		<File
+			RelativePath=".\differential_entropy.m"
+			>
+		</File>
+		<File
+			RelativePath=".\mutual_information.m"
+			>
+		</File>
+		<File
+			RelativePath=".\mutual_information_naive.m"
+			>
+		</File>
+		<File
+			RelativePath=".\partial_mutual_information.m"
+			>
+		</File>
+		<File
+			RelativePath=".\temporal_differential_entropy.m"
+			>
+		</File>
+		<File
+			RelativePath=".\temporal_mutual_information.m"
+			>
+		</File>
+		<File
+			RelativePath=".\temporal_partial_mutual_information.m"
+			>
+		</File>
+		<File
 			RelativePath=".\timDifferentialEntropy.cpp"
 			>
 		</File>
@@ -209,6 +237,10 @@
 		</File>
 		<File
 			RelativePath=".\timTransferEntropy.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\transfer_entropy.m"
 			>
 		</File>
 	</Files>

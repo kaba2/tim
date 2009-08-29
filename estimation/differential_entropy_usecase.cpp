@@ -1,4 +1,5 @@
 #include "tim/core/differential_entropy.h"
+#include "tim/core/signal_tools.h"
 
 #include <pastel/sys/nulliterator.h>
 
@@ -11,8 +12,8 @@ namespace
 
 	void useCase()
 	{
-		SignalPtr xSignal;
-		SignalPtr ySignal;
+		SignalPtr xSignal = generateGaussian(10000, 3);
+		SignalPtr ySignal = generateGaussian(10000, 5);
 
 		SignalPtr signalSet[2] = {xSignal, ySignal};
 

@@ -1,4 +1,4 @@
-// Description: Tools to generate various signals.
+// Description: Tools to generate various signals
 
 #ifndef TIM_SIGNAL_GENERATE_H
 #define TIM_SIGNAL_GENERATE_H

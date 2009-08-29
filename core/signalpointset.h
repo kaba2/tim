@@ -1,3 +1,6 @@
+// Description: SignalPointSet class
+// Detail: Models a semi-dynamic point set
+
 #ifndef TIM_SIGNALPOINTSET_H
 #define TIM_SIGNALPOINTSET_H
 
@@ -17,16 +20,6 @@
 namespace Tim
 {
 
-	class TIMCORE SignalPointSet_TimeWindow
-	{
-	public:
-		enum Enum
-		{
-			StartFull,
-			StartEmpty
-		};
-	};
-
 	class TIMCORE SignalPointSet
 		: public ReferenceCounted
 	{
@@ -45,14 +38,19 @@ namespace Tim
 
 		template <typename Signal_Iterator>
 		explicit SignalPointSet(
+			const ForwardRange<Signal_Iterator>& signalSet);
+
+		template <typename Signal_Iterator>
+		SignalPointSet(
 			const ForwardRange<Signal_Iterator>& signalSet,
-			SignalPointSet_TimeWindow::Enum timeWindowStart = 
-			SignalPointSet_TimeWindow::StartEmpty);
+			integer timeBegin,
+			integer timeEnd);
 
 		template <typename Signal_Iterator>
 		explicit SignalPointSet(
 			const ForwardRange<Signal_Iterator>& signalSet,
-			SignalPointSet_TimeWindow::Enum timeWindowStart,
+			integer timeBegin,
+			integer timeEnd,
 			integer dimensionBegin,
 			integer dimensionEnd);
 
@@ -90,12 +88,14 @@ namespace Tim
 		SignalPointSet(const SignalPointSet& that);
 
 		void construct(
-			SignalPointSet_TimeWindow::Enum timeWindowStart,
+			integer timeBegin,
+			integer timeEnd,
 			integer dimensionBegin,
 			integer dimensionEnd);
 
 		KdTree kdTree_;
 		std::vector<SignalPtr> signalSet_;
+		std::vector<const real*> pointSet_;
 		ObjectSet objectSet_;
 		integer samples_;
 		integer timeBegin_;

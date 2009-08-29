@@ -68,7 +68,7 @@ namespace
 
 		const integer samples = 10000;
 		const integer timeWindowRadius = samples;
-		const integer kNearest = 10;
+		const integer kNearest = 1;
 		const real maxRelativeError = 0;
 
 		log() << "2d correlated gaussian" << logNewLine;

@@ -1,4 +1,4 @@
-// Description: Some analytical solutions of differential entropies
+// Description: Analytical solutions for differential entropies
 
 #ifndef TIM_DIFFERENTIAL_ENTROPY_ANALYTIC_H
 #define TIM_DIFFERENTIAL_ENTROPY_ANALYTIC_H

@@ -1,0 +1,81 @@
+Estimators
+==========
+
+[Back to TIM C++ implementation][Parent]
+
+[Parent]: tim_cpp.htm
+
+Theory
+------
+
+Let X, Y, Z, and w be random variables.
+
+### Differential entropy ###
+
+Assume that X is distributed according to a probability 
+density function \mu in some space V with a probability 
+measure. Then differential entropy is defined by:
+
+H(X) = -int_V mu(x) log(mu(x)) dx
+
+While this formula looks similar to the definition of
+discrete entropy, it does not generalize its properties.
+The role of differential entropy is two-fold. First, it is
+a syntactic device for describing other information theoretic 
+concepts which are defined as combinations of differential 
+entropies. Second, when transforming data to minimize mutual 
+information, it is equivalent to minimize differential entropies, 
+which can be a bit more efficient. This makes the estimation of
+differential entropies by themself useful.
+
+### Mutual information ###
+
+Mutual information is defined by:
+
+\I(X, Y) = H(X) + H(Y) - H(X Y)
+
+It measures the amount of information shared by X and Y.
+It holds that \I(X, Y) = 0 <=> X and Y are independent.
+
+### Partial mutual information ###
+
+Partial mutual information is defined by:
+
+\I(X, Y ; Z) = H(X Z) + H(Z Y) - H(Z) - H(X Z Y)
+
+It measures the amount of information shared by X and Y
+while discounting the possibility that Z drives both X and Y.
+
+### Multivariate transfer entropy ###
+
+Multivariate transfer entropy is defined by:
+
+T(w, X, Y ; Z) = H(w X Z) + H(X, Z, Y) - H(X Z) - H(w X Z Y)
+
+where w is the future of X. It measures the amount of directed
+information flow from X to Y while discounting the possibility
+that Z drives both X and Y.
+
+### Entropy combination ###
+
+C(X_{L_1}, ..., X_{L_m}) = [sum_{i = 1}^m s_i H(X_{L_i})] - H(X)
+
+where X = (X_{L_1} \cdots X_{L_m}), \forall i: L_i sub [1, m] and s_i in {-1, 1} such that 
+sum_{i = 1}^m s_i chi_{L_i} = chi_{[1, m]}, where chi_S is the characteristic 
+function of a set S. 
+
+Practice
+--------
+
+TIM implements an estimator for differential entropy as
+well as a robust unified algorithm for the computation of a general 
+class of entropy combinations. The implementations of
+mutual information, transfer entropy, etc. then simply
+redirect to this generic algorithm.
+The implementation of the entropy combination estimator requires
+additionally that each L_i is an interval. This allows to save
+memory by allowing the memory for the joint signal to be
+shared with the marginal signals. It is easily seen that mutual
+information, partial mutual information, and transfer entropy can 
+all be arranged to have this property.
+

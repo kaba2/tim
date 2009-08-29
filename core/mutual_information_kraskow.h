@@ -1,4 +1,4 @@
-// Description: Mutual information estimation via Kraskow's algorithm
+// Description: Mutual information estimation via entropy combination
 
 #ifndef TIM_MUTUAL_INFORMATION_KRASKOW_H
 #define TIM_MUTUAL_INFORMATION_KRASKOW_H

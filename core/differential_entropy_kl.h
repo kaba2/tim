@@ -1,4 +1,4 @@
-// Description: Kozachenko-Leonenko differential entropy estimation
+// Description: Differential entropy estimation via Kozachenko-Leonenko 
 
 #ifndef TIM_DIFFERENTIAL_ENTROPY_KL_H
 #define TIM_DIFFERENTIAL_ENTROPY_KL_H
