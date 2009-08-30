@@ -42,7 +42,7 @@ function H = temporal_differential_entropy(...
 % passes the transpose of the intended data.
 maxDimension = 32;
 
-if nargin < 1
+if nargin < 2
     error('Not enough input arguments.');
 end
 
@@ -123,5 +123,5 @@ if threads < 1
     error('THREADS must be at least 1.');
 end
 
-%H = timTemporalDifferentialEntropy(...
-%    S, timeWindowRadius, epsilon, k, threads);
+H = timTemporalDifferentialEntropy(...
+    S, timeWindowRadius, epsilon, k, threads);

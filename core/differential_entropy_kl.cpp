@@ -10,7 +10,7 @@ namespace Tim
 	{
 		return Tim::differentialEntropy(
 			signal, maxRelativeError,
-			kNearest, Euclidean_NormBijection<real>());
+			kNearest, Default_NormBijection());
 	}
 
 }

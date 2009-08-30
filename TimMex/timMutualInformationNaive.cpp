@@ -15,25 +15,8 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	};
 	BOOST_STATIC_ASSERT(RealIsDouble);
 
-	//% MUTUAL_INFORMATION_NAIVE
-	//% A mutual information estimate from samples.
-	//%
-	//% I = mutual_information_naive(S, bins)
-	//%
-	//% where
-	//%
-	//% S is a real (m x n)-matrix that contains n samples of an
-	//% m-dimensional signal.
-	//%
-	//% BINS determines the number of bins to use for 1d
-	//% distribution estimation. Default 100.
-
-	// It is intentional to assign the width
-	// and height the wrong way. The reason
-	// is that Matlab uses column-major storage
-	// while we use row-major storage.
-	const mwSize samples = mxGetN(inputSet[0]);
-	const mwSize dimension = mxGetM(inputSet[0]);
+	const integer samples = mxGetN(inputSet[0]);
+	const integer dimension = mxGetM(inputSet[0]);
 
 	real* rawData = mxGetPr(inputSet[0]);
 	integer bins = *mxGetPr(inputSet[1]);

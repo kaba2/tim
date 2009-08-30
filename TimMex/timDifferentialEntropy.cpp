@@ -46,10 +46,10 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	// and height the wrong way. The reason
 	// is that Matlab uses column-major storage
 	// while we use row-major storage.
-	const mwSize signals = mxGetDimensions(inputSet[0])[0];
-	const mwSize trials = mxGetDimensions(inputSet[0])[1];
+	const mwSize trials = mxGetNumberOfElements(inputSet[0]);
 
-	std::vector<SignalPtr> xEnsemble(trials);
+	std::vector<SignalPtr> xEnsemble;
+	xEnsemble.reserve(trials);
 
 	for (integer i = 0;i < trials;++i)
 	{
@@ -64,16 +64,17 @@ void mexFunction(int outputs, mxArray *outputSet[],
 
 		real* rawData = mxGetPr(signalArray);
 
-		xEnsemble[i] = SignalPtr(
-			new Signal(samples, dimension, rawData));
+		xEnsemble.push_back(SignalPtr(
+			new Signal(samples, dimension, rawData)));
 	}
 
-	const integer timeWindowRadius = *mxGetPr(inputSet[1]);
-	const real maxRelativeError = *mxGetPr(inputSet[2]);
-	const integer kNearest = *mxGetPr(inputSet[3]);
-	const integer threads = *mxGetPr(inputSet[4]);
+	const real maxRelativeError = *mxGetPr(inputSet[1]);
+	const integer kNearest = *mxGetPr(inputSet[2]);
+	const integer threads = *mxGetPr(inputSet[3]);
 
+#if PASTEL_OMP != 0
 	omp_set_num_threads(threads);
+#endif
 	
 	outputSet[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
 	real* rawResult = mxGetPr(outputSet[0]);
@@ -81,6 +82,5 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	*rawResult = differentialEntropy(
 		forwardRange(xEnsemble.begin(), xEnsemble.end()), 
 		maxRelativeError,
-		kNearest, 
-		Euclidean_NormBijection<real>());
+		kNearest);
 }

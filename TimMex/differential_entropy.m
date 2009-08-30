@@ -67,11 +67,17 @@ if signals < 1
     error('S must contain at least 1 signal.');
 end
 
+dimension = size(S{1}, 1);
+
 for i = 1 : signals
     if ~isa(S{i}, 'double')
         error('Some signal of S is not of type double.');
     end
 
+    if size(S{i}, 1) ~= dimension
+        error(['The dimensions of the trials do not match.']);
+    end
+    
     if size(S{i}, 1) > maxDimension
         error(['Some signal of S has dimension greater than ', ...
             int2str(maxDimension), '.']);

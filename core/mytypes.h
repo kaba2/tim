@@ -9,10 +9,14 @@
 #include <pastel/sys/mytypes.h>
 #include <pastel/sys/vector_tools.h>
 
+#include <pastel/math/infinity_normbijection.h>
+
 namespace Tim
 {
 
 	using namespace Pastel;
+
+	typedef Infinity_NormBijection<real> Default_NormBijection;
 
 }
 

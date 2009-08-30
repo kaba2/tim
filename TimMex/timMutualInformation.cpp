@@ -17,37 +17,10 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	};
 	BOOST_STATIC_ASSERT(RealIsDouble);
 
-	//% MUTUAL_INFORMATION 
-	//% A mutual information estimate from samples.
-	//%
-	//% I = mutual_information(X, Y, yLag, k, threads)
-	//%
-	//% where
-	//%
-	//% X and Y are arbitrary-dimensional cell-arrays whose linearizations
-	//% contain q trials of signal x and y, respectively.
-	//%
-	//% YLAG is the lag in samples which is applied to signal Y.
-	//%
-	//% K determines which k:th nearest neighbor the algorithm
-	//% uses for estimation. Default 1.
-	//%
-	//% THREADS determines the number of threads to use for parallelization.
-	//% To fully take advantage of multiple cores in your machine, set this
-	//% to the number of cores in your machine. Note however that this makes 
-	//% your computer unresponsive to other tasks. When you need responsiveness, 
-	//% spare one core for other work. Default 1 (no parallelization).
-	//%
-	//% Each signal is a real (m x n)-matrix that contains n samples of an
-	//% m-dimensional signal. The dimensions of X and Y need not coincide.
-	//% However, the number of trials has to coincide.
-	//% If the number of samples varies with trials, the function uses 
-	//% the minimum sample count among the trials of X and Y.
+	const integer trials = mxGetNumberOfElements(inputSet[0]);
 
-	const mwSize signals = mxGetDimensions(inputSet[0])[0];
-	const mwSize trials = mxGetDimensions(inputSet[0])[1];
-
-	std::vector<SignalPtr> xEnsemble(trials);
+	std::vector<SignalPtr> xEnsemble;
+	xEnsemble.reserve(trials);
 
 	for (integer i = 0;i < trials;++i)
 	{
@@ -62,11 +35,12 @@ void mexFunction(int outputs, mxArray *outputSet[],
 
 		real* rawData = mxGetPr(signalArray);
 
-		xEnsemble[i] = SignalPtr(
-			new Signal(samples, dimension, rawData));
+		xEnsemble.push_back(SignalPtr(
+			new Signal(samples, dimension, rawData)));
 	}
 
-	std::vector<SignalPtr> yEnsemble(trials);
+	std::vector<SignalPtr> yEnsemble;
+	yEnsemble.reserve(trials);
 
 	for (integer i = 0;i < trials;++i)
 	{
@@ -81,16 +55,17 @@ void mexFunction(int outputs, mxArray *outputSet[],
 
 		real* rawData = mxGetPr(signalArray);
 
-		yEnsemble[i] = SignalPtr(
-			new Signal(samples, dimension, rawData));
+		yEnsemble.push_back(SignalPtr(
+			new Signal(samples, dimension, rawData)));
 	}
 
 	const integer yLag = *mxGetPr(inputSet[2]);
-	const integer timeWindowRadius = *mxGetPr(inputSet[3]);
-	const integer kNearest = *mxGetPr(inputSet[4]);
-	const integer threads = *mxGetPr(inputSet[5]);
+	const integer kNearest = *mxGetPr(inputSet[3]);
+	const integer threads = *mxGetPr(inputSet[4]);
 
+#if PASTEL_OMP != 0
 	omp_set_num_threads(threads);
+#endif
 
 	outputSet[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
 	real* rawResult = mxGetPr(outputSet[0]);

@@ -73,7 +73,7 @@ namespace Tim
 
 			pointSet.push_back(
 				SignalPointSetPtr(new SignalPointSet(
-				signalSet, samples, samples,
+				signalSet, false,
 				range[0], range[1])));
 
 			weightSet.push_back(range[2]);
@@ -183,7 +183,7 @@ namespace Tim
 
 		// Construct point sets
 
-		SignalPointSet jointPointSet(signalSet, 0, samples);
+		SignalPointSet jointPointSet(signalSet, true);
 	
 		std::vector<integer> weightSet;
 		weightSet.reserve(signals);
@@ -196,7 +196,7 @@ namespace Tim
 			const Integer3& range = *iter;
 			pointSet.push_back(
 				SignalPointSetPtr(new SignalPointSet(
-				signalSet, 0, samples,
+				signalSet, true,
 				range[0], range[1])));
 			weightSet.push_back(range[2]);
 			++iter;

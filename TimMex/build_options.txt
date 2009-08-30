@@ -9,4 +9,4 @@
 -lpasteldevice
 -lpasteldsp
 -lpastelgfx
--ltimcore
+-ltim
