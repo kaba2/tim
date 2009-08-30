@@ -21,8 +21,8 @@ namespace
 		const SignalPtr& signal,
 		real correct)
 	{
-		//Euclidean_NormBijection<real> normBijection;
-		Infinity_NormBijection<real> normBijection;
+		Euclidean_NormBijection<real> normBijection;
+		//Infinity_NormBijection<real> normBijection;
 		//Manhattan_NormBijection<real> normBijection;
 
 		const integer kNearest = 1;
@@ -37,19 +37,21 @@ namespace
 		const real maxRelativeError = 0;
 		//const integer timeWindowRadius = signal->samples() / 10;
 
-		const real estimate = differentialEntropy(
-			signal, maxRelativeError, kNearest, 
-			normBijection);
+		SignalPtr signalSet[] = {signal, signal};
 
 		/*
+		const real estimate = differentialEntropy(
+			forwardRange(signalSet), maxRelativeError, kNearest, 
+			normBijection);
+		*/
+
 		std::vector<real> entropySet;
 		entropySet.reserve(signal->samples());
 		temporalDifferentialEntropy(
-			signal, signal->samples(), std::back_inserter(entropySet), 
+			forwardRange(signalSet), signal->samples() / 10, std::back_inserter(entropySet), 
 			maxRelativeError, kNearest, normBijection);
 		const real estimate = std::accumulate(entropySet.begin(), entropySet.end(), (real)0) /
 			entropySet.size();
-		*/
 
 		/*
 		log() << name << ": " << estimate << ", correct: " 
@@ -72,7 +74,7 @@ namespace
 		log() << "Relative errors to correct analytic results shown in brackets." << logNewLine;
 
 		const integer dimension = 10;
-		const integer samples = 1000;
+		const integer samples = 10000;
 
 		testDifferentialEntropyCase(
 			"Gaussian(0, 1)",

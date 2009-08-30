@@ -66,7 +66,7 @@ namespace Tim
 
 	temporalDifferentialEntropy(
 		signalSet, timeWindowRadius, result, 
-		maxRelativeError, kNearest, Euclidean_NormBijection());
+		maxRelativeError, kNearest, Default_NormBijection());
 
 	See the documentation for that function.
 	*/
@@ -86,7 +86,7 @@ namespace Tim
 
 	temporalDifferentialEntropy(
 		signalSet, timeWindowRadius, result, 
-		maxRelativeError, kNearest, Euclidean_NormBijection());
+		maxRelativeError, kNearest, Default_NormBijection());
 
 	See the documentation for that function.
 	*/
@@ -109,7 +109,7 @@ namespace Tim
 	temporalDifferentialEntropy(
 		forwardRange(constantIterator(signal)),
 		timeWindowRadius, result, maxRelativeError, 
-		kNearest, Euclidean_NormBijection());
+		kNearest, Default_NormBijection());
 
 	See the documentation for that function.
 	*/
@@ -169,7 +169,7 @@ namespace Tim
 
 	differentialEntropy(
 		signalSet, maxRelativeError, kNearest, 
-		Euclidean_NormBijection());
+		Default_NormBijection());
 
 	See the documentation for that function.
 	*/
@@ -206,7 +206,7 @@ namespace Tim
 
 	differentialEntropy(
 		signal, maxRelativeError,
-		kNearest, Euclidean_NormBijection());
+		kNearest, Default_NormBijection());
 
 	See the documentation for that function.
 	*/

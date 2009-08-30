@@ -9,8 +9,6 @@
 #include <pastel/sys/countingiterator.h>
 #include <pastel/sys/randomaccessrange.h>
 
-#include <pastel/math/euclidean_normbijection.h>
-
 #include <pastel/geometry/search_all_neighbors_pointkdtree.h>
 
 #include <algorithm>
@@ -67,7 +65,6 @@ namespace Tim
 		const integer trials = signalSet.size();
 		const integer samples = minSamples(signalSet);
 		const integer dimension = signalSet.front()->dimension();
-		const integer timeWindowRadiusSamples = 2 * timeWindowRadius + 1;
 
 		if (timeWindowRadius < samples - 1)
 		{
@@ -86,8 +83,9 @@ namespace Tim
 			// know how else this could be done.
 
 			Array<real, 2> distanceArray(1, trials);
-			SignalPointSet pointSet(signalSet, 
-				0, std::min(timeWindowRadius + 1, samples));
+			SignalPointSet pointSet(signalSet);
+
+			pointSet.setTimeWindow(0, timeWindowRadius + 1);
 
 #pragma omp for
 			for (integer t = 0;t < samples;++t)
@@ -192,7 +190,7 @@ namespace Tim
 			result,
 			maxRelativeError,
 			kNearest,
-			Euclidean_NormBijection<real>());
+			Default_NormBijection());
 	}
 
 	template <
@@ -229,7 +227,7 @@ namespace Tim
 			result,
 			maxRelativeError,
 			kNearest, 
-			Euclidean_NormBijection<real>());
+			Default_NormBijection());
 	}
 
 	// Differential entropy
@@ -247,13 +245,14 @@ namespace Tim
 		ENSURE_OP(kNearest, >, 0);
 		ENSURE_OP(maxRelativeError, >=, 0);
 
+		SignalPointSet pointSet(signalSet, true);
+
 		const integer trials = signalSet.size();
-		const integer samples = minSamples(signalSet);
+		const integer samples = pointSet.samples();
 		const integer dimension = signalSet.front()->dimension();
 		const integer estimateSamples = samples * trials;
 
 		Array<real, 2> distanceArray(1, estimateSamples);
-		SignalPointSet pointSet(signalSet, 0, samples);
 
 		// Find the distance to the k:th nearest neighbor for all points.
 
@@ -301,7 +300,7 @@ namespace Tim
 			signalSet,
 			maxRelativeError,
 			kNearest,
-			Euclidean_NormBijection<real>());
+			Default_NormBijection());
 	}
 
 	template <typename NormBijection>

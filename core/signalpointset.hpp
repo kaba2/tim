@@ -10,68 +10,82 @@ namespace Tim
 
 	template <typename SignalPtr_Iterator>
 	SignalPointSet::SignalPointSet(
-		const ForwardRange<SignalPtr_Iterator>& signalSet)
+		const ForwardRange<SignalPtr_Iterator>& signalSet,
+		bool startFull)
 		: kdTree_(ofDimension(signalSet.empty() ? 0 : signalSet.front()->dimension()))
-		, signalSet_(signalSet.begin(), signalSet.end())
 		, pointSet_()
 		, objectSet_()
-		, samples_(minSamples(signalSet))
-		, timeBegin_(samples_)
-		, timeEnd_(samples_)
+		, signals_(signalSet.size())
+		, samples_(0)
+		, timeBegin_(0)
+		, timeEnd_(0)
 		, dimensionBegin_(0)
-		, dimension_(0)
+		, dimension_(kdTree_.dimension())
 	{
 		ENSURE(!signalSet.empty());
 		PENSURE(equalDimension(signalSet));
 
-		construct(samples_, samples_, 
-			0, signalSet.front()->dimension());
+		createPointSet(signalSet);
+
+		construct(startFull);
 	}
 
 	template <typename SignalPtr_Iterator>
 	SignalPointSet::SignalPointSet(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
-		integer timeBegin,
-		integer timeEnd)
-		: kdTree_(ofDimension(signalSet.empty() ? 0 : signalSet.front()->dimension()))
-		, signalSet_(signalSet.begin(), signalSet.end())
-		, pointSet_()
-		, objectSet_()
-		, samples_(minSamples(signalSet))
-		, timeBegin_(samples_)
-		, timeEnd_(samples_)
-		, dimensionBegin_(0)
-		, dimension_(0)
-	{
-		ENSURE(!signalSet.empty());
-		PENSURE(equalDimension(signalSet));
-
-		construct(timeBegin, timeEnd, 
-			0, signalSet.front()->dimension());
-	}
-
-	template <typename SignalPtr_Iterator>
-	SignalPointSet::SignalPointSet(
-		const ForwardRange<SignalPtr_Iterator>& signalSet,
-		integer timeBegin,
-		integer timeEnd,
+		bool startFull,
 		integer dimensionBegin,
 		integer dimensionEnd)
 		: kdTree_(ofDimension(dimensionEnd - dimensionBegin))
-		, signalSet_(signalSet.begin(), signalSet.end())
 		, pointSet_()
 		, objectSet_()
-		, samples_(minSamples(signalSet))
-		, timeBegin_(samples_)
-		, timeEnd_(samples_)
-		, dimensionBegin_(0)
-		, dimension_(0)
+		, signals_(signalSet.size())
+		, samples_(0)
+		, timeBegin_(0)
+		, timeEnd_(0)
+		, dimensionBegin_(dimensionBegin)
+		, dimension_(dimensionEnd - dimensionBegin)
 	{
 		ENSURE(!signalSet.empty());
 		PENSURE(equalDimension(signalSet));
+		ENSURE_OP(dimensionBegin, <=, dimensionEnd);
+		ENSURE_OP(dimensionBegin, >=, 0);
+		ENSURE_OP(dimensionEnd, <=, signalSet.front()->dimension());
 
-		construct(timeBegin, timeEnd,
-			dimensionBegin, dimensionEnd);
+		createPointSet(signalSet);
+
+		construct(startFull);
+	}
+
+	// Private
+
+	template <typename SignalPtr_Iterator>
+	void SignalPointSet::createPointSet(
+		const ForwardRange<SignalPtr_Iterator>& signalSet)
+	{
+		const integer signals = signalSet.size();
+		const integer samples = minSamples(signalSet);
+
+		// Store points in an interleaved
+		// manner.
+
+		pointSet_.resize(samples * signals);
+
+		SignalPtr_Iterator iter = signalSet.begin();
+		for (integer i = 0;i < signals;++i)
+		{
+			SignalPtr signal = *iter;
+			for (integer t = 0;t < samples;++t)
+			{
+				pointSet_[t * signals + i] = 
+					signal->pointBegin(dimensionBegin_)[t];
+			}
+			
+			++iter;
+		}
+
+		signals_ = signals;
+		samples_ = samples;
 	}
 
 }

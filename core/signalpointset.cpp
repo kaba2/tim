@@ -18,84 +18,39 @@ namespace Tim
 		ENSURE(false);
 	}
 
-	void SignalPointSet::construct(
-		integer timeBegin,
-		integer timeEnd,
-		integer dimensionBegin,
-		integer dimensionEnd)
+	void SignalPointSet::construct(bool startFull)
 	{
-		ENSURE_OP(timeBegin, <=, timeEnd);
-		ENSURE_OP(timeBegin, >=, 0);
-		ENSURE_OP(timeEnd, <=, samples_);
-		ENSURE_OP(dimensionBegin, <=, dimensionEnd);
-		ENSURE_OP(dimensionBegin, >=, 0);
-		ENSURE_OP(dimensionEnd, <=, signalSet_.front()->dimension());
-
-		dimensionBegin_ = dimensionBegin;
-		dimension_ = dimensionEnd - dimensionBegin;
-
-		const integer signals = signalSet_.size();
-
-		// Store points in an interleaved
-		// manner.
-
-		pointSet_.reserve(samples_ * signals);
-
-		for (integer t = 0;t < samples_;++t)
-		{
-			for (integer i = 0;i < signals;++i)
-			{
-				pointSet_.push_back(
-					signalSet_[i]->pointBegin(dimensionBegin_)[t]);
-			}
-		}
-
-		const integer timeWidth = timeEnd - timeBegin;
-		const bool gonnaEraseAll = 
-			timeWidth <= samples_ / 2;
-
 		// Insert all the points into the tree.
 
-		if (gonnaEraseAll)
+		if (startFull)
 		{
-			kdTree_.insert(pointSet_.begin(), pointSet_.end());
+			kdTree_.insert(pointSet_.begin(), pointSet_.end(), 
+				std::back_inserter(objectSet_));
+			
+			timeBegin_ = 0;
+			timeEnd_ = pointSet_.size();
 		}
 		else
 		{
-			kdTree_.insert(
-				pointSet_.begin(), 
-				pointSet_.begin() + timeBegin);
-			kdTree_.insert(
-				pointSet_.begin() + timeBegin, 
-				pointSet_.begin() + timeEnd,
-				std::back_inserter(objectSet_));
-			kdTree_.insert(
-				pointSet_.begin() + timeEnd, 
-				pointSet_.end());
-			
-			timeBegin_ = timeBegin;
-			timeEnd_ = timeEnd;
+			kdTree_.insert(pointSet_.begin(), pointSet_.end());
 		}
 
 		// Compute a fine subdivision for the points.
 
 		kdTree_.refine(SlidingMidpoint2_SplitRule_PointKdTree());
 
-		// Set the initial time window.
-
-		if (gonnaEraseAll)
+		if (!startFull)
 		{
 			kdTree_.eraseObjects();
-			setTimeWindow(timeBegin, timeEnd);
 		}
 	}
 
 	void SignalPointSet::swap(SignalPointSet& that)
 	{
 		kdTree_.swap(that.kdTree_);
-		signalSet_.swap(that.signalSet_);
 		pointSet_.swap(that.pointSet_);
 		objectSet_.swap(that.objectSet_);
+		std::swap(signals_, that.signals_);
 		std::swap(samples_, that.samples_);
 		std::swap(timeBegin_, that.timeBegin_);
 		std::swap(timeEnd_, that.timeEnd_);
@@ -111,19 +66,12 @@ namespace Tim
 	void SignalPointSet::setTimeWindow(integer newTimeBegin, integer newTimeEnd)
 	{
 		ENSURE_OP(newTimeBegin, <=, newTimeEnd);
-		ENSURE_OP(newTimeBegin, >=, 0);
-		ENSURE_OP(newTimeEnd, <=, samples_);
 
-		if (newTimeBegin == newTimeEnd)
-		{
-			newTimeBegin = samples_;
-			newTimeEnd = samples_;
-		}
-
-		const integer signals = signalSet_.size();
+		newTimeBegin = clamp(newTimeBegin, 0, samples_);
+		newTimeEnd = clamp(newTimeEnd, 0, samples_);
 
 		if (newTimeBegin >= timeEnd_ || newTimeEnd <= timeBegin_ ||
-			newTimeBegin == newTimeEnd)
+			newTimeBegin == newTimeEnd || timeBegin_ == timeEnd_)
 		{
 			// The time windows do not share any
 			// elements. Clear all objects from
@@ -135,8 +83,8 @@ namespace Tim
 			// And insert the new ones.
 
 			kdTree_.insert(
-				pointSet_.begin() + newTimeBegin * signals,
-				pointSet_.begin() + newTimeEnd * signals,
+				pointSet_.begin() + newTimeBegin * signals_,
+				pointSet_.begin() + newTimeEnd * signals_,
 				std::back_inserter(objectSet_));
 		}
 		else
@@ -150,7 +98,7 @@ namespace Tim
 			{
 				// Remove objects from the right.
 
-				const integer amount = deltaRight * signals;
+				const integer amount = deltaRight * signals_;
 				for (integer i = 0;i < amount;++i)
 				{
 					kdTree_.erase(objectSet_.back());
@@ -159,11 +107,11 @@ namespace Tim
 			}
 			else if (deltaRight < 0)
 			{
-				// Adds objects to the right.
+				// Add objects to the right.
 
 				kdTree_.insert(
-					pointSet_.begin() + timeEnd_ * signals,
-					pointSet_.begin() + newTimeEnd * signals,
+					pointSet_.begin() + timeEnd_ * signals_,
+					pointSet_.begin() + newTimeEnd * signals_,
 					std::back_inserter(objectSet_));
 			}
 
@@ -174,16 +122,16 @@ namespace Tim
 
 				kdTree_.insert(
 					boost::make_reverse_iterator(
-					pointSet_.begin() + timeBegin_ * signals),
+					pointSet_.begin() + timeBegin_ * signals_),
 					boost::make_reverse_iterator(
-					pointSet_.begin() + newTimeBegin * signals),
+					pointSet_.begin() + newTimeBegin * signals_),
 					std::front_inserter(objectSet_));
 			}
 			else if (deltaLeft < 0)
 			{
 				// Remove objects from the left.
 
-				const integer amount = -deltaLeft * signals;
+				const integer amount = -deltaLeft * signals_;
 				for (integer i = 0;i < amount;++i)
 				{
 					kdTree_.erase(objectSet_.front());

@@ -49,30 +49,24 @@ namespace Tim
 		//! Constructs using the given ensemble of signals.
 		template <typename SignalPtr_Iterator>
 		explicit SignalPointSet(
-			const ForwardRange<SignalPtr_Iterator>& signalSet);
-
-		//! Constructs using the given initial time window.
-		/*!
-		The time window is given by the integer interval
-		[timeBegin, timeEnd[.
-		*/
-		template <typename SignalPtr_Iterator>
-		SignalPointSet(
 			const ForwardRange<SignalPtr_Iterator>& signalSet,
-			integer timeBegin,
-			integer timeEnd);
+			bool startFull = false);
 
 		//! Constructs using given subdimensions and initial time window.
 		/*!
+		Preconditions:
+		dimensionBegin <= dimensionEnd
+		dimensionBegin >= 0
+		dimensionEnd <= signalSet.front()->dimension()
+
 		The time window is given by the integer interval
 		[timeBegin, timeEnd[. The subdimension integer interval is
 		given by [dimensionBegin, dimensionEnd[.
 		*/
 		template <typename SignalPtr_Iterator>
-		explicit SignalPointSet(
+		SignalPointSet(
 			const ForwardRange<SignalPtr_Iterator>& signalSet,
-			integer timeBegin,
-			integer timeEnd,
+			bool startFull,
 			integer dimensionBegin,
 			integer dimensionEnd);
 
@@ -89,8 +83,6 @@ namespace Tim
 		/*!
 		Preconditions:
 		tNewBegin <= tNewEnd
-		tNewBegin >= 0
-		tNewEnd <= samples()
 		*/
 		void setTimeWindow(integer tNewBegin, integer tNewEnd);
 
@@ -137,18 +129,16 @@ namespace Tim
 		/*
 		Preconditions:
 		timeBegin <= timeEnd,
-		timeBegin >= 0
-		timeEnd <= samples_
 		dimensionBegin <= dimensionEnd
 		dimensionBegin >= 0
 		dimensionEnd <= signalSet_.front()->dimension()
 		*/
 
-		void construct(
-			integer timeBegin,
-			integer timeEnd,
-			integer dimensionBegin,
-			integer dimensionEnd);
+		template <typename SignalPtr_Iterator>
+		void createPointSet(
+			const ForwardRange<SignalPtr_Iterator>& signalSet);
+
+		void construct(bool startFull);
 
 		/*
 		kdTree_:
@@ -192,9 +182,9 @@ namespace Tim
 		*/
 
 		KdTree kdTree_;
-		std::vector<SignalPtr> signalSet_;
 		std::vector<const real*> pointSet_;
 		ObjectSet objectSet_;
+		integer signals_;
 		integer samples_;
 		integer timeBegin_;
 		integer timeEnd_;

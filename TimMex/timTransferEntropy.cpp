@@ -171,7 +171,9 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	const integer kNearest = *mxGetPr(inputSet[5]);
 	const integer threads = *mxGetPr(inputSet[6]);
 
+#if PASTEL_OMP != 0
 	omp_set_num_threads(threads);
+#endif
 
 	std::vector<real> estimateSet;
 
