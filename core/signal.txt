@@ -3,7 +3,43 @@ Signal class
 
 [Back to TIM C++ implementation][Parent]
 
-[Parent]: tim_cpp.txt
+[Parent]: tim_cpp.htm
+
+Files
+-----
+
+### Signal class
+
+[signal.cpp][1]
+
+[signal.h][2]
+
+[signal.hpp][3]
+
+[1]: signal.cpp.htm
+[2]: signal.h.htm
+[3]: signal.hpp.htm
+
+### Tools to generate various signals
+
+[signal_generate.cpp][4]
+
+[signal_generate.h][5]
+
+[4]: signal_generate.cpp.htm
+[5]: signal_generate.h.htm
+
+### Tools for working with Signal's
+
+[signal_tools.cpp][6]
+
+[signal_tools.h][7]
+
+[signal_tools.hpp][8]
+
+[6]: signal_tools.cpp.htm
+[7]: signal_tools.h.htm
+[8]: signal_tools.hpp.htm
 
 Theory
 ------

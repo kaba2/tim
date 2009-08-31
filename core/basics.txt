@@ -3,6 +3,23 @@ Basics of the C++ implementation
 
 [Parent]: tim_cpp.txt
 
+Files
+-----
+
+### Type definitions for the Tim library
+
+[mytypes.h][1]
+
+### Dll-keywords for the Tim library
+
+[tim_library.cpp][2]
+
+[tim_library.h][3]
+
+[1]: mytypes.h.htm
+[2]: tim_library.cpp
+[3]: tim_library.h
+
 Integers and reals
 ------------------
 

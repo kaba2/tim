@@ -1,4 +1,20 @@
 Entropy combination estimation
 ==============================
 
-[Parent]: estimators.txt
+[Back to Estimators][Parent]
+
+[Parent]: estimators.htm
+
+Files
+-----
+
+### Estimation of entropy combinations
+
+[entropy_combination.h][1]
+
+[entropy_combination.hpp][2]
+
+[1]: entropy_combination.h.htm
+[2]: entropy_combination.hpp.htm
+
+

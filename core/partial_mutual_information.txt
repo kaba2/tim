@@ -1,4 +1,24 @@
 Partial mutual information estimation
 =====================================
 
-[Parent]: estimators.txt
+[Back to Estimators][Parent]
+
+[Parent]: estimators.htm
+
+Files
+-----
+
+### Partial mutual information estimation
+
+[partial_mutual_information.cpp][1]
+
+[partial_mutual_information.h][2]
+
+[partial_mutual_information.hpp][3]
+
+[1]: partial_mutual_information.cpp.htm
+
+[2]: partial_mutual_information.h.htm
+
+[3]: partial_mutual_information.hpp.htm
+

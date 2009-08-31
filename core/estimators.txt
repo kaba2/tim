@@ -81,3 +81,24 @@ shared with the marginal signals. It is easily seen that mutual
 information, partial mutual information, and transfer entropy can 
 all be arranged to have this property.
 
+Learn more
+----------
+
+[Differential entropy estimation][1]
+
+[Mutual information estimation][2]
+
+[Partial mutual information estimation][3]
+
+[Transfer entropy estimation][4]
+
+[Entropy combination estimation][5]
+
+[1]: differential_entropy.htm
+[2]: mutual_information.htm
+[3]: partial_mutual_information.htm
+[4]: transfer_entropy.htm
+[5]: entropy_combination.htm
+
+
+

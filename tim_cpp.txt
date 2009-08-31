@@ -18,5 +18,5 @@ Learn more
 ----------
 
 [Estimators]: estimators.htm
-[Signal]: signal.htm
-[SignalPointSet]: signalpointset.htm
+[Signal class]: signal.htm
+[SignalPointSet class]: signalpointset.htm

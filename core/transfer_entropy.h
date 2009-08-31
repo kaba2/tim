@@ -1,4 +1,4 @@
-// Description: Partial mutual information estimation.
+// Description: Transfer entropy estimation.
 
 #ifndef TIM_TRANSFER_ENTROPY_H
 #define TIM_TRANSFER_ENTROPY_H

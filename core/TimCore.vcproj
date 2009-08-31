@@ -300,6 +300,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\transfer_entropy.txt"
+					>
+				</File>
+				<File
 					RelativePath=".\transfer_entropy_analytic.cpp"
 					>
 				</File>
@@ -321,38 +325,6 @@
 				</File>
 				<File
 					RelativePath=".\entropy_combination.txt"
-					>
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
-			Name="Tools"
-			>
-			<File
-				RelativePath=".\mytypes.h"
-				>
-			</File>
-			<File
-				RelativePath=".\tim_library.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\tim_library.h"
-				>
-			</File>
-			<Filter
-				Name="Delay embedding"
-				>
-				<File
-					RelativePath=".\embed.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\embed.h"
-					>
-				</File>
-				<File
-					RelativePath=".\embed.hpp"
 					>
 				</File>
 			</Filter>
@@ -417,10 +389,46 @@
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath=".\basics.txt"
+		<Filter
+			Name="Basics"
 			>
-		</File>
+			<File
+				RelativePath=".\basics.txt"
+				>
+			</File>
+			<File
+				RelativePath=".\mytypes.h"
+				>
+			</File>
+			<File
+				RelativePath=".\tim_library.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\tim_library.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Delay embedding"
+			>
+			<File
+				RelativePath=".\embed.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\embed.h"
+				>
+			</File>
+			<File
+				RelativePath=".\embed.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\embed.txt"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath="..\tim.txt"
 			>
