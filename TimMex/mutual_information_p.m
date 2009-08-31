@@ -1,7 +1,7 @@
-% PARTIAL_MUTUAL_INFORMATION 
+% MUTUAL_INFORMATION_P
 % A partial mutual information estimate from samples.
 %
-% I = partial_mutual_information(X, Y, Z, xLag, yLag, zLag, k, threads)
+% I = mutual_information_p(X, Y, Z, xLag, yLag, zLag, k, threads)
 %
 % where
 %
@@ -31,7 +31,7 @@
 % Description: Partial mutual information estimation
 % Documentation: tim_matlab.txt
 
-function I = partial_mutual_information(...
+function I = mutual_information_p(...
     X, Y, Z, xLag, yLag, zLag, k, threads)
 
 if nargin < 3

@@ -11,7 +11,8 @@
 %
 % TIMEWINDOWRADIUS determines the radius of the time-window in samples 
 % inside which samples are taken into consideration to the estimate at 
-% time instant t. This allows the estimate to be adaptive to temporal changes.
+% time instant t. This allows the estimate to be adaptive to temporal 
+% changes.
 % If no such changes should happen, better accuracy can be 
 % achieved by either setting 'timeWindowRadius' maximally wide
 % or by using the temporal_transfer_entropy() function instead.
@@ -65,7 +66,7 @@ if nargin < 11
     threads = 1;
 end
 
-I = temporal_entropy_combination(...
+I = entropy_combination_t(...
     [W(:), X(:), Z(:), Y(:)]', ...
     timeWindowRadius,
     [1, 3, 1; 2, 4, 1; 2, 3, -1], ...

@@ -1,7 +1,7 @@
-% TEMPORAL_DIFFERENTIAL_ENTROPY
+% DIFFERENTIAL_ENTROPY
 % A temporal differential entropy estimate from samples.
 %
-% H = temporal_differential_entropy(
+% H = differential_entropy_t(
 %     S, timeWindowRadius, epsilon, k, threads)
 %
 % where
@@ -34,7 +34,7 @@
 % Description: Temporal differential entropy estimation
 % Documentation: tim_matlab.txt
 
-function H = temporal_differential_entropy(...
+function H = differential_entropy_t(...
     S, timeWindowRadius, epsilon, k, threads)
 
 % The limit for the dimension is arbitrary, but

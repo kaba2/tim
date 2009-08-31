@@ -1,7 +1,7 @@
-% TEMPORAL_PARTIAL_MUTUAL_INFORMATION 
+% MUTUAL_INFORMATION_PT
 % A temporal partial mutual information estimate from samples.
 %
-% I = temporal_partial_mutual_information(
+% I = mutual_information_pt(
 %         X, Y, Z, timeWindowRadius, 
 %         xLag, yLag, zLag, k, threads)
 %
@@ -40,7 +40,7 @@
 % Description: Temporal partial mutual information estimation
 % Documentation: tim_matlab.txt
 
-function I = temporal_partial_mutual_information(...
+function I = mutual_information_pt(...
     X, Y, Z, timeWindowRadius, xLag, yLag, zLag, k, threads)
 
 if nargin < 4
@@ -69,7 +69,7 @@ if nargin < 9
     threads = 1;
 end
 
-I = temporal_entropy_combination(...
+I = entropy_combination_t(...
     [X(:), Z(:), Y(:)]', ...
     [1, 2, 1; 2, 3, 1; 2, 2, -1], timeWindowRadius, ...
     [xLag, zLag, yLag], k, threads);
