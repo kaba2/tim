@@ -1,4 +1,34 @@
 Differential entropy estimation
 ===============================
 
-[Parent]: estimators.txt
+[Back to Estimators][Parent]
+
+[Parent]: estimators.htm
+
+Files
+-----
+
+### An aggregate file for differential entropy
+
+[differential_entropy.h][1]
+
+[1]: differential_entropy.h.htm
+
+### Analytical solutions for differential entropies
+
+[differential_entropy_analytic.h][2]
+
+[2]: differential_entropy_analytic.h.htm
+
+### Differential entropy estimation via Kozachenko-Leonenko
+
+[differential_entropy_kl.cpp][3]
+
+[differential_entropy_kl.h][4]
+
+[differential_entropy_kl.hpp][5]
+
+[3]: differential_entropy_kl.cpp.htm
+[4]: differential_entropy_kl.h.htm
+[5]: differential_entropy_kl.hpp.htm
+
