@@ -1,0 +1,31 @@
+TIM C++ implementation
+======================
+
+[Back to TIM][Parent]
+
+[Parent]: ../tim.htm
+
+Theory
+------
+
+The central abstractions in TIM are modeled by the classes
+Signal and SignalPointSet. The Signal class models a time series
+representing it as a matrix of values and allowing it to be
+manipulated correspondingly. The SignalPointSet class in turn models a
+reinterpretation of a time series as a semidynamic set of points.
+
+Learn more
+----------
+
+[Estimators][1]
+
+[Signal class][2]
+
+[SignalPointSet class][3]
+
+[Delay embedding][4]
+
+[1]: estimators.htm
+[2]: signal.htm
+[3]: signalpointset.htm
+[4]: embed.htm
