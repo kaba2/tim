@@ -5,6 +5,25 @@ Differential entropy estimation
 
 [Parent]: estimators.htm
 
+Theory
+------
+
+Assume that ''X'' is a random variable distributed according to the probability 
+density function ''mu'' in some space ''V'' with a probability 
+measure. Then differential entropy is defined by:
+
+''H(X) = -int_V mu(x) log(mu(x)) dx''
+
+While this formula looks similar to the definition of
+discrete entropy, it does not generalize its properties.
+The role of differential entropy is two-fold. First, it is
+a syntactic device for describing other information theoretic 
+concepts which are defined as combinations of differential 
+entropies. Second, when transforming data to minimize mutual 
+information, it is equivalent to minimize differential entropies, 
+which can be a bit more efficient. This makes the estimation of
+differential entropies by themself useful.
+
 Files
 -----
 
@@ -31,4 +50,3 @@ Files
 [3]: differential_entropy_kl.cpp.htm
 [4]: differential_entropy_kl.h.htm
 [5]: differential_entropy_kl.hpp.htm
-

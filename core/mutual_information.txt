@@ -5,6 +5,20 @@ Mutual information estimation
 
 [Parent]: estimators.htm
 
+Theory
+------
+
+Let X and Y be random variables. Mutual information is defined by:
+
+''I(X, Y) = H(X) + H(Y) - H(X Y)''
+
+where H(X) and H(Y) are the differential entropies of X and Y, respectively,
+and H(X Y) is the differential entropy of their joint distribution.
+Mutual information measures the amount of information shared by ''X'' and ''Y''.
+It's importance lies in the fact that 
+
+''I(X, Y) = 0 <=>'' ''X'' and ''Y'' are independent.
+
 Files
 -----
 

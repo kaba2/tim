@@ -43,9 +43,9 @@ source code tree.
  * [View the source code tree][ViewSourceTree].
  * [Download the source code][DownloadSource].
 
-Note that TIM is built on the [Pastel] library which must also be 
+Note that TIM is built on the [Pastel][] library which must also be 
 installed if you want to build TIM yourself. It also uses some features
-of the [Boost] library.
+of the [Boost][] library.
 
 It should be emphasized that the intent of publishing the source code for TIM
 is purely for educational/research purposes, rather than for actually building
@@ -67,5 +67,5 @@ Learn more
 
 [Documentation for the Matlab interface][TimMatlab]
 
-[TimCpp]: tim_cpp.htm
+[TimCpp]: core/tim_cpp.htm
 [TimMatlab]: TimMex/tim_matlab.htm

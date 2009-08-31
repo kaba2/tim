@@ -1,17 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Estimation", "Estimation\Estimation.vcproj", "{66E30DC6-D769-4D04-AD28-58DD4C7E5A49}"
+# Visual C++ Express 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TimTest", "Estimation\Estimation.vcproj", "{66E30DC6-D769-4D04-AD28-58DD4C7E5A49}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E643EDCE-54D8-4DC0-8DBB-5B7121906D7B} = {E643EDCE-54D8-4DC0-8DBB-5B7121906D7B}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TimCore", "core\TimCore.vcproj", "{E643EDCE-54D8-4DC0-8DBB-5B7121906D7B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tim", "core\TimCore.vcproj", "{E643EDCE-54D8-4DC0-8DBB-5B7121906D7B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TimMex", "TimMex\TimMex.vcproj", "{21768932-BCCB-4EC2-AF80-32F8334FB594}"
-	ProjectSection(ProjectDependencies) = postProject
-		{E643EDCE-54D8-4DC0-8DBB-5B7121906D7B} = {E643EDCE-54D8-4DC0-8DBB-5B7121906D7B}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TimMex", "mex\TimMex.vcproj", "{21768932-BCCB-4EC2-AF80-32F8334FB594}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
