@@ -1,7 +1,7 @@
-% TEMPORAL_MUTUAL_INFORMATION 
+% MUTUAL_INFORMATION_T
 % A temporal mutual information estimate from samples.
 %
-% I = temporal_mutual_information(X, Y, timeWindowRadius, 
+% I = mutual_information_t(X, Y, timeWindowRadius, 
 %       xLag, yLag, k, threads)
 %
 % where
@@ -40,7 +40,7 @@
 % Description: Temporal mutual information estimation
 % Documentation: tim_matlab.txt
 
-function I = temporal_mutual_information(X, Y, timeWindowRadius, ...
+function I = mutual_information_t(X, Y, timeWindowRadius, ...
     xLag, yLag, k, threads)
 
 if nargin < 3
@@ -68,7 +68,7 @@ if nargin < 7
     threads = 1;
 end
 
-I = temporal_entropy_combination(...
+I = entropy_combination_t(...
     [X(:), Y(:)]', ...
     [1, 1, 1; 2, 2, 1], timeWindowRadius, ...
     [xLag, yLag], k, threads);

@@ -1,7 +1,7 @@
-% TEMPORAL_ENTROPY_COMBINATION
+% ENTROPY_COMBINATION_T
 % A temporal entropy combination estimate from samples.
 %
-% I = temporal_entropy_combination(signalSet, rangeSet, 
+% I = entropy_combination_t(signalSet, rangeSet, 
 %       timeWindowRadius, lagSet, k, threads)
 %
 % where
@@ -48,7 +48,7 @@
 % Description: Entropy combination estimation
 % Documentation: tim_matlab.txt
 
-function I = entropy_combination(signalSet, rangeSet, ...
+function I = entropy_combination_t(signalSet, rangeSet, ...
     timeWindowRadius, lagSet, k, threads)
 
 % The limit for the dimension is arbitrary, but
