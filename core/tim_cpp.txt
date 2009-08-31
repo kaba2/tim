@@ -3,7 +3,7 @@ TIM C++ implementation
 
 [Back to TIM][Parent]
 
-[Parent]: tim.htm
+[Parent]: ../tim.htm
 
 Theory
 ------
@@ -17,6 +17,15 @@ reinterpretation of a time series as a semidynamic set of points.
 Learn more
 ----------
 
-[Estimators]: estimators.htm
-[Signal class]: signal.htm
-[SignalPointSet class]: signalpointset.htm
+[Estimators][1]
+
+[Signal class][2]
+
+[SignalPointSet class][3]
+
+[Delay embedding][4]
+
+[1]: estimators.htm
+[2]: signal.htm
+[3]: signalpointset.htm
+[4]: embed.htm
