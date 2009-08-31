@@ -1,0 +1,42 @@
+Entropy combination estimation
+==============================
+
+[Back to Estimators][Parent]
+
+[Parent]: estimators.htm
+
+Theory
+------
+
+Let ''X = (X_1, ..., X_m)'' be a random variable.
+An entropy combination is defined by
+
+''C(X_{L_1}, ..., X_{L_p}) = [sum_{i = 1}^p s_i H(X_{L_i})] - H(X)''
+
+where ''\forall i: L_i sub [1, m]'' and ''s_i in {-1, 1}'' such that 
+''sum_{i = 1}^m s_i chi_{L_i} = chi_{[1, m]}'', where ''chi_S'' is the characteristic 
+function of a set ''S''. 
+
+Practice
+--------
+
+The implementation of the entropy combination estimator requires
+additionally that each ''L_i'' is an interval. This allows to save
+memory by allowing the memory for the joint signal to be
+shared with the marginal signals. It is easily seen that mutual
+information, partial mutual information, and transfer entropy can 
+all be arranged to have this property.
+
+Files
+-----
+
+### Estimation of entropy combinations
+
+[entropy_combination.h][1]
+
+[entropy_combination.hpp][2]
+
+[1]: entropy_combination.h.htm
+[2]: entropy_combination.hpp.htm
+
+

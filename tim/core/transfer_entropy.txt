@@ -1,0 +1,42 @@
+Transfer entropy estimation
+===========================
+
+[Back to Estimators][Parent]
+
+[Parent]: estimators.htm
+
+Theory
+------
+
+Let ''X'', ''Y'', ''Z'', and ''w'' be random variables.
+Multivariate transfer entropy is defined by:
+
+''T(w, X, Y ; Z) = H(w X Z) + H(X, Z, Y) - H(X Z) - H(w X Z Y)''
+
+where ''w'' is the future of ''X''. It measures the amount of directed
+information flow from ''X'' to ''Y'' while discounting the possibility
+that ''Z'' drives both ''X'' and ''Y''.
+
+Files
+-----
+
+### Transfer entropy estimation
+
+[transfer_entropy.cpp][1]
+
+[transfer_entropy.h][2]
+
+[transfer_entropy.hpp][3]
+
+[1]: transfer_entropy.cpp.htm
+[2]: transfer_entropy.h.htm
+[3]: transfer_entropy.hpp.htm
+
+### Some analytic solutions for transfer entropy
+
+[transfer_entropy_analytic.cpp][4]
+
+[transfer_entropy_analytic.h][5]
+
+[4]: transfer_entropy_analytic.cpp.htm
+[5]: transfer_entropy_analytic.h.htm
