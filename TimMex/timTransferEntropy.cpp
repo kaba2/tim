@@ -77,8 +77,8 @@ void mexFunction(int outputs, mxArray *outputSet[],
 		// and height the wrong way. The reason
 		// is that Matlab uses column-major storage
 		// while we use row-major storage.
-		const mwSize samples = mxGetN(signalArray);
-		const mwSize dimension = mxGetM(signalArray);
+		const integer samples = mxGetN(signalArray);
+		const integer dimension = mxGetM(signalArray);
 
 		real* rawData = mxGetPr(signalArray);
 
@@ -100,8 +100,8 @@ void mexFunction(int outputs, mxArray *outputSet[],
 		// and height the wrong way. The reason
 		// is that Matlab uses column-major storage
 		// while we use row-major storage.
-		const mwSize samples = mxGetN(signalArray);
-		const mwSize dimension = mxGetM(signalArray);
+		const integer samples = mxGetN(signalArray);
+		const integer dimension = mxGetM(signalArray);
 
 		real* rawData = mxGetPr(signalArray);
 
@@ -123,8 +123,8 @@ void mexFunction(int outputs, mxArray *outputSet[],
 		// and height the wrong way. The reason
 		// is that Matlab uses column-major storage
 		// while we use row-major storage.
-		const mwSize samples = mxGetN(signalArray);
-		const mwSize dimension = mxGetM(signalArray);
+		const integer samples = mxGetN(signalArray);
+		const integer dimension = mxGetM(signalArray);
 
 		real* rawData = mxGetPr(signalArray);
 
@@ -137,8 +137,8 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	// Remember that Matlab uses column-major storing 
 	// convention, while C++ uses row-major.
 
-	const mwSize zSignals = mxGetDimensions(inputSet[3])[0];
-	const mwSize trials = mxGetDimensions(inputSet[3])[1];
+	const integer zSignals = mxGetDimensions(inputSet[3])[0];
+	const integer trials = mxGetDimensions(inputSet[3])[1];
 
 	Array<SignalPtr, 2> zEnsembleSet(trials, zSignals);
 
@@ -153,8 +153,8 @@ void mexFunction(int outputs, mxArray *outputSet[],
 			// It is intentional to assign the width
 			// and height the wrong way. The reason
 			// is the difference in storage conventions.
-			const mwSize samples = mxGetN(signalArray);
-			const mwSize dimension = mxGetM(signalArray);
+			const integer samples = mxGetN(signalArray);
+			const integer dimension = mxGetM(signalArray);
 
 			real* rawData = mxGetPr(signalArray);
 

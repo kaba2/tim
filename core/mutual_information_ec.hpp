@@ -57,7 +57,7 @@ namespace Tim
 			const integer yBegin = xEnd;
 			const integer yEnd = yBegin + ySignalSet.front()->dimension();
 
-			Integer3 rangeSet[2] = 
+			Integer3 rangeSet[] = 
 			{
 				Integer3(xBegin, xEnd, 1),
 				Integer3(yBegin, yEnd, 1)

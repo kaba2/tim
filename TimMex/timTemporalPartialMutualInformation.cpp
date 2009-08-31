@@ -54,8 +54,8 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	//% If the number of samples varies with trials, the function uses 
 	//% the minimum sample count among the trials of X and Y.
 
-	const mwSize signals = mxGetDimensions(inputSet[0])[0];
-	const mwSize trials = mxGetDimensions(inputSet[0])[1];
+	const integer signals = mxGetDimensions(inputSet[0])[0];
+	const integer trials = mxGetDimensions(inputSet[0])[1];
 
 	std::vector<SignalPtr> xEnsemble(trials);
 
@@ -67,8 +67,8 @@ void mexFunction(int outputs, mxArray *outputSet[],
 		// and height the wrong way. The reason
 		// is that Matlab uses column-major storage
 		// while we use row-major storage.
-		const mwSize samples = mxGetN(signalArray);
-		const mwSize dimension = mxGetM(signalArray);
+		const integer samples = mxGetN(signalArray);
+		const integer dimension = mxGetM(signalArray);
 
 		real* rawData = mxGetPr(signalArray);
 
@@ -86,8 +86,8 @@ void mexFunction(int outputs, mxArray *outputSet[],
 		// and height the wrong way. The reason
 		// is that Matlab uses column-major storage
 		// while we use row-major storage.
-		const mwSize samples = mxGetN(signalArray);
-		const mwSize dimension = mxGetM(signalArray);
+		const integer samples = mxGetN(signalArray);
+		const integer dimension = mxGetM(signalArray);
 
 		real* rawData = mxGetPr(signalArray);
 
@@ -105,8 +105,8 @@ void mexFunction(int outputs, mxArray *outputSet[],
 		// and height the wrong way. The reason
 		// is that Matlab uses column-major storage
 		// while we use row-major storage.
-		const mwSize samples = mxGetN(signalArray);
-		const mwSize dimension = mxGetM(signalArray);
+		const integer samples = mxGetN(signalArray);
+		const integer dimension = mxGetM(signalArray);
 
 		real* rawData = mxGetPr(signalArray);
 

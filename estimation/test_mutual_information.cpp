@@ -29,11 +29,12 @@ namespace
 		integer kNearest,
 		real correctMi)
 	{
+		/*
 		const real averageMi = mutualInformation(
 			xSignal, ySignal, 
 			yLag, kNearest);
+		*/
 
-		/*
 		std::vector<real> mi;
 		temporalMutualInformation(
 			xSignal, ySignal, 
@@ -42,7 +43,6 @@ namespace
 			yLag, kNearest);
 		const real averageMi = 
 			std::accumulate(mi.begin(), mi.end(), (real)0) / mi.size();
-		*/
 
 		/*
 		std::vector<SignalPtr> signalSet;
@@ -68,7 +68,7 @@ namespace
 
 		const integer samples = 10000;
 		const integer timeWindowRadius = samples;
-		const integer kNearest = 1;
+		const integer kNearest = 2;
 		const real maxRelativeError = 0;
 
 		log() << "2d correlated gaussian" << logNewLine;

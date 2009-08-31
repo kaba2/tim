@@ -30,8 +30,8 @@ void mexFunction(int outputs, mxArray *outputSet[],
 		// and height the wrong way. The reason
 		// is that Matlab uses column-major storage
 		// while we use row-major storage.
-		const mwSize samples = mxGetN(signalArray);
-		const mwSize dimension = mxGetM(signalArray);
+		const integer samples = mxGetN(signalArray);
+		const integer dimension = mxGetM(signalArray);
 
 		real* rawData = mxGetPr(signalArray);
 
@@ -50,8 +50,8 @@ void mexFunction(int outputs, mxArray *outputSet[],
 		// and height the wrong way. The reason
 		// is that Matlab uses column-major storage
 		// while we use row-major storage.
-		const mwSize samples = mxGetN(signalArray);
-		const mwSize dimension = mxGetM(signalArray);
+		const integer samples = mxGetN(signalArray);
+		const integer dimension = mxGetM(signalArray);
 
 		real* rawData = mxGetPr(signalArray);
 

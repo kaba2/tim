@@ -58,8 +58,7 @@ namespace Tim
 #pragma omp parallel
 		{
 		SignalPointSetPtr jointPointSet(
-			new SignalPointSet(
-			forwardRange(signalSet.begin(), signalSet.end())));
+			new SignalPointSet(signalSet));
 
 		std::vector<integer> weightSet;
 		weightSet.reserve(signals);
@@ -90,13 +89,13 @@ namespace Tim
 #pragma omp for
 		for (integer t = 0;t < samples;++t)
 		{
-			const integer tLeft = std::max(t - timeWindowRadius, 0);
-			const integer tRight = std::min(t + timeWindowRadius + 1, samples);
-			const integer tDelta = t - tLeft;
-			const integer tWidth = tRight - tLeft;
-
-			jointPointSet->setTimeWindow(tLeft, tRight);
+			jointPointSet->setTimeWindow(
+				t - timeWindowRadius, 
+				t + timeWindowRadius + 1);
 			
+			const integer tDelta = t - jointPointSet->timeBegin();
+			const integer tWidth = jointPointSet->timeEnd() - jointPointSet->timeBegin();
+
 			searchAllNeighbors(
 				jointPointSet->kdTree(),
 				DepthFirst_SearchAlgorithm_PointKdTree(),
@@ -114,7 +113,9 @@ namespace Tim
 
 			for (integer i = 0;i < signals;++i)
 			{
-				pointSet[i]->setTimeWindow(tLeft, tRight);
+				pointSet[i]->setTimeWindow(
+					t - timeWindowRadius, 
+					t + timeWindowRadius + 1);
 
 				countAllNeighbors(
 					pointSet[i]->kdTree(),
@@ -128,7 +129,7 @@ namespace Tim
 //#pragma omp parallel for reduction(+ : estimate)
 				for (integer j = 0;j < trials;++j)
 				{
-					signalEstimate += digamma<real>(countSet[j]);
+					signalEstimate += digamma<real>(countSet[j] - 1);
 				}
 
 				estimate -= signalEstimate * weightSet[i];
@@ -136,7 +137,7 @@ namespace Tim
 
 			const integer estimateSamples = tWidth * trials;
 
-			estimate /= estimateSamples;
+			estimate /= trials;
 			estimate += digamma<real>(kNearest);
 			estimate += (sumWeight - 1) * digamma<real>(estimateSamples);
 
@@ -234,7 +235,7 @@ namespace Tim
 #pragma omp parallel for reduction(+ : signalEstimate)
 			for (integer j = 0;j < estimateSamples;++j)
 			{
-				signalEstimate += digamma<real>(countSet[j]);
+				signalEstimate += digamma<real>(countSet[j] - 1);
 			}
 
 			estimate -= signalEstimate * weightSet[i];
