@@ -26,13 +26,12 @@ namespace Tim
 			const ForwardRange<SignalPtr_Z_Iterator>& zSignalSet,
 			integer timeWindowRadius,
 			Real_OutputIterator result,
+			integer xLag,
 			integer yLag,
 			integer zLag,
 			integer kNearest,
 			bool wantTemporal)
 		{
-			ENSURE_OP(yLag, >=, 0);
-			ENSURE_OP(zLag, >=, 0);
 			ENSURE_OP(timeWindowRadius, >=, 0);
 			ENSURE_OP(kNearest, >, 0);
 			PENSURE_OP(xSignalSet.size(), ==, ySignalSet.size());
@@ -48,46 +47,41 @@ namespace Tim
 
 			const integer trials = xSignalSet.size();
 
-			// Form the joint signal. Note the signals 
-			// are merged in XZY order.
+			// Note the signals are listed in XZY order.
 
-			std::vector<SignalPtr> jointSignalSet;
-			jointSignalSet.reserve(trials);
+			Array<SignalPtr, 2> signalSet(trials, 3);
+			std::copy(xSignalSet.begin(), xSignalSet.end(), signalSet.rowBegin(0));
+			std::copy(zSignalSet.begin(), zSignalSet.end(), signalSet.rowBegin(1));
+			std::copy(ySignalSet.begin(), ySignalSet.end(), signalSet.rowBegin(2));
 
-			merge(xSignalSet, zSignalSet, ySignalSet,
-				std::back_inserter(jointSignalSet), zLag, yLag);
+			const integer lagSet[] = {xLag, zLag, yLag};
 
 			// Describe the marginal signals.
 
-			const integer xBegin = 0;
-			const integer xEnd = xSignalSet.front()->dimension();
-			const integer zBegin = xEnd;
-			const integer zEnd = zBegin + zSignalSet.front()->dimension();
-			const integer yBegin = zEnd;
-			const integer yEnd = yBegin + ySignalSet.front()->dimension();
-
-			Integer3 rangeSet[3] = 
+			Integer3 rangeSet[] = 
 			{
-				Integer3(xBegin, zEnd, 1),
-				Integer3(zBegin, yEnd, 1),
-				Integer3(zBegin, zEnd, -1)
+				Integer3(0, 2, 1),
+				Integer3(1, 3, 1),
+				Integer3(1, 2, -1)
 			};
 
 			if (wantTemporal)
 			{
 				temporalEntropyCombination(
-					forwardRange(jointSignalSet.begin(), jointSignalSet.end()),
+					signalSet,
 					forwardRange(rangeSet),
 					timeWindowRadius,
 					result,
+					forwardRange(lagSet),
 					kNearest);
 				
 				return 0;
 			}
 
 			return entropyCombination(
-				forwardRange(jointSignalSet.begin(), jointSignalSet.end()),
+				signalSet,
 				forwardRange(rangeSet),
+				forwardRange(lagSet),
 				kNearest);
 		}
 
@@ -104,6 +98,7 @@ namespace Tim
 		const ForwardRange<SignalPtr_Z_Iterator>& zSignalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
+		integer xLag,
 		integer yLag,
 		integer zLag,
 		integer kNearest)
@@ -114,6 +109,7 @@ namespace Tim
 			zSignalSet,
 			timeWindowRadius,
 			result,
+			xLag,
 			yLag,
 			zLag,
 			kNearest,
@@ -127,6 +123,7 @@ namespace Tim
 		const SignalPtr& zSignal,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
+		integer xLag,
 		integer yLag,
 		integer zLag,
 		integer kNearest)
@@ -137,6 +134,7 @@ namespace Tim
 			forwardRange(constantIterator(zSignal)),
 			timeWindowRadius,
 			result,
+			xLag,
 			yLag,
 			zLag,
 			kNearest);
@@ -150,6 +148,7 @@ namespace Tim
 		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
 		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
 		const ForwardRange<SignalPtr_Z_Iterator>& zSignalSet,
+		integer xLag,
 		integer yLag,
 		integer zLag,
 		integer kNearest)
@@ -160,6 +159,7 @@ namespace Tim
 			zSignalSet,
 			0,
 			NullIterator(),
+			xLag,
 			yLag,
 			zLag,
 			kNearest,

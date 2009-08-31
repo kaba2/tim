@@ -24,6 +24,7 @@ namespace
 		const std::string& name,
 		const SignalPtr& xSignal,
 		const SignalPtr& ySignal,
+		integer xLag,
 		integer yLag,
 		integer timeWindowRadius,
 		integer kNearest,
@@ -32,7 +33,7 @@ namespace
 		/*
 		const real averageMi = mutualInformation(
 			xSignal, ySignal, 
-			yLag, kNearest);
+			xLag, yLag, kNearest);
 		*/
 
 		std::vector<real> mi;
@@ -40,7 +41,7 @@ namespace
 			xSignal, ySignal, 
 			timeWindowRadius,
 			std::back_inserter(mi), 
-			yLag, kNearest);
+			xLag, yLag, kNearest);
 		const real averageMi = 
 			std::accumulate(mi.begin(), mi.end(), (real)0) / mi.size();
 
@@ -67,7 +68,7 @@ namespace
 		log() << "Mutual information estimates: " << logNewLine;
 
 		const integer samples = 10000;
-		const integer timeWindowRadius = samples;
+		const integer timeWindowRadius = 0;
 		const integer kNearest = 2;
 		const real maxRelativeError = 0;
 
@@ -105,6 +106,7 @@ namespace
 					" cond " + realToString(cond),
 					xSignal,
 					ySignal,
+					0,
 					0,
 					timeWindowRadius,
 					kNearest,
@@ -177,6 +179,7 @@ namespace
 					" cond " + realToString(cond),
 					xSignal,
 					ySignal,
+					0,
 					0,
 					timeWindowRadius,
 					kNearest,

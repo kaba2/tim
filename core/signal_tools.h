@@ -37,6 +37,9 @@ namespace Tim
 	bool equalDimension(
 		const ForwardRange<SignalPtr_Iterator>& signalSet);
 
+	// Merge
+	// -----
+
 	//! Merges a signal set into a higher-dimensional signal.
 	/*!
 	Preconditions:
@@ -51,6 +54,10 @@ namespace Tim
 	SignalPtr merge(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		const ForwardRange<Integer_Iterator>& lagSet);
+
+	template <typename SignalPtr_Iterator>
+	SignalPtr merge(
+		const ForwardRange<SignalPtr_Iterator>& signalSet);
 
 	//! Merges two signal sets pairwise into a new signal set.
 	/*!
@@ -71,21 +78,17 @@ namespace Tim
 		integer yLag = 0);
 
 	template <
-		typename SignalPtr_X_Iterator,
-		typename SignalPtr_Y_Iterator,
-		typename SignalPtr_Z_Iterator,
-		typename SignalPtr_OutputIterator>
+		typename SignalPtr_OutputIterator,
+		typename Integer_Iterator>
 	void merge(
-		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
-		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
-		const ForwardRange<SignalPtr_Z_Iterator>& zSignalSet,
+		const Array<SignalPtr, 2>& ensembleSet,
 		SignalPtr_OutputIterator result,
-		integer yLag = 0,
-		integer zLag = 0);
+		const ForwardRange<Integer_Iterator> lagSet);
 
-	template <typename SignalPtr_Iterator>
-	SignalPtr merge(
-		const ForwardRange<SignalPtr_Iterator>& signalSet);
+	template <typename SignalPtr_OutputIterator>
+	void merge(
+		const Array<SignalPtr, 2>& ensembleSet,
+		SignalPtr_OutputIterator result);
 
 	//! Merges two signals into a higher-dimensional signal.
 	/*!
@@ -99,6 +102,9 @@ namespace Tim
 		const SignalPtr& xSignal,
 		const SignalPtr& ySignal,
 		integer yLag = 0);
+
+	// Split
+	// -----
 
 	//! Creates aliases for 1d-marginal signals.
 	/*!

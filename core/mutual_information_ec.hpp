@@ -24,11 +24,11 @@ namespace Tim
 			const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
 			integer timeWindowRadius,
 			Real_OutputIterator result,
+			integer xLag,
 			integer yLag,
 			integer kNearest,
 			bool wantTemporal)
 		{
-			ENSURE_OP(yLag, >=, 0);
 			ENSURE_OP(timeWindowRadius, >=, 0);
 			ENSURE_OP(kNearest, >, 0);
 			PENSURE_OP(xSignalSet.size(), ==, ySignalSet.size());
@@ -40,44 +40,45 @@ namespace Tim
 				return 0;
 			}
 
+			// Copy the signals in an array.
+
 			const integer trials = xSignalSet.size();
 
-			// Form the joint signal.
-
-			std::vector<SignalPtr> jointSignalSet;
-			jointSignalSet.reserve(trials);
-
-			merge(xSignalSet, ySignalSet, 
-				std::back_inserter(jointSignalSet), yLag);
+			Array<SignalPtr, 2> signalSet(trials, 2);
+			std::copy(xSignalSet.begin(), xSignalSet.end(),
+				signalSet.rowBegin(0));
+			std::copy(ySignalSet.begin(), ySignalSet.end(),
+				signalSet.rowBegin(1));
 
 			// Describe the marginal signals.
 
-			const integer xBegin = 0;
-			const integer xEnd = xSignalSet.front()->dimension();
-			const integer yBegin = xEnd;
-			const integer yEnd = yBegin + ySignalSet.front()->dimension();
-
-			Integer3 rangeSet[] = 
+			const Integer3 rangeSet[] = 
 			{
-				Integer3(xBegin, xEnd, 1),
-				Integer3(yBegin, yEnd, 1)
+				Integer3(0, 1, 1),
+				Integer3(1, 2, 1)
 			};
+
+			const integer lagSet[] = {xLag, yLag};
+
+			// Compute entropy combination.
 
 			if (wantTemporal)
 			{
 				temporalEntropyCombination(
-					forwardRange(jointSignalSet.begin(), jointSignalSet.end()),
+					signalSet, 
 					forwardRange(rangeSet),
 					timeWindowRadius,
 					result,
+					forwardRange(lagSet),
 					kNearest);
 				
 				return 0;
 			}
 
 			return entropyCombination(
-				forwardRange(jointSignalSet.begin(), jointSignalSet.end()),
+				signalSet,
 				forwardRange(rangeSet),
+				forwardRange(lagSet),
 				kNearest);
 		}
 
@@ -92,6 +93,7 @@ namespace Tim
 		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
+		integer xLag,
 		integer yLag,
 		integer kNearest)
 	{
@@ -100,7 +102,7 @@ namespace Tim
 			ySignalSet,
 			timeWindowRadius,
 			result,
-			yLag,
+			xLag, yLag,
 			kNearest,
 			true);
 	}
@@ -111,6 +113,7 @@ namespace Tim
 		const SignalPtr& ySignal,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
+		integer xLag,
 		integer yLag,
 		integer kNearest)
 	{
@@ -119,7 +122,7 @@ namespace Tim
 			forwardRange(constantIterator(ySignal)),
 			timeWindowRadius,
 			result,
-			yLag,
+			xLag, yLag,
 			kNearest);
 	}
 
@@ -129,7 +132,7 @@ namespace Tim
 	real mutualInformation(
 		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
 		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
-		integer yLag,
+		integer xLag, integer yLag,
 		integer kNearest)
 	{
 		return Tim::Detail_MutualInformation::mutualInformation(
@@ -137,7 +140,7 @@ namespace Tim
 			ySignalSet,
 			0,
 			NullIterator(),
-			yLag,
+			xLag, yLag,
 			kNearest,
 			false);
 	}

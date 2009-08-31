@@ -184,6 +184,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\entropy_combination.m"
+			>
+		</File>
+		<File
 			RelativePath=".\mutual_information.m"
 			>
 		</File>
@@ -208,6 +212,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\temporal_transfer_entropy.m"
+			>
+		</File>
+		<File
 			RelativePath=".\tim_matlab.txt"
 			>
 		</File>
@@ -216,7 +224,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\timMutualInformation.cpp"
+			RelativePath=".\timEntropyCombination.cpp"
 			>
 		</File>
 		<File
@@ -224,23 +232,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\timPartialMutualInformation.cpp"
-			>
-		</File>
-		<File
 			RelativePath=".\timTemporalDifferentialEntropy.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\timTemporalMutualInformation.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\timTemporalPartialMutualInformation.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\timTransferEntropy.cpp"
+			RelativePath=".\timTemporalEntropyCombination.cpp"
 			>
 		</File>
 		<File

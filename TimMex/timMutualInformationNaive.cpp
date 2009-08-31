@@ -15,11 +15,17 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	};
 	BOOST_STATIC_ASSERT(RealIsDouble);
 
-	const integer samples = mxGetN(inputSet[0]);
-	const integer dimension = mxGetM(inputSet[0]);
+	enum
+	{
+		xIndex,
+		binsIndex
+	};
 
-	real* rawData = mxGetPr(inputSet[0]);
-	integer bins = *mxGetPr(inputSet[1]);
+	const integer samples = mxGetN(inputSet[xIndex]);
+	const integer dimension = mxGetM(inputSet[xIndex]);
+
+	real* rawData = mxGetPr(inputSet[xIndex]);
+	integer bins = *mxGetPr(inputSet[binsIndex]);
 
 	const SignalPtr data = SignalPtr(
 		new Signal(samples, dimension, withAliasing(rawData)));

@@ -14,21 +14,24 @@
 namespace Tim
 {
 
-	//! Computes mutual information between two signals.
+	//! Computes temporal mutual information.
 	/*!
 	Preconditions:
-	yLag >= 0
 	timeWindowRadius >= 0
 	kNearest > 0
+	ySignalSet.size() == xSignalSet.size()
 
 	xSignalSet:
-	A set of measurements (trials) of signal A. 
+	A set of measurements (trials) of signal X. 
 
 	ySignalSet:
-	A set of measurements (trials) of signal B. 
+	A set of measurements (trials) of signal Y. 
+
+	xLag:
+	The delay in samples that is applied to signal X.
 
 	yLag:
-	The delay in samples that is applied to signal B.
+	The delay in samples that is applied to signal Y.
 
 	timeWindowRadius:
 	The radius of a time-window in samples over which
@@ -42,16 +45,7 @@ namespace Tim
 
 	If the number of samples varies between trials, 
 	then the minimum number of samples among the trials
-	is used to compute the mi.
-
-	If H(X) denotes the differential entropy of a real 
-	random variable X, and we are given random variables
-	X and Y, then mutual information is given by:
-
-	I(X, Y) = H(X) + H(Y) - H(X, Y)
-
-	See 'tim/core/differential_entropy.h' for more information
-	on differential entropy.
+	is used.
 	*/
 
 	template <
@@ -63,8 +57,22 @@ namespace Tim
 		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
+		integer xLag = 0,
 		integer yLag = 0,
 		integer kNearest = 1);
+
+	//! Computes temporal mutual information.
+	/*!
+	This is a convenience function that calls:
+
+	temporalMutualInformation(
+		forwardRange(constantIterator(xSignal)), 
+		forwardRange(constantIterator(ySignal)), 
+		timeWindowRadius, result,
+		xLag, yLag, kNearest);
+
+	See the documentation for that function.
+	*/
 
 	template <typename Real_OutputIterator>
 	void temporalMutualInformation(
@@ -72,8 +80,35 @@ namespace Tim
 		const SignalPtr& ySignal,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
+		integer xLag = 0,
 		integer yLag = 0,
 		integer kNearest = 1);
+
+	//! Computes mutual information.
+	/*!
+	Preconditions:
+	kNearest > 0
+	ySignalSet.size() == xSignalSet.size()
+
+	xSignalSet:
+	A set of measurements (trials) of signal X. 
+
+	ySignalSet:
+	A set of measurements (trials) of signal Y. 
+
+	xLag:
+	The delay in samples that is applied to signal X.
+
+	yLag:
+	The delay in samples that is applied to signal Y.
+
+	kNearest:
+	The number of nearest neighbors to use in the estimation.
+
+	If the number of samples varies between trials, 
+	then the minimum number of samples among the trials
+	is used.
+	*/
 
 	template <
 		typename SignalPtr_X_Iterator,
@@ -81,12 +116,26 @@ namespace Tim
 	real mutualInformation(
 		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
 		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
+		integer xLag = 0,
 		integer yLag = 0,
 		integer kNearest = 1);
+
+	//! Computes mutual information.
+	/*!
+	This is a convenience function that calls:
+
+	mutualInformation(
+		forwardRange(constantIterator(xSignal)), 
+		forwardRange(constantIterator(ySignal)), 
+		xLag, yLag, kNearest);
+
+	See the documentation for that function.
+	*/
 
 	TIM real mutualInformation(
 		const SignalPtr& xSignal,
 		const SignalPtr& ySignal,
+		integer xLag = 0,
 		integer yLag = 0,
 		integer kNearest = 1);
 

@@ -19,61 +19,89 @@ namespace Tim
 {
 
 	template <
-		typename SignalPtr_Iterator,
 		typename Integer3_Iterator,
-		typename Real_OutputIterator>
+		typename Real_OutputIterator,
+		typename Integer_Iterator>
 	void temporalEntropyCombination(
-		const ForwardRange<SignalPtr_Iterator>& signalSet,
+		const Array<SignalPtr, 2>& signalSet,
 		const ForwardRange<Integer3_Iterator>& rangeSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
+		const ForwardRange<Integer_Iterator>& lagSet,
 		integer kNearest)
 	{
 		ENSURE_OP(timeWindowRadius, >=, 0);
 		ENSURE_OP(kNearest, >, 0);
-		PENSURE(equalDimension(signalSet));
+		ENSURE_OP(lagSet.size(), ==, signalSet.height());
 
 		if (signalSet.empty() || rangeSet.empty())
 		{
 			return;
 		}
 
-		signalSet.updateCache();
 		rangeSet.updateCache();
 
-		const integer trials = signalSet.size();
-		const integer signals = rangeSet.size();
-		const integer samples = minSamples(signalSet);
+		const integer signals = signalSet.height();
+		for (integer i = 0;i < signals;++i)
+		{
+			PENSURE(equalDimension(
+				forwardRange(signalSet.rowBegin(i), signalSet.rowEnd(i))));
+		}
 
+		const integer trials = signalSet.width();
+
+		// Construct the joint signal.
+
+		std::vector<SignalPtr> jointSignalSet;
+		jointSignalSet.reserve(trials);
+		merge(signalSet, std::back_inserter(jointSignalSet), lagSet);
+
+		const integer samples = jointSignalSet.front()->samples();
 		if (samples == 0)
 		{
 			return;
 		}
 
-		Infinity_NormBijection<real> normBijection;
+		const integer marginals = rangeSet.size();
 
-		// Compute SignalPointSets.
+		// Find out the dimension ranges of the marginal
+		// signals.
+
+		std::vector<integer> offsetSet;
+		offsetSet.reserve(signals + 1);
+		offsetSet.push_back(0);
+		for (integer i = 1;i < signals + 1;++i)
+		{
+			offsetSet.push_back(offsetSet[i - 1] + signalSet(0, i - 1)->dimension());
+		}
+
+		// It is essential that the used norm is the
+		// infinity norm.
+
+		Infinity_NormBijection<real> normBijection;
 
 		std::vector<real> estimateSet(samples);
 #pragma omp parallel
 		{
-		SignalPointSetPtr jointPointSet(
-			new SignalPointSet(signalSet));
+		// Compute SignalPointSets.
+
+		SignalPointSetPtr jointPointSet(new SignalPointSet(
+			forwardRange(jointSignalSet.begin(), jointSignalSet.end())));
 
 		std::vector<integer> weightSet;
-		weightSet.reserve(signals);
+		weightSet.reserve(marginals);
 
 		Integer3_Iterator iter = rangeSet.begin();
 		std::vector<SignalPointSetPtr> pointSet;
-		pointSet.reserve(signals);
-		for (integer i = 0;i < signals;++i)
+		pointSet.reserve(marginals);
+		for (integer i = 0;i < marginals;++i)
 		{
 			const Integer3& range = *iter;
 
 			pointSet.push_back(
 				SignalPointSetPtr(new SignalPointSet(
-				signalSet, false,
-				range[0], range[1])));
+				forwardRange(jointSignalSet.begin(), jointSignalSet.end()), false,
+				offsetSet[range[0]], offsetSet[range[1]])));
 
 			weightSet.push_back(range[2]);
 
@@ -109,9 +137,21 @@ namespace Tim
 				0,
 				&distanceArray);
 
+			// There should always be at least two points inside the
+			// searching distance, namely the query point and its k:th nearest 
+			// neighbor.
+			// Because of rounding errors there might however be counting
+			// difficulties. We try to avoid problems in two ways.
+			// First by expanding the searching radius somewhat, and second 
+			// by clamping the count to 2 from below.
+			for (integer i = 0;i < trials;++i)
+			{
+				distanceArray(i) *= normBijection.scalingFactor(1.001);
+			}
+
 			real estimate = 0;
 
-			for (integer i = 0;i < signals;++i)
+			for (integer i = 0;i < marginals;++i)
 			{
 				pointSet[i]->setTimeWindow(
 					t - timeWindowRadius, 
@@ -129,7 +169,17 @@ namespace Tim
 //#pragma omp parallel for reduction(+ : estimate)
 				for (integer j = 0;j < trials;++j)
 				{
-					signalEstimate += digamma<real>(countSet[j] - 1);
+					integer n = countSet[j] - 1;
+					if (n <= 0)
+					{
+						// With real arithmetic this should not happen.
+						// But with floating point it can because of rounding
+						// errors. We fix this by slightly modifying the count.
+
+						n = 1;
+					}
+
+					signalEstimate += digamma<real>(n);
 				}
 
 				estimate -= signalEstimate * weightSet[i];
@@ -158,7 +208,7 @@ namespace Tim
 		Real_OutputIterator result,
 		integer kNearest)
 	{
-		Tim::mutualInformation(
+		Tim::temporalEntropyCombination(
 			forwardRange(constantIterator(signal)),
 			rangeSet,
 			timeWindowRadius,
@@ -167,46 +217,83 @@ namespace Tim
 	}
 
 	template <
-		typename SignalPtr_Iterator,
-		typename Integer3_Iterator>
+		typename Integer3_Iterator,
+		typename Integer_Iterator>
 	real entropyCombination(
-		const ForwardRange<SignalPtr_Iterator>& signalSet,
+		const Array<SignalPtr, 2>& signalSet,
 		const ForwardRange<Integer3_Iterator>& rangeSet,
+		const ForwardRange<Integer_Iterator>& lagSet,
 		integer kNearest)
 	{
 		ENSURE_OP(kNearest, >, 0);
+		ENSURE_OP(lagSet.size(), ==, signalSet.height());
 
-		const integer trials = signalSet.size();
-		const integer samples = minSamples(signalSet);
-		const integer dimension = signalSet.front()->dimension();
+		if (signalSet.empty() || rangeSet.empty())
+		{
+			return 0;
+		}
+
+		// Construct the joint signal.
+
+		const integer trials = signalSet.width();
+
+		std::vector<SignalPtr> jointSignalSet;
+		jointSignalSet.reserve(trials);
+		merge(signalSet, std::back_inserter(jointSignalSet), lagSet);
+
+		const integer samples = jointSignalSet.front()->samples();
+		if (samples == 0)
+		{
+			return 0;
+		}
+
+		const integer signals = signalSet.height();
+
+		// Find out the dimension ranges of the marginal
+		// signals.
+
+		std::vector<integer> offsetSet;
+		offsetSet.reserve(signals + 1);
+		offsetSet.push_back(0);
+		for (integer i = 1;i < signals + 1;++i)
+		{
+			offsetSet.push_back(offsetSet[i - 1] + signalSet(0, i - 1)->dimension());
+		}
+
 		const integer estimateSamples = samples * trials;
-		const integer signals = rangeSet.size();
+		const integer marginals = rangeSet.size();
 
 		// Construct point sets
 
-		SignalPointSet jointPointSet(signalSet, true);
+		SignalPointSet jointPointSet(
+			forwardRange(jointSignalSet.begin(), jointSignalSet.end()), true);
 	
 		std::vector<integer> weightSet;
-		weightSet.reserve(signals);
+		weightSet.reserve(marginals);
 
 		Integer3_Iterator iter = rangeSet.begin();
 		std::vector<SignalPointSetPtr> pointSet;
-		pointSet.reserve(signals);
-		for (integer i = 0;i < signals;++i)
+		pointSet.reserve(marginals);
+		for (integer i = 0;i < marginals;++i)
 		{
 			const Integer3& range = *iter;
 			pointSet.push_back(
 				SignalPointSetPtr(new SignalPointSet(
-				signalSet, true,
-				range[0], range[1])));
+				forwardRange(jointSignalSet.begin(), jointSignalSet.end()), 
+				true,
+				offsetSet[range[0]], offsetSet[range[1]])));
 			weightSet.push_back(range[2]);
 			++iter;
 		}
 
+		// It is essential that the used norm is the
+		// infinity norm.
+
 		Infinity_NormBijection<real> normBijection;
-		Array<real, 2> distanceArray(1, estimateSamples);
 
 		// Start estimation.
+
+		Array<real, 2> distanceArray(1, estimateSamples);
 
 		searchAllNeighbors(
 			jointPointSet.kdTree(),
@@ -220,9 +307,21 @@ namespace Tim
 			0,
 			&distanceArray);
 
+		// There should always be at least two points inside the
+		// searching distance, namely the query point and its k:th nearest 
+		// neighbor.
+		// Because of rounding errors there might however be counting
+		// difficulties. We try to avoid problems in two ways.
+		// First by expanding the searching radius somewhat, and second 
+		// by clamping the count to 2 from below.
+		for (integer i = 0;i < estimateSamples;++i)
+		{
+			distanceArray(i) *= normBijection.scalingFactor(1.001);
+		}
+
 		real estimate = 0;
 		std::vector<integer> countSet(estimateSamples, 0);
-		for (integer i = 0;i < signals;++i)
+		for (integer i = 0;i < marginals;++i)
 		{
 			countAllNeighbors(
 				pointSet[i]->kdTree(),
@@ -235,7 +334,17 @@ namespace Tim
 #pragma omp parallel for reduction(+ : signalEstimate)
 			for (integer j = 0;j < estimateSamples;++j)
 			{
-				signalEstimate += digamma<real>(countSet[j] - 1);
+				integer n = countSet[j] - 1;
+				if (n <= 0)
+				{
+					// With real arithmetic this should not happen.
+					// But with floating point it can because of rounding
+					// errors. We fix this by slightly modifying the count.
+
+					n = 1;
+				}
+
+				signalEstimate += digamma<real>(n);
 			}
 
 			estimate -= signalEstimate * weightSet[i];
@@ -251,15 +360,17 @@ namespace Tim
 		return estimate;
 	}
 
-	template <typename Integer3_Iterator>
+	template <
+		typename Integer3_Iterator,
+		typename Real_OutputIterator>
 	real entropyCombination(
-		const SignalPtr& signal,
-		const ForwardRange<Integer3_Iterator>& rangeSet,
-		integer kNearest)
+		const Array<SignalPtr, 2>& signalSet,
+		const ForwardRange<Integer3_Iterator>& rangeSet)
 	{
 		return Tim::entropyCombination(
-			forwardRange(constantIterator(signal)),
+			signalSet,
 			rangeSet,
+			forwardRange(constantIterator(0), signalSet.height()),
 			kNearest);
 	}
 

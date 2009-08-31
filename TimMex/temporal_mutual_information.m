@@ -1,15 +1,13 @@
 % TEMPORAL_MUTUAL_INFORMATION 
 % A temporal mutual information estimate from samples.
 %
-% I = temporal_mutual_information(X, Y, timeWindowRadius, yLag, k, threads)
+% I = temporal_mutual_information(X, Y, timeWindowRadius, 
+%       xLag, yLag, k, threads)
 %
 % where
 %
-% X is an arbitrary-dimensional cell-array whose linearization
-% contains q trials of signal x.
-%
-% Y is an arbitrary-dimensional cell-array whose linearization 
-% contains q trials of signal y.
+% X and Y are arbitrary-dimensional cell-arrays whose linearizations
+% contain q trials of signal X and Y, respectively.
 %
 % TIMEWINDOWRADIUS determines the radius of the time-window inside which
 % samples are taken into consideration to the mutual information
@@ -20,7 +18,8 @@
 % achieved by either setting 'timeWindowRadius' to the number of samples 
 % or using the mutual_information() function instead.
 %
-% YLAG is the lag in samples which is applied to signal Y.
+% XLAG and YLAG are the lags in samples which are applied 
+% to signals X and Y.
 %
 % K determines which k:th nearest neighbor the algorithm
 % uses for estimation. Default 1.
@@ -32,118 +31,44 @@
 % spare one core for other work. Default 1 (no parallelization).
 %
 % Each signal is a real (m x n)-matrix that contains n samples of an
-% m-dimensional signal. The dimension of X and Y need not coincide.
-% However, the number of trials has to coincide.
+% m-dimensional signal. The signals contained in X (Y) must all have equal
+% dimensionality, but their number of samples may vary. 
 % If the number of samples varies with trials, the function uses 
 % the minimum sample count among the trials of X and Y.
+% The number of trials in X and Y must be equal.
 
 % Description: Temporal mutual information estimation
 % Documentation: tim_matlab.txt
 
 function I = temporal_mutual_information(X, Y, timeWindowRadius, ...
-    yLag, k, threads)
-
-% The limit for the dimension is arbitrary, but
-% protects for the case when the user accidentally
-% passes the transpose of the intended data.
-maxDimension = 32;
+    xLag, yLag, k, threads)
 
 if nargin < 3
     error('Not enough input arguments.');
 end
 
-if nargin > 6
-    error('Too many input arguments.');
+if ~iscell(X) || ~iscell(Y)
+    error('X or Y is not a cell-array.');
 end
 
-if nargout > 1
-    error('Too many output arguments.');
+if nargin >= 4 && nargin < 5
+    error('Lags must be specified all at once to avoid errors.');
 end
 
 if nargin < 4
+    xLag = 0;
     yLag = 0;
 end
 
-if nargin < 5
+if nargin < 6
     k = 1;
 end
 
-if nargin < 6
+if nargin < 7
     threads = 1;
 end
 
-if ~iscell(X)
-    error('X must be a cell array.');
-end
-
-if ~iscell(Y)
-    error('Y must be a cell array.');
-end
-
-signals = prod(size(X));
-
-if prod(size(Y)) ~= signals
-    error('X and Y must contain the same number of signals');
-end
-
-for i = 1 : signals
-    if ~isa(X{i}, 'double')
-        error('Some signal of X is not of type double.');
-    end
-
-    if size(X{i}, 1) > maxDimension
-        error(['Some signal of X has dimension greater than ', ...
-            int2str(maxDimension), '.']);
-    end
-end
-
-for i = 1 : signals
-    if ~isa(Y{i}, 'double')
-        error('Some signal of Y is not of type double.');
-    end
-
-    if size(Y{i}, 1) > maxDimension
-        error(['Some signal of Y has dimension greater than ', ...
-            int2str(maxDimension), '.']);
-    end
-end
-
-if size(timeWindowRadius, 1) ~= 1 || ...
-   size(timeWindowRadius, 2) ~= 1
-    error('TIMEWINDOWRADIUS must be a scalar integer.');
-end
-
-if timeWindowRadius < 0
-    error('TIMEWINDOWRADIUS must be non-negative.');
-end
-
-if size(yLag, 1) ~= 1 || ...
-   size(yLag, 2) ~= 1
-    error('YLAG must be a scalar integer.');
-end
-
-if yLag < 0
-    error('YLAG must be non-negative.');
-end
-
-if size(k, 1) ~= 1 || ...
-   size(k, 2) ~= 1
-    error('K must be a scalar integer.');
-end
-
-if k < 1
-    error('K must be at least 1.');
-end
-
-if size(threads, 1) ~= 1 || ...
-   size(threads, 2) ~= 1
-    error('THREADS must be a scalar integer.');
-end
-
-if threads < 1
-    error('THREADS must be at least 1.');
-end
-
-I = timTemporalMutualInformation(X, Y, timeWindowRadius, ...
-    yLag, k, threads);
-
+I = temporal_entropy_combination(...
+    [X(:), Y(:)]', ...
+    [1, 1, 1; 2, 2, 1], timeWindowRadius, ...
+    [xLag, yLag], k, threads);
