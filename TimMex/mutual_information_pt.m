@@ -16,7 +16,7 @@
 % time instant t. This allows the estimate to be adaptive to temporal changes.
 % If no such changes should happen, better accuracy can be 
 % achieved by either setting 'timeWindowRadius' maximally wide
-% or by using the partial_mutual_information() function instead.
+% or by using the mutual_information_p() function instead.
 %
 % XLAG, YLAG and ZLAG are the lags in samples applied to signals
 % X, Y and Z, respectively.
