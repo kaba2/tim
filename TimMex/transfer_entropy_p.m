@@ -1,16 +1,16 @@
-% TRANSFER_ENTROPY 
-% A transfer entropy estimate from samples.
+% TRANSFER_ENTROPY_P
+% A multivariate transfer entropy estimate from samples.
 %
-% I = transfer_entropy(X, Y, W, 
-%       xLag, yLag, wLag, k, threads)
+% I = transfer_entropy_p(X, Y, Z, W, 
+%       xLag, yLag, zLag, wLag, k, threads)
 %
 % where
 %
-% X, Y, and W are cell arrays of arbitrary dimension whose linearization
-% contains q trials of the signals X, Y, and W, respectively. 
+% X, Y, Z, and W are cell arrays of arbitrary dimension whose linearization
+% contains q trials of the signals X, Y, Z, and W, respectively. 
 %
-% XLAG, YLAG, and WLAG are the lags in samples applied to 
-% signals X, Y, and W, respectively.
+% XLAG, YLAG, ZLAG, and WLAG are the lags in samples applied to 
+% signals X, Y, Z, and W, respectively.
 %
 % K determines which k:th nearest neighbor the algorithm
 % uses for estimation. Default 1.
@@ -27,24 +27,25 @@
 % If the number of samples varies with each signal, the function uses 
 % the minimum sample count among the signals. 
 
-function I = transfer_entropy(X, Y, W, ...
-    xLag, yLag, wLag, k, threads)
+function I = transfer_entropy_p(X, Y, Z, W, ...
+    xLag, yLag, zLag, wLag, k, threads)
 
-if nargin < 3
+if nargin < 4
     error('Not enough input arguments.');
 end
 
-if ~iscell(X) || ~iscell(Y) || ~iscell(W)
-    error('X, Y, or W is not a cell-array.');
+if ~iscell(X) || ~iscell(Y) || ~iscell(Z) || ~iscell(W)
+    error('X, Y, Z, or W is not a cell-array.');
 end
 
-if nargin >= 4 && nargin < 6
+if nargin >= 5 && nargin < 8
     error('Lags must be specified all at once to avoid errors.');
 end
 
-if nargin < 4
+if nargin < 5
     xLag = 0;
     yLag = 0;
+    zLag = 0;
     wLag = 0;
 end
 
@@ -57,6 +58,6 @@ if nargin < 10
 end
 
 I = entropy_combination(...
-    [W(:), X(:), Y(:)]', ...
-    [1, 2, 1; 2, 3, 1; 2, 2, -1], ...
-    [wLag, xLag, yLag], k, threads);
+    [W(:), X(:), Z(:), Y(:)]', ...
+    [1, 3, 1; 2, 4, 1; 2, 3, -1], ...
+    [wLag, xLag, zLag, yLag], k, threads);
