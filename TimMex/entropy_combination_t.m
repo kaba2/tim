@@ -24,7 +24,7 @@
 % This allows the estimate to be adaptive to temporal changes in mutual 
 % information. If no such changes should happen, better accuracy can be 
 % achieved by either setting 'timeWindowRadius' to the number of samples 
-% or using the mutual_information() function instead.
+% or using the entropy_combination() function instead.
 %
 % LAGSET is an arbitrary-dimensional array whose linearization contains
 % p integers of lags to apply to each signal. Default: a (p x 1) array 
@@ -45,7 +45,7 @@
 % If the number of samples varies with trials, the function uses 
 % the minimum sample count among all the trials in SIGNALSET.
 
-% Description: Entropy combination estimation
+% Description: Temporal entropy combination estimation
 % Documentation: tim_matlab.txt
 
 function I = entropy_combination_t(signalSet, rangeSet, ...

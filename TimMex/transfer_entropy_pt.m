@@ -15,7 +15,7 @@
 % changes.
 % If no such changes should happen, better accuracy can be 
 % achieved by either setting 'timeWindowRadius' maximally wide
-% or by using the temporal_transfer_entropy() function instead.
+% or by using the transfer_entropy() function instead.
 %
 % XLAG, YLAG, ZLAG, and WLAG are the lags in samples applied to 
 % signals X, Y, Z, and W, respectively.
@@ -35,6 +35,9 @@
 % If the number of samples varies with trials, the function uses 
 % the minimum sample count among the trials of X, Y, Z, and W.
 % The number of trials in X, Y, Z, and W must be equal.
+
+% Description: Temporal multivariate transfer entropy estimation
+% Documentation: tim_matlab.txt
 
 function I = transfer_entropy_pt(X, Y, Z, W, ...
     timeWindowRadius, xLag, yLag, zLag, wLag, k, threads)
@@ -68,6 +71,6 @@ end
 
 I = entropy_combination_t(...
     [W(:), X(:), Z(:), Y(:)]', ...
-    timeWindowRadius,
     [1, 3, 1; 2, 4, 1; 2, 3, -1], ...
+    timeWindowRadius, ...
     [wLag, xLag, zLag, yLag], k, threads);

@@ -180,11 +180,23 @@
 	</References>
 	<Files>
 		<File
+			RelativePath=".\build_tim.m"
+			>
+		</File>
+		<File
 			RelativePath=".\differential_entropy.m"
 			>
 		</File>
 		<File
+			RelativePath=".\differential_entropy_t.m"
+			>
+		</File>
+		<File
 			RelativePath=".\entropy_combination.m"
+			>
+		</File>
+		<File
+			RelativePath=".\entropy_combination_t.m"
 			>
 		</File>
 		<File
@@ -196,23 +208,15 @@
 			>
 		</File>
 		<File
-			RelativePath=".\partial_mutual_information.m"
+			RelativePath=".\mutual_information_p.m"
 			>
 		</File>
 		<File
-			RelativePath=".\temporal_differential_entropy.m"
+			RelativePath=".\mutual_information_pt.m"
 			>
 		</File>
 		<File
-			RelativePath=".\temporal_mutual_information.m"
-			>
-		</File>
-		<File
-			RelativePath=".\temporal_partial_mutual_information.m"
-			>
-		</File>
-		<File
-			RelativePath=".\temporal_transfer_entropy.m"
+			RelativePath=".\mutual_information_t.m"
 			>
 		</File>
 		<File
@@ -241,6 +245,18 @@
 		</File>
 		<File
 			RelativePath=".\transfer_entropy.m"
+			>
+		</File>
+		<File
+			RelativePath=".\transfer_entropy_p.m"
+			>
+		</File>
+		<File
+			RelativePath=".\transfer_entropy_pt.m"
+			>
+		</File>
+		<File
+			RelativePath=".\transfer_entropy_t.m"
 			>
 		</File>
 	</Files>

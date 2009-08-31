@@ -22,10 +22,14 @@
 % spare one core for other work. Default 1 (no parallelization).
 %
 % Each signal is a real (m x n)-matrix that contains n samples of an
-% m-dimensional signal. The signals need not have the same dimension,
-% but the dimension must be the same among the trials of a given signal.
-% If the number of samples varies with each signal, the function uses 
-% the minimum sample count among the signals. 
+% m-dimensional signal. The signals contained in X (or Y or W) 
+% must all have equal dimensionality, but their number of samples may vary. 
+% If the number of samples varies with trials, the function uses 
+% the minimum sample count among the trials of X, Y, and W.
+% The number of trials in X, Y, and W must be equal.
+
+% Description: Transfer entropy estimation
+% Documentation: tim_matlab.txt
 
 function I = transfer_entropy(X, Y, W, ...
     xLag, yLag, wLag, k, threads)

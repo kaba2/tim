@@ -14,7 +14,7 @@
 % time instant t. This allows the estimate to be adaptive to temporal changes.
 % If no such changes should happen, better accuracy can be 
 % achieved by either setting 'timeWindowRadius' maximally wide
-% or by using the temporal_transfer_entropy() function instead.
+% or by using the transfer_entropy() function instead.
 %
 % XLAG, YLAG, and WLAG are the lags in samples applied to 
 % signals X, Y, and W, respectively.
@@ -34,6 +34,9 @@
 % If the number of samples varies with trials, the function uses 
 % the minimum sample count among the trials of X, Y, and W.
 % The number of trials in X, Y, and W must be equal.
+
+% Description: Temporal transfer entropy estimation
+% Documentation: tim_matlab.txt
 
 function I = transfer_entropy_t(X, Y, W, ...
     timeWindowRadius, xLag, yLag, wLag, k, threads)
@@ -66,6 +69,6 @@ end
 
 I = entropy_combination_t(...
     [W(:), X(:), Y(:)]', ...
-    timeWindowRadius,
     [1, 2, 1; 2, 3, 1; 2, 2, -1], ...
+    timeWindowRadius, ...
     [wLag, xLag, yLag], k, threads);
