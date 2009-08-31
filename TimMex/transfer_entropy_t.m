@@ -1,13 +1,13 @@
-% TEMPORAL_TRANSFER_ENTROPY 
-% A multivariate transfer entropy estimate from samples.
+% TRANSFER_ENTROPY_T
+% A temporal transfer entropy estimate from samples.
 %
-% I = temporal_transfer_entropy(X, Y, Z, W, 
-%       timeWindowRadius, xLag, yLag, zLag, wLag, k, threads)
+% I = transfer_entropy_t(X, Y, W, 
+%       timeWindowRadius, xLag, yLag, wLag, k, threads)
 %
 % where
 %
-% X, Y, Z, and W are cell arrays of arbitrary dimension whose linearization
-% contains q trials of the signals X, Y, Z, and W, respectively. 
+% X, Y, and W are cell arrays of arbitrary dimension whose linearization
+% contains q trials of the signals X, Y, and W, respectively. 
 %
 % TIMEWINDOWRADIUS determines the radius of the time-window in samples 
 % inside which samples are taken into consideration to the estimate at 
@@ -16,8 +16,8 @@
 % achieved by either setting 'timeWindowRadius' maximally wide
 % or by using the temporal_transfer_entropy() function instead.
 %
-% XLAG, YLAG, ZLAG, and WLAG are the lags in samples applied to 
-% signals X, Y, Z, and W, respectively.
+% XLAG, YLAG, and WLAG are the lags in samples applied to 
+% signals X, Y, and W, respectively.
 %
 % K determines which k:th nearest neighbor the algorithm
 % uses for estimation. Default 1.
@@ -29,44 +29,43 @@
 % spare one core for other work. Default 1 (no parallelization).
 %
 % Each signal is a real (m x n)-matrix that contains n samples of an
-% m-dimensional signal. The signals contained in X (or Y or Z or W) 
+% m-dimensional signal. The signals contained in X (or Y or W) 
 % must all have equal dimensionality, but their number of samples may vary. 
 % If the number of samples varies with trials, the function uses 
-% the minimum sample count among the trials of X, Y, Z, and W.
-% The number of trials in X, Y, Z, and W must be equal.
+% the minimum sample count among the trials of X, Y, and W.
+% The number of trials in X, Y, and W must be equal.
 
-function I = temporal_transfer_entropy(X, W, Y, Z, ...
-    timeWindowRadius, xLag, yLag, zLag, wLag, k, threads)
+function I = transfer_entropy_t(X, Y, W, ...
+    timeWindowRadius, xLag, yLag, wLag, k, threads)
 
-if nargin < 5
+if nargin < 4
     error('Not enough input arguments.');
 end
 
-if ~iscell(X) || ~iscell(Y) || ~iscell(Z) || ~iscell(W)
-    error('X, Y, Z, or W is not a cell-array.');
+if ~iscell(X) || ~iscell(Y) || ~iscell(W)
+    error('X, Y, or W is not a cell-array.');
 end
 
-if nargin >= 6 && nargin < 9
+if nargin >= 5 && nargin < 7
     error('Lags must be specified all at once to avoid errors.');
 end
 
-if nargin < 6
+if nargin < 5
     xLag = 0;
     yLag = 0;
-    zLag = 0;
     wLag = 0;
 end
 
-if nargin < 10
+if nargin < 8
     k = 1;
 end
 
-if nargin < 11
+if nargin < 9
     threads = 1;
 end
 
 I = temporal_entropy_combination(...
-    [W(:), X(:), Z(:), Y(:)]', ...
+    [W(:), X(:), Y(:)]', ...
     timeWindowRadius,
-    [1, 3, 1; 2, 4, 1; 2, 3, -1], ...
-    [wLag, xLag, zLag, yLag], k, threads);
+    [1, 2, 1; 2, 3, 1; 2, 2, -1], ...
+    [wLag, xLag, yLag], k, threads);
