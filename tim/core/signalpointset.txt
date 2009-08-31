@@ -5,21 +5,6 @@ SignalPointSet class
 
 [Parent]: tim_cpp.htm
 
-Files
------
-
-### SignalPointSet class
-
-[signalpointset.cpp][1]
-
-[signalpointset.h][2]
-
-[signalpointset.hpp][3]
-
-[1]: signalpointset.cpp.htm
-[2]: signalpointset.h.htm
-[3]: signalpointset.hpp.htm
-
 Theory
 ------
 
@@ -51,3 +36,17 @@ See also
 
 [Pastel_PointKdTree]: pastel/geometry/pointkdtree.txt
 
+Files
+-----
+
+### SignalPointSet class
+
+[signalpointset.cpp][1]
+
+[signalpointset.h][2]
+
+[signalpointset.hpp][3]
+
+[1]: signalpointset.cpp.htm
+[2]: signalpointset.h.htm
+[3]: signalpointset.hpp.htm
