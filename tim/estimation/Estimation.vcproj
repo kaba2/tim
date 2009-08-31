@@ -65,7 +65,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="pastelsysd.lib pasteldeviced.lib ann.lib sdl.lib pastelgfxd.lib pastelmathd.lib pasteldspd.lib timd.lib pastelgeometryd.lib"
+				AdditionalDependencies="pastelsysd.lib pasteldeviced.lib ann.lib sdl.lib pastelgfxd.lib pastelmathd.lib pasteldspd.lib timcored.lib pastelgeometryd.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="e:\ohjelmointi\hgproject\pastel_main\pastel\lib;&quot;$(SolutionDir)\lib&quot;"
 				GenerateDebugInformation="true"
@@ -144,7 +144,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="pastelsys.lib pasteldevice.lib ann.lib sdl.lib pastelgfx.lib pastelmath.lib pasteldsp.lib tim.lib pastelgeometry.lib"
+				AdditionalDependencies="pastelsys.lib pasteldevice.lib ann.lib sdl.lib pastelgfx.lib pastelmath.lib pasteldsp.lib timcore.lib pastelgeometry.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="e:\ohjelmointi\hgproject\pastel_main\pastel\lib;&quot;$(SolutionDir)\lib&quot;"
 				GenerateDebugInformation="true"
