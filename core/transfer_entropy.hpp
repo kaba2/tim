@@ -3,244 +3,169 @@
 
 #include "tim/core/transfer_entropy.h"
 #include "tim/core/signal_tools.h"
+#include "tim/core/signalpointset.h"
+#include "tim/core/entropy_combination.h"
 
-#include <pastel/math/normbijection.h>
-
-#include <pastel/geometry/search_all_neighbors_pointkdtree.h>
-#include <pastel/geometry/count_all_neighbors_pointkdtree.h>
+#include <pastel/sys/constantiterator.h>
+#include <pastel/sys/nulliterator.h>
 
 namespace Tim
 {
 
-	template <typename SignalPtr_Iterator>
-	void transferEntropy(
-		const Array<SignalPtr, 2>& embeddedSet,
-		integer xIndex,
-		integer yIndex,
-		const SignalPtr_Iterator& xFutureBegin,
-		const SignalPtr_Iterator& xFutureEnd,
-		integer timeWindowRadius,
-		integer kNearest,
-		std::vector<real>& estimateSet)
+	namespace Detail_TransferEntropy
 	{
-		// See the paper:
-		// "Assessing Coupling Dynamics from an Ensemble of Multivariate
-		// Time-series.", 
-		// German Gómez Herrero et al.
 
-		const integer trials = embeddedSet.width();
-		const integer signals = embeddedSet.height();
-
-		ENSURE_OP(xIndex, >=, 0);
-		ENSURE_OP(xIndex, <, signals);
-		ENSURE_OP(yIndex, >=, 0);
-		ENSURE_OP(yIndex, <, signals);
-		ENSURE_OP(timeWindowRadius, >=, 0);
-		ENSURE_OP(kNearest, >, 0);
-		ENSURE_OP(std::distance(xFutureBegin, xFutureEnd), ==, trials);
-		ENSURE(equalDimension(xFutureBegin, xFutureEnd));
-
-		const integer samples = 
-			std::min(minSamples(xFutureBegin, xFutureEnd),
-			minSamples(embeddedSet.begin(), embeddedSet.end()));
-
-		if (trials == 0 || signals == 0 || samples == 0)
+		template <
+			typename SignalPtr_X_Iterator,
+			typename SignalPtr_Y_Iterator,
+			typename SignalPtr_Z_Iterator,
+			typename SignalPtr_W_Iterator,
+			typename Real_OutputIterator>
+		real transferEntropy(
+			const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
+			const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
+			const ForwardRange<SignalPtr_Z_Iterator>& zSignalSet,
+			const ForwardRange<SignalPtr_W_Iterator>& wSignalSet,
+			integer timeWindowRadius,
+			Real_OutputIterator result,
+			integer xLag,
+			integer yLag,
+			integer zLag,
+			integer wLag,
+			integer kNearest,
+			bool wantTemporal)
 		{
-			return;
+			ENSURE_OP(timeWindowRadius, >=, 0);
+			ENSURE_OP(kNearest, >, 0);
+			PENSURE_OP(xSignalSet.size(), ==, ySignalSet.size());
+			PENSURE_OP(xSignalSet.size(), ==, zSignalSet.size());
+			PENSURE_OP(xSignalSet.size(), ==, wSignalSet.size());
+			PENSURE(equalDimension(xSignalSet));
+			PENSURE(equalDimension(ySignalSet));
+			PENSURE(equalDimension(zSignalSet));
+
+			if (xSignalSet.empty())
+			{
+				return 0;
+			}
+
+			const integer trials = xSignalSet.size();
+
+			// Form the joint signal. Note the signals 
+			// are merged in wXZY order.
+
+			std::vector<SignalPtr> jointSignalSet;
+			jointSignalSet.reserve(trials);
+
+			Array<SignalPtr, 2> signalSet(trials, 4);
+			std::copy(wSignalSet.begin(), wSignalSet.end(), signalSet.rowBegin(0));
+			std::copy(xSignalSet.begin(), xSignalSet.end(), signalSet.rowBegin(1));
+			std::copy(zSignalSet.begin(), zSignalSet.end(), signalSet.rowBegin(2));
+			std::copy(ySignalSet.begin(), ySignalSet.end(), signalSet.rowBegin(3));
+
+			integer lagSet[] = {wLag, xLag, zLag, yLag};
+
+			// Describe the marginal signals.
+
+			Integer3 rangeSet[] = 
+			{
+				Integer3(0, 3, 1),
+				Integer3(1, 4, 1),
+				Integer3(1, 3, -1)
+			};
+
+			if (wantTemporal)
+			{
+				temporalEntropyCombination(
+					signalSet,
+					forwardRange(rangeSet),
+					timeWindowRadius,
+					result,
+					forwardRange(lagSet),
+					kNearest);
+				
+				return 0;
+			}
+
+			return entropyCombination(
+				signalSet,
+				forwardRange(rangeSet),
+				forwardRange(lagSet),
+				kNearest);
 		}
-	
-		// Form joint signals for each trial.
 
-		// We need the following joint signals
-		// (w is the future of x):
-		//
-		// 1) wXYZ
-		// 2) XYZ
-		// 3) XZ
-		// 4) wXz
-		//
-		// By reordering, we can just form the biggest
-		// joint signal wXZY and use its memory for
-		// all point sets:
-		//
-		// 1) wXZY
-		// 2)  XZY
-		// 3)  XZ
-		// 4) wXZ
+	}
 
-		std::vector<SignalPtr> jointEnsemble;
-		jointEnsemble.reserve(trials);
+	template <
+		typename SignalPtr_X_Iterator,
+		typename SignalPtr_Y_Iterator,
+		typename SignalPtr_Z_Iterator,
+		typename SignalPtr_W_Iterator,
+		typename Real_OutputIterator>
+	void temporalTransferEntropy(
+		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
+		const ForwardRange<SignalPtr_Z_Iterator>& zSignalSet,
+		const ForwardRange<SignalPtr_W_Iterator>& wSignalSet,
+		integer timeWindowRadius,
+		Real_OutputIterator result,
+		integer xLag,
+		integer yLag,
+		integer zLag,
+		integer wLag,
+		integer kNearest)
+	{
+		Tim::Detail_TransferEntropy::transferEntropy(
+			xSignalSet, ySignalSet, zSignalSet, wSignalSet,
+			timeWindowRadius,
+			result,
+			xLag, yLag, zLag, wLag,
+			kNearest,
+			true);
+	}
 
-		SignalPtr_Iterator xFutureIter = xFutureBegin;
-		for (integer i = 0;i < trials;++i)
-		{
-			std::vector<SignalPtr> jointSet;
-			jointSet.reserve(1 + signals);
+	template <typename Real_OutputIterator>
+	void temporalTransferEntropy(
+		const SignalPtr& xSignal,
+		const SignalPtr& ySignal,
+		const SignalPtr& zSignal,
+		const SignalPtr& wSignal,
+		integer timeWindowRadius,
+		Real_OutputIterator result,
+		integer xLag, integer yLag, integer zLag, integer wLag,
+		integer kNearest)
+	{
+		Tim::temporalTransferEntropy(
+			forwardRange(constantIterator(xSignal)),
+			forwardRange(constantIterator(ySignal)),
+			forwardRange(constantIterator(zSignal)),
+			forwardRange(constantIterator(wSignal)),
+			timeWindowRadius,
+			result,
+			xLag, yLag, zLag, wLag,
+			kNearest);
+	}
 
-			jointSet.push_back(*xFutureIter);
-			jointSet.push_back(embeddedSet(i, xIndex));
-
-			for (integer j = 0;j < signals;++j)
-			{
-				if (j != xIndex && j != yIndex)
-				{
-					jointSet.push_back(embeddedSet(i, j));
-				}
-			}
-			jointSet.push_back(embeddedSet(i, yIndex));
-
-			jointEnsemble.push_back(
-				merge(jointSet.begin(), jointSet.end()));
-
-			++xFutureIter;
-		}
-
-		// Compute the dimensions of the signals.
-
-		const integer jointDimension = jointEnsemble.front()->dimension();
-		const integer xDimension = embeddedSet(0, xIndex)->dimension();
-		const integer yDimension = embeddedSet(0, yIndex)->dimension();
-		const integer zDimension = jointDimension - (xDimension * 2 + yDimension);
-		const integer xFutureDimension = xDimension;
-
-		const integer wBegin = 0;
-		const integer wEnd = xFutureDimension;
-		const integer xBegin = wEnd;
-		const integer xEnd = xBegin + xDimension;
-		const integer zBegin = xEnd;
-		const integer zEnd = zBegin + zDimension;
-		const integer yBegin = zEnd;
-		const integer yEnd = yBegin + yDimension;
-
-		const integer timeWindowRadiusSamples = 2 * timeWindowRadius + 1;
-
-		// Data structures for nearest neighbors searching.
-
-		const Infinity_NormBijection<real> normBijection;
-		Array<real, 2> distanceArray(1, trials);
-		std::vector<PointD> pointSet;
-		pointSet.reserve(trials * timeWindowRadiusSamples);
-
-		// Data structures for nearest neighbors counting.
-
-		std::vector<integer> countSet(trials, 0);
-
-		estimateSet.resize(samples);
-		std::fill(estimateSet.begin(), estimateSet.end(), 0);
-
-		integer percent = 0;
-		for (integer i = timeWindowRadius;i < samples - timeWindowRadius;++i)
-		{
-			integer newPercent = (real)(i * 100) / samples;
-			if (newPercent != percent)
-			{
-				log() << newPercent << "%, ";
-				percent = newPercent;
-			}
-
-			const integer sampleBegin = i - timeWindowRadius;
-			const integer sampleEnd = i + timeWindowRadius + 1;
-
-			// Compute for the current point its distance 
-			// to the k:th nearest neighbor in the joint space,
-			// which includes all samples from the ensemble
-			// across the time window of timeWindowRadius radius.
-
-			constructPointSet(jointEnsemble, 
-				sampleBegin, sampleEnd, 
-				wBegin, yEnd, pointSet);
-
-			const ConstSparseIterator<CountingIterator<integer> >
-				sparseIndexBegin(CountingIterator<integer>(timeWindowRadius), timeWindowRadiusSamples);
-
-			searchAllNeighbors(
-				pointSet,
-				DepthFirst_SearchAlgorithm_PointKdTree(),
-				sparseIndexBegin,
-				sparseIndexBegin + trials,
-				kNearest - 1,
-				kNearest,
-				infinity<real>(),
-				0,
-				normBijection,
-				16,
-				SlidingMidpoint2_SplitRule_PointKdTree(),
-				0,
-				&distanceArray);
-
-			// Project all points to wXZ and count the number of
-			// points that are within the computed nn-distance.
-
-			constructPointSet(jointEnsemble,
-				sampleBegin, sampleEnd, 
-				wBegin, zEnd, pointSet);
-
-			countAllNeighbors(
-				pointSet,
-				sparseIndexBegin,
-				sparseIndexBegin + trials,
-				distanceArray.begin(),
-				normBijection,
-				16, 
-				countSet.begin());
-
-			real estimate = 0;
-
-#pragma omp parallel for reduction(+ : estimate)
-			for (integer j = 0;j < trials;++j)
-			{
-				estimate -= harmonicNumber<real>(countSet[j]);
-			}
-
-			// Project all points to XZY and count the number of
-			// points that are within the computed nn-distance.
-
-			constructPointSet(jointEnsemble, 
-				sampleBegin, sampleEnd, 
-				xBegin, yEnd, pointSet);
-
-			countAllNeighbors(
-				pointSet,
-				sparseIndexBegin,
-				sparseIndexBegin + trials,
-				distanceArray.begin(),
-				normBijection,
-				16,
-				countSet.begin());
-
-#pragma omp parallel for reduction(+ : estimate)
-			for (integer j = 0;j < trials;++j)
-			{
-				estimate -= harmonicNumber<real>(countSet[j]);
-			}
-
-			// Project all points to XZ and count the number of
-			// points that are within the computed nn-distance.
-
-			constructPointSet(jointEnsemble, 
-				sampleBegin, sampleEnd, 
-				xBegin, zEnd, pointSet);
-
-			countAllNeighbors(
-				pointSet,
-				sparseIndexBegin,
-				sparseIndexBegin + trials,
-				distanceArray.begin(),
-				normBijection,
-				16,
-				countSet.begin());
-
-#pragma omp parallel for reduction(+ : estimate)
-			for (integer j = 0;j < trials;++j)
-			{
-				estimate += harmonicNumber<real>(countSet[j]);
-			}
-
-			estimate /= trials;
-			estimate += harmonicNumber<real>(kNearest - 1);
-
-			estimateSet[i] = estimate;
-		}
+	template <
+		typename SignalPtr_X_Iterator,
+		typename SignalPtr_Y_Iterator,
+		typename SignalPtr_Z_Iterator,
+		typename SignalPtr_W_Iterator>
+	real transferEntropy(
+		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
+		const ForwardRange<SignalPtr_Z_Iterator>& zSignalSet,
+		const ForwardRange<SignalPtr_W_Iterator>& wSignalSet,
+		integer xLag, integer yLag, integer zLag, integer wLag,
+		integer kNearest)
+	{
+		return Tim::Detail_TransferEntropy::transferEntropy(
+			xSignalSet, ySignalSet, zSignalSet, wSignalSet,
+			0,
+			NullIterator(),
+			xLag, yLag, zLag, wLag,
+			kNearest,
+			false);
 	}
 
 }

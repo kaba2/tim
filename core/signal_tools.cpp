@@ -63,8 +63,6 @@ namespace Tim
 		const SignalPtr& ySignal,
 		integer yLag)
 	{
-		ENSURE_OP(yLag, >=, 0);
-
 		const SignalPtr signalSet[2] = {xSignal, ySignal};
 		const integer lagSet[2] = {0, yLag};
 

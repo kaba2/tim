@@ -17,14 +17,25 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	};
 	BOOST_STATIC_ASSERT(RealIsDouble);
 
-	const integer trials = mxGetNumberOfElements(inputSet[0]);
+	enum
+	{
+		xIndex,
+		yIndex,
+		zIndex,
+		yLagIndex,
+		zLagIndex,
+		kNearestIndex,
+		threadsIndex
+	};
+
+	const integer trials = mxGetNumberOfElements(inputSet[xIndex]);
 
 	std::vector<SignalPtr> xEnsemble;
 	xEnsemble.reserve(trials);
 
 	for (integer i = 0;i < trials;++i)
 	{
-		mxArray* signalArray = mxGetCell(inputSet[0], i);
+		mxArray* signalArray = mxGetCell(inputSet[xIndex], i);
 
 		// It is intentional to assign the width
 		// and height the wrong way. The reason
@@ -44,7 +55,7 @@ void mexFunction(int outputs, mxArray *outputSet[],
 
 	for (integer i = 0;i < trials;++i)
 	{
-		mxArray* signalArray = mxGetCell(inputSet[1], i);
+		mxArray* signalArray = mxGetCell(inputSet[yIndex], i);
 
 		// It is intentional to assign the width
 		// and height the wrong way. The reason
@@ -64,7 +75,7 @@ void mexFunction(int outputs, mxArray *outputSet[],
 
 	for (integer i = 0;i < trials;++i)
 	{
-		mxArray* signalArray = mxGetCell(inputSet[2], i);
+		mxArray* signalArray = mxGetCell(inputSet[zIndex], i);
 
 		// It is intentional to assign the width
 		// and height the wrong way. The reason
@@ -79,10 +90,10 @@ void mexFunction(int outputs, mxArray *outputSet[],
 			new Signal(samples, dimension, rawData)));
 	}
 
-	const integer yLag = *mxGetPr(inputSet[3]);
-	const integer zLag = *mxGetPr(inputSet[4]);
-	const integer kNearest = *mxGetPr(inputSet[5]);
-	const integer threads = *mxGetPr(inputSet[6]);
+	const integer yLag = *mxGetPr(inputSet[yLagIndex]);
+	const integer zLag = *mxGetPr(inputSet[zLagIndex]);
+	const integer kNearest = *mxGetPr(inputSet[kNearestIndex]);
+	const integer threads = *mxGetPr(inputSet[threadsIndex]);
 
 #if PASTEL_OMP != 0
 	omp_set_num_threads(threads);

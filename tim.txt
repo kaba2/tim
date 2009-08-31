@@ -18,7 +18,6 @@ partial mutual information, transfer entropy, and multivariate transfer entropy
 * Time series' with arbitrary dimensionality
 * Multi-core parallel computation
 * Both C++ and Matlab interfaces
-* Efficient
 
 Software
 --------
@@ -61,6 +60,8 @@ process can make breaking changes to interfaces.
 
 Learn more
 ----------
+
+[Examples]
 
 [Documentation for the C++ implementation][TimCpp]
 

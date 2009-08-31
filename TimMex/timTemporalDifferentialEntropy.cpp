@@ -17,14 +17,23 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	};
 	BOOST_STATIC_ASSERT(RealIsDouble);
 
-	const integer trials = mxGetNumberOfElements(inputSet[0]);
+	enum
+	{
+		xIndex,
+		timeWindowRadiusIndex,
+		maxRelativeErrorIndex,
+		kNearestIndex,
+		threadsIndex
+	};
+
+	const integer trials = mxGetNumberOfElements(inputSet[xIndex]);
 
 	std::vector<SignalPtr> xEnsemble;
 	xEnsemble.reserve(trials);
 
 	for (integer i = 0;i < trials;++i)
 	{
-		mxArray* signalArray = mxGetCell(inputSet[0], i);
+		mxArray* signalArray = mxGetCell(inputSet[xIndex], i);
 
 		// It is intentional to assign the width
 		// and height the wrong way. The reason
@@ -39,10 +48,10 @@ void mexFunction(int outputs, mxArray *outputSet[],
 			new Signal(samples, dimension, rawData)));
 	}
 
-	const integer timeWindowRadius = *mxGetPr(inputSet[1]);
-	const real maxRelativeError = *mxGetPr(inputSet[2]);
-	const integer kNearest = *mxGetPr(inputSet[3]);
-	const integer threads = *mxGetPr(inputSet[4]);
+	const integer timeWindowRadius = *mxGetPr(inputSet[timeWindowRadiusIndex]);
+	const real maxRelativeError = *mxGetPr(inputSet[maxRelativeErrorIndex]);
+	const integer kNearest = *mxGetPr(inputSet[kNearestIndex]);
+	const integer threads = *mxGetPr(inputSet[threadsIndex]);
 
 #if PASTEL_OMP != 0
 	omp_set_num_threads(threads);

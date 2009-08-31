@@ -5,8 +5,10 @@
 #define TIM_ENTROPY_COMBINATION_H
 
 #include "tim/core/mytypes.h"
+#include "tim/core/signal.h"
 
 #include <pastel/sys/forwardrange.h>
+#include <pastel/sys/array.h>
 
 namespace Tim
 {
@@ -46,14 +48,15 @@ namespace Tim
 	*/
 
 	template <
-		typename SignalPtr_Iterator,
 		typename Integer3_Iterator,
-		typename Real_OutputIterator>
+		typename Real_OutputIterator,
+		typename Integer_Iterator>
 	void temporalEntropyCombination(
-		const ForwardRange<SignalPtr_Iterator>& signalSet,
+		const Array<SignalPtr, 2>& signalSet,
 		const ForwardRange<Integer3_Iterator>& rangeSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
+		const ForwardRange<Integer_Iterator>& lagSet,
 		integer kNearest = 1);
 
 	//! Computes a temporal entropy combination of signals.
@@ -65,7 +68,8 @@ namespace Tim
 		rangeSet,
 		timeWindowRadius,
 		result,
-		kNearest);
+		forwardRange(constantIterator(0), signalSet.height()),
+		1);
 
 	See the documentation for that function.
 	*/
@@ -74,11 +78,10 @@ namespace Tim
 		typename Integer3_Iterator,
 		typename Real_OutputIterator>
 	void temporalEntropyCombination(
-		const SignalPtr& signal,
+		const Array<SignalPtr, 2>& signalSet,
 		const ForwardRange<Integer3_Iterator>& rangeSet,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
-		integer kNearest = 1);
+		Real_OutputIterator result);
 
 	//! Computes an entropy combination of signals.
 	/*!
@@ -114,11 +117,12 @@ namespace Tim
 	*/
 
 	template <
-		typename SignalPtr_Iterator,
-		typename Integer3_Iterator>
+		typename Integer3_Iterator,
+		typename Integer_Iterator>
 	real entropyCombination(
-		const ForwardRange<SignalPtr_Iterator>& signalSet,
+		const Array<SignalPtr, 2>& signalSet,
 		const ForwardRange<Integer3_Iterator>& rangeSet,
+		const ForwardRange<Integer_Iterator>& lagSet,
 		integer kNearest = 1);
 
 	//! Computes an entropy combination of signals.
@@ -128,16 +132,18 @@ namespace Tim
 	entropyCombination(
 		forwardRange(constantIterator(signal)),
 		rangeSet,
+		forwardRange(constantIterator(0), signalSet.height()),
 		kNearest);
 
 	See the documentation for that function.
 	*/
 
-	template <typename Integer3_Iterator>
+	template <
+		typename Integer3_Iterator,
+		typename Real_OutputIterator>
 	real entropyCombination(
-		const SignalPtr& signal,
-		const ForwardRange<Integer3_Iterator>& rangeSet,
-		integer kNearest = 1);
+		const Array<SignalPtr, 2>& signalSet,
+		const ForwardRange<Integer3_Iterator>& rangeSet);
 
 }
 

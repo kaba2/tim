@@ -2,7 +2,8 @@
 % A temporal partial mutual information estimate from samples.
 %
 % I = temporal_partial_mutual_information(
-%         X, Y, Z, timeWindowRadius, yLag, zLag, k, threads)
+%         X, Y, Z, timeWindowRadius, 
+%         xLag, yLag, zLag, k, threads)
 %
 % where
 %
@@ -17,8 +18,8 @@
 % achieved by either setting 'timeWindowRadius' maximally wide
 % or by using the partial_mutual_information() function instead.
 %
-% YLAG and ZLAG are the lags in samples applied to signals
-% y and z, respectively.
+% XLAG, YLAG and ZLAG are the lags in samples applied to signals
+% X, Y and Z, respectively.
 %
 % K determines which k:th nearest neighbor the algorithm
 % uses for estimation. Default 1.
@@ -30,146 +31,45 @@
 % spare one core for other work. Default 1 (no parallelization).
 %
 % Each signal is a real (m x n)-matrix that contains n samples of an
-% m-dimensional signal. The dimensions of X, Y, and Z need not coincide.
-% However, the number of trials has to coincide.
+% m-dimensional signal. The signals contained in X (or Y or Z) must all 
+% have equal dimensionality, but their number of samples may vary. 
 % If the number of samples varies with trials, the function uses 
-% the minimum sample count among the trials of X and Y.
+% the minimum sample count among the trials of X, Y, and Z.
+% The number of trials in X, Y, and Z must be equal.
 
 % Description: Temporal partial mutual information estimation
 % Documentation: tim_matlab.txt
 
 function I = temporal_partial_mutual_information(...
-    X, Y, Z, timeWindowRadius, yLag, zLag, k, threads)
-
-% The limit for the dimension is arbitrary, but
-% protects for the case when the user accidentally
-% passes the transpose of the intended data.
-maxDimension = 32;
+    X, Y, Z, timeWindowRadius, xLag, yLag, zLag, k, threads)
 
 if nargin < 4
     error('Not enough input arguments.');
 end
 
-if nargin > 8
-    error('Too many input arguments.');
+if ~iscell(X) || ~iscell(Y) || ~iscell(Z)
+    error('X, Y, or Z is not a cell-array.');
 end
 
-if nargout > 1
-    error('Too many output arguments.');
+if nargin >= 5 && nargin < 7
+    error('Lags must be specified all at once to avoid errors.');
 end
 
 if nargin < 5
+    xLag = 0;
     yLag = 0;
-end
-
-if nargin < 6
     zLag = 0;
 end
 
-if nargin < 7
+if nargin < 8
     k = 1;
 end
 
-if nargin < 8
+if nargin < 9
     threads = 1;
 end
 
-if ~iscell(X)
-    error('X must be a cell array.');
-end
-
-if ~iscell(Y)
-    error('Y must be a cell array.');
-end
-
-if ~iscell(Z)
-    error('Z must be a cell array.');
-end
-
-signals = prod(size(X));
-
-if prod(size(Y)) ~= signals || prod(size(Z)) ~= signals
-    error('X, Y, and Z must contain the same number of signals.');
-end
-
-for i = 1 : signals
-    if ~isa(X{i}, 'double')
-        error('Some signal of X is not of type double.');
-    end
-
-    if size(X{i}, 1) > maxDimension
-        error(['Some signal of X has dimension greater than ', ...
-            int2str(maxDimension), '.']);
-    end
-end
-
-for i = 1 : signals
-    if ~isa(Y{i}, 'double')
-        error('Some signal of Y is not of type double.');
-    end
-
-    if size(Y{i}, 1) > maxDimension
-        error(['Some signal of Y has dimension greater than ', ...
-            int2str(maxDimension), '.']);
-    end
-end
-
-for i = 1 : signals
-    if ~isa(Z{i}, 'double')
-        error('Some signal of Z is not of type double.');
-    end
-
-    if size(Z{i}, 1) > maxDimension
-        error(['Some signal of Z has dimension greater than ', ...
-            int2str(maxDimension), '.']);
-    end
-end
-
-if size(timeWindowRadius, 1) ~= 1 || ...
-   size(timeWindowRadius, 2) ~= 1
-    error('TIMEWINDOWRADIUS must be a scalar integer.');
-end
-
-if timeWindowRadius < 0
-    error('TIMEWINDOWRADIUS must be non-negative.');
-end
-
-if size(yLag, 1) ~= 1 || ...
-   size(yLag, 2) ~= 1
-    error('YLAG must be a scalar integer.');
-end
-
-if yLag < 0
-    error('YLAG must be non-negative.');
-end
-
-if size(zLag, 1) ~= 1 || ...
-   size(zLag, 2) ~= 1
-    error('ZLAG must be a scalar integer.');
-end
-
-if zLag < 0
-    error('ZLAG must be non-negative.');
-end
-
-if size(k, 1) ~= 1 || ...
-   size(k, 2) ~= 1
-    error('K must be a scalar integer.');
-end
-
-if k < 1
-    error('K must be at least 1.');
-end
-
-if size(threads, 1) ~= 1 || ...
-   size(threads, 2) ~= 1
-    error('THREADS must be a scalar integer.');
-end
-
-if threads < 1
-    error('THREADS must be at least 1.');
-end
-
-%I = timTemporalPartialMutualInformation(...
-%    X, Y, Z, timeWindowRadius, yLag, zLag, k, threads);
-
+I = temporal_entropy_combination(...
+    [X(:), Z(:), Y(:)]', ...
+    [1, 2, 1; 2, 3, 1; 2, 2, -1], timeWindowRadius, ...
+    [xLag, zLag, yLag], k, threads);

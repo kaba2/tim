@@ -1,83 +1,159 @@
-// Description: Estimation of multivariate transfer entropy.
+// Description: Partial mutual information estimation.
 
 #ifndef TIM_TRANSFER_ENTROPY_H
 #define TIM_TRANSFER_ENTROPY_H
 
 #include "tim/core/signal.h"
 
-#include <vector>
+#include <pastel/sys/forwardrange.h>
 
 namespace Tim
 {
 
-	//! Computes the multivariate transfer entropy.
+	//! Computes temporal transfer entropy.
 	/*!
 	Preconditions:
-	flowFrom >= 0
-	flowFrom < signalSet.height()
-	flowTo >= 0
-	flowTo < signalSet.height()
-	fromDimension > 0
 	timeWindowRadius >= 0
 	kNearest > 0
-	SignalPtr_Iterator dereferences to SignalPtr.
+	ySignalSet.size() == xSignalSet.size()
+	zSignalSet.size() == xSignalSet.size()
+	wSignalSet.size() == wSignalSet.size()
 
-	embeddedSet:
-	An array containing signals for which the multivariate
-	transfer entropy (MTE) is computed.
-	Each row of the array represents a signal from the 
-	same source, and each column represents a trial. I.e. the
-	same test has been repeated and measured for a number of
-	signal sources and the signals have been measured in parallel
-	for each trial. The signals must already have been delay-embedded.
+	xSignalSet, ySignalSet, zSignalSet, wSignalSet:
+	A set of measurements (trials) of signals
+	X, Y, Z, and W, respectively.
 
-	xIndex, yIndex:
-	The row indices of the signals x and y in 'embeddedSet' 
-	between which the directed information flow from x to y is of interest. 
-	The effect of other signals will be removed from the end result 
-	so that, for example, if the connectivity between signals x, y, 
-	and z is x->y->z, then x->z won't report information flow.
-
-	xFutureBegin, xFutureEnd:
-	The future of signal x _before_ the delay-embedding, for each trial.
-	Let x : R -> R^n. The future of x is then defined by:
-	xFuture[t] = last n components of xEmbedded[t + 1].
-	If you used the 'delayEmbed' function to do the delay-embedding,
-	you can use the 'delayEmbedFuture' function to compute the future.
+	xLag, yLag, zLag, wLag:
+	The delays in samples that are applied to
+	signals X, Y, Z, and W, respectively.
 
 	timeWindowRadius:
-	The radius of the time-window in samples to use for MTE estimation
-	at each time instant. Smaller 'timeWindowRadius's give better temporal resolution,
-	but greater errors. In the other direction, if the underlying
-	connectivity pattern stays fixed, then the error can be made 
-	smaller by using a larger 'timeWindowRadius'. In the general case, the MTE 
-	estimate is averaged over the time window and thus its correspondence 
-	to the actual temporal MTE is dependent on how rapidly the underlying
-	connectivity changes.
+	The radius of a time-window in samples over which
+	the partial mutual information is estimated for a given
+	time instant. Smaller values give sensitivity to
+	temporal changes in partial mutual information, while larger 
+	values give smaller variance.
 
 	kNearest:
-	The k:th neighbor to use in the estimation.
+	The number of nearest neighbors to use in the estimation.
 
-	estimateSet (output):
-	For each time instant, an MTE estimate.
-	
-	The embedding and shifting can result in signals that have slightly 
-	different number of samples in them. This is handled by using
-	the minimum sample count and ignoring the rest of the samples.
-
-	If the 'signalSet' contains only two signals, this function
-	reduces to the bivariate transfer entropy.
+	If the number of samples varies between trials, 
+	then the minimum number of samples among the trials
+	is used.
 	*/
-	template <typename SignalPtr_Iterator>
-	void transferEntropy(
-		const Array<SignalPtr, 2>& embeddedSet,
-		integer xIndex,
-		integer yIndex,
-		const SignalPtr_Iterator& xFutureBegin,
-		const SignalPtr_Iterator& xFutureEnd,
+
+	template <
+		typename SignalPtr_X_Iterator,
+		typename SignalPtr_Y_Iterator,
+		typename SignalPtr_Z_Iterator,
+		typename SignalPtr_W_Iterator,
+		typename Real_OutputIterator>
+	void temporalTransferEntropy(
+		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
+		const ForwardRange<SignalPtr_Z_Iterator>& zSignalSet,
+		const ForwardRange<SignalPtr_W_Iterator>& wSignalSet,
 		integer timeWindowRadius,
-		integer kNearest,
-		std::vector<real>& estimateSet);
+		Real_OutputIterator result,
+		integer xLag = 0,
+		integer yLag = 0,
+		integer zLag = 0,
+		integer wLag = 0,
+		integer kNearest = 1);
+
+	//! Computes temporal mutual information.
+	/*!
+	This is a convenience function that calls:
+
+	temporalTransferEntropy(
+		forwardRange(constantIterator(xSignal)), 
+		forwardRange(constantIterator(ySignal)), 
+		forwardRange(constantIterator(zSignal)), 
+		forwardRange(constantIterator(wSignal)), 
+		timeWindowRadius, result,
+		xLag, yLag, zLag, wLag, kNearest);
+
+	See the documentation for that function.
+	*/
+
+	template <typename Real_OutputIterator>
+	void temporalTransferEntropy(
+		const SignalPtr& xSignal,
+		const SignalPtr& ySignal,
+		const SignalPtr& zSignal,
+		const SignalPtr& wSignal,
+		integer timeWindowRadius,
+		Real_OutputIterator result,
+		integer xLag = 0,
+		integer yLag = 0,
+		integer zLag = 0,
+		integer wLag = 0,
+		integer kNearest = 1);
+
+	//! Computes transfer entropy.
+	/*!
+	Preconditions:
+	kNearest > 0
+	ySignalSet.size() == xSignalSet.size()
+	zSignalSet.size() == xSignalSet.size()
+	wSignalSet.size() == xSignalSet.size()
+
+	xSignalSet, ySignalSet, zSignalSet, wSignalSet:
+	A set of measurements (trials) of signals
+	X, Y, Z, and W, respectively.
+
+	xLag, yLag, zLag, wLag:
+	The delays in samples that are applied to
+	signals X, Y, Z, and W, respectively.
+
+	kNearest:
+	The number of nearest neighbors to use in the estimation.
+
+	If the number of samples varies between trials, 
+	then the minimum number of samples among the trials
+	is used.
+	*/
+
+	template <
+		typename SignalPtr_X_Iterator,
+		typename SignalPtr_Y_Iterator,
+		typename SignalPtr_Z_Iterator,
+		typename SignalPtr_W_Iterator>
+	real transferEntropy(
+		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
+		const ForwardRange<SignalPtr_Z_Iterator>& zSignalSet,
+		const ForwardRange<SignalPtr_W_Iterator>& wSignalSet,
+		integer xLag = 0,
+		integer yLag = 0,
+		integer zLag = 0,
+		integer wLag = 0,
+		integer kNearest = 1);
+
+	//! Computes mutual information.
+	/*!
+	This is a convenience function that calls:
+
+	transferEntropy(
+		forwardRange(constantIterator(xSignal)), 
+		forwardRange(constantIterator(ySignal)), 
+		forwardRange(constantIterator(zSignal)), 
+		forwardRange(constantIterator(wSignal)), 
+		xLag, yLag, zLag, wLag, kNearest);
+
+	See the documentation for that function.
+	*/
+
+	TIM real transferEntropy(
+		const SignalPtr& xSignal,
+		const SignalPtr& ySignal,
+		const SignalPtr& zSignal,
+		const SignalPtr& wSignal,
+		integer xLag = 0,
+		integer yLag = 0,
+		integer zLag = 0,
+		integer wLag = 0,
+		integer kNearest = 1);
 
 }
 

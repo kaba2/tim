@@ -37,7 +37,7 @@ namespace
 		const real maxRelativeError = 0;
 		//const integer timeWindowRadius = signal->samples() / 10;
 
-		SignalPtr signalSet[] = {signal, signal};
+		SignalPtr signalSet[] = {signal};
 
 		/*
 		const real estimate = differentialEntropy(
