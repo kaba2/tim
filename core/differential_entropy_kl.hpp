@@ -66,112 +66,83 @@ namespace Tim
 		const integer samples = minSamples(signalSet);
 		const integer dimension = signalSet.front()->dimension();
 
-		if (timeWindowRadius < samples - 1)
-		{
-			// We create an own array to hold the results since the
-			// 'result' iterator is not necessarily random-access
-			// (which is needed for parallelization below).
+		// We create an own array to hold the results since the
+		// 'result' iterator is not necessarily random-access
+		// (which is needed for parallelization below).
 
-			std::vector<real> estimateSet(samples);
+		std::vector<real> estimateSet(samples);
 
 #pragma omp parallel
-			{
-			// Each worker thread has to create its own copy of
-			// the signal point set. This is because the call
-			// to SignalPointSet::setTimeWindow() is mutating.
-			// This is a bit wasteful in memory, but I don't
-			// know how else this could be done.
+		{
+		// Each worker thread has to create its own copy of
+		// the signal point set. This is because the call
+		// to SignalPointSet::setTimeWindow() is mutating.
+		// This is a bit wasteful in memory, but I don't
+		// know how else this could be done.
 
-			Array<real, 2> distanceArray(1, trials);
-			SignalPointSet pointSet(signalSet);
-
-			pointSet.setTimeWindow(0, timeWindowRadius + 1);
+		Array<real, 2> distanceArray(1, trials);
+		SignalPointSet pointSet(signalSet);
 
 #pragma omp for
-			for (integer t = 0;t < samples;++t)
-			{
-				// Compute the window extents. At the start and the
-				// end of the signal there are less samples available
-				// for the estimation and thus the estimation has a greater
-				// error. Remember to document this to the user.
-
-				const integer tLeft = std::max(t - timeWindowRadius, 0);
-				const integer tRight = std::min(t + timeWindowRadius + 1, samples);
-				const integer tDelta = t - tLeft;
-				const integer tWidth = tRight - tLeft;
-
-				// Update the position of the time window.
-
-				pointSet.setTimeWindow(tLeft, tRight);
-				
-				// For each point at the current time instant in all
-				// ensemble signals, find the distance to the k:th nearest 
-				// neighbor. Note that the SignalPointSet stores the
-				// point iterators interleaved so that for a given time instant
-				// the samples of ensemble signals are listed sequentially.
-				// I.e. if the ensemble signals are A, B and C, then
-				// SignalPointSet stores point iterators to 
-				// A(1), B(1), C(1), A(2), B(2), C(2), etc.
-				// That is, the distance between subsequent samples of a
-				// specific signal are 'trials' samples away.
-
-				searchAllNeighbors(
-					pointSet.kdTree(),
-					DepthFirst_SearchAlgorithm_PointKdTree(),
-					randomAccessRange(pointSet.begin() + tDelta * trials, 
-					pointSet.begin() + (tDelta + 1) * trials),
-					kNearest - 1,
-					kNearest, 
-					randomAccessRange(constantIterator(infinity<real>()), trials),
-					maxRelativeError,
-					normBijection,
-					0,
-					&distanceArray);
-
-				// After we have found the distances, we simply evaluate
-				// the differential entropy estimator over the samples of
-				// the current time instant.
-
-				real estimate = 0;
-				for (integer i = 0;i < trials;++i)
-				{
-					// The logarithm of zero would give -infinity,
-					// so we must avoid that.
-					if (distanceArray(i) > 0)
-					{
-						estimate += normBijection.toLnNorm(distanceArray(i));
-					}
-				}
-				estimate *= (real)dimension / trials;
-				estimate -= digamma<real>(kNearest);
-				estimate += digamma<real>(tWidth * trials);
-				estimate += normBijection.lnVolumeUnitSphere(dimension);
-
-				estimateSet[t] = estimate;
-			}
-			}
-
-			// Copy the results to the output.
-
-			std::copy(estimateSet.begin(), estimateSet.end(), result);
-		}
-		else
+		for (integer t = 0;t < samples;++t)
 		{
-			// In this case the time window is so big that it covers
-			// all the samples all the time. It is then equivalent and
-			// more efficient to call the non-temporal version and repeat
-			// its results.
+			// Update the position of the time window.
 
-			const real estimate = 
-				Tim::differentialEntropy(
-				signalSet, 
-				maxRelativeError, kNearest,  
-				normBijection);
+			pointSet.setTimeWindow(t - timeWindowRadius, t + timeWindowRadius + 1);
 
-			// Copy the results to the output.
+			const integer tDelta = t - pointSet.timeBegin();
+			const integer tWidth = pointSet.timeEnd() - pointSet.timeBegin();
+			
+			// For each point at the current time instant in all
+			// ensemble signals, find the distance to the k:th nearest 
+			// neighbor. Note that the SignalPointSet stores the
+			// point iterators interleaved so that for a given time instant
+			// the samples of ensemble signals are listed sequentially.
+			// I.e. if the ensemble signals are A, B and C, then
+			// SignalPointSet stores point iterators to 
+			// A(1), B(1), C(1), A(2), B(2), C(2), etc.
+			// That is, the distance between subsequent samples of a
+			// specific signal are 'trials' samples away.
 
-			std::fill_n(result, samples, estimate);
+			searchAllNeighbors(
+				pointSet.kdTree(),
+				DepthFirst_SearchAlgorithm_PointKdTree(),
+				randomAccessRange(pointSet.begin() + tDelta * trials, 
+				pointSet.begin() + (tDelta + 1) * trials),
+				kNearest - 1,
+				kNearest, 
+				randomAccessRange(constantIterator(infinity<real>()), trials),
+				maxRelativeError,
+				normBijection,
+				0,
+				&distanceArray);
+
+			// After we have found the distances, we simply evaluate
+			// the differential entropy estimator over the samples of
+			// the current time instant.
+
+			real estimate = 0;
+			for (integer i = 0;i < trials;++i)
+			{
+				// The logarithm of zero would give -infinity,
+				// so we must avoid that.
+				if (distanceArray(i) > 0)
+				{
+					estimate += normBijection.toLnNorm(distanceArray(i));
+				}
+			}
+			estimate *= (real)dimension / trials;
+			estimate -= digamma<real>(kNearest);
+			estimate += digamma<real>(tWidth * trials);
+			estimate += normBijection.lnVolumeUnitSphere(dimension);
+
+			estimateSet[t] = estimate;
 		}
+		}
+
+		// Copy the results to the output.
+
+		std::copy(estimateSet.begin(), estimateSet.end(), result);
 	}
 
 	template <

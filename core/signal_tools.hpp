@@ -79,8 +79,43 @@ namespace Tim
 			return SignalPtr();
 		}
 
-		const integer maxLag = *std::max_element(lagSet.begin(), lagSet.end());
-		const integer samples = minSamples(signalSet) - maxLag;
+		integer samples = 0;
+		integer maxLag = 0;
+		{
+			Integer_Iterator lagIter = lagSet.begin();
+			const Integer_Iterator lagIterEnd = lagSet.end();
+			SignalPtr_Iterator signalIter = signalSet.begin();
+
+			integer tLeftMax = (*lagIter);
+			integer tRightMin = tLeftMax + (*signalIter)->samples();
+
+			while(lagIter != lagIterEnd)
+			{
+				const integer lag = *lagIter;
+
+				if (lag > maxLag)
+				{
+					maxLag = lag;
+				}
+
+				const integer tLeft = lag;
+				const integer tRight = lag + (*signalIter)->samples();
+
+				if (tLeft > tLeftMax)
+				{
+					tLeftMax = tLeft;
+				}
+				if (tRight < tRightMin)
+				{
+					tRightMin = tRight;
+				}
+
+				++lagIter;
+				++signalIter;
+			}
+			
+			samples = tRightMin - tLeftMax;
+		}
 
 		if  (samples <= 0)
 		{

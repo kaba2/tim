@@ -48,7 +48,7 @@ function I = temporal_mutual_information(X, Y, timeWindowRadius, ...
 % passes the transpose of the intended data.
 maxDimension = 32;
 
-if nargin < 2
+if nargin < 3
     error('Not enough input arguments.');
 end
 
@@ -61,7 +61,7 @@ if nargout > 1
 end
 
 if nargin < 4
-    yLag = 0
+    yLag = 0;
 end
 
 if nargin < 5

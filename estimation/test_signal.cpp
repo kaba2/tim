@@ -83,25 +83,50 @@ namespace
 				4, 9,
 				5, 10;
 
-			SignalPtr w = merge(z, z);
-			SignalPtr wCorrect =
-				SignalPtr(new Signal(5, 4));
-			wCorrect->data() |= 
-				1, 6, 1, 6,
-				2, 7, 2, 7,
-				3, 8, 3, 8,
-				4, 9, 4, 9, 
-				5, 10, 5, 10;
+			{
+				SignalPtr w = merge(z, z);
+				SignalPtr wCorrect =
+					SignalPtr(new Signal(5, 4));
+				wCorrect->data() |= 
+					1, 6, 1, 6,
+					2, 7, 2, 7,
+					3, 8, 3, 8,
+					4, 9, 4, 9, 
+					5, 10, 5, 10;
 
-			TEST_ENSURE(w->data() == wCorrect->data());
+				TEST_ENSURE(w->data() == wCorrect->data());
 
-			SignalPtr u = split(wCorrect, 0, 2);
+				SignalPtr u = split(wCorrect, 0, 2);
 
-			TEST_ENSURE(u->data() == zCorrect->data());
+				TEST_ENSURE(u->data() == zCorrect->data());
 
-			SignalPtr v = split(wCorrect, 2, 4);
+				SignalPtr v = split(wCorrect, 2, 4);
 
-			TEST_ENSURE(v->data() == zCorrect->data());
+				TEST_ENSURE(v->data() == zCorrect->data());
+			}
+			{
+				SignalPtr w = merge(z, z, 1);
+				SignalPtr wCorrect =
+					SignalPtr(new Signal(4, 4));
+				wCorrect->data() |= 
+					2, 7, 1, 6,
+					3, 8, 2, 7,
+					4, 9, 3, 8,
+					5, 10, 4, 9;
+
+				TEST_ENSURE(w->data() == wCorrect->data());
+			}
+			{
+				SignalPtr w = merge(z, z, 2);
+				SignalPtr wCorrect =
+					SignalPtr(new Signal(3, 4));
+				wCorrect->data() |= 
+					3, 8, 1, 6,
+					4, 9, 2, 7,
+					5, 10, 3, 8;
+
+				TEST_ENSURE(w->data() == wCorrect->data());
+			}
 		}
 
 		void testEmbed()
@@ -222,7 +247,7 @@ namespace
 
 	void addTest()
 	{
-		timTestList().add("signal", testSignal);
+		timTestList().add("Signal", testSignal);
 	}
 
 	CallFunction run(addTest);

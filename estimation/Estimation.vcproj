@@ -228,6 +228,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\test_signalpointset.cpp"
+			>
+		</File>
+		<File
 			RelativePath=".\test_transfer_entropy.cpp"
 			>
 		</File>

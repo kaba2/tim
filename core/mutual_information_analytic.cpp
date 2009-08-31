@@ -27,9 +27,9 @@ namespace Tim
 		= 0.5 log((|C_1| * ... * |C_m|) / |C|)
 		*/
 		
-		return 0.5 * std::log(
+		return 0.5 * std::log(std::abs(
 			marginalCovarianceDeterminantProduct /
-			jointCovarianceDeterminant);
+			jointCovarianceDeterminant));
 	}
 
 }

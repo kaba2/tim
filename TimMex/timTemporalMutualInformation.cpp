@@ -17,8 +17,7 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	};
 	BOOST_STATIC_ASSERT(RealIsDouble);
 
-	const integer signals = mxGetDimensions(inputSet[0])[0];
-	const integer trials = mxGetDimensions(inputSet[0])[1];
+	const integer trials = mxGetNumberOfElements(inputSet[0]);
 
 	std::vector<SignalPtr> xEnsemble;
 	xEnsemble.reserve(trials);
@@ -31,8 +30,8 @@ void mexFunction(int outputs, mxArray *outputSet[],
 		// and height the wrong way. The reason
 		// is that Matlab uses column-major storage
 		// while we use row-major storage.
-		const mwSize samples = mxGetN(signalArray);
-		const mwSize dimension = mxGetM(signalArray);
+		const integer samples = mxGetN(signalArray);
+		const integer dimension = mxGetM(signalArray);
 
 		real* rawData = mxGetPr(signalArray);
 
@@ -51,8 +50,8 @@ void mexFunction(int outputs, mxArray *outputSet[],
 		// and height the wrong way. The reason
 		// is that Matlab uses column-major storage
 		// while we use row-major storage.
-		const mwSize samples = mxGetN(signalArray);
-		const mwSize dimension = mxGetM(signalArray);
+		const integer samples = mxGetN(signalArray);
+		const integer dimension = mxGetM(signalArray);
 
 		real* rawData = mxGetPr(signalArray);
 
