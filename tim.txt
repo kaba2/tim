@@ -29,7 +29,7 @@ is discussed in more detail below.
 
 * [Download software][Download]
 
-[Download]: 
+[Download]: tim_beta1.zip
 
 Source code
 -----------
