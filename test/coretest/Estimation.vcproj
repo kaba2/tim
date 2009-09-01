@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="TimTest"
+	Name="TimCoreTest"
 	ProjectGUID="{66E30DC6-D769-4D04-AD28-58DD4C7E5A49}"
-	RootNamespace="Estimation"
+	RootNamespace="TimCoreTest"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
