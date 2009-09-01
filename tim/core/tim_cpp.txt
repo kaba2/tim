@@ -1,9 +1,7 @@
 TIM C++ implementation
 ======================
 
-[Back to TIM][Parent]
-
-[Parent]: ../tim.htm
+[Parent]: tim.txt
 
 Theory
 ------
@@ -14,21 +12,3 @@ representing it as a matrix of values and allowing it to be
 manipulated correspondingly. The SignalPointSet class in turn models a
 reinterpretation of a time series as a semidynamic set of points.
 
-Learn more
-----------
-
-[Basics of the C++ implementation][5]
-
-[Estimators][1]
-
-[Signal class][2]
-
-[SignalPointSet class][3]
-
-[Delay embedding][4]
-
-[1]: estimators.htm
-[2]: signal.htm
-[3]: signalpointset.htm
-[4]: embed.htm
-[5]: basics.htm

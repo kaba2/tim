@@ -1,9 +1,7 @@
-Entropy combination estimation
-==============================
+Entropy combination
+===================
 
-[Back to Estimators][Parent]
-
-[Parent]: estimators.htm
+[Parent]: estimators.txt
 
 Theory
 ------
@@ -26,17 +24,4 @@ memory by allowing the memory for the joint signal to be
 shared with the marginal signals. It is easily seen that mutual
 information, partial mutual information, and transfer entropy can 
 all be arranged to have this property.
-
-Files
------
-
-### Estimation of entropy combinations
-
-[entropy_combination.h][1]
-
-[entropy_combination.hpp][2]
-
-[1]: entropy_combination.h.htm
-[2]: entropy_combination.hpp.htm
-
 

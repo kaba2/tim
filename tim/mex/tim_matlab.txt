@@ -1,7 +1,5 @@
 TIM Matlab interface
 ====================
 
-[Back to TIM][Parent]
-
-[Parent]: ../tim.txt
+[Parent]: tim.txt
 
