@@ -1,22 +1,5 @@
 Delay embedding
 ===============
 
-[Back to TIM C++ implementation][Parent]
-
-[Parent]: tim_cpp.htm
-
-Files
------
-
-### Tools for delay embedding
-
-[embed.cpp][1]
-
-[embed.h][2]
-
-[embed.hpp][3]
-
-[1]: embed.cpp.htm
-[2]: embed.h.htm
-[3]: embed.hpp.htm
+[Parent]: tim_cpp.txt
 

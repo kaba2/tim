@@ -58,14 +58,3 @@ process can make breaking changes to interfaces.
 [DownloadSource]: 
 [ViewSourceTree]: core/
 
-Learn more
-----------
-
-[Examples]
-
-[Documentation for the C++ implementation][TimCpp]
-
-[Documentation for the Matlab interface][TimMatlab]
-
-[TimCpp]: core/tim_cpp.htm
-[TimMatlab]: TimMex/tim_matlab.htm

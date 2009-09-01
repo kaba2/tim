@@ -1,9 +1,7 @@
-Mutual information estimation
-=============================
+Mutual information
+==================
 
-[Back to Estimators][Parent]
-
-[Parent]: estimators.htm
+[Parent]: estimators.txt
 
 Theory
 ------
@@ -19,43 +17,3 @@ It's importance lies in the fact that
 
 ''I(X, Y) = 0 <=>'' ''X'' and ''Y'' are independent.
 
-Files
------
-
-### Analytic solutions for mutual information
-
-[mutual_information_analytic.cpp][1]
-
-[mutual_information_analytic.h][2]
-
-[1]: mutual_information_analytic.cpp.htm
-
-[2]: mutual_information_analytic.h.htm
-
-### Mutual information estimation via entropy combination
-
-[mutual_information_ec.cpp][3]
-
-[mutual_information_ec.h][4]
-
-[mutual_information_ec.hpp][5]
-
-[3]: mutual_information_ec.cpp.htm
-
-[4]: mutual_information_ec.h.htm
-
-[5]: mutual_information_ec.hpp.htm
-
-### Mutual information estimation using naive algorithms
-
-[mutual_information_naive.cpp][6]
-
-[mutual_information_naive.h][7]
-
-[mutual_information_naive.hpp][8]
-
-[6]: mutual_information_naive.cpp.htm
-
-[7]: mutual_information_naive.h.htm
-
-[8]: mutual_information_naive.hpp.htm

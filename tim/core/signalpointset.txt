@@ -1,9 +1,7 @@
 SignalPointSet class
 ====================
 
-[Back to TIM C++ implementation][Parent]
-
-[Parent]: tim_cpp.htm
+[Parent]: tim_cpp.txt
 
 Theory
 ------
@@ -34,19 +32,5 @@ See also
 
 [Multi-resolution kd-tree in Pastel library][Pastel_PointKdTree]
 
-[Pastel_PointKdTree]: pastel/geometry/pointkdtree.txt
+[Pastel_PointKdTree]: /pastel/geometry/pointkdtree.txt
 
-Files
------
-
-### SignalPointSet class
-
-[signalpointset.cpp][1]
-
-[signalpointset.h][2]
-
-[signalpointset.hpp][3]
-
-[1]: signalpointset.cpp.htm
-[2]: signalpointset.h.htm
-[3]: signalpointset.hpp.htm
