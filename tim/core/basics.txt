@@ -1,7 +1,9 @@
 Basics of the C++ implementation
 ================================
 
-[Parent]: tim_cpp.txt
+[Back to TIM C++ implementation][Parent]
+
+[Parent]: tim_cpp.htm
 
 Integers and reals
 ------------------
@@ -65,5 +67,5 @@ Files
 [tim_library.h][3]
 
 [1]: mytypes.h.htm
-[2]: tim_library.cpp
-[3]: tim_library.h
+[2]: tim_library.cpp.htm
+[3]: tim_library.h.htm

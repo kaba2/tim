@@ -25,7 +25,7 @@ Software
 TIM can be used in either of two ways. The first one is to use it
 via the provided Matlab interface with precompiled binaries. 
 The second one is to build your own C++ software using it. This option
-is discussed more below.
+is discussed in more detail below.
 
 * [Download software][Download]
 
