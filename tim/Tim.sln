@@ -5,7 +5,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TimCore", "core\TimCore.vcp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TimMex", "mex\TimMex.vcproj", "{21768932-BCCB-4EC2-AF80-32F8334FB594}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TimCoreTest", "..\test\coretest\Estimation.vcproj", "{66E30DC6-D769-4D04-AD28-58DD4C7E5A49}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TimCoreTest", "..\test\coretest\timcoretest.vcproj", "{66E30DC6-D769-4D04-AD28-58DD4C7E5A49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
