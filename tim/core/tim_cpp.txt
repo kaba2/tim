@@ -17,6 +17,8 @@ reinterpretation of a time series as a semidynamic set of points.
 Learn more
 ----------
 
+[Basics of the C++ implementation][5]
+
 [Estimators][1]
 
 [Signal class][2]
@@ -29,3 +31,4 @@ Learn more
 [2]: signal.htm
 [3]: signalpointset.htm
 [4]: embed.htm
+[5]: basics.htm
