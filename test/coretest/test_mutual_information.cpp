@@ -30,12 +30,11 @@ namespace
 		integer kNearest,
 		real correctMi)
 	{
-		/*
 		const real averageMi = mutualInformation(
 			xSignal, ySignal, 
 			xLag, yLag, kNearest);
-		*/
 
+		/*
 		std::vector<real> mi;
 		temporalMutualInformation(
 			xSignal, ySignal, 
@@ -44,6 +43,7 @@ namespace
 			xLag, yLag, kNearest);
 		const real averageMi = 
 			std::accumulate(mi.begin(), mi.end(), (real)0) / mi.size();
+		*/
 
 		/*
 		std::vector<SignalPtr> signalSet;

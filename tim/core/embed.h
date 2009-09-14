@@ -1,4 +1,4 @@
-// Description: Tools for delay embedding
+// Description: Delay embedding
 
 #ifndef TIM_EMBED_H
 #define TIM_EMBED_H

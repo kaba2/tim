@@ -6,15 +6,15 @@ SignalPointSet class
 Theory
 ------
 
-Let `P` be a point set in `RR^n`. A _semi-dynamic point set_ `S` over `P`
-is a function `S : ZZ -> 2^P`. `S` then represents a time-varying point set that
+Let ''P'' be a point set in ''RR^n''. A _semi-dynamic point set_ ''S'' over ''P''
+is a function ''S : ZZ -> 2^P''. ''S'' then represents a time-varying point set that
 potentially changes at each discrete time instant by removing and inserting
-points of `P`.
+points of ''P''.
 
 Practice
 --------
 
-TIM implements the SignalPointSet class to model semidynamic point
+TIM implements the SignalPointSet class to model semi-dynamic point
 sets. It takes in an ensemble of signals and interprets the realizations as
 a semi-dynamic point set. It then builds an efficient data structure 
 (multi-resolution kd-tree) which can be used to perform nearest neighbor
@@ -30,7 +30,5 @@ window arbitrarily.
 See also
 --------
 
-[Multi-resolution kd-tree in Pastel library][Pastel_PointKdTree]
-
-[Pastel_PointKdTree]: /pastel/geometry/pointkdtree.txt
+[Link]: /pastel/geometry/pointkdtree.txt
 

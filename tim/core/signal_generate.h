@@ -1,4 +1,4 @@
-// Description: Tools to generate various signals
+// Description: Generation of common signals
 
 #ifndef TIM_SIGNAL_GENERATE_H
 #define TIM_SIGNAL_GENERATE_H
@@ -75,7 +75,7 @@ namespace Tim
 	The amplitudes of these drives are given by a sine
 	wave for the x->y, and by a cosine wave for the
 	y->z. Thus, those estimators which are sensitive
-	to temporal changes in coupling (e.g. multivariate 
+	to temporal changes in coupling (e.g. partial 
 	transfer entropy) should give similar coupling curves.	
 	*/
 	TIM void generateTimeVaryingCoupling(
