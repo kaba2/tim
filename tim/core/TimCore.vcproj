@@ -430,11 +430,11 @@
 			</File>
 		</Filter>
 		<File
-			RelativePath="..\tim.txt"
+			RelativePath="..\..\tim.txt"
 			>
 		</File>
 		<File
-			RelativePath=".\tim_cpp.txt"
+			RelativePath="..\tim_cpp.txt"
 			>
 		</File>
 	</Files>

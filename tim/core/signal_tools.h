@@ -1,4 +1,4 @@
-// Description: Tools for working with Signal's
+// Description: Algorithms for Signal's
 
 #ifndef TIM_SIGNAL_TOOLS_H
 #define TIM_SIGNAL_TOOLS_H

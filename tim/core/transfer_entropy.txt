@@ -7,7 +7,7 @@ Theory
 ------
 
 Let ''X'', ''Y'', ''Z'', and ''w'' be random variables.
-Multivariate transfer entropy is defined by:
+Partial transfer entropy is defined by:
 
 ''T(w, X, Y ; Z) = H(w X Z) + H(X, Z, Y) - H(X Z) - H(w X Z Y)''
 

@@ -1,5 +1,5 @@
 % TRANSFER_ENTROPY_P
-% A multivariate transfer entropy estimate from samples.
+% A partial transfer entropy estimate from samples.
 %
 % I = transfer_entropy_p(X, Y, Z, W, 
 %       xLag, yLag, zLag, wLag, k, threads)
@@ -28,7 +28,7 @@
 % the minimum sample count among the trials of X, Y, Z, and W.
 % The number of trials in X, Y, Z, and W must be equal.
 
-% Description: Multivariate transfer entropy estimation
+% Description: Partial transfer entropy estimation
 % Documentation: tim_matlab.txt
 
 function I = transfer_entropy_p(X, Y, Z, W, ...

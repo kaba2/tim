@@ -88,7 +88,7 @@ if timeWindowRadius < 0
     error('TIMEWINDOWRADIUS must be non-negative');
 end
 
-signals = numel(signalSet);
+signals = size(signalSet, 1);
 
 if signals == 0
 	error('SIGNALSET is empty.');

@@ -1,5 +1,5 @@
-#ifndef TIM_MUTUAL_INFORMATION_KRASKOW_HPP
-#define TIM_MUTUAL_INFORMATION_KRASKOW_HPP
+#ifndef TIM_MUTUAL_INFORMATION_EC_HPP
+#define TIM_MUTUAL_INFORMATION_EC_HPP
 
 #include "tim/core/mutual_information_ec.h"
 #include "tim/core/signal_tools.h"

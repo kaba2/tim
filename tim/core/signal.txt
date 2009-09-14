@@ -6,8 +6,8 @@ Signal class
 Theory
 ------
 
-The Signal class represents a time-series in R^n. If the number of stored 
-samples from the time series is m, the data is stored as an nxm-matrix. This
+The Signal class represents a time-series in ''RR^n''. If the number of stored 
+samples from the time series is m, the data is stored as an ''(m xx n)''-matrix. This
 data can be manipulated directly via the Matrix class from the Pastel library.
 
 Signal aliasing
@@ -35,6 +35,4 @@ M(Range(0, 1), Range(0, 10, 2)).
 See also
 --------
 
-[Matrix class in Pastel library][1]
-
-[1]: /pastel/geometry/matrix.htm
+[Link]: /pastel/geometry/matrix.txt
