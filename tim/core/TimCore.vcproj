@@ -430,6 +430,10 @@
 			</File>
 		</Filter>
 		<File
+			RelativePath="..\..\faq.txt"
+			>
+		</File>
+		<File
 			RelativePath="..\..\tim.txt"
 			>
 		</File>

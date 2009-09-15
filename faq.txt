@@ -1,0 +1,49 @@
+Few Anticipated Questions
+=========================
+
+[Parent]: tim.txt
+
+Wrong results in differential entropy estimation?
+-------------------------------------------------
+
+If ''X'' is a random variable in ''RR^n'' and ''H(X)'' denotes
+differential entropy, then it holds that ''H(X, X) = H(X)''.
+TIM seems to claim otherwise. Using Matlab notation, 
+evaluate:
+
+	>> A = randn(5, 10000);
+	>> h1 = differential_entropy({A})
+	>> h2 = differential_entropy({[A; A]})
+	
+On this particular run, I get ''h1 = 7.0935'' and ''h2 = 4.3994''. 
+While ''h1'' is close to the correct analytical solution, ''h2'' is not.
+The reason for this behaviour is that the second data-set breaks
+an assumption used in the differential entropy estimator. This
+assumption is that the distribution underlying the random variable
+is locally n-dimensional. For this example, it is easy to see that
+the joint-distribution covers only 5 out of 10 dimensions. 
+Compute the singular values of the covariance matrix of the joint 
+signal:
+
+	>> svd(cov([A;A]'))
+
+For this particular run, the 5 greatest eigenvalues are
+
+	2.0715    2.0546    2.0017    1.9950    1.9644
+	
+and the last 5 eigenvalues are zero. This example shows that
+it is essential to make sure that the distribution is locally 
+n-dimensional before taking any confidence on the computed value.
+Admittedly, the example is a bit pathological.
+
+Wrong results in all estimators?
+--------------------------------
+
+All of the estimators are based on the entropy combination estimator,
+which is in turn based on the Kozachenko-Leonenko differential entropy
+estimator. Whatever differential entropies are used symbolically to
+evaluate the combination, all of the involved random variables must have 
+full local dimensionality in their distribution to obtain correct results. 
+The more dependent the variables are, the more the dimension of the joint 
+signal is restricted, and this leads to increasingly erroneous results.
+
