@@ -228,6 +228,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\timDifferentialEntropySp.cpp"
+			>
+		</File>
+		<File
 			RelativePath=".\timEntropyCombination.cpp"
 			>
 		</File>

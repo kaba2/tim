@@ -497,8 +497,8 @@ namespace Tim
 				const ConstObjectIterator from = jointPointSet.begin()[j];
 				const ConstObjectIterator to = nearestArray(j);
 				distanceArray[j] = distance2(
-					PointD(ofDimension(pointSet[i]->dimension()), withAliasing((real*)from->object() + offsetSet[i])),
-					PointD(ofDimension(pointSet[i]->dimension()), withAliasing((real*)to->object() + offsetSet[i])),
+					VectorD(ofDimension(pointSet[i]->dimension()), withAliasing((real*)from->object() + offsetSet[i])),
+					VectorD(ofDimension(pointSet[i]->dimension()), withAliasing((real*)to->object() + offsetSet[i])),
 					normBijection) * scaling;
 			}
 

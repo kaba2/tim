@@ -120,7 +120,7 @@ namespace Tim
 		integer dimension() const;
 
 		//! Returns a point that corresponds to a given kd-tree object.
-		PointD point(const Object& object) const;
+		VectorD point(const Object& object) const;
 
 	private:
 		// Prohibited, for now.

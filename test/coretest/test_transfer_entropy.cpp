@@ -5,7 +5,7 @@
 #include "tim/core/signal_tools.h"
 #include "tim/core/embed.h"
 
-#include <pastel/gfx/drawing.h>
+#include <pastel/gfx/draw.h>
 #include <pastel/gfx/pcx.h>
 
 #include <pastel/device/timer.h>

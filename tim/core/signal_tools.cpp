@@ -53,7 +53,7 @@ namespace Tim
 			signal->samples(), dimension));
 
 		splitSignal->data() = signal->data()(
-			Point2i(0, dimensionBegin), Point2i(samples, dimensionEnd));
+			Vector2i(0, dimensionBegin), Vector2i(samples, dimensionEnd));
 
 		return splitSignal;
 	}
