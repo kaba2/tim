@@ -219,6 +219,22 @@
 					RelativePath=".\differential_entropy_kl.hpp"
 					>
 				</File>
+				<File
+					RelativePath=".\differential_entropy_nk.h"
+					>
+				</File>
+				<File
+					RelativePath=".\differential_entropy_nk.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\differential_entropy_sp.h"
+					>
+				</File>
+				<File
+					RelativePath=".\differential_entropy_sp.hpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Mutual information"

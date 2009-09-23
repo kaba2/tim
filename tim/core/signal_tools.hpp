@@ -6,7 +6,7 @@
 #include <pastel/sys/view_tools.h>
 #include <pastel/sys/constantiterator.h>
 
-#include <pastel/gfx/drawing.h>
+#include <pastel/gfx/draw.h>
 
 #include <iostream>
 
@@ -292,7 +292,7 @@ namespace Tim
 			{
 				const real y = mabs(signal->data()(x)) / yMax;
 
-				drawPixel(Point2(x + 0.5, y * (height - 1)), 
+				drawPixel(Vector2(x + 0.5, y * (height - 1)), 
 					Color(0, 1, 0), image);
 			}
 		}

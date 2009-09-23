@@ -11,10 +11,11 @@
 #include <pastel/sys/countingiterator.h>
 
 #include <pastel/gfx/pcx.h>
-#include "pastel/gfx/drawing.h"
-#include "pastel/gfx/imagegfxrenderer.h"
+#include "pastel/gfx/draw.h"
+#include "pastel/gfx/image_gfxrenderer.h"
 #include "pastel/gfx/gfxrenderer_tools.h"
 #include "pastel/gfx/color_tools.h"
+#include "pastel/gfx/color_hsv.h"
 
 #include <pastel/sys/vector_tools.h>
 #include <pastel/sys/log_all.h>
@@ -22,8 +23,6 @@
 #include <pastel/sys/string_tools.h>
 #include <pastel/sys/config_tools.h>
 #include <pastel/sys/configfile.h>
-
-#include <pastel/math/uniform_sampling.h>
 
 #include <boost/iterator/transform_iterator.hpp>
 
@@ -66,7 +65,7 @@ namespace
 
 	template <int N, typename Real, typename NormBijection>
 	void checkConsistency(const std::string& name,
-						  const std::vector<Point<Real, N> >& pointSet,
+						  const std::vector<Vector<Real, N> >& pointSet,
 						  const Array<integer, 2>& correctNearest,
 						  const Array<integer, 2>& approxNearest,
 						  const PASTEL_NO_DEDUCTION(Real)& maxRelativeError,
@@ -150,7 +149,7 @@ namespace
 
 	template <int N, typename Real, typename NormBijection>
 	void searchAllNeighborsAnn(
-		const std::vector<Point<Real, N> >& pointSet,
+		const std::vector<Vector<Real, N> >& pointSet,
 		integer kNearest,
 		const PASTEL_NO_DEDUCTION(Real)& maxDistance,
 		const PASTEL_NO_DEDUCTION(Real)& maxRelativeError,
@@ -213,7 +212,7 @@ namespace
 
 	template <int N, typename Real, typename NormBijection>
 	void searchAllNeighborsBdTreeAnn(
-		const std::vector<Point<Real, N> >& pointSet,
+		const std::vector<Vector<Real, N> >& pointSet,
 		integer kNearest,
 		const PASTEL_NO_DEDUCTION(Real)& maxDistance,
 		const PASTEL_NO_DEDUCTION(Real)& maxRelativeError,
@@ -277,7 +276,7 @@ namespace
 	template <int N, typename Real>
 	typename boost::disable_if_c<(N == 2)>::type
 		drawNearest(const std::string& name,
-		const std::vector<Point<Real, N> >& pointSet,
+		const std::vector<Vector<Real, N> >& pointSet,
 		const Array<integer, 2>& neighborSet)
 	{
 	}
@@ -285,7 +284,7 @@ namespace
 	template <int N, typename Real>
 	typename boost::enable_if_c<(N == 2)>::type
 		drawNearest(const std::string& name,
-		const std::vector<Point<Real, N> >& pointSet,
+		const std::vector<Vector<Real, N> >& pointSet,
 		const Array<integer, 2>& neighborSet)
 	{
 		if (pointSet.size() > 100)
@@ -339,7 +338,7 @@ namespace
 	{
 		ASSERT(N == Dynamic || N == dimension);
 
-		std::vector<Point<Real, N> > pointSet;
+		std::vector<Vector<Real, N> > pointSet;
 		//generateGaussianPointSet(samples, dimension, pointSet);
 		//generateUniformBallPointSet(samples, dimension, pointSet);
 		//generateClusteredPointSet(samples, dimension, 10, pointSet);
@@ -382,14 +381,14 @@ namespace
 
 		/*
 		Array<Real, 2> pointArray(dimension, samples);
-		std::vector<Point<Real, N> > pointSet;
+		std::vector<Vector<Real, N> > pointSet;
 		pointSet.reserve(samples);
 		for (integer i = 0;i < samples;++i)
 		{
 
-			pointSet.push_back(Point<Real, N>(ofDimension(0)));
+			pointSet.push_back(Vector<Real, N>(ofDimension(0)));
 	#if TIM_DYNAMIC != 0
-			pointSet.back() = TemporaryPoint<N, Real>(
+			pointSet.back() = Vector<N, Real>(
 				ofDimension(dimension),
 				withAliasing(&pointArray(0, i)));
 	#endif
@@ -457,9 +456,9 @@ namespace
 
 				kdTree.insert(
 					boost::make_transform_iterator(
-					pointSet.begin(), std::mem_fun_ref(&Point<Real, N>::rawBegin)),
+					pointSet.begin(), std::mem_fun_ref(&Vector<Real, N>::rawBegin)),
 					boost::make_transform_iterator(
-					pointSet.end(), std::mem_fun_ref(&Point<Real, N>::rawBegin)),
+					pointSet.end(), std::mem_fun_ref(&Vector<Real, N>::rawBegin)),
 					std::back_inserter(iteratorSet));
 
 				kdTree.refine(SlidingMidpoint_SplitRule_PointKdTree());

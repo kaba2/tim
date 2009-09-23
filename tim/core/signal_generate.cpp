@@ -2,7 +2,7 @@
 
 #include <pastel/math/matrix_tools.h>
 
-#include <pastel/sys/random_vector.h>
+#include <pastel/sys/random.h>
 
 namespace Tim
 {
