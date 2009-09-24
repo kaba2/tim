@@ -121,17 +121,20 @@ namespace Tim
 			// the differential entropy estimator over the samples of
 			// the current time instant.
 
+			integer acceptedSamples = 0;
 			real estimate = 0;
 			for (integer i = 0;i < trials;++i)
 			{
 				// The logarithm of zero would give -infinity,
-				// so we must avoid that.
+				// so we must avoid that. Such samples are
+				// not taken in the estimate.
 				if (distanceArray(i) > 0)
 				{
 					estimate += normBijection.toLnNorm(distanceArray(i));
+					++acceptedSamples;
 				}
 			}
-			estimate *= (real)dimension / trials;
+			estimate *= (real)dimension / acceptedSamples;
 			estimate -= digamma<real>(kNearest);
 			estimate += digamma<real>(tWidth * trials);
 			estimate += normBijection.lnVolumeUnitSphere(dimension);
@@ -239,89 +242,27 @@ namespace Tim
 		// After we have found the distances, we simply evaluate
 		// the differential entropy estimator over all samples.
 
+		integer acceptedSamples = 0;
 		real estimate = 0;
 #pragma omp parallel for reduction(+ : estimate)
 		for (integer i = 0;i < estimateSamples;++i)
 		{
 			// The logarithm of zero would give -infinity,
-			// so we must avoid that.
+			// so we must avoid that. Such samples are
+			// not taken in the estimate.
 			if (distanceArray(i) > 0)
 			{
 				estimate += normBijection.toLnNorm(distanceArray(i));
+				++acceptedSamples;
 			}
 		}
-		estimate *= (real)dimension / estimateSamples;
+		estimate *= (real)dimension / acceptedSamples;
 		estimate -= digamma<real>(kNearest);
 		estimate += digamma<real>(estimateSamples);
 		estimate += normBijection.lnVolumeUnitSphere(dimension);
 
 		return estimate;
 	}
-
-	template <
-		typename SignalPtr_Iterator, 
-		typename NormBijection>
-	real differentialEntropy2(
-		const ForwardRange<SignalPtr_Iterator>& signalSet,
-		real maxRelativeError,
-		integer kNearest,
-		const NormBijection& normBijection)
-	{
-		ENSURE_OP(kNearest, >, 0);
-		ENSURE_OP(maxRelativeError, >=, 0);
-
-		SignalPointSet pointSet(signalSet, true);
-
-		const integer trials = signalSet.size();
-		const integer samples = pointSet.samples();
-		const integer dimension = signalSet.front()->dimension();
-		const integer estimateSamples = samples * trials;
-
-		typedef SignalPointSet::ConstObjectIterator ConstObjectIterator;
-
-		Array<ConstObjectIterator, 2> nearestArray(1, estimateSamples);
-
-		// Find the distance to the k:th nearest neighbor for all points.
-
-		searchAllNeighbors(
-			pointSet.kdTree(),
-			DepthFirst_SearchAlgorithm_PointKdTree(),
-			randomAccessRange(pointSet.begin(), pointSet.end()),
-			kNearest - 1,
-			kNearest, 
-			randomAccessRange(constantIterator(infinity<real>()), estimateSamples),
-			maxRelativeError,
-			normBijection,
-			&nearestArray);
-
-		// After we have found the distances, we simply evaluate
-		// the differential entropy estimator over all samples.
-
-		real estimate = 0;
-#pragma omp parallel for reduction(+ : estimate)
-		for (integer i = 0;i < estimateSamples;++i)
-		{
-			const real* from = pointSet.begin()[i]->object();
-			const real* to = nearestArray(i)->object();
-
-			real pointEstimate = 1;
-			for (integer j = 0;j < dimension;++j)
-			{
-				pointEstimate *= 2 * std::abs(to[j] - from[j]);
-			}
-			if (pointEstimate > 0)
-			{
-				estimate += std::log(pointEstimate);
-			}
-		}
-		estimate /= estimateSamples;
-		estimate -= digamma<real>(kNearest);
-		estimate += (real)(dimension - 1) / kNearest;
-		estimate += digamma<real>(estimateSamples);
-
-		return estimate;
-	}
-
 
 	template <typename SignalPtr_Iterator>
 	real differentialEntropy(
