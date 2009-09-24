@@ -1,0 +1,22 @@
+Kozachenko-Leonenko estimator
+=============================
+
+[Parent]: differential_entropy.txt
+
+The Kozachenko-Leonenko differential estimator is
+a non-parametric estimator based on k:th nearest 
+neighbors of a sample set. 
+
+Assumptions
+-----------
+
+ * Data must be full-dimensional, i.e. not concentrated
+ on the surface of a lower-dimensional manifold. If this 
+ is not the case, consider using the Nilsson-Kleijn
+ estimator instead.
+
+ * The probability density function of the underlying
+ random variable must be differentiable. For example,
+ uniform distribution in ''[0, 1]^n'' gives bad
+ estimates.
+ 

@@ -1,0 +1,52 @@
+Nilsson-Kleijn estimator
+========================
+
+[Parent]: differential_entropy_sp.txt
+
+The Nilsson-Kleijn differential entropy estimator
+is a non-parametric estimator based on nearest 
+neighbors of a sample set. 
+
+Assumptions
+-----------
+
+ * Data is lying on a d-dimensional differentiable 
+ manifold on ''RR^n'', ''0 <= d <= n''. The ''d'' 
+ is called the _intrinsic dimension_ of the data, 
+ and it is estimated together with the differential 
+ entropy. If you know that the data is full-dimensional,
+ you should use the Kozachenko-Leonenko estimator
+ instead.
+ 
+ * The underlying random variable has a differentiable 
+ probability density function. For example,
+ a uniform distribution in ''[0, 1]^n'' gets a bad
+ estimate for both the differential entropy and the
+ intrinsic dimension.
+
+Examples  
+--------
+
+Using Matlab:
+
+	>> A = randn(5, 10000);
+	>> [H1, d1] = differential_entropy_nk({[A]})
+	H1 = 7.0408
+	d1 = 5
+	>> [H2, d2] = differential_entropy_nk({[A;A]})
+	H2 = 8.7742
+	d2 = 5	
+	>> [H3, d3] = differential_entropy_nk({[A;A] * sqrt(0.5)})
+	H3 = 7.0498
+	d3 = 5	
+
+Notice how the intrinsic dimensionality of [A;A] is 5
+although the dimension of the point set is 10.
+You might have expected H1 to equal H2. The reason why
+they are not equal is that creating the joint signal [A;A]
+expands the distances between points by sqrt(2)
+(in this particular case). This is taken into account when 
+computing H3 to give an answer consistent with H1.
+In general, to maintain differential entropy in mappings,
+the mapping must preserve measure on the manifold.
+
