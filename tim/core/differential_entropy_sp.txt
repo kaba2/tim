@@ -1,0 +1,19 @@
+Stowell-Plumbley estimator
+==========================
+
+[Parent]: differential_entropy.txt
+
+The Stowell-Plumbley differential entropy estimator 
+is a non-parametric estimator based on approximating 
+the underlying probability density function by a cover 
+of disjoint axis-aligned boxes with uniform densities.
+The implementation of this estimator in TIM has an 
+average runtime of O(n log(n) + n d), which is very
+fast compared to the other estimators. Unfortunately,
+it is not very accurate in higher dimensions,
+and thus we do not recommend using it in dimensions 
+higher than 3. For higher dimensions you should the
+estimators based on nearest neighbors, such as
+Kozachenko-Leonenko or Nilsson-Kleijn.
+
+

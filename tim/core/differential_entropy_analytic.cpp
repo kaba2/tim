@@ -10,9 +10,10 @@ namespace Tim
 		PENSURE_OP(covarianceDeterminant, >=, 0);
 
 		static const real ConstantFactor = std::log(
-			2 * constantPi<real>() * constantNeper<real>());
+			2 * constantPi<real>()) + 1;
 
-		return 0.5 * (std::log(covarianceDeterminant) + dimension * ConstantFactor);
+		return 0.5 * (std::log(std::abs(covarianceDeterminant)) + 
+			dimension * ConstantFactor);
 	}
 
 	TIM real uniformDifferentialEntropy(real supportVolume)

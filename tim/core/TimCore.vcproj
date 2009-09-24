@@ -199,14 +199,6 @@
 					RelativePath=".\differential_entropy.txt"
 					>
 				</File>
-				<File
-					RelativePath=".\differential_entropy_nk.h"
-					>
-				</File>
-				<File
-					RelativePath=".\differential_entropy_nk.hpp"
-					>
-				</File>
 				<Filter
 					Name="Kozachenko-Leonenko"
 					>
@@ -222,6 +214,10 @@
 						RelativePath=".\differential_entropy_kl.hpp"
 						>
 					</File>
+					<File
+						RelativePath=".\differential_entropy_kl.txt"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="Stowell-Plumbley"
@@ -234,6 +230,10 @@
 						RelativePath=".\differential_entropy_sp.hpp"
 						>
 					</File>
+					<File
+						RelativePath=".\differential_entropy_sp.txt"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="Analytic"
@@ -244,6 +244,22 @@
 					</File>
 					<File
 						RelativePath=".\differential_entropy_analytic.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Nilsson-Kleijn"
+					>
+					<File
+						RelativePath=".\differential_entropy_nk.h"
+						>
+					</File>
+					<File
+						RelativePath=".\differential_entropy_nk.hpp"
+						>
+					</File>
+					<File
+						RelativePath=".\differential_entropy_nk.txt"
 						>
 					</File>
 				</Filter>
