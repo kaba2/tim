@@ -200,26 +200,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\differential_entropy_analytic.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\differential_entropy_analytic.h"
-					>
-				</File>
-				<File
-					RelativePath=".\differential_entropy_kl.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\differential_entropy_kl.h"
-					>
-				</File>
-				<File
-					RelativePath=".\differential_entropy_kl.hpp"
-					>
-				</File>
-				<File
 					RelativePath=".\differential_entropy_nk.h"
 					>
 				</File>
@@ -227,14 +207,46 @@
 					RelativePath=".\differential_entropy_nk.hpp"
 					>
 				</File>
-				<File
-					RelativePath=".\differential_entropy_sp.h"
+				<Filter
+					Name="Kozachenko-Leonenko"
 					>
-				</File>
-				<File
-					RelativePath=".\differential_entropy_sp.hpp"
+					<File
+						RelativePath=".\differential_entropy_kl.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\differential_entropy_kl.h"
+						>
+					</File>
+					<File
+						RelativePath=".\differential_entropy_kl.hpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Stowell-Plumbley"
 					>
-				</File>
+					<File
+						RelativePath=".\differential_entropy_sp.h"
+						>
+					</File>
+					<File
+						RelativePath=".\differential_entropy_sp.hpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Analytic"
+					>
+					<File
+						RelativePath=".\differential_entropy_analytic.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\differential_entropy_analytic.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="Mutual information"

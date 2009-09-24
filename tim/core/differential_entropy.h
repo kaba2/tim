@@ -6,5 +6,6 @@
 #include "tim/core/differential_entropy_analytic.h"
 #include "tim/core/differential_entropy_kl.h"
 #include "tim/core/differential_entropy_sp.h"
+#include "tim/core/differential_entropy_nk.h"
 
 #endif

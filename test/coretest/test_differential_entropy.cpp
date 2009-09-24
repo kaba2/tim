@@ -39,12 +39,17 @@ namespace
 
 		SignalPtr signalSet[] = {signal};
 
+		const real estimate = differentialEntropyNk(
+			forwardRange(signalSet), maxRelativeError, 
+			normBijection);
+
 		/*
 		const real estimate = differentialEntropy(
 			forwardRange(signalSet), maxRelativeError, kNearest, 
 			normBijection);
 		*/
 
+		/*
 		std::vector<real> entropySet;
 		entropySet.reserve(signal->samples());
 		temporalDifferentialEntropy(
@@ -52,6 +57,7 @@ namespace
 			maxRelativeError, kNearest, normBijection);
 		const real estimate = std::accumulate(entropySet.begin(), entropySet.end(), (real)0) /
 			entropySet.size();
+		*/
 
 		/*
 		log() << name << ": " << estimate << ", correct: " 
@@ -73,7 +79,7 @@ namespace
 		log() << "Computing differential entropies using Kozachenko-Leonenko estimator..." << logNewLine;
 		log() << "Relative errors to correct analytic results shown in brackets." << logNewLine;
 
-		const integer dimension = 10;
+		const integer dimension = 5;
 		const integer samples = 10000;
 
 		testDifferentialEntropyCase(
