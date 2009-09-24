@@ -3,9 +3,17 @@
 % using Nilsson-Kleijn manifold nearest neighbor
 % estimator.
 %
+% [H, d] = differential_entropy_nk(S, epsilon, threads)
+%
+% or
+%
 % H = differential_entropy_nk(S, epsilon, threads)
 %
 % where
+%
+% H is the differential entropy estimate of a random distribution
+% lieing on a d-dimensional differentiable manifold, where d is
+% also estimated from the data and is an integer.
 %
 % S is an arbitrary dimensional cell array whose linearization contains
 % q trials of a signal. Each signal is a real (m x n)-matrix that 

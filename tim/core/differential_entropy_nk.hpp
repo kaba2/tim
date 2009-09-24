@@ -37,7 +37,7 @@ namespace Tim
 
 		// Generate codebook sizes.
 
-		const integer codebooks = 3 * dimension;
+		const integer codebooks = dimension + 2;
 		VectorD codebookSize(ofDimension(codebooks));
 		for (integer i = 0;i < codebooks;++i)
 		{
