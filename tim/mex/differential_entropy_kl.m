@@ -1,7 +1,8 @@
-% DIFFERENTIAL_ENTROPY
-% A differential entropy estimate from samples.
+% DIFFERENTIAL_ENTROPY_KL
+% A differential entropy estimate from samples
+% using Kozachenko-Leonenko nearest neighbor estimator.
 %
-% H = differential_entropy(S, epsilon, k, threads)
+% H = differential_entropy_kl(S, epsilon, k, threads)
 %
 % where
 %
@@ -24,9 +25,10 @@
 % spare one core for other work. Default 1 (no parallelization).
 
 % Description: Differential entropy estimation
+% Detail: Kozachenko-Leonenko nearest neighbor estimator
 % Documentation: tim_matlab.txt
 
-function H = differential_entropy(S, epsilon, k, threads)
+function H = differential_entropy_kl(S, epsilon, k, threads)
 
 % The limit for the dimension is arbitrary, but
 % protects for the case when the user accidentally
@@ -111,4 +113,4 @@ if threads < 1
     error('THREADS must be at least 1.');
 end
 
-H = timDifferentialEntropy(S, epsilon, k, threads);
+H = timDifferentialEntropyKl(S, epsilon, k, threads);
