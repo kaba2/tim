@@ -8,8 +8,10 @@ Functions
 
 TIM provides the following Matlab functions:
 
- * differential_entropy
- * differential_entropy_t
+ * differential_entropy_kl
+ * differential_entropy_kl_t
+ * differential_entropy_sp
+ * differential_entropy_nk
  * mutual_information
  * mutual_information_t
  * mutual_information_p
@@ -41,5 +43,5 @@ Integrated help
 
 You can find function-specific documentation by using 
 Matlab's integrated help system. For example, for help on
-using the differential_entropy function, enter 'help differential_entropy'
-in Matlab.
+using the differential_entropy_kl function, enter 
+'help differential_entropy_kl' in Matlab.

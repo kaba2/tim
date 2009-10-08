@@ -184,7 +184,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\differential_entropy.m"
+			RelativePath=".\differential_entropy_kl.m"
+			>
+		</File>
+		<File
+			RelativePath=".\differential_entropy_kl_t.m"
 			>
 		</File>
 		<File
@@ -193,10 +197,6 @@
 		</File>
 		<File
 			RelativePath=".\differential_entropy_sp.m"
-			>
-		</File>
-		<File
-			RelativePath=".\differential_entropy_t.m"
 			>
 		</File>
 		<File
@@ -232,7 +232,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\timDifferentialEntropy.cpp"
+			RelativePath=".\timDifferentialEntropyKl.cpp"
 			>
 		</File>
 		<File
