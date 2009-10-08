@@ -6,11 +6,10 @@ Differential entropy
 Theory
 ------
 
-Assume that ''X'' is a random variable distributed according to the probability 
-density function ''mu'' in some space ''V'' with a probability 
-measure. Then differential entropy is defined by:
+Assume that ''X'' is a random variable in ''RR^n'' distributed according to the probability 
+density function ''mu : RR^n -> RR''. Then differential entropy is defined by:
 
-''H(X) = -int_V mu(x) log(mu(x)) dx''
+''H(X) = -int_{RR^n} mu(x) log(mu(x)) dx''
 
 While this formula looks similar to the definition of
 discrete entropy, it does not generalize its properties.
@@ -22,3 +21,11 @@ information, it is equivalent to minimize differential entropies,
 which can be a bit more efficient. This makes the estimation of
 differential entropies by themself useful.
 
+The definition of differential entropy can be generalized by assuming that
+''X'' is distributed on a ''d''-dimensional differentiable manifold ''M'' 
+in ''RR^n'', ''0 <= d <= n'', with a probability density function ''mu : M -> RR''.
+Then differential entropy is defined by:
+
+''H(X) = -int_{M} mu(x) log(mu(x)) dx''
+
+TIM implements estimators for both of these definitions.

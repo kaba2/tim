@@ -1,7 +1,7 @@
-Transfer entropy
-================
+Partial transfer entropy
+========================
 
-[Parent]: estimators.txt
+[Parent]: entropy_combination.txt
 
 Theory
 ------

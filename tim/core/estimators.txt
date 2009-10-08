@@ -1,16 +1,16 @@
 Estimators
 ==========
 
-[Parent]: tim_cpp.txt
+[Parent]: tim.txt
 
 Practice
 --------
 
-TIM implements an estimator for differential entropy as
-well as a robust unified algorithm for the computation of a general 
-class of entropy combinations. The implementations of
-mutual information, transfer entropy, etc. then simply
-redirect to this generic algorithm.
+TIM implements estimators for differential entropy as
+well as for a general class of entropy 
+combinations. The implementations of mutual information, 
+transfer entropy, etc. then simply redirect to this generic 
+algorithm.
 
 
 
