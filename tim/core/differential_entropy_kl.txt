@@ -24,5 +24,5 @@ References
 
 _Sample Estimate of the Entropy of a Random Vector_, <br />
 L. F. Kozachenko, N. N. Leonenko, <br />
-Probl. Inf. Transm., Vol. 23, No. 1, pp. 95–101, 
+Probl. Inf. Transm., Vol. 23, No. 1, pp. 95-101, 
 1987.

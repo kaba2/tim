@@ -14,7 +14,7 @@ from time-series' in arbitrary dimensions. It also has a Matlab interface.
 Features
 --------
 
-* Estimation of differential entropy
+* Estimation of differential entropy using various estimators
 * Estimation of a general class of entropy combinations including mutual information, 
 partial mutual information, transfer entropy, and partial transfer entropy
 * Temporal estimation using time windowing
@@ -31,21 +31,20 @@ via the provided Matlab interface with precompiled binaries.
 The second one is to build your own C++ software using it. This option
 is discussed in more detail below.
 
-* [Download software][Download]
+[Download software][Download]
 
 [Download]: tim_beta1.zip
 
 Source-code
 -----------
 
-The source-code for TIM is licensed under the GNU Lesser GPL license, which is 
+The source-code for TIM is licensed under the _GNU Lesser GPL_ license, which is 
 unrestrictive and non-viral. We provide two easy ways to browse the source-code
 online complete with coloring. The first one is to read this documentation, 
 following the _Learn more_ links. The second one is to view the 
 source-code tree.
 
- * [View the source-code tree][ViewSourceTree].
- * [Download the source-code][DownloadSource].
+[View the source-code tree][ViewSourceTree].
 
 Note that TIM is built on the [Pastel][] library which must also be 
 installed if you want to build TIM yourself. It also uses some features
@@ -56,6 +55,8 @@ is purely for educational/research purposes, rather than for actually building
 software that depends on it. This is because we can't guarantee stable 
 interfaces, i.e., we continue development of both TIM and Pastel and in this 
 process can make breaking changes to interfaces.
+
+[Download the source-code][DownloadSource].
 
 [Pastel]: http://kaba.hilvi.org/pastel
 [Boost]: http://www.boost.org

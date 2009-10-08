@@ -16,16 +16,15 @@ namespace Tim
 	timeWindowRadius >= 0
 	kNearest > 0
 	ySignalSet.size() == xSignalSet.size()
-	zSignalSet.size() == xSignalSet.size()
 	wSignalSet.size() == wSignalSet.size()
 
 	xSignalSet, ySignalSet, zSignalSet, wSignalSet:
 	A set of measurements (trials) of signals
 	X, Y, Z, and W, respectively.
 
-	xLag, yLag, zLag, wLag:
+	xLag, yLag, wLag:
 	The delays in samples that are applied to
-	signals X, Y, Z, and W, respectively.
+	signals X, Y, and W, respectively.
 
 	timeWindowRadius:
 	The radius of a time-window in samples over which
@@ -45,33 +44,29 @@ namespace Tim
 	template <
 		typename SignalPtr_X_Iterator,
 		typename SignalPtr_Y_Iterator,
-		typename SignalPtr_Z_Iterator,
 		typename SignalPtr_W_Iterator,
 		typename Real_OutputIterator>
 	void temporalTransferEntropy(
 		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
 		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
-		const ForwardRange<SignalPtr_Z_Iterator>& zSignalSet,
 		const ForwardRange<SignalPtr_W_Iterator>& wSignalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
 		integer xLag = 0,
 		integer yLag = 0,
-		integer zLag = 0,
 		integer wLag = 0,
 		integer kNearest = 1);
 
-	//! Computes temporal mutual information.
+	//! Computes temporal transfer entropy.
 	/*!
 	This is a convenience function that calls:
 
 	temporalTransferEntropy(
 		forwardRange(constantIterator(xSignal)), 
 		forwardRange(constantIterator(ySignal)), 
-		forwardRange(constantIterator(zSignal)), 
 		forwardRange(constantIterator(wSignal)), 
 		timeWindowRadius, result,
-		xLag, yLag, zLag, wLag, kNearest);
+		xLag, yLag, wLag, kNearest);
 
 	See the documentation for that function.
 	*/
@@ -80,13 +75,11 @@ namespace Tim
 	void temporalTransferEntropy(
 		const SignalPtr& xSignal,
 		const SignalPtr& ySignal,
-		const SignalPtr& zSignal,
 		const SignalPtr& wSignal,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
 		integer xLag = 0,
 		integer yLag = 0,
-		integer zLag = 0,
 		integer wLag = 0,
 		integer kNearest = 1);
 
@@ -95,16 +88,15 @@ namespace Tim
 	Preconditions:
 	kNearest > 0
 	ySignalSet.size() == xSignalSet.size()
-	zSignalSet.size() == xSignalSet.size()
 	wSignalSet.size() == xSignalSet.size()
 
-	xSignalSet, ySignalSet, zSignalSet, wSignalSet:
+	xSignalSet, ySignalSet, wSignalSet:
 	A set of measurements (trials) of signals
-	X, Y, Z, and W, respectively.
+	X, Y, and W, respectively.
 
-	xLag, yLag, zLag, wLag:
+	xLag, yLag, wLag:
 	The delays in samples that are applied to
-	signals X, Y, Z, and W, respectively.
+	signals X, Y, and W, respectively.
 
 	kNearest:
 	The number of nearest neighbors to use in the estimation.
@@ -117,29 +109,25 @@ namespace Tim
 	template <
 		typename SignalPtr_X_Iterator,
 		typename SignalPtr_Y_Iterator,
-		typename SignalPtr_Z_Iterator,
 		typename SignalPtr_W_Iterator>
 	real transferEntropy(
 		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
 		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
-		const ForwardRange<SignalPtr_Z_Iterator>& zSignalSet,
 		const ForwardRange<SignalPtr_W_Iterator>& wSignalSet,
 		integer xLag = 0,
 		integer yLag = 0,
-		integer zLag = 0,
 		integer wLag = 0,
 		integer kNearest = 1);
 
-	//! Computes mutual information.
+	//! Computes transfer entropy.
 	/*!
 	This is a convenience function that calls:
 
 	transferEntropy(
 		forwardRange(constantIterator(xSignal)), 
 		forwardRange(constantIterator(ySignal)), 
-		forwardRange(constantIterator(zSignal)), 
 		forwardRange(constantIterator(wSignal)), 
-		xLag, yLag, zLag, wLag, kNearest);
+		xLag, yLag, wLag, kNearest);
 
 	See the documentation for that function.
 	*/
@@ -147,11 +135,9 @@ namespace Tim
 	TIM real transferEntropy(
 		const SignalPtr& xSignal,
 		const SignalPtr& ySignal,
-		const SignalPtr& zSignal,
 		const SignalPtr& wSignal,
 		integer xLag = 0,
 		integer yLag = 0,
-		integer zLag = 0,
 		integer wLag = 0,
 		integer kNearest = 1);
 

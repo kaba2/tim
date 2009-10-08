@@ -9,8 +9,8 @@ Practice
 TIM implements estimators for differential entropy as
 well as for a general class of entropy 
 combinations. The implementations of mutual information, 
-transfer entropy, etc. then simply redirect to this generic 
-algorithm.
+transfer entropy, etc. simply redirect to the generic
+entropy combination algorithm.
 
 
 
