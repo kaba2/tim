@@ -192,6 +192,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\differential_entropy_sp.m"
+			>
+		</File>
+		<File
 			RelativePath=".\differential_entropy_t.m"
 			>
 		</File>

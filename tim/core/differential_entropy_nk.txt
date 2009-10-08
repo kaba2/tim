@@ -1,7 +1,7 @@
 Nilsson-Kleijn estimator
 ========================
 
-[Parent]: differential_entropy_sp.txt
+[Parent]: differential_entropy.txt
 
 The Nilsson-Kleijn differential entropy estimator
 is a non-parametric estimator based on nearest 
@@ -10,7 +10,7 @@ neighbors of a sample set.
 Assumptions
 -----------
 
- * Data is lying on a d-dimensional differentiable 
+ * Data lies on a d-dimensional differentiable 
  manifold on ''RR^n'', ''0 <= d <= n''. The ''d'' 
  is called the _intrinsic dimension_ of the data, 
  and it is estimated together with the differential 
@@ -18,7 +18,7 @@ Assumptions
  you should use the Kozachenko-Leonenko estimator
  instead.
  
- * The underlying random variable has a differentiable 
+ * The underlying random variable must have a differentiable 
  probability density function. For example,
  a uniform distribution in ''[0, 1]^n'' gets a bad
  estimate for both the differential entropy and the
@@ -50,3 +50,11 @@ computing H3 to give an answer consistent with H1.
 In general, to maintain differential entropy in mappings,
 the mapping must preserve measure on the manifold.
 
+References
+----------
+
+_On the Estimation of Differential Entropy From Data
+Located on Embedded Manifolds_, <br />
+Mattias Nilsson, W. Bastiaan Kleijn, <br />
+IEEE Transactions on Information Theory, Vol. 53, No. 7, 
+July 2007.

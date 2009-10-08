@@ -8,12 +8,31 @@ is a non-parametric estimator based on approximating
 the underlying probability density function by a cover 
 of disjoint axis-aligned boxes with uniform densities.
 The implementation of this estimator in TIM has an 
-average runtime of O(n log(n) + n d), which is very
-fast compared to the other estimators. Unfortunately,
-it is not very accurate in higher dimensions,
-and thus we do not recommend using it in dimensions 
-higher than 3. For higher dimensions you should the
-estimators based on nearest neighbors, such as
-Kozachenko-Leonenko or Nilsson-Kleijn.
+average runtime of ''O(m log(m) + m n)'', where
+''m'' is the number of samples and ''n'' is the
+dimension. This is very fast compared to the other 
+estimators. Unfortunately, it is not very accurate 
+in higher dimensions, and thus we do not recommend 
+using it in dimensions higher than 3. For higher 
+dimensions you should use the estimators based on nearest 
+neighbors, such as Kozachenko-Leonenko or Nilsson-Kleijn.
 
+Assumptions
+-----------
 
+ * The data must be full-dimensional. If this is not the
+ case, you should use the Nilsson-Kleijn estimator instead.
+
+ * For accuracy, there must be at least ''2^n'' samples, 
+ where ''n'' is the dimension of the sample set.
+ 
+ * For accuracy, the dimension of the sample set must not 
+ be higher than 3.
+ 
+References
+----------
+
+_Fast Multidimensional Entropy Estimation by k-d Partitioning_, <br />
+Dan Stowell, Mark D. Plumbley, <br />
+IEEE Signal Processing Letters, Vol. 16, No. 6,
+June 2009.

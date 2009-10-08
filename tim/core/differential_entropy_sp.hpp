@@ -38,7 +38,7 @@ namespace Tim
 				integer level) const
 			{
 				// "Fast Multidimensional Entropy Estimation
-				// by k-d partitioning", 
+				// by k-d Partitioning", 
 				// Dan Stowell, Mark D. Plumbley,
 				// IEEE Signal Processing Letters, Vol. 16, No. 6,
 				// June 2009.

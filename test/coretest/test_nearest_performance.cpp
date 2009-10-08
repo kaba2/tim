@@ -344,8 +344,8 @@ namespace
 		//generateClusteredPointSet(samples, dimension, 10, pointSet);
 		//generateUniformCubePointSet(samples, dimension, pointSet);
 
-		CountedPtr<Clustered_RandomDistribution<N, Real> >
-			clusteredDistribution = clusteredRandomDistribution<N, Real>(dimension);
+		CountedPtr<Clustered_RandomDistribution<Real, N> >
+			clusteredDistribution = clusteredRandomDistribution<Real, N>(dimension);
 
 		const integer clusters = 100;
 		for (integer i = 0;i < clusters;++i)
@@ -353,22 +353,22 @@ namespace
 			clusteredDistribution->add(
 				translate(
 				scale(
-				gaussianRandomDistribution<N, Real>(dimension), 
-				evaluate(randomVector<N, Real>(dimension) * 0.05)),
-				randomVector<N, Real>(dimension)));
+				gaussianRandomDistribution<Real, N>(dimension), 
+				evaluate(randomVector<Real, N>(dimension) * 0.05)),
+				randomVector<Real, N>(dimension)));
 		}
 
-		CountedPtr<RandomDistribution<N, Real> >
+		CountedPtr<RandomDistribution<Real, N> >
 			randomDistribution = clusteredDistribution;
 
 		/*
-		CountedPtr<RandomDistribution<N, Real> >
+		CountedPtr<RandomDistribution<Real, N> >
 			randomDistribution = 
 			translate(
 			scale(
-			gaussianRandomDistribution<N, Real>(dimension), 
-			randomVector<N, Real>(dimension)),
-			randomVector<N, Real>(dimension));
+			gaussianRandomDistribution<Real, N>(dimension), 
+			randomVector<Real, N>(dimension)),
+			randomVector<Real, N>(dimension));
 		*/
 
 		for (integer i = 0;i < samples;++i)
@@ -388,7 +388,7 @@ namespace
 
 			pointSet.push_back(Vector<Real, N>(ofDimension(0)));
 	#if TIM_DYNAMIC != 0
-			pointSet.back() = Vector<N, Real>(
+			pointSet.back() = Vector<Real, N>(
 				ofDimension(dimension),
 				withAliasing(&pointArray(0, i)));
 	#endif

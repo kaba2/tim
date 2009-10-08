@@ -265,98 +265,6 @@
 				</Filter>
 			</Filter>
 			<Filter
-				Name="Mutual information"
-				>
-				<File
-					RelativePath=".\mutual_information.h"
-					>
-				</File>
-				<File
-					RelativePath=".\mutual_information.txt"
-					>
-				</File>
-				<File
-					RelativePath=".\mutual_information_analytic.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\mutual_information_analytic.h"
-					>
-				</File>
-				<File
-					RelativePath=".\mutual_information_ec.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\mutual_information_ec.h"
-					>
-				</File>
-				<File
-					RelativePath=".\mutual_information_ec.hpp"
-					>
-				</File>
-				<File
-					RelativePath=".\mutual_information_naive.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\mutual_information_naive.h"
-					>
-				</File>
-				<File
-					RelativePath=".\mutual_information_naive.hpp"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Partial mutual information"
-				>
-				<File
-					RelativePath=".\partial_mutual_information.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\partial_mutual_information.h"
-					>
-				</File>
-				<File
-					RelativePath=".\partial_mutual_information.hpp"
-					>
-				</File>
-				<File
-					RelativePath=".\partial_mutual_information.txt"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Transfer entropy"
-				>
-				<File
-					RelativePath=".\transfer_entropy.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\transfer_entropy.h"
-					>
-				</File>
-				<File
-					RelativePath=".\transfer_entropy.hpp"
-					>
-				</File>
-				<File
-					RelativePath=".\transfer_entropy.txt"
-					>
-				</File>
-				<File
-					RelativePath=".\transfer_entropy_analytic.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\transfer_entropy_analytic.h"
-					>
-				</File>
-			</Filter>
-			<Filter
 				Name="Entropy combination"
 				>
 				<File
@@ -371,6 +279,98 @@
 					RelativePath=".\entropy_combination.txt"
 					>
 				</File>
+				<Filter
+					Name="Mutual information"
+					>
+					<File
+						RelativePath=".\mutual_information.h"
+						>
+					</File>
+					<File
+						RelativePath=".\mutual_information.txt"
+						>
+					</File>
+					<File
+						RelativePath=".\mutual_information_analytic.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\mutual_information_analytic.h"
+						>
+					</File>
+					<File
+						RelativePath=".\mutual_information_ec.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\mutual_information_ec.h"
+						>
+					</File>
+					<File
+						RelativePath=".\mutual_information_ec.hpp"
+						>
+					</File>
+					<File
+						RelativePath=".\mutual_information_naive.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\mutual_information_naive.h"
+						>
+					</File>
+					<File
+						RelativePath=".\mutual_information_naive.hpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Partial mutual information"
+					>
+					<File
+						RelativePath=".\partial_mutual_information.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\partial_mutual_information.h"
+						>
+					</File>
+					<File
+						RelativePath=".\partial_mutual_information.hpp"
+						>
+					</File>
+					<File
+						RelativePath=".\partial_mutual_information.txt"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Transfer entropy"
+					>
+					<File
+						RelativePath=".\transfer_entropy.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\transfer_entropy.h"
+						>
+					</File>
+					<File
+						RelativePath=".\transfer_entropy.hpp"
+						>
+					</File>
+					<File
+						RelativePath=".\transfer_entropy.txt"
+						>
+					</File>
+					<File
+						RelativePath=".\transfer_entropy_analytic.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\transfer_entropy_analytic.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
@@ -473,10 +473,6 @@
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath="..\..\faq.txt"
-			>
-		</File>
 		<File
 			RelativePath="..\..\tim.txt"
 			>

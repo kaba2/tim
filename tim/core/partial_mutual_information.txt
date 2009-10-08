@@ -1,7 +1,7 @@
 Partial mutual information
 ==========================
 
-[Parent]: estimators.txt
+[Parent]: entropy_combination.txt
 
 Theory
 ------
@@ -9,7 +9,7 @@ Theory
 Let ''X'', ''Y'', and ''Z'' be random variables.
 Partial mutual information is defined by:
 
-''I(X, Y ; Z) = H(X Z) + H(Z Y) - H(Z) - H(X Z Y)''
+''I(X, Y ; Z) = H(X, Z) + H(Z, Y) - H(Z) - H(X, Z, Y)''
 
 where ''H'' denotes differential entropy.
 It measures the amount of information shared by ''X'' and ''Y''
