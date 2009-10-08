@@ -1,7 +1,7 @@
 #include "estimation.h"
 
 #include "tim/core/mutual_information.h"
-#include "tim/core/transfer_entropy.h"
+#include "tim/core/partial_transfer_entropy.h"
 #include "tim/core/signal_tools.h"
 #include "tim/core/embed.h"
 
@@ -132,7 +132,7 @@ namespace
 			std::back_inserter(futureSet), 1);
 
 		std::vector<real> estimateSet;
-		temporalTransferEntropy(
+		temporalPartialTransferEntropy(
 			forwardRange(signalSet.rowBegin(0), signalSet.rowEnd(0)),
 			forwardRange(signalSet.rowBegin(1), signalSet.rowEnd(1)),
 			forwardRange(signalSet.rowBegin(2), signalSet.rowEnd(2)),

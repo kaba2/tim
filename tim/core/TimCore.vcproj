@@ -362,12 +362,24 @@
 						RelativePath=".\transfer_entropy.txt"
 						>
 					</File>
+				</Filter>
+				<Filter
+					Name="Partial transfer entropy"
+					>
 					<File
-						RelativePath=".\transfer_entropy_analytic.cpp"
+						RelativePath=".\partial_transfer_entropy.cpp"
 						>
 					</File>
 					<File
-						RelativePath=".\transfer_entropy_analytic.h"
+						RelativePath=".\partial_transfer_entropy.h"
+						>
+					</File>
+					<File
+						RelativePath=".\partial_transfer_entropy.hpp"
+						>
+					</File>
+					<File
+						RelativePath=".\partial_transfer_entropy.txt"
 						>
 					</File>
 				</Filter>

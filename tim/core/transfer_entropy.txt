@@ -1,17 +1,22 @@
-Partial transfer entropy
-========================
+Transfer entropy
+================
 
 [Parent]: entropy_combination.txt
 
 Theory
 ------
 
-Let ''X'', ''Y'', ''Z'', and ''w'' be random variables.
-Partial transfer entropy is defined by:
+Let ''X'', ''Y'', and ''w'' be random variables.
+Transfer entropy is defined by:
 
-''T(w, X, Y ; Z) = H(w X Z) + H(X, Z, Y) - H(X Z) - H(w X Z Y)''
+''T(w, X, Y) = H(w, X) + H(X, Y) - H(X) - H(w, X, Y)''
 
 where ''w'' is the future of ''X''. It measures the amount of directed
-information flow from ''X'' to ''Y'' while discounting the possibility
-that ''Z'' drives both ''X'' and ''Y''.
+information flow from ''X'' to ''Y''.
 
+References
+----------
+
+_Measuring Information Transfer_, <br />
+Thomas Schreiber, <br />
+Physical Review Letters, Volume 85, Number 2, 2000.

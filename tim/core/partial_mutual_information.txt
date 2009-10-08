@@ -15,3 +15,9 @@ where ''H'' denotes differential entropy.
 It measures the amount of information shared by ''X'' and ''Y''
 while discounting the possibility that ''Z'' drives both ''X'' and ''Y''.
 
+References
+----------
+
+_Partial Mutual Information for Coupling Analysis of Multivariate Time Series_, <br />
+Stefan Frenzel and Bernd Pompe, <br />
+Physical Review Letters, 2007.
