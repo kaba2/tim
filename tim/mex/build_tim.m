@@ -1,5 +1,5 @@
-mex timDifferentialEntropy.cpp @build_options.txt
-mex timTemporalDifferentialEntropy.cpp @build_options.txt
+mex timDifferentialEntropyKl.cpp @build_options.txt
+mex timTemporalDifferentialEntropyKl.cpp @build_options.txt
 mex timDifferentialEntropySp.cpp @build_options.txt
 mex timDifferentialEntropyNk.cpp @build_options.txt
 mex timEntropyCombination.cpp @build_options.txt
