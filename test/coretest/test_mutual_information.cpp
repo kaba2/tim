@@ -70,7 +70,6 @@ namespace
 		const integer samples = 10000;
 		const integer timeWindowRadius = 0;
 		const integer kNearest = 2;
-		const real maxRelativeError = 0;
 
 		log() << "2d correlated gaussian" << logNewLine;
 
@@ -229,7 +228,6 @@ namespace
 		integer experiment = 1;
 		const integer kNearest = 1;
 		const integer dimension = 2;
-		const real maxRelativeError = 0;
 		for (integer i = 0;i < 4;++i)
 		{
 			const integer samples = 100 * (integer)std::pow((real)10, (real)i);
@@ -271,7 +269,7 @@ namespace
 				const real mi = mutualInformation(
 					xSignal,
 					ySignal,
-					0,
+					0, 0,
 					kNearest);
 				timer.store();
 
