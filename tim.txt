@@ -31,9 +31,9 @@ via the provided Matlab interface with precompiled binaries.
 The second one is to build your own C++ software using it. This option
 is discussed in more detail below.
 
-[Download software][Download]
+Download software (not yet available)
 
-[Download]: tim_beta1.zip
+[Download]: ./files/tim_1_0.zip
 
 Source-code
 -----------
@@ -56,12 +56,26 @@ software that depends on it. This is because we can't guarantee stable
 interfaces, i.e., we continue development of both TIM and Pastel and in this 
 process can make breaking changes to interfaces.
 
-[Download the source-code][DownloadSource].
+Download the source-code (not yet available)
 
 [Pastel]: http://kaba.hilvi.org/pastel
 [Boost]: http://www.boost.org
-[DownloadSource]: 
+[DownloadSource]: ./files/tim_source_1_0.zip
 [ViewSourceTree]: ./
+
+Note on web-browsers
+--------------------
+
+This documentation uses MathMl to display inlined mathematics.
+Unfortunately not all browsers support MathMl natively, including
+Internet Explorer. In this case you will not be able to see the 
+mathematical expressions correctly. While there is a plug-in 
+available (MathPlayer) for adding this capability to Internet Explorer, 
+in our tests this combination crashed the browser when viewing 
+these pages. According to Wikipedia, some major web-browsers that 
+currently display MathMl natively include Mozilla Firefox, Opera, 
+and Camino. At this point we can't do anything else than to direct 
+you to use these browsers to view these pages.
 
 Acknowledgements
 ----------------

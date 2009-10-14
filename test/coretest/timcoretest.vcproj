@@ -216,6 +216,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\test_integral.cpp"
+			>
+		</File>
+		<File
 			RelativePath=".\test_mutual_information.cpp"
 			>
 		</File>

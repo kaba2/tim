@@ -125,5 +125,5 @@ if threads < 1
     error('THREADS must be at least 1.');
 end
 
-H = timTemporalDifferentialEntropy(...
+H = timTemporalDifferentialEntropyKl(...
     S, timeWindowRadius, epsilon, k, threads);
