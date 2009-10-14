@@ -172,14 +172,15 @@ namespace Tim
 				}
 
 				signalEstimate += digamma<real>(n);
-				signalEstimate -= (real)(macroDimension - 1) / n;
+				//signalEstimate -= (real)(macroDimension - 1) / n;
 			}
 
 			estimate -= signalEstimate * copyRangeSet[i][2];
 		}
 		estimate /= estimateSamples;
 		estimate += digamma<real>(kNearest);
-		estimate -= (real)(marginals - 1) / kNearest;
+		//estimate -= (real)(marginals - 1) / kNearest;
+		estimate -= 1;
 
 		estimate += (sumWeight - 1) * digamma<real>(estimateSamples);
 

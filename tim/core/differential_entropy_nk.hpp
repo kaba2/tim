@@ -107,7 +107,7 @@ namespace Tim
 					searchNearest(kdTree,
 					VectorD(ofDimension(dimension), withAliasing((real*)pointSet[i])),
 					DepthFirst_SearchAlgorithm_PointKdTree(),
-					Always_Accept_PointKdTree(),
+					Always_AcceptPoint<ConstObjectIterator>(),
 					infinity<real>(),
 					maxRelativeError,
 					normBijection).key();

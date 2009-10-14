@@ -5,6 +5,7 @@
 #include "tim/core/signal_tools.h"
 #include "tim/core/signalpointset.h"
 #include "tim/core/entropy_combination.h"
+#include "tim/core/entropy_combination2.h"
 
 #include <pastel/sys/constantiterator.h>
 #include <pastel/sys/nulliterator.h>
