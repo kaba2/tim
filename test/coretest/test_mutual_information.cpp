@@ -30,20 +30,18 @@ namespace
 		integer kNearest,
 		real correctMi)
 	{
-		const real averageMi = mutualInformation(
+		const real mi = mutualInformation(
 			xSignal, ySignal, 
 			xLag, yLag, kNearest);
 
-		/*
-		std::vector<real> mi;
+		std::vector<real> miSet;
 		temporalMutualInformation(
 			xSignal, ySignal, 
 			timeWindowRadius,
-			std::back_inserter(mi), 
+			std::back_inserter(miSet), 
 			xLag, yLag, kNearest);
 		const real averageMi = 
-			std::accumulate(mi.begin(), mi.end(), (real)0) / mi.size();
-		*/
+			std::accumulate(miSet.begin(), miSet.end(), (real)0) / miSet.size();
 
 		/*
 		std::vector<SignalPtr> signalSet;
@@ -56,11 +54,17 @@ namespace
 			Euclidean_NormBijection<real>());
 		*/
 
+		log() << name << logNewLine;
+		log() << "  average " << mi << "(" << mi - correctMi << ")" << logNewLine;
+		log() << "  temporal average " << averageMi << "(" << averageMi - correctMi << ")" << logNewLine;
+
+		/*
 		const real re = relativeError<real>(averageMi, correctMi);
 
 		log() << name << ": " << averageMi
 			<< " (de = " << averageMi - correctMi << ", " << re * 100 << "%)"
 			<< logNewLine;
+		*/
 	}
 
 	void testMutualInformation()
@@ -68,8 +72,8 @@ namespace
 		log() << "Mutual information estimates: " << logNewLine;
 
 		const integer samples = 10000;
-		const integer timeWindowRadius = 0;
-		const integer kNearest = 2;
+		const integer timeWindowRadius = 10000;
+		const integer kNearest = 5;
 
 		log() << "2d correlated gaussian" << logNewLine;
 

@@ -1,6 +1,6 @@
 #include "mex.h"
 
-#include "tim/core/entropy_combination.h"
+#include "tim/core/entropy_combination2.h"
 
 #include <boost/static_assert.hpp>
 
@@ -22,7 +22,6 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	{
 		signalSetIndex,
 		rangeSetIndex,
-		timeWindowRadiusIndex,
 		lagSetIndex,
 		kNearestIndex,
 		threadsIndex
@@ -73,7 +72,6 @@ void mexFunction(int outputs, mxArray *outputSet[],
 		}
 	}
 
-	const integer timeWindowRadius = *mxGetPr(inputSet[timeWindowRadiusIndex]);
 	const integer kNearest = *mxGetPr(inputSet[kNearestIndex]);
 	const integer threads = *mxGetPr(inputSet[threadsIndex]);
 
@@ -81,20 +79,12 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	omp_set_num_threads(threads);
 #endif
 
-	std::vector<real> estimateSet;
-
-	temporalEntropyCombination(
-		signalSet,
-		forwardRange(rangeSet.begin(), rangeSet.end()),
-		timeWindowRadius,
-		std::back_inserter(estimateSet),
-		forwardRange(lagSet.begin(), lagSet.end()),
-		kNearest);
-
-	outputSet[0] = mxCreateDoubleMatrix(1, estimateSet.size(), mxREAL);
+	outputSet[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
 	real* rawResult = mxGetPr(outputSet[0]);
 
-	std::copy(estimateSet.begin(), estimateSet.end(),
-		rawResult);
+	*rawResult = entropyCombination2(
+		signalSet,
+		forwardRange(rangeSet.begin(), rangeSet.end()),
+		forwardRange(lagSet.begin(), lagSet.end()),
+		kNearest);
 }
-

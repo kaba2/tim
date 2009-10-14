@@ -79,8 +79,7 @@ namespace Tim
 		for (integer i = 0;i < n;++i)
 		{
 			computeHistogram(
-				signal->data().columnBegin(i),
-				signal->data().columnEnd(i),
+				forwardRange(signal->data().columnBegin(i), signal->data().columnEnd(i)),
 				minBound[i],
 				maxBound[i],
 				bins,

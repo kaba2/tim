@@ -75,7 +75,7 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	const integer kNearest = *mxGetPr(inputSet[kNearestIndex]);
 	const integer threads = *mxGetPr(inputSet[threadsIndex]);
 
-#if PASTEL_OMP != 0
+#if PASTEL_ENABLE_OMP != 0
 	omp_set_num_threads(threads);
 #endif
 

@@ -1,6 +1,6 @@
 -I'e:\ohjelmointi\hgproject\pastel_main\' 
 -I'e:\ohjelmointi\hgproject\tim\'
--I'e:\ohjelmointi\external\boost_1_38'
+-I'e:\ohjelmointi\external\boost_1_39'
 -L'e:\ohjelmointi\hgproject\pastel_main\pastel\lib'
 -L'e:\ohjelmointi\hgproject\tim\tim\lib'
 -lpastelsys

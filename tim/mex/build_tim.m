@@ -4,4 +4,5 @@ mex timDifferentialEntropySp.cpp @build_options.txt
 mex timDifferentialEntropyNk.cpp @build_options.txt
 mex timEntropyCombination.cpp @build_options.txt
 mex timTemporalEntropyCombination.cpp @build_options.txt
+mex timEntropyCombination2.cpp @build_options.txt
 mex timMutualInformationNaive.cpp @build_options.txt

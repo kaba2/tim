@@ -119,6 +119,8 @@ namespace Tim
 		*/
 		integer dimension() const;
 
+		integer dimensionBegin() const;
+
 		//! Returns a point that corresponds to a given kd-tree object.
 		VectorD point(const Object& object) const;
 

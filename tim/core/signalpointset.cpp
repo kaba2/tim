@@ -181,6 +181,11 @@ namespace Tim
 		return dimension_;
 	}
 
+	integer SignalPointSet::dimensionBegin() const
+	{
+		return dimensionBegin_;
+	}
+
 	VectorD SignalPointSet::point(const Object& object) const
 	{
 		return kdTree_.point(object);
