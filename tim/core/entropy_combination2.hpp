@@ -118,20 +118,10 @@ namespace Tim
 
 		std::vector<real> distanceArray(estimateSamples);
 
-		const real scaling = normBijection.scalingFactor(1.001);
-
 		real estimate = 0;
 		std::vector<integer> countSet(estimateSamples, 0);
 		for (integer i = 0;i < marginals;++i)
 		{
-			// There should always be at least two points inside the
-			// searching distance, namely the query point and its k:th nearest 
-			// neighbor.
-			// Because of rounding errors there might however be counting
-			// difficulties. We try to avoid problems in two ways.
-			// First by expanding the searching radius somewhat, and second 
-			// by clamping the count to 2 from below.
-
 			const integer marginalDimension = pointSet[i]->dimension();
 			const integer marginalOffset = pointSet[i]->dimensionBegin();
 
@@ -144,7 +134,7 @@ namespace Tim
 					from->object() + marginalOffset,
 					to->object() + marginalOffset,
 					marginalDimension,
-					normBijection) * scaling;
+					normBijection);
 			}
 
 			countAllNeighbors(
@@ -160,19 +150,10 @@ namespace Tim
 #pragma omp parallel for reduction(+ : signalEstimate)
 			for (integer j = 0;j < estimateSamples;++j)
 			{
-				integer n = countSet[j] - 1;
-				if (n <= 0)
+				const integer k = std::max(countSet[j] - 1, 1);
 
-				{
-					// With real arithmetic this should not happen.
-					// But with floating point it can because of rounding
-					// errors. We fix this by slightly modifying the count.
-
-					n = 1;
-				}
-
-				signalEstimate += digamma<real>(n);
-				//signalEstimate -= (real)(macroDimension - 1) / n;
+				signalEstimate += digamma<real>(k);
+				//signalEstimate -= (real)(macroDimension - 1) / k;
 			}
 
 			estimate -= signalEstimate * copyRangeSet[i][2];

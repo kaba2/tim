@@ -104,12 +104,11 @@ namespace Tim
 			for (integer i = subsetSize;i < estimateSamples;++i)
 			{
 				const real distance =
-					searchNearest(kdTree,
+					searchNearestOne(
+					kdTree,
 					VectorD(ofDimension(dimension), withAliasing((real*)pointSet[i])),
-					DepthFirst_SearchAlgorithm_PointKdTree(),
+					infinity<real>(), maxRelativeError,
 					Always_AcceptPoint<ConstObjectIterator>(),
-					infinity<real>(),
-					maxRelativeError,
 					normBijection).key();
 
 				// The logarithm of zero would give -infinity,
