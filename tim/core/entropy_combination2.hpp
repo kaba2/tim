@@ -97,7 +97,7 @@ namespace Tim
 		// It is essential that the used norm is the
 		// infinity norm.
 
-		Infinity_NormBijection<real> normBijection;
+		Maximum_NormBijection<real> normBijection;
 
 		// Start estimation.
 

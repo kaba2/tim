@@ -80,7 +80,7 @@ namespace Tim
 		// It is essential that the used norm is the
 		// infinity norm.
 
-		Infinity_NormBijection<real> normBijection;
+		Maximum_NormBijection<real> normBijection;
 
 		std::vector<real> estimateSet(samples);
 #pragma omp parallel
@@ -273,7 +273,7 @@ namespace Tim
 		// It is essential that the used norm is the
 		// infinity norm.
 
-		Infinity_NormBijection<real> normBijection;
+		Maximum_NormBijection<real> normBijection;
 
 		// Start estimation.
 
@@ -308,8 +308,7 @@ namespace Tim
 			{
 				//ENSURE_OP(countSet[j], >=, 2);
 
-				//const integer k = std::max(countSet[j] - 1, 1);
-				const integer k = std::max(countSet[j], 2);
+				const integer k = std::max(countSet[j] - 1, 1);
 
 				signalEstimate += digamma<real>(k);
 			}

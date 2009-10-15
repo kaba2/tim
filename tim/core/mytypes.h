@@ -10,14 +10,14 @@
 #include <pastel/sys/mytypes.h>
 #include <pastel/sys/vector_tools.h>
 
-#include <pastel/math/infinity_normbijection.h>
+#include <pastel/math/maximum_normbijection.h>
 
 namespace Tim
 {
 
 	using namespace Pastel;
 
-	typedef Infinity_NormBijection<real> Default_NormBijection;
+	typedef Maximum_NormBijection<real> Default_NormBijection;
 
 }
 

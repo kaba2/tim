@@ -22,7 +22,7 @@ namespace
 		real correct)
 	{
 		Euclidean_NormBijection<real> normBijection;
-		//Infinity_NormBijection<real> normBijection;
+		//Maximum_NormBijection<real> normBijection;
 		//Manhattan_NormBijection<real> normBijection;
 
 		const integer kNearest = 1;
