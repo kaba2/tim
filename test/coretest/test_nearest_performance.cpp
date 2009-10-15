@@ -398,7 +398,7 @@ namespace
 		*/
 
 		Euclidean_NormBijection<Real> normBijection;
-		//Infinity_NormBijection<Real> normBijection;
+		//Maximum_NormBijection<Real> normBijection;
 		//Manhattan_NormBijection<Real> normBijection;
 		//Minkowski_NormBijection<Real> normBijection(1.5);
 
