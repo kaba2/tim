@@ -82,8 +82,6 @@ namespace Tim
 
 		Infinity_NormBijection<real> normBijection;
 
-		const real scalingFactor = normBijection.scalingFactor(1.001);
-
 		std::vector<real> estimateSet(samples);
 #pragma omp parallel
 		{
@@ -141,18 +139,6 @@ namespace Tim
 				0,
 				&distanceArray);
 
-			// There should always be at least two points inside the
-			// searching distance, namely the query point and its k:th nearest 
-			// neighbor.
-			// Because of rounding errors there might however be counting
-			// difficulties. We try to avoid problems in two ways.
-			// First by expanding the searching radius somewhat, and second 
-			// by clamping the count to 2 from below.
-			for (integer i = 0;i < trials;++i)
-			{
-				distanceArray(i) *= scalingFactor;
-			}
-
 			real estimate = 0;
 
 			for (integer i = 0;i < marginals;++i)
@@ -173,10 +159,9 @@ namespace Tim
 				real signalEstimate = 0;
 				for (integer j = 0;j < trials;++j)
 				{
-					// With exact arithmetic countSet[j] >= 2, however,
-					// this might not be the case with floating point:
-					// thus the maximum.
-					const integer k = std::max(countSet[j], 2) - 1;
+					//ENSURE_OP(countSet[j], >=, 2);
+
+					const integer k = std::max(countSet[j] - 1, 1);
 
 					signalEstimate += digamma<real>(k);
 				}
@@ -306,20 +291,6 @@ namespace Tim
 			0,
 			&distanceArray);
 
-		// There should always be at least two points inside the
-		// searching distance, namely the query point and its k:th nearest 
-		// neighbor.
-		// Because of rounding errors there might however be counting
-		// difficulties. We try to avoid problems in two ways.
-		// First by expanding the searching radius somewhat, and second 
-		// by clamping the count to 2 from below.
-
-		const real scalingFactor = normBijection.scalingFactor(1.001);
-		for (integer i = 0;i < estimateSamples;++i)
-		{
-			distanceArray(i) *= scalingFactor;
-		}
-
 		real estimate = 0;
 		std::vector<integer> countSet(estimateSamples, 0);
 		for (integer i = 0;i < marginals;++i)
@@ -335,10 +306,10 @@ namespace Tim
 #pragma omp parallel for reduction(+ : signalEstimate)
 			for (integer j = 0;j < estimateSamples;++j)
 			{
-				// With exact arithmetic countSet[j] >= 2, however,
-				// this might not be the case with floating point:
-				// thus the maximum.
-				const integer k = std::max(countSet[j], 2) - 1;
+				//ENSURE_OP(countSet[j], >=, 2);
+
+				//const integer k = std::max(countSet[j] - 1, 1);
+				const integer k = std::max(countSet[j], 2);
 
 				signalEstimate += digamma<real>(k);
 			}
