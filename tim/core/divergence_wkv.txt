@@ -1,0 +1,12 @@
+Wang-Kulkarni-Verdú estimator
+=============================
+
+[Parent]: divergence.txt
+
+References
+----------
+
+_A Nearest-Neighbor Approach to Estimating
+Divergence between Continuous Random Vectors_, <br />
+Qing Wang, Sanjeev R. Kulkarni, Sergio Verdú, <br />
+IEEE International Symposium on Information Theory (ISIT), 2006.

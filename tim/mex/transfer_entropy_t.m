@@ -6,8 +6,8 @@
 %
 % where
 %
-% X, Y, and W are cell arrays of arbitrary dimension whose linearization
-% contains q trials of the signals X, Y, and W, respectively. 
+% X, Y, and W are cell-arrays of arbitrary dimension whose linearizations
+% contain q trials of the signals X, Y, and W, respectively. 
 %
 % TIMEWINDOWRADIUS determines the radius of the time-window in samples 
 % inside which samples are taken into consideration to the estimate at 

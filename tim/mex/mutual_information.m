@@ -36,10 +36,6 @@ if nargin < 2
     error('Not enough input arguments.');
 end
  
-if ~iscell(X) || ~iscell(Y)
-    error('X or Y is not a cell-array.');
-end
-
 if nargin >= 3 && nargin < 4
     error('Lags must be specified all at once to avoid errors.');
 end
@@ -57,6 +53,12 @@ if nargin < 6
     threads = 1;
 end
 
-I = entropy_combination2(...
+if ~iscell(X) || ~iscell(Y)
+    error('X or Y is not a cell-array.');
+end
+
+% Pass parameter error checking to entropy_combination.
+
+I = entropy_combination(...
     [X(:), Y(:)]', ...
     [1, 1, 1; 2, 2, 1], [xLag, yLag], k, threads);

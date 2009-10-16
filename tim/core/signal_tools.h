@@ -184,6 +184,15 @@ namespace Tim
 		const SignalPtr& signal,
 		const View<2, Color, Image_View>& image);
 
+	template <typename SignalPtr_Iterator>
+	void constructPointSet(
+		const ForwardRange<SignalPtr_Iterator>& signalSet,
+		integer sampleBegin,
+		integer sampleEnd,
+		integer dimensionBegin,
+		integer dimensionEnd,
+		std::vector<const real*>& pointSet);
+
 }
 
 #include "tim/core/signal_generate.h"

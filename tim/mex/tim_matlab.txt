@@ -3,36 +3,16 @@ TIM Matlab interface
 
 [Parent]: tim.txt
 
-Functions
----------
-
-TIM provides the following Matlab functions:
-
- * differential_entropy_kl
- * differential_entropy_kl_t
- * differential_entropy_sp
- * differential_entropy_nk
- * mutual_information
- * mutual_information_t
- * mutual_information_p
- * mutual_information_pt
- * transfer_entropy 
- * transfer_entropy_t
- * transfer_entropy_p
- * transfer_entropy_pt
- * entropy_combination
- * entropy_combination_t
-
 Naming
 ------
 
-The _t_ suffix stands for a temporal version, which
-is adaptive to temporal changes in the estimated measure
-via time-windowing. The _p_ suffix stands for a partialized
+In the function names, the 't' suffix stands for a temporal version, 
+which is adaptive to temporal changes in the estimated measure
+via time-windowing. The 'p' suffix stands for a partialized
 version (partial mutual information and partial transfer entropy). 
 Because partialization and temporality are orthogonal 
 concepts, there are also versions which have both. These are 
-named with the _pt_ suffix.
+named with the 'pt' suffix.
 If you do not need temporal results, then you should use
 the non-temporal versions: they are more efficient
 in their memory use when using multiple threads 

@@ -26,7 +26,7 @@ namespace Tim
 	of the same experiment.
 
 	timeWindowRadius:
-	The radius of the time window in samples to use.
+	The radius of the time-window in samples to use.
 	Smaller values give more temporal adaptivity,
 	but increase errors.
 
@@ -53,7 +53,7 @@ namespace Tim
 		typename SignalPtr_Iterator, 
 		typename Real_OutputIterator,
 		typename NormBijection>
-	void temporalDifferentialEntropy(
+	void temporalDifferentialEntropyKl(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
@@ -65,7 +65,7 @@ namespace Tim
 	/*!
 	This is a convenience function that calls:
 
-	temporalDifferentialEntropy(
+	temporalDifferentialEntropyKl(
 		signalSet, timeWindowRadius, result, 
 		maxRelativeError, kNearest, Default_NormBijection());
 
@@ -74,7 +74,7 @@ namespace Tim
 	template <
 		typename SignalPtr_Iterator, 
 		typename Real_OutputIterator>
-	void temporalDifferentialEntropy(
+	void temporalDifferentialEntropyKl(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
@@ -85,7 +85,7 @@ namespace Tim
 	/*!
 	This is a convenience function that calls:
 
-	temporalDifferentialEntropy(
+	temporalDifferentialEntropyKl(
 		signalSet, timeWindowRadius, result, 
 		maxRelativeError, kNearest, Default_NormBijection());
 
@@ -95,7 +95,7 @@ namespace Tim
 	template <
 		typename Real_OutputIterator,
 		typename NormBijection>
-	void temporalDifferentialEntropy(
+	void temporalDifferentialEntropyKl(
 		const SignalPtr& signal,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
@@ -107,7 +107,7 @@ namespace Tim
 	/*!
 	This is a convenience function that calls:
 
-	temporalDifferentialEntropy(
+	temporalDifferentialEntropyKl(
 		forwardRange(constantIterator(signal)),
 		timeWindowRadius, result, maxRelativeError, 
 		kNearest, Default_NormBijection());
@@ -116,7 +116,7 @@ namespace Tim
 	*/
 
 	template <typename Real_OutputIterator>
-	void temporalDifferentialEntropy(
+	void temporalDifferentialEntropyKl(
 		const SignalPtr& signal,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
@@ -158,7 +158,7 @@ namespace Tim
 	template <
 		typename SignalPtr_Iterator, 
 		typename NormBijection>
-	real differentialEntropy(
+	real differentialEntropyKl(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		real maxRelativeError,
 		integer kNearest,
@@ -168,7 +168,7 @@ namespace Tim
 	/*!
 	This is a convenience function that calls:
 
-	differentialEntropy(
+	differentialEntropyKl(
 		signalSet, maxRelativeError, kNearest, 
 		Default_NormBijection());
 
@@ -176,7 +176,7 @@ namespace Tim
 	*/
 
 	template <typename SignalPtr_Iterator>
-	real differentialEntropy(
+	real differentialEntropyKl(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		real maxRelativeError = 0,
 		integer kNearest = 1);
@@ -185,7 +185,7 @@ namespace Tim
 	/*!
 	This is a convenience function that calls:
 
-	differentialEntropy(
+	differentialEntropyKl(
 		forwardRange(constantIterator(signal)),
 		maxRelativeError,
 		kNearest,
@@ -195,7 +195,7 @@ namespace Tim
 	*/
 
 	template <typename NormBijection>
-	real differentialEntropy(
+	real differentialEntropyKl(
 		const SignalPtr& signal,
 		real maxRelativeError,
 		integer kNearest,
@@ -205,13 +205,13 @@ namespace Tim
 	/*!
 	This is a convenience function that calls:
 
-	differentialEntropy(
+	differentialEntropyKl(
 		signal, maxRelativeError,
 		kNearest, Default_NormBijection());
 
 	See the documentation for that function.
 	*/
-	TIM real differentialEntropy(
+	TIM real differentialEntropyKl(
 		const SignalPtr& signal,
 		real maxRelativeError = 0,
 		integer kNearest = 1);

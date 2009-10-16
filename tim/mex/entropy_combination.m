@@ -40,11 +40,6 @@
 
 function I = entropy_combination(signalSet, rangeSet, lagSet, k, threads)
 
-% The limit for the dimension is arbitrary, but
-% protects for the case when the user accidentally
-% passes the transpose of the intended data.
-maxDimension = 32;
-
 if nargin < 2
     error('Not enough input arguments.');
 end
@@ -69,26 +64,7 @@ if nargin < 5
     threads = 1;
 end
 
-if ~iscell(signalSet)
-    error('SIGNALSET must be a cell array.');
-end
-
-signals = size(signalSet, 1);
-
-if signals == 0
-	error('SIGNALSET is empty.');
-end
-
-for i = 1 : signals
-    if ~isa(signalSet{i}, 'double')
-        error('Some signal of X is not of type double.');
-    end
-
-    if size(signalSet{i}, 1) > maxDimension
-        error(['Some signal of X has dimension greater than ', ...
-            int2str(maxDimension), '.']);
-    end
-end
+checkSignalSet(signalSet);
 
 marginals = size(rangeSet, 1);
 

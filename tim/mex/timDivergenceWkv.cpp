@@ -1,6 +1,6 @@
 #include "tim/mex/tim_mex.h"
 
-#include "tim/core/differential_entropy_kl.h"
+#include "tim/core/divergence_wkv.h"
 
 using namespace Tim;
 
@@ -10,23 +10,23 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	enum
 	{
 		xIndex,
-		maxRelativeErrorIndex,
-		kNearestIndex,
+		yIndex,
 		threadsIndex
 	};
 
 	std::vector<SignalPtr> xEnsemble;
 	getSignals(inputSet[xIndex], std::back_inserter(xEnsemble));
 
-	const real maxRelativeError = getReal(inputSet[maxRelativeErrorIndex]);
-	const integer kNearest = getInteger(inputSet[kNearestIndex]);
+	std::vector<SignalPtr> yEnsemble;
+	getSignals(inputSet[yIndex], std::back_inserter(yEnsemble));
+
 	const integer threads = getInteger(inputSet[threadsIndex]);
 	setNumberOfThreads(threads);
-	
+
 	outputSet[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
 	real* rawResult = mxGetPr(outputSet[0]);
 
-	*rawResult = differentialEntropyKl(
+	*rawResult = divergenceWkv(
 		randomAccessRange(xEnsemble.begin(), xEnsemble.end()), 
-		maxRelativeError, kNearest);
+		randomAccessRange(yEnsemble.begin(), yEnsemble.end()));
 }

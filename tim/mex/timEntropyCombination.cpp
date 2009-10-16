@@ -1,23 +1,12 @@
-#include "mex.h"
+#include "tim/mex/tim_mex.h"
 
 #include "tim/core/entropy_combination.h"
-
-#include <boost/static_assert.hpp>
-
-#include <pastel/sys/pastelomp.h>
-#include <pastel/sys/stdext_copy_n.h>
 
 using namespace Tim;
 
 void mexFunction(int outputs, mxArray *outputSet[],
 				 int inputs, const mxArray *inputSet[])
 {
-	enum
-	{
-		RealIsDouble = boost::is_same<real, double>::value
-	};
-	BOOST_STATIC_ASSERT(RealIsDouble);
-
 	enum
 	{
 		signalSetIndex,
@@ -27,37 +16,11 @@ void mexFunction(int outputs, mxArray *outputSet[],
 		threadsIndex
 	};
 
-	// In the following, keep in mind that 
-	// Matlab uses column-major storage
-	// while we use row-major storage. That is
-	// why some values are assigned "the wrong way".
-
-	const mxArray* signalSetArray = inputSet[signalSetIndex];
-
-	const integer signals = mxGetM(signalSetArray);
-	const integer trials = mxGetN(signalSetArray);
-
-	Array<SignalPtr, 2> signalSet(trials, signals);
-
-	for (integer y = 0;y < signals;++y)
-	{
-		for (integer x = 0;x < trials;++x)
-		{
-			const mxArray* signalArray = mxGetCell(signalSetArray, signals * x + y);
-
-			const integer samples = mxGetN(signalArray);
-			const integer dimension = mxGetM(signalArray);
-
-			real* rawData = mxGetPr(signalArray);
-
-			signalSet(x, y) = SignalPtr(
-				new Signal(samples, dimension, rawData));
-		}
-	}
+	Array<SignalPtr, 2> signalSet;
+	getSignalArray(inputSet[signalSetIndex], signalSet);
 
 	std::vector<integer> lagSet;
-	lagSet.reserve(signals);
-	StdExt::copy_n(mxGetPr(inputSet[lagSetIndex]), signals, std::back_inserter(lagSet));
+	getIntegers(inputSet[lagSetIndex], std::back_inserter(lagSet));
 
 	const integer marginals = mxGetM(inputSet[rangeSetIndex]);
 	//printf("%d marginals", marginals);
@@ -73,12 +36,9 @@ void mexFunction(int outputs, mxArray *outputSet[],
 		}
 	}
 
-	const integer kNearest = *mxGetPr(inputSet[kNearestIndex]);
-	const integer threads = *mxGetPr(inputSet[threadsIndex]);
-
-#if PASTEL_ENABLE_OMP != 0
-	omp_set_num_threads(threads);
-#endif
+	const integer kNearest = getInteger(inputSet[kNearestIndex]);
+	const integer threads = getInteger(inputSet[threadsIndex]);
+	setNumberOfThreads(threads);
 
 	outputSet[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
 	real* rawResult = mxGetPr(outputSet[0]);

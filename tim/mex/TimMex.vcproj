@@ -186,6 +186,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\checkSignalSet.m"
+			>
+		</File>
+		<File
 			RelativePath=".\differential_entropy_kl.m"
 			>
 		</File>
@@ -199,6 +203,10 @@
 		</File>
 		<File
 			RelativePath=".\differential_entropy_sp.m"
+			>
+		</File>
+		<File
+			RelativePath=".\divergence_wkv.m"
 			>
 		</File>
 		<File
@@ -234,6 +242,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\tim_mex.h"
+			>
+		</File>
+		<File
+			RelativePath=".\tim_mex.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\timDifferentialEntropyKl.cpp"
 			>
 		</File>
@@ -243,6 +259,10 @@
 		</File>
 		<File
 			RelativePath=".\timDifferentialEntropySp.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\timDivergenceWkv.cpp"
 			>
 		</File>
 		<File

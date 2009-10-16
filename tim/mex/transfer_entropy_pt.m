@@ -6,7 +6,7 @@
 %
 % where
 %
-% X, Y, Z, and W are cell arrays of arbitrary dimension whose linearization
+% X, Y, Z, and W are cell-arrays of arbitrary dimension whose linearization
 % contains q trials of the signals X, Y, Z, and W, respectively. 
 %
 % TIMEWINDOWRADIUS determines the radius of the time-window in samples 
@@ -68,6 +68,8 @@ end
 if nargin < 11
     threads = 1;
 end
+
+% Pass parameter error checking to entropy_combination.
 
 I = entropy_combination_t(...
     [W(:), X(:), Z(:), Y(:)]', ...

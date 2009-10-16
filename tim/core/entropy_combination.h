@@ -33,7 +33,7 @@ namespace Tim
 	to the end-result.
 
 	timeWindowRadius:
-	The radius of the time window in samples to use.
+	The radius of the time-window in samples to use.
 	Smaller values give more temporal adaptivity,
 	but increase errors.
 
@@ -102,7 +102,7 @@ namespace Tim
 	to the end-result.
 
 	timeWindowRadius:
-	The radius of the time window in samples to use.
+	The radius of the time-window in samples to use.
 	Smaller values give more temporal adaptivity,
 	but increase errors.
 

@@ -24,7 +24,7 @@ namespace Tim
 		typename SignalPtr_Iterator, 
 		typename Real_OutputIterator,
 		typename NormBijection>
-	void temporalDifferentialEntropy(
+	void temporalDifferentialEntropyKl(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
@@ -86,7 +86,7 @@ namespace Tim
 #pragma omp for
 		for (integer t = 0;t < samples;++t)
 		{
-			// Update the position of the time window.
+			// Update the position of the time-window.
 
 			pointSet.setTimeWindow(t - timeWindowRadius, t + timeWindowRadius + 1);
 
@@ -106,16 +106,15 @@ namespace Tim
 
 			searchAllNeighbors(
 				pointSet.kdTree(),
-				DepthFirst_SearchAlgorithm_PointKdTree(),
 				randomAccessRange(pointSet.begin() + tDelta * trials, 
 				pointSet.begin() + (tDelta + 1) * trials),
 				kNearest - 1,
 				kNearest, 
+				0,
+				&distanceArray,
 				randomAccessRange(constantIterator(infinity<real>()), trials),
 				maxRelativeError,
-				normBijection,
-				0,
-				&distanceArray);
+				normBijection);
 
 			// After we have found the distances, we simply evaluate
 			// the differential entropy estimator over the samples of
@@ -134,7 +133,10 @@ namespace Tim
 					++acceptedSamples;
 				}
 			}
-			estimate *= (real)dimension / acceptedSamples;
+			if (acceptedSamples > 0)
+			{
+				estimate *= (real)dimension / acceptedSamples;
+			}
 			estimate -= digamma<real>(kNearest);
 			estimate += digamma<real>(tWidth * trials);
 			estimate += normBijection.lnVolumeUnitSphere(dimension);
@@ -151,14 +153,14 @@ namespace Tim
 	template <
 		typename SignalPtr_Iterator, 
 		typename Real_OutputIterator>
-	void temporalDifferentialEntropy(
+	void temporalDifferentialEntropyKl(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
 		real maxRelativeError,
 		integer kNearest)
 	{
-		Tim::temporalDifferentialEntropy(
+		Tim::temporalDifferentialEntropyKl(
 			signalSet,
 			timeWindowRadius,
 			result,
@@ -170,7 +172,7 @@ namespace Tim
 	template <
 		typename Real_OutputIterator,
 		typename NormBijection>
-	void temporalDifferentialEntropy(
+	void temporalDifferentialEntropyKl(
 		const SignalPtr& signal,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
@@ -178,7 +180,7 @@ namespace Tim
 		integer kNearest,
 		const NormBijection& normBijection)
 	{
-		Tim::temporalDifferentialEntropy(
+		Tim::temporalDifferentialEntropyKl(
 			forwardRange(constantIterator(signal)),
 			timeWindowRadius,
 			result,
@@ -188,14 +190,14 @@ namespace Tim
 	}
 
 	template <typename Real_OutputIterator>
-	void temporalDifferentialEntropy(
+	void temporalDifferentialEntropyKl(
 		const SignalPtr& signal,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
 		real maxRelativeError,
 		integer kNearest)
 	{
-		Tim::temporalDifferentialEntropy(
+		Tim::temporalDifferentialEntropyKl(
 			signal,
 			timeWindowRadius,
 			result,
@@ -207,7 +209,7 @@ namespace Tim
 	template <
 		typename SignalPtr_Iterator, 
 		typename NormBijection>
-	real differentialEntropy(
+	real differentialEntropyKl(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		real maxRelativeError,
 		integer kNearest,
@@ -229,15 +231,14 @@ namespace Tim
 
 		searchAllNeighbors(
 			pointSet.kdTree(),
-			DepthFirst_SearchAlgorithm_PointKdTree(),
 			randomAccessRange(pointSet.begin(), pointSet.end()),
 			kNearest - 1,
 			kNearest, 
+			0,
+			&distanceArray,
 			randomAccessRange(constantIterator(infinity<real>()), estimateSamples),
 			maxRelativeError,
-			normBijection,
-			0,
-			&distanceArray);
+			normBijection);
 
 		// After we have found the distances, we simply evaluate
 		// the differential entropy estimator over all samples.
@@ -265,12 +266,12 @@ namespace Tim
 	}
 
 	template <typename SignalPtr_Iterator>
-	real differentialEntropy(
+	real differentialEntropyKl(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		real maxRelativeError,
 		integer kNearest)
 	{
-		return Tim::differentialEntropy(
+		return Tim::differentialEntropyKl(
 			signalSet,
 			maxRelativeError,
 			kNearest,
@@ -278,13 +279,13 @@ namespace Tim
 	}
 
 	template <typename NormBijection>
-	real differentialEntropy(
+	real differentialEntropyKl(
 		const SignalPtr& signal,
 		real maxRelativeError,
 		integer kNearest,
 		const NormBijection& normBijection)
 	{
-		return Tim::differentialEntropy(
+		return Tim::differentialEntropyKl(
 			forwardRange(constantIterator(signal)),
 			maxRelativeError,
 			kNearest,

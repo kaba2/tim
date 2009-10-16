@@ -44,7 +44,7 @@ namespace
 			normBijection);
 
 		/*
-		const real estimate = differentialEntropy(
+		const real estimate = differentialEntropyKl(
 			forwardRange(signalSet), maxRelativeError, kNearest, 
 			normBijection);
 		*/
@@ -52,7 +52,7 @@ namespace
 		/*
 		std::vector<real> entropySet;
 		entropySet.reserve(signal->samples());
-		temporalDifferentialEntropy(
+		temporalDifferentialEntropyKl(
 			forwardRange(signalSet), signal->samples() / 10, std::back_inserter(entropySet), 
 			maxRelativeError, kNearest, normBijection);
 		const real estimate = std::accumulate(entropySet.begin(), entropySet.end(), (real)0) /
