@@ -13,7 +13,7 @@
 % To fully take advantage of multiple cores in your machine, set this
 % to the number of cores in your machine. Note however that this makes 
 % your computer unresponsive to other tasks. When you need responsiveness, 
-% spare one core for other work. Default 1 (no parallelization).
+% spare one core for other work. Default maxNumCompThreads.
 %
 % Each signal is a real (m x n)-matrix that contains n samples of an
 % m-dimensional signal. The signals contained in X (Y) must all have equal
@@ -39,7 +39,7 @@ if nargout > 1
 end
 
 if nargin < 3
-	threads = 1;
+	threads = maxNumCompThreads;
 end
 
 checkSignalSet(X);
