@@ -41,7 +41,7 @@ namespace Tim
 
 	void getSignalArray(
 		const mxArray* signalSetArray, 
-		Array<SignalPtr, 2> signalSet);
+		Array<SignalPtr, 2>& signalSet);
 	
 }
 

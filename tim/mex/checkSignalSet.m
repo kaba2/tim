@@ -16,14 +16,14 @@ if signals == 0
 	error('Signal-set is empty.');
 end
 
-dimension = size(S{1}, 1);
+dimension = size(X{1}, 1);
 
 for i = 1 : signals
     if ~isa(X{i}, 'double')
         error('Some signal is not of type double.');
     end
 
-    if size(S{i}, 1) ~= dimension
+    if size(X{i}, 1) ~= dimension
         error(['The dimensions of the trials do not match.']);
     end
 
