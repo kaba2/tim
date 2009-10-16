@@ -142,6 +142,16 @@ namespace Tim
 
 			for (integer j = 0;j < trials;++j)
 			{
+				// This is an important part of the algorithm although it may
+				// not seem like it from the first look. Because of the use of
+				// the maximum norm, the k:th neighbor will be at least on the
+				// surface of one of the marginal balls. Those points on the 
+				// surfaces must not be counted or otherwise the result becomes
+				// biased. I.e. one must use an open search ball for counting marginal
+				// neighbors, and not a closed one. This is not a rare case: 
+				// it happens in the marginal neighbor searching for every point. 
+				// Tracing this bug took many days.
+
 				distanceArray(j) = nextSmaller(distanceArray(j));
 			}
 
@@ -166,13 +176,19 @@ namespace Tim
 				for (integer j = 0;j < trials;++j)
 				{
 					const integer k = countSet[j];
+					// A neighbor count of zero can happen when the distance
+					// to the k:th neighbor is zero because of using an
+					// open search ball. These points are ignored.
 					if (k > 0)
 					{
 						signalEstimate += digamma<real>(k);
 						++accepted;
 					}
 				}
-				signalEstimate /= trials;
+				if (accepted > 0)
+				{
+					signalEstimate /= accepted;
+				}
 
 				estimate -= signalEstimate * copyRangeSet[i][2];
 			}
@@ -301,6 +317,16 @@ namespace Tim
 #pragma omp parallel for
 		for (integer j = 0;j < estimateSamples;++j)
 		{
+			// This is an important part of the algorithm although it may
+			// not seem like it from the first look. Because of the use of
+			// the maximum norm, the k:th neighbor will be at least on the
+			// surface of one of the marginal balls. Those points on the 
+			// surfaces must not be counted or otherwise the result becomes
+			// biased. I.e. one must use an open search ball for counting marginal
+			// neighbors, and not a closed one. This is not a rare case: 
+			// it happens in the marginal neighbor searching for every point. 
+			// Tracing this bug took many days.
+
 			distanceArray(j) = nextSmaller(distanceArray(j));
 		}
 
@@ -327,13 +353,19 @@ namespace Tim
 			for (integer j = 0;j < estimateSamples;++j)
 			{
 				const integer k = countSet[j];
+				// A neighbor count of zero can happen when the distance
+				// to the k:th neighbor is zero because of using an
+				// open search ball. These points are ignored.
 				if (k > 0)
 				{
 					signalEstimate += digamma<real>(k);
 					++accepted;
 				}
 			}
-			signalEstimate /= accepted;
+			if (accepted > 0)
+			{
+				signalEstimate /= accepted;
+			}
 
 			estimate -= signalEstimate * weightSet[i];
 		}
