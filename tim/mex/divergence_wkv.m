@@ -7,7 +7,7 @@
 % where
 %
 % X and Y are arbitrary-dimensional cell-arrays whose linearizations 
-% contain q trials of signal X and Y, respectively.
+% contain q trials of signals X and Y, respectively.
 %
 % THREADS determines the number of threads to use for parallelization.
 % To fully take advantage of multiple cores in your machine, set this
@@ -18,8 +18,6 @@
 % Each signal is a real (m x n)-matrix that contains n samples of an
 % m-dimensional signal. The signals contained in X (Y) must all have equal
 % dimensionality, but their number of samples may vary. 
-% If the number of samples varies with trials, the function uses 
-% the minimum sample count among the trials of X and Y.
 % The number of trials in X and Y must be equal.
 
 % Description: Kullback-Leibler divergence estimation
@@ -49,6 +47,10 @@ checkSignalSet(Y);
 
 if numel(X) ~= numel(Y)
 	error('The number of trials in X and Y do not match.');
+end
+
+if size(X{1}, 1) ~= size(Y{1}, 1)
+    error('The dimensions of X and Y do not match.');
 end
 
 if size(threads, 1) ~= 1 || ...

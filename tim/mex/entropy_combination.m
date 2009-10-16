@@ -66,6 +66,7 @@ end
 
 checkSignalSet(signalSet);
 
+signals = size(signalSet, 1);
 marginals = size(rangeSet, 1);
 
 if marginals == 0

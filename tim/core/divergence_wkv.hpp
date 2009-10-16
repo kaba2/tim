@@ -42,32 +42,43 @@ namespace Tim
 		const integer xSamples = xPointSet->samples();
 		const integer ySamples = yPointSet->samples();
 
+		integer acceptedSamples = 0;
 		real estimate = 0;
-#pragma omp parallel for reduction(+ : estimate)
+//#pragma omp parallel for reduction(+ : estimate, acceptedSamples)
 		for (integer i = 0;i < xSamples;++i)
 		{
 			// Find out the nearest neighbor in X for a point in X.
 
 			const real xxDistance2 = 
-				searchNearestOne(yPointSet->kdTree(), *(xPointSet->begin() + i)).key();
-
-			// Find out the nearest neighbor in Y for a point in X.
-
-			const Vector<real> queryPoint(ofDimension(xDimension), 
-				withAliasing((real*)(*(xPointSet->begin() + i))->object()));
-
-			const real xyDistance2 = 
-				searchNearestOne(yPointSet->kdTree(), queryPoint).key();
+				searchNearestOne(xPointSet->kdTree(), *(xPointSet->begin() + i)).key();
 			
-			estimate += std::log(xyDistance2 / xxDistance2);
+			if (xxDistance2 > 0)
+			{		
+				// Find out the nearest neighbor in Y for a point in X.
+
+				const Vector<real> queryPoint(ofDimension(xDimension), 
+					withAliasing((real*)(*(xPointSet->begin() + i))->object()));
+
+				const real xyDistance2 = 
+					searchNearestOne(yPointSet->kdTree(), queryPoint).key();
+				
+				if (xyDistance2 > 0)
+				{
+					estimate += std::log(xyDistance2 / xxDistance2);
+					++acceptedSamples;
+				}
+			}
 		}
 
-		// The factor 2 in the denominator is because 
-		// 'xyDistance' and 'xxDistance' are squared distances
-		// and thus need to be taken a square root. However,
-		// this can be taken outside the logarithm with a 
-		// division by 2.
-		estimate *= (real)xDimension / (2 * xSamples);
+		if (acceptedSamples > 0)
+		{
+			// The factor 2 in the denominator is because 
+			// 'xyDistance' and 'xxDistance' are squared distances
+			// and thus need to be taken a square root. However,
+			// this can be taken outside the logarithm with a 
+			// division by 2.
+			estimate *= (real)xDimension / (2 * acceptedSamples);
+		}
 		estimate += std::log((real)ySamples / (xSamples - 1));
 
 		return estimate;
