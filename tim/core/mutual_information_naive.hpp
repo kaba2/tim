@@ -36,7 +36,7 @@ namespace Tim
 		{
 			const SignalPtr signal = *iter;
 
-			estimate += differentialEntropy(
+			estimate += differentialEntropyKl(
 				signal,
 				maxRelativeError,
 				kNearest,
@@ -46,7 +46,7 @@ namespace Tim
 		}
 
 		const SignalPtr jointSignal = merge(signalSet);
-		estimate -= differentialEntropy(
+		estimate -= differentialEntropyKl(
 			jointSignal,
 			maxRelativeError,
 			kNearest,

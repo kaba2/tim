@@ -6,7 +6,7 @@
 %
 % where
 %
-% X, Y, Z, and W are cell arrays of arbitrary dimension whose linearization
+% X, Y, Z, and W are cell-arrays of arbitrary dimension whose linearization
 % contains q trials of the signals X, Y, Z, and W, respectively. 
 %
 % XLAG, YLAG, ZLAG, and WLAG are the lags in samples applied to 
@@ -60,6 +60,8 @@ end
 if nargin < 10
     threads = 1;
 end
+
+% Pass parameter error checking to entropy_combination.
 
 I = entropy_combination(...
     [W(:), X(:), Z(:), Y(:)]', ...

@@ -3,12 +3,12 @@
 namespace Tim
 {
 
-	TIM real differentialEntropy(
+	TIM real differentialEntropyKl(
 		const SignalPtr& signal,
 		real maxRelativeError,
 		integer kNearest)
 	{
-		return Tim::differentialEntropy(
+		return Tim::differentialEntropyKl(
 			signal, maxRelativeError,
 			kNearest, Default_NormBijection());
 	}

@@ -128,17 +128,16 @@ namespace Tim
 
 			searchAllNeighbors(
 				jointPointSet->kdTree(),
-				DepthFirst_SearchAlgorithm_PointKdTree(),
 				randomAccessRange(
 				jointPointSet->begin() + tDelta * trials, 
 				jointPointSet->begin() + (tDelta + 1) * trials),
 				kNearest - 1,
 				kNearest, 
+				0,
+				&distanceArray,
 				randomAccessRange(constantIterator(infinity<real>()), trials),
 				0,
-				normBijection,
-				0,
-				&distanceArray);
+				normBijection);
 
 			for (integer j = 0;j < trials;++j)
 			{
@@ -168,10 +167,10 @@ namespace Tim
 					pointSet[i]->begin() + tDelta * trials, 
 					pointSet[i]->begin() + (tDelta + 1) * trials),
 					randomAccessRange(distanceArray.begin(), trials),
-					normBijection,
-					countSet.begin());
+					countSet.begin(),
+					normBijection);
 				
-				integer accepted = 0;
+				integer acceptedSamples = 0;
 				real signalEstimate = 0;
 				for (integer j = 0;j < trials;++j)
 				{
@@ -182,12 +181,12 @@ namespace Tim
 					if (k > 0)
 					{
 						signalEstimate += digamma<real>(k);
-						++accepted;
+						++acceptedSamples;
 					}
 				}
-				if (accepted > 0)
+				if (acceptedSamples > 0)
 				{
-					signalEstimate /= accepted;
+					signalEstimate /= acceptedSamples;
 				}
 
 				estimate -= signalEstimate * copyRangeSet[i][2];
@@ -304,15 +303,14 @@ namespace Tim
 
 		searchAllNeighbors(
 			jointPointSet.kdTree(),
-			DepthFirst_SearchAlgorithm_PointKdTree(),
 			randomAccessRange(jointPointSet.begin(), jointPointSet.end()),
 			kNearest - 1,
 			kNearest, 
+			0,
+			&distanceArray,
 			randomAccessRange(constantIterator(infinity<real>()), estimateSamples),
 			0,
-			normBijection,
-			0,
-			&distanceArray);
+			normBijection);
 
 #pragma omp parallel for
 		for (integer j = 0;j < estimateSamples;++j)
@@ -344,12 +342,12 @@ namespace Tim
 				pointSet[i]->kdTree(),
 				randomAccessRange(pointSet[i]->begin(), pointSet[i]->end()),
 				randomAccessRange(distanceArray.begin(), estimateSamples),
-				normBijection,
-				countSet.begin());
+				countSet.begin(),
+				normBijection);
 
-			integer accepted = 0;
+			integer acceptedSamples = 0;
 			real signalEstimate = 0;
-#pragma omp parallel for reduction(+ : signalEstimate, accepted)
+#pragma omp parallel for reduction(+ : signalEstimate, acceptedSamples)
 			for (integer j = 0;j < estimateSamples;++j)
 			{
 				const integer k = countSet[j];
@@ -359,12 +357,12 @@ namespace Tim
 				if (k > 0)
 				{
 					signalEstimate += digamma<real>(k);
-					++accepted;
+					++acceptedSamples;
 				}
 			}
-			if (accepted > 0)
+			if (acceptedSamples > 0)
 			{
-				signalEstimate /= accepted;
+				signalEstimate /= acceptedSamples;
 			}
 
 			estimate -= signalEstimate * weightSet[i];

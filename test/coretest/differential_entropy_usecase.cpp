@@ -28,40 +28,40 @@ namespace
 		// To compute differential entropy for
 		// a single signal:
 
-		averageEstimate = differentialEntropy(
+		averageEstimate = differentialEntropyKl(
 			xSignal);
-		averageEstimate = differentialEntropy(
+		averageEstimate = differentialEntropyKl(
 			xSignal, maxRelativeError);
-		averageEstimate = differentialEntropy(
+		averageEstimate = differentialEntropyKl(
 			xSignal, maxRelativeError, kNearest);
 
 		// To compute temporal differential
 		// entropy where the neighborhood is given by
-		// a time window:
+		// a time-window:
 
-		temporalDifferentialEntropy(
+		temporalDifferentialEntropyKl(
 			xSignal, timeWindowRadius, estimateSet,
 			maxRelativeError, kNearest, normBijection);
 
-		averageEstimate = differentialEntropy(
+		averageEstimate = differentialEntropyKl(
 			xSignal, maxRelativeError, kNearest, normBijection);
 
-		temporalDifferentialEntropy(xSignal, timeWindowRadius, estimateSet, 
+		temporalDifferentialEntropyKl(xSignal, timeWindowRadius, estimateSet, 
 			maxRelativeError, kNearest);
-		temporalDifferentialEntropy(xSignal, timeWindowRadius, estimateSet,
+		temporalDifferentialEntropyKl(xSignal, timeWindowRadius, estimateSet,
 			maxRelativeError, kNearest, normBijection);
 
 		// To compute differential entropy for
 		// a set of signals, where each signal is a 
 		// different trial of the same experiment:
 
-		averageEstimate = differentialEntropy(
+		averageEstimate = differentialEntropyKl(
 			forwardRange(signalSet));
-		averageEstimate = differentialEntropy(
+		averageEstimate = differentialEntropyKl(
 			forwardRange(signalSet), maxRelativeError);
-		averageEstimate = differentialEntropy(
+		averageEstimate = differentialEntropyKl(
 			forwardRange(signalSet), maxRelativeError, kNearest);
-		averageEstimate = differentialEntropy(
+		averageEstimate = differentialEntropyKl(
 			forwardRange(signalSet), maxRelativeError, 
 			kNearest, normBijection);
 
@@ -69,18 +69,18 @@ namespace
 		// a set of signals, where each signal is a 
 		// different trial of the same experiment:
 
-		temporalDifferentialEntropy(
+		temporalDifferentialEntropyKl(
 			forwardRange(signalSet), 
 			timeWindowRadius, estimateSet); 
-		temporalDifferentialEntropy(
+		temporalDifferentialEntropyKl(
 			forwardRange(signalSet), 
 			timeWindowRadius, estimateSet, 
 			maxRelativeError); 
-		temporalDifferentialEntropy(
+		temporalDifferentialEntropyKl(
 			forwardRange(signalSet), 
 			timeWindowRadius, estimateSet, 
 			maxRelativeError, kNearest);
-		temporalDifferentialEntropy(
+		temporalDifferentialEntropyKl(
 			forwardRange(signalSet), timeWindowRadius, 
 			estimateSet,
 			maxRelativeError, kNearest,

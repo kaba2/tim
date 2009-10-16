@@ -11,7 +11,7 @@
 %
 % TIMEWINDOWRADIUS determines the radius of the time-window inside which
 % samples are taken into consideration to the mutual information
-% estimate at time instant t. The time window at time instant t
+% estimate at time instant t. The time-window at time instant t
 % is given by [t - timeWindowRadius, t + timeWindowRadius]. 
 % This allows the estimate to be adaptive to temporal changes in mutual 
 % information. If no such changes should happen, better accuracy can be 
@@ -47,10 +47,6 @@ if nargin < 3
     error('Not enough input arguments.');
 end
 
-if ~iscell(X) || ~iscell(Y)
-    error('X or Y is not a cell-array.');
-end
-
 if nargin >= 4 && nargin < 5
     error('Lags must be specified all at once to avoid errors.');
 end
@@ -67,6 +63,12 @@ end
 if nargin < 7
     threads = 1;
 end
+
+if ~iscell(X) || ~iscell(Y)
+    error('X or Y is not a cell-array.');
+end
+
+% Pass parameter error checking to entropy_combination.
 
 I = entropy_combination_t(...
     [X(:), Y(:)]', ...

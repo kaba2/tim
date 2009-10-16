@@ -17,9 +17,9 @@ Features
 * Estimation of differential entropy using various estimators
 * Estimation of a general class of entropy combinations including mutual information, 
 partial mutual information, transfer entropy, and partial transfer entropy
-* Temporal estimation using time windowing
+* Temporal estimation using time-windowing
 * Estimation from an ensemble of time-series' representing trials of the same experiment
-* Time-series' with arbitrary dimensionality
+* Time-series' with arbitrary-dimensionality
 * Multi-core parallel computation
 * Both C++ and Matlab interfaces
 

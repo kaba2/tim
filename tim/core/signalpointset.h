@@ -52,16 +52,17 @@ namespace Tim
 			const ForwardRange<SignalPtr_Iterator>& signalSet,
 			bool startFull = false);
 
-		//! Constructs using given subdimensions and initial time window.
+		//! Constructs using given subdimensions and initial time-window.
 		/*!
 		Preconditions:
 		dimensionBegin <= dimensionEnd
 		dimensionBegin >= 0
 		dimensionEnd <= signalSet.front()->dimension()
 
-		The time window is given by the integer interval
-		[timeBegin, timeEnd[. The subdimension integer interval is
-		given by [dimensionBegin, dimensionEnd[.
+		The subdimension integer interval is
+		given by [dimensionBegin, dimensionEnd[. If 'startFull' is true,
+		then initially all samples are contained in the time-window.
+		Otherwise no samples are initially contained in the time-window.
 		*/
 		template <typename SignalPtr_Iterator>
 		SignalPointSet(
@@ -79,10 +80,13 @@ namespace Tim
 		//! Copies the contents of another SignalPointSet.
 		SignalPointSet& operator=(const SignalPointSet& that);
 
-		//! Set the time window.
+		//! Set the time-window.
 		/*!
 		Preconditions:
 		tNewBegin <= tNewEnd
+
+		The more the old time-window and the new time-window
+		overlap, the less work needs to be done.
 		*/
 		void setTimeWindow(integer tNewBegin, integer tNewEnd);
 
@@ -95,15 +99,15 @@ namespace Tim
 		//! One-past-last iterator to set of points currently in the kd-tree.
 		ConstObjectIterator_Iterator end() const;
 
-		//! Returns the beginning time of the current time window.
+		//! Returns the beginning time of the current time-window.
 		/*!
-		The interval of the time window is given by	[timeBegin(), timeEnd()[.
+		The interval of the time-window is given by	[timeBegin(), timeEnd()[.
 		*/
 		integer timeBegin() const;
 
-		//! Returns the one-past-last time of the current time window.
+		//! Returns the one-past-last time of the current time-window.
 		/*!
-		The interval of the time window is given by	[timeBegin(), timeEnd()[.
+		The interval of the time-window is given by	[timeBegin(), timeEnd()[.
 		*/
 		integer timeEnd() const;
 
@@ -119,6 +123,11 @@ namespace Tim
 		*/
 		integer dimension() const;
 
+		//! Returns the dimension offset of the signal data.
+		/*!
+		Using a dimension offset allows you to select a subrange
+		of the dimensions of a signal.
+		*/
 		integer dimensionBegin() const;
 
 		//! Returns a point that corresponds to a given kd-tree object.
@@ -128,14 +137,11 @@ namespace Tim
 		// Prohibited, for now.
 		SignalPointSet(const SignalPointSet& that);
 
+		// Extracts points from the given ensemble of signals.
 		/*
-		Preconditions:
-		timeBegin <= timeEnd,
-		dimensionBegin <= dimensionEnd
-		dimensionBegin >= 0
-		dimensionEnd <= signalSet_.front()->dimension()
+		Each point is a pointer to the beginning of its coordinate
+		data. These pointers are placed in 'pointSet_'.
 		*/
-
 		template <typename SignalPtr_Iterator>
 		void createPointSet(
 			const ForwardRange<SignalPtr_Iterator>& signalSet);
@@ -146,7 +152,7 @@ namespace Tim
 		kdTree_:
 		A multi-resolution kd-tree that has been subdivided with
 		all available points but which only contains the points
-		in the time window at any time instant. Note multi-resolution
+		in the time-window at any time instant. Note multi-resolution
 		kd-tree adapts itself automatically to smaller number of points.
 
 		signalSet_:
@@ -157,22 +163,22 @@ namespace Tim
 		Contains a set of pointers with each pointer pointing
 		to the beginning of point coordinate data. This set represents
 		the set of all available points without culling by a 
-		time window. Note that kdTree_ uses an object policy
+		time-window. Note that kdTree_ uses an object policy
 		in which the object is a const real*. This container is
-		needed to insert points when the time window is moved.
+		needed to insert points when the time-window is moved.
 
 		objectSet_:
 		Contains a set of object iterators to the kdTree_,
 		including only those points which are currently in
-		the time window. This container is needed to be able
-		to remove points when the time window is moved.
+		the time-window. This container is needed to be able
+		to remove points when the time-window is moved.
 
 		samples_:
 		Contains the number of samples that are considered
 		for each signal.
 
 		timeBegin_, timeEnd_:
-		The position of the time window is given by the
+		The position of the time-window is given by the
 		integer interval [timeBegin_, timeEnd_[.
 
 		dimensionBegin_, dimension_:

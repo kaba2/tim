@@ -19,7 +19,7 @@
 %
 % TIMEWINDOWRADIUS determines the radius of the time-window inside which
 % samples are taken into consideration to the mutual information
-% estimate at time instant t. The time window at time instant t
+% estimate at time instant t. The time-window at time instant t
 % is given by [t - timeWindowRadius, t + timeWindowRadius]. 
 % This allows the estimate to be adaptive to temporal changes in mutual 
 % information. If no such changes should happen, better accuracy can be 
@@ -51,11 +51,6 @@
 function I = entropy_combination_t(signalSet, rangeSet, ...
     timeWindowRadius, lagSet, k, threads)
 
-% The limit for the dimension is arbitrary, but
-% protects for the case when the user accidentally
-% passes the transpose of the intended data.
-maxDimension = 32;
-
 if nargin < 3
     error('Not enough input arguments.');
 end
@@ -80,29 +75,10 @@ if nargin < 6
     threads = 1;
 end
 
-if ~iscell(signalSet)
-    error('SIGNALSET must be a cell array.');
-end
+checkSignalSet(signalSet);
 
 if timeWindowRadius < 0
     error('TIMEWINDOWRADIUS must be non-negative');
-end
-
-signals = size(signalSet, 1);
-
-if signals == 0
-	error('SIGNALSET is empty.');
-end
-
-for i = 1 : signals
-    if ~isa(signalSet{i}, 'double')
-        error('Some signal of X is not of type double.');
-    end
-
-    if size(signalSet{i}, 1) > maxDimension
-        error(['Some signal of X has dimension greater than ', ...
-            int2str(maxDimension), '.']);
-    end
 end
 
 marginals = size(rangeSet, 1);

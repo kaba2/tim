@@ -2,6 +2,7 @@
 #define TIM_SIGNALPOINTSET_HPP
 
 #include "tim/core/signalpointset.h"
+#include "tim/core/signal_tools.h"
 
 #include <pastel/sys/ensure.h>
 

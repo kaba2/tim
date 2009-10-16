@@ -384,6 +384,34 @@
 					</File>
 				</Filter>
 			</Filter>
+			<Filter
+				Name="Divergence"
+				>
+				<File
+					RelativePath=".\divergence.txt"
+					>
+				</File>
+				<Filter
+					Name="Wang-Kulkarni-Verdu"
+					>
+					<File
+						RelativePath=".\divergence_wkv.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\divergence_wkv.h"
+						>
+					</File>
+					<File
+						RelativePath=".\divergence_wkv.hpp"
+						>
+					</File>
+					<File
+						RelativePath=".\divergence_wkv.txt"
+						>
+					</File>
+				</Filter>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Signal"

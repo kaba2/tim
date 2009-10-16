@@ -54,16 +54,20 @@ namespace Tim
 		std::swap(samples_, that.samples_);
 		std::swap(timeBegin_, that.timeBegin_);
 		std::swap(timeEnd_, that.timeEnd_);
+		std::swap(dimensionBegin_, that.dimensionBegin_);
+		std::swap(dimension_, that.dimension_);
 	}
 
-	SignalPointSet& SignalPointSet::operator=(const SignalPointSet& that)
+	SignalPointSet& SignalPointSet::operator=(
+		const SignalPointSet& that)
 	{
 		SignalPointSet copy(that);
 		swap(copy);
 		return *this;
 	}
 
-	void SignalPointSet::setTimeWindow(integer newTimeBegin, integer newTimeEnd)
+	void SignalPointSet::setTimeWindow(
+		integer newTimeBegin, integer newTimeEnd)
 	{
 		ENSURE_OP(newTimeBegin, <=, newTimeEnd);
 
@@ -73,7 +77,7 @@ namespace Tim
 		if (newTimeBegin >= timeEnd_ || newTimeEnd <= timeBegin_ ||
 			newTimeBegin == newTimeEnd || timeBegin_ == timeEnd_)
 		{
-			// The time windows do not share any
+			// The time-windows do not share any
 			// elements. Clear all objects from
 			// the kdtree.
 
@@ -89,9 +93,9 @@ namespace Tim
 		}
 		else
 		{
-			// The time windows overlap. Keep those objects
+			// The time-windows overlap. Keep those objects
 			// which are common to both, remove and insert
-			// appropriately to get the new time window.
+			// appropriately to get the new time-window.
 
 			integer deltaRight = timeEnd_ - newTimeEnd;
 			if (deltaRight > 0)

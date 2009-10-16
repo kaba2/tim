@@ -37,7 +37,7 @@ namespace
 
 		// To compute temporal differential
 		// entropy where the neighborhood is given by
-		// a time window:
+		// a time-window:
 
 		temporalMutualInformation(
 			xSignal, timeWindowRadius, estimateSet,

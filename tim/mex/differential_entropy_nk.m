@@ -15,7 +15,7 @@
 % lieing on a d-dimensional differentiable manifold, where d is
 % also estimated from the data and is an integer.
 %
-% S is an arbitrary dimensional cell array whose linearization contains
+% S is an arbitrary-dimensional cell-array whose linearization contains
 % q trials of a signal. Each signal is a real (m x n)-matrix that 
 % contains n samples of an m-dimensional signal.
 %
@@ -35,11 +35,6 @@
 % Documentation: tim_matlab.txt
 
 function [H, d] = differential_entropy_nk(S, epsilon, threads)
-
-% The limit for the dimension is arbitrary, but
-% protects for the case when the user accidentally
-% passes the transpose of the intended data.
-maxDimension = 32;
 
 if nargin < 1
     error('Not enough input arguments.');
@@ -61,32 +56,7 @@ if nargin < 3
     threads = 1;
 end
 
-if ~iscell(S)
-    error('S must be a cell array.');
-end
-
-signals = prod(size(S));
-
-if signals < 1
-    error('S must contain at least 1 signal.');
-end
-
-dimension = size(S{1}, 1);
-
-for i = 1 : signals
-    if ~isa(S{i}, 'double')
-        error('Some signal of S is not of type double.');
-    end
-
-    if size(S{i}, 1) ~= dimension
-        error(['The dimensions of the trials do not match.']);
-    end
-    
-    if size(S{i}, 1) > maxDimension
-        error(['Some signal of S has dimension greater than ', ...
-            int2str(maxDimension), '.']);
-    end
-end
+checkSignalSet(S);
 
 if size(epsilon, 1) ~= 1 || ...
    size(epsilon, 2) ~= 1

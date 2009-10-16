@@ -32,7 +32,7 @@ an example function template declaration from TIM:
 	template <
 		typename SignalPtr_Iterator, 
 		typename Real_OutputIterator>
-	void temporalDifferentialEntropy(
+	void temporalDifferentialEntropyKl(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,

@@ -465,14 +465,14 @@ namespace
 
 				searchAllNeighbors(
 					kdTree,
-					DepthFirst_SearchAlgorithm_PointKdTree(),
 					randomAccessRange(iteratorSet.begin(), iteratorSet.end()),
 					0,
 					kNearest, 
+					&kdNearestIter,
+					0,
 					randomAccessRange(constantIterator(infinity<Real>()), pointSet.size()),
 					maxRelativeError,
-					normBijection,
-					&kdNearestIter);
+					normBijection);
 
 				timer.store();
 
