@@ -19,7 +19,7 @@
 % To fully take advantage of multiple cores in your machine, set this
 % to the number of cores in your machine. Note however that this makes 
 % your computer unresponsive to other tasks. When you need responsiveness, 
-% spare one core for other work. Default 1 (no parallelization).
+% spare one core for other work. Default maxNumCompThreads.
 %
 % Each signal is a real (m x n)-matrix that contains n samples of an
 % m-dimensional signal. The signals contained in X (or Y or W) 
@@ -57,7 +57,7 @@ if nargin < 9
 end
 
 if nargin < 10
-    threads = 1;
+    threads = maxNumCompThreads;
 end
 
 % Pass parameter error checking to entropy_combination.
