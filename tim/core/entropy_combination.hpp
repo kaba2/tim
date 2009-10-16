@@ -14,6 +14,7 @@
 
 #include <pastel/sys/constantiterator.h>
 #include <pastel/sys/forwardrange.h>
+#include <pastel/sys/eps.h>
 
 #include <numeric>
 
@@ -78,7 +79,7 @@ namespace Tim
 		}
 
 		// It is essential that the used norm is the
-		// infinity norm.
+		// maximum norm.
 
 		Maximum_NormBijection<real> normBijection;
 
@@ -139,8 +140,12 @@ namespace Tim
 				0,
 				&distanceArray);
 
-			real estimate = 0;
+			for (integer j = 0;j < trials;++j)
+			{
+				distanceArray(j) = nextSmaller(distanceArray(j));
+			}
 
+			real estimate = 0;
 			for (integer i = 0;i < marginals;++i)
 			{
 				pointSet[i]->setTimeWindow(
@@ -156,22 +161,24 @@ namespace Tim
 					normBijection,
 					countSet.begin());
 				
+				integer accepted = 0;
 				real signalEstimate = 0;
 				for (integer j = 0;j < trials;++j)
 				{
-					//ENSURE_OP(countSet[j], >=, 2);
-
-					const integer k = std::max(countSet[j] - 1, 1);
-
-					signalEstimate += digamma<real>(k);
+					const integer k = countSet[j];
+					if (k > 0)
+					{
+						signalEstimate += digamma<real>(k);
+						++accepted;
+					}
 				}
+				signalEstimate /= trials;
 
 				estimate -= signalEstimate * copyRangeSet[i][2];
 			}
 
 			const integer estimateSamples = tWidth * trials;
 
-			estimate /= trials;
 			estimate += digamma<real>(kNearest);
 			estimate += (sumWeight - 1) * digamma<real>(estimateSamples);
 
@@ -271,7 +278,7 @@ namespace Tim
 		}
 
 		// It is essential that the used norm is the
-		// infinity norm.
+		// maximum norm.
 
 		Maximum_NormBijection<real> normBijection;
 
@@ -291,8 +298,20 @@ namespace Tim
 			0,
 			&distanceArray);
 
-		real estimate = 0;
+#pragma omp parallel for
+		for (integer j = 0;j < estimateSamples;++j)
+		{
+			distanceArray(j) = nextSmaller(distanceArray(j));
+		}
+
+		ENSURE_OP(*std::max_element(distanceArray.begin(), distanceArray.end()), !=, infinity<real>());
+
+		const real sumWeight = 
+			std::accumulate(weightSet.begin(), weightSet.end(), (real)0);
+
 		std::vector<integer> countSet(estimateSamples, 0);
+
+		real estimate = 0;
 		for (integer i = 0;i < marginals;++i)
 		{
 			countAllNeighbors(
@@ -302,25 +321,24 @@ namespace Tim
 				normBijection,
 				countSet.begin());
 
+			integer accepted = 0;
 			real signalEstimate = 0;
-#pragma omp parallel for reduction(+ : signalEstimate)
+#pragma omp parallel for reduction(+ : signalEstimate, accepted)
 			for (integer j = 0;j < estimateSamples;++j)
 			{
-				//ENSURE_OP(countSet[j], >=, 2);
-
-				const integer k = std::max(countSet[j] - 1, 1);
-
-				signalEstimate += digamma<real>(k);
+				const integer k = countSet[j];
+				if (k > 0)
+				{
+					signalEstimate += digamma<real>(k);
+					++accepted;
+				}
 			}
+			signalEstimate /= accepted;
 
 			estimate -= signalEstimate * weightSet[i];
 		}
-		estimate /= estimateSamples;
+		
 		estimate += digamma<real>(kNearest);
-
-		const real sumWeight = 
-			std::accumulate(weightSet.begin(), weightSet.end(), (real)0);
-
 		estimate += (sumWeight - 1) * digamma<real>(estimateSamples);
 
 		return estimate;

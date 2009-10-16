@@ -95,7 +95,7 @@ namespace Tim
 		}
 
 		// It is essential that the used norm is the
-		// infinity norm.
+		// maximum norm.
 
 		Maximum_NormBijection<real> normBijection;
 

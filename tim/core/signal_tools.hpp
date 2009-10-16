@@ -73,6 +73,8 @@ namespace Tim
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		const ForwardRange<Integer_Iterator>& lagSet)
 	{
+		ENSURE_OP(signalSet.size(), ==, lagSet.size());
+
 		if (signalSet.empty() ||
 			lagSet.empty())
 		{
@@ -122,6 +124,8 @@ namespace Tim
 			return SignalPtr();
 		}
 
+		// Compute joint dimension.
+
 		integer jointDimension = 0;
 		SignalPtr_Iterator signalIter = signalSet.begin();
 		const SignalPtr_Iterator signalIterEnd = signalSet.end();
@@ -138,7 +142,7 @@ namespace Tim
 
 		SignalPtr jointSignal(new Signal(samples, jointDimension));
 		
-		// Copy the signals as parts of the joint signal.
+		// Copy the signals into parts of the joint signal.
 
 		integer dimensionOffset = 0;
 
@@ -185,6 +189,8 @@ namespace Tim
 		SignalPtr_OutputIterator result,
 		const ForwardRange<Integer_Iterator> lagSet)
 	{
+		ENSURE_OP(lagSet.size(), ==, ensembleSet.height());
+
 		const integer trials = ensembleSet.width();
 		for (integer i = 0;i < trials;++i)
 		{
@@ -201,7 +207,7 @@ namespace Tim
 		SignalPtr_OutputIterator result)
 	{
 		Tim::merge(ensembleSet, result,
-			forwardRange(constantIterator(0), ensembleSet.width()));
+			forwardRange(constantIterator(0), ensembleSet.height()));
 	}
 
 	template <
