@@ -60,6 +60,7 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	StdExt::copy_n(mxGetPr(inputSet[lagSetIndex]), signals, std::back_inserter(lagSet));
 
 	const integer marginals = mxGetM(inputSet[rangeSetIndex]);
+	//printf("%d marginals", marginals);
 	std::vector<Integer3> rangeSet;
 	rangeSet.reserve(marginals);
 	{
@@ -67,7 +68,7 @@ void mexFunction(int outputs, mxArray *outputSet[],
 		for (integer i = 0;i < marginals;++i)
 		{
 			rangeSet.push_back(Integer3(*rawData - 1, *(rawData + marginals), *(rawData + 2 * marginals)));
-			//printf("%d %d %d ", rangeSet.back()[0], rangeSet.back()[1], rangeSet.back()[1]);
+			//printf("%d %d %d ", rangeSet.back()[0], rangeSet.back()[1], rangeSet.back()[2]);
 			++rawData;
 		}
 	}
