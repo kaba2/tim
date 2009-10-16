@@ -206,10 +206,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\entropy_combination2.m"
-			>
-		</File>
-		<File
 			RelativePath=".\entropy_combination_t.m"
 			>
 		</File>
@@ -251,10 +247,6 @@
 		</File>
 		<File
 			RelativePath=".\timEntropyCombination.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\timEntropyCombination2.cpp"
 			>
 		</File>
 		<File
