@@ -69,6 +69,10 @@ if ~iscell(X) || ~iscell(Y) || ~iscell(Z)
     error('X, Y, or Z is not a cell-array.');
 end
 
+if numel(X) ~= numel(Y) || numel(X) ~= numel(Z)
+    error('The number of trials in X, Y, and Z differ.');
+end
+
 % Pass parameter error checking to entropy_combination.
 
 I = entropy_combination_t(...

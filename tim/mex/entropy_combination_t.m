@@ -75,7 +75,11 @@ if nargin < 6
     threads = maxNumCompThreads;
 end
 
-checkSignalSet(signalSet);
+signals = size(signalSet, 1);
+
+for i = 1 : signals
+    checkSignalSet(signalSet(i, :));
+end
 
 if timeWindowRadius < 0
     error('TIMEWINDOWRADIUS must be non-negative');

@@ -218,6 +218,16 @@ namespace Tim
 		ENSURE_OP(kNearest, >, 0);
 		ENSURE_OP(maxRelativeError, >=, 0);
 
+		if (signalSet.empty())
+		{
+			return 0;
+		}
+
+		// This is done to avoid parallelization
+		// issues with iterator range caching.
+
+		signalSet.updateCache();
+
 		SignalPointSet pointSet(signalSet, true);
 
 		const integer trials = signalSet.size();
@@ -245,7 +255,7 @@ namespace Tim
 
 		integer acceptedSamples = 0;
 		real estimate = 0;
-#pragma omp parallel for reduction(+ : estimate)
+#pragma omp parallel for reduction(+ : estimate, acceptedSamples)
 		for (integer i = 0;i < estimateSamples;++i)
 		{
 			// The logarithm of zero would give -infinity,
@@ -257,7 +267,11 @@ namespace Tim
 				++acceptedSamples;
 			}
 		}
-		estimate *= (real)dimension / acceptedSamples;
+		if (acceptedSamples > 0)
+		{
+			estimate *= (real)dimension / acceptedSamples;
+		}
+
 		estimate -= digamma<real>(kNearest);
 		estimate += digamma<real>(estimateSamples);
 		estimate += normBijection.lnVolumeUnitSphere(dimension);

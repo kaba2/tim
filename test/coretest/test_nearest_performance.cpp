@@ -11,11 +11,11 @@
 #include <pastel/sys/countingiterator.h>
 
 #include <pastel/gfx/pcx.h>
-#include "pastel/gfx/draw.h"
-#include "pastel/gfx/image_gfxrenderer.h"
-#include "pastel/gfx/gfxrenderer_tools.h"
-#include "pastel/gfx/color_tools.h"
-#include "pastel/gfx/color_hsv.h"
+#include <pastel/gfx/draw.h>
+#include <pastel/gfx/image_gfxrenderer.h>
+#include <pastel/gfx/gfxrenderer_tools.h>
+#include <pastel/gfx/color_tools.h>
+#include <pastel/gfx/color_hsv.h>
 
 #include <pastel/sys/vector_tools.h>
 #include <pastel/sys/log_all.h>
