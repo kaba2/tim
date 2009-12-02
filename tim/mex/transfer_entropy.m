@@ -38,10 +38,6 @@ if nargin < 3
     error('Not enough input arguments.');
 end
 
-if ~iscell(X) || ~iscell(Y) || ~iscell(W)
-    error('X, Y, or W is not a cell-array.');
-end
-
 if nargin >= 4 && nargin < 6
     error('Lags must be specified all at once to avoid errors.');
 end
@@ -58,6 +54,14 @@ end
 
 if nargin < 10
     threads = maxNumCompThreads;
+end
+
+if ~iscell(X) || ~iscell(Y) || ~iscell(W)
+    error('X, Y, or W is not a cell-array.');
+end
+
+if numel(X) ~= numel(Y) || numel(X) ~= numel(W)
+    error('The number of trials in X, Y, and W differ.');
 end
 
 % Pass parameter error checking to entropy_combination.

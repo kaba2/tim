@@ -64,10 +64,12 @@ if nargin < 5
     threads = maxNumCompThreads;
 end
 
-checkSignalSet(signalSet);
-
 signals = size(signalSet, 1);
 marginals = size(rangeSet, 1);
+
+for i = 1 : signals
+    checkSignalSet(signalSet(i, :));
+end
 
 if marginals == 0
     error('RANGESET is empty.');

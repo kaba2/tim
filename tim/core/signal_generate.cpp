@@ -4,6 +4,8 @@
 
 #include <pastel/sys/random.h>
 
+#include <boost/bind.hpp>
+
 namespace Tim
 {
 
@@ -37,14 +39,8 @@ namespace Tim
 
 		SignalPtr signal = SignalPtr(new Signal(samples, dimension));
 
-		MatrixD::Iterator iter = signal->data().begin();
-		const MatrixD::Iterator iterEnd = signal->data().end();
-
-		while(iter != iterEnd)
-		{
-			*iter = randomGaussian<real>();
-			++iter;
-		}
+		std::generate(signal->data().begin(), signal->data().end(),
+			boost::bind(randomGaussian<real>));
 
 		return signal;
 	}
@@ -77,14 +73,8 @@ namespace Tim
 
 		SignalPtr signal = SignalPtr(new Signal(samples, dimension));
 
-		MatrixD::Iterator iter = signal->data().begin();
-		const MatrixD::Iterator iterEnd = signal->data().end();
-
-		while(iter != iterEnd)
-		{
-			*iter = randomGeneralizedGaussian<real>(shape, scale);
-			++iter;
-		}
+		std::generate(signal->data().begin(), signal->data().end(),
+			boost::bind(randomGeneralizedGaussian<real>, shape, scale));
 
 		return signal;
 	}
