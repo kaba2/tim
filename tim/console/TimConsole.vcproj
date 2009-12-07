@@ -309,6 +309,10 @@
 			RelativePath=".\tim_console.txt"
 			>
 		</File>
+		<File
+			RelativePath=".\tim_console_cpp.txt"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
