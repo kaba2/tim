@@ -1,0 +1,204 @@
+Tim's console interface
+=======================
+
+[Parent]: tim.txt
+
+The console interface is one of the three ways to access the 
+functionality in Tim (the other two being Matlab and direct use). 
+This interface offers a minimalistic programming language to 
+specify data as well as to compute the needed estimates. The 
+syntax of this language mimics that of Matlab.
+
+Usage
+-----
+
+Pass in a script through standard input, get the output
+from standard output. E.g. in Windows console:
+
+	tim_console <input.txt >output.txt
+	
+Quick-start: Example script file
+--------------------------------
+
+	// This is row-comment.
+	% This is a row-comment too.
+
+	// Define a 3x3 real-array A.
+
+	A = [     1.231, .324,        3.0;
+			  -4.32,    5,        6.2;
+		 -7.324e-12,   -8, +9.435E-12]
+		 
+	// Define an integer.
+	
+	k = 1
+	
+	// Define a real number.
+	
+	eps = 0.1
+	     
+	// Output the contents of A to standard output.
+	
+	print A
+
+	// Define B as an alias to A.
+	
+	B = A
+	
+	// Define a 2x2 cell-array C.
+
+	C = {A, B; 
+		 B, A}
+		 
+	// Compute differential entropy and
+	// print it to standard output.
+	
+	print differential_entropy_kl(C)
+
+Functions
+---------
+
+It is not possible to define user-defined functions.
+Instead the language offers the needed functions as built-ins.
+Many of these functions have default arguments for those
+arguments which are not passed-in. It is important to match
+the given types since the language has no conversions
+(in particular, there are no conversions between integer and real).
+The built-in functions are (mimicking the Matlab interface):
+
+	differential_entropy_kl(
+		S : cell-array, 
+		maxRelativeError = 0.0 : real, 
+		kNearest = 1 : integer) : real
+		
+	differential_entropy_kl_t(
+		S : cell-array, 
+		timeWindowRadius : integer, 
+		maxRelativeError = 0.0 : real, 
+		kNearest = 1 : integer) : real-array
+	
+	differential_entropy_nk(
+		S : cell-array, 
+		maxRelativeError = 0 : real) : real-array
+	
+	divergence_wkv(
+		X : cell-array, 
+		Y : cell-array) : real
+	
+	mutual_information(
+		X : cell-array, 
+		Y : cell-array,
+		xLag = 0 : integer,
+		yLag = 0 : integer,
+		kNearest = 1 : integer) : real
+	
+	mutual_information_t(
+		X : cell-array, 
+		Y : cell-array,
+		timeWindowRadius : integer,
+		xLag = 0 : integer,
+		yLag = 0 : integer,
+		kNearest = 1 : integer) : real_array
+
+	mutual_information_p(
+		X : cell-array, 
+		Y : cell-array,
+		Z : cell-array,
+		xLag = 0 : integer,
+		yLag = 0 : integer,
+		zLag = 0 : integer,
+		kNearest = 1 : integer) : real_array
+
+	mutual_information_pt(
+		X : cell-array, 
+		Y : cell-array,
+		Z : cell-array,
+		timeWindowRadius : integer,
+		xLag = 0 : integer,
+		yLag = 0 : integer,
+		zLag = 0 : integer,
+		kNearest = 1 : integer) : real_array
+
+	transfer_entropy(
+		X : cell-array, 
+		Y : cell-array,
+		W : cell-array,
+		xLag = 0 : integer,
+		yLag = 0 : integer,
+		wLag = 0 : integer,
+		kNearest = 1 : integer) : real
+	
+	transfer_entropy_t(
+		X : cell-array, 
+		Y : cell-array,
+		W : cell-array,
+		timeWindowRadius : integer,
+		xLag = 0 : integer,
+		yLag = 0 : integer,
+		wLag = 0 : integer,
+		kNearest = 1 : integer) : real_array
+
+	transfer_entropy_p(
+		X : cell-array, 
+		Y : cell-array,
+		Z : cell-array,
+		W : cell-array,
+		xLag = 0 : integer,
+		yLag = 0 : integer,
+		zLag = 0 : integer,
+		wLag = 0 : integer,
+		kNearest = 1 : integer) : real_array
+
+	transfer_entropy_pt(
+		X : cell-array, 
+		Y : cell-array,
+		Z : cell-array,
+		W : cell-array,
+		timeWindowRadius : integer,
+		xLag = 0 : integer,
+		yLag = 0 : integer,
+		zLag = 0 : integer,
+		wLag = 0 : integer,
+		kNearest = 1 : integer) : real_array
+
+Formal syntax
+-------------
+
+A context-free grammar for the TimConsole's script files is
+given in EBNF form as follows. 
+
+	As an abbreviation we use:
+	non-terminal % separator = (non-terminal (separator non-terminal)*)?
+
+	grammar := statement*
+	statement := declaration | function_call | 'print' expression
+	declaration := identifier '=' expression 
+	expression := identifier | real_array | cell_array | integer | real
+	function_call := identifier '(' expression % ',' ')'
+
+	signal_expression := identifier | real_array
+	real_array := '[' real_list % ';' ']'
+	real_list := real % ','
+
+	cell_expression := identifier | cell_array
+	cell_array := '{' cell_list % ';' '}'
+	cell_list := signal_expression % ','
+
+	identifier := alpha (alpha | digit)*
+
+Semantics
+---------
+
+ * Real-arrays will be initialized to identity matrices (1's on the diagonal,
+ 0's elsewhere).
+ 
+ * Arrays will be made as large as necessarily to contain the listed elements.
+ It is possible to leave elements unspecified.
+ 
+ * Comments are ignored.
+ 
+ * Whitespace (space, tab, new-line) delimits tokens. Their number
+ is irrelevant allowing free form.
+ 
+ * An identifier must be declared before use.
+ 

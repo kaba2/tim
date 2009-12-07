@@ -13,26 +13,37 @@ namespace Tim
 	{
 		const integer dimension = signal.dimension();
 		const integer samples = signal.samples();
+		stream << "[";
 		if (dimension > 1)
 		{
 			for (integer j = 0;j < samples;++j)
 			{
+				if (j > 0)
+				{
+					stream << ";" << std::endl;
+				}
 				for (integer i = 0;i < dimension;++i)
 				{
-					stream << signal.data()(j, i) << " ";
+					if (i > 0)
+					{
+						stream << ", ";
+					}
+					stream << signal.data()(j, i);
 				}
-				stream << std::endl;
 			}
 		}
 		else
 		{
 			for (integer j = 0;j < samples;++j)
 			{
-				stream << signal.data()(j, 0) << ", ";
+				if (j > 0)
+				{
+					stream << ", ";
+				}
+				stream << signal.data()(j, 0);
 			}
 		}
-
-		stream << signal.name() << std::endl;
+		stream << "]";
 
 		return stream;
 	}

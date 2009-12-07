@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="TimCoreTest"
-	ProjectGUID="{66E30DC6-D769-4D04-AD28-58DD4C7E5A49}"
-	RootNamespace="TimCoreTest"
+	Name="TimConsole"
+	ProjectGUID="{6B9859CB-0F99-432E-89A8-4FCD0A80E6BE}"
+	RootNamespace="TimConsole"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -40,7 +40,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/D &quot;_SECURE_SCL=0&quot; /D &quot;_HAS_ITERATOR_DEBUGGING=0&quot;&#x0D;&#x0A;"
+				AdditionalOptions="/D &quot;_SECURE_SCL=0&quot; /D &quot;_HAS_ITERATOR_DEBUGGING=0&quot;"
 				Optimization="0"
 				AdditionalIncludeDirectories="$(SolutionDir)\..\"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
@@ -65,7 +65,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="pastelsys_d.lib pasteldevice_d.lib ann.lib sdl.lib pastelgfx_d.lib pastelmath_d.lib pasteldsp_d.lib timcore_d.lib pastelgeometry_d.lib"
+				AdditionalDependencies="timcore_sd.lib pastelsys_sd.lib libfl.a"
+				OutputFile="$(OutDir)\tim_console.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(SolutionDir)\lib"
 				GenerateDebugInformation="true"
@@ -119,7 +120,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/D &quot;_SECURE_SCL=0&quot; /D &quot;_HAS_ITERATOR_DEBUGGING=0&quot;&#x0D;&#x0A;"
+				AdditionalOptions="/D &quot;_SECURE_SCL=0&quot; /D &quot;_HAS_ITERATOR_DEBUGGING=0&quot;"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="$(SolutionDir)\..\"
@@ -144,88 +145,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="pastelsys.lib pasteldevice.lib ann.lib sdl.lib pastelgfx.lib pastelmath.lib pasteldsp.lib timcore.lib pastelgeometry.lib"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(SolutionDir)\lib"
-				GenerateDebugInformation="true"
-				SubSystem="1"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				TargetMachine="1"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
-			Name="Static Release|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
-			CharacterSet="1"
-			WholeProgramOptimization="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalOptions="/D &quot;_SECURE_SCL=0&quot; /D &quot;_HAS_ITERATOR_DEBUGGING=0&quot;&#x0D;&#x0A;"
-				Optimization="2"
-				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="$(SolutionDir)\..\"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
-				RuntimeLibrary="2"
-				EnableFunctionLevelLinking="true"
-				DisableLanguageExtensions="true"
-				OpenMP="true"
-				UsePrecompiledHeader="0"
-				WarningLevel="3"
-				DebugInformationFormat="3"
-				DisableSpecificWarnings="4305;4244;4251;4351;4996;4267;4018;4312;4224;4180"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="pastelsys_s.lib pasteldevice_s.lib ann.lib sdl.lib pastelgfx_s.lib pastelmath_s.lib pasteldsp_s.lib timcore_s.lib pastelgeometry_s.lib"
+				AdditionalDependencies="timcore_s.lib pastelsys_s.lib libfl.a "
+				OutputFile="$(OutDir)\tim_console.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(SolutionDir)\lib"
 				GenerateDebugInformation="true"
@@ -260,68 +181,136 @@
 	<References>
 	</References>
 	<Files>
+		<Filter
+			Name="Generated"
+			>
+			<File
+				RelativePath=".\lex.yy.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\parser.tab.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\parser.tab.h"
+				>
+			</File>
+		</Filter>
 		<File
-			RelativePath=".\config_performance.txt"
+			RelativePath=".\errorlog.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\differential_entropy_usecase.cpp"
+			RelativePath=".\errorlog.h"
 			>
 		</File>
 		<File
-			RelativePath=".\estimation.cpp"
+			RelativePath=".\flex+bison.txt"
 			>
 		</File>
 		<File
-			RelativePath=".\estimation.h"
+			RelativePath=".\functions.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\estimation_main.cpp"
+			RelativePath=".\functions.h"
 			>
 		</File>
 		<File
-			RelativePath=".\estimator_usecase.cpp"
+			RelativePath=".\Release\jorma.txt"
 			>
 		</File>
 		<File
-			RelativePath=".\mutual_information_usecase.cpp"
+			RelativePath=".\parser.h"
 			>
 		</File>
 		<File
-			RelativePath=".\signal_usecase.cpp"
+			RelativePath=".\parser.y"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="bison parser.y&#x0D;&#x0A;"
+					Outputs="tim.tab.c"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="bison parser.y&#x0D;&#x0A;"
+					Outputs="tim.tab.c"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\scanner.h"
 			>
 		</File>
 		<File
-			RelativePath=".\test_differential_entropy.cpp"
+			RelativePath=".\scanner.l"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="flex scanner.l&#x0D;&#x0A;"
+					Outputs="lex.yy.c"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="flex scanner.l&#x0D;&#x0A;"
+					Outputs="lex.yy.c"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\tim_console.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\test_divergence.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\test_integral.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\test_mutual_information.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\test_nearest_performance.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\test_signal.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\test_signalpointset.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\test_transfer_entropy.cpp"
+			RelativePath=".\tim_console.txt"
 			>
 		</File>
 	</Files>
