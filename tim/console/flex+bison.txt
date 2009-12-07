@@ -1,0 +1,13 @@
+Flex and Bison in Windows and Visual Studio
+===========================================
+
+The implementations of Flex and Bison contain some
+bugs which are resolved here.
+
+1. To some common include directory, add an empty file 'unistd.h'.
+This gets rid of the missing include file error.
+
+2. Use the following options in the lex file to get rid of linker errors 
+under Windows:
+%option never-interactive nounput
+
