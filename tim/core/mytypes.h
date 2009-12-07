@@ -1,4 +1,4 @@
-// Description: Type definitions for the Tim library
+// Description: Type definitions for the TIM library
 // Detail: Simply imports the type definitions of the Pastel library
 // Documentation: basics.txt
 

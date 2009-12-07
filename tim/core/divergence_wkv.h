@@ -1,5 +1,5 @@
 // Description: Divergence estimation
-// Detail: Wang-Kulkarni-Verdú nearest neighbor estimator
+// Detail: Wang-Kulkarni-Verdu nearest neighbor estimator
 
 #ifndef PASTEL_DIVERGENCE_WKV_H
 #define PASTEL_DIVERGENCE_WKV_H

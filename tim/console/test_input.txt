@@ -1,5 +1,5 @@
 // This is a test file for the
-// Tim's Console interface.
+// TIM's Console interface.
 
 X = {gaussian}
 Y = X

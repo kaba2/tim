@@ -18,7 +18,7 @@ namespace Tim
 	{
 		// "A Nearest-Neighbor Approach to Estimating
 		// Divergence between Continuous Random Vectors"
-		// Qing Wang, Sanjeev R. Kulkarni, Sergio Verdú,
+		// Qing Wang, Sanjeev R. Kulkarni, Sergio Verdu,
 		// IEEE International Symposium on Information Theory (ISIT), 
 		// 2006.
 

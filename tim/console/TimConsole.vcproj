@@ -246,6 +246,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\functions.txt"
+			>
+		</File>
+		<File
 			RelativePath=".\parser.h"
 			>
 		</File>
@@ -296,6 +300,10 @@
 					Outputs="lex.yy.c"
 				/>
 			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\syntax_and_semantics.txt"
+			>
 		</File>
 		<File
 			RelativePath=".\test_input.txt"
