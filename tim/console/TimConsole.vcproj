@@ -238,19 +238,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\flex+bison.txt"
-			>
-		</File>
-		<File
 			RelativePath=".\functions.cpp"
 			>
 		</File>
 		<File
 			RelativePath=".\functions.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Release\jorma.txt"
 			>
 		</File>
 		<File
@@ -304,6 +296,10 @@
 					Outputs="lex.yy.c"
 				/>
 			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\test_input.txt"
+			>
 		</File>
 		<File
 			RelativePath=".\tim_console.cpp"

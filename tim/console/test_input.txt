@@ -1,0 +1,67 @@
+// This is a test file for the
+// Tim's Console interface.
+
+X = {gaussian}
+Y = X
+Z = X
+W = X
+
+differential_entropy_kl(X)
+differential_entropy_kl(X, 0.0)
+differential_entropy_kl(X, 0.0, 1)
+
+differential_entropy_kl_t(X, 1000)
+differential_entropy_kl_t(X, 1000, 0.0)
+differential_entropy_kl_t(X, 1000, 0.0, 1)
+
+differential_entropy_nk(X, 0.0)
+
+divergence_wkv(X, Y)
+
+mutual_information(X, Y)
+mutual_information(X, Y, 0)
+mutual_information(X, Y, 0, 0)
+mutual_information(X, Y, 0, 0, 1)
+
+mutual_information_t(X, Y, 1000)
+mutual_information_t(X, Y, 1000, 0)
+mutual_information_t(X, Y, 1000, 0, 0)
+mutual_information_t(X, Y, 1000, 0, 0, 1)
+
+mutual_information_p(X, Y, Z)
+mutual_information_p(X, Y, Z, 0)
+mutual_information_p(X, Y, Z, 0, 0)
+mutual_information_p(X, Y, Z, 0, 0, 1)
+mutual_information_p(X, Y, Z, 0, 0, 0, 1)
+
+mutual_information_pt(X, Y, Z, 1000)
+mutual_information_pt(X, Y, Z, 1000, 0)
+mutual_information_pt(X, Y, Z, 1000, 0, 0)
+mutual_information_pt(X, Y, Z, 1000, 0, 0, 0)
+mutual_information_pt(X, Y, Z, 1000, 0, 0, 0, 1)
+
+transfer_entropy(X, Y, W)
+transfer_entropy(X, Y, W, 0)
+transfer_entropy(X, Y, W, 0, 0)
+transfer_entropy(X, Y, W, 0, 0, 0)
+transfer_entropy(X, Y, W, 0, 0, 0, 1)
+
+transfer_entropy_t(X, Y, W, 1000)
+transfer_entropy_t(X, Y, W, 1000, 0)
+transfer_entropy_t(X, Y, W, 1000, 0, 0)
+transfer_entropy_t(X, Y, W, 1000, 0, 0, 0)
+transfer_entropy_t(X, Y, W, 1000, 0, 0, 0, 1)
+
+transfer_entropy_p(X, Y, Z, W)
+transfer_entropy_p(X, Y, Z, W, 0)
+transfer_entropy_p(X, Y, Z, W, 0, 0)
+transfer_entropy_p(X, Y, Z, W, 0, 0, 0)
+transfer_entropy_p(X, Y, Z, W, 0, 0, 0, 0)
+transfer_entropy_p(X, Y, Z, W, 0, 0, 0, 0, 1)
+
+transfer_entropy_pt(X, Y, Z, W, 1000)
+transfer_entropy_pt(X, Y, Z, W, 1000, 0)
+transfer_entropy_pt(X, Y, Z, W, 1000, 0, 0)
+transfer_entropy_pt(X, Y, Z, W, 1000, 0, 0, 0)
+transfer_entropy_pt(X, Y, Z, W, 1000, 0, 0, 0, 0)
+transfer_entropy_pt(X, Y, Z, W, 1000, 0, 0, 0, 0, 1)
