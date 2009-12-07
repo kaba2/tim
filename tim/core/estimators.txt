@@ -1,16 +1,19 @@
 Estimators
 ==========
 
-[Parent]: tim.txt
+[Parent]: tim_core.txt
 
 Practice
 --------
 
-TIM implements estimators for differential entropy as
-well as for a general class of entropy 
-combinations. The implementations of mutual information, 
-transfer entropy, etc. simply redirect to the generic
-entropy combination algorithm.
+TIM implements various estimators for differential entropy,
+Kullback-Leibler divergence, and a general class of entropy 
+combinations. The latter class includes measures such as
+mutual information and transfer entropy, in both partialized
+and non-partialized forms. In addition, TIM can optionally carry 
+out many of these estimations so that they are adaptive to time 
+(via time-windowing). TIM can also efficiently take advantage
+of data from multiple trials of the same experiment.
 
 
 

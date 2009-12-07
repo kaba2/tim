@@ -3,11 +3,10 @@ TIM Console interface
 
 [Parent]: tim.txt
 
-The console interface is one of the three ways to access the 
-functionality in TIM (the other two being Matlab and direct use). 
-This interface offers a minimalistic programming language to 
-specify data as well as to compute the needed estimates. The 
-syntax of this language mimics that of Matlab.
+The TIM Console interface is one of the three ways to access the 
+functionality in TIM. This interface offers a minimalistic 
+programming language to specify data as well as to compute the 
+needed estimates. The syntax of this language mimics that of Matlab.
 
 Usage
 -----

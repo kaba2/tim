@@ -34,7 +34,7 @@ Semantics
  * Real-arrays will be initialized to identity matrices (1's on the diagonal,
  0's elsewhere).
  
- * Arrays will be made as large as necessarily to contain the listed elements.
+ * Arrays will be made as large as necessary to contain the listed elements.
  It is possible to leave elements unspecified.
  
  * Comments are ignored.

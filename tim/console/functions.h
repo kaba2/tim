@@ -1,5 +1,4 @@
 // Description: Built-in functions for the interpreter
-// Documentation: tim_console_cpp.txt
 
 #ifndef TIM_FUNCTIONS_H
 #define TIM_FUNCTIONS_H

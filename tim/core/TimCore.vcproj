@@ -586,7 +586,7 @@
 			>
 		</File>
 		<File
-			RelativePath="..\tim_cpp.txt"
+			RelativePath=".\tim_core.txt"
 			>
 		</File>
 	</Files>
