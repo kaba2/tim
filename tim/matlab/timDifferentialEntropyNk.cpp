@@ -1,4 +1,4 @@
-#include "tim/mex/tim_mex.h"
+#include "tim/matlab/tim_mex.h"
 
 #include "tim/core/differential_entropy_nk.h"
 
