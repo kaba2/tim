@@ -1,6 +1,6 @@
 % DIVERGENCE_WKV
 % A Kullback-Leibler divergence estimate from samples
-% using Wang-Kulkarni-Verdú nearest neighbor estimator.
+% using Wang-Kulkarni-Verdu nearest neighbor estimator.
 %
 % D = divergence_wkv(X, Y, threads)
 %
@@ -21,7 +21,7 @@
 % The number of trials in X and Y must be equal.
 
 % Description: Kullback-Leibler divergence estimation
-% Detail: Wang-Kulkarni-Verdú nearest neighbor estimator
+% Detail: Wang-Kulkarni-Verdu nearest neighbor estimator
 % Documentation: tim_matlab.txt
 
 function D = divergence_wkv(X, Y, threads)

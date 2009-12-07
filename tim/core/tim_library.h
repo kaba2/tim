@@ -1,4 +1,4 @@
-// Description: Dll-keywords for the Tim library
+// Description: Dll-keywords for the TIM library
 // Documentation: basics.txt
 
 #ifndef TIM_TIM_LIBRARY_H

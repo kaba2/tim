@@ -1,4 +1,4 @@
-Tim's console interface implementation
+TIM Console interface implementation
 ======================================
 
 [Parent]: tim_console.txt
