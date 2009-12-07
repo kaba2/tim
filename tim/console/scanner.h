@@ -1,3 +1,6 @@
+// Description: Lexical analyzer
+// Documentation: tim_console_cpp.txt
+
 #ifndef TIM_SCANNER_H
 #define TIM_SCANNER_H
 

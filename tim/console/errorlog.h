@@ -1,5 +1,9 @@
-#ifndef TIM_ERROR_H
-#define TIM_ERROR_H
+// Description: ErrorLog class
+// Detail: Stores the errors emitted by the interpreter.
+// Documentation: tim_console_cpp.txt
+
+#ifndef TIM_ERRORLOG_H
+#define TIM_ERRORLOG_H
 
 #include <tim/core/mytypes.h>
 

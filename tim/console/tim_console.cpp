@@ -1,3 +1,6 @@
+// Description: Main program
+// Documentation: tim_console_cpp.txt
+
 /*
 Syntax
 ------

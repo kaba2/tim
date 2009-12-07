@@ -1,3 +1,6 @@
+// Description: Parser and interpreter
+// Documentation: tim_console_cpp.txt
+
 #ifndef TIM_PARSER_H
 #define TIM_PARSER_H
 
