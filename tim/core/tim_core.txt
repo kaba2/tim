@@ -1,12 +1,13 @@
-TIM C++ implementation
-======================
+TIM Core
+========
 
 [Parent]: tim.txt
 
 Theory
 ------
 
-The central abstractions in TIM are modeled by the classes
+TIM Core is the part of TIM which actually computes the estimates.
+The central abstractions in TIM Core are modeled by the classes
 Signal and SignalPointSet. The Signal class models a time series
 representing it as a matrix of values and allowing it to be
 manipulated correspondingly. The SignalPointSet class in turn models a

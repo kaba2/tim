@@ -1,12 +1,12 @@
 Basics of the C++ implementation
 ================================
 
-[Parent]: tim_cpp.txt
+[Parent]: tim_core.txt
 
 Integers and reals
 ------------------
 
-The Pastel library defines the type aliases integer and real to work as abstractions
+The Pastel library defines the type aliases _integer_ and _real_ to work as abstractions
 for the corresponding mathematical concepts. In TIM, instead of making the underlying
 computation type a template parameter, we have chosen to use the real type throughout.
 We believe this simplifies the library while not making it substantially less generic. 
@@ -21,14 +21,14 @@ TIM uses iterator ranges to abstract away the differences
 between different kinds of containers, as well as to make up for
 an efficient implementation. An iterator range is essentially
 a triple (b, e, d) where b and e form an iterator range [b, e[ and
-where the distance between e and b is d. Apart from making the interface
+d is the distance between e and b. Apart from making the interface
 of functions compact, iterator ranges also offer a form of concept-based 
 overloading, compared to non-restricted templates when using only iterators.
 Whenever a template function parametrizes an iterator range, the types
 of the iterators are named in the form DereferencedType_Iterator. Here is
 an example function template declaration from TIM:
 
-	:::cpp
+	[CppCode]:
 	template <
 		typename SignalPtr_Iterator, 
 		typename Real_OutputIterator>

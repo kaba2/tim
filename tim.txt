@@ -22,10 +22,14 @@ partial mutual information, transfer entropy, and partial transfer entropy.
 * Estimation from an ensemble of time-series' representing trials of the same experiment.
 * Time-series' with arbitrary-dimensionality.
 * Multi-core parallel computation.
-* Three ways to use: as a C++ library, through a Matlab interface, or through a console interface.
+* Three ways to use: as a C++ library, through TIM Matlab interface, or through TIM Console interface.
 
 Software
 --------
+
+Here we provide prebuilt binaries for Windows users. Note that you may need to
+install the Visual C++ 2008 SP1 Redistributable Package if your computer does
+not have them installed already.
 
 [Download TIM Console interface][Download_Console]
 
@@ -38,8 +42,7 @@ Source-code
 -----------
 
 The source-code for TIM is licensed under the _GNU Lesser GPL_ license, which is 
-unrestrictive and non-viral. We provide an easy way to browse the source-code
-online complete with coloring. It should be emphasized that the intent of publishing 
+unrestrictive and non-viral. It should be emphasized that the intent of publishing 
 the source-code for TIM is purely for educational/research purposes, rather than for 
 actually building software that depends on it. This is because we can't guarantee stable 
 interfaces, i.e., we continue development of TIM and in this process can make 
@@ -49,7 +52,12 @@ TIM is built on the [Pastel][] library which must also be
 installed if you want to build TIM yourself. It also uses some features
 of the [Boost][] library.
 
-[Download the source-code][Download_Source]
+On these documentation pages we provide an easy way to browse the source-code 
+complete with coloring and linking. You might find this more convenient an alternative
+when familiarizing yourself with the source-code, compared to downloading and viewing 
+the raw source-code.
+
+[Download TIM Source code][Download_Source]
 
 [Download_Source]: ./files/tim_source_1_0.zip
 [Pastel]: http://kaba.hilvi.org/pastel
@@ -58,14 +66,14 @@ of the [Boost][] library.
 Note on web-browsers
 --------------------
 
-This documentation uses MathMl to display inlined mathematics.
-Unfortunately not all browsers support MathMl natively, including
+This documentation uses MathML to display inlined mathematics.
+Unfortunately not all browsers support MathML natively, including
 Internet Explorer. In this case you will not be able to see the 
 mathematical expressions correctly. While there is a plug-in 
 available (MathPlayer) for adding this capability to Internet Explorer, 
 in our tests this combination crashed the browser when viewing 
 these pages. According to Wikipedia, some major web-browsers that 
-currently display MathMl natively include Mozilla Firefox, Opera, 
+currently display MathML natively include Mozilla Firefox, Opera, 
 and Camino. At this point we can't do anything else than to direct 
 you to use these browsers to view these pages.
 

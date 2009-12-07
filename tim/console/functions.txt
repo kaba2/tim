@@ -3,13 +3,24 @@ Built-in functions
 
 [Parent]: tim_console.txt
 
-It is not possible to define user-defined functions.
-Instead the language offers the needed functions as built-ins.
-Many of these functions have default arguments for those
-arguments which are not passed-in. It is important to match
-the given types since the language has no conversions
-(in particular, there are no conversions between integer and real).
-The built-in functions are (mimicking the Matlab interface):
+TIM Console interface defines a set of functions
+which are used to compute the needed estimates.
+Because the used scripting language does not support conversions,
+it is important to use arguments with the right types.
+The intepreter will emit errors when this is not the case.
+The definitions and names of these functions have been
+made similar to those in the TIM Matlab interface. For documentation,
+refer to the documentation of the TIM Matlab interface
+functions.
+
+Built-in functions
+------------------
+
+The function definitions are given in the following form:
+
+	function-name '(' (parameter-name ('=' default-value)? : parameter-type) % ',' ')' : return-type
+
+### Differential entropy
 
 	differential_entropy_kl(
 		S : cell-array, 
@@ -26,9 +37,13 @@ The built-in functions are (mimicking the Matlab interface):
 		S : cell-array, 
 		maxRelativeError = 0 : real) : real-array
 	
+### Divergence	
+
 	divergence_wkv(
 		X : cell-array, 
 		Y : cell-array) : real
+	
+### Mutual information
 	
 	mutual_information(
 		X : cell-array, 
@@ -44,6 +59,8 @@ The built-in functions are (mimicking the Matlab interface):
 		xLag = 0 : integer,
 		yLag = 0 : integer,
 		kNearest = 1 : integer) : real_array
+
+### Partial mutual information
 
 	mutual_information_p(
 		X : cell-array, 
@@ -64,6 +81,8 @@ The built-in functions are (mimicking the Matlab interface):
 		zLag = 0 : integer,
 		kNearest = 1 : integer) : real_array
 
+### Transfer entropy
+
 	transfer_entropy(
 		X : cell-array, 
 		Y : cell-array,
@@ -82,6 +101,8 @@ The built-in functions are (mimicking the Matlab interface):
 		yLag = 0 : integer,
 		wLag = 0 : integer,
 		kNearest = 1 : integer) : real_array
+
+### Partial transfer entropy
 
 	transfer_entropy_p(
 		X : cell-array, 
