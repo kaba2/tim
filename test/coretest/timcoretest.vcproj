@@ -225,7 +225,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="pastelsys_s.lib pasteldevice_s.lib ann.lib sdl.lib pastelgfx_s.lib pastelmath_s.lib pasteldsp_s.lib timcore_s.lib pastelgeometry_s.lib"
+				AdditionalDependencies="pastelsys_s.lib pasteldevice_s.lib sdl.lib pastelgfx_s.lib pastelmath_s.lib pasteldsp_s.lib timcore_s.lib pastelgeometry_s.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(SolutionDir)\lib"
 				GenerateDebugInformation="true"
@@ -260,10 +260,6 @@
 	<References>
 	</References>
 	<Files>
-		<File
-			RelativePath=".\config_performance.txt"
-			>
-		</File>
 		<File
 			RelativePath=".\differential_entropy_usecase.cpp"
 			>
@@ -306,10 +302,6 @@
 		</File>
 		<File
 			RelativePath=".\test_mutual_information.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\test_nearest_performance.cpp"
 			>
 		</File>
 		<File
