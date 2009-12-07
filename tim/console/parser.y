@@ -484,6 +484,10 @@ namespace Tim
 				FunctionInfo(differential_entropy_nk, 1, 2)));
 
 			functionMap.insert(
+				std::make_pair("divergence_wkv", 
+				FunctionInfo(divergence_wkv, 2, 2)));
+
+			functionMap.insert(
 				std::make_pair("mutual_information_t", 
 				FunctionInfo(mutual_information_t, 3, 6)));
 			functionMap.insert(
@@ -504,14 +508,10 @@ namespace Tim
 				FunctionInfo(transfer_entropy_pt, 5, 10)));
 			functionMap.insert(
 				std::make_pair("transfer_entropy", 
-				FunctionInfo(transfer_entropy, 4, 8)));
+				FunctionInfo(transfer_entropy, 3, 7)));
 			functionMap.insert(
 				std::make_pair("transfer_entropy_p", 
 				FunctionInfo(transfer_entropy_p, 4, 9)));
-
-			functionMap.insert(
-				std::make_pair("divergence_wkv", 
-				FunctionInfo(divergence_wkv, 2, 2)));
 
 			initialized = true;
 		}
