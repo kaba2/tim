@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <map>
 
-int yyerror(char *s);
+void yyerror(char *s);
 int yylex(void);
 
 #include <tim/core/mytypes.h>
@@ -93,7 +93,7 @@ namespace Tim
 	boost::any* any;
 }
 
-%token <string> T_INTEGER T_REAL T_IDENTIFIER T_PRINT T_GAUSSIAN
+%token <string> T_INTEGER T_REAL T_IDENTIFIER T_PRINT T_GAUSSIAN T_STRING
 
 %type <realValue> number
 %type <realSet> real_list real_list_1
@@ -126,6 +126,10 @@ statement
 	| T_PRINT expression
 	{
 		print($2);
+	}
+	| error '\n'
+	{
+		yyerrok;
 	}
 	;
 
@@ -204,7 +208,11 @@ expression
 	| T_REAL
 	{
 		$$ = new boost::any(stringToReal(*$1));
-	}	
+	}
+	| T_STRING
+	{
+		$$ = new boost::any(*$1);
+	}
 	;
 
 signal_expression
@@ -408,19 +416,18 @@ number
 
 %%
 
-int yyerror(const std::string& s)
+void yyerror(const std::string& s)
 {
 	extern int yylineno;
 	extern char *yytext;
   
 	std::cerr << "ERROR: " << s << " at symbol \"" << yytext;
 	std::cerr << "\" on line " << yylineno << std::endl;
-	exit(1);
 }
 
-int yyerror(char *s)
+void yyerror(char *s)
 {
-	return yyerror(std::string(s));
+	yyerror(std::string(s));
 }
 
 namespace Tim
@@ -460,6 +467,15 @@ namespace Tim
 		{
 			real k = boost::any_cast<real>(*that);
 			std::cout << k << std::endl;
+		}
+		catch(const boost::bad_any_cast&)
+		{
+		}
+
+		try
+		{
+			std::string text = boost::any_cast<std::string>(*that);
+			std::cout << text << std::endl;
 		}
 		catch(const boost::bad_any_cast&)
 		{

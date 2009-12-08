@@ -15,7 +15,7 @@ given in EBNF form as follows.
 	grammar := statement*
 	statement := declaration | function_call | 'print' expression
 	declaration := identifier '=' expression 
-	expression := identifier | real_array | cell_array | integer | real
+	expression := identifier | real_array | cell_array | integer | real | string
 	function_call := identifier '(' expression % ',' ')'
 
 	signal_expression := identifier | real_array
@@ -27,6 +27,14 @@ given in EBNF form as follows.
 	cell_list := signal_expression % ','
 
 	identifier := alpha (alpha | digit)*
+	
+The following terminals are better given as regular expressions.
+
+	alpha := [A-Z]|[a-z]|_
+	digit := [0-9]
+	integer := [+-]?[0-9]+
+	real := [+-]?[0-9]*\.[0-9]+([Ee][+-]?[0-9]+)?
+	string := '"' [^"]* '"'
 
 Semantics
 ---------
