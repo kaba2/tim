@@ -8,7 +8,7 @@
 using namespace Tim;
 
 #include "parser.tab.h"
-int yyerror(char *s);
+void yyerror(char *s);
 int yylineno = 1;
 %}
 
@@ -21,6 +21,7 @@ IDENTIFIER	{ALPHA}{ALNUM}*
 INTEGER		[+-]?[0-9]+
 REAL		[+-]?[0-9]*\.[0-9]+([Ee][+-]?[0-9]+)?
 SHORTIES	[,;\[\]\*={}()]
+STRING		\"[^\"]*\"
 
 %%
 
@@ -57,6 +58,12 @@ gaussian	{
 {REAL}		{ 
 				yylval.string = new std::string(yytext);
 				return T_REAL; 
+			}
+
+{STRING}	{
+				std::string copy(yytext);
+				yylval.string = new std::string(copy.substr(1, copy.size() - 2));
+				return T_STRING;
 			}
 
 [ \t\r]*	{
