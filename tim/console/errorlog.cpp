@@ -5,7 +5,9 @@ namespace Tim
 
 	void ErrorLog::report(integer line, const std::string& text)
 	{
-		errorMap_.insert(std::make_pair(line, text));
+		//errorMap_.insert(std::make_pair(line, text));
+		std::cout << "Error at line " << line << ": " << text << std::endl;
+		exit(1);
 	}
 
 	const ErrorLog::Container& ErrorLog::map() const

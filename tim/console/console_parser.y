@@ -1,23 +1,18 @@
 %defines
 %locations
 %error-verbose
+%name-prefix = "console_"
 
 %{
-#define YY_NO_UNPUT
-#define YYDEBUG 1
-
 #include <iostream>
 #include <string>
 #include <stdio.h>
 #include <map>
 
-void yyerror(char *s);
-int yylex(void);
-
 #include <tim/core/mytypes.h>
 #include <tim/core/signal_tools.h>
 
-#include "tim/console/scanner.h"
+#include "tim/console/console_scanner.h"
 #include "tim/console/errorlog.h"
 #include "tim/console/functions.h"
 
@@ -32,7 +27,8 @@ using namespace Tim;
 typedef std::map<std::string, boost::any*> SymbolMap;
 typedef SymbolMap::const_iterator SymbolIterator;
 
-struct YYLTYPE;
+void console_error(char *s);
+int console_lex();
 
 struct FunctionInfo
 {
@@ -82,14 +78,14 @@ namespace Tim
 
 %union{
 	std::string* string;
-	AnySet* anySet;
-	RealSet* realSet;
-	RealArray* realArray;
-	CellSet* cellSet;
-	CellArray* cellArray;
-	Signal* signal;
-	Cell* cell;
-	real realValue;
+	Tim::AnySet* anySet;
+	Tim::RealSet* realSet;
+	Tim::RealArray* realArray;
+	Tim::CellSet* cellSet;
+	Tim::CellArray* cellArray;
+	Tim::Signal* signal;
+	Tim::Cell* cell;
+	Tim::real realValue;
 	boost::any* any;
 }
 
@@ -105,9 +101,6 @@ namespace Tim
 %type <cell> cell_array 
 %type <any> expression function_call
 %type <anySet> expression_list expression_list_1
-
-%left ';'
-%left ','
 
 %%
 
@@ -416,18 +409,18 @@ number
 
 %%
 
-void yyerror(const std::string& s)
+void console_error(const std::string& s)
 {
-	extern int yylineno;
-	extern char *yytext;
+	extern int console_lineno;
+	extern char *console_text;
   
-	std::cerr << "ERROR: " << s << " at symbol \"" << yytext;
-	std::cerr << "\" on line " << yylineno << std::endl;
+	std::cerr << "ERROR: " << s << " at symbol \"" << console_text;
+	std::cerr << "\" on line " << console_lineno << std::endl;
 }
 
-void yyerror(char *s)
+void console_error(char *s)
 {
-	yyerror(std::string(s));
+	console_error(std::string(s));
 }
 
 namespace Tim
@@ -435,7 +428,7 @@ namespace Tim
 
 	void reportError(const YYLTYPE& location, const std::string& text)
 	{
-		errorLog.report(location.last_line, text);
+		errorLog.report(location.first_line, text);
 	}
 	
 	void printErrors(std::ostream& stream)
@@ -488,6 +481,10 @@ namespace Tim
 	{
 		if (!initialized)
 		{
+			functionMap.insert(
+				std::make_pair("load", 
+				FunctionInfo(load, 1, 2)));
+
 			functionMap.insert(
 				std::make_pair("differential_entropy_kl", 
 				FunctionInfo(differential_entropy_kl, 1, 3)));

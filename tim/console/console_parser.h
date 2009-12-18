@@ -1,16 +1,16 @@
 // Description: Parser and interpreter
 // Documentation: tim_console_cpp.txt
 
-#ifndef TIM_PARSER_H
-#define TIM_PARSER_H
+#ifndef TIM_CONSOLE_PARSER_H
+#define TIM_CONSOLE_PARSER_H
 
-#include "tim/console/scanner.h"
+#include "tim/console/console_scanner.h"
 
 #include <iostream>
 #include <string>
 
-int yyparse();
-extern int yydebug;
+int console_parse();
+extern int console_debug;
 
 namespace Tim
 {

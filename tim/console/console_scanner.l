@@ -1,18 +1,21 @@
+%option never-interactive nounput noyywrap
+%option prefix = "console_"
+%option yylineno
+
 %{
 #include <iostream>
-#include <stdio.h>
 #include <string>
 
-#include "tim/console/scanner.h"
+#define YY_USER_ACTION \
+	{ \
+		console_lloc.first_line = yylineno; \
+		console_lloc.last_line = yylineno; \
+	}
 
-using namespace Tim;
+#include "tim/console/console_scanner.h"
 
-#include "parser.tab.h"
-void yyerror(char *s);
-int yylineno = 1;
+void console_error(char *s);
 %}
-
-%option never-interactive nounput
 
 ALPHA		[A-Z]|[a-z]|_
 DIGIT		[0-9]
@@ -42,42 +45,37 @@ gaussian	{
 			}
 
 {SHORTIES}	{ 
-				return yytext[0]; 
+				return console_text[0]; 
 			}
 
 {IDENTIFIER}	{
-					yylval.string = new std::string(yytext);
+					console_lval.string = new std::string(console_text);
 					return T_IDENTIFIER;
 				}
 
 {INTEGER}	{
-				yylval.string = new std::string(yytext);
+				console_lval.string = new std::string(console_text);
 				return T_INTEGER; 
 			}
 
 {REAL}		{ 
-				yylval.string = new std::string(yytext);
+				console_lval.string = new std::string(console_text);
 				return T_REAL; 
 			}
 
 {STRING}	{
-				std::string copy(yytext);
-				yylval.string = new std::string(copy.substr(1, copy.size() - 2));
+				std::string copy(console_text);
+				console_lval.string = new std::string(copy.substr(1, copy.size() - 2));
 				return T_STRING;
 			}
 
-[ \t\r]*	{
-				/* Eat whitespace (new-lines are handled specially). */
-			}
-
-[\n]		{
-				/* Eat new-lines but count rows. */
-				++yylineno;
+[ \t\r\n]*	{
+				/* Eat whitespace. */
 			}
 
 .			{ 
 				std::cerr << "SCANNER "; 
-				yyerror(""); 
+				console_error(""); 
 				exit(1);	
 			}
 

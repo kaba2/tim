@@ -3,12 +3,14 @@
 #ifndef TIM_FUNCTIONS_H
 #define TIM_FUNCTIONS_H
 
-#include "tim/console/scanner.h"
+#include "tim/console/console_scanner.h"
 
 #include <boost/any.hpp>
 
 namespace Tim
 {
+
+	boost::any* load(const YYLTYPE& location, const AnySet& argSet);
 
 	boost::any* differential_entropy_kl(const YYLTYPE& location, const AnySet& argSet);
 	boost::any* differential_entropy_kl_t(const YYLTYPE& location, const AnySet& argSet);
