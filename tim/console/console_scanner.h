@@ -1,8 +1,8 @@
 // Description: Lexical analyzer
 // Documentation: tim_console_cpp.txt
 
-#ifndef TIM_SCANNER_H
-#define TIM_SCANNER_H
+#ifndef TIM_CONSOLE_SCANNER_H
+#define TIM_CONSOLE_SCANNER_H
 
 #include <tim/core/mytypes.h>
 #include <tim/core/signal.h>
@@ -28,8 +28,6 @@ namespace Tim
 
 }
 
-using namespace Tim;
-
-#include "tim/console/parser.tab.h"
+#include "tim/console/console_parser.tab.h"
 
 #endif

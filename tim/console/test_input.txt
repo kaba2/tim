@@ -1,6 +1,9 @@
 // This is a test file for the
 // TIM's Console interface.
 
+A = load("test_data.txt", ",;|")
+print A
+
 X = {gaussian}
 Y = X
 Z = X

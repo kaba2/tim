@@ -65,7 +65,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="timcore_sd.lib pastelsys_sd.lib libfl.a"
+				AdditionalDependencies="timcore_sd.lib pastelsys_sd.lib"
 				OutputFile="$(OutDir)\tim_console.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(SolutionDir)\lib"
@@ -145,7 +145,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="timcore_s.lib pastelsys_s.lib libfl.a "
+				AdditionalDependencies="timcore_s.lib pastelsys_s.lib"
 				OutputFile="$(OutDir)\tim_console.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(SolutionDir)\lib"
@@ -185,7 +185,7 @@
 			Name="Generated"
 			>
 			<File
-				RelativePath=".\lex.yy.c"
+				RelativePath=".\console_parser.tab.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -205,7 +205,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\parser.tab.c"
+				RelativePath=".\console_parser.tab.h"
+				>
+			</File>
+			<File
+				RelativePath=".\lex.console_.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -223,12 +227,62 @@
 						CompileAs="2"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\parser.tab.h"
-				>
 			</File>
 		</Filter>
+		<File
+			RelativePath=".\console_parser.h"
+			>
+		</File>
+		<File
+			RelativePath=".\console_parser.y"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Generating Bison parser..."
+					CommandLine=""
+					Outputs=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Generating Bison parser..."
+					CommandLine=""
+					Outputs=""
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\console_scanner.h"
+			>
+		</File>
+		<File
+			RelativePath=".\console_scanner.l"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine=""
+					Outputs=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine=""
+					Outputs=""
+				/>
+			</FileConfiguration>
+		</File>
 		<File
 			RelativePath=".\errorlog.cpp"
 			>
@@ -250,59 +304,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\parser.h"
-			>
-		</File>
-		<File
-			RelativePath=".\parser.y"
-			>
-			<FileConfiguration
-				Name="Debug|Win32"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-					CommandLine="bison parser.y&#x0D;&#x0A;"
-					Outputs="tim.tab.c"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Win32"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-					CommandLine="bison parser.y&#x0D;&#x0A;"
-					Outputs="tim.tab.c"
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath=".\scanner.h"
-			>
-		</File>
-		<File
-			RelativePath=".\scanner.l"
-			>
-			<FileConfiguration
-				Name="Debug|Win32"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-					CommandLine="flex scanner.l&#x0D;&#x0A;"
-					Outputs="lex.yy.c"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Win32"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-					CommandLine="flex scanner.l&#x0D;&#x0A;"
-					Outputs="lex.yy.c"
-				/>
-			</FileConfiguration>
-		</File>
-		<File
 			RelativePath=".\syntax_and_semantics.txt"
+			>
+		</File>
+		<File
+			RelativePath=".\test_data.txt"
 			>
 		</File>
 		<File

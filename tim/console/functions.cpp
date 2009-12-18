@@ -1,5 +1,5 @@
 #include "tim/console/functions.h"
-#include "tim/console/parser.h"
+#include "tim/console/console_parser.h"
 
 #include <tim/core/differential_entropy.h>
 #include <tim/core/mutual_information.h>
@@ -8,8 +8,71 @@
 #include <tim/core/partial_transfer_entropy.h>
 #include <tim/core/divergence_wkv.h>
 
+#include <fstream>
+
 namespace Tim
 {
+
+	boost::any* load(const YYLTYPE& location, const AnySet& argSet)
+	{
+		const integer args = argSet.size();
+		
+		std::string separatorSet = ",;";
+		std::string fileName;
+
+		bool error = false;
+				
+		try
+		{
+			fileName = boost::any_cast<std::string>(*argSet[0]);
+			if (args > 1)
+			{
+				separatorSet = boost::any_cast<std::string>(*argSet[1]);
+			}
+		}
+		catch(const boost::bad_any_cast&)
+		{
+			reportError(location, "Invalid argument type.");
+			error = true;
+		}
+		
+		if (error)
+		{
+			return new boost::any;
+		}
+
+		std::vector<real> data;
+		real value = 0;
+
+		std::ifstream file(fileName.c_str());
+		if (!file.is_open())
+		{
+			std::cerr << "Error: Could not open data file " << fileName << "." << std::endl;
+			return new boost::any;
+		}
+
+		while(file >> value)
+		{
+			data.push_back(value);
+			char separator = 0;
+			if (!(file >> separator))
+			{
+				break;
+			}
+			if (separatorSet.find(separator) == std::string::npos)
+			{
+				std::cerr << "Error: Data file " << fileName << " had an invalid separator " 
+					<< separator << "." << std::endl;
+				break;
+			}
+		}
+
+		Signal* signal = new Signal(data.size(), 1);
+		std::copy(data.begin(), data.end(),
+			signal->data().begin());
+			
+		return new boost::any(signal);
+	}
 
 	boost::any* differential_entropy_kl(const YYLTYPE& location, const AnySet& argSet)
 	{

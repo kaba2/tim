@@ -54,14 +54,14 @@ Semantics
 #include <iostream>
 #include <string>
 
-#include "tim/console/parser.h"
+#include "tim/console/console_parser.h"
 
 using namespace Tim;
 
 int main(int argc, char **argv)
 {
-	//yydebug = 1;
-	yyparse();
+	//console_debug = 1;
+	console_parse();
 
 	printErrors(std::cerr);
 
