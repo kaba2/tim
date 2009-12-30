@@ -40,10 +40,6 @@ print		{
 				return T_PRINT;
 			}
 
-gaussian	{
-				return T_GAUSSIAN;
-			}
-
 {SHORTIES}	{ 
 				return console_text[0]; 
 			}
