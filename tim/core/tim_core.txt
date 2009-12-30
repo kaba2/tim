@@ -1,7 +1,7 @@
 TIM Core
 ========
 
-[Parent]: tim.txt
+[[Parent]]: tim.txt
 
 Theory
 ------

@@ -1,7 +1,7 @@
 Entropy combinations
 ====================
 
-[Parent]: estimators.txt
+[[Parent]]: estimators.txt
 
 Theory
 ------

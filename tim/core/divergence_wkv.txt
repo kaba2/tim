@@ -1,7 +1,7 @@
 Wang-Kulkarni-Verdu estimator
 =============================
 
-[Parent]: divergence.txt
+[[Parent]]: divergence.txt
 
 References
 ----------

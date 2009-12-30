@@ -20,6 +20,7 @@ namespace Tim
 		typedef std::multimap<integer, std::string> Container;
 		typedef Container::const_iterator ConstIterator;
 
+		void report(const std::string& text);
 		void report(integer line, const std::string& text);
 
 		const Container& map() const;	
@@ -29,6 +30,8 @@ namespace Tim
 	};
 
 	std::ostream& operator<<(std::ostream& stream, const ErrorLog& errorLog);
+
+	void reportError(const std::string& text);
 
 
 }

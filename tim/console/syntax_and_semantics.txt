@@ -1,7 +1,7 @@
 Syntax and semantics
 ====================
 
-[Parent]: tim_console.txt
+[[Parent]]: tim_console.txt
 
 Formal syntax
 -------------
@@ -13,18 +13,16 @@ given in EBNF form as follows.
 	non-terminal % separator = (non-terminal (separator non-terminal)*)?
 
 	grammar := statement*
-	statement := declaration | function_call | 'print' expression
+	statement := declaration | expression | 'print' expression
 	declaration := identifier '=' expression 
-	expression := identifier | real_array | cell_array | integer | real | string
+	expression := identifier | real_array | cell_array | integer | real | string | function_call
 	function_call := identifier '(' expression % ',' ')'
 
-	signal_expression := identifier | real_array
 	real_array := '[' real_list % ';' ']'
 	real_list := real % ','
 
-	cell_expression := identifier | cell_array
 	cell_array := '{' cell_list % ';' '}'
-	cell_list := signal_expression % ','
+	cell_list := identifier % ','
 
 	identifier := alpha (alpha | digit)*
 	
@@ -38,6 +36,8 @@ The following terminals are better given as regular expressions.
 
 Semantics
 ---------
+
+ * An expression statement 'expr' is equivalent to 'ans = expr'.
 
  * Real-arrays will be initialized to identity matrices (1's on the diagonal,
  0's elsewhere).

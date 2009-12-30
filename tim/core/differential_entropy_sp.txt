@@ -1,7 +1,7 @@
 Stowell-Plumbley estimator
 ==========================
 
-[Parent]: differential_entropy.txt
+[[Parent]]: differential_entropy.txt
 
 The Stowell-Plumbley differential entropy estimator 
 is a non-parametric estimator based on approximating 

@@ -4,6 +4,8 @@
 #ifndef TIM_CONSOLE_SCANNER_H
 #define TIM_CONSOLE_SCANNER_H
 
+#include "tim/console/ast.h"
+
 #include <tim/core/mytypes.h>
 #include <tim/core/signal.h>
 
@@ -12,19 +14,20 @@
 #include <boost/any.hpp>
 
 #include <vector>
+#include <string>
 
 namespace Tim
 {
 
 	typedef Array<SignalPtr> Cell;
 
+	typedef std::vector<std::string> StringSet;
+	typedef std::vector<StringSet*> StringSetSet;
+
 	typedef std::vector<real> RealSet;
-	typedef std::vector<RealSet*> RealArray;
+	typedef std::vector<RealSet*> RealSetSet;
 
-	typedef std::vector<Signal*> CellSet;
-	typedef std::vector<CellSet*> CellArray;
-
-	typedef std::vector<boost::any*> AnySet;
+	typedef std::vector<boost::any> AnySet;
 
 }
 

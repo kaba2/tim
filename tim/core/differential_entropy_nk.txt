@@ -1,7 +1,7 @@
 Nilsson-Kleijn estimator
 ========================
 
-[Parent]: differential_entropy.txt
+[[Parent]]: differential_entropy.txt
 
 The Nilsson-Kleijn differential entropy estimator
 is a non-parametric estimator based on nearest 

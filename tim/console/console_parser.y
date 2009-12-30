@@ -24,42 +24,9 @@
 
 using namespace Tim;
 
-typedef std::map<std::string, boost::any*> SymbolMap;
-typedef SymbolMap::const_iterator SymbolIterator;
-
 void console_error(char *s);
 int console_lex();
 
-struct FunctionInfo
-{
-	typedef boost::function<boost::any*(const YYLTYPE& location, const AnySet& argSet)> Callback;
-
-	FunctionInfo()
-	: callback()
-	, minArgs(0)
-	, maxArgs(0)
-	{
-	}
-
-	FunctionInfo(Callback callback_, integer minArgs_, integer maxArgs_)
-	: callback(callback_)
-	, minArgs(minArgs_)
-	, maxArgs(maxArgs_)
-	{
-	}
-
-	Callback callback;
-	integer minArgs;
-	integer maxArgs;
-};
-
-typedef std::map<std::string, FunctionInfo> FunctionMap;
-typedef FunctionMap::const_iterator FunctionIterator;
-
-bool initialized = false;
-
-FunctionMap functionMap;
-SymbolMap symbolMap;
 ErrorLog errorLog;
 
 namespace Tim
@@ -67,120 +34,140 @@ namespace Tim
 
 	void reportError(const YYLTYPE& location, const std::string& text);
 
-	void print(boost::any* that);
-
-	boost::any* functionCall(const YYLTYPE& location, 
-		const std::string& name, const AnySet& argSet);
+	Program_AstNode* programAst;
 
 }
 
 %}
 
 %union{
+	Tim::Statement_AstNode* statement;
+	Tim::Expression_AstNode* expression;
+	Tim::Declaration_AstNode* declaration;
+	Tim::FunctionCall_AstNode* function_call;
+	Tim::CellArray_AstNode* cell_array;
+	Tim::RealArray_AstNode* real_array;
+	Tim::StatementSet* program;
+	
+	Tim::StringSet* cell_list;
+	Tim::StringSetSet* cell_array_content;
+	Tim::RealSet* real_list;
+	Tim::RealSetSet* real_array_content;
+	Tim::ExpressionSet* expression_list;
+	Tim::real real_value;
+	Tim::integer integer_value;
+
 	std::string* string;
-	Tim::AnySet* anySet;
-	Tim::RealSet* realSet;
-	Tim::RealArray* realArray;
-	Tim::CellSet* cellSet;
-	Tim::CellArray* cellArray;
-	Tim::Signal* signal;
-	Tim::Cell* cell;
-	Tim::real realValue;
-	boost::any* any;
 }
 
 %token <string> T_INTEGER T_REAL T_IDENTIFIER T_PRINT T_GAUSSIAN T_STRING
 
-%type <realValue> number
-%type <realSet> real_list real_list_1
-%type <realArray> real_array_content
-%type <signal> real_array signal_expression
+%type <program> program
+%type <statement> statement
+%type <expression> expression
+%type <declaration> declaration
+%type <function_call> function_call
+%type <cell_array> cell_array
+%type <cell_list> cell_list cell_list_1
+%type <cell_array_content> cell_array_content
 
-%type <cellSet> cell_list cell_list_1
-%type <cellArray> cell_array_content
-%type <cell> cell_array 
-%type <any> expression function_call
-%type <anySet> expression_list expression_list_1
+%type <real_array> real_array
+%type <real_array_content> real_array_content
+%type <real_list> real_list real_list_1
+
+%type <expression_list> expression_list expression_list_1
+
+%type <string> identifier string
+%type <integer_value> integer_value
+%type <real_value> number real_value
 
 %%
 
 start
-	: grammar
+	: program
+	{
+		programAst = new Program_AstNode($1);		
+	}
 	;
 	
-grammar	
+program
 	: statement
-	| grammar statement
+	{
+		StatementSet* statementSet = new StatementSet;
+		statementSet->push_back($1);
+		$$ = statementSet;
+	}
+	| program statement
+	{
+		StatementSet* statementSet = $1;
+		statementSet->push_back($2);
+		$$ = statementSet;
+	}
 	;
 
 statement
 	: declaration 
-	| function_call
+	{
+		$$ = $1;
+	}
 	| T_PRINT expression
 	{
-		print($2);
+		$$ = new Print_AstNode($2);
 	}
-	| error '\n'
+	| expression
 	{
-		yyerrok;
+		$$ = new Declaration_AstNode("ans", $1);
 	}
 	;
 
 declaration
-	: T_IDENTIFIER '=' expression
+	: identifier '=' expression
 	{
-		if (symbolMap.find(*$1) != symbolMap.end())
-		{
-			reportError(@1, "Multiple definitions for an identifier.");
-		}
-		symbolMap[*$1] = $3;
+		$$ = new Declaration_AstNode(*$1, $3);
 	}
 	;
 	
 function_call
-	: T_IDENTIFIER '(' expression_list ')'
+	: identifier '(' expression_list ')'
 	{
-		$$ = functionCall(@1, *$1, *$3);
+		$$ = new FunctionCall_AstNode(*$1, $3);
 	}
 	;
 	
 expression_list
 	: /* empty */
 	{
-		$$ = new AnySet;
+		ExpressionSet* expressionSet = new ExpressionSet;
+		$$ = expressionSet;
 	}
 	| expression_list_1
 	{
-		$$ = $1;
+		ExpressionSet* expressionSet = $1;
+		$$ = expressionSet;
 	}
 	;
 	
 expression_list_1
 	: expression
 	{
-		$$ = new AnySet;
-		$$->push_back($1);
+		ExpressionSet* expressionSet = new ExpressionSet;
+		expressionSet->push_back($1);
+		$$ = expressionSet;
 	}
 	| expression_list_1 ',' expression
 	{
-		$$ = $1;
-		$$->push_back($3);
+		ExpressionSet* expressionSet = $1;
+		expressionSet->push_back($3);
+		$$ = expressionSet;
 	}
 	;
 
 expression
-	: T_IDENTIFIER
+	: identifier
 	{
-		SymbolIterator iter = symbolMap.find(*$1);
-		if (iter == symbolMap.end())
-		{
-			$$ = new boost::any;
-			reportError(@1, "Undefined identifier.");
-		}
-		else
-		{
-			$$ = iter->second;
-		}
+		std::string* name = $1;
+		$$ = new Identifier_AstNode(*$1);
+		delete name;
 	}
 	| function_call
 	{
@@ -188,48 +175,49 @@ expression
 	}
 	| real_array
 	{
-		$$ = new boost::any($1);
+		$$ = $1;
 	}
 	| cell_array
 	{
-		$$ = new boost::any($1);
+		$$ = $1;
 	}
-	| T_INTEGER
+	| integer_value
 	{
-		$$ = new boost::any(stringToInteger(*$1));
+		$$ = new Integer_AstNode($1);
 	}	
-	| T_REAL
+	| real_value
 	{
-		$$ = new boost::any(stringToReal(*$1));
+		$$ = new Real_AstNode($1);
 	}
-	| T_STRING
+	| string
 	{
-		$$ = new boost::any(*$1);
+		$$ = new String_AstNode(*$1);
 	}
 	;
 
-signal_expression
+identifier
 	: T_IDENTIFIER
 	{
-		SymbolIterator iter = symbolMap.find(*$1);
-		if (iter == symbolMap.end())
-		{
-			$$ = (Signal*)0;
-			reportError(@1, "Undefined identifier.");
-		}
-		else
-		{
-			try
-			{
-				$$ = boost::any_cast<Signal*>(*iter->second);
-			}
-			catch(const boost::bad_any_cast&)
-			{
-				reportError(@1, "Identifier is not a real array.");
-			}
-		}
+		$$ = $1;
 	}
-	| real_array
+	;
+	
+integer_value
+	: T_INTEGER
+	{
+		$$ = stringToInteger(*$1);
+	}
+	;
+
+real_value
+	: T_REAL
+	{
+		$$ = stringToReal(*$1);
+	}
+	;
+
+string
+	: T_STRING
 	{
 		$$ = $1;
 	}
@@ -238,12 +226,11 @@ signal_expression
 real_array
 	: T_GAUSSIAN
 	{
-		SignalPtr signal = generateGaussian(10000, 10);
-		$$ = new Signal(*signal);
+		$$ = new RealArray_AstNode(generateGaussian(10000, 10));
 	}
 	| '[' real_array_content  ']'
 	{
-		RealArray* realArray = $2;
+		RealSetSet* realArray = $2;
 		
 		// Find out the maximum width and height
 		// of the matrix.
@@ -264,28 +251,25 @@ real_array
 		const integer samples = width;
 		const integer dimension = height;
 
-		$$ = new Signal(samples, dimension);
+		SignalPtr signal = SignalPtr(new Signal(samples, dimension));
 		
 		for (integer y = 0;y < height;++y)
 		{
-			RealSet*& realSet = (*realArray)[y];
-		
-			StdExt::copy_n(
-				realSet->begin(),
-				std::min((integer)realSet->size(), samples),
-				$$->data().columnBegin(y));
-			
+			RealSet* realSet = (*realArray)[y];
+			std::copy(realSet->begin(), realSet->end(),
+				signal->data().columnBegin(y));
 			delete realSet;
-			realSet = 0;
 		}
 		delete realArray;
+		
+		$$ = new RealArray_AstNode(signal);
 	}
 	;
 
 cell_array
 	: '{' cell_array_content  '}'
 	{
-		CellArray* cellArray = $2;
+		StringSetSet* cellArray = $2;
 		
 		// Find out the maximum width and height
 		// of the matrix.
@@ -294,38 +278,34 @@ cell_array
 		integer width = 0;
 		for (integer y = 0;y < height;++y)
 		{
-			CellSet*& cellSet = (*cellArray)[y];
+			StringSet*& cellSet = (*cellArray)[y];
 			if (cellSet->size() > width)
 			{
 				width = cellSet->size();				
 			}
 		}
 		
-		// Copy the data to a cell array.
+		// Copy the data to a string array.
 		
-		$$ = new Cell(width, height);
+		Array<std::string>* cellContent = new Array<std::string>(width, height);
 		
 		for (integer y = 0;y < height;++y)
 		{
-			CellSet*& cellSet = (*cellArray)[y];
-			
-			const integer cells = std::min((integer)cellSet->size(), width);
-			for (integer x = 0;x < cells;++x)
-			{
-				(*$$)(x, y) = SignalPtr((*cellSet)[x]);
-			}
-			
+			StringSet* cellSet = (*cellArray)[y];
+			std::copy(cellSet->begin(), cellSet->end(),
+				cellContent->rowBegin(y));
 			delete cellSet;
-			cellSet = 0;
 		}
 		delete cellArray;
+		
+		$$ = new CellArray_AstNode(cellContent);
 	}
 	;
 
 real_array_content
 	: real_list
 	{
-		$$ = new RealArray;
+		$$ = new RealSetSet;
 		$$->push_back($1);
 	}
 	| real_array_content ';' real_list
@@ -362,37 +342,44 @@ real_list_1
 cell_array_content
 	: cell_list
 	{
-		$$ = new CellArray;
-		$$->push_back($1);
+		StringSetSet* stringSetSet = new StringSetSet;
+		stringSetSet->push_back($1);
+		$$ = stringSetSet;
 	}
 	| cell_array_content ';' cell_list
 	{
-		$$ = $1;
-		$$->push_back($3);
+		StringSetSet* stringSetSet = $1;
+		stringSetSet->push_back($3);
 	}
 	;
 
 cell_list
 	: /* empty */
 	{
-		$$ = new CellSet;
+		StringSet* stringSet = new StringSet;
+		$$ = stringSet;
 	}
 	| cell_list_1
 	{
-		$$ = $1;
+		StringSet* stringSet = $1;
+		$$ = stringSet;
 	}
 	;
 	
 cell_list_1
-	: signal_expression
+	: identifier
 	{
-		$$ = new CellSet;
-		$$->push_back($1);
+		std::string* name = $1;
+		StringSet* stringSet = new StringSet;
+		stringSet->push_back(*name);
+		delete name;
 	}
-	| cell_list_1 ',' signal_expression
+	| cell_list_1 ',' identifier
 	{
-		$$ = $1;
-		$$->push_back($3);
+		std::string* name = $3;
+		StringSet* stringSet = $1;
+		stringSet->push_back(*name);
+		delete name;
 	}
 	;
 
@@ -434,128 +421,6 @@ namespace Tim
 	void printErrors(std::ostream& stream)
 	{
 		stream << errorLog;	
-	}
-
-	void print(boost::any* that)
-	{
-		try
-		{
-			Signal* signal = boost::any_cast<Signal*>(*that);
-			std::cout << *signal << std::endl;
-		}
-		catch(const boost::bad_any_cast&)
-		{
-		}
-
-		try
-		{
-			integer k = boost::any_cast<integer>(*that);
-			std::cout << k << std::endl;
-		}
-		catch(const boost::bad_any_cast&)
-		{
-		}
-
-		try
-		{
-			real k = boost::any_cast<real>(*that);
-			std::cout << k << std::endl;
-		}
-		catch(const boost::bad_any_cast&)
-		{
-		}
-
-		try
-		{
-			std::string text = boost::any_cast<std::string>(*that);
-			std::cout << text << std::endl;
-		}
-		catch(const boost::bad_any_cast&)
-		{
-		}
-	}
-
-
-	boost::any* functionCall(const YYLTYPE& location, 
-		const std::string& name, const AnySet& argSet)
-	{
-		if (!initialized)
-		{
-			functionMap.insert(
-				std::make_pair("load", 
-				FunctionInfo(load, 1, 2)));
-
-			functionMap.insert(
-				std::make_pair("differential_entropy_kl", 
-				FunctionInfo(differential_entropy_kl, 1, 3)));
-			functionMap.insert(
-				std::make_pair("differential_entropy_kl_t", 
-				FunctionInfo(differential_entropy_kl_t, 2, 4)));
-				
-			functionMap.insert(
-				std::make_pair("differential_entropy_nk", 
-				FunctionInfo(differential_entropy_nk, 1, 2)));
-
-			functionMap.insert(
-				std::make_pair("divergence_wkv", 
-				FunctionInfo(divergence_wkv, 2, 2)));
-
-			functionMap.insert(
-				std::make_pair("mutual_information_t", 
-				FunctionInfo(mutual_information_t, 3, 6)));
-			functionMap.insert(
-				std::make_pair("mutual_information", 
-				FunctionInfo(mutual_information, 2, 5)));
-			functionMap.insert(
-				std::make_pair("mutual_information_pt", 
-				FunctionInfo(mutual_information_pt, 4, 8)));
-			functionMap.insert(
-				std::make_pair("mutual_information_p", 
-				FunctionInfo(mutual_information_p, 3, 7)));
-				
-			functionMap.insert(
-				std::make_pair("transfer_entropy_t", 
-				FunctionInfo(transfer_entropy_t, 4, 8)));
-			functionMap.insert(
-				std::make_pair("transfer_entropy_pt", 
-				FunctionInfo(transfer_entropy_pt, 5, 10)));
-			functionMap.insert(
-				std::make_pair("transfer_entropy", 
-				FunctionInfo(transfer_entropy, 3, 7)));
-			functionMap.insert(
-				std::make_pair("transfer_entropy_p", 
-				FunctionInfo(transfer_entropy_p, 4, 9)));
-
-			initialized = true;
-		}
-	
-		FunctionIterator iter = functionMap.find(name);
-		if (iter == functionMap.end())
-		{
-			reportError(location, "Undefined function.");
-		}
-		else
-		{		
-			const FunctionInfo& info = iter->second;
-			bool error = false;
-			if (argSet.size() > info.maxArgs)
-			{
-				reportError(location, "Too many arguments to a function (max " + integerToString(info.maxArgs) + ").");
-				error = true;
-			}
-			if (argSet.size() < info.minArgs)
-			{
-				reportError(location, "Not enough arguments to a function (min " + integerToString(info.minArgs) + ").");
-				error = true;
-			}
-			
-			if (!error)
-			{
-				return info.callback(location, argSet);
-			}
-		}
-		
-		return 0;
 	}
 
 }

@@ -1,7 +1,7 @@
 Signal class
 ============
 
-[Parent]: tim_core.txt
+[[Parent]]: tim_core.txt
 
 Theory
 ------
@@ -35,4 +35,4 @@ M(Range(0, 1), Range(0, 10, 2)).
 See also
 --------
 
-[Link]: /pastel/geometry/matrix.txt
+[[Link]]: /pastel/geometry/matrix.txt
