@@ -29,6 +29,8 @@ namespace Tim
 		 Container errorMap_;
 	};
 
+	ErrorLog& errorLog();
+
 	std::ostream& operator<<(std::ostream& stream, const ErrorLog& errorLog);
 
 	void reportError(const std::string& text);

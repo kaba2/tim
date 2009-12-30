@@ -6,10 +6,14 @@
 
 #include <pastel/sys/environment.h>
 
-#if defined TIM_EXPORTS
-#   define TIM PASTEL_DLLEXPORT
+#ifdef _USRDLL
+#	ifdef TIM_EXPORTS
+#		define TIM PASTEL_DLLEXPORT
+#	else
+#		define TIM PASTEL_DLLIMPORT
+#	endif
 #else
-#   define TIM PASTEL_DLLIMPORT
+#	define TIM
 #endif
 
 #endif

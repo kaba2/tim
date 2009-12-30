@@ -7,6 +7,30 @@
 namespace Tim
 {
 
+	void Interpreter_AstVisitor::visit(const Program_AstNode& node)
+	{
+		const StatementSet& statementSet = node.statementSet();
+		const integer statements = statementSet.size();
+		for (integer i = 0;i < statements;++i)
+		{
+			visit(*statementSet[i]);
+		}
+	}
+
+	void Interpreter_AstVisitor::visit(const Statement_AstNode& node)
+	{
+		if (const Declaration_AstNode* declaration = 
+			dynamic_cast<const Declaration_AstNode*>(&node))
+		{
+			visit(*declaration);
+		}
+		if (const Print_AstNode* printExpression = 
+			dynamic_cast<const Print_AstNode*>(&node))
+		{
+			visit(*printExpression);
+		}
+	}
+
 	void Interpreter_AstVisitor::visit(const Declaration_AstNode& node)
 	{
 		symbolMap_[node.name()] = evaluate(node.expression());
@@ -63,7 +87,7 @@ namespace Tim
 			if (iter == symbolMap_.end())
 			{
 				reportError("Undefined identifier '" + node->name() + "'.");
-				return boost::any();
+				throw Interpreter_Exception();
 			}
 
 			return iter->second;
@@ -90,6 +114,7 @@ namespace Tim
 			const integer width = identifierArray.width();
 			const integer height = identifierArray.height();
 
+			bool errorsFound = false;			
 			Cell* cellArray = new Cell(width, height);
 			for (integer i = 0;i < cellArray->size();++i)
 			{
@@ -98,6 +123,7 @@ namespace Tim
 				if (iter == symbolMap_.end())
 				{
 					reportError("Undefined identifier '" + name + "'.");
+					errorsFound = true;
 				}
 				else
 				{
@@ -108,10 +134,14 @@ namespace Tim
 					catch(const boost::bad_any_cast&)
 					{
 						reportError("'" + name + "' is not a signal.");
+						errorsFound = true;
 					}
 				}
 			}
-
+			if (errorsFound)
+			{
+				throw Interpreter_Exception();
+			}
 			return boost::any(cellArray);
 		}
 		if (const FunctionCall_AstNode* node = dynamic_cast<const FunctionCall_AstNode*>(expression))
@@ -124,7 +154,14 @@ namespace Tim
 				inputSet.push_back(evaluate(expressionSet[i]));
 			}
 			
-			return functionCall(node->name(), inputSet);
+			try
+			{
+				return functionCall(node->name(), inputSet);
+			}
+			catch(const FunctionCall_Exception&)
+			{
+				throw Interpreter_Exception();
+			}
 		}
 
 		const bool thisPlaceIsReached = true;

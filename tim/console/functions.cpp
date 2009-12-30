@@ -317,6 +317,8 @@ namespace Tim
 					boost::any((integer)0),
 					// yLag
 					boost::any((integer)0),
+					// zLag
+					boost::any((integer)0),
 					// wLag
 					boost::any((integer)0),
 					// kNearest
@@ -375,6 +377,8 @@ namespace Tim
 					boost::any((integer)0),
 					// yLag
 					boost::any((integer)0),
+					// zLag
+					boost::any((integer)0),
 					// wLag
 					boost::any((integer)0),
 					// kNearest
@@ -402,7 +406,7 @@ namespace Tim
 		if (iter == functionMap.end())
 		{
 			reportError("Undefined function '" + name + "'.");
-			return 0;
+			throw FunctionCall_Exception();
 		}
 
 		const FunctionInfo& info = iter->second;
@@ -412,12 +416,12 @@ namespace Tim
 		if (inputArgs > callArgs)
 		{
 			reportError(name + "(): Too many arguments.");
-			return 0;
+			throw FunctionCall_Exception();
 		}
 		if (inputArgs < info.minArgs)
 		{
 			reportError(name + "(): Not enough arguments (min " + integerToString(info.minArgs) + ").");
-			return 0;
+			throw FunctionCall_Exception();
 		}
 
 		bool error = false;
@@ -430,19 +434,18 @@ namespace Tim
 			}
 		}
 
-		AnySet callSet = argSet;
+		if (error)
+		{
+			throw FunctionCall_Exception();
+		}
 
+		AnySet callSet = argSet;
 		for (integer i = inputArgs;i < callArgs;++i)
 		{
 			callSet.push_back(info.parameterSet[i]);
 		}
 
-		if (error)
-		{
-			return 0;
-		}
-
-		return info.callback(argSet);
+		return info.callback(callSet);
 	}
 
 	boost::any load(const AnySet& argSet)
@@ -476,7 +479,7 @@ namespace Tim
 			}
 		}
 
-		Signal* signal = new Signal(data.size(), 1);
+		SignalPtr signal = SignalPtr(new Signal(data.size(), 1));
 		std::copy(data.begin(), data.end(),
 			signal->data().begin());
 			
@@ -565,7 +568,7 @@ namespace Tim
 			std::back_inserter(deSet),
 			maxRelativeError, kNearest);
 			
-		Signal* signal = new Signal(deSet.size(), 1);
+		SignalPtr signal = SignalPtr(new Signal(deSet.size(), 1));
 		std::copy(deSet.begin(), deSet.end(),
 			signal->data().begin());
 			
@@ -603,7 +606,7 @@ namespace Tim
 			Default_NormBijection(),
 			&dimension);
 			
-		Signal* signal = new Signal(2, 1);
+		SignalPtr signal = SignalPtr(new Signal(2, 1));
 		signal->data()(0) = de;
 		signal->data()(1) = dimension;
 			
@@ -653,7 +656,7 @@ namespace Tim
 			xLag, yLag,
 			kNearest);
 			
-		Signal* signal = new Signal(miSet.size(), 1);
+		SignalPtr signal = SignalPtr(new Signal(miSet.size(), 1));
 		std::copy(miSet.begin(), miSet.end(),
 			signal->data().begin());
 			
@@ -741,7 +744,7 @@ namespace Tim
 			xLag, yLag, zLag,
 			kNearest);
 			
-		Signal* signal = new Signal(miSet.size(), 1);
+		SignalPtr signal = SignalPtr(new Signal(miSet.size(), 1));
 		std::copy(miSet.begin(), miSet.end(),
 			signal->data().begin());
 			
@@ -832,7 +835,7 @@ namespace Tim
 			xLag, yLag, wLag,
 			kNearest);
 			
-		Signal* signal = new Signal(teSet.size(), 1);
+		SignalPtr signal = SignalPtr(new Signal(teSet.size(), 1));
 		std::copy(teSet.begin(), teSet.end(),
 			signal->data().begin());
 			
@@ -888,7 +891,7 @@ namespace Tim
 			xLag, yLag, zLag, wLag,
 			kNearest);
 			
-		Signal* signal = new Signal(teSet.size(), 1);
+		SignalPtr signal = SignalPtr(new Signal(teSet.size(), 1));
 		std::copy(teSet.begin(), teSet.end(),
 			signal->data().begin());
 			

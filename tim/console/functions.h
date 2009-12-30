@@ -12,6 +12,10 @@
 namespace Tim
 {
 
+	class FunctionCall_Exception
+	{
+	};
+
 	boost::any functionCall(const std::string& name, const AnySet& argSet);
 
 	boost::any load(const AnySet& argSet);

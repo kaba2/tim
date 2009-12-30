@@ -6,13 +6,19 @@ namespace Tim
 	void ErrorLog::report(integer line, const std::string& text)
 	{
 		//errorMap_.insert(std::make_pair(line, text));
-		std::cerr << "Error at line " << line << ": " << text << std::endl;
+		std::cerr << "Line " << line << ": " << text << std::endl;
 		exit(1);
 	}
 
 	const ErrorLog::Container& ErrorLog::map() const
 	{
 		return errorMap_;
+	}
+
+	ErrorLog& errorLog()
+	{
+		static ErrorLog theErrorLog;
+		return theErrorLog;
 	}
 
 	std::ostream& operator<<(
@@ -37,7 +43,7 @@ namespace Tim
 
 	void reportError(const std::string& text)
 	{
-		std::cerr << text << std::endl;
+		errorLog().report(-1, text);
 	}
 
 }

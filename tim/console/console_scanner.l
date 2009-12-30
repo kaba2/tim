@@ -74,7 +74,6 @@ gaussian	{
 			}
 
 .			{ 
-				std::cerr << "SCANNER "; 
 				console_error(""); 
 				exit(1);	
 			}

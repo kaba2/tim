@@ -27,8 +27,6 @@ using namespace Tim;
 void console_error(char *s);
 int console_lex();
 
-ErrorLog errorLog;
-
 namespace Tim
 {
 
@@ -278,7 +276,7 @@ cell_array
 		integer width = 0;
 		for (integer y = 0;y < height;++y)
 		{
-			StringSet*& cellSet = (*cellArray)[y];
+			StringSet* cellSet = (*cellArray)[y];
 			if (cellSet->size() > width)
 			{
 				width = cellSet->size();				
@@ -305,20 +303,23 @@ cell_array
 real_array_content
 	: real_list
 	{
-		$$ = new RealSetSet;
-		$$->push_back($1);
+		RealSetSet* realSetSet = new RealSetSet;
+		realSetSet->push_back($1);
+		$$ = realSetSet;
 	}
 	| real_array_content ';' real_list
 	{
-		$$ = $1;
-		$$->push_back($3);
+		RealSetSet* realSetSet = $1;
+		realSetSet->push_back($3);
+		$$ = realSetSet;		
 	}
 	;
 
 real_list
 	: /* empty */
 	{
-		$$ = new RealSet;
+		RealSet* realSet = new RealSet;
+		$$ = realSet;
 	}
 	| real_list_1
 	{
@@ -329,13 +330,15 @@ real_list
 real_list_1
 	: number
 	{
-		$$ = new RealSet;
-		$$->push_back($1);
+		RealSet* realSet = new RealSet;
+		realSet->push_back($1);
+		$$ = realSet;
 	}
 	| real_list_1 ',' number
 	{
-		$$ = $1;
-		$$->push_back($3);
+		RealSet* realSet = $1;
+		realSet->push_back($3);
+		$$ = realSet;
 	}
 	;
 
@@ -350,6 +353,7 @@ cell_array_content
 	{
 		StringSetSet* stringSetSet = $1;
 		stringSetSet->push_back($3);
+		$$ = stringSetSet;
 	}
 	;
 
@@ -373,6 +377,7 @@ cell_list_1
 		StringSet* stringSet = new StringSet;
 		stringSet->push_back(*name);
 		delete name;
+		$$ = stringSet;
 	}
 	| cell_list_1 ',' identifier
 	{
@@ -380,17 +385,24 @@ cell_list_1
 		StringSet* stringSet = $1;
 		stringSet->push_back(*name);
 		delete name;
+		$$ = stringSet;
 	}
 	;
 
 number
 	: T_INTEGER
 	{
-		$$ = stringToInteger(*$1);
+		std::string* text = $1;
+		const integer value = stringToInteger(*text);
+		delete text;
+		$$ = value;
 	}
 	| T_REAL
 	{
-		$$ = stringToReal(*$1);
+		std::string* text = $1;
+		const integer value = stringToReal(*text);
+		delete text;
+		$$ = value;
 	}
 	;
 
@@ -401,8 +413,12 @@ void console_error(const std::string& s)
 	extern int console_lineno;
 	extern char *console_text;
   
-	std::cerr << "ERROR: " << s << " at symbol \"" << console_text;
-	std::cerr << "\" on line " << console_lineno << std::endl;
+	std::cerr << "Line " << console_lineno << ": "
+		<< "Unknown token '" << console_text << "'." << std::endl;
+	if (!s.empty())
+	{
+		std::cerr << s << std::endl;
+	}
 }
 
 void console_error(char *s)
@@ -415,12 +431,7 @@ namespace Tim
 
 	void reportError(const YYLTYPE& location, const std::string& text)
 	{
-		errorLog.report(location.first_line, text);
+		errorLog().report(location.first_line, text);
 	}
 	
-	void printErrors(std::ostream& stream)
-	{
-		stream << errorLog;	
-	}
-
 }

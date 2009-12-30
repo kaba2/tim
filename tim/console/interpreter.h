@@ -15,6 +15,8 @@ namespace Tim
 		: public AstVisitor
 	{
 	public:
+		virtual void visit(const Program_AstNode& node);
+		virtual void visit(const Statement_AstNode& node);
 		virtual void visit(const Declaration_AstNode& node);
 		virtual void visit(const Print_AstNode& node);
 
@@ -24,6 +26,10 @@ namespace Tim
 		typedef std::map<std::string, boost::any> SymbolMap;
 		typedef SymbolMap::const_iterator SymbolIterator;
 		SymbolMap symbolMap_;
+	};
+
+	class Interpreter_Exception
+	{
 	};
 
 }
