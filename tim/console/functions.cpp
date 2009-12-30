@@ -1,5 +1,6 @@
 #include "tim/console/functions.h"
 #include "tim/console/console_parser.h"
+#include "tim/console/errorlog.h"
 
 #include <tim/core/differential_entropy.h>
 #include <tim/core/mutual_information.h>
@@ -8,38 +9,446 @@
 #include <tim/core/partial_transfer_entropy.h>
 #include <tim/core/divergence_wkv.h>
 
+#include <pastel/sys/string_tools.h>
+
 #include <fstream>
+#include <map>
+#include <string>
+
+#include <boost/function.hpp>
 
 namespace Tim
 {
 
-	boost::any* load(const YYLTYPE& location, const AnySet& argSet)
+	namespace
 	{
-		const integer args = argSet.size();
-		
-		std::string separatorSet = ",;";
-		std::string fileName;
+
+		struct FunctionInfo
+		{
+			typedef boost::function<boost::any(const AnySet& argSet)> Callback;
+
+			FunctionInfo()
+			: callback()
+			, minArgs(0)
+			, parameterSet()
+			{
+			}
+
+			template <typename Any_Iterator>
+			FunctionInfo(
+				Callback callback_, 
+				const ForwardRange<Any_Iterator>& parameterSet_,
+				integer minArgs_)
+			: callback(callback_)
+			, parameterSet(parameterSet_.begin(), parameterSet_.end())
+			, minArgs(minArgs_)
+			{
+				ENSURE_OP(minArgs, <=, parameterSet.size());
+			}
+
+			Callback callback;
+			std::vector<boost::any> parameterSet;
+			integer minArgs;
+		};
+
+		typedef std::map<std::string, FunctionInfo> FunctionMap;
+		typedef FunctionMap::const_iterator FunctionIterator;
+
+		FunctionMap functionMap;
+
+		void initializeFunctions()
+		{
+			static bool initialized = false;
+
+			if (initialized)
+			{
+				return;
+			}
+
+			// load
+			{
+				boost::any parameterSet[] =
+				{
+					// name
+					boost::any(std::string()),
+					// separatorSet
+					boost::any(std::string(",;")),
+				};
+			
+				functionMap.insert(
+					std::make_pair(
+					"load", 
+					FunctionInfo(
+						load, 
+						forwardRange(parameterSet), 1)));
+			}
+
+			// differential_entropy_kl
+			{
+				boost::any parameterSet[] =
+				{
+					// data
+					boost::any((Cell*)0),
+					// maxRelativeError
+					boost::any((real)0),
+					// kNearest
+					boost::any((integer)1)
+				};
+			
+				functionMap.insert(
+					std::make_pair(
+					"differential_entropy_kl", 
+					FunctionInfo(
+						differential_entropy_kl, 
+						forwardRange(parameterSet), 1)));
+			}
+			
+			// differential_entropy_kl_t
+			{
+				boost::any parameterSet[] =
+				{
+					// data
+					boost::any((Cell*)0),
+					// timeWindowRadius
+					boost::any((integer)0),
+					// maxRelativeError
+					boost::any((real)0),
+					// kNearest
+					boost::any((integer)1)
+				};
+			
+				functionMap.insert(
+					std::make_pair(
+					"differential_entropy_kl_t", 
+					FunctionInfo(
+						differential_entropy_kl_t, 
+						forwardRange(parameterSet), 2)));
+			}
+				
+			// differential_entropy_nk
+			{
+				boost::any parameterSet[] =
+				{
+					// data
+					boost::any((Cell*)0),
+					// maxRelativeError
+					boost::any((real)0)
+				};
+			
+				functionMap.insert(
+					std::make_pair(
+					"differential_entropy_nk", 
+					FunctionInfo(
+						differential_entropy_nk, 
+						forwardRange(parameterSet), 1)));
+			}
+
+			// divergence_wkv
+			{
+				boost::any parameterSet[] =
+				{
+					// xData
+					boost::any((Cell*)0),
+					// yData
+					boost::any((Cell*)0)
+				};
+			
+				functionMap.insert(
+					std::make_pair(
+					"divergence_wkv", 
+					FunctionInfo(
+						divergence_wkv, 
+						forwardRange(parameterSet), 2)));
+			}
+
+			// mutual_information_t
+			{
+				boost::any parameterSet[] =
+				{
+					// xData
+					boost::any((Cell*)0),
+					// yData
+					boost::any((Cell*)0),
+					// timeWindowRadius
+					boost::any((integer)0),
+					// xLag
+					boost::any((integer)0),
+					// yLag
+					boost::any((integer)0),
+					// kNearest
+					boost::any((integer)1)
+				};
+			
+				functionMap.insert(
+					std::make_pair(
+					"mutual_information_t", 
+					FunctionInfo(
+						mutual_information_t, 
+						forwardRange(parameterSet), 3)));
+			}
+
+			// mutual_information
+			{
+				boost::any parameterSet[] =
+				{
+					// xData
+					boost::any((Cell*)0),
+					// yData
+					boost::any((Cell*)0),
+					// xLag
+					boost::any((integer)0),
+					// yLag
+					boost::any((integer)0),
+					// kNearest
+					boost::any((integer)1)
+				};
+			
+				functionMap.insert(
+					std::make_pair(
+					"mutual_information", 
+					FunctionInfo(
+						mutual_information, 
+						forwardRange(parameterSet), 2)));
+			}
+
+			// mutual_information_pt
+			{
+				boost::any parameterSet[] =
+				{
+					// xData
+					boost::any((Cell*)0),
+					// yData
+					boost::any((Cell*)0),
+					// zData
+					boost::any((Cell*)0),
+					// timeWindowRadius
+					boost::any((integer)0),
+					// xLag
+					boost::any((integer)0),
+					// yLag
+					boost::any((integer)0),
+					// zLag
+					boost::any((integer)0),
+					// kNearest
+					boost::any((integer)1)
+				};
+			
+				functionMap.insert(
+					std::make_pair(
+					"mutual_information_pt", 
+					FunctionInfo(
+						mutual_information_pt, 
+						forwardRange(parameterSet), 4)));
+			}
+
+			// mutual_information_p
+			{
+				boost::any parameterSet[] =
+				{
+					// xData
+					boost::any((Cell*)0),
+					// yData
+					boost::any((Cell*)0),
+					// zData
+					boost::any((Cell*)0),
+					// xLag
+					boost::any((integer)0),
+					// yLag
+					boost::any((integer)0),
+					// zLag
+					boost::any((integer)0),
+					// kNearest
+					boost::any((integer)1)
+				};
+			
+				functionMap.insert(
+					std::make_pair(
+					"mutual_information_p", 
+					FunctionInfo(
+						mutual_information_p, 
+						forwardRange(parameterSet), 3)));
+			}
+				
+			// transfer_entropy_t
+			{
+				boost::any parameterSet[] =
+				{
+					// xData
+					boost::any((Cell*)0),
+					// yData
+					boost::any((Cell*)0),
+					// wData
+					boost::any((Cell*)0),
+					// timeWindowRadius
+					boost::any((integer)0),
+					// xLag
+					boost::any((integer)0),
+					// yLag
+					boost::any((integer)0),
+					// wLag
+					boost::any((integer)0),
+					// kNearest
+					boost::any((integer)1)
+				};
+			
+				functionMap.insert(
+					std::make_pair(
+					"transfer_entropy_t", 
+					FunctionInfo(
+						transfer_entropy_t, 
+						forwardRange(parameterSet), 4)));
+			}
+
+			// transfer_entropy_pt
+			{
+				boost::any parameterSet[] =
+				{
+					// xData
+					boost::any((Cell*)0),
+					// yData
+					boost::any((Cell*)0),
+					// zData
+					boost::any((Cell*)0),
+					// wData
+					boost::any((Cell*)0),
+					// timeWindowRadius
+					boost::any((integer)0),
+					// xLag
+					boost::any((integer)0),
+					// yLag
+					boost::any((integer)0),
+					// wLag
+					boost::any((integer)0),
+					// kNearest
+					boost::any((integer)1)
+				};
+			
+				functionMap.insert(
+					std::make_pair(
+					"transfer_entropy_pt", 
+					FunctionInfo(
+						transfer_entropy_pt, 
+						forwardRange(parameterSet), 5)));
+			}
+
+			// transfer_entropy
+			{
+				boost::any parameterSet[] =
+				{
+					// xData
+					boost::any((Cell*)0),
+					// yData
+					boost::any((Cell*)0),
+					// wData
+					boost::any((Cell*)0),
+					// xLag
+					boost::any((integer)0),
+					// yLag
+					boost::any((integer)0),
+					// wLag
+					boost::any((integer)0),
+					// kNearest
+					boost::any((integer)1)
+				};
+			
+				functionMap.insert(
+					std::make_pair(
+					"transfer_entropy", 
+					FunctionInfo(
+						transfer_entropy, 
+						forwardRange(parameterSet), 3)));
+			}
+
+			// transfer_entropy_p
+			{
+				boost::any parameterSet[] =
+				{
+					// xData
+					boost::any((Cell*)0),
+					// yData
+					boost::any((Cell*)0),
+					// zData
+					boost::any((Cell*)0),
+					// wData
+					boost::any((Cell*)0),
+					// xLag
+					boost::any((integer)0),
+					// yLag
+					boost::any((integer)0),
+					// wLag
+					boost::any((integer)0),
+					// kNearest
+					boost::any((integer)1)
+				};
+			
+				functionMap.insert(
+					std::make_pair(
+					"transfer_entropy_p", 
+					FunctionInfo(
+						transfer_entropy_p, 
+						forwardRange(parameterSet), 4)));
+			}
+
+			initialized = true;
+		}
+
+	}
+
+	boost::any functionCall(const std::string& name, const AnySet& argSet)
+	{
+		initializeFunctions();
+	
+		FunctionIterator iter = functionMap.find(name);
+		if (iter == functionMap.end())
+		{
+			reportError("Undefined function '" + name + "'.");
+			return 0;
+		}
+
+		const FunctionInfo& info = iter->second;
+		const integer callArgs = info.parameterSet.size();
+		const integer inputArgs = argSet.size();
+
+		if (inputArgs > callArgs)
+		{
+			reportError(name + "(): Too many arguments.");
+			return 0;
+		}
+		if (inputArgs < info.minArgs)
+		{
+			reportError(name + "(): Not enough arguments (min " + integerToString(info.minArgs) + ").");
+			return 0;
+		}
 
 		bool error = false;
-				
-		try
+		for (integer i = 0;i < inputArgs;++i)
 		{
-			fileName = boost::any_cast<std::string>(*argSet[0]);
-			if (args > 1)
+			if (argSet[i].type() != info.parameterSet[i].type())
 			{
-				separatorSet = boost::any_cast<std::string>(*argSet[1]);
+				reportError(name + "(): Parameter " + integerToString(i) + " is of the wrong type.");
+				error = true;
 			}
 		}
-		catch(const boost::bad_any_cast&)
+
+		AnySet callSet = argSet;
+
+		for (integer i = inputArgs;i < callArgs;++i)
 		{
-			reportError(location, "Invalid argument type.");
-			error = true;
+			callSet.push_back(info.parameterSet[i]);
 		}
-		
+
 		if (error)
 		{
-			return new boost::any;
+			return 0;
 		}
+
+		return info.callback(argSet);
+	}
+
+	boost::any load(const AnySet& argSet)
+	{
+		std::string fileName = boost::any_cast<std::string>(argSet[0]);
+		std::string separatorSet = boost::any_cast<std::string>(argSet[1]);
 
 		std::vector<real> data;
 		real value = 0;
@@ -48,7 +457,7 @@ namespace Tim
 		if (!file.is_open())
 		{
 			std::cerr << "Error: Could not open data file " << fileName << "." << std::endl;
-			return new boost::any;
+			return boost::any();
 		}
 
 		while(file >> value)
@@ -71,114 +480,82 @@ namespace Tim
 		std::copy(data.begin(), data.end(),
 			signal->data().begin());
 			
-		return new boost::any(signal);
+		return boost::any(signal);
 	}
 
-	boost::any* differential_entropy_kl(const YYLTYPE& location, const AnySet& argSet)
+	boost::any differential_entropy_kl(const AnySet& argSet)
 	{
-		const integer args = argSet.size();
-		
-		Cell* cell = 0;
-		real maxRelativeError = 0;
-		integer kNearest = 1;
+		// Retrieve parameters.
+
+		Cell* cell = boost::any_cast<Cell*>(argSet[0]);
+		real maxRelativeError = boost::any_cast<real>(argSet[1]);
+		integer kNearest = boost::any_cast<integer>(argSet[2]);
+
+		// Check parameters.
+
 		bool error = false;
-				
-		try
-		{
-			cell = boost::any_cast<Cell*>(*argSet[0]);
-			if (args > 1)
-			{
-				maxRelativeError = boost::any_cast<real>(*argSet[1]);
-			}
-			if (args > 2)
-			{
-				kNearest = boost::any_cast<integer>(*argSet[2]);
-			}
-		}
-		catch(const boost::bad_any_cast&)
-		{
-			reportError(location, "Invalid argument type.");
-			error = true;
-		}
-		
 		if (maxRelativeError < 0)
 		{
-			reportError(location, "maxRelativeError must be non-negative.");
+			reportError("maxRelativeError must be non-negative.");
 			error = true;
 		}
 		
 		if (kNearest < 1)
 		{
-			reportError(location, "kNearest must be at least 1.");
+			reportError("kNearest must be at least 1.");
 			error = true;
 		}
 		
 		if (error)
 		{
-			return new boost::any;
+			return boost::any();
 		}
+
+		// Compute.
 
 		const real de = differentialEntropyKl(
 			forwardRange(cell->begin(), cell->end()),
 			maxRelativeError, kNearest);
 			
-		return new boost::any(de);
+		return boost::any(de);
 	}
 	
-	boost::any* differential_entropy_kl_t(const YYLTYPE& location, const AnySet& argSet)
+	boost::any differential_entropy_kl_t(const AnySet& argSet)
 	{
-		const integer args = argSet.size();
+		// Retrieve parameters.
+
+		Cell* cell = boost::any_cast<Cell*>(argSet[0]);
+		integer timeWindowRadius = boost::any_cast<integer>(argSet[1]);;
+		real maxRelativeError = boost::any_cast<real>(argSet[2]);
+		integer kNearest = boost::any_cast<integer>(argSet[3]);
 		
-		Cell* cell = 0;
-		real maxRelativeError = 0;
-		integer kNearest = 1;
-		integer timeWindowRadius = 0;
-		
+		// Check parameters.
+
 		bool error = false;
-		try
-		{
-			cell = boost::any_cast<Cell*>(*argSet[0]);
-			if (args > 1)
-			{
-				timeWindowRadius = boost::any_cast<integer>(*argSet[1]);
-			}
-			if (args > 2)
-			{
-				maxRelativeError = boost::any_cast<real>(*argSet[2]);
-			}
-			if (args > 3)
-			{
-				kNearest = boost::any_cast<integer>(*argSet[3]);
-			}
-		}
-		catch(const boost::bad_any_cast&)
-		{
-			reportError(location, "Invalid argument type.");
-			error = true;
-		}
-		
 		if (timeWindowRadius < 0)
 		{
-			reportError(location, "timeWindowRadius must be non-negative.");
+			reportError("timeWindowRadius must be non-negative.");
 			error = true;
 		}
 		
 		if (maxRelativeError < 0)
 		{
-			reportError(location, "maxRelativeError must be non-negative.");
+			reportError("maxRelativeError must be non-negative.");
 			error = true;
 		}
 		
 		if (kNearest < 1)
 		{
-			reportError(location, "kNearest must be at least 1.");
+			reportError("kNearest must be at least 1.");
 			error = true;
 		}
 		
 		if (error)
 		{
-			return new boost::any;
+			return boost::any();
 		}
+
+		// Compute.
 		
 		std::vector<real> deSet;
 		
@@ -192,41 +569,31 @@ namespace Tim
 		std::copy(deSet.begin(), deSet.end(),
 			signal->data().begin());
 			
-		return new boost::any(signal);
+		return boost::any(signal);
 	}
 
-	boost::any* differential_entropy_nk(const YYLTYPE& location, const AnySet& argSet)
+	boost::any differential_entropy_nk(const AnySet& argSet)
 	{
-		const integer args = argSet.size();
-		
-		Cell* cell = 0;
-		real maxRelativeError = 0;
+		// Retrieve parameters.
+
+		Cell* cell = boost::any_cast<Cell*>(argSet[0]);;
+		real maxRelativeError = boost::any_cast<real>(argSet[1]);
+
+		// Check parameters.
+
 		bool error = false;
-				
-		try
-		{
-			cell = boost::any_cast<Cell*>(*argSet[0]);
-			if (args > 1)
-			{
-				maxRelativeError = boost::any_cast<real>(*argSet[1]);
-			}
-		}
-		catch(const boost::bad_any_cast&)
-		{
-			reportError(location, "Invalid argument type.");
-			error = true;
-		}
-		
 		if (maxRelativeError < 0)
 		{
-			reportError(location, "maxRelativeError must be non-negative.");
+			reportError("maxRelativeError must be non-negative.");
 			error = true;
 		}
 		
 		if (error)
 		{
-			return new boost::any;
+			return boost::any();
 		}
+
+		// Compute.
 		
 		integer dimension = 0;
 
@@ -240,64 +607,41 @@ namespace Tim
 		signal->data()(0) = de;
 		signal->data()(1) = dimension;
 			
-		return new boost::any(signal);
+		return boost::any(signal);
 	}
 
-	boost::any* mutual_information_t(const YYLTYPE& location, const AnySet& argSet)
+	boost::any mutual_information_t(const AnySet& argSet)
 	{
-		const integer args = argSet.size();
-		
-		Cell* xCell = 0;
-		Cell* yCell = 0;
-		integer timeWindowRadius = 0;
-		integer xLag = 0;
-		integer yLag = 0;
-		integer kNearest = 1;
+		// Retrieve parameters.
+
+		Cell* xCell = boost::any_cast<Cell*>(argSet[0]);
+		Cell* yCell = boost::any_cast<Cell*>(argSet[1]);
+		integer timeWindowRadius = boost::any_cast<integer>(argSet[2]);
+		integer xLag = boost::any_cast<integer>(argSet[3]);
+		integer yLag = boost::any_cast<integer>(argSet[4]);
+		integer kNearest = boost::any_cast<integer>(argSet[5]);
+
+		// Check parameters.
 		
 		bool error = false;
-		try
-		{
-			xCell = boost::any_cast<Cell*>(*argSet[0]);
-			yCell = boost::any_cast<Cell*>(*argSet[1]);
-			if (args > 2)
-			{
-				timeWindowRadius = boost::any_cast<integer>(*argSet[2]);
-			}
-			if (args > 3)
-			{
-				xLag = boost::any_cast<integer>(*argSet[3]);
-			}
-			if (args > 4)
-			{
-				yLag = boost::any_cast<integer>(*argSet[4]);
-			}
-			if (args > 5)
-			{
-				kNearest = boost::any_cast<integer>(*argSet[5]);
-			}
-		}
-		catch(const boost::bad_any_cast&)
-		{
-			reportError(location, "Invalid argument type.");
-			error = true;
-		}
-		
 		if (timeWindowRadius < 0)
 		{
-			reportError(location, "timeWindowRadius must be non-negative.");
+			reportError("timeWindowRadius must be non-negative.");
 			error = true;
 		}
 		
 		if (kNearest < 1)
 		{
-			reportError(location, "kNearest must be at least 1.");
+			reportError("kNearest must be at least 1.");
 			error = true;
 		}
 		
 		if (error)
 		{
-			return new boost::any;
+			return boost::any();
 		}
+
+		// Compute.
 		
 		std::vector<real> miSet;
 		
@@ -313,125 +657,78 @@ namespace Tim
 		std::copy(miSet.begin(), miSet.end(),
 			signal->data().begin());
 			
-		return new boost::any(signal);
+		return boost::any(signal);
 	}
 
-	boost::any* mutual_information(const YYLTYPE& location, const AnySet& argSet)
+	boost::any mutual_information(const AnySet& argSet)
 	{
-		const integer args = argSet.size();
-		
-		Cell* xCell = 0;
-		Cell* yCell = 0;
-		integer xLag = 0;
-		integer yLag = 0;
-		integer kNearest = 1;
-		
+		// Retrieve parameters.
+
+		Cell* xCell = boost::any_cast<Cell*>(argSet[0]);
+		Cell* yCell = boost::any_cast<Cell*>(argSet[1]);
+		integer xLag = boost::any_cast<integer>(argSet[2]);
+		integer yLag = boost::any_cast<integer>(argSet[3]);
+		integer kNearest = boost::any_cast<integer>(argSet[4]);
+
+		// Check parameters.
+
 		bool error = false;
-		try
-		{
-			xCell = boost::any_cast<Cell*>(*argSet[0]);
-			yCell = boost::any_cast<Cell*>(*argSet[1]);
-			if (args > 2)
-			{
-				xLag = boost::any_cast<integer>(*argSet[2]);
-			}
-			if (args > 3)
-			{
-				yLag = boost::any_cast<integer>(*argSet[3]);
-			}
-			if (args > 4)
-			{
-				kNearest = boost::any_cast<integer>(*argSet[4]);
-			}
-		}
-		catch(const boost::bad_any_cast&)
-		{
-			reportError(location, "Invalid argument type.");
-			error = true;
-		}
-		
 		if (kNearest < 1)
 		{
-			reportError(location, "kNearest must be at least 1.");
+			reportError("kNearest must be at least 1.");
 			error = true;
 		}
 		
 		if (error)
 		{
-			return new boost::any;
+			return boost::any();
 		}
-		
+
+		// Compute.
+
 		const real mi = mutualInformation(
 			forwardRange(xCell->begin(), xCell->end()),
 			forwardRange(yCell->begin(), yCell->end()),
 			xLag, yLag,
 			kNearest);
 			
-		return new boost::any(mi);
+		return boost::any(mi);
 	}
 
-	boost::any* mutual_information_pt(const YYLTYPE& location, const AnySet& argSet)
+	boost::any mutual_information_pt(const AnySet& argSet)
 	{
-		const integer args = argSet.size();
+		// Retrieve parameters.
+
+		Cell* xCell = boost::any_cast<Cell*>(argSet[0]);
+		Cell* yCell = boost::any_cast<Cell*>(argSet[1]);
+		Cell* zCell = boost::any_cast<Cell*>(argSet[2]);
+		integer timeWindowRadius = boost::any_cast<integer>(argSet[3]);
+		integer xLag = boost::any_cast<integer>(argSet[4]);
+		integer yLag = boost::any_cast<integer>(argSet[5]);
+		integer zLag = boost::any_cast<integer>(argSet[6]);
+		integer kNearest = boost::any_cast<integer>(argSet[7]);
 		
-		Cell* xCell = 0;
-		Cell* yCell = 0;
-		Cell* zCell = 0;
-		integer timeWindowRadius = 0;
-		integer xLag = 0;
-		integer yLag = 0;
-		integer zLag = 0;
-		integer kNearest = 1;
-		
+		// Check parameters.
+
 		bool error = false;
-		try
-		{
-			xCell = boost::any_cast<Cell*>(*argSet[0]);
-			yCell = boost::any_cast<Cell*>(*argSet[1]);
-			zCell = boost::any_cast<Cell*>(*argSet[2]);
-			if (args > 3)
-			{
-				timeWindowRadius = boost::any_cast<integer>(*argSet[3]);
-			}
-			if (args > 4)
-			{
-				xLag = boost::any_cast<integer>(*argSet[4]);
-			}
-			if (args > 5)
-			{
-				yLag = boost::any_cast<integer>(*argSet[5]);
-			}
-			if (args > 6)
-			{
-				zLag = boost::any_cast<integer>(*argSet[6]);
-			}
-			if (args > 7)
-			{
-				kNearest = boost::any_cast<integer>(*argSet[7]);
-			}
-		}
-		catch(const boost::bad_any_cast&)
-		{
-			reportError(location, "Invalid argument type.");
-			error = true;
-		}
-		
 		if (timeWindowRadius < 0)
 		{
-			reportError(location, "timeWindowRadius must be non-negative.");
+			reportError("timeWindowRadius must be non-negative.");
 			error = true;
 		}
 		
 		if (kNearest < 1)
 		{
-			reportError(location, "kNearest must be at least 1.");
+			reportError("kNearest must be at least 1.");
 			error = true;
 		}
 		
 		if (error)
 		{
-			return new boost::any;
+			return boost::any();
 		}
+
+		// Compute.
 		
 		std::vector<real> miSet;
 		
@@ -448,60 +745,36 @@ namespace Tim
 		std::copy(miSet.begin(), miSet.end(),
 			signal->data().begin());
 			
-		return new boost::any(signal);
+		return boost::any(signal);
 	}
 
-	boost::any* mutual_information_p(const YYLTYPE& location, const AnySet& argSet)
+	boost::any mutual_information_p(const AnySet& argSet)
 	{
-		const integer args = argSet.size();
+		// Retrieve parameters.
+
+		Cell* xCell = boost::any_cast<Cell*>(argSet[0]);
+		Cell* yCell = boost::any_cast<Cell*>(argSet[1]);
+		Cell* zCell = boost::any_cast<Cell*>(argSet[2]);
+		integer xLag = boost::any_cast<integer>(argSet[3]);
+		integer yLag = boost::any_cast<integer>(argSet[4]);
+		integer zLag = boost::any_cast<integer>(argSet[5]);
+		integer kNearest = boost::any_cast<integer>(argSet[6]);
 		
-		Cell* xCell = 0;
-		Cell* yCell = 0;
-		Cell* zCell = 0;
-		integer xLag = 0;
-		integer yLag = 0;
-		integer zLag = 0;
-		integer kNearest = 1;
-		
+		// Check parameters.
+
 		bool error = false;
-		try
-		{
-			xCell = boost::any_cast<Cell*>(*argSet[0]);
-			yCell = boost::any_cast<Cell*>(*argSet[1]);
-			zCell = boost::any_cast<Cell*>(*argSet[2]);
-			if (args > 3)
-			{
-				xLag = boost::any_cast<integer>(*argSet[3]);
-			}
-			if (args > 4)
-			{
-				yLag = boost::any_cast<integer>(*argSet[4]);
-			}
-			if (args > 5)
-			{
-				zLag = boost::any_cast<integer>(*argSet[5]);
-			}
-			if (args > 6)
-			{
-				kNearest = boost::any_cast<integer>(*argSet[6]);
-			}
-		}
-		catch(const boost::bad_any_cast&)
-		{
-			reportError(location, "Invalid argument type.");
-			error = true;
-		}
-		
 		if (kNearest < 1)
 		{
-			reportError(location, "kNearest must be at least 1.");
+			reportError("kNearest must be at least 1.");
 			error = true;
 		}
 		
 		if (error)
 		{
-			return new boost::any;
+			return boost::any();
 		}
+
+		// Compute.
 		
 		const real pmi = partialMutualInformation(
 			forwardRange(xCell->begin(), xCell->end()),
@@ -510,71 +783,43 @@ namespace Tim
 			xLag, yLag, zLag,
 			kNearest);
 			
-		return new boost::any(pmi);
+		return boost::any(pmi);
 	}
 
-	boost::any* transfer_entropy_t(const YYLTYPE& location, const AnySet& argSet)
+	boost::any transfer_entropy_t(const AnySet& argSet)
 	{
-		const integer args = argSet.size();
+		// Retrieve parameters.
+
+		Cell* xCell = boost::any_cast<Cell*>(argSet[0]);
+		Cell* yCell = boost::any_cast<Cell*>(argSet[1]);
+		Cell* wCell = boost::any_cast<Cell*>(argSet[2]);
+		integer timeWindowRadius = boost::any_cast<integer>(argSet[3]);
+		integer xLag = boost::any_cast<integer>(argSet[4]);
+		integer yLag = boost::any_cast<integer>(argSet[5]);
+		integer wLag = boost::any_cast<integer>(argSet[6]);
+		integer kNearest = boost::any_cast<integer>(argSet[7]);
 		
-		Cell* xCell = 0;
-		Cell* yCell = 0;
-		Cell* wCell = 0;
-		integer timeWindowRadius = 0;
-		integer xLag = 0;
-		integer yLag = 0;
-		integer wLag = 0;
-		integer kNearest = 1;
-		
+		// Check parameters.
+
 		bool error = false;
-		try
-		{
-			xCell = boost::any_cast<Cell*>(*argSet[0]);
-			yCell = boost::any_cast<Cell*>(*argSet[1]);
-			wCell = boost::any_cast<Cell*>(*argSet[2]);
-			if (args > 3)
-			{
-				timeWindowRadius = boost::any_cast<integer>(*argSet[3]);
-			}
-			if (args > 4)
-			{
-				xLag = boost::any_cast<integer>(*argSet[4]);
-			}
-			if (args > 5)
-			{
-				yLag = boost::any_cast<integer>(*argSet[5]);
-			}
-			if (args > 6)
-			{
-				wLag = boost::any_cast<integer>(*argSet[6]);
-			}
-			if (args > 7)
-			{
-				kNearest = boost::any_cast<integer>(*argSet[7]);
-			}
-		}
-		catch(const boost::bad_any_cast&)
-		{
-			reportError(location, "Invalid argument type.");
-			error = true;
-		}
-		
 		if (timeWindowRadius < 0)
 		{
-			reportError(location, "timeWindowRadius must be non-negative.");
+			reportError("timeWindowRadius must be non-negative.");
 			error = true;
 		}
 		
 		if (kNearest < 1)
 		{
-			reportError(location, "kNearest must be at least 1.");
+			reportError("kNearest must be at least 1.");
 			error = true;
 		}
 		
 		if (error)
 		{
-			return new boost::any;
+			return boost::any();
 		}
+
+		// Compute.
 		
 		std::vector<real> teSet;
 		
@@ -591,78 +836,45 @@ namespace Tim
 		std::copy(teSet.begin(), teSet.end(),
 			signal->data().begin());
 			
-		return new boost::any(signal);
+		return boost::any(signal);
 	}
 
-	boost::any* transfer_entropy_pt(const YYLTYPE& location, const AnySet& argSet)
+	boost::any transfer_entropy_pt(const AnySet& argSet)
 	{
-		const integer args = argSet.size();
-		
-		Cell* xCell = 0;
-		Cell* yCell = 0;
-		Cell* zCell = 0;
-		Cell* wCell = 0;
-		integer timeWindowRadius = 0;
-		integer xLag = 0;
-		integer yLag = 0;
-		integer zLag = 0;
-		integer wLag = 0;
-		integer kNearest = 1;
-		
+		// Retrieve parameters.
+
+		Cell* xCell = boost::any_cast<Cell*>(argSet[0]);
+		Cell* yCell = boost::any_cast<Cell*>(argSet[1]);
+		Cell* zCell = boost::any_cast<Cell*>(argSet[2]);
+		Cell* wCell = boost::any_cast<Cell*>(argSet[3]);
+		integer timeWindowRadius = boost::any_cast<integer>(argSet[4]);
+		integer xLag = boost::any_cast<integer>(argSet[5]);
+		integer yLag = boost::any_cast<integer>(argSet[6]);
+		integer zLag = boost::any_cast<integer>(argSet[7]);
+		integer wLag = boost::any_cast<integer>(argSet[8]);
+		integer kNearest = boost::any_cast<integer>(argSet[9]);
+
+		// Check parameters.
+
 		bool error = false;
-		try
-		{
-			xCell = boost::any_cast<Cell*>(*argSet[0]);
-			yCell = boost::any_cast<Cell*>(*argSet[1]);
-			zCell = boost::any_cast<Cell*>(*argSet[2]);
-			wCell = boost::any_cast<Cell*>(*argSet[3]);
-			if (args > 4)
-			{
-				timeWindowRadius = boost::any_cast<integer>(*argSet[4]);
-			}
-			if (args > 5)
-			{
-				xLag = boost::any_cast<integer>(*argSet[5]);
-			}
-			if (args > 6)
-			{
-				yLag = boost::any_cast<integer>(*argSet[6]);
-			}
-			if (args > 7)
-			{
-				zLag = boost::any_cast<integer>(*argSet[7]);
-			}
-			if (args > 8)
-			{
-				wLag = boost::any_cast<integer>(*argSet[8]);
-			}
-			if (args > 9)
-			{
-				kNearest = boost::any_cast<integer>(*argSet[9]);
-			}
-		}
-		catch(const boost::bad_any_cast&)
-		{
-			reportError(location, "Invalid argument type.");
-			error = true;
-		}
-		
 		if (timeWindowRadius < 0)
 		{
-			reportError(location, "timeWindowRadius must be non-negative.");
+			reportError("timeWindowRadius must be non-negative.");
 			error = true;
 		}
 		
 		if (kNearest < 1)
 		{
-			reportError(location, "kNearest must be at least 1.");
+			reportError("kNearest must be at least 1.");
 			error = true;
 		}
 		
 		if (error)
 		{
-			return new boost::any;
+			return boost::any();
 		}
+
+		// Compute.
 		
 		std::vector<real> teSet;
 		
@@ -680,60 +892,36 @@ namespace Tim
 		std::copy(teSet.begin(), teSet.end(),
 			signal->data().begin());
 			
-		return new boost::any(signal);
+		return boost::any(signal);
 	}
 
-	boost::any* transfer_entropy(const YYLTYPE& location, const AnySet& argSet)
+	boost::any transfer_entropy(const AnySet& argSet)
 	{
-		const integer args = argSet.size();
-		
-		Cell* xCell = 0;
-		Cell* yCell = 0;
-		Cell* wCell = 0;
-		integer xLag = 0;
-		integer yLag = 0;
-		integer wLag = 0;
-		integer kNearest = 1;
-		
+		// Retrieve parameters.
+
+		Cell* xCell = boost::any_cast<Cell*>(argSet[0]);
+		Cell* yCell = boost::any_cast<Cell*>(argSet[1]);
+		Cell* wCell = boost::any_cast<Cell*>(argSet[2]);
+		integer xLag = boost::any_cast<integer>(argSet[3]);
+		integer yLag = boost::any_cast<integer>(argSet[4]);
+		integer wLag = boost::any_cast<integer>(argSet[5]);
+		integer kNearest = boost::any_cast<integer>(argSet[6]);
+
+		// Check parameters.
+
 		bool error = false;
-		try
-		{
-			xCell = boost::any_cast<Cell*>(*argSet[0]);
-			yCell = boost::any_cast<Cell*>(*argSet[1]);
-			wCell = boost::any_cast<Cell*>(*argSet[2]);
-			if (args > 3)
-			{
-				xLag = boost::any_cast<integer>(*argSet[3]);
-			}
-			if (args > 4)
-			{
-				yLag = boost::any_cast<integer>(*argSet[4]);
-			}
-			if (args > 5)
-			{
-				wLag = boost::any_cast<integer>(*argSet[5]);
-			}
-			if (args > 6)
-			{
-				kNearest = boost::any_cast<integer>(*argSet[6]);
-			}
-		}
-		catch(const boost::bad_any_cast&)
-		{
-			reportError(location, "Invalid argument type.");
-			error = true;
-		}
-		
 		if (kNearest < 1)
 		{
-			reportError(location, "kNearest must be at least 1.");
+			reportError("kNearest must be at least 1.");
 			error = true;
 		}
 		
 		if (error)
 		{
-			return new boost::any;
+			return boost::any();
 		}
+
+		// Compute.
 		
 		const real te = transferEntropy(
 			forwardRange(xCell->begin(), xCell->end()),
@@ -742,67 +930,38 @@ namespace Tim
 			xLag, yLag, wLag,
 			kNearest);
 			
-		return new boost::any(te);
+		return boost::any(te);
 	}
 
-	boost::any* transfer_entropy_p(const YYLTYPE& location, const AnySet& argSet)
+	boost::any transfer_entropy_p(const AnySet& argSet)
 	{
-		const integer args = argSet.size();
+		// Retrieve parameters.
 		
-		Cell* xCell = 0;
-		Cell* yCell = 0;
-		Cell* zCell = 0;
-		Cell* wCell = 0;
-		integer xLag = 0;
-		integer yLag = 0;
-		integer zLag = 0;
-		integer wLag = 0;
-		integer kNearest = 1;
-		
+		Cell* xCell = boost::any_cast<Cell*>(argSet[0]);
+		Cell* yCell = boost::any_cast<Cell*>(argSet[1]);
+		Cell* zCell = boost::any_cast<Cell*>(argSet[2]);
+		Cell* wCell = boost::any_cast<Cell*>(argSet[3]);
+		integer xLag = boost::any_cast<integer>(argSet[4]);
+		integer yLag = boost::any_cast<integer>(argSet[5]);
+		integer zLag = boost::any_cast<integer>(argSet[6]);
+		integer wLag = boost::any_cast<integer>(argSet[7]);
+		integer kNearest = boost::any_cast<integer>(argSet[8]);
+
+		// Check parameters.
+
 		bool error = false;
-		try
-		{
-			xCell = boost::any_cast<Cell*>(*argSet[0]);
-			yCell = boost::any_cast<Cell*>(*argSet[1]);
-			zCell = boost::any_cast<Cell*>(*argSet[2]);
-			wCell = boost::any_cast<Cell*>(*argSet[3]);
-			if (args > 4)
-			{
-				xLag = boost::any_cast<integer>(*argSet[4]);
-			}
-			if (args > 5)
-			{
-				yLag = boost::any_cast<integer>(*argSet[5]);
-			}
-			if (args > 6)
-			{
-				zLag = boost::any_cast<integer>(*argSet[6]);
-			}
-			if (args > 7)
-			{
-				wLag = boost::any_cast<integer>(*argSet[7]);
-			}
-			if (args > 8)
-			{
-				kNearest = boost::any_cast<integer>(*argSet[8]);
-			}
-		}
-		catch(const boost::bad_any_cast&)
-		{
-			reportError(location, "Invalid argument type.");
-			error = true;
-		}
-		
 		if (kNearest < 1)
 		{
-			reportError(location, "kNearest must be at least 1.");
+			reportError("kNearest must be at least 1.");
 			error = true;
 		}
 		
 		if (error)
 		{
-			return new boost::any;
+			return boost::any();
 		}
+
+		// Compute.
 		
 		const real pte = partialTransferEntropy(
 			forwardRange(xCell->begin(), xCell->end()),
@@ -812,38 +971,23 @@ namespace Tim
 			xLag, yLag, zLag, wLag,
 			kNearest);
 			
-		return new boost::any(pte);
+		return boost::any(pte);
 	}
 
-	boost::any* divergence_wkv(const YYLTYPE& location, const AnySet& argSet)
+	boost::any divergence_wkv(const AnySet& argSet)
 	{
-		const integer args = argSet.size();
-		
-		Cell* xCell = 0;
-		Cell* yCell = 0;
-		
-		bool error = false;
-		try
-		{
-			xCell = boost::any_cast<Cell*>(*argSet[0]);
-			yCell = boost::any_cast<Cell*>(*argSet[1]);
-		}
-		catch(const boost::bad_any_cast&)
-		{
-			reportError(location, "Invalid argument type.");
-			error = true;
-		}
-		
-		if (error)
-		{
-			return new boost::any;
-		}
-		
+		// Retrieve parameters.
+
+		Cell* xCell = boost::any_cast<Cell*>(argSet[0]);
+		Cell* yCell = boost::any_cast<Cell*>(argSet[1]);
+
+		// Compute.
+
 		const real div = divergenceWkv(
 			forwardRange(xCell->begin(), xCell->end()),
 			forwardRange(yCell->begin(), yCell->end()));
 			
-		return new boost::any(div);
+		return boost::any(div);
 	}
 
 }

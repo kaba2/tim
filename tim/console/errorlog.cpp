@@ -6,7 +6,7 @@ namespace Tim
 	void ErrorLog::report(integer line, const std::string& text)
 	{
 		//errorMap_.insert(std::make_pair(line, text));
-		std::cout << "Error at line " << line << ": " << text << std::endl;
+		std::cerr << "Error at line " << line << ": " << text << std::endl;
 		exit(1);
 	}
 
@@ -33,6 +33,11 @@ namespace Tim
 		}
 
 		return stream;
+	}
+
+	void reportError(const std::string& text)
+	{
+		std::cerr << text << std::endl;
 	}
 
 }

@@ -1,7 +1,7 @@
 Built-in functions
 ==================
 
-[Parent]: tim_console.txt
+[[Parent]]: tim_console.txt
 
 TIM Console interface defines a set of functions
 which are used to compute the needed estimates.

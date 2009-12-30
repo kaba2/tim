@@ -1,5 +1,5 @@
 TIM Console interface implementation
 ======================================
 
-[Parent]: tim_console.txt
+[[Parent]]: tim_console.txt
 

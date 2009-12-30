@@ -230,6 +230,10 @@
 			</File>
 		</Filter>
 		<File
+			RelativePath=".\ast.h"
+			>
+		</File>
+		<File
 			RelativePath=".\console_parser.h"
 			>
 		</File>
@@ -301,6 +305,14 @@
 		</File>
 		<File
 			RelativePath=".\functions.txt"
+			>
+		</File>
+		<File
+			RelativePath=".\interpreter.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\interpreter.h"
 			>
 		</File>
 		<File

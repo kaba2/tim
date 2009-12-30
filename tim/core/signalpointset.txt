@@ -1,7 +1,7 @@
 SignalPointSet class
 ====================
 
-[Parent]: tim_core.txt
+[[Parent]]: tim_core.txt
 
 Theory
 ------
@@ -30,5 +30,5 @@ window arbitrarily.
 See also
 --------
 
-[Link]: /pastel/geometry/pointkdtree.txt
+[[Link]]: /pastel/geometry/pointkdtree.txt
 

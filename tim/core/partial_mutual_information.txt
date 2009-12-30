@@ -1,7 +1,7 @@
 Partial mutual information
 ==========================
 
-[Parent]: entropy_combination.txt
+[[Parent]]: entropy_combination.txt
 
 Theory
 ------

@@ -1,7 +1,7 @@
 TIM Console interface
 =======================
 
-[Parent]: tim.txt
+[[Parent]]: tim.txt
 
 The TIM Console interface is one of the three ways to access the 
 functionality in TIM. This interface offers a minimalistic 

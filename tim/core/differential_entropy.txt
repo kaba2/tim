@@ -1,7 +1,7 @@
 Differential entropy
 ====================
 
-[Parent]: estimators.txt
+[[Parent]]: estimators.txt
 
 Theory
 ------

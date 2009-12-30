@@ -5,29 +5,33 @@
 
 #include "tim/console/console_scanner.h"
 
+#include <string>
+
 #include <boost/any.hpp>
 
 namespace Tim
 {
 
-	boost::any* load(const YYLTYPE& location, const AnySet& argSet);
+	boost::any functionCall(const std::string& name, const AnySet& argSet);
 
-	boost::any* differential_entropy_kl(const YYLTYPE& location, const AnySet& argSet);
-	boost::any* differential_entropy_kl_t(const YYLTYPE& location, const AnySet& argSet);
+	boost::any load(const AnySet& argSet);
 
-	boost::any* differential_entropy_nk(const YYLTYPE& location, const AnySet& argSet);
+	boost::any differential_entropy_kl(const AnySet& argSet);
+	boost::any differential_entropy_kl_t(const AnySet& argSet);
 
-	boost::any* mutual_information_t(const YYLTYPE& location, const AnySet& argSet);
-	boost::any* mutual_information(const YYLTYPE& location, const AnySet& argSet);
-	boost::any* mutual_information_pt(const YYLTYPE& location, const AnySet& argSet);
-	boost::any* mutual_information_p(const YYLTYPE& location, const AnySet& argSet);
+	boost::any differential_entropy_nk(const AnySet& argSet);
 
-	boost::any* transfer_entropy_t(const YYLTYPE& location, const AnySet& argSet);
-	boost::any* transfer_entropy_pt(const YYLTYPE& location, const AnySet& argSet);
-	boost::any* transfer_entropy(const YYLTYPE& location, const AnySet& argSet);
-	boost::any* transfer_entropy_p(const YYLTYPE& location, const AnySet& argSet);
+	boost::any mutual_information_t(const AnySet& argSet);
+	boost::any mutual_information(const AnySet& argSet);
+	boost::any mutual_information_pt(const AnySet& argSet);
+	boost::any mutual_information_p(const AnySet& argSet);
 
-	boost::any* divergence_wkv(const YYLTYPE& location, const AnySet& argSet);
+	boost::any transfer_entropy_t(const AnySet& argSet);
+	boost::any transfer_entropy_pt(const AnySet& argSet);
+	boost::any transfer_entropy(const AnySet& argSet);
+	boost::any transfer_entropy_p(const AnySet& argSet);
+
+	boost::any divergence_wkv(const AnySet& argSet);
 
 }
 
