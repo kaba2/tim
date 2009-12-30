@@ -1,4 +1,4 @@
-#include "tim/console/interpreter.h"
+#include "tim/console/interpreter_astvisitor.h"
 #include "tim/console/functions.h"
 #include "tim/console/errorlog.h"
 
@@ -6,6 +6,13 @@
 
 namespace Tim
 {
+
+	Interpreter_AstVisitor::Interpreter_AstVisitor()
+		: symbolMap_()
+	{
+		symbolMap_.insert(std::make_pair("gaussian", 
+			boost::any(generateGaussian(5000, 10))));
+	}
 
 	void Interpreter_AstVisitor::visit(const Program_AstNode& node)
 	{

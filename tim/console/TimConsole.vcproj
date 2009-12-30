@@ -539,11 +539,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\interpreter.cpp"
+			RelativePath=".\interpreter_astvisitor.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\interpreter.h"
+			RelativePath=".\interpreter_astvisitor.h"
 			>
 		</File>
 		<File

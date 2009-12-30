@@ -58,7 +58,7 @@ namespace Tim
 	std::string* string;
 }
 
-%token <string> T_INTEGER T_REAL T_IDENTIFIER T_PRINT T_GAUSSIAN T_STRING
+%token <string> T_INTEGER T_REAL T_IDENTIFIER T_PRINT T_STRING
 
 %type <program> program
 %type <statement> statement
@@ -222,11 +222,7 @@ string
 	;
 
 real_array
-	: T_GAUSSIAN
-	{
-		$$ = new RealArray_AstNode(generateGaussian(10000, 10));
-	}
-	| '[' real_array_content  ']'
+	: '[' real_array_content  ']'
 	{
 		RealSetSet* realArray = $2;
 		

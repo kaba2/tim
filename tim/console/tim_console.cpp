@@ -5,7 +5,7 @@
 #include <string>
 
 #include "tim/console/console_parser.h"
-#include "tim/console/interpreter.h"
+#include "tim/console/interpreter_astvisitor.h"
 #include "tim/console/printer_astvisitor.h"
 #include "tim/console/errorlog.h"
 
