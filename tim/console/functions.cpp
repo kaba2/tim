@@ -58,6 +58,11 @@ namespace Tim
 				reportError("'series' must be non-negative.");
 				error = true;
 			}
+			if (order->data().size() != 4)
+			{
+				reportError("'order' must have exactly 4 elements.");
+				error = true;
+			}
 
 			const Tuple<integer, 4> permutation(
 				order->data()(0),
@@ -1096,11 +1101,13 @@ namespace Tim
 	boost::any functionCall(const std::string& name, const AnySet& argSet)
 	{
 		initializeFunctions();
+
+		ErrorLog_Namespace errorName(name + "(): ");
 	
 		FunctionIterator iter = functionMap.find(name);
 		if (iter == functionMap.end())
 		{
-			reportError("Undefined function '" + name + "'.");
+			reportError("Undefined function.");
 			throw FunctionCall_Exception();
 		}
 
@@ -1110,12 +1117,12 @@ namespace Tim
 
 		if (inputArgs > callArgs)
 		{
-			reportError(name + "(): Too many arguments.");
+			reportError("Too many arguments.");
 			throw FunctionCall_Exception();
 		}
 		if (inputArgs < info.minArgs)
 		{
-			reportError(name + "(): Not enough arguments (min " + integerToString(info.minArgs) + ").");
+			reportError("Not enough arguments (min " + integerToString(info.minArgs) + ").");
 			throw FunctionCall_Exception();
 		}
 
@@ -1124,7 +1131,7 @@ namespace Tim
 		{
 			if (argSet[i].type() != info.parameterSet[i].type())
 			{
-				reportError(name + "(): Parameter " + integerToString(i) + " is of the wrong type.");
+				reportError("Parameter " + integerToString(i) + " is of the wrong type.");
 				error = true;
 			}
 		}
@@ -1140,7 +1147,9 @@ namespace Tim
 			callSet.push_back(info.parameterSet[i]);
 		}
 
-		return info.callback(callSet, inputArgs);
+		boost::any result = info.callback(callSet, inputArgs);
+
+		return result;
 	}
 
 }

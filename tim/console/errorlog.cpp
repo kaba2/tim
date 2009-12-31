@@ -4,18 +4,42 @@ namespace Tim
 {
 
 	ErrorLog::ErrorLog()
-		: line_(0)
+		: errorMap_()
+		, line_(0)
+		, nameStack_()
 	{
+	}
+
+	void ErrorLog::pushNamespace(const std::string& name)
+	{
+		nameStack_.push_back(name);
+	}
+
+	void ErrorLog::popNamespace()
+	{
+		nameStack_.pop_back();
+	}
+
+	std::string ErrorLog::prefix() const
+	{
+		std::string namePrefix;
+		const integer names = nameStack_.size();
+		for (integer i = 0;i < names;++i)
+		{
+			namePrefix += nameStack_[i];
+		}
+		
+		return namePrefix;
 	}
 
 	void ErrorLog::report(const std::string& text)
 	{
-		errorMap_.insert(std::make_pair(line_, text));
+		errorMap_.insert(std::make_pair(line_, prefix() + text));
 	}
 
 	void ErrorLog::report(integer line, const std::string& text)
 	{
-		errorMap_.insert(std::make_pair(line, text));
+		errorMap_.insert(std::make_pair(line, prefix() + text));
 	}
 
 	const ErrorLog::Container& ErrorLog::map() const
