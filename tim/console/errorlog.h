@@ -22,6 +22,10 @@ namespace Tim
 
 		ErrorLog();
 
+		void pushNamespace(const std::string& name);
+		void popNamespace();
+		std::string prefix() const;
+
 		void report(const std::string& text);
 		void report(integer line, const std::string& text);
 
@@ -33,6 +37,7 @@ namespace Tim
 	private:
 		 Container errorMap_;
 		 integer line_;
+		 std::vector<std::string> nameStack_;
 	};
 
 	ErrorLog& errorLog();
@@ -41,6 +46,20 @@ namespace Tim
 
 	void reportError(const std::string& text);
 
+	class ErrorLog_Namespace
+	{
+	public:
+		explicit ErrorLog_Namespace(
+			const std::string& name)
+		{
+			errorLog().pushNamespace(name);
+		}
+		
+		~ErrorLog_Namespace()
+		{
+			errorLog().popNamespace();
+		}
+	};
 
 }
 
