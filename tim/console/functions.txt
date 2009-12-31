@@ -20,6 +20,43 @@ The function definitions are given in the following form:
 
 	function-name '(' (parameter-name ('=' default-value)? : parameter-type) % ',' ')' : return-type
 
+### Import functions
+
+	read_csv(
+		filename : string,
+		samples = 0 : integer,
+		dimension = 1 : integer,
+		trials = 1 : integer,
+		series = 1 : integer,
+		separatorSet = ",;" : string,
+		order = [0, 1, 2, 3] : real-array) : cell-array
+		
+This function reads data from a simple list of values separated by separator characters.
+Because the data is stored 'flat' in the file, you need to specify in the function call
+the dimension and the number of samples each signal has, as well as the number of trials
+for each signal and the number of series. The effect of this function is to read the 
+data from the file and split this flat data into a cell-array of signals.
+In case only the filename is given, the function reads as many samples as possible 
+(and assumes the default values for other parameters).
+
+Values are separated by white-space. However, if there are additional one-character 
+separators between values, these can be ignored by specifying them in the 'separatorSet'
+string.
+
+Because multi-dimensional data can be flattened in various ways, we also provide 
+the 'order' parameter to be able to set the assumed flattening order. It is interpreted
+as an integer array which must contain exactly the elements 0, 1, 2, and 3, in some order.
+The extents of the order array do not matter, since it is considered by its linearization.
+The correspondences are as follows:
+
+ * 0 corresponds to iteration over samples
+ * 1 corresponds to iteration over dimensions
+ * 2 corresponds to iteration over trials
+ * 3 corresponds to iteration over series'
+	
+The 'order' tuple then defines the priority of iteration (or order of flattening) for the 
+data. Notice that the numbers correspond to the order of the parameters in the function.
+
 ### Differential entropy
 
 	differential_entropy_kl(

@@ -44,6 +44,7 @@ int main(int argc, char **argv)
 		}
 
 		delete programAst;
+		programAst = 0;
 	}
 
 	// Output the possible error reports.
