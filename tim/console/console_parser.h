@@ -1,4 +1,5 @@
-// Description: Parser and interpreter
+// Description: Parser definitions
+// Detail: GNU Bison is used to generate a scanner from a grammar.
 // Documentation: tim_console_cpp.txt
 
 #ifndef TIM_CONSOLE_PARSER_H
@@ -15,9 +16,6 @@ extern int console_debug;
 
 namespace Tim
 {
-
-	void printErrors(std::ostream& stream);
-	void reportError(const YYLTYPE& location, const std::string& text);
 
 	extern Program_AstNode* programAst;
 

@@ -4,6 +4,10 @@
 %name-prefix = "console_"
 
 %{
+// Description: GNU Bison-generated parser code
+// Detail: Generated from console\_parser.y.
+// Documentation: tim_console_cpp.txt
+
 #include <iostream>
 #include <string>
 #include <stdio.h>
@@ -29,8 +33,6 @@ int console_lex();
 
 namespace Tim
 {
-
-	void reportError(const YYLTYPE& location, const std::string& text);
 
 	Program_AstNode* programAst;
 
@@ -420,14 +422,4 @@ void console_error(const std::string& s)
 void console_error(char *s)
 {
 	console_error(std::string(s));
-}
-
-namespace Tim
-{
-
-	void reportError(const YYLTYPE& location, const std::string& text)
-	{
-		errorLog().report(location.first_line, text);
-	}
-	
 }

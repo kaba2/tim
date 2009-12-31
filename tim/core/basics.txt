@@ -28,7 +28,7 @@ Whenever a template function parametrizes an iterator range, the types
 of the iterators are named in the form DereferencedType_Iterator. Here is
 an example function template declaration from TIM:
 
-	[[CppCode]]:
+[[CppCode]]:
 	template <
 		typename SignalPtr_Iterator, 
 		typename Real_OutputIterator>

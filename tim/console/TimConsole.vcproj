@@ -427,6 +427,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\astvisitor.h"
+			>
+		</File>
+		<File
 			RelativePath=".\console_parser.h"
 			>
 		</File>
@@ -544,6 +548,10 @@
 		</File>
 		<File
 			RelativePath=".\interpreter_astvisitor.h"
+			>
+		</File>
+		<File
+			RelativePath=".\lex.console_.h"
 			>
 		</File>
 		<File
