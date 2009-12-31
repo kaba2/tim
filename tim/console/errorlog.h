@@ -20,13 +20,19 @@ namespace Tim
 		typedef std::multimap<integer, std::string> Container;
 		typedef Container::const_iterator ConstIterator;
 
+		ErrorLog();
+
 		void report(const std::string& text);
 		void report(integer line, const std::string& text);
 
-		const Container& map() const;	
+		const Container& map() const;
+		
+		void setLine(integer line);
+		integer line() const;
 
 	private:
 		 Container errorMap_;
+		 integer line_;
 	};
 
 	ErrorLog& errorLog();

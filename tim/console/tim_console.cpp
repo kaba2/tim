@@ -40,8 +40,10 @@ int main(int argc, char **argv)
 		}
 		catch(const Interpreter_Exception&)
 		{
-			std::cerr << "There were errors while interpreting the code..." << std::endl;
+			std::cerr << "Semantic errors found!" << std::endl;
 		}
+
+		delete programAst;
 	}
 
 	// Output the possible error reports.

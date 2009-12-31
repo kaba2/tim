@@ -34,7 +34,11 @@ namespace Tim
 		}
 	};
 
-	class Statement_AstNode;
+	class Statement_AstNode
+		: public AstNodeBase<Statement_AstNode, AstNode>
+	{
+	};
+
 	typedef std::vector<Statement_AstNode*> StatementSet;
 
 	class Program_AstNode
@@ -47,6 +51,16 @@ namespace Tim
 		{
 		}
 
+		~Program_AstNode()
+		{
+			const integer statements = statementSet_->size();
+			for (integer i = 0;i < statements;++i)
+			{
+				delete (*statementSet_)[i];
+			}
+			delete statementSet_;
+		}
+
 		const StatementSet& statementSet() const
 		{
 			return *statementSet_;
@@ -54,11 +68,6 @@ namespace Tim
 
 	private:
 		const StatementSet* statementSet_;
-	};
-
-	class Statement_AstNode
-		: public AstNodeBase<Statement_AstNode, AstNode>
-	{
 	};
 
 	// Statements
@@ -80,6 +89,11 @@ namespace Tim
 			: name_(name)
 			, expression_(expression)
 		{
+		}
+
+		~Declaration_AstNode()
+		{
+			delete expression_;
 		}
 
 		const std::string& name() const
@@ -105,6 +119,11 @@ namespace Tim
 			Expression_AstNode* expression)
 			: expression_(expression)
 		{
+		}
+
+		~Print_AstNode()
+		{
+			delete expression_;
 		}
 
 		Expression_AstNode* expression() const
@@ -204,6 +223,11 @@ namespace Tim
 		{
 		}
 
+		~CellArray_AstNode()
+		{
+			delete data_;
+		}
+
 		const Array<std::string>& cellArray() const
 		{
 			return *data_;
@@ -242,6 +266,15 @@ namespace Tim
 			: name_(name)
 			, expressionSet_(expressionSet)
 		{
+		}
+
+		~FunctionCall_AstNode()
+		{
+			const integer expressions = expressionSet_->size();
+			for (integer i = 0;i < expressions;++i)
+			{
+				delete (*expressionSet_)[i];
+			}
 		}
 
 		const std::string& name() const
