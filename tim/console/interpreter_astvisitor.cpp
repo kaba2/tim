@@ -49,6 +49,37 @@ namespace Tim
 
 		try
 		{
+			Array<SignalPtr>* cellArray = boost::any_cast<Array<SignalPtr>*>(value);
+			std::cout << "{";
+
+			const integer trials = cellArray->width();
+			const integer series = cellArray->height();
+			for (integer y = 0;y < series;++y)
+			{
+				if (y > 0)
+				{
+					std::cout << ";" << std::endl;
+				}
+				for (integer x = 0;x < trials;++x)
+				{
+					if (x > 0)
+					{
+						std::cout << ", ";
+					}
+
+					const SignalPtr signal = (*cellArray)(x, y);
+					std::cout << "[" << signal->dimension() << " x " << signal->samples() << " signal]";
+					//std::cout << *signal << std::endl;
+				}
+			}
+			std::cout << "}" << std::endl;
+		}
+		catch(const boost::bad_any_cast&)
+		{
+		}
+
+		try
+		{
 			SignalPtr signal = boost::any_cast<SignalPtr>(value);
 			std::cout << *signal << std::endl;
 		}
