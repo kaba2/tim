@@ -3,16 +3,34 @@
 namespace Tim
 {
 
+	ErrorLog::ErrorLog()
+		: line_(0)
+	{
+	}
+
+	void ErrorLog::report(const std::string& text)
+	{
+		errorMap_.insert(std::make_pair(line_, text));
+	}
+
 	void ErrorLog::report(integer line, const std::string& text)
 	{
-		//errorMap_.insert(std::make_pair(line, text));
-		std::cerr << "Line " << line << ": " << text << std::endl;
-		exit(1);
+		errorMap_.insert(std::make_pair(line, text));
 	}
 
 	const ErrorLog::Container& ErrorLog::map() const
 	{
 		return errorMap_;
+	}
+
+	void ErrorLog::setLine(integer line)
+	{
+		line_ = line;
+	}
+
+	integer ErrorLog::line() const
+	{
+		return line_;
 	}
 
 	ErrorLog& errorLog()
@@ -25,17 +43,13 @@ namespace Tim
 		std::ostream& stream, 
 		const ErrorLog& errorLog)
 	{
-		if (!errorLog.map().empty())
+		ErrorLog::ConstIterator iter = errorLog.map().begin();
+		const ErrorLog::ConstIterator iterEnd = errorLog.map().end();
+		while(iter != iterEnd)
 		{
-			stream << "Errors occurred." << std::endl;
-
-			ErrorLog::ConstIterator iter = errorLog.map().begin();
-			const ErrorLog::ConstIterator iterEnd = errorLog.map().end();
-			while(iter != iterEnd)
-			{
-				stream << "Line " << iter->first << ": " << iter->second << std::endl;
-				++iter;
-			}
+			stream << "Line " << iter->first << ": ";
+			stream << iter->second << std::endl;
+			++iter;
 		}
 
 		return stream;
@@ -43,7 +57,7 @@ namespace Tim
 
 	void reportError(const std::string& text)
 	{
-		errorLog().report(-1, text);
+		errorLog().report(text);
 	}
 
 }

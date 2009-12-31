@@ -460,7 +460,7 @@ namespace Tim
 		if (!file.is_open())
 		{
 			std::cerr << "Error: Could not open data file " << fileName << "." << std::endl;
-			return boost::any();
+			throw FunctionCall_Exception();
 		}
 
 		while(file >> value)
@@ -475,7 +475,7 @@ namespace Tim
 			{
 				std::cerr << "Error: Data file " << fileName << " had an invalid separator " 
 					<< separator << "." << std::endl;
-				break;
+				throw FunctionCall_Exception();
 			}
 		}
 
@@ -511,7 +511,7 @@ namespace Tim
 		
 		if (error)
 		{
-			return boost::any();
+			throw FunctionCall_Exception();
 		}
 
 		// Compute.
@@ -555,7 +555,7 @@ namespace Tim
 		
 		if (error)
 		{
-			return boost::any();
+			throw FunctionCall_Exception();
 		}
 
 		// Compute.
@@ -593,7 +593,7 @@ namespace Tim
 		
 		if (error)
 		{
-			return boost::any();
+			throw FunctionCall_Exception();
 		}
 
 		// Compute.
@@ -641,7 +641,7 @@ namespace Tim
 		
 		if (error)
 		{
-			return boost::any();
+			throw FunctionCall_Exception();
 		}
 
 		// Compute.
@@ -684,7 +684,7 @@ namespace Tim
 		
 		if (error)
 		{
-			return boost::any();
+			throw FunctionCall_Exception();
 		}
 
 		// Compute.
@@ -728,7 +728,7 @@ namespace Tim
 		
 		if (error)
 		{
-			return boost::any();
+			throw FunctionCall_Exception();
 		}
 
 		// Compute.
@@ -774,7 +774,7 @@ namespace Tim
 		
 		if (error)
 		{
-			return boost::any();
+			throw FunctionCall_Exception();
 		}
 
 		// Compute.
@@ -819,7 +819,7 @@ namespace Tim
 		
 		if (error)
 		{
-			return boost::any();
+			throw FunctionCall_Exception();
 		}
 
 		// Compute.
@@ -874,7 +874,7 @@ namespace Tim
 		
 		if (error)
 		{
-			return boost::any();
+			throw FunctionCall_Exception();
 		}
 
 		// Compute.
@@ -921,7 +921,7 @@ namespace Tim
 		
 		if (error)
 		{
-			return boost::any();
+			throw FunctionCall_Exception();
 		}
 
 		// Compute.
@@ -961,7 +961,7 @@ namespace Tim
 		
 		if (error)
 		{
-			return boost::any();
+			throw FunctionCall_Exception();
 		}
 
 		// Compute.
