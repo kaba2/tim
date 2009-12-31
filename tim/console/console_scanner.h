@@ -1,4 +1,4 @@
-// Description: Lexical analyzer
+// Description: Tokenizer definitions
 // Documentation: tim_console_cpp.txt
 
 #ifndef TIM_CONSOLE_SCANNER_H

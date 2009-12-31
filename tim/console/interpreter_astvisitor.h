@@ -1,7 +1,11 @@
+// Description: Interpreter_AstVisitor class
+// Detail: Interprets the program stored in the AST.
+// Documentation: tim_console_cpp.txt
+
 #ifndef TIM_INTERPRETER_ASTVISITOR_H
 #define TIM_INTERPRETER_ASTVISITOR_H
 
-#include "tim/console/ast.h"
+#include "tim/console/astvisitor.h"
 
 #include <map>
 #include <string>

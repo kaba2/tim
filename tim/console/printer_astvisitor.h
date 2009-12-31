@@ -1,7 +1,11 @@
+// Description: Printer_AstVisitor class
+// Detail: Visualizes the program's AST.
+// Documentation: tim_console_cpp.txt
+
 #ifndef TIM_PRINTER_ASTVISITOR_H
 #define TIM_PRINTER_ASTVISITOR_H
 
-#include "tim/console/ast.h"
+#include "tim/console/astvisitor.h"
 
 #include <iostream>
 

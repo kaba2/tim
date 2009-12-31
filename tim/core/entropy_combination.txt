@@ -28,8 +28,8 @@ The implementation of the entropy combination estimator requires
 additionally that each ''L_i'' is an interval. This allows to save
 memory by allowing the memory for the joint signal to be
 shared with the marginal signals. It is easily seen that mutual
-information, partial mutual information, and transfer entropy can 
-all be arranged to have this property.
+information, partial mutual information, transfer entropy,
+and partial transfer entropy can all be arranged to have this property.
 
 References
 ----------
