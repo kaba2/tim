@@ -57,6 +57,59 @@ The correspondences are as follows:
 The 'order' tuple then defines the priority of iteration (or order of flattening) for the 
 data. Notice that the numbers correspond to the order of the parameters in the function.
 
+### Export functions
+
+	write_csv(
+		filename : string,
+		data : cell-array,
+		order = [0, 1, 2, 3] : real-array,
+		separatorLevel0 : string = ",",
+		separatorLevel1 : string = ",",
+		separatorLevel2 : string = ",",
+		separatorLevel3 : string = ",",
+		prefixLevel0 : string = "",
+		suffixLevel0 : string = "",
+		prefixLevel1 : string = "",
+		suffixLevel1 : string = "",
+		prefixLevel2 : string = "",
+		suffixLevel2 : string = "",
+		prefixLevel3 : string = "",
+		suffixLevel3 : string = "",
+		prefixLevel4 : string = "",
+		suffixLevel4 : string = "") : integer
+
+This function writes data from a cell-array to a text file.
+The cell-array is flattened to a linear list of values as specified
+by the 'order' argument: to understand its meaning, see the
+documentation for the 'read_csv' function above.
+The function always returns integer 0: this is simply because
+the language does not have a void type.
+
+Since the 'order' argument permutes the order of iterations,
+we shall call the iteration levels 0, 1, 2, and 3, with level 0
+corresponding to the fastest changing iteration.
+Each level can have its values separated by a separator string via
+'separatorLevelX'. Also, each level can be prefixed and suffixed with 
+'prefixLevelX' and 'suffixLevelX', respectively. For example,
+the following function call results in similar output as
+TIM Console takes as input:
+
+	write_csv(
+		"output.txt", 
+		data, 
+		[0, 1, 2, 3],
+		",", ";", ",", ";", 
+		"", "", 
+		"", "", 
+		"[", "]", 
+		"", "", 
+		"{", "}");
+
+In this example, values are separated with a comma and rows are separated 
+with a semi-colon. Signals in a cell-array are separated similarly.
+Signals are prefixed with '[' and suffixed with ']'. The whole cell-array
+is prefixed with '{' and suffixed with '}'.
+
 ### Differential entropy
 
 	differential_entropy_kl(

@@ -76,7 +76,7 @@ namespace Tim
 				check[2] != 2 || check[3] != 3)
 			{
 				reportError("'order' must contain exactly the integers 0, 1, 2, and 3 in some order.");
-				throw FunctionCall_Exception();
+				error = true;
 			}
 
 			std::ifstream file(fileName.c_str());
@@ -125,12 +125,16 @@ namespace Tim
 				{
 					data.push_back(value);
 					++readSamples;
+					if (!samplesUnknown && readSamples == samplesToRead)
+					{
+						// No need to read more samples since
+						// we already got all we need to form the
+						// signals.
+						break;
+					}
 				}
 				if (!samplesUnknown && readSamples == samplesToRead)
 				{
-					// No need to read more samples since
-					// we already got all we need to form the
-					// signals.
 					break;
 				}
 				
@@ -150,10 +154,17 @@ namespace Tim
 				else if (separatorSet.find(separator) == std::string::npos)
 				{
 					// There was something, but it was not a separator either.
-					reportError("Data file " + fileName + " had an invalid separator " +
-						separator + ".");
+					reportError(std::string("Invalid separator ") + separator + ".");
 					throw FunctionCall_Exception();
 				}
+			}
+
+			if (!samplesUnknown && readSamples != samplesToRead)
+			{
+				reportError(std::string("Not enough samples could be read.") + 
+					" Needed " + integerToString(samplesToRead) + 
+					", read " + integerToString(readSamples) + ".");
+				throw FunctionCall_Exception();
 			}
 
 			// Unpack the flattened data to separate signals.
@@ -198,6 +209,163 @@ namespace Tim
 
 			
 			return boost::any(cellArray);
+		}
+
+		boost::any write_csv(const AnySet& argSet, integer passedArgs)
+		{
+			// Retrieve parameters.
+
+			const std::string fileName = boost::any_cast<std::string>(argSet[0]);
+			Array<SignalPtr>* cell = boost::any_cast<Array<SignalPtr>*>(argSet[1]);
+			const SignalPtr order = boost::any_cast<SignalPtr>(argSet[2]);
+			std::string separator0 = boost::any_cast<std::string>(argSet[3]);
+			const std::string separator1 = boost::any_cast<std::string>(argSet[4]);
+			const std::string separator2 = boost::any_cast<std::string>(argSet[5]);
+			const std::string separator3 = boost::any_cast<std::string>(argSet[6]);
+			const std::string prefix0 = boost::any_cast<std::string>(argSet[7]);
+			const std::string suffix0 = boost::any_cast<std::string>(argSet[8]);
+			const std::string prefix1 = boost::any_cast<std::string>(argSet[9]);
+			const std::string suffix1 = boost::any_cast<std::string>(argSet[10]);
+			const std::string prefix2 = boost::any_cast<std::string>(argSet[11]);
+			const std::string suffix2 = boost::any_cast<std::string>(argSet[12]);
+			const std::string prefix3 = boost::any_cast<std::string>(argSet[13]);
+			const std::string suffix3 = boost::any_cast<std::string>(argSet[14]);
+			const std::string prefix4 = boost::any_cast<std::string>(argSet[15]);
+			const std::string suffix4 = boost::any_cast<std::string>(argSet[16]);
+
+			// Check parameters.
+
+			bool error = false;
+			if (order->data().size() != 4)
+			{
+				reportError("'order' must have exactly 4 elements.");
+				error = true;
+			}
+
+			const Tuple<integer, 4> permutation(
+				order->data()(0),
+				order->data()(1),
+				order->data()(2),
+				order->data()(3));
+
+			Tuple<integer, 4> check(permutation);
+			std::sort(check.begin(), check.end());
+			if (check[0] != 0 || check[1] != 1 ||
+				check[2] != 2 || check[3] != 3)
+			{
+				reportError("'order' must contain exactly the integers 0, 1, 2, and 3 in some order.");
+				error = true;
+			}
+
+			std::ofstream file(fileName.c_str());
+			if (!file.is_open())
+			{
+				reportError("Could not open data file " + fileName + " for writing.");
+				error = true;
+			}
+
+			if (error)
+			{
+				throw FunctionCall_Exception();
+			}
+
+			const integer trials = cell->width();
+			const integer series = cell->height();
+			const integer samples = (*cell)(0)->samples();
+			const integer dimension = (*cell)(0)->dimension();
+
+			Vector<integer, 4> width = permute(
+				Vector<integer, 4>(samples, dimension, trials, series),
+				permutation);
+
+			Vector<integer, 4> stride;
+			for (integer i = 0;i < 4;++i)
+			{
+				const integer position = permutation[i];
+				integer accu = 1;
+				for (integer j = 0;j < position;++j)
+				{
+					accu *= width[j];
+				}
+				stride[i] = accu;
+			}
+
+			const integer dataSize = trials * series * samples * dimension;
+
+			std::vector<real> data(dataSize);
+
+			// Write the values into a continuous array.
+
+			for (integer y = 0;y < series;++y)
+			{
+				for (integer x = 0;x < trials;++x)
+				{
+					const SignalPtr signal = (*cell)(x, y);
+					for (integer i = 0;i < dimension;++i)
+					{
+						for (integer j = 0;j < samples;++j)
+						{
+							const integer offset = dot(stride, Vector<integer, 4>(j, i, x, y));
+							data[offset] = signal->data()(j, i);
+						}
+					}
+				}
+			}
+
+			// Write the array into the file.
+
+			if (separator0.empty())
+			{
+				separator0 = " ";
+			}
+
+			integer index = 0;
+
+			file << prefix4;
+			for (integer i3 = 0;i3 < width[3];++i3)
+			{
+				if (i3 > 0)
+				{
+					file << separator3;
+					file << std::endl;
+				}
+				file << prefix3;
+				for (integer i2 = 0;i2 < width[2];++i2)
+				{
+					if (i2 > 0)
+					{
+						file << separator2;
+						file << std::endl;
+					}
+					file << prefix2;
+					for (integer i1 = 0;i1 < width[1];++i1)
+					{
+						if (i1 > 0)
+						{
+							file << separator1;
+							file << std::endl;
+						}
+						file << prefix1;
+						for (integer i0 = 0;i0 < width[0];++i0)
+						{
+							if (i0 > 0)
+							{
+								file << separator0;
+							}
+							file << prefix0;
+							file << data[index];
+							file << suffix0;
+							++index;
+						}
+						file << suffix1;
+					}
+					file << suffix2;
+				}
+				file << suffix3;
+			}
+			file << suffix4;
+
+			return boost::any((integer)0);
 		}
 
 		boost::any differential_entropy_kl(const AnySet& argSet, integer passedArgs)
@@ -781,6 +949,60 @@ namespace Tim
 					FunctionInfo(
 						read_csv, 
 						forwardRange(parameterSet), 1)));
+			}
+
+			// write_csv
+			{
+				SignalPtr order = SignalPtr(new Signal(4, 1));
+				order->data()(0) = 0;
+				order->data()(1) = 1;
+				order->data()(2) = 2;
+				order->data()(3) = 3;
+
+				boost::any parameterSet[] =
+				{
+					// filename
+					boost::any(std::string()),
+					// data
+					boost::any((Cell*)0),
+					// order
+					boost::any(order),
+					// separatorLevel0
+					boost::any(std::string(",")),
+					// separatorLevel1
+					boost::any(std::string(",")),
+					// separatorLevel2
+					boost::any(std::string(",")),
+					// separatorLevel3
+					boost::any(std::string(",")),
+					// prefixLevel0
+					boost::any(std::string("")),
+					// suffixLevel0
+					boost::any(std::string("")),
+					// prefixLevel1
+					boost::any(std::string("")),
+					// suffixLevel1
+					boost::any(std::string("")),
+					// prefixLevel2
+					boost::any(std::string("")),
+					// suffixLevel2
+					boost::any(std::string("")),
+					// prefixLevel3
+					boost::any(std::string("")),
+					// suffixLevel3
+					boost::any(std::string("")),
+					// prefixLevel4
+					boost::any(std::string("")),
+					// suffixLevel4
+					boost::any(std::string(""))
+				};
+			
+				functionMap.insert(
+					std::make_pair(
+					"write_csv", 
+					FunctionInfo(
+						write_csv, 
+						forwardRange(parameterSet), 2)));
 			}
 
 			// differential_entropy_kl

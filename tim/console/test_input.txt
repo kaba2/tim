@@ -1,14 +1,27 @@
 // This is a test file for the
 // TIM Console interface.
 
-print read_csv("test_data.txt", 7, 2, 4, 1, ",;", [0, 1, 2, 3])
+data = read_csv("test_data.txt", 7, 2, 4, 1, ",;", [0, 1, 2, 3])
+
+write_csv(
+	"test_data_output.txt", 
+	data)
+
+write_csv(
+	"test_data_output2.txt", 
+	data, 
+	[0, 1, 3, 2],
+	",", ";", ",", ";", 
+	"", "", 
+	"", "", 
+	"[", "]", 
+	"", "", 
+	"{", "}")
 
 X = {gaussian}
 Y = X
 Z = X
 W = X
-
-print [1, 2, 3, 4;5, 6, 7, 8]
 
 differential_entropy_kl(X)
 differential_entropy_kl(X, 0.0)
