@@ -1096,6 +1096,32 @@ namespace Tim
 			initialized = true;
 		}
 
+		std::string typeToString(const std::type_info& that)
+		{
+			if (that == typeid(std::string))
+			{
+				return "string";
+			}
+			if (that == typeid(integer))
+			{
+				return "integer";
+			}
+			if (that == typeid(real))
+			{
+				return "real";
+			}
+			if (that == typeid(SignalPtr))
+			{
+				return "signal";
+			}
+			if (that == typeid(Array<SignalPtr>*))
+			{
+				return "cell-array";
+			}
+			
+			return "unknown";
+		}
+
 	}
 
 	boost::any functionCall(const std::string& name, const AnySet& argSet)
@@ -1131,7 +1157,10 @@ namespace Tim
 		{
 			if (argSet[i].type() != info.parameterSet[i].type())
 			{
-				reportError("Parameter " + integerToString(i) + " is of the wrong type.");
+				reportError(
+					"Argument " + integerToString(i) + " is of the wrong type. " + 
+					"Expected " + typeToString(info.parameterSet[i].type()) + 
+					", got " + typeToString(argSet[i].type()) + ".");
 				error = true;
 			}
 		}

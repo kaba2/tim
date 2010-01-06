@@ -79,6 +79,11 @@ namespace Tim
 		return stream;
 	}
 
+	void reportError(integer line, const std::string& text)
+	{
+		errorLog().report(line, text);
+	}
+
 	void reportError(const std::string& text)
 	{
 		errorLog().report(text);

@@ -45,6 +45,7 @@ namespace Tim
 	std::ostream& operator<<(std::ostream& stream, const ErrorLog& errorLog);
 
 	void reportError(const std::string& text);
+	void reportError(integer line, const std::string& text);
 
 	class ErrorLog_Namespace
 	{
