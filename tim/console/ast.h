@@ -24,6 +24,26 @@ namespace Tim
 		}
 
 		virtual void accept(AstVisitor& visitor) = 0;
+
+		void setPosition(integer line, integer column)
+		{
+			line_ = line;
+			column_ = column;
+		}
+
+		integer line() const
+		{
+			return line_;
+		}
+
+		integer column() const
+		{
+			return column_;
+		}
+
+	private:
+		integer line_;
+		integer column_;
 	};
 
 	template <typename Derived, typename Base>

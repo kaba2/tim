@@ -38,6 +38,16 @@ namespace Tim
 
 }
 
+namespace
+{
+
+	void setPosition(AstNode* node, const YYLTYPE& position)
+	{
+		node->setPosition(position.first_line, position.first_column);
+	}
+
+}
+
 %}
 
 %union{
@@ -86,7 +96,8 @@ namespace Tim
 start
 	: program
 	{
-		programAst = new Program_AstNode($1);		
+		programAst = new Program_AstNode($1);
+		setPosition(programAst, @1);
 	}
 	;
 	
@@ -112,25 +123,36 @@ statement
 	}
 	| T_PRINT expression
 	{
-		$$ = new Print_AstNode($2);
+		Print_AstNode* printNode = new Print_AstNode($2);
+		setPosition(printNode, @1);
+		$$ = printNode;
 	}
 	| expression
 	{
-		$$ = new Declaration_AstNode("ans", $1);
+		Declaration_AstNode* declaration = 
+			new Declaration_AstNode("ans", $1);
+		setPosition(declaration, @1);
+		$$ = declaration;
 	}
 	;
 
 declaration
 	: identifier '=' expression
 	{
-		$$ = new Declaration_AstNode(*$1, $3);
+		Declaration_AstNode* declaration = 
+			new Declaration_AstNode(*$1, $3);
+		setPosition(declaration, @1);
+		$$ = declaration; 
 	}
 	;
 	
 function_call
 	: identifier '(' expression_list ')'
 	{
-		$$ = new FunctionCall_AstNode(*$1, $3);
+		FunctionCall_AstNode* functionCall = 
+			new FunctionCall_AstNode(*$1, $3);
+		setPosition(functionCall, @1);
+		$$ = functionCall;
 	}
 	;
 	
@@ -166,7 +188,10 @@ expression
 	: identifier
 	{
 		std::string* name = $1;
-		$$ = new Identifier_AstNode(*$1);
+		Identifier_AstNode* identifier = 
+			new Identifier_AstNode(*name);
+		setPosition(identifier, @1);
+		$$ = identifier;
 		delete name;
 	}
 	| function_call
@@ -183,15 +208,24 @@ expression
 	}
 	| integer_value
 	{
-		$$ = new Integer_AstNode($1);
+		Integer_AstNode* integerNode = 
+			new Integer_AstNode($1);
+		setPosition(integerNode, @1);
+		$$ = integerNode;
 	}	
 	| real_value
 	{
-		$$ = new Real_AstNode($1);
+		Real_AstNode* realNode = 
+			new Real_AstNode($1);
+		setPosition(realNode, @1);
+		$$ = realNode;
 	}
 	| string
 	{
-		$$ = new String_AstNode(*$1);
+		String_AstNode* stringNode =
+			new String_AstNode(*$1);
+		setPosition(stringNode, @1);
+		$$ = stringNode;
 	}
 	;
 
@@ -226,16 +260,16 @@ string
 real_array
 	: '[' real_array_content  ']'
 	{
-		RealSetSet* realArray = $2;
+		RealSetSet* realSetSet = $2;
 		
 		// Find out the maximum width and height
 		// of the matrix.
 
-		const integer height = realArray->size();
+		const integer height = realSetSet->size();
 		integer width = 0;
 		for (integer y = 0;y < height;++y)
 		{
-			RealSet*& realSet = (*realArray)[y];
+			RealSet*& realSet = (*realSetSet)[y];
 			if (realSet->size() > width)
 			{
 				width = realSet->size();				
@@ -251,30 +285,33 @@ real_array
 		
 		for (integer y = 0;y < height;++y)
 		{
-			RealSet* realSet = (*realArray)[y];
+			RealSet* realSet = (*realSetSet)[y];
 			std::copy(realSet->begin(), realSet->end(),
 				signal->data().columnBegin(y));
 			delete realSet;
 		}
-		delete realArray;
+		delete realSetSet;
 		
-		$$ = new RealArray_AstNode(signal);
+		RealArray_AstNode* realArray = 		
+			new RealArray_AstNode(signal);
+		setPosition(realArray, @1);
+		$$ = realArray;
 	}
 	;
 
 cell_array
 	: '{' cell_array_content  '}'
 	{
-		StringSetSet* cellArray = $2;
+		StringSetSet* cellSetSet = $2;
 		
 		// Find out the maximum width and height
 		// of the matrix.
 
-		const integer height = cellArray->size();
+		const integer height = cellSetSet->size();
 		integer width = 0;
 		for (integer y = 0;y < height;++y)
 		{
-			StringSet* cellSet = (*cellArray)[y];
+			StringSet* cellSet = (*cellSetSet)[y];
 			if (cellSet->size() > width)
 			{
 				width = cellSet->size();				
@@ -287,14 +324,17 @@ cell_array
 		
 		for (integer y = 0;y < height;++y)
 		{
-			StringSet* cellSet = (*cellArray)[y];
+			StringSet* cellSet = (*cellSetSet)[y];
 			std::copy(cellSet->begin(), cellSet->end(),
 				cellContent->rowBegin(y));
 			delete cellSet;
 		}
-		delete cellArray;
+		delete cellSetSet;
 		
-		$$ = new CellArray_AstNode(cellContent);
+		CellArray_AstNode* cellArray = 		
+			new CellArray_AstNode(cellContent);
+		setPosition(cellArray, @1);
+		$$ = cellArray;
 	}
 	;
 

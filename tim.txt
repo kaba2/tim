@@ -31,12 +31,12 @@ Here we provide prebuilt binaries for Windows users. Note that you may need to
 install the Visual C++ 2008 SP1 Redistributable Package if your computer does
 not have them installed already.
 
-[Download TIM Console interface][Download_Console]
+[Download TIM Console interface Beta10][Download_Console]
 
-[Download TIM Matlab interface][Download_Matlab]
+[Download TIM Matlab interface Beta10][Download_Matlab]
 
-[Download_Matlab]: ./files/tim_matlab_1_0.zip
-[Download_Console]: ./files/tim_console_1_0.zip
+[Download_Matlab]: ./files/tim_matlab_beta10.zip
+[Download_Console]: ./files/tim_console_beta10.zip
 
 Source-code
 -----------
@@ -57,7 +57,10 @@ complete with coloring and linking. You might find this more convenient an alter
 when familiarizing yourself with the source-code, compared to downloading and viewing 
 the raw source-code.
 
-[Download TIM Source code][Download_Source]
+Download TIM Source code (not available for now)
+
+[[Comment]]:
+	[Download TIM Source code][Download_Source]
 
 [Download_Source]: ./files/tim_source_1_0.zip
 [Pastel]: http://kaba.hilvi.org/pastel

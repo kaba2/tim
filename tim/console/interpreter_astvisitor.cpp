@@ -4,6 +4,8 @@
 
 #include "tim/core/signal_tools.h"
 
+#include <pastel/sys/string_tools.h>
+
 namespace Tim
 {
 
@@ -119,6 +121,8 @@ namespace Tim
 
 	boost::any Interpreter_AstVisitor::evaluate(const Expression_AstNode* expression)
 	{
+		errorLog().setLine(expression->line());
+
 		if (const Identifier_AstNode* node = dynamic_cast<const Identifier_AstNode*>(expression))
 		{
 			SymbolIterator iter = symbolMap_.find(node->name());
@@ -154,25 +158,31 @@ namespace Tim
 
 			bool errorsFound = false;			
 			Cell* cellArray = new Cell(width, height);
-			for (integer i = 0;i < cellArray->size();++i)
+			for (integer y = 0;y < height;++y)
 			{
-				const std::string& name = identifierArray(i);
-				SymbolIterator iter = symbolMap_.find(name);
-				if (iter == symbolMap_.end())
+				for (integer x = 0;x < width;++x)
 				{
-					reportError("Undefined identifier '" + name + "'.");
-					errorsFound = true;
-				}
-				else
-				{
-					try
+					const std::string& name = identifierArray(x, y);
+					SymbolIterator iter = symbolMap_.find(name);
+					if (iter == symbolMap_.end())
 					{
-						(*cellArray)(i) = boost::any_cast<SignalPtr>(iter->second);
-					}
-					catch(const boost::bad_any_cast&)
-					{
-						reportError("'" + name + "' is not a signal.");
+						reportError("Undefined identifier '" + name + "'" +
+							" at element (" + integerToString(y) + ", " + integerToString(x) + ").");
 						errorsFound = true;
+					}
+					else
+					{
+						try
+						{
+							(*cellArray)(x, y) = boost::any_cast<SignalPtr>(iter->second);
+						}
+						catch(const boost::bad_any_cast&)
+						{
+							reportError("'" + name + "'" + 
+								" at element (" + integerToString(y) + ", " + integerToString(x) + 
+								") is not a signal.");
+							errorsFound = true;
+						}
 					}
 				}
 			}
