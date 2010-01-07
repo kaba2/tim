@@ -59,7 +59,7 @@ the raw source-code.
 
 [Download TIM Source code][Download_Source]
 
-[Download_Source]: ./files/tim-1_0.zip
+[Download_Source]: ./files/tim-1.0.zip
 [Pastel]: http://kaba.hilvi.org/pastel
 [Boost]: http://www.boost.org
 
