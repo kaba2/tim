@@ -85,6 +85,9 @@ by the EU project _GABA_ (FP6-2005-NEST-Path 043309).
 
 [Global Approach to Brain Activity: From Cognition to Disease][GABA]
 
+TIM Console interface was programmed under funding from the 
+[Finnish Foundation for Technology Promotion][TES]
+
 _German Gomez-Herrero_ provided substantial amount of beta testing, feedback, 
 and guidance during the development. He is also the driving force behind the 
 idea of creating TIM, having created a similar library in Matlab himself. 
