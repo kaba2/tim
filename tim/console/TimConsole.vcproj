@@ -523,6 +523,14 @@
 			</FileConfiguration>
 		</File>
 		<File
+			RelativePath=".\demo_data.txt"
+			>
+		</File>
+		<File
+			RelativePath=".\demo_input.txt"
+			>
+		</File>
+		<File
 			RelativePath=".\errorlog.cpp"
 			>
 		</File>
