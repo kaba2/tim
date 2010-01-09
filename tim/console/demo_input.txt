@@ -2,8 +2,6 @@
 // It is distributed along with the TIM Console
 // binary to get you quickly started.
 
-write_csv("demo_data.txt", {gaussian}, [0, 1, 2 ,3], ",", ";")
-
 // Integers are defined like this.
 kNearest = 1
 
@@ -34,13 +32,11 @@ S = {X, X;
      X, X}
 
 // Let us read data from a text file.
-samples = 10000
-dimension = 5
+samples = 1000
+dimension = 2
 
 S = read_csv(dataFilename, samples, dimension)
 
-// We happen to know that this data is taken
-// from a gaussian variable of dimension 5.
 // Let us compute its differential entropy.
 // One way to do this is as follows.
 
@@ -50,7 +46,7 @@ de = differential_entropy_kl(S)
 // data to the standard output.
 
 print "TIM Console demo"
-print "The differential entropy of a 5d gaussian is roughly"
+print "The differential entropy is"
 print de
 
 // However, you can also write data to a file
