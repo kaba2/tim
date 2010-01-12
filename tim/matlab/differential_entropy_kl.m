@@ -67,7 +67,7 @@ if size(k, 1) ~= 1 || ...
 end
 
 if epsilon < 0
-    error('EPSILON must be non-negative'.');
+    error('EPSILON must be non-negative.');
 end
 
 if k < 1
