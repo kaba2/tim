@@ -12,6 +12,7 @@
 #include <pastel/sys/array.h>
 
 #include <boost/any.hpp>
+#include <boost/shared_ptr.hpp>
 
 #include <vector>
 #include <string>
@@ -20,6 +21,7 @@ namespace Tim
 {
 
 	typedef Array<SignalPtr> Cell;
+	typedef boost::shared_ptr<Cell> CellPtr;
 
 	typedef std::vector<std::string> StringSet;
 	typedef std::vector<StringSet*> StringSetSet;

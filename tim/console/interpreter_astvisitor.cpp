@@ -51,7 +51,7 @@ namespace Tim
 
 		try
 		{
-			Array<SignalPtr>* cellArray = boost::any_cast<Array<SignalPtr>*>(value);
+			CellPtr cellArray = boost::any_cast<CellPtr>(value);
 			std::cout << "{";
 
 			const integer trials = cellArray->width();
@@ -157,7 +157,7 @@ namespace Tim
 			const integer height = identifierArray.height();
 
 			bool errorsFound = false;			
-			Cell* cellArray = new Cell(width, height);
+			CellPtr cellArray(new Cell(width, height));
 			for (integer y = 0;y < height;++y)
 			{
 				for (integer x = 0;x < width;++x)
