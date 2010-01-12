@@ -188,7 +188,7 @@ namespace Tim
 				stride[i] = accu;
 			}
 
-			Array<SignalPtr>* cellArray = new Array<SignalPtr>(trials, series);
+			CellPtr cellArray(new Cell(trials, series));
 
 			for (integer y = 0;y < series;++y)
 			{
@@ -216,7 +216,7 @@ namespace Tim
 			// Retrieve parameters.
 
 			const std::string fileName = boost::any_cast<std::string>(argSet[0]);
-			Array<SignalPtr>* cell = boost::any_cast<Array<SignalPtr>*>(argSet[1]);
+			CellPtr cell = boost::any_cast<CellPtr>(argSet[1]);
 			const SignalPtr order = boost::any_cast<SignalPtr>(argSet[2]);
 			std::string separator0 = boost::any_cast<std::string>(argSet[3]);
 			const std::string separator1 = boost::any_cast<std::string>(argSet[4]);
@@ -372,7 +372,7 @@ namespace Tim
 		{
 			// Retrieve parameters.
 
-			Cell* cell = boost::any_cast<Cell*>(argSet[0]);
+			CellPtr cell = boost::any_cast<CellPtr>(argSet[0]);
 			real maxRelativeError = boost::any_cast<real>(argSet[1]);
 			integer kNearest = boost::any_cast<integer>(argSet[2]);
 
@@ -409,7 +409,7 @@ namespace Tim
 		{
 			// Retrieve parameters.
 
-			Cell* cell = boost::any_cast<Cell*>(argSet[0]);
+			CellPtr cell = boost::any_cast<CellPtr>(argSet[0]);
 			integer timeWindowRadius = boost::any_cast<integer>(argSet[1]);;
 			real maxRelativeError = boost::any_cast<real>(argSet[2]);
 			integer kNearest = boost::any_cast<integer>(argSet[3]);
@@ -461,7 +461,7 @@ namespace Tim
 		{
 			// Retrieve parameters.
 
-			Cell* cell = boost::any_cast<Cell*>(argSet[0]);;
+			CellPtr cell = boost::any_cast<CellPtr>(argSet[0]);;
 			real maxRelativeError = boost::any_cast<real>(argSet[1]);
 
 			// Check parameters.
@@ -499,8 +499,8 @@ namespace Tim
 		{
 			// Retrieve parameters.
 
-			Cell* xCell = boost::any_cast<Cell*>(argSet[0]);
-			Cell* yCell = boost::any_cast<Cell*>(argSet[1]);
+			CellPtr xCell = boost::any_cast<CellPtr>(argSet[0]);
+			CellPtr yCell = boost::any_cast<CellPtr>(argSet[1]);
 			integer timeWindowRadius = boost::any_cast<integer>(argSet[2]);
 			integer xLag = boost::any_cast<integer>(argSet[3]);
 			integer yLag = boost::any_cast<integer>(argSet[4]);
@@ -549,8 +549,8 @@ namespace Tim
 		{
 			// Retrieve parameters.
 
-			Cell* xCell = boost::any_cast<Cell*>(argSet[0]);
-			Cell* yCell = boost::any_cast<Cell*>(argSet[1]);
+			CellPtr xCell = boost::any_cast<CellPtr>(argSet[0]);
+			CellPtr yCell = boost::any_cast<CellPtr>(argSet[1]);
 			integer xLag = boost::any_cast<integer>(argSet[2]);
 			integer yLag = boost::any_cast<integer>(argSet[3]);
 			integer kNearest = boost::any_cast<integer>(argSet[4]);
@@ -584,9 +584,9 @@ namespace Tim
 		{
 			// Retrieve parameters.
 
-			Cell* xCell = boost::any_cast<Cell*>(argSet[0]);
-			Cell* yCell = boost::any_cast<Cell*>(argSet[1]);
-			Cell* zCell = boost::any_cast<Cell*>(argSet[2]);
+			CellPtr xCell = boost::any_cast<CellPtr>(argSet[0]);
+			CellPtr yCell = boost::any_cast<CellPtr>(argSet[1]);
+			CellPtr zCell = boost::any_cast<CellPtr>(argSet[2]);
 			integer timeWindowRadius = boost::any_cast<integer>(argSet[3]);
 			integer xLag = boost::any_cast<integer>(argSet[4]);
 			integer yLag = boost::any_cast<integer>(argSet[5]);
@@ -637,9 +637,9 @@ namespace Tim
 		{
 			// Retrieve parameters.
 
-			Cell* xCell = boost::any_cast<Cell*>(argSet[0]);
-			Cell* yCell = boost::any_cast<Cell*>(argSet[1]);
-			Cell* zCell = boost::any_cast<Cell*>(argSet[2]);
+			CellPtr xCell = boost::any_cast<CellPtr>(argSet[0]);
+			CellPtr yCell = boost::any_cast<CellPtr>(argSet[1]);
+			CellPtr zCell = boost::any_cast<CellPtr>(argSet[2]);
 			integer xLag = boost::any_cast<integer>(argSet[3]);
 			integer yLag = boost::any_cast<integer>(argSet[4]);
 			integer zLag = boost::any_cast<integer>(argSet[5]);
@@ -675,9 +675,9 @@ namespace Tim
 		{
 			// Retrieve parameters.
 
-			Cell* xCell = boost::any_cast<Cell*>(argSet[0]);
-			Cell* yCell = boost::any_cast<Cell*>(argSet[1]);
-			Cell* wCell = boost::any_cast<Cell*>(argSet[2]);
+			CellPtr xCell = boost::any_cast<CellPtr>(argSet[0]);
+			CellPtr yCell = boost::any_cast<CellPtr>(argSet[1]);
+			CellPtr wCell = boost::any_cast<CellPtr>(argSet[2]);
 			integer timeWindowRadius = boost::any_cast<integer>(argSet[3]);
 			integer xLag = boost::any_cast<integer>(argSet[4]);
 			integer yLag = boost::any_cast<integer>(argSet[5]);
@@ -728,10 +728,10 @@ namespace Tim
 		{
 			// Retrieve parameters.
 
-			Cell* xCell = boost::any_cast<Cell*>(argSet[0]);
-			Cell* yCell = boost::any_cast<Cell*>(argSet[1]);
-			Cell* zCell = boost::any_cast<Cell*>(argSet[2]);
-			Cell* wCell = boost::any_cast<Cell*>(argSet[3]);
+			CellPtr xCell = boost::any_cast<CellPtr>(argSet[0]);
+			CellPtr yCell = boost::any_cast<CellPtr>(argSet[1]);
+			CellPtr zCell = boost::any_cast<CellPtr>(argSet[2]);
+			CellPtr wCell = boost::any_cast<CellPtr>(argSet[3]);
 			integer timeWindowRadius = boost::any_cast<integer>(argSet[4]);
 			integer xLag = boost::any_cast<integer>(argSet[5]);
 			integer yLag = boost::any_cast<integer>(argSet[6]);
@@ -784,9 +784,9 @@ namespace Tim
 		{
 			// Retrieve parameters.
 
-			Cell* xCell = boost::any_cast<Cell*>(argSet[0]);
-			Cell* yCell = boost::any_cast<Cell*>(argSet[1]);
-			Cell* wCell = boost::any_cast<Cell*>(argSet[2]);
+			CellPtr xCell = boost::any_cast<CellPtr>(argSet[0]);
+			CellPtr yCell = boost::any_cast<CellPtr>(argSet[1]);
+			CellPtr wCell = boost::any_cast<CellPtr>(argSet[2]);
 			integer xLag = boost::any_cast<integer>(argSet[3]);
 			integer yLag = boost::any_cast<integer>(argSet[4]);
 			integer wLag = boost::any_cast<integer>(argSet[5]);
@@ -822,10 +822,10 @@ namespace Tim
 		{
 			// Retrieve parameters.
 			
-			Cell* xCell = boost::any_cast<Cell*>(argSet[0]);
-			Cell* yCell = boost::any_cast<Cell*>(argSet[1]);
-			Cell* zCell = boost::any_cast<Cell*>(argSet[2]);
-			Cell* wCell = boost::any_cast<Cell*>(argSet[3]);
+			CellPtr xCell = boost::any_cast<CellPtr>(argSet[0]);
+			CellPtr yCell = boost::any_cast<CellPtr>(argSet[1]);
+			CellPtr zCell = boost::any_cast<CellPtr>(argSet[2]);
+			CellPtr wCell = boost::any_cast<CellPtr>(argSet[3]);
 			integer xLag = boost::any_cast<integer>(argSet[4]);
 			integer yLag = boost::any_cast<integer>(argSet[5]);
 			integer zLag = boost::any_cast<integer>(argSet[6]);
@@ -863,8 +863,8 @@ namespace Tim
 		{
 			// Retrieve parameters.
 
-			Cell* xCell = boost::any_cast<Cell*>(argSet[0]);
-			Cell* yCell = boost::any_cast<Cell*>(argSet[1]);
+			CellPtr xCell = boost::any_cast<CellPtr>(argSet[0]);
+			CellPtr yCell = boost::any_cast<CellPtr>(argSet[1]);
 
 			// Compute.
 
@@ -964,7 +964,7 @@ namespace Tim
 					// filename
 					boost::any(std::string()),
 					// data
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// order
 					boost::any(order),
 					// separatorLevel0
@@ -1010,7 +1010,7 @@ namespace Tim
 				boost::any parameterSet[] =
 				{
 					// data
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// maxRelativeError
 					boost::any((real)0),
 					// kNearest
@@ -1030,7 +1030,7 @@ namespace Tim
 				boost::any parameterSet[] =
 				{
 					// data
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// timeWindowRadius
 					boost::any((integer)0),
 					// maxRelativeError
@@ -1052,7 +1052,7 @@ namespace Tim
 				boost::any parameterSet[] =
 				{
 					// data
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// maxRelativeError
 					boost::any((real)0)
 				};
@@ -1070,9 +1070,9 @@ namespace Tim
 				boost::any parameterSet[] =
 				{
 					// xData
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// yData
-					boost::any((Cell*)0)
+					boost::any(CellPtr())
 				};
 			
 				functionMap.insert(
@@ -1088,9 +1088,9 @@ namespace Tim
 				boost::any parameterSet[] =
 				{
 					// xData
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// yData
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// timeWindowRadius
 					boost::any((integer)0),
 					// xLag
@@ -1114,9 +1114,9 @@ namespace Tim
 				boost::any parameterSet[] =
 				{
 					// xData
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// yData
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// xLag
 					boost::any((integer)0),
 					// yLag
@@ -1138,11 +1138,11 @@ namespace Tim
 				boost::any parameterSet[] =
 				{
 					// xData
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// yData
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// zData
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// timeWindowRadius
 					boost::any((integer)0),
 					// xLag
@@ -1168,11 +1168,11 @@ namespace Tim
 				boost::any parameterSet[] =
 				{
 					// xData
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// yData
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// zData
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// xLag
 					boost::any((integer)0),
 					// yLag
@@ -1196,11 +1196,11 @@ namespace Tim
 				boost::any parameterSet[] =
 				{
 					// xData
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// yData
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// wData
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// timeWindowRadius
 					boost::any((integer)0),
 					// xLag
@@ -1226,13 +1226,13 @@ namespace Tim
 				boost::any parameterSet[] =
 				{
 					// xData
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// yData
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// zData
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// wData
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// timeWindowRadius
 					boost::any((integer)0),
 					// xLag
@@ -1260,11 +1260,11 @@ namespace Tim
 				boost::any parameterSet[] =
 				{
 					// xData
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// yData
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// wData
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// xLag
 					boost::any((integer)0),
 					// yLag
@@ -1288,13 +1288,13 @@ namespace Tim
 				boost::any parameterSet[] =
 				{
 					// xData
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// yData
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// zData
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// wData
-					boost::any((Cell*)0),
+					boost::any(CellPtr()),
 					// xLag
 					boost::any((integer)0),
 					// yLag
@@ -1336,7 +1336,7 @@ namespace Tim
 			{
 				return "signal";
 			}
-			if (that == typeid(Array<SignalPtr>*))
+			if (that == typeid(CellPtr))
 			{
 				return "cell-array";
 			}
