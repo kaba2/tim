@@ -71,7 +71,7 @@ if size(timeWindowRadius, 1) ~= 1 || ...
 end
 
 if timeWindowRadius < 0
-    error('TIMEWINDOWRADIUS must be non-negative'.');
+    error('TIMEWINDOWRADIUS must be non-negative.');
 end
 
 if size(epsilon, 1) ~= 1 || ...
@@ -80,7 +80,7 @@ if size(epsilon, 1) ~= 1 || ...
 end
 
 if epsilon < 0
-    error('EPSILON must be non-negative'.');
+    error('EPSILON must be non-negative.');
 end
 
 if size(k, 1) ~= 1 || ...

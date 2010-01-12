@@ -64,7 +64,7 @@ if size(epsilon, 1) ~= 1 || ...
 end
 
 if epsilon < 0
-    error('EPSILON must be non-negative'.');
+    error('EPSILON must be non-negative.');
 end
 
 if size(threads, 1) ~= 1 || ...
