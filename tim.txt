@@ -18,6 +18,7 @@ Features
 * Estimation of differential entropy using various estimators.
 * Estimation of a general class of entropy combinations including mutual information, 
 partial mutual information, transfer entropy, and partial transfer entropy.
+* Estimation of Kullback-Leibler divergence.
 * Temporal estimation using time-windowing.
 * Estimation from an ensemble of time-series' representing trials of the same experiment.
 * Time-series' with arbitrary-dimensionality.
