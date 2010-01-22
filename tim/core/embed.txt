@@ -1,5 +1,5 @@
 Delay embedding
 ===============
 
-[[Parent]]: tim_core.txt
+[[Parent]]: implementation.txt
 

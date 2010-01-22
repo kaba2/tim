@@ -1,7 +1,7 @@
 Basics of the C++ implementation
 ================================
 
-[[Parent]]: tim_core.txt
+[[Parent]]: implementation.txt
 
 Integers and reals
 ------------------
