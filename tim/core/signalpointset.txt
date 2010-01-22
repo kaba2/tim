@@ -1,7 +1,7 @@
 SignalPointSet class
 ====================
 
-[[Parent]]: tim_core.txt
+[[Parent]]: implementation.txt
 
 Theory
 ------
