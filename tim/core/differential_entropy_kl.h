@@ -30,6 +30,11 @@ namespace Tim
 	Smaller values give more temporal adaptivity,
 	but increase errors.
 
+	result:
+	A real output iterator, denoting the start
+	of the region where the sequence of temporal
+	differential entropies are to be stored.
+
 	maxRelativeError:
 	The maximum relative error allowed for
 	distance in nearest neighbor searching.
@@ -45,15 +50,19 @@ namespace Tim
 	'pastel/math/normbijection.txt'	for documentation.
 
 	Returns:
-	An array of temporal differential entropy
-	estimates.
+	True, if all estimates were succesfully estimated.
+	False, if at least one estimate could not be 
+	estimated and was given NaN.
+	One can later apply the theory of irregular 
+	sampling to reconstruct these missing values
+	assuming continuity.
 	*/
 
 	template <
 		typename SignalPtr_Iterator, 
 		typename Real_OutputIterator,
 		typename NormBijection>
-	void temporalDifferentialEntropyKl(
+	bool temporalDifferentialEntropyKl(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
@@ -74,7 +83,7 @@ namespace Tim
 	template <
 		typename SignalPtr_Iterator, 
 		typename Real_OutputIterator>
-	void temporalDifferentialEntropyKl(
+	bool temporalDifferentialEntropyKl(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
@@ -95,7 +104,7 @@ namespace Tim
 	template <
 		typename Real_OutputIterator,
 		typename NormBijection>
-	void temporalDifferentialEntropyKl(
+	bool temporalDifferentialEntropyKl(
 		const SignalPtr& signal,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
@@ -116,7 +125,7 @@ namespace Tim
 	*/
 
 	template <typename Real_OutputIterator>
-	void temporalDifferentialEntropyKl(
+	bool temporalDifferentialEntropyKl(
 		const SignalPtr& signal,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
@@ -152,7 +161,10 @@ namespace Tim
 	'pastel/math/normbijection.txt'	for documentation.
 
 	Returns:
-	A differential entropy estimate.
+	A differential entropy estimate if successful,
+	NaN otherwise. The estimation may fail only
+	if all points are at the same position or
+	there are no samples to estimate from.
 	*/
 
 	template <

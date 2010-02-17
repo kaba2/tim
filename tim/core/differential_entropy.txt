@@ -1,13 +1,13 @@
 Differential entropy
 ====================
 
-[[Parent]]: estimators.txt
+[[Parent]]: entropy.txt
 
 Theory
 ------
 
-Assume that ''X'' is a random variable in ''RR^n'' distributed according to the probability 
-density function ''mu : RR^n -> RR''. Then differential entropy is defined by:
+Assume ''X'' is a random variable in ''RR^n'' distributed according to the probability 
+density function ''mu : RR^n -> RR''. _Differential entropy_ is defined by:
 
 ''H(X) = -int_{RR^n} mu(x) log(mu(x)) dx''
 

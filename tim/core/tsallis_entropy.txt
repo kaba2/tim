@@ -1,0 +1,12 @@
+Tsallis entropy
+===============
+
+[[Parent]]: entropy.txt
+
+Theory
+------
+
+Assume ''X'' is a random variable in ''RR^n'' distributed according to the probability 
+density function ''mu : RR^n -> RR''. _Tsallis entropy_ is defined by:
+
+''H_q(X) = (1 / (q - 1))(1 - int_{RR^n} mu^q(x) dx)''

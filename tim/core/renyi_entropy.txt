@@ -1,0 +1,13 @@
+Renyi entropy
+=============
+
+[[Parent]]: entropy.txt
+
+Theory
+------
+
+Assume ''X'' is a random variable in ''RR^n'' distributed according to the probability 
+density function ''mu : RR^n -> RR''. _Renyi entropy_ is defined by:
+
+''H_q^*(X) = (1 / (1 - q)) log(int_{RR^n} mu^q(x) dx)''
+
