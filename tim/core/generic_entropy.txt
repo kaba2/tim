@@ -1,7 +1,7 @@
 Generic entropy estimation
 ==========================
 
-[[Parent]]: entropy.txt
+[[Parent]]: implementation.txt
 
 The _generic entropy estimator_ refers to an algorithmic skeleton
 which is used to compute the k-nearest-neighbor-based entropy estimators.

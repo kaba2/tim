@@ -1,5 +1,5 @@
-Entropies
-=========
+Entropy
+=======
 
 [[Parent]]: estimators.txt
 
