@@ -7,12 +7,13 @@ Theory
 ------
 
 Let ''X'', ''Y'', and ''w'' be random variables.
-Transfer entropy is defined by:
+_Transfer entropy_ is defined by:
 
 ''T(w, X, Y) = H(w, X) + H(X, Y) - H(X) - H(w, X, Y)''
 
-where ''w'' is the future of ''X''. It measures the amount of directed
-information flow from ''X'' to ''Y''.
+where ''H'' is the differential entropy and ''w'' is the future 
+of ''X''. It measures the amount of directed information flow 
+from ''X'' to ''Y''.
 
 References
 ----------
@@ -20,3 +21,10 @@ References
 _Measuring Information Transfer_, <br />
 Thomas Schreiber, <br />
 Physical Review Letters, Volume 85, Number 2, 2000.
+
+See also
+--------
+
+[[Link]]: differential_entropy.txt
+
+[[Link]]: partial_transfer_entropy.txt

@@ -7,11 +7,17 @@ Theory
 ------
 
 Let ''X'', ''Y'', ''Z'', and ''w'' be random variables.
-Partial transfer entropy is defined by:
+_Partial transfer entropy_ is defined by:
 
 ''T(w, X, Y ; Z) = H(w, X, Z) + H(X, Z, Y) - H(X, Z) - H(w, X, Z, Y)''
 
-where ''w'' is the future of ''X''. It measures the amount of directed
-information flow from ''X'' to ''Y'' while discounting the possibility
-that ''Z'' drives both ''X'' and ''Y''.
+where ''H'' is the differential entropy and ''w'' is the future of ''X''. 
+It measures the amount of directed information flow from ''X'' to ''Y'' 
+while discounting the possibility that ''Z'' drives both ''X'' and ''Y''.
 
+See also
+--------
+
+[[Link]]: differential_entropy.txt
+
+[[Link]]: transfer_entropy.txt

@@ -7,11 +7,12 @@ Theory
 ------
 
 Let ''X = (X_1, ..., X_m)'' be a random variable.
-An entropy combination is defined by
+An _entropy combination_ is defined by
 
 ''EC(X_{L_1}, ..., X_{L_p}) = [sum_{i = 1}^p s_i H(X_{L_i})] - H(X)''
 
-where ''\forall i in [1, p]: L_i sub [1, m]'' and ''s_i in {-1, 1}'' such that 
+where ''H'' is the differential entropy and 
+''\forall i in [1, p]: L_i sub [1, m]'' and ''s_i in {-1, 1}'' such that 
 
 ''sum_{i = 1}^m s_i chi_{L_i} = chi_{[1, m]}''
 
@@ -39,3 +40,8 @@ Applications to the Electroencephalogram of Epilepsy
 Patients and Clustering of Data_, <br />
 Alexander Kraskov, <br />
 PhD thesis, NIC Series Vol. 24, February 2004.
+
+See also
+--------
+
+[[Link]]: differential_entropy.txt

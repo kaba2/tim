@@ -11,15 +11,25 @@ needed estimates. The syntax of this language mimics that of Matlab.
 Usage
 -----
 
-Pass in a script through standard input, get the output
-from standard output. E.g. in Windows console:
+ * Pass in a script through standard input and get the output
+from standard output:
 
-	tim_console <input.txt >output.txt
+		tim_console <input.txt >output.txt
+
+ * Or pass in a script through standard input and 
+write the results to files (in the script).
+
+		tim_console <input.txt
+
+ * Or use both of these styles.
+
+_Note: Running TIM Console and passing input row-by-row from 
+keyboard does not work._
 	
 Quick-start: Example script file
 --------------------------------
 
-	// This is row-comment.
+	// This is a row-comment.
 	% This is a row-comment too.
 
 	// Define a 3x3 real-array A.

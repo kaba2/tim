@@ -7,7 +7,7 @@ Theory
 ------
 
 Let ''X'', ''Y'', and ''Z'' be random variables.
-Partial mutual information is defined by:
+_Partial mutual information_ is defined by:
 
 ''I(X, Y ; Z) = H(X, Z) + H(Z, Y) - H(Z) - H(X, Z, Y)''
 
@@ -21,3 +21,10 @@ References
 _Partial Mutual Information for Coupling Analysis of Multivariate Time Series_, <br />
 Stefan Frenzel and Bernd Pompe, <br />
 Physical Review Letters, 2007.
+
+See also
+--------
+
+[[Link]]: differential_entropy.txt
+
+[[Link]]: mutual_information.txt
