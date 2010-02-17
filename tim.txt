@@ -9,13 +9,17 @@ Description
 -----------
 
 TIM is a C++ library for efficient estimation of information-theoretic measures
-from time-series' in arbitrary dimensions. It has a Matlab interface as well as a
-console interface.
+from continuous-valued time-series' in arbitrary dimensions. It has a Matlab interface 
+as well as a console interface.
 
 Features
 --------
 
  * Estimation of differential entropy using various estimators.
+ 
+ * Estimation of Renyi entropies.
+ 
+ * Estimation of Tsallis entropies.
 
  * Estimation of a general class of entropy combinations including mutual information, 
 partial mutual information, transfer entropy, and partial transfer entropy.
@@ -32,6 +36,19 @@ partial mutual information, transfer entropy, and partial transfer entropy.
  
  * Three ways to use: as a C++ library, through TIM Matlab interface, or through TIM Console interface.
 
+News
+----
+
+### 18.2.2010 - Released version 1.1.0
+
+ * New: Estimation of Renyi entropies
+ 
+ * New: Estimation of Tsallis entropies
+
+### 13.1.2010 - Released version 1.0.0
+
+ * Initial release
+
 Software
 --------
 
@@ -39,12 +56,12 @@ Here we provide prebuilt binaries for Windows users. Note that you may need to
 install the Visual C++ 2008 SP1 Redistributable Package if your computer does
 not have them installed already.
 
-[Download TIM Console interface][Download_Console]
+[Download TIM Console interface 1.1.0][Download_Console]
 
-[Download TIM Matlab interface][Download_Matlab]
+[Download TIM Matlab interface 1.1.0][Download_Matlab]
 
-[Download_Matlab]: ./files/tim-matlab-1.0.zip
-[Download_Console]: ./files/tim-console-1.0.zip
+[Download_Matlab]: ./files/tim-matlab-1.1.0.zip
+[Download_Console]: ./files/tim-console-1.1.0.zip
 
 Source-code
 -----------
@@ -103,3 +120,8 @@ idea of creating TIM, having created a similar library in Matlab himself.
 [GABA]: http://www.gaba-project.eu/
 [TES]: http://www.kolumbus.fi/tes/
 [German]: http://www.cs.tut.fi/~gomezher
+
+Contact
+-------
+
+kalle (dot) rutanen (at) tut (dot) fi

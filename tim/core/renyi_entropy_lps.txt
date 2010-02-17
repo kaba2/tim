@@ -1,0 +1,14 @@
+Leonenko-Pronzato-Savani estimator
+==================================
+
+[[Parent]]: renyi_entropy.txt
+
+References
+----------
+
+_A class of Renyi Information Estimators for 
+Multidimensional Densities_,
+N. Leonenko, L. Pronzato, and V. Savani,
+Annals of Statistics 36, Number 5, Pages 2153-2182,
+2008.
+

@@ -1,8 +1,8 @@
 // Description: Divergence estimation
 // Detail: Wang-Kulkarni-Verdu nearest neighbor estimator
 
-#ifndef PASTEL_DIVERGENCE_WKV_H
-#define PASTEL_DIVERGENCE_WKV_H
+#ifndef TIM_DIVERGENCE_WKV_H
+#define TIM_DIVERGENCE_WKV_H
 
 #include "tim/core/mytypes.h"
 #include "tim/core/signal.h"
