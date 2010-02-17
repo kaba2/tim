@@ -1,4 +1,4 @@
-// TIM 1.0.1
+// TIM 1.0.2
 // Kalle Rutanen
 // http://kaba.hilvi.org
 // Copyright (c) 2009, 2010
