@@ -1,5 +1,5 @@
-Differential entropy
-====================
+Shannon differential entropy
+============================
 
 [[Parent]]: entropy.txt
 

@@ -5,5 +5,6 @@
 
 #include "tim/core/differential_entropy.h"
 #include "tim/core/renyi_entropy.h"
+#include "tim/core/tsallis_entropy.h"
 
 #endif

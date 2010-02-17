@@ -625,6 +625,10 @@
 						Name="Leonenko-Pronzato-Savani"
 						>
 						<File
+							RelativePath=".\tsallis_entropy_lps.cpp"
+							>
+						</File>
+						<File
 							RelativePath=".\tsallis_entropy_lps.h"
 							>
 						</File>

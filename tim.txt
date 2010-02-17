@@ -15,7 +15,7 @@ as well as a console interface.
 Features
 --------
 
- * Estimation of differential entropy using various estimators.
+ * Estimation of Shannon differential entropy using various estimators.
  
  * Estimation of Renyi entropies.
  
@@ -78,13 +78,13 @@ installed if you want to build TIM yourself. It also uses some features
 of the [Boost][] library.
 
 On these documentation pages we provide an easy way to browse the source-code 
-complete with coloring and linking. You might find this more convenient an alternative
+complete with coloring and linking. You might find this a more convenient alternative
 when familiarizing yourself with the source-code, compared to downloading and viewing 
 the raw source-code.
 
 [Download TIM Source code][Download_Source]
 
-[Download_Source]: ./files/tim-1.0.2.zip
+[Download_Source]: ./files/tim-1.1.0.zip
 [Pastel]: http://kaba.hilvi.org/pastel
 [Boost]: http://www.boost.org
 
@@ -121,7 +121,3 @@ idea of creating TIM, having created a similar library in Matlab himself.
 [TES]: http://www.kolumbus.fi/tes/
 [German]: http://www.cs.tut.fi/~gomezher
 
-Contact
--------
-
-kalle (dot) rutanen (at) tut (dot) fi
