@@ -5,8 +5,8 @@ namespace Tim
 {
 
 	TIM real gaussianRenyiEntropy(
-		integer dimension,
 		real q,
+		integer dimension,
 		real covarianceDeterminant)
 	{
 		if (q == 1)

@@ -11,6 +11,24 @@
 namespace Tim
 {
 
+	//! Returns the actual k:th neighbor to use given a suggestion.
+	/*!
+	Preconditions:
+	q > 0
+	kNearestSuggestion >= 0
+
+	Returns:
+	If kNearestSuggestion == 0, then k = 2 * ceil(q).
+	If 0 < kNearestSuggestion < q - 1, then k = ceil(q - 1).
+	If kNearestSuggestion == q - 1, then k = kNearestSuggestion + 1.
+	Otherwise, k = kNearestSuggestion.
+
+	The k in the Leonenko-Pronzato-Savani estimator can't be set 
+	freely because the algorithm is not defined when k <= q - 1.
+	This functions helps to decide a proper k.
+	*/
+	TIM real tsallisDecideK(real q, integer kNearestSuggestion);
+
 	// Temporal Tsallis entropy
 	// ------------------------
 
@@ -19,7 +37,8 @@ namespace Tim
 	Preconditions:
 	timeWindowRadius >= 0
 	maxRelativeError >= 0
-	kNearest > 0
+	kNearestSuggestion >= 0
+	q > 0
 
 	signalSet:
 	An ensemble of signals representing trials
@@ -37,8 +56,10 @@ namespace Tim
 
 	q:
 	The exponent in the definition of Tsallis entropy.
-	In case q == 1, the result of 
-	temporalDifferentialEntropyKl() is returned instead.
+	If q == 1, the result of temporalDifferentialEntropyKl() 
+	is returned instead.
+	If q < 1, the results have huge errors: you
+	should not use this estimator for those values.
 
 	maxRelativeError:
 	The maximum relative error allowed for
@@ -46,9 +67,13 @@ namespace Tim
 	Zero gives exact matches. Higher values can
 	result in improved performance.
 
-	kNearest:
-	The k:th nearest neighbor that is used to
-	estimate Tsallis entropy.
+	kNearestSuggestion:
+	A suggestion for the k:th nearest neighbor that should be
+	used to estimate Tsallis entropy. Value zero means
+	an accurate (q-dependent) default is used.
+	The actual k that is used is given by tsallisDecideK().
+	For accurate results one should choose 
+	kNearestSuggestion >= 2 * ceil(q) - 1.
 
 	Returns:
 	True, if all estimates were succesfully estimated.
@@ -68,7 +93,7 @@ namespace Tim
 		Real_OutputIterator result,
 		real q = 2,
 		real maxRelativeError = 0,
-		integer kNearest = 1);
+		integer kNearestSuggestion = 0);
 
 	//! Computes temporal Tsallis entropy of a signal.
 	/*!
@@ -77,7 +102,7 @@ namespace Tim
 	temporalTsallisEntropyLps(
 		forwardRange(constantIterator(signal)),
 		timeWindowRadius, q, result, maxRelativeError, 
-		kNearest);
+		kNearestSuggestion);
 
 	See the documentation for that function.
 	*/
@@ -89,7 +114,7 @@ namespace Tim
 		Real_OutputIterator result,
 		real q = 2,
 		real maxRelativeError = 0,
-		integer kNearest = 1);
+		integer kNearestSuggestion = 0);
 
 	// Tsallis entropy
 	// ---------------
@@ -97,9 +122,10 @@ namespace Tim
 	//! Computes Tsallis entropy of a signal.
 	/*!
 	Preconditions:
-	kNearest > 0
-	maxRelativeError >= 0
 	signalSet contains SignalPtr's.
+	q > 0
+	maxRelativeError >= 0
+	kNearestSuggestion >= 0
 
 	signalSet:
 	An ensemble of signals representing trials
@@ -107,8 +133,10 @@ namespace Tim
 
 	q:
 	The exponent in the definition of Tsallis entropy.
-	In case q == 1, the result of 
-	differentialEntropyKl() is returned instead.
+	If q == 1, the result of differentialEntropyKl() 
+	is returned instead.
+	If q < 1, the results have huge errors: you
+	should not use this estimator for those values.
 
 	maxRelativeError:
 	The maximum relative error allowed for
@@ -116,9 +144,13 @@ namespace Tim
 	Zero gives exact matches. Higher values can
 	result in improved performance.
 
-	kNearest:
-	The k:th nearest neighbor that is used to
-	estimate Tsallis entropy.
+	kNearestSuggestion:
+	A suggestion for the k:th nearest neighbor that should be
+	used to estimate Tsallis entropy. Value zero means
+	an accurate (q-dependent) default is used.
+	The actual k that is used is given by tsallisDecideK().
+	For accurate results one should choose 
+	kNearestSuggestion >= 2 * ceil(q) - 1.
 
 	Returns:
 	A Tsallis entropy estimate if successful,
@@ -132,7 +164,7 @@ namespace Tim
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		real q = 2,
 		real maxRelativeError = 0,
-		integer kNearest = 1);
+		integer kNearestSuggestion = 0);
 
 	//! Computes Tsallis entropy of a signal.
 	/*!
@@ -141,7 +173,7 @@ namespace Tim
 	tsallisEntropyLps(
 		signal, q, 
 		maxRelativeError,
-		kNearest);
+		kNearestSuggestion);
 
 	See the documentation for that function.
 	*/
@@ -149,7 +181,7 @@ namespace Tim
 		const SignalPtr& signal,
 		real q = 2,
 		real maxRelativeError = 0,
-		integer kNearest = 1);
+		integer kNearestSuggestion = 0);
 
 }
 

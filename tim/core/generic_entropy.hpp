@@ -53,6 +53,9 @@ namespace Tim
 		const integer trials = signalSet.size();
 		const integer samples = minSamples(signalSet);
 		const integer dimension = signalSet.front()->dimension();
+		const integer totalSamples = samples * trials;
+
+		ENSURE_OP(kNearest, <, totalSamples);
 
 		// We create an own array to hold the results since the
 		// 'result' iterator is not necessarily random-access

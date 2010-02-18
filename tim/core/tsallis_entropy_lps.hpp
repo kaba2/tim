@@ -105,11 +105,17 @@ namespace Tim
 		Real_OutputIterator result,
 		real q,
 		real maxRelativeError,
-		integer kNearest)
+		integer kNearestSuggestion)
 	{
-		ENSURE_OP(timeWindowRadius, >=, 1);
+		ENSURE_OP(timeWindowRadius, >=, 0);
+		ENSURE_OP(q, >, 0);
 		ENSURE_OP(maxRelativeError, >=, 0);
-		ENSURE_OP(kNearest, >, 0);
+		ENSURE_OP(kNearestSuggestion, >=, 0);
+
+		if (signalSet.empty())
+		{
+			return true;
+		}
 
 		if (q == 1)
 		{
@@ -119,6 +125,12 @@ namespace Tim
 			// differential entropy. We will return
 			// this value instead for convenience.
 
+			integer kNearest = kNearestSuggestion;
+			if (kNearestSuggestion == 0)
+			{
+				kNearest = 1;
+			}
+
 			return temporalDifferentialEntropyKl(
 				signalSet,
 				timeWindowRadius,
@@ -127,11 +139,7 @@ namespace Tim
 				kNearest);
 		}
 
-		if (signalSet.empty())
-		{
-			return true;
-		}
-
+		const integer kNearest = tsallisDecideK(q, kNearestSuggestion);
 		const integer dimension = signalSet.front()->dimension();
 		
 		const LpsTsallis_EntropyAlgorithm entropyAlgorithm(
@@ -153,7 +161,7 @@ namespace Tim
 		Real_OutputIterator result,
 		real q,
 		real maxRelativeError,
-		integer kNearest)
+		integer kNearestSuggestion)
 	{
 		return Tim::temporalTsallisEntropyLps(
 			signal,
@@ -161,7 +169,7 @@ namespace Tim
 			result,
 			q,
 			maxRelativeError,
-			kNearest);
+			kNearestSuggestion);
 	}
 
 	// Tsallis entropy
@@ -172,10 +180,16 @@ namespace Tim
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		real q,
 		real maxRelativeError,
-		integer kNearest)
+		integer kNearestSuggestion)
 	{
-		ENSURE_OP(kNearest, >, 0);
+		ENSURE_OP(q, >, 0);
 		ENSURE_OP(maxRelativeError, >=, 0);
+		ENSURE_OP(kNearestSuggestion, >=, 0);
+
+		if (signalSet.empty())
+		{
+			return true;
+		}
 
 		if (q == 1)
 		{
@@ -185,12 +199,19 @@ namespace Tim
 			// differential entropy. We will return
 			// this value instead for convenience.
 
+			integer kNearest = kNearestSuggestion;
+			if (kNearestSuggestion == 0)
+			{
+				kNearest = 1;
+			}
+
 			return differentialEntropyKl(
 				signalSet,
 				maxRelativeError,
 				kNearest);
 		}
 
+		const integer kNearest = tsallisDecideK(q, kNearestSuggestion);
 		const integer dimension = signalSet.front()->dimension();
 		
 		const LpsTsallis_EntropyAlgorithm entropyAlgorithm(
