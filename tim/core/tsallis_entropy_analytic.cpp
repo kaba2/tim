@@ -5,8 +5,8 @@ namespace Tim
 {
 
 	TIM real gaussianTsallisEntropy(
-		integer dimension,
 		real q,
+		integer dimension,
 		real covarianceDeterminant)
 	{
 		if (q == 1)

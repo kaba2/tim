@@ -23,7 +23,7 @@ namespace Tim
 			integer dimension,
 			integer kNearest,
 			real q)
-			: distancePower_(dimension / (1 - q))
+			: distancePower_(dimension * (1 - q))
 			, lnGammaDifference_(
 				lnGamma<real>(kNearest) -
 				lnGamma<real>(kNearest + 1 - q))
@@ -48,8 +48,8 @@ namespace Tim
 
 			// log(I) 
 			// = log[(1 / N) sum_{i = 1}^M ((M - 1) C_k V_m (d_i)^m)^(1 - q)]
-			// = log[((M - 1) C_k V_m)^(1 - q) (1 / N) sum_{i = 1}^M d_i^(m / (1 - q))]
-			// = F + log[(1 / N) sum_{i = 1}^M d_i^(m / (1 - q))]
+			// = log[((M - 1) C_k V_m)^(1 - q) (1 / N) sum_{i = 1}^M d_i^(m(1 - q))]
+			// = F + log[(1 / N) sum_{i = 1}^M d_i^(m(1 - q))]
 			//
 			// where
 			//
@@ -108,11 +108,12 @@ namespace Tim
 		Real_OutputIterator result,
 		real q,
 		real maxRelativeError,
-		integer kNearest)
+		integer kNearestSuggestion)
 	{
-		ENSURE_OP(timeWindowRadius, >=, 1);
+		ENSURE_OP(timeWindowRadius, >=, 0);
+		ENSURE_OP(q, >, 0);
 		ENSURE_OP(maxRelativeError, >=, 0);
-		ENSURE_OP(kNearest, >, 0);
+		ENSURE_OP(kNearestSuggestion, >=, 0);
 
 		if (q == 1)
 		{
@@ -121,6 +122,12 @@ namespace Tim
 			// approaches 1 is given by the Shannon
 			// differential entropy. We will return
 			// this value instead for convenience.
+
+			integer kNearest = kNearestSuggestion;
+			if (kNearestSuggestion == 0)
+			{
+				kNearest = 1;
+			}
 
 			return temporalDifferentialEntropyKl(
 				signalSet,
@@ -135,6 +142,7 @@ namespace Tim
 			return true;
 		}
 
+		const integer kNearest = renyiDecideK(q, kNearestSuggestion);
 		const integer dimension = signalSet.front()->dimension();
 		
 		const LpsRenyi_EntropyAlgorithm entropyAlgorithm(
@@ -156,7 +164,7 @@ namespace Tim
 		Real_OutputIterator result,
 		real q,
 		real maxRelativeError,
-		integer kNearest)
+		integer kNearestSuggestion)
 	{
 		return Tim::temporalRenyiEntropyLps(
 			signal,
@@ -164,7 +172,7 @@ namespace Tim
 			result,
 			q,
 			maxRelativeError,
-			kNearest);
+			kNearestSuggestion);
 	}
 
 	// Renyi entropy
@@ -175,10 +183,11 @@ namespace Tim
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		real q,
 		real maxRelativeError,
-		integer kNearest)
+		integer kNearestSuggestion)
 	{
-		ENSURE_OP(kNearest, >, 0);
+		ENSURE_OP(q, >, 0);
 		ENSURE_OP(maxRelativeError, >=, 0);
+		ENSURE_OP(kNearestSuggestion, >=, 0);
 
 		if (q == 1)
 		{
@@ -188,12 +197,19 @@ namespace Tim
 			// differential entropy. We will return
 			// this value instead for convenience.
 
+			integer kNearest = kNearestSuggestion;
+			if (kNearestSuggestion == 0)
+			{
+				kNearest = 1;
+			}
+
 			return differentialEntropyKl(
 				signalSet,
 				maxRelativeError,
 				kNearest);
 		}
 
+		const integer kNearest = renyiDecideK(q, kNearestSuggestion);
 		const integer dimension = signalSet.front()->dimension();
 		
 		const LpsRenyi_EntropyAlgorithm entropyAlgorithm(

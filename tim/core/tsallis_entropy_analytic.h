@@ -14,13 +14,13 @@ namespace Tim
 	dimension > 0
 	covarianceDeterminant >= 0
 
-	dimension:
-	The dimension of the distribution.
-
 	q:
 	The power in the definition of Renyi entropy.
 	If q = 1, gaussianDifferentialEntropy() is returned
 	instead.
+
+	dimension:
+	The dimension of the distribution.
 
 	covarianceDeterminant:
 	Determinant of the covariance matrix of the distribution.
@@ -29,8 +29,8 @@ namespace Tim
 	The Tsallis entropy of the gaussian distribution.
 	*/
 	TIM real gaussianTsallisEntropy(
-		integer dimension,
 		real q,
+		integer dimension,
 		real covarianceDeterminant);
 
 	//! Tsallis entropy of a uniform distribution.
