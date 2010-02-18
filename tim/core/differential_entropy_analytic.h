@@ -21,7 +21,7 @@ namespace Tim
 	Determinant of the covariance matrix of the distribution.
 
 	Returns:
-	The differential entropy of the distribution.
+	The differential entropy of the gaussian distribution.
 	*/
 	TIM real gaussianDifferentialEntropy(
 		integer dimension, real covarianceDeterminant);
@@ -29,14 +29,14 @@ namespace Tim
 	//! Differential entropy of a uniform distribution.
 	/*!
 	Preconditions:
-	supportVolume >= 0
+	supportVolume > 0
 
 	supportVolume:
 	The measure m of the support of the probability density
 	function p: m({x in R^n: p(x) != 0})
 
 	Returns:
-	The differential entropy of the distribution.
+	The differential entropy of the uniform distribution.
 	*/
 	TIM real uniformDifferentialEntropy(
 		real supportVolume);
@@ -58,7 +58,8 @@ namespace Tim
 	The scale parameter of the distribution.
 
 	Returns:
-	The differential entropy of the distribution.
+	The differential entropy of the generalized
+	gaussian distribution.
 	*/
 	TIM real generalizedGaussianDifferentialEntropy(
 		integer dimension, real shape, real scale);

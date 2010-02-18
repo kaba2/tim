@@ -4,5 +4,6 @@
 #define TIM_TSALLIS_ENTROPY_H
 
 #include "tim/core/tsallis_entropy_lps.h"
+#include "tim/core/tsallis_entropy_analytic.h"
 
 #endif

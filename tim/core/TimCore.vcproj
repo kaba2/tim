@@ -513,6 +513,22 @@
 							>
 						</File>
 					</Filter>
+					<Filter
+						Name="Analytic"
+						>
+						<File
+							RelativePath=".\renyi_entropy_analytic.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\renyi_entropy_analytic.h"
+							>
+						</File>
+						<File
+							RelativePath=".\renyi_entropy_analytic.txt"
+							>
+						</File>
+					</Filter>
 				</Filter>
 				<Filter
 					Name="Differential entropy"
@@ -638,6 +654,22 @@
 						</File>
 						<File
 							RelativePath=".\tsallis_entropy_lps.txt"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="Analytic"
+						>
+						<File
+							RelativePath=".\tsallis_entropy_analytic.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\tsallis_entropy_analytic.h"
+							>
+						</File>
+						<File
+							RelativePath=".\tsallis_entropy_analytic.txt"
 							>
 						</File>
 					</Filter>
