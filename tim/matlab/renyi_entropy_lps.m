@@ -2,7 +2,7 @@
 % A Renyi entropy estimate from samples
 % using Leonenko-Pronzato-Savani nearest neighbor estimator.
 %
-% H = renyi_entropy_lps(S, q, epsilon, k, threads)
+% H = renyi_entropy_lps(S, q, epsilon, kSuggestion, threads)
 %
 % where
 %
@@ -11,16 +11,22 @@
 % contains n samples of an m-dimensional signal.
 %
 % Q is the power in the definition Renyi entropy.
-% In case Q = 1, differential_entropy_kl() is used to
-% compute the result instead. Default 2.
+% If Q = 1, differential_entropy_kl() is used to
+% compute the result instead. 
+% If Q < 1, there are huge errors in the estimation.
+% Default 2.
 %
 % EPSILON is the maximum relative error in distance that
 % nearest neighbor searching is allowed to result in.
 % Higher tolerances result in enhanced performance, but
 % increases errors in the estimate. Default 0.
 %
-% K determines which k:th nearest neighbor the algorithm
-% uses for estimation. Default 1.
+% KSUGGESTION is a suggestion for the k:th nearest neighbor 
+% that should be used for estimation. The k can't
+% be freely set because the estimation algorithm is only defined
+% for k > q - 1. Value zero means an accurate (q-dependent) default 
+% is used. For accurate results one should choose 
+% kSuggestion >= 2 * ceil(q) - 1. Default 0.
 %
 % THREADS determines the number of threads to use for parallelization.
 % To fully take advantage of multiple cores in your machine, set this
@@ -32,7 +38,7 @@
 % Detail: Leonenko-Pronzato-Savani nearest neighbor estimator
 % Documentation: tim_matlab.txt
 
-function H = renyi_entropy_lps(S, q, epsilon, k, threads)
+function H = renyi_entropy_lps(S, q, epsilon, kSuggestion, threads)
 
 if nargin < 1
     error('Not enough input arguments.');
@@ -55,7 +61,7 @@ if nargin < 3
 end
 
 if nargin < 4
-    k = 1;
+    kSuggestion = 0;
 end
 
 if nargin < 5
@@ -74,17 +80,17 @@ if size(epsilon, 1) ~= 1 || ...
     error('EPSILON must be a scalar.');
 end
 
-if size(k, 1) ~= 1 || ...
-   size(k, 2) ~= 1
-    error('K must be a scalar integer.');
+if size(kSuggestion, 1) ~= 1 || ...
+   size(kSuggestion, 2) ~= 1
+    error('KSUGGESTION must be a scalar integer.');
 end
 
 if epsilon < 0
     error('EPSILON must be non-negative.');
 end
 
-if k < 1
-    error('K must be at least 1.');
+if kSuggestion < 1
+    error('KSUGGESTION must be at least 1.');
 end
 
 if size(threads, 1) ~= 1 || ...
@@ -96,4 +102,4 @@ if threads < 1
     error('THREADS must be at least 1.');
 end
 
-H = timRenyiEntropyLps(S, q, epsilon, k, threads);
+H = timRenyiEntropyLps(S, q, epsilon, kSuggestion, threads);

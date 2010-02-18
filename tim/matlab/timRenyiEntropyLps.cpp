@@ -12,7 +12,7 @@ void mexFunction(int outputs, mxArray *outputSet[],
 		xIndex,
 		qIndex,
 		maxRelativeErrorIndex,
-		kNearestIndex,
+		kNearestSuggestionIndex,
 		threadsIndex
 	};
 
@@ -21,7 +21,7 @@ void mexFunction(int outputs, mxArray *outputSet[],
 
 	const real q = getReal(inputSet[qIndex]);
 	const real maxRelativeError = getReal(inputSet[maxRelativeErrorIndex]);
-	const integer kNearest = getInteger(inputSet[kNearestIndex]);
+	const integer kNearestSuggestion = getInteger(inputSet[kNearestSuggestionIndex]);
 	const integer threads = getInteger(inputSet[threadsIndex]);
 	setNumberOfThreads(threads);
 	
@@ -30,5 +30,5 @@ void mexFunction(int outputs, mxArray *outputSet[],
 
 	*rawResult = renyiEntropyLps(
 		randomAccessRange(xEnsemble.begin(), xEnsemble.end()), 
-		q, maxRelativeError, kNearest);
+		q, maxRelativeError, kNearestSuggestion);
 }
