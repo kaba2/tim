@@ -13,7 +13,7 @@ void mexFunction(int outputs, mxArray *outputSet[],
 		timeWindowRadiusIndex,
 		qIndex,
 		maxRelativeErrorIndex,
-		kNearestIndex,
+		kNearestSuggestionIndex,
 		threadsIndex
 	};
 
@@ -23,7 +23,7 @@ void mexFunction(int outputs, mxArray *outputSet[],
 	const integer timeWindowRadius = getInteger(inputSet[timeWindowRadiusIndex]);
 	const real q = getReal(inputSet[qIndex]);
 	const real maxRelativeError = getReal(inputSet[maxRelativeErrorIndex]);
-	const integer kNearest = getInteger(inputSet[kNearestIndex]);
+	const integer kNearestSuggestion = getInteger(inputSet[kNearestSuggestionIndex]);
 	const integer threads = getInteger(inputSet[threadsIndex]);
 	setNumberOfThreads(threads);
 
@@ -36,7 +36,7 @@ void mexFunction(int outputs, mxArray *outputSet[],
 		std::back_inserter(estimateSet),
 		q,
 		maxRelativeError,
-		kNearest);
+		kNearestSuggestion);
 
 	outputSet[0] = mxCreateDoubleMatrix(1, estimateSet.size(), mxREAL);
 	real* rawResult = mxGetPr(outputSet[0]);

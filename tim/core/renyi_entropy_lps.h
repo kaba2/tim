@@ -69,8 +69,9 @@ namespace Tim
 
 	kNearestSuggestion:
 	A suggestion for the k:th nearest neighbor that should be
-	used to estimate Renyi entropy. Value zero means
-	an accurate (q-dependent) default is used.
+	used for estimation. The k can't be set	freely because the 
+	estimation algorithm is only defined for k > q - 1. 
+	Value zero means an accurate (q-dependent) default is used.
 	The actual k that is used is given by renyiDecideK().
 	For accurate results one should choose 
 	kNearestSuggestion >= 2 * ceil(q) - 1.
@@ -145,9 +146,10 @@ namespace Tim
 
 	kNearestSuggestion:
 	A suggestion for the k:th nearest neighbor that should be
-	used to estimate Tsallis entropy. Value zero means
-	an accurate (q-dependent) default is used.
-	The actual k that is used is given by tsallisDecideK().
+	used for estimation. The k can't be set	freely because the 
+	estimation algorithm is only defined for k > q - 1. 
+	Value zero means an accurate (q-dependent) default is used.
+	The actual k that is used is given by renyiDecideK().
 	For accurate results one should choose 
 	kNearestSuggestion >= 2 * ceil(q) - 1.
 
