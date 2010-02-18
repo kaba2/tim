@@ -4,5 +4,6 @@
 #define TIM_RENYI_ENTROPY_H
 
 #include "tim/core/renyi_entropy_lps.h"
+#include "tim/core/renyi_entropy_analytic.h"
 
 #endif

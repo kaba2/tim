@@ -18,7 +18,7 @@ namespace Tim
 
 	TIM real uniformDifferentialEntropy(real supportVolume)
 	{
-		PENSURE_OP(supportVolume, >=, 0);
+		PENSURE_OP(supportVolume, >, 0);
 
 		// Let X be a random variable in R^n 
 		// with a probability density function p.

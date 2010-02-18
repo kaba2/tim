@@ -1,0 +1,62 @@
+Analytic solutions for Tsallis entropies
+========================================
+
+[[Parent]]: tsallis_entropy.txt
+
+Integral over a multivariate gaussian to power q
+------------------------------------------------
+
+Let ''C in RR^{n xx n}'' be a positive-definite matrix.
+The probability density function of a multivariate gaussian 
+in ''RR^n'' is given by ''f : RR^n -> R'':
+
+''f(x) = A e^(-(1/2)x^T C^-1 x)''
+
+where
+
+''A = 1 / ((2 pi)^(n / 2) det(C)^(1 / 2))''
+
+We assume without loss of generality that the distribution 
+is origin-centered. Let
+
+''I = int_{RR^n} f^q(x) dx 
+= int_{RR^n} A^q e^(-(1/2)(sqrt(q) x)^T C^-1 (sqrt(q) x)) dx''
+
+In the analytic solutions for Renyi entropies
+this integral is solved as:
+
+''I = A^(q - 1) / q^(n / 2)''
+
+Tsallis entropy of a multivariate gaussian
+------------------------------------------
+
+Using the notation from the previous section,
+the Tsallis entropy is given for a multivariate gaussian ''X'' by:
+
+''H_q(X) = (1 - I) / (q - 1)''
+
+which is fine for evaluation as it is.
+
+Tsallis entropy of a uniform distribution
+-----------------------------------------
+
+Let ''X'' be random variable with a uniform distribution
+on ''S sub RR^n''. The corresponding probability density 
+function ''f : RR^n -> R'' is given by ''f(x) = (chi_S(x)) / (m(S))'',
+where ''m(S)'' is the Lebesgue measure of ''S'' and ''chi_S''
+is the characteristic function of ''S''.
+
+''I = int_{RR^n} f(x)^q dx
+= (1 / (m(S)))^q int_{S} 1 dx
+= 1 / (m^(q - 1)(S))''
+
+Then
+
+''H_q(X) = (1 - I) / (1 - q)''
+
+which is fine for evaluation as it is.
+
+See also
+--------
+
+[[Link]]: renyi_entropy_analytic.txt

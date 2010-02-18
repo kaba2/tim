@@ -1,0 +1,73 @@
+Analytic solutions for Renyi entropies
+======================================
+
+[[Parent]]: renyi_entropy.txt
+
+Integral over a multivariate gaussian to power q
+------------------------------------------------
+
+Let ''C in RR^{n xx n}'' be a positive-definite matrix.
+The probability density function of a multivariate gaussian 
+in ''RR^n'' is given by ''f : RR^n -> R'':
+
+''f(x) = A e^(-(1/2)x^T C^-1 x)''
+
+where
+
+''A = 1 / ((2 pi)^(n / 2) det(C)^(1 / 2))''
+
+We assume without loss of generality that the distribution 
+is origin-centered. Let
+
+''I = int_{RR^n} f^q(x) dx 
+= int_{RR^n} A^q e^(-(1/2)(sqrt(q) x)^T C^-1 (sqrt(q) x)) dx''
+
+By change of variables ''y = sqrt(q) x'':
+
+''I = [A^q / q^(n / 2)] int_{RR^n} e^(-(1/2)y^T C^-1 y) dy''
+
+''= [A^(q - 1) / q^(n / 2)] int_{RR^n} A e^(-(1/2)y^T C^-1 y) dy''
+
+''= [A^(q - 1) / q^(n / 2)] int_{RR^n} f(y) dy''
+
+''= A^(q - 1) / q^(n / 2)''
+
+As a check for ''q = 1'' we get ''I = 1''.
+
+Renyi entropy of a multivariate gaussian
+----------------------------------------
+
+Using the notation from the previous section,
+the Renyi entropy is given for a multivariate gaussian ''X'' by:
+
+''H_q(X) = log(I) / (1 - q)''
+
+''= [(q - 1)log(A) - (n / 2)log(q)] / (1 - q)''
+
+''= -log(A) - (n / 2)log(q) / (1 - q)''
+
+''= (n / 2)log(2 pi) + (1 / 2)log(det(C)) - (n / 2)log(q) / (1 - q)''
+
+''= (n / 2)[log(2 pi) - (log(q) / (1 - q))] + (1 / 2)log(det(C))''
+
+Renyi entropy of a uniform distribution
+---------------------------------------
+
+Let ''X'' be random variable with a uniform distribution
+on ''S sub RR^n''. The corresponding probability density 
+function ''f : RR^n -> R'' is given by ''f(x) = (chi_S(x)) / (m(S))'',
+where ''m(S)'' is the Lebesgue measure of ''S'' and ''chi_S''
+is the characteristic function of ''S''.
+
+''I = int_{RR^n} f(x)^q dx
+= (1 / (m(S)))^q int_{S} 1 dx
+= 1 / (m^(q - 1)(S))''
+
+Then
+
+''H_q(X) = log(I) / (1 - q)
+= (1 - q)log(m(S)) / (1 - q)
+= log(m(S))''
+
+Notice that the Renyi entropy of a uniform distribution
+is independent of ''q''.
