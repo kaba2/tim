@@ -51,7 +51,7 @@ if nargout > 1
 end
 
 if nargin < 2
-	q = 2
+	q = 2;
 end
 
 if nargin < 3
