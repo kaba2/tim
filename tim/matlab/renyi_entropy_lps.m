@@ -85,12 +85,16 @@ if size(kSuggestion, 1) ~= 1 || ...
     error('KSUGGESTION must be a scalar integer.');
 end
 
+if q <= 0
+	error('Q must be positive');
+end
+
 if epsilon < 0
     error('EPSILON must be non-negative.');
 end
 
-if kSuggestion < 1
-    error('KSUGGESTION must be at least 1.');
+if kSuggestion < 0
+    error('KSUGGESTION must be non-negative.');
 end
 
 if size(threads, 1) ~= 1 || ...
