@@ -398,6 +398,10 @@
 			RelativePath=".\test_transfer_entropy.cpp"
 			>
 		</File>
+		<File
+			RelativePath=".\test_tsallis_entropy.cpp"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

@@ -23,11 +23,11 @@ namespace Tim
 			integer dimension,
 			integer kNearest,
 			real q)
-			: distancePower_(dimension / (1 - q))
+			: distancePower_(dimension * (1 - q))
 			, gammaRatio_(
 				gamma<real>(kNearest) / 
 				gamma<real>(kNearest + 1 - q))
-			, finalFactor_(inverse(1 - q))
+			, finalFactor_(inverse(q - 1))
 			, q_(q)
 		{
 		}
@@ -48,8 +48,8 @@ namespace Tim
 
 			// I
 			// = (1 / N) sum_{i = 1}^M ((M - 1) C_k V_m (d_i)^m)^(1 - q)
-			// = ((M - 1) C_k V_m)^(1 - q) (1 / N) sum_{i = 1}^M d_i^(m / (1 - q))
-			// = F (1 / N) sum_{i = 1}^M d_i^(m / (1 - q))
+			// = ((M - 1) C_k V_m)^(1 - q) (1 / N) sum_{i = 1}^M d_i^(m * (1 - q))
+			// = F (1 / N) sum_{i = 1}^M d_i^(m * (1 - q))
 			//
 			// where
 			//
@@ -79,8 +79,10 @@ namespace Tim
 				std::exp(normBijection_.lnVolumeUnitSphere(dimension)), 1 - q_) *
 				gammaRatio_;
 
+			const real I = F * (estimate / acceptedSamples);
+
 			const real tsallisEntropy = 
-				finalFactor_ * (1 - F * (estimate / acceptedSamples));
+				(1 - I) * finalFactor_;
 
 			return tsallisEntropy;
 		}
