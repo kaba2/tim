@@ -36,7 +36,7 @@
 % the minimum sample count among all the trials in SIGNALSET.
 
 % Description: Entropy combination estimation
-% Documentation: tim_matlab.txt
+% Documentation: tim_matlab_matlab.txt
 
 function I = entropy_combination(signalSet, rangeSet, lagSet, k, threads)
 

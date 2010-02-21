@@ -38,7 +38,7 @@
 % The number of trials in X, Y, and Z must be equal.
 
 % Description: Temporal partial mutual information estimation
-% Documentation: tim_matlab.txt
+% Documentation: tim_matlab_matlab.txt
 
 function I = mutual_information_pt(...
     X, Y, Z, timeWindowRadius, xLag, yLag, zLag, k, threads)

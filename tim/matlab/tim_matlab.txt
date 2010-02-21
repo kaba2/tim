@@ -3,25 +3,51 @@ TIM Matlab interface
 
 [[Parent]]: tim.txt
 
-Naming
-------
+There are two sides to the implementation of TIM Matlab:
+the C++ implementation and the Matlab implementation.
+The Matlab implementation consists mostly of redirection
+functions that check the parameters at the Matlab's side,
+and if they are correct, forward the calls to the C++
+implementation via the tim_matlab mex file.
+In the C++ implementation side, TIM Matlab mostly
+consists of interpreting the data via correct
+data abstractions so that they can be forwarded to the 
+actual computation functions of TIM Core. As a user
+of TIM Matlab, you only need to know about the Matlab
+implementation.
 
-In the function names, the 't' suffix stands for a temporal version, 
-which is adaptive to temporal changes in the estimated measure
-via time-windowing. The 'p' suffix stands for a partialized
-version (partial mutual information and partial transfer entropy). 
+General information
+-------------------
+
+### Naming
+
+In the function names, the _t_ suffix stands for a temporal version,
+while the _p_ suffix stands for a partialized version 
+(partial mutual information and partial transfer entropy). 
 Because partialization and temporality are orthogonal 
 concepts, there are also versions which have both. These are 
-named with the 'pt' suffix.
-If you do not need temporal results, then you should use
+named with the _pt_ suffix.
+
+### Efficiency
+
+If you do not need temporal results, you should use
 the non-temporal versions: they are more efficient
 in their memory use when using multiple threads 
 (however, their performance is similar).
 
-Integrated help
----------------
+### Integrated help
 
 You can find function-specific documentation by using 
 Matlab's integrated help system. For example, for help on
-using the differential_entropy_kl function, enter 
-'help differential_entropy_kl' in Matlab.
+using the differential_entropy_kl function: 
+	
+	>> help differential_entropy_kl
+	  DIFFERENTIAL_ENTROPY_KL
+	  A differential entropy estimate from samples
+	  using Kozachenko-Leonenko nearest neighbor estimator.
+	 
+	  H = differential_entropy_kl(S, epsilon, k, threads)
+	 
+	  where
+	  ...	
+	 

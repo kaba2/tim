@@ -6,8 +6,7 @@ Delay embedding
 Theory
 ------
 
-Let ''S'' be a function ''S : ZZ -> RR^n.'', i.e. 
-an ''n''-dimensional signal.
+Let ''S : ZZ -> RR^n'' be an ''n''-dimensional signal.
 
 ### Delay-embedding
 

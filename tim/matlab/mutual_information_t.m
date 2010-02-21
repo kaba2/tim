@@ -38,7 +38,7 @@
 % The number of trials in X and Y must be equal.
 
 % Description: Temporal mutual information estimation
-% Documentation: tim_matlab.txt
+% Documentation: tim_matlab_matlab.txt
 
 function I = mutual_information_t(X, Y, timeWindowRadius, ...
     xLag, yLag, k, threads)

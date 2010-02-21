@@ -28,16 +28,12 @@ The function definitions are given in the following form:
 		t0 = 0 : integer,
 		dt = 1 : integer) : signal
 		
-Returns a delay-embedding. 
-
 	delay_embed_future(
 		input : signal,
 		k : integer,
 		t0 = 0 : integer,
 		dt = 1 : integer) : signal
 		
-Returns the future of a signal under a given delay-embedding.
-
 See 
 [[Link]]: ../core/embed.txt
 .

@@ -1,3 +1,15 @@
+% CHECK_SIGNALSET
+% Checks a signal-set for basic validity.
+%
+% check_signalset(X)
+%
+% where
+%
+% X is an 2-dimensional array of signals.
+
+% Description: Checks a signal-set for basic validity
+% Documentation: tim_matlab_matlab.txt
+
 function check_signalset(X)
 
 if ~iscell(X)

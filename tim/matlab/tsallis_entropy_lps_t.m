@@ -42,7 +42,7 @@
 
 % Description: Temporal Tsallis entropy estimation
 % Detail: Leonenko-Pronzato-Savani nearest neighbor estimator
-% Documentation: tim_matlab.txt
+% Documentation: tim_matlab_matlab.txt
 
 function H = tsallis_entropy_kl_t(...
     S, timeWindowRadius, q, epsilon, kSuggestion, threads)
