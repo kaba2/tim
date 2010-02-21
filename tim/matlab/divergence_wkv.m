@@ -62,6 +62,7 @@ if threads < 1
     error('THREADS must be at least 1.');
 end
 
-D = timDivergenceWkv(X, Y, threads);
+D = tim_matlab('divergence_wkv', ...
+	X, Y, threads);
 
 end

@@ -104,4 +104,5 @@ if threads < 1
     error('THREADS must be at least 1.');
 end
 
-H = timTsallisEntropyLps(S, q, epsilon, kSuggestion, threads);
+H = tim_matlab('tsallis_entropy_lps', ...
+	S, q, epsilon, kSuggestion, threads);

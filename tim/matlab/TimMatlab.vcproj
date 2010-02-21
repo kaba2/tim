@@ -404,17 +404,37 @@
 				>
 			</File>
 			<File
-				RelativePath=".\tsallis_entropy.m"
+				RelativePath=".\tsallis_entropy_lps.m"
 				>
 			</File>
 			<File
-				RelativePath=".\tsallis_entropy_t.m"
+				RelativePath=".\tsallis_entropy_lps_t.m"
 				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Mex files"
 			>
+			<File
+				RelativePath=".\tim_matlab.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\tim_matlab.h"
+				>
+			</File>
+			<File
+				RelativePath=".\tim_matlab_cpp.txt"
+				>
+			</File>
+			<File
+				RelativePath=".\tim_matlab_entrypoint.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\tim_matlab_functions.txt"
+				>
+			</File>
 			<File
 				RelativePath=".\tim_mex.h"
 				>

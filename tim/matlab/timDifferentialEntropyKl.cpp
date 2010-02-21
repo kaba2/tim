@@ -1,32 +1,50 @@
-#include "tim/matlab/tim_mex.h"
+// Description: differential_entropy_kl
+// Documentation: tim_matlab_functions.txt
+
+#include "tim/matlab/tim_matlab.h"
 
 #include "tim/core/differential_entropy_kl.h"
 
 using namespace Tim;
 
-void mexFunction(int outputs, mxArray *outputSet[],
-				 int inputs, const mxArray *inputSet[])
+namespace
 {
-	enum
+
+	void matlabDifferentialEntropyKl(
+		int outputs, mxArray *outputSet[],
+		int inputs, const mxArray *inputSet[])
 	{
-		xIndex,
-		maxRelativeErrorIndex,
-		kNearestIndex,
-		threadsIndex
-	};
+		enum
+		{
+			xIndex,
+			maxRelativeErrorIndex,
+			kNearestIndex,
+			threadsIndex
+		};
 
-	std::vector<SignalPtr> xEnsemble;
-	getSignals(inputSet[xIndex], std::back_inserter(xEnsemble));
+		std::vector<SignalPtr> xEnsemble;
+		getSignals(inputSet[xIndex], std::back_inserter(xEnsemble));
 
-	const real maxRelativeError = getReal(inputSet[maxRelativeErrorIndex]);
-	const integer kNearest = getInteger(inputSet[kNearestIndex]);
-	const integer threads = getInteger(inputSet[threadsIndex]);
-	setNumberOfThreads(threads);
-	
-	outputSet[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
-	real* rawResult = mxGetPr(outputSet[0]);
+		const real maxRelativeError = getReal(inputSet[maxRelativeErrorIndex]);
+		const integer kNearest = getInteger(inputSet[kNearestIndex]);
+		const integer threads = getInteger(inputSet[threadsIndex]);
+		setNumberOfThreads(threads);
 
-	*rawResult = differentialEntropyKl(
-		randomAccessRange(xEnsemble.begin(), xEnsemble.end()), 
-		maxRelativeError, kNearest);
+		outputSet[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
+		real* rawResult = mxGetPr(outputSet[0]);
+
+		*rawResult = differentialEntropyKl(
+			randomAccessRange(xEnsemble.begin(), xEnsemble.end()), 
+			maxRelativeError, kNearest);
+	}
+
+	void addFunction()
+	{
+		matlabAddFunction(
+			"differential_entropy_kl",
+			matlabDifferentialEntropyKl);
+	}
+
+	CallFunction run(addFunction);
+
 }

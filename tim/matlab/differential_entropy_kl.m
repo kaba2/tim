@@ -83,4 +83,5 @@ if threads < 1
     error('THREADS must be at least 1.');
 end
 
-H = timDifferentialEntropyKl(S, epsilon, k, threads);
+H = tim_matlab('differential_entropy_kl', ...
+	S, epsilon, k, threads);

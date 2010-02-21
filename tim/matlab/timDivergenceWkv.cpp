@@ -1,32 +1,50 @@
-#include "tim/matlab/tim_mex.h"
+// Description: divergence_wkv
+// Documentation: tim_matlab_functions.txt
+
+#include "tim/matlab/tim_matlab.h"
 
 #include "tim/core/divergence_wkv.h"
 
 using namespace Tim;
 
-void mexFunction(int outputs, mxArray *outputSet[],
-				 int inputs, const mxArray *inputSet[])
+namespace
 {
-	enum
+
+	void matlabDivergenceWkv(
+		int outputs, mxArray *outputSet[],
+		int inputs, const mxArray *inputSet[])
 	{
-		xIndex,
-		yIndex,
-		threadsIndex
-	};
+		enum
+		{
+			xIndex,
+			yIndex,
+			threadsIndex
+		};
 
-	std::vector<SignalPtr> xEnsemble;
-	getSignals(inputSet[xIndex], std::back_inserter(xEnsemble));
+		std::vector<SignalPtr> xEnsemble;
+		getSignals(inputSet[xIndex], std::back_inserter(xEnsemble));
 
-	std::vector<SignalPtr> yEnsemble;
-	getSignals(inputSet[yIndex], std::back_inserter(yEnsemble));
+		std::vector<SignalPtr> yEnsemble;
+		getSignals(inputSet[yIndex], std::back_inserter(yEnsemble));
 
-	const integer threads = getInteger(inputSet[threadsIndex]);
-	setNumberOfThreads(threads);
+		const integer threads = getInteger(inputSet[threadsIndex]);
+		setNumberOfThreads(threads);
 
-	outputSet[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
-	real* rawResult = mxGetPr(outputSet[0]);
+		outputSet[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
+		real* rawResult = mxGetPr(outputSet[0]);
 
-	*rawResult = divergenceWkv(
-		randomAccessRange(xEnsemble.begin(), xEnsemble.end()), 
-		randomAccessRange(yEnsemble.begin(), yEnsemble.end()));
+		*rawResult = divergenceWkv(
+			randomAccessRange(xEnsemble.begin(), xEnsemble.end()), 
+			randomAccessRange(yEnsemble.begin(), yEnsemble.end()));
+	}
+
+	void addFunction()
+	{
+		matlabAddFunction(
+			"divergence_wkv",
+			matlabDivergenceWkv);
+	}
+
+	CallFunction run(addFunction);
+
 }

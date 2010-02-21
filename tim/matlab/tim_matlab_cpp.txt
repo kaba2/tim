@@ -1,0 +1,30 @@
+TIM Matlab C++ implementation
+=============================
+
+[[Parent]]: tim_matlab.txt
+
+There can be only one entry point into a mex library.
+This entry point is located at _tim_matlab.cpp_, in
+the _mexFunction_ function. However, it is useful to 
+pack multiple functions into a single mex library 
+because otherwise much of the same binary code 
+gets replicated into multiple mex libraries, resulting
+in unnecessary large Matlab interfaces (in terms
+of disk space). To achieve this, TIM Matlab exposes
+to the Matlab side a single mex function called 
+tim_matlab(). The first argument of this function 
+specifies the name of the function that should be 
+called inside the C++ implementation while the rest 
+of the arguments are arguments for that function.
+
+The TIM Matlab interface can be expanded easily by
+implementing new C++ functions and registering them 
+to be callable via tim_matlab. If you need to do
+this, have a look at how the existing functions have
+been implemented.
+
+In Matlab, calling 
+
+	tim_matlab('list');
+	
+lists all the registered functions.

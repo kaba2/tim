@@ -1,3 +1,6 @@
+// Description: Functions to ease interfacing with Matlab
+// Documentation: tim_matlab_cpp.txt
+
 #ifndef TIM_TIM_MEX_H
 #define TIM_TIM_MEX_H
 
@@ -7,12 +10,17 @@
 #include "tim/core/signal.h"
 
 #include <pastel/sys/array.h>
+#include <pastel/sys/callfunction.h>
 
 #include <boost/static_assert.hpp>
 #include <boost/type_traits/is_same.hpp>
 
 namespace Tim
 {
+
+	typedef void (MatlabFunction)(
+		int outputs, mxArray *outputSet[],
+		int inputs, const mxArray *inputSet[]);
 
 	namespace Detail
 	{
@@ -36,6 +44,8 @@ namespace Tim
 	integer getInteger(const mxArray* input);
 
 	real getReal(const mxArray* input);
+
+	std::string getString(const mxArray* input);
 
 	void setNumberOfThreads(integer threads);
 
