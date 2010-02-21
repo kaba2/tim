@@ -328,7 +328,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\checkSignalSet.m"
+				RelativePath=".\check_signalset.m"
 				>
 			</File>
 			<File
@@ -416,6 +416,54 @@
 			Name="Mex files"
 			>
 			<File
+				RelativePath=".\matlab_differential_entropy_kl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\matlab_differential_entropy_kl_tl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\matlab_differential_entropy_nk.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\matlab_differential_entropy_sp.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\matlab_divergence_wkv.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\matlab_entropy_combination.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\matlab_entropy_combination_t.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\matlab_mutual_information_naive.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\matlab_renyi_entropy_lps.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\matlab_renyi_entropy_lps_t.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\matlab_tsallis_entropy_lps.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\matlab_tsallis_entropy_lps_t.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\tim_matlab.cpp"
 				>
 			</File>
@@ -437,54 +485,6 @@
 			</File>
 			<File
 				RelativePath=".\tim_mex.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\timDifferentialEntropyKl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\timDifferentialEntropyNk.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\timDifferentialEntropySp.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\timDivergenceWkv.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\timEntropyCombination.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\timMutualInformationNaive.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\timRenyiEntropyLps.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\timTemporalDifferentialEntropyKl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\timTemporalEntropyCombination.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\timTemporalRenyiEntropyLps.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\timTemporalTsallisEntropyLps.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\timTsallisEntropyLps.cpp"
 				>
 			</File>
 		</Filter>

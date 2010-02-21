@@ -1,4 +1,4 @@
-function checkSignalSet(X)
+function check_signalset(X)
 
 if ~iscell(X)
     error('A signal-set is not a cell-array.');

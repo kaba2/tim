@@ -24,7 +24,7 @@ using namespace Tim;
 namespace
 {
 
-	void matlabList(
+	void matlabListFunctions(
 		int outputs, mxArray *outputSet[],
 		int inputs, const mxArray *inputSet[])
 	{
@@ -46,7 +46,7 @@ namespace
 	void addFunction()
 	{
 		matlabAddFunction(
-			"list",
+			"list_functions",
 			matlabList);
 	}
 
