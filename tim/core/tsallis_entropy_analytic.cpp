@@ -9,6 +9,10 @@ namespace Tim
 		integer dimension,
 		real covarianceDeterminant)
 	{
+		PENSURE_OP(q, >, 0);
+		PENSURE_OP(dimension, >, 0);
+		PENSURE_OP(covarianceDeterminant, >=, 0);
+
 		if (q == 1)
 		{
 			return gaussianDifferentialEntropy(
@@ -47,9 +51,9 @@ namespace Tim
 
 		const real I = inverse(std::pow(supportVolume, q - 1));
 
-		// H_q(X) = (1 - I) / (1 - q)
+		// H_q(X) = (1 - I) / (q - 1)
 
-		return (1 - I) / (1 - q);
+		return (1 - I) / (q - 1);
 	}
 
 }
