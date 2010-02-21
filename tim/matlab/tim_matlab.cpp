@@ -47,7 +47,7 @@ namespace
 	{
 		matlabAddFunction(
 			"list_functions",
-			matlabList);
+			matlabListFunctions);
 	}
 
 	CallFunction run(addFunction);
