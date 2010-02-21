@@ -12,7 +12,7 @@
 % distribution estimation. Default 100.
 
 % Description: Naive mutual information estimation
-% Documentation: tim_matlab.txt
+% Documentation: tim_matlab_matlab.txt
 
 function I = mutual_information_naive(S, bins)
 

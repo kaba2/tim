@@ -16,24 +16,15 @@ Features
 --------
 
  * Estimation of Shannon differential entropy using various estimators.
- 
  * Estimation of Renyi entropies.
- 
  * Estimation of Tsallis entropies.
-
  * Estimation of a general class of entropy combinations including mutual information, 
 partial mutual information, transfer entropy, and partial transfer entropy.
-
  * Estimation of Kullback-Leibler divergence.
-
  * Temporal estimation using time-windowing.
-
  * Estimation from an ensemble of time-series' representing trials of the same experiment.
-
  * Time-series' with arbitrary-dimensionality.
-
  * Multi-core parallel computation.
- 
  * Three ways to use: as a C++ library, through TIM Matlab interface, or through TIM Console interface.
 
 News
@@ -41,14 +32,11 @@ News
 
 ### 22.2.2010 - Released version 1.1.0
 
- * Estimation of Renyi entropies.
- 
- * Estimation of Tsallis entropies.
- 
+ * Added estimation of Renyi entropies.
+ * Added estimation of Tsallis entropies.
+ * Added delay embedding.
  * Updated and added documentation.
-
  * Improved the handling of degenerate cases.
-
  * TIM Matlab: Packed all functionality to a single mex 
  file instead of multiple ones.
  

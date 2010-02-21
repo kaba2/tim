@@ -26,7 +26,7 @@
 
 % Description: Differential entropy estimation
 % Detail: Kozachenko-Leonenko nearest neighbor estimator
-% Documentation: tim_matlab.txt
+% Documentation: tim_matlab_matlab.txt
 
 function H = differential_entropy_kl(S, epsilon, k, threads)
 

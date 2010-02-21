@@ -34,7 +34,7 @@
 
 % Description: Temporal differential entropy estimation
 % Detail: Kozachenko-Leonenko nearest neighbor estimator
-% Documentation: tim_matlab.txt
+% Documentation: tim_matlab_matlab.txt
 
 function H = differential_entropy_kl_t(...
     S, timeWindowRadius, epsilon, k, threads)

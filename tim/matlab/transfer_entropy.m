@@ -29,7 +29,7 @@
 % The number of trials in X, Y, and W must be equal.
 
 % Description: Transfer entropy estimation
-% Documentation: tim_matlab.txt
+% Documentation: tim_matlab_matlab.txt
 
 function I = transfer_entropy(X, Y, W, ...
     xLag, yLag, wLag, k, threads)
