@@ -25,6 +25,6 @@ been implemented.
 
 In Matlab, calling 
 
-	tim_matlab('list');
+	tim_matlab('list_functions');
 	
 lists all the registered functions.
