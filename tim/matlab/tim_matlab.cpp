@@ -17,37 +17,6 @@ namespace Tim
 		functionMap.insert(std::make_pair(name, function));
 	}
 
-	void matlabCallFunction(
-		int outputs, mxArray *outputSet[],
-		int inputs, const mxArray *inputSet[])
-	{
-		// The first parameter is the name of the
-		// function inside TIM Matlab that should
-		// be called.
-
-		const std::string name = getString(inputSet[0]);
-
-		// See if a function with that name has
-		// been registered.
-		
-		FunctionIterator iter = functionMap.find(name);
-		
-		if (iter != functionMap.end())
-		{
-			// There is a function with that
-			// name registered.
-
-			// Find out its function pointer.
-			MatlabFunction* function = iter->second;
-
-			// Call that function, but omit the
-			// first name parameter.
-			(*function)(
-				outputs, outputSet,
-				inputs - 1, inputSet + 1);
-		}
-	}
-
 }
 
 using namespace Tim;
@@ -85,3 +54,35 @@ namespace
 
 }
 
+// Actual Mex entry-point for Matlab.
+
+void mexFunction(
+	int outputs, mxArray *outputSet[],
+	int inputs, const mxArray *inputSet[])
+{
+	// The first parameter is the name of the
+	// function inside TIM Matlab that should
+	// be called.
+
+	const std::string name = getString(inputSet[0]);
+
+	// See if a function with that name has
+	// been registered.
+	
+	FunctionIterator iter = functionMap.find(name);
+	
+	if (iter != functionMap.end())
+	{
+		// There is a function with that
+		// name registered.
+
+		// Find out its function pointer.
+		MatlabFunction* function = iter->second;
+
+		// Call that function, but omit the
+		// first name parameter.
+		(*function)(
+			outputs, outputSet,
+			inputs - 1, inputSet + 1);
+	}
+}

@@ -1,5 +1,5 @@
-tim_matlab_entrypoint.cpp
--output tim_matlab
+tim_matlab.cpp
+*.cpp
 -I'e:\ohjelmointi\hgproject\pastel_main\' 
 -I'e:\ohjelmointi\hgproject\tim\'
 -I'e:\ohjelmointi\external\boost_1_41_0'
@@ -12,4 +12,3 @@ tim_matlab_entrypoint.cpp
 -lpasteldsp_s
 -lpastelgfx_s
 -ltimcore_s
--ltimmatlab_s
