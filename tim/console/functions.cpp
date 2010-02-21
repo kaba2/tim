@@ -3,11 +3,14 @@
 #include "tim/console/errorlog.h"
 
 #include <tim/core/differential_entropy.h>
+#include <tim/core/renyi_entropy.h>
+#include <tim/core/tsallis_entropy.h>
 #include <tim/core/mutual_information.h>
 #include <tim/core/partial_mutual_information.h>
 #include <tim/core/transfer_entropy.h>
 #include <tim/core/partial_transfer_entropy.h>
 #include <tim/core/divergence_wkv.h>
+#include <tim/core/embed.h>
 
 #include <pastel/sys/string_tools.h>
 
@@ -23,17 +26,104 @@ namespace Tim
 	namespace
 	{
 
+		boost::any delay_embed(const AnySet& argSet, integer passedArgs)
+		{
+			// Retrieve parameters.
+
+			const SignalPtr signal = 
+				boost::any_cast<SignalPtr>(argSet[0]);
+			const integer k = 
+				boost::any_cast<integer>(argSet[1]);
+			const integer t0 = 
+				boost::any_cast<integer>(argSet[2]);
+			const integer dt = 
+				boost::any_cast<integer>(argSet[3]);
+
+			// Check parameters.
+
+			bool error = false;
+			if (k <= 0)
+			{
+				reportError("'k' must be positive.");
+				error = true;
+			}
+			if (t0 < 0)
+			{
+				reportError("'t0' must be non-negative.");
+				error = true;
+			}
+			if (dt <= 0)
+			{
+				reportError("'dt' must be positive.");
+				error = true;
+			}
+
+			if (error)
+			{
+				throw FunctionCall_Exception();
+			}
+
+			return boost::any(delayEmbed(signal,k, t0, dt));
+		}
+
+		boost::any delay_embed_future(const AnySet& argSet, integer passedArgs)
+		{
+			// Retrieve parameters.
+
+			const SignalPtr signal = 
+				boost::any_cast<SignalPtr>(argSet[0]);
+			const integer k = 
+				boost::any_cast<integer>(argSet[1]);
+			const integer t0 = 
+				boost::any_cast<integer>(argSet[2]);
+			const integer dt = 
+				boost::any_cast<integer>(argSet[3]);
+
+			// Check parameters.
+
+			bool error = false;
+			if (k <= 0)
+			{
+				reportError("'k' must be positive.");
+				error = true;
+			}
+			if (t0 < 0)
+			{
+				reportError("'t0' must be non-negative.");
+				error = true;
+			}
+			if (dt <= 0)
+			{
+				reportError("'dt' must be positive.");
+				error = true;
+			}
+
+			if (error)
+			{
+				throw FunctionCall_Exception();
+			}
+
+			return boost::any(delayEmbedFuture(signal,k, t0, dt));
+		}
+
 		boost::any read_csv(const AnySet& argSet, integer passedArgs)
 		{
 			// Retrieve parameters.
 
-			const std::string fileName = boost::any_cast<std::string>(argSet[0]);
-			integer samples = boost::any_cast<integer>(argSet[1]);
-			const integer dimension = boost::any_cast<integer>(argSet[2]);
-			const integer trials = boost::any_cast<integer>(argSet[3]);
-			const integer series = boost::any_cast<integer>(argSet[4]);
-			const std::string separatorSet = boost::any_cast<std::string>(argSet[5]);
-			const SignalPtr order = boost::any_cast<SignalPtr>(argSet[6]);
+			const std::string fileName = 
+				boost::any_cast<std::string>(argSet[0]);
+			integer samples = 
+				boost::any_cast<integer>(argSet[1]);
+			const integer dimension = 
+				boost::any_cast<integer>(argSet[2]);
+			const integer trials = 
+				boost::any_cast<integer>(argSet[3]);
+			const integer series = 
+				boost::any_cast<integer>(argSet[4]);
+			const std::string separatorSet = 
+				boost::any_cast<std::string>(argSet[5]);
+			const SignalPtr order = 
+				boost::any_cast<SignalPtr>(argSet[6]);
 
 			// Check parameters.
 
@@ -215,23 +305,40 @@ namespace Tim
 		{
 			// Retrieve parameters.
 
-			const std::string fileName = boost::any_cast<std::string>(argSet[0]);
-			CellPtr cell = boost::any_cast<CellPtr>(argSet[1]);
-			const SignalPtr order = boost::any_cast<SignalPtr>(argSet[2]);
-			std::string separator0 = boost::any_cast<std::string>(argSet[3]);
-			const std::string separator1 = boost::any_cast<std::string>(argSet[4]);
-			const std::string separator2 = boost::any_cast<std::string>(argSet[5]);
-			const std::string separator3 = boost::any_cast<std::string>(argSet[6]);
-			const std::string prefix0 = boost::any_cast<std::string>(argSet[7]);
-			const std::string suffix0 = boost::any_cast<std::string>(argSet[8]);
-			const std::string prefix1 = boost::any_cast<std::string>(argSet[9]);
-			const std::string suffix1 = boost::any_cast<std::string>(argSet[10]);
-			const std::string prefix2 = boost::any_cast<std::string>(argSet[11]);
-			const std::string suffix2 = boost::any_cast<std::string>(argSet[12]);
-			const std::string prefix3 = boost::any_cast<std::string>(argSet[13]);
-			const std::string suffix3 = boost::any_cast<std::string>(argSet[14]);
-			const std::string prefix4 = boost::any_cast<std::string>(argSet[15]);
-			const std::string suffix4 = boost::any_cast<std::string>(argSet[16]);
+			const std::string fileName = 
+				boost::any_cast<std::string>(argSet[0]);
+			CellPtr cell = 
+				boost::any_cast<CellPtr>(argSet[1]);
+			const SignalPtr order = 
+				boost::any_cast<SignalPtr>(argSet[2]);
+			std::string separator0 = 
+				boost::any_cast<std::string>(argSet[3]);
+			const std::string separator1 = 
+				boost::any_cast<std::string>(argSet[4]);
+			const std::string separator2 = 
+				boost::any_cast<std::string>(argSet[5]);
+			const std::string separator3 = 
+				boost::any_cast<std::string>(argSet[6]);
+			const std::string prefix0 = 
+				boost::any_cast<std::string>(argSet[7]);
+			const std::string suffix0 = 
+				boost::any_cast<std::string>(argSet[8]);
+			const std::string prefix1 = 
+				boost::any_cast<std::string>(argSet[9]);
+			const std::string suffix1 = 
+				boost::any_cast<std::string>(argSet[10]);
+			const std::string prefix2 = 
+				boost::any_cast<std::string>(argSet[11]);
+			const std::string suffix2 = 
+				boost::any_cast<std::string>(argSet[12]);
+			const std::string prefix3 = 
+				boost::any_cast<std::string>(argSet[13]);
+			const std::string suffix3 = 
+				boost::any_cast<std::string>(argSet[14]);
+			const std::string prefix4 = 
+				boost::any_cast<std::string>(argSet[15]);
+			const std::string suffix4 = 
+				boost::any_cast<std::string>(argSet[16]);
 
 			// Check parameters.
 
@@ -372,9 +479,12 @@ namespace Tim
 		{
 			// Retrieve parameters.
 
-			CellPtr cell = boost::any_cast<CellPtr>(argSet[0]);
-			real maxRelativeError = boost::any_cast<real>(argSet[1]);
-			integer kNearest = boost::any_cast<integer>(argSet[2]);
+			const CellPtr cell = 
+				boost::any_cast<CellPtr>(argSet[0]);
+			const real maxRelativeError = 
+				boost::any_cast<real>(argSet[1]);
+			const integer kNearest = 
+				boost::any_cast<integer>(argSet[2]);
 
 			// Check parameters.
 
@@ -409,10 +519,14 @@ namespace Tim
 		{
 			// Retrieve parameters.
 
-			CellPtr cell = boost::any_cast<CellPtr>(argSet[0]);
-			integer timeWindowRadius = boost::any_cast<integer>(argSet[1]);;
-			real maxRelativeError = boost::any_cast<real>(argSet[2]);
-			integer kNearest = boost::any_cast<integer>(argSet[3]);
+			const CellPtr cell = 
+				boost::any_cast<CellPtr>(argSet[0]);
+			const integer timeWindowRadius = 
+				boost::any_cast<integer>(argSet[1]);;
+			const real maxRelativeError = 
+				boost::any_cast<real>(argSet[2]);
+			const integer kNearest = 
+				boost::any_cast<integer>(argSet[3]);
 			
 			// Check parameters.
 
@@ -461,8 +575,10 @@ namespace Tim
 		{
 			// Retrieve parameters.
 
-			CellPtr cell = boost::any_cast<CellPtr>(argSet[0]);;
-			real maxRelativeError = boost::any_cast<real>(argSet[1]);
+			const CellPtr cell = 
+				boost::any_cast<CellPtr>(argSet[0]);;
+			const real maxRelativeError = 
+				boost::any_cast<real>(argSet[1]);
 
 			// Check parameters.
 
@@ -495,16 +611,250 @@ namespace Tim
 			return boost::any(signal);
 		}
 
+		boost::any renyi_entropy_lps(const AnySet& argSet, integer passedArgs)
+		{
+			// Retrieve parameters.
+
+			const CellPtr cell = 
+				boost::any_cast<CellPtr>(argSet[0]);
+			const real q = 
+				boost::any_cast<real>(argSet[1]);
+			const real maxRelativeError = 
+				boost::any_cast<real>(argSet[2]);
+			const integer kNearest = 
+				boost::any_cast<integer>(argSet[3]);
+
+			// Check parameters.
+
+			bool error = false;
+			if (q <= 0)
+			{
+				reportError("q must be positive.");
+				error = true;
+			}
+
+			if (maxRelativeError < 0)
+			{
+				reportError("maxRelativeError must be non-negative.");
+				error = true;
+			}
+		
+			if (kNearest < 1)
+			{
+				reportError("kNearest must be at least 1.");
+				error = true;
+			}
+			
+			if (error)
+			{
+				throw FunctionCall_Exception();
+			}
+
+			// Compute.
+
+			const real de = renyiEntropyLps(
+				forwardRange(cell->begin(), cell->end()),
+				q,
+				maxRelativeError, kNearest);
+				
+			return boost::any(de);
+		}
+		
+		boost::any renyi_entropy_lps_t(const AnySet& argSet, integer passedArgs)
+		{
+			// Retrieve parameters.
+
+			const CellPtr cell = 
+				boost::any_cast<CellPtr>(argSet[0]);
+			const integer timeWindowRadius = 
+				boost::any_cast<integer>(argSet[1]);
+			const real q = 
+				boost::any_cast<real>(argSet[2]);
+			const real maxRelativeError = 
+				boost::any_cast<real>(argSet[3]);
+			const integer kNearest = 
+				boost::any_cast<integer>(argSet[4]);
+			
+			// Check parameters.
+
+			bool error = false;
+			if (timeWindowRadius < 0)
+			{
+				reportError("timeWindowRadius must be non-negative.");
+				error = true;
+			}
+			
+			if (q <= 0)
+			{
+				reportError("q must be positive.");
+				error = true;
+			}
+
+			if (maxRelativeError < 0)
+			{
+				reportError("maxRelativeError must be non-negative.");
+				error = true;
+			}
+			
+			if (kNearest < 1)
+			{
+				reportError("kNearest must be at least 1.");
+				error = true;
+			}
+			
+			if (error)
+			{
+				throw FunctionCall_Exception();
+			}
+
+			// Compute.
+			
+			std::vector<real> deSet;
+			
+			temporalRenyiEntropyLps(
+				forwardRange(cell->begin(), cell->end()),
+				timeWindowRadius,
+				std::back_inserter(deSet),
+				q,
+				maxRelativeError, kNearest);
+				
+			SignalPtr signal = SignalPtr(new Signal(deSet.size(), 1));
+			std::copy(deSet.begin(), deSet.end(),
+				signal->data().begin());
+				
+			return boost::any(signal);
+		}
+
+		boost::any tsallis_entropy_lps(const AnySet& argSet, integer passedArgs)
+		{
+			// Retrieve parameters.
+
+			const CellPtr cell = 
+				boost::any_cast<CellPtr>(argSet[0]);
+			const real q = 
+				boost::any_cast<real>(argSet[1]);
+			const real maxRelativeError = 
+				boost::any_cast<real>(argSet[2]);
+			const integer kNearest = 
+				boost::any_cast<integer>(argSet[3]);
+
+			// Check parameters.
+
+			bool error = false;
+			if (q <= 0)
+			{
+				reportError("q must be positive.");
+				error = true;
+			}
+
+			if (maxRelativeError < 0)
+			{
+				reportError("maxRelativeError must be non-negative.");
+				error = true;
+			}
+		
+			if (kNearest < 1)
+			{
+				reportError("kNearest must be at least 1.");
+				error = true;
+			}
+			
+			if (error)
+			{
+				throw FunctionCall_Exception();
+			}
+
+			// Compute.
+
+			const real de = tsallisEntropyLps(
+				forwardRange(cell->begin(), cell->end()),
+				q,
+				maxRelativeError, kNearest);
+				
+			return boost::any(de);
+		}
+		
+		boost::any tsallis_entropy_lps_t(const AnySet& argSet, integer passedArgs)
+		{
+			// Retrieve parameters.
+
+			const CellPtr cell = 
+				boost::any_cast<CellPtr>(argSet[0]);
+			const integer timeWindowRadius = 
+				boost::any_cast<integer>(argSet[1]);
+			const real q = 
+				boost::any_cast<real>(argSet[2]);
+			const real maxRelativeError = 
+				boost::any_cast<real>(argSet[3]);
+			const integer kNearest = 
+				boost::any_cast<integer>(argSet[4]);
+			
+			// Check parameters.
+
+			bool error = false;
+			if (timeWindowRadius < 0)
+			{
+				reportError("timeWindowRadius must be non-negative.");
+				error = true;
+			}
+			
+			if (q <= 0)
+			{
+				reportError("q must be positive.");
+				error = true;
+			}
+
+			if (maxRelativeError < 0)
+			{
+				reportError("maxRelativeError must be non-negative.");
+				error = true;
+			}
+			
+			if (kNearest < 1)
+			{
+				reportError("kNearest must be at least 1.");
+				error = true;
+			}
+			
+			if (error)
+			{
+				throw FunctionCall_Exception();
+			}
+
+			// Compute.
+			
+			std::vector<real> deSet;
+			
+			temporalTsallisEntropyLps(
+				forwardRange(cell->begin(), cell->end()),
+				timeWindowRadius,
+				std::back_inserter(deSet),
+				q,
+				maxRelativeError, kNearest);
+				
+			SignalPtr signal = SignalPtr(new Signal(deSet.size(), 1));
+			std::copy(deSet.begin(), deSet.end(),
+				signal->data().begin());
+				
+			return boost::any(signal);
+		}
+
 		boost::any mutual_information_t(const AnySet& argSet, integer passedArgs)
 		{
 			// Retrieve parameters.
 
-			CellPtr xCell = boost::any_cast<CellPtr>(argSet[0]);
-			CellPtr yCell = boost::any_cast<CellPtr>(argSet[1]);
-			integer timeWindowRadius = boost::any_cast<integer>(argSet[2]);
-			integer xLag = boost::any_cast<integer>(argSet[3]);
-			integer yLag = boost::any_cast<integer>(argSet[4]);
-			integer kNearest = boost::any_cast<integer>(argSet[5]);
+			const CellPtr xCell = 
+				boost::any_cast<CellPtr>(argSet[0]);
+			const CellPtr yCell = 
+				boost::any_cast<CellPtr>(argSet[1]);
+			const integer timeWindowRadius = 
+				boost::any_cast<integer>(argSet[2]);
+			const integer xLag = 
+				boost::any_cast<integer>(argSet[3]);
+			const integer yLag = 
+				boost::any_cast<integer>(argSet[4]);
+			const integer kNearest = 
+				boost::any_cast<integer>(argSet[5]);
 
 			// Check parameters.
 			
@@ -549,11 +899,16 @@ namespace Tim
 		{
 			// Retrieve parameters.
 
-			CellPtr xCell = boost::any_cast<CellPtr>(argSet[0]);
-			CellPtr yCell = boost::any_cast<CellPtr>(argSet[1]);
-			integer xLag = boost::any_cast<integer>(argSet[2]);
-			integer yLag = boost::any_cast<integer>(argSet[3]);
-			integer kNearest = boost::any_cast<integer>(argSet[4]);
+			const CellPtr xCell = 
+				boost::any_cast<CellPtr>(argSet[0]);
+			const CellPtr yCell = 
+				boost::any_cast<CellPtr>(argSet[1]);
+			const integer xLag = 
+				boost::any_cast<integer>(argSet[2]);
+			const integer yLag = 
+				boost::any_cast<integer>(argSet[3]);
+			const integer kNearest = 
+				boost::any_cast<integer>(argSet[4]);
 
 			// Check parameters.
 
@@ -584,14 +939,22 @@ namespace Tim
 		{
 			// Retrieve parameters.
 
-			CellPtr xCell = boost::any_cast<CellPtr>(argSet[0]);
-			CellPtr yCell = boost::any_cast<CellPtr>(argSet[1]);
-			CellPtr zCell = boost::any_cast<CellPtr>(argSet[2]);
-			integer timeWindowRadius = boost::any_cast<integer>(argSet[3]);
-			integer xLag = boost::any_cast<integer>(argSet[4]);
-			integer yLag = boost::any_cast<integer>(argSet[5]);
-			integer zLag = boost::any_cast<integer>(argSet[6]);
-			integer kNearest = boost::any_cast<integer>(argSet[7]);
+			const CellPtr xCell = 
+				boost::any_cast<CellPtr>(argSet[0]);
+			const CellPtr yCell = 
+				boost::any_cast<CellPtr>(argSet[1]);
+			const CellPtr zCell = 
+				boost::any_cast<CellPtr>(argSet[2]);
+			const integer timeWindowRadius = 
+				boost::any_cast<integer>(argSet[3]);
+			const integer xLag = 
+				boost::any_cast<integer>(argSet[4]);
+			const integer yLag = 
+				boost::any_cast<integer>(argSet[5]);
+			const integer zLag = 
+				boost::any_cast<integer>(argSet[6]);
+			const integer kNearest = 
+				boost::any_cast<integer>(argSet[7]);
 			
 			// Check parameters.
 
@@ -637,13 +1000,20 @@ namespace Tim
 		{
 			// Retrieve parameters.
 
-			CellPtr xCell = boost::any_cast<CellPtr>(argSet[0]);
-			CellPtr yCell = boost::any_cast<CellPtr>(argSet[1]);
-			CellPtr zCell = boost::any_cast<CellPtr>(argSet[2]);
-			integer xLag = boost::any_cast<integer>(argSet[3]);
-			integer yLag = boost::any_cast<integer>(argSet[4]);
-			integer zLag = boost::any_cast<integer>(argSet[5]);
-			integer kNearest = boost::any_cast<integer>(argSet[6]);
+			const CellPtr xCell = 
+				boost::any_cast<CellPtr>(argSet[0]);
+			const CellPtr yCell = 
+				boost::any_cast<CellPtr>(argSet[1]);
+			const CellPtr zCell = 
+				boost::any_cast<CellPtr>(argSet[2]);
+			const integer xLag = 
+				boost::any_cast<integer>(argSet[3]);
+			const integer yLag = 
+				boost::any_cast<integer>(argSet[4]);
+			const integer zLag = 
+				boost::any_cast<integer>(argSet[5]);
+			const integer kNearest = 
+				boost::any_cast<integer>(argSet[6]);
 			
 			// Check parameters.
 
@@ -675,14 +1045,22 @@ namespace Tim
 		{
 			// Retrieve parameters.
 
-			CellPtr xCell = boost::any_cast<CellPtr>(argSet[0]);
-			CellPtr yCell = boost::any_cast<CellPtr>(argSet[1]);
-			CellPtr wCell = boost::any_cast<CellPtr>(argSet[2]);
-			integer timeWindowRadius = boost::any_cast<integer>(argSet[3]);
-			integer xLag = boost::any_cast<integer>(argSet[4]);
-			integer yLag = boost::any_cast<integer>(argSet[5]);
-			integer wLag = boost::any_cast<integer>(argSet[6]);
-			integer kNearest = boost::any_cast<integer>(argSet[7]);
+			const CellPtr xCell = 
+				boost::any_cast<CellPtr>(argSet[0]);
+			const CellPtr yCell = 
+				boost::any_cast<CellPtr>(argSet[1]);
+			const CellPtr wCell = 
+				boost::any_cast<CellPtr>(argSet[2]);
+			const integer timeWindowRadius = 
+				boost::any_cast<integer>(argSet[3]);
+			const integer xLag = 
+				boost::any_cast<integer>(argSet[4]);
+			const integer yLag = 
+				boost::any_cast<integer>(argSet[5]);
+			const integer wLag = 
+				boost::any_cast<integer>(argSet[6]);
+			const integer kNearest = 
+				boost::any_cast<integer>(argSet[7]);
 			
 			// Check parameters.
 
@@ -728,16 +1106,26 @@ namespace Tim
 		{
 			// Retrieve parameters.
 
-			CellPtr xCell = boost::any_cast<CellPtr>(argSet[0]);
-			CellPtr yCell = boost::any_cast<CellPtr>(argSet[1]);
-			CellPtr zCell = boost::any_cast<CellPtr>(argSet[2]);
-			CellPtr wCell = boost::any_cast<CellPtr>(argSet[3]);
-			integer timeWindowRadius = boost::any_cast<integer>(argSet[4]);
-			integer xLag = boost::any_cast<integer>(argSet[5]);
-			integer yLag = boost::any_cast<integer>(argSet[6]);
-			integer zLag = boost::any_cast<integer>(argSet[7]);
-			integer wLag = boost::any_cast<integer>(argSet[8]);
-			integer kNearest = boost::any_cast<integer>(argSet[9]);
+			const CellPtr xCell = 
+				boost::any_cast<CellPtr>(argSet[0]);
+			const CellPtr yCell = 
+				boost::any_cast<CellPtr>(argSet[1]);
+			const CellPtr zCell = 
+				boost::any_cast<CellPtr>(argSet[2]);
+			const CellPtr wCell = 
+				boost::any_cast<CellPtr>(argSet[3]);
+			const integer timeWindowRadius = 
+				boost::any_cast<integer>(argSet[4]);
+			const integer xLag = 
+				boost::any_cast<integer>(argSet[5]);
+			const integer yLag = 
+				boost::any_cast<integer>(argSet[6]);
+			const integer zLag = 
+				boost::any_cast<integer>(argSet[7]);
+			const integer wLag = 
+				boost::any_cast<integer>(argSet[8]);
+			const integer kNearest = 
+				boost::any_cast<integer>(argSet[9]);
 
 			// Check parameters.
 
@@ -784,13 +1172,20 @@ namespace Tim
 		{
 			// Retrieve parameters.
 
-			CellPtr xCell = boost::any_cast<CellPtr>(argSet[0]);
-			CellPtr yCell = boost::any_cast<CellPtr>(argSet[1]);
-			CellPtr wCell = boost::any_cast<CellPtr>(argSet[2]);
-			integer xLag = boost::any_cast<integer>(argSet[3]);
-			integer yLag = boost::any_cast<integer>(argSet[4]);
-			integer wLag = boost::any_cast<integer>(argSet[5]);
-			integer kNearest = boost::any_cast<integer>(argSet[6]);
+			const CellPtr xCell = 
+				boost::any_cast<CellPtr>(argSet[0]);
+			const CellPtr yCell = 
+				boost::any_cast<CellPtr>(argSet[1]);
+			const CellPtr wCell = 
+				boost::any_cast<CellPtr>(argSet[2]);
+			const integer xLag = 
+				boost::any_cast<integer>(argSet[3]);
+			const integer yLag = 
+				boost::any_cast<integer>(argSet[4]);
+			const integer wLag = 
+				boost::any_cast<integer>(argSet[5]);
+			const integer kNearest = 
+				boost::any_cast<integer>(argSet[6]);
 
 			// Check parameters.
 
@@ -822,15 +1217,24 @@ namespace Tim
 		{
 			// Retrieve parameters.
 			
-			CellPtr xCell = boost::any_cast<CellPtr>(argSet[0]);
-			CellPtr yCell = boost::any_cast<CellPtr>(argSet[1]);
-			CellPtr zCell = boost::any_cast<CellPtr>(argSet[2]);
-			CellPtr wCell = boost::any_cast<CellPtr>(argSet[3]);
-			integer xLag = boost::any_cast<integer>(argSet[4]);
-			integer yLag = boost::any_cast<integer>(argSet[5]);
-			integer zLag = boost::any_cast<integer>(argSet[6]);
-			integer wLag = boost::any_cast<integer>(argSet[7]);
-			integer kNearest = boost::any_cast<integer>(argSet[8]);
+			const CellPtr xCell = 
+				boost::any_cast<CellPtr>(argSet[0]);
+			const CellPtr yCell = 
+				boost::any_cast<CellPtr>(argSet[1]);
+			const CellPtr zCell = 
+				boost::any_cast<CellPtr>(argSet[2]);
+			const CellPtr wCell = 
+				boost::any_cast<CellPtr>(argSet[3]);
+			const integer xLag = 
+				boost::any_cast<integer>(argSet[4]);
+			const integer yLag = 
+				boost::any_cast<integer>(argSet[5]);
+			const integer zLag = 
+				boost::any_cast<integer>(argSet[6]);
+			const integer wLag = 
+				boost::any_cast<integer>(argSet[7]);
+			const integer kNearest = 
+				boost::any_cast<integer>(argSet[8]);
 
 			// Check parameters.
 
@@ -863,8 +1267,10 @@ namespace Tim
 		{
 			// Retrieve parameters.
 
-			CellPtr xCell = boost::any_cast<CellPtr>(argSet[0]);
-			CellPtr yCell = boost::any_cast<CellPtr>(argSet[1]);
+			const CellPtr xCell = 
+				boost::any_cast<CellPtr>(argSet[0]);
+			const CellPtr yCell = 
+				boost::any_cast<CellPtr>(argSet[1]);
 
 			// Compute.
 
@@ -915,6 +1321,50 @@ namespace Tim
 			if (initialized)
 			{
 				return;
+			}
+
+			// delay_embed
+			{
+				boost::any parameterSet[] =
+				{
+					// signal
+					boost::any(SignalPtr()),
+					// k
+					boost::any(integer(1)),
+					// t0
+					boost::any(integer(0)),
+					// dt
+					boost::any(integer(1))
+				};
+
+				functionMap.insert(
+					std::make_pair(
+					"delay_embed", 
+					FunctionInfo(
+						delay_embed, 
+						forwardRange(parameterSet), 2)));
+			}
+
+			// delay_embed_future
+			{
+				boost::any parameterSet[] =
+				{
+					// signal
+					boost::any(SignalPtr()),
+					// k
+					boost::any(integer(1)),
+					// t0
+					boost::any(integer(0)),
+					// dt
+					boost::any(integer(1))
+				};
+
+				functionMap.insert(
+					std::make_pair(
+					"delay_embed_future", 
+					FunctionInfo(
+						delay_embed_future, 
+						forwardRange(parameterSet), 2)));
 			}
 
 			// read_csv
@@ -1063,6 +1513,98 @@ namespace Tim
 					FunctionInfo(
 						differential_entropy_nk, 
 						forwardRange(parameterSet), 1)));
+			}
+
+			// renyi_entropy_lps
+			{
+				boost::any parameterSet[] =
+				{
+					// data
+					boost::any(CellPtr()),
+					// q
+					boost::any((real)2),
+					// maxRelativeError
+					boost::any((real)0),
+					// kNearestSuggestion
+					boost::any((integer)0)
+				};
+			
+				functionMap.insert(
+					std::make_pair(
+					"renyi_entropy_lps", 
+					FunctionInfo(
+						renyi_entropy_lps, 
+						forwardRange(parameterSet), 1)));
+			}
+			
+			// renyi_entropy_lps_t
+			{
+				boost::any parameterSet[] =
+				{
+					// data
+					boost::any(CellPtr()),
+					// timeWindowRadius
+					boost::any((integer)0),
+					// q
+					boost::any((real)2),
+					// maxRelativeError
+					boost::any((real)0),
+					// kNearestSuggestion
+					boost::any((integer)0)
+				};
+			
+				functionMap.insert(
+					std::make_pair(
+					"renyi_entropy_lps_t", 
+					FunctionInfo(
+						renyi_entropy_lps_t, 
+						forwardRange(parameterSet), 2)));
+			}
+
+			// tsallis_entropy_lps
+			{
+				boost::any parameterSet[] =
+				{
+					// data
+					boost::any(CellPtr()),
+					// q
+					boost::any((real)2),
+					// maxRelativeError
+					boost::any((real)0),
+					// kNearestSuggestion
+					boost::any((integer)0)
+				};
+			
+				functionMap.insert(
+					std::make_pair(
+					"tsallis_entropy_lps", 
+					FunctionInfo(
+						tsallis_entropy_lps, 
+						forwardRange(parameterSet), 1)));
+			}
+			
+			// tsallis_entropy_lps_t
+			{
+				boost::any parameterSet[] =
+				{
+					// data
+					boost::any(CellPtr()),
+					// timeWindowRadius
+					boost::any((integer)0),
+					// q
+					boost::any((real)2),
+					// maxRelativeError
+					boost::any((real)0),
+					// kNearestSuggestion
+					boost::any((integer)0)
+				};
+			
+				functionMap.insert(
+					std::make_pair(
+					"tsallis_entropy_lps_t", 
+					FunctionInfo(
+						tsallis_entropy_lps_t, 
+						forwardRange(parameterSet), 2)));
 			}
 
 			// divergence_wkv

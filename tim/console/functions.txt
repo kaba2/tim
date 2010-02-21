@@ -20,6 +20,28 @@ The function definitions are given in the following form:
 
 	function-name '(' (parameter-name ('=' default-value)? : parameter-type) % ',' ')' : return-type
 
+### Delay-embedding
+
+	delay_embed(
+		input : signal,
+		k : integer,
+		t0 = 0 : integer,
+		dt = 1 : integer) : signal
+		
+Returns a delay-embedding. 
+
+	delay_embed_future(
+		input : signal,
+		k : integer,
+		t0 = 0 : integer,
+		dt = 1 : integer) : signal
+		
+Returns the future of a signal under a given delay-embedding.
+
+See 
+[[Link]]: ../core/embed.txt
+.
+
 ### Import functions
 
 	read_csv(
@@ -110,7 +132,7 @@ with a semi-colon. Signals in a cell-array are separated similarly.
 Signals are prefixed with '[' and suffixed with ']'. The whole cell-array
 is prefixed with '{' and suffixed with '}'.
 
-### Differential entropy
+### Shannon differential entropy
 
 	differential_entropy_kl(
 		S : cell-array, 
@@ -127,11 +149,57 @@ is prefixed with '{' and suffixed with '}'.
 		S : cell-array, 
 		maxRelativeError = 0 : real) : real-array
 	
+See 
+[[Link]]: ../core/differential_entropy.txt
+.
+
+### Renyi entropy
+
+	renyi_entropy_lps(
+		S : cell-array, 
+		q = 2.0 : real,
+		maxRelativeError = 0.0 : real,
+		kNearestSuggestion = 0 : integer) : real
+		
+	renyi_entropy_lps_t(
+		S : cell-array,
+		timeWindowRadius : integer,
+		q = 2.0 : real,
+		maxRelativeError = 0.0 : real, 
+		kNearestSuggestion = 0 : integer) : real-array
+
+See 
+[[Link]]: ../core/renyi_entropy.txt
+.
+
+### Tsallis entropy
+
+	tsallis_entropy_lps(
+		S : cell-array, 
+		q = 2.0 : real,
+		maxRelativeError = 0.0 : real,
+		kNearestSuggestion = 0 : integer) : real
+		
+	tsallis_entropy_lps_t(
+		S : cell-array,
+		timeWindowRadius : integer,
+		q = 2.0 : real,
+		maxRelativeError = 0.0 : real, 
+		kNearestSuggestion = 0 : integer) : real-array
+
+See 
+[[Link]]: ../core/tsallis_entropy.txt
+.
+
 ### Divergence	
 
 	divergence_wkv(
 		X : cell-array, 
 		Y : cell-array) : real
+
+See 
+[[Link]]: ../core/divergence.txt
+.
 	
 ### Mutual information
 	
@@ -149,6 +217,10 @@ is prefixed with '{' and suffixed with '}'.
 		xLag = 0 : integer,
 		yLag = 0 : integer,
 		kNearest = 1 : integer) : real_array
+
+See 
+[[Link]]: ../core/mutual_information.txt
+.
 
 ### Partial mutual information
 
@@ -171,6 +243,10 @@ is prefixed with '{' and suffixed with '}'.
 		zLag = 0 : integer,
 		kNearest = 1 : integer) : real_array
 
+See 
+[[Link]]: ../core/partial_mutual_information.txt
+.
+
 ### Transfer entropy
 
 	transfer_entropy(
@@ -191,6 +267,10 @@ is prefixed with '{' and suffixed with '}'.
 		yLag = 0 : integer,
 		wLag = 0 : integer,
 		kNearest = 1 : integer) : real_array
+
+See 
+[[Link]]: ../core/transfer_entropy.txt
+.
 
 ### Partial transfer entropy
 
@@ -217,3 +297,6 @@ is prefixed with '{' and suffixed with '}'.
 		wLag = 0 : integer,
 		kNearest = 1 : integer) : real_array
 
+See 
+[[Link]]: ../core/partial_transfer_entropy.txt
+.

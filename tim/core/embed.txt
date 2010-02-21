@@ -1,5 +1,44 @@
 Delay embedding
 ===============
 
-[[Parent]]: implementation.txt
+[[Parent]]: tim_core.txt
+
+Theory
+------
+
+Let ''S'' be a function ''S : ZZ -> RR^n.'', i.e. 
+an ''n''-dimensional signal.
+
+### Delay-embedding
+
+A _delay-embedding_ of ''S'' is a signal 
+''R : ZZ -> RR^(kn)'' such that 
+
+''R(t) = (
+(S(t + t_0)), 
+(S(t + t_0 + Delta t)), 
+(...), 
+(S(t + t_0 + (k - 1) Delta t)))''
+
+where
+ 
+ * ''t_0 in ZZ'' is the _embedding shift_.
+ 
+ * ''Delta t in ZZ'' is the _embedding delay_.
+ 
+ * ''k in ZZ'' is the _embedding factor_.
+ 
+ * ''kn'' is the _embedding dimension_.
+ 
+A specific delay-embedding can be identified with the 
+triple ''(t_0, Delta t, k)''.
+
+### Future of a signal
+
+The _future_ of the signal ''S'' under a given 
+delay-embedding ''(t_0, Delta t, k)'' is given by
+the signal ''Q : ZZ -> RR^n'' such that
+
+''Q(t) = S(t + t_0 + k Delta t)''
+
 

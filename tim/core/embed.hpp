@@ -8,22 +8,22 @@ namespace Tim
 
 	template <typename SignalPtr_Iterator, typename OutputIterator>
 	void delayEmbed(
-		const SignalPtr_Iterator& signalBegin,
-		const SignalPtr_Iterator& signalEnd,
+		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		const OutputIterator& outputBegin,
 		integer k,
-		integer shift,
-		integer step)
+		integer t0,
+		integer dt)
 	{
 		ENSURE_OP(k, >, 0);
-		ENSURE_OP(shift, >=, 0);
-		ENSURE_OP(step, >=, 1);
+		ENSURE_OP(t0, >=, 0);
+		ENSURE_OP(dt, >=, 1);
 
-		SignalPtr_Iterator signalIter = signalBegin;
+		SignalPtr_Iterator signalIter = signalSet.begin();
+		const SignalPtr_Iterator signalEnd = signalSet.end();
 		OutputIterator outputIter = outputBegin;
 		while(signalIter != signalEnd)
 		{
-			*outputIter = delayEmbed(*signalIter, k, shift, step);
+			*outputIter = delayEmbed(*signalIter, k, t0, dt);
 			++outputIter;
 			++signalIter;
 		}
@@ -31,22 +31,22 @@ namespace Tim
 
 	template <typename SignalPtr_Iterator, typename OutputIterator>
 	void delayEmbedFuture(
-		const SignalPtr_Iterator& signalBegin,
-		const SignalPtr_Iterator& signalEnd,
+		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		const OutputIterator& outputBegin,
 		integer k,
-		integer shift,
-		integer step)
+		integer t0,
+		integer dt)
 	{
 		ENSURE_OP(k, >, 0);
-		ENSURE_OP(shift, >=, 0);
-		ENSURE_OP(step, >=, 1);
+		ENSURE_OP(t0, >=, 0);
+		ENSURE_OP(dt, >=, 1);
 
-		SignalPtr_Iterator signalIter = signalBegin;
+		SignalPtr_Iterator signalIter = signalSet.begin();
+		const SignalPtr_Iterator signalEnd = signalSet.end();
 		OutputIterator outputIter = outputBegin;
 		while(signalIter != signalEnd)
 		{
-			*outputIter = Tim::delayEmbedFuture(*signalIter, k, shift, step);
+			*outputIter = Tim::delayEmbedFuture(*signalIter, k, t0, dt);
 			++outputIter;
 			++signalIter;
 		}
