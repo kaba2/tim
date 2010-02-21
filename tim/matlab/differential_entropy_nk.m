@@ -56,7 +56,7 @@ if nargin < 3
     threads = maxNumCompThreads;
 end
 
-checkSignalSet(S);
+check_signalset(S);
 
 if size(epsilon, 1) ~= 1 || ...
    size(epsilon, 2) ~= 1

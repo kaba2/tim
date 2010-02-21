@@ -28,7 +28,7 @@ if nargout > 1
     error('Too many output arguments.');
 end
 
-checkSignalSet(S);
+check_signalset(S);
 
 if (size(S{1}, 1) > 3)
 	warning('This estimator has bad accuracy for dimensions > 3!');

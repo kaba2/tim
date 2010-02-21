@@ -42,8 +42,8 @@ if nargin < 3
 	threads = maxNumCompThreads;
 end
 
-checkSignalSet(X);
-checkSignalSet(Y);
+check_signalset(X);
+check_signalset(Y);
 
 if numel(X) ~= numel(Y)
 	error('The number of trials in X and Y do not match.');

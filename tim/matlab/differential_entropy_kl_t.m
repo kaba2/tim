@@ -63,7 +63,7 @@ if nargin < 5
     threads = maxNumCompThreads;
 end
 
-checkSignalSet(S);
+check_signalset(S);
 
 if size(timeWindowRadius, 1) ~= 1 || ...
    size(timeWindowRadius, 2) ~= 1
