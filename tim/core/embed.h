@@ -5,6 +5,8 @@
 
 #include "tim/core/signal.h"
 
+#include <pastel/sys/forwardrange.h>
+
 #include <vector>
 
 namespace Tim
@@ -14,52 +16,69 @@ namespace Tim
 	/*!
 	Preconditions:
 	k > 0
-	shift >= 0
-	step >= 1
+	t0 >= 0
+	dt >= 1
 
-	Given is a signal S : Z -> R^n.
-	Form a signal R : Z -> R^n : 
-	R(t) = (S(t0 + t), S(t0 + t + dt), ..., S(t0 + t + dt * (k - 1)).
-	
-	Then R is the delay-embedding and
-	t0 is the embedding shift
-	dt is the embedding delay
-	k is the 'embedding factor'
-	d = k n is the embedding dimension
+	k:
+	Embedding factor.
+
+	t0:
+	Embedding shift.
+
+	dt:
+	Embedding delay.
 	*/
 
 	TIM SignalPtr delayEmbed(
 		const SignalPtr& signal,
 		integer k,
-		integer shift = 0,
-		integer step = 1);
+		integer t0 = 0,
+		integer dt = 1);
 
 	//! Performs delay embedding for a set of signals.
 	/*!
 	Preconditions:
 	k > 0
-	shift >= 0
-	step >= 1
+	t0 >= 0
+	dt >= 1
+
+	k:
+	Embedding factor.
+
+	t0:
+	Embedding shift.
+
+	dt:
+	Embedding delay.
+
 	SignalPtr_Iterator dereferences to a SignalPtr.
 	OutputIterator dereferences to a SignalPtr&.
 	*/
 	template <typename SignalPtr_Iterator, typename OutputIterator>
 	void delayEmbed(
-		const SignalPtr_Iterator& signalBegin,
-		const SignalPtr_Iterator& signalEnd,
+		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		const OutputIterator& outputBegin,
 		integer k,
-		integer shift = 0,
-		integer step = 1);
+		integer t0 = 0,
+		integer dt = 1);
 
 	//! Time shift to produce the future of a delay-embedded signal.
 	/*!
 	Preconditions:
 	k > 0
-	shift >= 0
-	step >= 1
+	t0 >= 0
+	dt >= 1
 
-	Assume that a signal x : R -> R^n was embedded to a signal X : R -> R^(kn)
+	k:
+	Embedding factor.
+
+	t0:
+	Embedding shift.
+
+	dt:
+	Embedding delay.
+
+	Assume a signal x : R -> R^n was embedded to a signal X : R -> R^(kn)
 	using the function 'delayEmbed' with an embedding factor k. 
 	Then the future of x is defined as the last R^n component of the 
 	otherwise same embedding but with an embedding factor (k + 1).
@@ -75,24 +94,54 @@ namespace Tim
 
 	TIM integer delayEmbedFutureShift(
 		integer k, 
-		integer shift = 0, 
-		integer step = 1);
+		integer t0 = 0, 
+		integer dt = 1);
 
+	//! Returns the future of a signal under a given delay-embedding.
+	/*!
+	Preconditions:
+	k > 0
+	t0 >= 0
+	dt >= 1
 
+	k:
+	Embedding factor.
+
+	t0:
+	Embedding shift.
+
+	dt:
+	Embedding delay.
+	*/
 	TIM SignalPtr delayEmbedFuture(
 		const SignalPtr& signal,
 		integer k,
-		integer shift = 0,
-		integer step = 1);
+		integer t0 = 0,
+		integer dt = 1);
 
+	//! Computes the futures of signals under a given delay-embedding.
+	/*!
+	Preconditions:
+	k > 0
+	t0 >= 0
+	dt >= 1
+
+	k:
+	Embedding factor.
+
+	t0:
+	Embedding shift.
+
+	dt:
+	Embedding delay.
+	*/
 	template <typename SignalPtr_Iterator, typename OutputIterator>
 	void delayEmbedFuture(
-		const SignalPtr_Iterator& signalBegin,
-		const SignalPtr_Iterator& signalEnd,
+		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		const OutputIterator& outputBegin,
 		integer k,
-		integer shift = 0,
-		integer step = 1);
+		integer t0 = 0,
+		integer dt = 1);
 
 }
 

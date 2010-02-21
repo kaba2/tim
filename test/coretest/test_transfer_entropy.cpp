@@ -128,7 +128,7 @@ namespace
 		std::vector<SignalPtr> futureSet;
 
 		delayEmbedFuture(
-			signalSet.rowBegin(0), signalSet.rowEnd(0),
+			forwardRange(signalSet.rowBegin(0), signalSet.rowEnd(0)),
 			std::back_inserter(futureSet), 1);
 
 		std::vector<real> estimateSet;
