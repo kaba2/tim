@@ -9,6 +9,10 @@ namespace Tim
 		integer dimension,
 		real covarianceDeterminant)
 	{
+		PENSURE_OP(q, >, 0);
+		PENSURE_OP(dimension, >, 0);
+		PENSURE_OP(covarianceDeterminant, >=, 0);
+
 		if (q == 1)
 		{
 			return gaussianDifferentialEntropy(

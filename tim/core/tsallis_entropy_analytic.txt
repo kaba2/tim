@@ -52,7 +52,7 @@ is the characteristic function of ''S''.
 
 Then
 
-''H_q(X) = (1 - I) / (1 - q)''
+''H_q(X) = (1 - I) / (q - 1)''
 
 which is fine for evaluation as it is.
 
