@@ -428,10 +428,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\tim_matlab_entrypoint.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\tim_matlab_functions.txt"
 				>
 			</File>

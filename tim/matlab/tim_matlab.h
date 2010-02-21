@@ -19,10 +19,6 @@ namespace Tim
 		const std::string& name,
 		MatlabFunction* function);
 
-	void matlabCallFunction(
-		int outputs, mxArray *outputSet[],
-		int inputs, const mxArray *inputSet[]);
-
 }
 
 #endif
