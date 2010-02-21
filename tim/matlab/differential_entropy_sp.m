@@ -34,4 +34,4 @@ if (size(S{1}, 1) > 3)
 	warning('This estimator has bad accuracy for dimensions > 3!');
 end
 
-H = timDifferentialEntropySp(S);
+H = tim_matlab('differential_entropy_sp', S);

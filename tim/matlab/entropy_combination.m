@@ -115,5 +115,6 @@ if threads < 1
     error('THREADS must be at least 1.');
 end
 
-I = timEntropyCombination(signalSet, rangeSet, lagSet, k, threads);
+I = tim_matlab('entropy_combination', ...
+	signalSet, rangeSet, lagSet, k, threads);
 

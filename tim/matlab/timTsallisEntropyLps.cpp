@@ -1,34 +1,52 @@
-#include "tim/matlab/tim_mex.h"
+// Description: tsallis_entropy_lps
+// Documentation: tim_matlab_functions.txt
+
+#include "tim/matlab/tim_matlab.h"
 
 #include "tim/core/tsallis_entropy_lps.h"
 
 using namespace Tim;
 
-void mexFunction(int outputs, mxArray *outputSet[],
-				 int inputs, const mxArray *inputSet[])
+namespace
 {
-	enum
+
+	void matlabTsallisEntropyLps(
+		int outputs, mxArray *outputSet[],
+		int inputs, const mxArray *inputSet[])
 	{
-		xIndex,
-		qIndex,
-		maxRelativeErrorIndex,
-		kNearestSuggestionIndex,
-		threadsIndex
-	};
+		enum
+		{
+			xIndex,
+			qIndex,
+			maxRelativeErrorIndex,
+			kNearestSuggestionIndex,
+			threadsIndex
+		};
 
-	std::vector<SignalPtr> xEnsemble;
-	getSignals(inputSet[xIndex], std::back_inserter(xEnsemble));
+		std::vector<SignalPtr> xEnsemble;
+		getSignals(inputSet[xIndex], std::back_inserter(xEnsemble));
 
-	const real q = getReal(inputSet[qIndex]);
-	const real maxRelativeError = getReal(inputSet[maxRelativeErrorIndex]);
-	const integer kNearestSuggestion = getInteger(inputSet[kNearestSuggestionIndex]);
-	const integer threads = getInteger(inputSet[threadsIndex]);
-	setNumberOfThreads(threads);
-	
-	outputSet[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
-	real* rawResult = mxGetPr(outputSet[0]);
+		const real q = getReal(inputSet[qIndex]);
+		const real maxRelativeError = getReal(inputSet[maxRelativeErrorIndex]);
+		const integer kNearestSuggestion = getInteger(inputSet[kNearestSuggestionIndex]);
+		const integer threads = getInteger(inputSet[threadsIndex]);
+		setNumberOfThreads(threads);
 
-	*rawResult = tsallisEntropyLps(
-		randomAccessRange(xEnsemble.begin(), xEnsemble.end()), 
-		q, maxRelativeError, kNearestSuggestion);
+		outputSet[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
+		real* rawResult = mxGetPr(outputSet[0]);
+
+		*rawResult = tsallisEntropyLps(
+			randomAccessRange(xEnsemble.begin(), xEnsemble.end()), 
+			q, maxRelativeError, kNearestSuggestion);
+	}
+
+	void addFunction()
+	{
+		matlabAddFunction(
+			"tsallis_entropy_lps",
+			matlabTsallisEntropyLps);
+	}
+
+	CallFunction run(addFunction);
+
 }

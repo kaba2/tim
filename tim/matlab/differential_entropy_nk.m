@@ -76,7 +76,8 @@ if threads < 1
     error('THREADS must be at least 1.');
 end
 
-[H, dOut] = timDifferentialEntropyNk(S, epsilon, threads);
+[H, dOut] = tim_matlab('differential_entropy_nk', ...
+	S, epsilon, threads);
 
 if nargout > 1
     d = dOut;

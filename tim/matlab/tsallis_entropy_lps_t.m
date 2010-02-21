@@ -122,5 +122,5 @@ if threads < 1
     error('THREADS must be at least 1.');
 end
 
-H = timTemporalTsallisEntropyLps(...
+H = tim_matlab('tsallis_entropy_lps_t', ...
     S, timeWindowRadius, q, epsilon, kSuggestion, threads);

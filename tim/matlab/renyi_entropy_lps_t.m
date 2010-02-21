@@ -124,5 +124,5 @@ if threads < 1
     error('THREADS must be at least 1.');
 end
 
-H = timTemporalRenyiEntropyLps(...
+H = tim_matlab('renyi_entropy_lps_t', ...
     S, timeWindowRadius, q, epsilon, kSuggestion, threads);

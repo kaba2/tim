@@ -55,6 +55,14 @@ namespace Tim
 		return *mxGetPr(input);
 	}
 
+	inline std::string getString(const mxArray* input)
+	{
+		char* text = mxArrayToString(input);
+		std::string result(text);
+		mxFree(text);
+		return result;
+	}
+
 	inline void setNumberOfThreads(integer threads)
 	{
 		ENSURE_OP(threads, >, 0);
