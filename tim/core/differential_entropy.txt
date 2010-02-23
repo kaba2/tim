@@ -21,6 +21,8 @@ information, it is equivalent to minimize differential entropies,
 which can be a bit more efficient. This makes the estimation of
 differential entropies by themself useful.
 
+### Differential entropy on embedded manifolds
+
 The definition of differential entropy can be generalized by assuming that
 ''X'' is distributed on a ''d''-dimensional differentiable manifold ''M'' 
 in ''RR^n'', ''0 <= d <= n'', with a probability density function ''mu : M -> RR''.

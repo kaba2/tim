@@ -560,6 +560,10 @@
 							RelativePath=".\differential_entropy_kl.txt"
 							>
 						</File>
+						<File
+							RelativePath=".\differential_entropy_kl_details.txt"
+							>
+						</File>
 					</Filter>
 					<Filter
 						Name="Stowell-Plumbley"
