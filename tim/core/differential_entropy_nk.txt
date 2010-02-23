@@ -24,7 +24,7 @@ Assumptions
  estimate for both the differential entropy and the
  intrinsic dimension.
 
-Examples  
+Examples 
 --------
 
 Using Matlab:

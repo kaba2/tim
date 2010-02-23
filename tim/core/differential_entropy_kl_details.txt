@@ -1,0 +1,54 @@
+Details of the Kozachenko-Leonenko estimator
+============================================
+
+[[Parent]]: differential_entropy_kl.txt
+
+This page takes a deeper look at the implementation of the Kozachenko-Leonenko 
+estimator and derives an upper bound to the maximum absolute error introduced
+by allowing relative error in nearest neighbor searching.
+
+Computation
+-----------
+
+Let ''P = {p_1, ..., p_n} subset RR^d'' be a point-set and ''D = {d_1, ..., d_n} subset RR''
+such that ''d_i'' is the distance from ''p_i'' to its k:th nearest neighbor. The 
+Kozachenko-Leonenko estimator for Shannon differential entropy is computed by
+
+''H = (d / m) [sum_{i = 1}^n ln(d_i)] - g(k) + g(n) + ln(V_d)''
+
+where
+
+ * Terms with ''d_i = 0'' are skipped in the sum.
+ * ''m'' is the number of non-zero ''d_i''.
+ * ''g'' stands for the digamma function.
+ * ''V_d'' is the volume of the unit ball determined by the used norm.
+ 
+In case all ''d_i'' are zero, a NaN (Not-A-Number) is returned.
+
+Allowing error in nearest neighbor distances
+--------------------------------------------
+
+Because of the guaranteed efficiency of approximate nearest neighbor 
+searching, it would be interesting to see if some relative error can 
+be allowed in ''d_i'' without introducing too much error in the result.
+Assume the distances ''d_i'' have a ''(1 + epsilon_i)'' amount
+of relative error in them, where ''epsilon_i <= epsilon''. Then the estimator
+is affected as follows:
+
+''H' = (d / m) [sum_{i = 1}^n ln(d_i(1 + epsilon_i))] - g(k) + g(n) + ln(V_d)''
+
+''= (d / m) [sum_{i = 1}^n ln(d_i) + ln(1 + epsilon_i)] - g(k) + g(n) + ln(V_d)''
+
+''<= (d / m) [sum_{i = 1}^n ln(d_i) + ln(1 + epsilon)] - g(k) + g(n) + ln(V_d)''
+
+''= (d / m) [sum_{i = 1}^n ln(d_i)] - g(k) + g(n) + ln(V_d) + (d / m) m ln(1 + epsilon)''
+
+''= H + d ln(1 + epsilon)''
+
+That is, the absolute error is bounded by 
+
+''H' - H <= d ln(1 + epsilon)''
+
+Since in practice ''epsilon'' needs to be greater than 1 to get the benefits
+of approximate nearest neighbor searching, the resulting error is unfortunately
+too large. Therefore we shall always compute exact nearest neighbor distances.
