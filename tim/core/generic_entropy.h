@@ -18,7 +18,6 @@ namespace Tim
 	/*!
 	Preconditions:
 	timeWindowRadius >= 0
-	maxRelativeError >= 0
 	kNearest > 0
 
 	signalSet:
@@ -38,12 +37,6 @@ namespace Tim
 	A real output iterator, denoting the start
 	of the region where the sequence of temporal
 	differential entropies are to be stored.
-
-	maxRelativeError:
-	The maximum relative error allowed for
-	distance in nearest neighbor searching.
-	Zero gives exact matches. Higher values can
-	result in improved performance.
 
 	kNearest:
 	The k:th nearest neighbor that is used to
@@ -67,7 +60,6 @@ namespace Tim
 		const EntropyAlgorithm& entropyAlgorithm,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
-		real maxRelativeError = 0,
 		integer kNearest = 1);
 
 	//! Computes temporal generic entropy of a signal.
@@ -77,7 +69,7 @@ namespace Tim
 	temporalGenericEntropy(
 		forwardRange(constantIterator(signal)),
 		entropyAlgorithm,
-		timeWindowRadius, result, maxRelativeError, 
+		timeWindowRadius, result,
 		kNearest);
 
 	See the documentation for that function.
@@ -91,7 +83,6 @@ namespace Tim
 		const EntropyAlgorithm& entropyAlgorithm,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
-		real maxRelativeError = 0,
 		integer kNearest = 1);
 
 	// Generic entropy
@@ -101,7 +92,6 @@ namespace Tim
 	/*!
 	Preconditions:
 	kNearest > 0
-	maxRelativeError >= 0
 	signalSet contains SignalPtr's.
 
 	signalSet:
@@ -111,12 +101,6 @@ namespace Tim
 	entropyAlgorithm:
 	Encapsulates the specifics of the used
 	entropy algorithm.
-
-	maxRelativeError:
-	The maximum relative error allowed for
-	distance in nearest neighbor searching.
-	Zero gives exact matches. Higher values can
-	result in improved performance.
 
 	kNearest:
 	The k:th nearest neighbor that is used to
@@ -135,7 +119,6 @@ namespace Tim
 	real genericEntropy(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		const EntropyAlgorithm& entropyAlgorithm,
-		real maxRelativeError = 0,
 		integer kNearest = 1);
 
 	//! Computes generic entropy of a signal.
@@ -145,7 +128,6 @@ namespace Tim
 	genericEntropy(
 		forwardRange(constantIterator(signal)),
 		entropyAlgorithm,
-		maxRelativeError,
 		kNearest);
 
 	See the documentation for that function.
@@ -155,7 +137,6 @@ namespace Tim
 	real genericEntropy(
 		const SignalPtr& signal,
 		const EntropyAlgorithm& entropyAlgorithm,
-		real maxRelativeError = 0,
 		integer kNearest = 1);
 
 }

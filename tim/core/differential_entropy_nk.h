@@ -16,7 +16,6 @@ namespace Tim
 		typename NormBijection>
 	real differentialEntropyNk(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
-		real maxRelativeError,
 		const NormBijection& normBijection,
 		integer* outIntrinsicDimension = 0);
 

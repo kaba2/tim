@@ -3,11 +3,11 @@
 % using Nilsson-Kleijn manifold nearest neighbor
 % estimator.
 %
-% [H, d] = differential_entropy_nk(S, epsilon, threads)
+% [H, d] = differential_entropy_nk(S, threads)
 %
 % or
 %
-% H = differential_entropy_nk(S, epsilon, threads)
+% H = differential_entropy_nk(S, threads)
 %
 % where
 %
@@ -19,11 +19,6 @@
 % q trials of a signal. Each signal is a real (m x n)-matrix that 
 % contains n samples of an m-dimensional signal.
 %
-% EPSILON is the maximum relative error in distance that
-% nearest neighbor searching is allowed to result in.
-% Higher tolerances result in enhanced performance, but
-% increases errors in the estimate. Default 0.
-%
 % THREADS determines the number of threads to use for parallelization.
 % To fully take advantage of multiple cores in your machine, set this
 % to the number of cores in your machine. Note however that this makes 
@@ -34,13 +29,13 @@
 % Detail: Nilsson-Kleijn manifold nearest neighbor estimator
 % Documentation: tim_matlab_matlab.txt
 
-function [H, d] = differential_entropy_nk(S, epsilon, threads)
+function [H, d] = differential_entropy_nk(S, threads)
 
 if nargin < 1
     error('Not enough input arguments.');
 end
 
-if nargin > 3
+if nargin > 2
     error('Too many input arguments.');
 end
 
@@ -49,23 +44,10 @@ if nargout > 2
 end
 
 if nargin < 2
-    epsilon = 0;
-end
-
-if nargin < 3
     threads = maxNumCompThreads;
 end
 
 check_signalset(S);
-
-if size(epsilon, 1) ~= 1 || ...
-   size(epsilon, 2) ~= 1
-    error('EPSILON must be a scalar.');
-end
-
-if epsilon < 0
-    error('EPSILON must be non-negative.');
-end
 
 if size(threads, 1) ~= 1 || ...
    size(threads, 2) ~= 1
@@ -77,7 +59,7 @@ if threads < 1
 end
 
 [H, dOut] = tim_matlab('differential_entropy_nk', ...
-	S, epsilon, threads);
+	S, threads);
 
 if nargout > 1
     d = dOut;

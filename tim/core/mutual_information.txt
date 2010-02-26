@@ -20,6 +20,6 @@ lies in the fact that
 See also
 --------
 
-[[Link]]: differential_entropy.txt
-
-[[Link]]: partial_mutual_information.txt
+[[Link]]: 
+	differential_entropy.txt
+	partial_mutual_information.txt

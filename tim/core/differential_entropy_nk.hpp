@@ -22,12 +22,9 @@ namespace Tim
 		typename NormBijection>
 	real differentialEntropyNk(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
-		real maxRelativeError,
 		const NormBijection& normBijection,
 		integer* outIntrinsicDimension)
 	{
-		ENSURE_OP(maxRelativeError, >=, 0);
-
 		const integer kNearest = 1;
 
 		const integer trials = signalSet.size();
@@ -107,7 +104,7 @@ namespace Tim
 					searchNearestOne(
 					kdTree,
 					VectorD(ofDimension(dimension), withAliasing((real*)pointSet[i])),
-					infinity<real>(), maxRelativeError,
+					infinity<real>(), 0,
 					Always_AcceptPoint<ConstObjectIterator>(),
 					normBijection).key();
 

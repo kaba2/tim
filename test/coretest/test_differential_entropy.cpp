@@ -26,26 +26,17 @@ namespace
 		//Manhattan_NormBijection<real> normBijection;
 
 		const integer kNearest = 1;
-		/*
-		const real radiusRatio = 
-			std::exp((
-			lnVolumeUnitSphereInfinity<real>(signal->dimension()) - 
-			normBijection.lnVolumeUnitSphere(signal->dimension())) / signal->dimension());
-		const real maxRelativeError = 3 * radiusRatio;
-		log() << radiusRatio << logNewLine;
-		*/
-		const real maxRelativeError = 0;
 		//const integer timeWindowRadius = signal->samples() / 10;
 
 		SignalPtr signalSet[] = {signal};
 
 		const real estimate = differentialEntropyNk(
-			forwardRange(signalSet), maxRelativeError, 
+			forwardRange(signalSet), 
 			normBijection);
 
 		/*
 		const real estimate = differentialEntropyKl(
-			forwardRange(signalSet), maxRelativeError, kNearest, 
+			forwardRange(signalSet), kNearest, 
 			normBijection);
 		*/
 
@@ -54,7 +45,7 @@ namespace
 		entropySet.reserve(signal->samples());
 		temporalDifferentialEntropyKl(
 			forwardRange(signalSet), signal->samples() / 10, std::back_inserter(entropySet), 
-			maxRelativeError, kNearest, normBijection);
+			kNearest, normBijection);
 		const real estimate = std::accumulate(entropySet.begin(), entropySet.end(), (real)0) /
 			entropySet.size();
 		*/

@@ -17,7 +17,6 @@ namespace
 		enum
 		{
 			xIndex,
-			maxRelativeErrorIndex,
 			kNearestIndex,
 			threadsIndex
 		};
@@ -25,7 +24,6 @@ namespace
 		std::vector<SignalPtr> xEnsemble;
 		getSignals(inputSet[xIndex], std::back_inserter(xEnsemble));
 
-		const real maxRelativeError = getReal(inputSet[maxRelativeErrorIndex]);
 		const integer kNearest = getInteger(inputSet[kNearestIndex]);
 		const integer threads = getInteger(inputSet[threadsIndex]);
 		setNumberOfThreads(threads);
@@ -35,7 +33,7 @@ namespace
 
 		*rawResult = differentialEntropyKl(
 			randomAccessRange(xEnsemble.begin(), xEnsemble.end()), 
-			maxRelativeError, kNearest);
+			kNearest);
 	}
 
 	void addFunction()

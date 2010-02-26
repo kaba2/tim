@@ -23,19 +23,17 @@ namespace
 		real correct)
 	{
 		const integer kNearest = 1;
-		const real maxRelativeError = 0;
 		//const integer timeWindowRadius = signal->samples() / 10;
 
 		SignalPtr signalSet[] = {signal};
 
 		const real estimate = renyiEntropyLps(
-			forwardRange(signalSet), q, 
-			maxRelativeError);
+			forwardRange(signalSet), q);
 
 		/*
 		const real estimate = renyiEntropyKl(
 			forwardRange(signalSet), q, 
-			maxRelativeError, kNearest, 
+			kNearest, 
 			normBijection);
 		*/
 
@@ -44,7 +42,7 @@ namespace
 		entropySet.reserve(signal->samples());
 		temporalRenyiEntropyKl(
 			forwardRange(signalSet), signal->samples() / 10, std::back_inserter(entropySet), 
-			maxRelativeError, kNearest);
+			kNearest);
 		const real estimate = std::accumulate(entropySet.begin(), entropySet.end(), (real)0) /
 			entropySet.size();
 		*/

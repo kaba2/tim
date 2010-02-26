@@ -26,9 +26,13 @@
 % achieved by either setting 'timeWindowRadius' to the number of samples 
 % or using the entropy_combination() function instead.
 %
-% LAGSET is an arbitrary-dimensional array whose linearization contains
-% p integers of lags to apply to each signal. Default: a (p x 1) array 
-% of zeros.
+% LAGSET is an arbitrary-dimensional cell-array whose linearization 
+% contains p arrays of lags to apply to each signal. Each array of lags
+% is either a scalar, or has L elements, where L is the maximum number of 
+% elements among the arrays in LAGSET. An array of lags is handled by its
+% linearization. If an array of lags is a scalar, it is extended to an
+% array with L elements with the scalar as its elements.
+% Default: a (p x 1) cell-array of scalar zeros.
 %
 % K determines which k:th nearest neighbor the algorithm
 % uses for estimation. Default 1.
@@ -64,7 +68,7 @@ if nargout > 1
 end
 
 if nargin < 4
-	lagSet = zeros(size(signalSet, 1), 1);
+	lagSet = num2cell(zeros(size(signalSet, 1), 1));
 end
 
 if nargin < 5
@@ -107,11 +111,12 @@ for i = 1 : marginals
     end
 end
 
-lags = numel(lagSet);
-if lags ~= signals
+if numel(lagSet) ~= signals
 	error(['LAGSET must contain the same number of elements as ', ...
 	'there are signals in SIGNALSET.']);
 end
+
+lagArray = compute_lagarray(lagSet);
 
 if size(k, 1) ~= 1 || ...
    size(k, 2) ~= 1
@@ -131,7 +136,12 @@ if threads < 1
     error('THREADS must be at least 1.');
 end
 
-I = tim_matlab('entropy_combination_t', ...
-	signalSet, rangeSet, ...
-    timeWindowRadius, lagSet, k, threads);
+lags = size(lagArray, 2);
+I = cell(lags, 1);
 
+for i = 1 : lags
+    I{i} = tim_matlab(...
+        'entropy_combination_t', ...
+        signalSet, rangeSet, timeWindowRadius, ...
+        lagArray(:, i), k, threads);
+end

@@ -106,12 +106,10 @@ namespace Tim
 		integer timeWindowRadius,
 		Real_OutputIterator result,
 		real q,
-		real maxRelativeError,
 		integer kNearestSuggestion)
 	{
 		ENSURE_OP(timeWindowRadius, >=, 0);
 		ENSURE_OP(q, >, 0);
-		ENSURE_OP(maxRelativeError, >=, 0);
 		ENSURE_OP(kNearestSuggestion, >=, 0);
 
 		if (signalSet.empty())
@@ -137,7 +135,6 @@ namespace Tim
 				signalSet,
 				timeWindowRadius,
 				result,
-				maxRelativeError,
 				kNearest);
 		}
 
@@ -152,7 +149,6 @@ namespace Tim
 			entropyAlgorithm,
 			timeWindowRadius,
 			result,
-			maxRelativeError,
 			kNearest);
 	}
 
@@ -162,7 +158,6 @@ namespace Tim
 		integer timeWindowRadius,
 		Real_OutputIterator result,
 		real q,
-		real maxRelativeError,
 		integer kNearestSuggestion)
 	{
 		return Tim::temporalTsallisEntropyLps(
@@ -170,7 +165,6 @@ namespace Tim
 			timeWindowRadius,
 			result,
 			q,
-			maxRelativeError,
 			kNearestSuggestion);
 	}
 
@@ -181,11 +175,9 @@ namespace Tim
 	real tsallisEntropyLps(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		real q,
-		real maxRelativeError,
 		integer kNearestSuggestion)
 	{
 		ENSURE_OP(q, >, 0);
-		ENSURE_OP(maxRelativeError, >=, 0);
 		ENSURE_OP(kNearestSuggestion, >=, 0);
 
 		if (signalSet.empty())
@@ -209,7 +201,6 @@ namespace Tim
 
 			return differentialEntropyKl(
 				signalSet,
-				maxRelativeError,
 				kNearest);
 		}
 
@@ -222,7 +213,6 @@ namespace Tim
 		return genericEntropy(
 			signalSet,
 			entropyAlgorithm,
-			maxRelativeError,
 			kNearest);
 	}
 

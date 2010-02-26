@@ -19,14 +19,12 @@ namespace
 		enum
 		{
 			xIndex,
-			maxRelativeErrorIndex,
 			threadsIndex
 		};
 
 		std::vector<SignalPtr> xEnsemble;
 		getSignals(inputSet[xIndex], std::back_inserter(xEnsemble));
 
-		const real maxRelativeError = getReal(inputSet[maxRelativeErrorIndex]);
 		const integer threads = getInteger(inputSet[threadsIndex]);
 		setNumberOfThreads(threads);
 
@@ -35,7 +33,6 @@ namespace
 		const real entropy = 
 			differentialEntropyNk(
 			forwardRange(xEnsemble.begin(), xEnsemble.end()), 
-			maxRelativeError,
 			Euclidean_NormBijection<real>(),
 			&intrinsicDimension);
 

@@ -36,7 +36,6 @@ namespace Tim
 	/*!
 	Preconditions:
 	timeWindowRadius >= 0
-	maxRelativeError >= 0
 	kNearestSuggestion >= 0
 	q > 0
 
@@ -60,12 +59,6 @@ namespace Tim
 	is returned instead.
 	If q < 1, the results have huge errors: you
 	should not use this estimator for those values.
-
-	maxRelativeError:
-	The maximum relative error allowed for
-	distance in nearest neighbor searching.
-	Zero gives exact matches. Higher values can
-	result in improved performance.
 
 	kNearestSuggestion:
 	A suggestion for the k:th nearest neighbor that should be
@@ -93,7 +86,6 @@ namespace Tim
 		integer timeWindowRadius,
 		Real_OutputIterator result,
 		real q = 2,
-		real maxRelativeError = 0,
 		integer kNearestSuggestion = 0);
 
 	//! Computes temporal Tsallis entropy of a signal.
@@ -102,7 +94,7 @@ namespace Tim
 
 	temporalTsallisEntropyLps(
 		forwardRange(constantIterator(signal)),
-		timeWindowRadius, q, result, maxRelativeError, 
+		timeWindowRadius, q, result, 
 		kNearestSuggestion);
 
 	See the documentation for that function.
@@ -114,7 +106,6 @@ namespace Tim
 		integer timeWindowRadius,
 		Real_OutputIterator result,
 		real q = 2,
-		real maxRelativeError = 0,
 		integer kNearestSuggestion = 0);
 
 	// Tsallis entropy
@@ -125,7 +116,6 @@ namespace Tim
 	Preconditions:
 	signalSet contains SignalPtr's.
 	q > 0
-	maxRelativeError >= 0
 	kNearestSuggestion >= 0
 
 	signalSet:
@@ -138,12 +128,6 @@ namespace Tim
 	is returned instead.
 	If q < 1, the results have huge errors: you
 	should not use this estimator for those values.
-
-	maxRelativeError:
-	The maximum relative error allowed for
-	distance in nearest neighbor searching.
-	Zero gives exact matches. Higher values can
-	result in improved performance.
 
 	kNearestSuggestion:
 	A suggestion for the k:th nearest neighbor that should be
@@ -165,7 +149,6 @@ namespace Tim
 	real tsallisEntropyLps(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		real q = 2,
-		real maxRelativeError = 0,
 		integer kNearestSuggestion = 0);
 
 	//! Computes Tsallis entropy of a signal.
@@ -174,7 +157,6 @@ namespace Tim
 
 	tsallisEntropyLps(
 		signal, q, 
-		maxRelativeError,
 		kNearestSuggestion);
 
 	See the documentation for that function.
@@ -182,7 +164,6 @@ namespace Tim
 	TIM real tsallisEntropyLps(
 		const SignalPtr& signal,
 		real q = 2,
-		real maxRelativeError = 0,
 		integer kNearestSuggestion = 0);
 
 }

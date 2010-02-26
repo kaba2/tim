@@ -18,7 +18,6 @@ namespace
 		{
 			xIndex,
 			qIndex,
-			maxRelativeErrorIndex,
 			kNearestSuggestionIndex,
 			threadsIndex
 		};
@@ -27,7 +26,6 @@ namespace
 		getSignals(inputSet[xIndex], std::back_inserter(xEnsemble));
 
 		const real q = getReal(inputSet[qIndex]);
-		const real maxRelativeError = getReal(inputSet[maxRelativeErrorIndex]);
 		const integer kNearestSuggestion = getInteger(inputSet[kNearestSuggestionIndex]);
 		const integer threads = getInteger(inputSet[threadsIndex]);
 		setNumberOfThreads(threads);
@@ -37,7 +35,7 @@ namespace
 
 		*rawResult = renyiEntropyLps(
 			randomAccessRange(xEnsemble.begin(), xEnsemble.end()), 
-			q, maxRelativeError, kNearestSuggestion);
+			q, kNearestSuggestion);
 	}
 
 	void addFunction()

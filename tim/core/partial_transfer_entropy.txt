@@ -18,6 +18,6 @@ while discounting the possibility that ''Z'' drives both ''X'' and ''Y''.
 See also
 --------
 
-[[Link]]: differential_entropy.txt
-
-[[Link]]: transfer_entropy.txt
+[[Link]]: 
+	differential_entropy.txt
+	transfer_entropy.txt

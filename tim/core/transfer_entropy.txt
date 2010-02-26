@@ -25,6 +25,6 @@ Physical Review Letters, Volume 85, Number 2, 2000.
 See also
 --------
 
-[[Link]]: differential_entropy.txt
-
-[[Link]]: partial_transfer_entropy.txt
+[[Link]]: 
+	differential_entropy.txt
+	partial_transfer_entropy.txt

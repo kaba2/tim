@@ -30,19 +30,25 @@ partial mutual information, transfer entropy, and partial transfer entropy.
 News
 ----
 
-### 22.2.2010 - Released version 1.1.0
+### 26.2.2010 - Released version 1.1.0
 
  * Added estimation of Renyi entropies.
  * Added estimation of Tsallis entropies.
  * Added delay embedding.
- * Updated and added documentation.
  * Improved the handling of degenerate cases.
  * TIM Matlab: Packed all functionality to a single mex 
  file instead of multiple ones.
+ * TIM Matlab and TIM Console: Allowed multiple
+ lags to be specified for estimators.
+ * Made the output of temporal estimators to have a 
+ width independent of lags (padded with NaNs).
+ * Removed the parameter to specify maximum relative 
+ error in nearest neighbors searching because of too 
+ large errors in entropy estimators to be of use.
  
-### 13.1.2010 - Released version 1.0.0
+[[Link]]: more_news.txt
 
- * Initial release
+[[add DocChildren.no_links_for]]: more_news.txt
 
 Software
 --------
@@ -57,6 +63,8 @@ not have them installed already.
 
 [Download_Matlab]: ./files/tim-matlab-1.1.0.zip
 [Download_Console]: ./files/tim-console-1.1.0.zip
+
+[[Link]]: previous_releases.txt
 
 Source-code
 -----------
