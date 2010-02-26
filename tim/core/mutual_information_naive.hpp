@@ -14,12 +14,10 @@ namespace Tim
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		integer kNearest,
-		real maxRelativeError,
 		const NormBijection& normBijection,
 		Real_OutputIterator result)
 	{
 		ENSURE_OP(kNearest, >, 0);
-		ENSURE_OP(maxRelativeError, >=, 0);
 
 		if (signalSet.empty())
 		{
@@ -38,7 +36,6 @@ namespace Tim
 
 			estimate += differentialEntropyKl(
 				signal,
-				maxRelativeError,
 				kNearest,
 				normBijection);
 
@@ -48,7 +45,6 @@ namespace Tim
 		const SignalPtr jointSignal = merge(signalSet);
 		estimate -= differentialEntropyKl(
 			jointSignal,
-			maxRelativeError,
 			kNearest,
 			normBijection);
 

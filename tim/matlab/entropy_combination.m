@@ -16,9 +16,13 @@
 % the factor by which the differential entropy is multiplied before
 % summing to the end-result.
 %
-% LAGSET is an arbitrary-dimensional array whose linearization contains
-% p integers of lags to apply to each signal. Default: a (p x 1) array 
-% of zeros.
+% LAGSET is an arbitrary-dimensional cell-array whose linearization 
+% contains p arrays of lags to apply to each signal. Each array of lags
+% is either a scalar, or has L elements, where L is the maximum number of 
+% elements among the arrays in LAGSET. An array of lags is handled by its
+% linearization. If an array of lags is a scalar, it is extended to an
+% array with L elements with the scalar as its elements.
+% Default: a (p x 1) cell-array of scalar zeros.
 %
 % K determines which k:th nearest neighbor the algorithm
 % uses for estimation. Default 1.
@@ -28,6 +32,10 @@
 % to the number of cores in your machine. Note however that this makes 
 % your computer unresponsive to other tasks. When you need responsiveness, 
 % spare one core for other work. Default maxNumCompThreads.
+%
+% I is a real (L x 1)-matrix of computed entropy combinations, where L is 
+% the number of specified lags. The I(i) corresponds to the entropy
+% combination estimate using the lag LAGSET{j}(i) for signal j.
 %
 % Each signal is a real (m x n)-matrix that contains n samples of an
 % m-dimensional signal. The dimensions of the signals need not coincide.
@@ -53,7 +61,7 @@ if nargout > 1
 end
 
 if nargin < 3
-	lagSet = zeros(size(signalSet, 1), 1);
+	lagSet = num2cell(zeros(size(signalSet, 1), 1));
 end
 
 if nargin < 4
@@ -91,11 +99,12 @@ for i = 1 : marginals
     end
 end
 
-lags = numel(lagSet);
-if lags ~= signals
+if numel(lagSet) ~= signals
 	error(['LAGSET must contain the same number of elements as ', ...
 	'there are signals in SIGNALSET.']);
 end
+
+lagArray = compute_lagarray(lagSet);
 
 if size(k, 1) ~= 1 || ...
    size(k, 2) ~= 1
@@ -115,6 +124,12 @@ if threads < 1
     error('THREADS must be at least 1.');
 end
 
-I = tim_matlab('entropy_combination', ...
-	signalSet, rangeSet, lagSet, k, threads);
+lags = size(lagArray, 2);
+I = zeros(lags, 1);
 
+for i = 1 : lags
+    I(i) = tim_matlab(...
+        'entropy_combination', ...
+        signalSet, rangeSet, ...
+        lagArray(:, i), k, threads);
+end

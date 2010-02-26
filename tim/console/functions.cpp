@@ -481,20 +481,12 @@ namespace Tim
 
 			const CellPtr cell = 
 				boost::any_cast<CellPtr>(argSet[0]);
-			const real maxRelativeError = 
-				boost::any_cast<real>(argSet[1]);
 			const integer kNearest = 
-				boost::any_cast<integer>(argSet[2]);
+				boost::any_cast<integer>(argSet[1]);
 
 			// Check parameters.
 
 			bool error = false;
-			if (maxRelativeError < 0)
-			{
-				reportError("maxRelativeError must be non-negative.");
-				error = true;
-			}
-			
 			if (kNearest < 1)
 			{
 				reportError("kNearest must be at least 1.");
@@ -510,7 +502,7 @@ namespace Tim
 
 			const real de = differentialEntropyKl(
 				forwardRange(cell->begin(), cell->end()),
-				maxRelativeError, kNearest);
+				kNearest);
 				
 			return boost::any(de);
 		}
@@ -523,10 +515,8 @@ namespace Tim
 				boost::any_cast<CellPtr>(argSet[0]);
 			const integer timeWindowRadius = 
 				boost::any_cast<integer>(argSet[1]);;
-			const real maxRelativeError = 
-				boost::any_cast<real>(argSet[2]);
 			const integer kNearest = 
-				boost::any_cast<integer>(argSet[3]);
+				boost::any_cast<integer>(argSet[2]);
 			
 			// Check parameters.
 
@@ -534,12 +524,6 @@ namespace Tim
 			if (timeWindowRadius < 0)
 			{
 				reportError("timeWindowRadius must be non-negative.");
-				error = true;
-			}
-			
-			if (maxRelativeError < 0)
-			{
-				reportError("maxRelativeError must be non-negative.");
 				error = true;
 			}
 			
@@ -562,7 +546,7 @@ namespace Tim
 				forwardRange(cell->begin(), cell->end()),
 				timeWindowRadius,
 				std::back_inserter(deSet),
-				maxRelativeError, kNearest);
+				kNearest);
 				
 			SignalPtr signal = SignalPtr(new Signal(deSet.size(), 1));
 			std::copy(deSet.begin(), deSet.end(),
@@ -577,18 +561,10 @@ namespace Tim
 
 			const CellPtr cell = 
 				boost::any_cast<CellPtr>(argSet[0]);;
-			const real maxRelativeError = 
-				boost::any_cast<real>(argSet[1]);
 
 			// Check parameters.
 
 			bool error = false;
-			if (maxRelativeError < 0)
-			{
-				reportError("maxRelativeError must be non-negative.");
-				error = true;
-			}
-			
 			if (error)
 			{
 				throw FunctionCall_Exception();
@@ -600,7 +576,6 @@ namespace Tim
 
 			const real de = differentialEntropyNk(
 				forwardRange(cell->begin(), cell->end()),
-				maxRelativeError, 
 				Default_NormBijection(),
 				&dimension);
 				
@@ -619,10 +594,8 @@ namespace Tim
 				boost::any_cast<CellPtr>(argSet[0]);
 			const real q = 
 				boost::any_cast<real>(argSet[1]);
-			const real maxRelativeError = 
-				boost::any_cast<real>(argSet[2]);
 			const integer kNearest = 
-				boost::any_cast<integer>(argSet[3]);
+				boost::any_cast<integer>(argSet[2]);
 
 			// Check parameters.
 
@@ -633,12 +606,6 @@ namespace Tim
 				error = true;
 			}
 
-			if (maxRelativeError < 0)
-			{
-				reportError("maxRelativeError must be non-negative.");
-				error = true;
-			}
-		
 			if (kNearest < 1)
 			{
 				reportError("kNearest must be at least 1.");
@@ -655,7 +622,7 @@ namespace Tim
 			const real de = renyiEntropyLps(
 				forwardRange(cell->begin(), cell->end()),
 				q,
-				maxRelativeError, kNearest);
+				kNearest);
 				
 			return boost::any(de);
 		}
@@ -670,10 +637,8 @@ namespace Tim
 				boost::any_cast<integer>(argSet[1]);
 			const real q = 
 				boost::any_cast<real>(argSet[2]);
-			const real maxRelativeError = 
-				boost::any_cast<real>(argSet[3]);
 			const integer kNearest = 
-				boost::any_cast<integer>(argSet[4]);
+				boost::any_cast<integer>(argSet[3]);
 			
 			// Check parameters.
 
@@ -690,12 +655,6 @@ namespace Tim
 				error = true;
 			}
 
-			if (maxRelativeError < 0)
-			{
-				reportError("maxRelativeError must be non-negative.");
-				error = true;
-			}
-			
 			if (kNearest < 1)
 			{
 				reportError("kNearest must be at least 1.");
@@ -716,7 +675,7 @@ namespace Tim
 				timeWindowRadius,
 				std::back_inserter(deSet),
 				q,
-				maxRelativeError, kNearest);
+				kNearest);
 				
 			SignalPtr signal = SignalPtr(new Signal(deSet.size(), 1));
 			std::copy(deSet.begin(), deSet.end(),
@@ -733,10 +692,8 @@ namespace Tim
 				boost::any_cast<CellPtr>(argSet[0]);
 			const real q = 
 				boost::any_cast<real>(argSet[1]);
-			const real maxRelativeError = 
-				boost::any_cast<real>(argSet[2]);
 			const integer kNearest = 
-				boost::any_cast<integer>(argSet[3]);
+				boost::any_cast<integer>(argSet[2]);
 
 			// Check parameters.
 
@@ -747,12 +704,6 @@ namespace Tim
 				error = true;
 			}
 
-			if (maxRelativeError < 0)
-			{
-				reportError("maxRelativeError must be non-negative.");
-				error = true;
-			}
-		
 			if (kNearest < 1)
 			{
 				reportError("kNearest must be at least 1.");
@@ -769,7 +720,7 @@ namespace Tim
 			const real de = tsallisEntropyLps(
 				forwardRange(cell->begin(), cell->end()),
 				q,
-				maxRelativeError, kNearest);
+				kNearest);
 				
 			return boost::any(de);
 		}
@@ -784,10 +735,8 @@ namespace Tim
 				boost::any_cast<integer>(argSet[1]);
 			const real q = 
 				boost::any_cast<real>(argSet[2]);
-			const real maxRelativeError = 
-				boost::any_cast<real>(argSet[3]);
 			const integer kNearest = 
-				boost::any_cast<integer>(argSet[4]);
+				boost::any_cast<integer>(argSet[3]);
 			
 			// Check parameters.
 
@@ -804,12 +753,6 @@ namespace Tim
 				error = true;
 			}
 
-			if (maxRelativeError < 0)
-			{
-				reportError("maxRelativeError must be non-negative.");
-				error = true;
-			}
-			
 			if (kNearest < 1)
 			{
 				reportError("kNearest must be at least 1.");
@@ -830,7 +773,7 @@ namespace Tim
 				timeWindowRadius,
 				std::back_inserter(deSet),
 				q,
-				maxRelativeError, kNearest);
+				kNearest);
 				
 			SignalPtr signal = SignalPtr(new Signal(deSet.size(), 1));
 			std::copy(deSet.begin(), deSet.end(),
@@ -1461,8 +1404,6 @@ namespace Tim
 				{
 					// data
 					boost::any(CellPtr()),
-					// maxRelativeError
-					boost::any((real)0),
 					// kNearest
 					boost::any((integer)1)
 				};
@@ -1483,8 +1424,6 @@ namespace Tim
 					boost::any(CellPtr()),
 					// timeWindowRadius
 					boost::any((integer)0),
-					// maxRelativeError
-					boost::any((real)0),
 					// kNearest
 					boost::any((integer)1)
 				};
@@ -1503,8 +1442,6 @@ namespace Tim
 				{
 					// data
 					boost::any(CellPtr()),
-					// maxRelativeError
-					boost::any((real)0)
 				};
 			
 				functionMap.insert(
@@ -1523,8 +1460,6 @@ namespace Tim
 					boost::any(CellPtr()),
 					// q
 					boost::any((real)2),
-					// maxRelativeError
-					boost::any((real)0),
 					// kNearestSuggestion
 					boost::any((integer)0)
 				};
@@ -1547,8 +1482,6 @@ namespace Tim
 					boost::any((integer)0),
 					// q
 					boost::any((real)2),
-					// maxRelativeError
-					boost::any((real)0),
 					// kNearestSuggestion
 					boost::any((integer)0)
 				};
@@ -1569,8 +1502,6 @@ namespace Tim
 					boost::any(CellPtr()),
 					// q
 					boost::any((real)2),
-					// maxRelativeError
-					boost::any((real)0),
 					// kNearestSuggestion
 					boost::any((integer)0)
 				};
@@ -1593,8 +1524,6 @@ namespace Tim
 					boost::any((integer)0),
 					// q
 					boost::any((real)2),
-					// maxRelativeError
-					boost::any((real)0),
 					// kNearestSuggestion
 					boost::any((integer)0)
 				};

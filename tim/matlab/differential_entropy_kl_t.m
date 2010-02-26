@@ -3,7 +3,7 @@
 % using Kozachenko-Leonenko nearest neighbor estimator.
 %
 % H = differential_entropy_kl_t(
-%     S, timeWindowRadius, epsilon, k, threads)
+%     S, timeWindowRadius, k, threads)
 %
 % where
 %
@@ -17,11 +17,6 @@
 % If no such changes should happen, better accuracy can be 
 % achieved by either setting 'timeWindowRadius' maximally wide
 % or by using the differential_entropy() function instead.
-%
-% EPSILON is the maximum relative error in distance that
-% nearest neighbor searching is allowed to result in.
-% Higher tolerances result in enhanced performance, but
-% increases errors in the estimate. Default 0.
 %
 % K determines which k:th nearest neighbor the algorithm
 % uses for estimation. Default 1.
@@ -37,13 +32,13 @@
 % Documentation: tim_matlab_matlab.txt
 
 function H = differential_entropy_kl_t(...
-    S, timeWindowRadius, epsilon, k, threads)
+    S, timeWindowRadius, k, threads)
 
 if nargin < 2
     error('Not enough input arguments.');
 end
 
-if nargin > 5
+if nargin > 4
     error('Too many input arguments.');
 end
 
@@ -52,14 +47,10 @@ if nargout > 1
 end
 
 if nargin < 3
-    epsilon = 0;
-end
-
-if nargin < 4
     k = 1;
 end
 
-if nargin < 5
+if nargin < 4
     threads = maxNumCompThreads;
 end
 
@@ -72,15 +63,6 @@ end
 
 if timeWindowRadius < 0
     error('TIMEWINDOWRADIUS must be non-negative.');
-end
-
-if size(epsilon, 1) ~= 1 || ...
-   size(epsilon, 2) ~= 1
-    error('EPSILON must be a scalar.');
-end
-
-if epsilon < 0
-    error('EPSILON must be non-negative.');
 end
 
 if size(k, 1) ~= 1 || ...
@@ -102,4 +84,4 @@ if threads < 1
 end
 
 H = tim_matlab('differential_entropy_kl_t', ...
-    S, timeWindowRadius, epsilon, k, threads);
+    S, timeWindowRadius, k, threads);

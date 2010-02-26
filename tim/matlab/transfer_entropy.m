@@ -10,7 +10,11 @@
 % contains q trials of the signals X, Y, and W, respectively. 
 %
 % XLAG, YLAG, and WLAG are the lags in samples applied to 
-% signals X, Y, and W, respectively.
+% signals X, Y, and W, respectively. Each can be given either as a scalar
+% or as an array. In case some of the lags are given as arrays, those 
+% arrays must have the same number of elements, and a scalar lag is 
+% interpreted as an array of the same size with the given value as 
+% elements. Default 0.
 %
 % K determines which k:th nearest neighbor the algorithm
 % uses for estimation. Default 1.
@@ -20,6 +24,10 @@
 % to the number of cores in your machine. Note however that this makes 
 % your computer unresponsive to other tasks. When you need responsiveness, 
 % spare one core for other work. Default maxNumCompThreads.
+%
+% I is a real (L x 1)-matrix of computed transfer entropies, where L is 
+% the number of specified lags. The I(i) corresponds to the transfer
+% entropy estimate using the lags XLAG(i), YLAG(i), and ZLAG(i).
 %
 % Each signal is a real (m x n)-matrix that contains n samples of an
 % m-dimensional signal. The signals contained in X (or Y or W) 
@@ -48,11 +56,11 @@ if nargin < 4
     wLag = 0;
 end
 
-if nargin < 9
+if nargin < 7
     k = 1;
 end
 
-if nargin < 10
+if nargin < 8
     threads = maxNumCompThreads;
 end
 
@@ -67,6 +75,7 @@ end
 % Pass parameter error checking to entropy_combination.
 
 I = entropy_combination(...
-    [W(:), X(:), Y(:)]', ...
+    [W(:)'; X(:)'; Y(:)'], ...
     [1, 2, 1; 2, 3, 1; 2, 2, -1], ...
-    [wLag, xLag, yLag], k, threads);
+    {wLag, xLag, yLag}, ...
+    k, threads);

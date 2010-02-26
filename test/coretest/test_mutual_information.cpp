@@ -50,7 +50,6 @@ namespace
 		const real mi = mutualInformationFromEntropy(
 			signalSet,
 			kNearest,
-			maxRelativeError,
 			Euclidean_NormBijection<real>());
 		*/
 

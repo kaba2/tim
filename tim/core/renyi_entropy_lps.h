@@ -36,7 +36,6 @@ namespace Tim
 	/*!
 	Preconditions:
 	timeWindowRadius >= 0
-	maxRelativeError >= 0
 	kNearestSuggestion >= 0
 	q > 0
 
@@ -60,12 +59,6 @@ namespace Tim
 	is returned instead.
 	If q < 1, the results have huge errors: you
 	should not use this estimator for those values.
-
-	maxRelativeError:
-	The maximum relative error allowed for
-	distance in nearest neighbor searching.
-	Zero gives exact matches. Higher values can
-	result in improved performance.
 
 	kNearestSuggestion:
 	A suggestion for the k:th nearest neighbor that should be
@@ -93,7 +86,6 @@ namespace Tim
 		integer timeWindowRadius,
 		Real_OutputIterator result,
 		real q = 2,
-		real maxRelativeError = 0,
 		integer kNearestSuggestion = 0);
 
 	//! Computes temporal Renyi entropy of a signal.
@@ -102,7 +94,7 @@ namespace Tim
 
 	temporalRenyiEntropyLps(
 		forwardRange(constantIterator(signal)),
-		timeWindowRadius, q, result, maxRelativeError, 
+		timeWindowRadius, q, result, 
 		kNearestSuggestion);
 
 	See the documentation for that function.
@@ -114,7 +106,6 @@ namespace Tim
 		integer timeWindowRadius,
 		Real_OutputIterator result,
 		real q = 2,
-		real maxRelativeError = 0,
 		integer kNearestSuggestion = 0);
 
 	// Renyi entropy
@@ -124,7 +115,6 @@ namespace Tim
 	/*!
 	Preconditions:
 	kNearestSuggestion > 0
-	maxRelativeError >= 0
 	signalSet contains SignalPtr's.
 
 	signalSet:
@@ -137,12 +127,6 @@ namespace Tim
 	is returned instead.
 	If q < 1, the results have huge errors: you
 	should not use this estimator for those values.
-
-	maxRelativeError:
-	The maximum relative error allowed for
-	distance in nearest neighbor searching.
-	Zero gives exact matches. Higher values can
-	result in improved performance.
 
 	kNearestSuggestion:
 	A suggestion for the k:th nearest neighbor that should be
@@ -164,7 +148,6 @@ namespace Tim
 	real renyiEntropyLps(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		real q = 2,
-		real maxRelativeError = 0,
 		integer kNearestSuggestion = 0);
 
 	//! Computes Renyi entropy of a signal.
@@ -173,7 +156,6 @@ namespace Tim
 
 	renyiEntropyLps(
 		signal, q, 
-		maxRelativeError,
 		kNearestSuggestion);
 
 	See the documentation for that function.
@@ -181,7 +163,6 @@ namespace Tim
 	TIM real renyiEntropyLps(
 		const SignalPtr& signal,
 		real q = 2,
-		real maxRelativeError = 0,
 		integer kNearestSuggestion = 0);
 
 }

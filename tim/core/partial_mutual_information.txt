@@ -25,6 +25,6 @@ Physical Review Letters, 2007.
 See also
 --------
 
-[[Link]]: differential_entropy.txt
-
-[[Link]]: mutual_information.txt
+[[Link]]: 
+	differential_entropy.txt
+	mutual_information.txt

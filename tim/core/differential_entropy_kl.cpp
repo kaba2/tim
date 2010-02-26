@@ -5,11 +5,10 @@ namespace Tim
 
 	TIM real differentialEntropyKl(
 		const SignalPtr& signal,
-		real maxRelativeError,
 		integer kNearest)
 	{
 		return Tim::differentialEntropyKl(
-			signal, maxRelativeError,
+			signal, 
 			kNearest, Default_NormBijection());
 	}
 

@@ -19,7 +19,11 @@
 % or by using the mutual_information_p() function instead.
 %
 % XLAG, YLAG and ZLAG are the lags in samples applied to signals
-% X, Y and Z, respectively.
+% X, Y and Z, respectively. Each can be given either as a 
+% scalar or as an array. In case some of the lags are given as arrays, 
+% those arrays must have the same number of elements, and a scalar lag is 
+% interpreted as an array of the same size with the given value as 
+% elements. Default 0.
 %
 % K determines which k:th nearest neighbor the algorithm
 % uses for estimation. Default 1.
@@ -76,6 +80,7 @@ end
 % Pass parameter error checking to entropy_combination.
 
 I = entropy_combination_t(...
-    [X(:), Z(:), Y(:)]', ...
+    [X(:)'; Z(:)'; Y(:)'], ...
     [1, 2, 1; 2, 3, 1; 2, 2, -1], timeWindowRadius, ...
-    [xLag, zLag, yLag], k, threads);
+    {xLag, zLag, yLag}, ...
+    k, threads);

@@ -785,6 +785,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\more_news.txt"
+			>
+		</File>
+		<File
+			RelativePath=".\previous_releases.txt"
+			>
+		</File>
+		<File
 			RelativePath="..\..\tim.txt"
 			>
 		</File>

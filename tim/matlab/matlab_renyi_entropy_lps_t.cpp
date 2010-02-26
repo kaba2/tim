@@ -19,7 +19,6 @@ namespace
 			xIndex,
 			timeWindowRadiusIndex,
 			qIndex,
-			maxRelativeErrorIndex,
 			kNearestSuggestionIndex,
 			threadsIndex
 		};
@@ -29,7 +28,6 @@ namespace
 
 		const integer timeWindowRadius = getInteger(inputSet[timeWindowRadiusIndex]);
 		const real q = getReal(inputSet[qIndex]);
-		const real maxRelativeError = getReal(inputSet[maxRelativeErrorIndex]);
 		const integer kNearestSuggestion = getInteger(inputSet[kNearestSuggestionIndex]);
 		const integer threads = getInteger(inputSet[threadsIndex]);
 		setNumberOfThreads(threads);
@@ -42,7 +40,6 @@ namespace
 			timeWindowRadius, 
 			std::back_inserter(estimateSet),
 			q,
-			maxRelativeError,
 			kNearestSuggestion);
 
 		outputSet[0] = mxCreateDoubleMatrix(1, estimateSet.size(), mxREAL);

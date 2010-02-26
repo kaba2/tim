@@ -18,7 +18,6 @@ namespace
 		SignalPtr signalSet[2] = {xSignal, ySignal};
 
 		const integer timeWindowRadius = 10;
-		const real maxRelativeError = 0;
 		const integer kNearest = 1;
 		real averageEstimate = 0;
 
@@ -31,9 +30,9 @@ namespace
 		averageEstimate = differentialEntropyKl(
 			xSignal);
 		averageEstimate = differentialEntropyKl(
-			xSignal, maxRelativeError);
+			xSignal);
 		averageEstimate = differentialEntropyKl(
-			xSignal, maxRelativeError, kNearest);
+			xSignal, kNearest);
 
 		// To compute temporal differential
 		// entropy where the neighborhood is given by
@@ -41,15 +40,15 @@ namespace
 
 		temporalDifferentialEntropyKl(
 			xSignal, timeWindowRadius, estimateSet,
-			maxRelativeError, kNearest, normBijection);
+			kNearest, normBijection);
 
 		averageEstimate = differentialEntropyKl(
-			xSignal, maxRelativeError, kNearest, normBijection);
+			xSignal, kNearest, normBijection);
 
 		temporalDifferentialEntropyKl(xSignal, timeWindowRadius, estimateSet, 
-			maxRelativeError, kNearest);
+			kNearest);
 		temporalDifferentialEntropyKl(xSignal, timeWindowRadius, estimateSet,
-			maxRelativeError, kNearest, normBijection);
+			kNearest, normBijection);
 
 		// To compute differential entropy for
 		// a set of signals, where each signal is a 
@@ -58,11 +57,11 @@ namespace
 		averageEstimate = differentialEntropyKl(
 			forwardRange(signalSet));
 		averageEstimate = differentialEntropyKl(
-			forwardRange(signalSet), maxRelativeError);
+			forwardRange(signalSet));
 		averageEstimate = differentialEntropyKl(
-			forwardRange(signalSet), maxRelativeError, kNearest);
+			forwardRange(signalSet), kNearest);
 		averageEstimate = differentialEntropyKl(
-			forwardRange(signalSet), maxRelativeError, 
+			forwardRange(signalSet), 
 			kNearest, normBijection);
 
 		// To compute temporal differential entropy for
@@ -74,16 +73,15 @@ namespace
 			timeWindowRadius, estimateSet); 
 		temporalDifferentialEntropyKl(
 			forwardRange(signalSet), 
-			timeWindowRadius, estimateSet, 
-			maxRelativeError); 
+			timeWindowRadius, estimateSet); 
 		temporalDifferentialEntropyKl(
 			forwardRange(signalSet), 
 			timeWindowRadius, estimateSet, 
-			maxRelativeError, kNearest);
+			kNearest);
 		temporalDifferentialEntropyKl(
 			forwardRange(signalSet), timeWindowRadius, 
 			estimateSet,
-			maxRelativeError, kNearest,
+			kNearest,
 			normBijection);
 	}
 

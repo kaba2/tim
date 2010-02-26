@@ -18,7 +18,6 @@ namespace Tim
 	/*!
 	Preconditions:
 	timeWindowRadius >= 0
-	maxRelativeError >= 0
 	kNearest > 0
 
 	signalSet:
@@ -34,12 +33,6 @@ namespace Tim
 	A real output iterator, denoting the start
 	of the region where the sequence of temporal
 	differential entropies are to be stored.
-
-	maxRelativeError:
-	The maximum relative error allowed for
-	distance in nearest neighbor searching.
-	Zero gives exact matches. Higher values can
-	result in improved performance.
 
 	kNearest:
 	The k:th nearest neighbor that is used to
@@ -66,7 +59,6 @@ namespace Tim
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
-		real maxRelativeError,
 		integer kNearest,
 		const NormBijection& normBijection);
 
@@ -76,7 +68,7 @@ namespace Tim
 
 	temporalDifferentialEntropyKl(
 		signalSet, timeWindowRadius, result, 
-		maxRelativeError, kNearest, Default_NormBijection());
+		kNearest, Default_NormBijection());
 
 	See the documentation for that function.
 	*/
@@ -87,7 +79,6 @@ namespace Tim
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
-		real maxRelativeError = 0,
 		integer kNearest = 1);
 
 	//! Computes temporal differential entropy of a signal.
@@ -96,7 +87,7 @@ namespace Tim
 
 	temporalDifferentialEntropyKl(
 		signalSet, timeWindowRadius, result, 
-		maxRelativeError, kNearest, Default_NormBijection());
+		kNearest, Default_NormBijection());
 
 	See the documentation for that function.
 	*/
@@ -108,7 +99,6 @@ namespace Tim
 		const SignalPtr& signal,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
-		real maxRelativeError,
 		integer kNearest,
 		const NormBijection& normBijection);
 
@@ -118,7 +108,7 @@ namespace Tim
 
 	temporalDifferentialEntropyKl(
 		forwardRange(constantIterator(signal)),
-		timeWindowRadius, result, maxRelativeError, 
+		timeWindowRadius, result, 
 		kNearest, Default_NormBijection());
 
 	See the documentation for that function.
@@ -129,7 +119,6 @@ namespace Tim
 		const SignalPtr& signal,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
-		real maxRelativeError = 0,
 		integer kNearest = 1);
 
 	// Differential entropy
@@ -139,18 +128,11 @@ namespace Tim
 	/*!
 	Preconditions:
 	kNearest > 0
-	maxRelativeError >= 0
 	signalSet contains SignalPtr's.
 
 	signalSet:
 	An ensemble of signals representing trials
 	of the same experiment.
-
-	maxRelativeError:
-	The maximum relative error allowed for
-	distance in nearest neighbor searching.
-	Zero gives exact matches. Higher values can
-	result in improved performance.
 
 	kNearest:
 	The k:th nearest neighbor that is used to
@@ -172,7 +154,6 @@ namespace Tim
 		typename NormBijection>
 	real differentialEntropyKl(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
-		real maxRelativeError,
 		integer kNearest,
 		const NormBijection& normBijection);
 
@@ -181,7 +162,7 @@ namespace Tim
 	This is a convenience function that calls:
 
 	differentialEntropyKl(
-		signalSet, maxRelativeError, kNearest, 
+		signalSet, kNearest, 
 		Default_NormBijection());
 
 	See the documentation for that function.
@@ -190,7 +171,6 @@ namespace Tim
 	template <typename SignalPtr_Iterator>
 	real differentialEntropyKl(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
-		real maxRelativeError = 0,
 		integer kNearest = 1);
 
 	//! Computes differential entropy of a signal.
@@ -199,7 +179,6 @@ namespace Tim
 
 	differentialEntropyKl(
 		forwardRange(constantIterator(signal)),
-		maxRelativeError,
 		kNearest,
 		normBijection);
 
@@ -209,7 +188,6 @@ namespace Tim
 	template <typename NormBijection>
 	real differentialEntropyKl(
 		const SignalPtr& signal,
-		real maxRelativeError,
 		integer kNearest,
 		const NormBijection& normBijection);
 
@@ -218,14 +196,13 @@ namespace Tim
 	This is a convenience function that calls:
 
 	differentialEntropyKl(
-		signal, maxRelativeError,
-		kNearest, Default_NormBijection());
+		signal, kNearest, 
+		Default_NormBijection());
 
 	See the documentation for that function.
 	*/
 	TIM real differentialEntropyKl(
 		const SignalPtr& signal,
-		real maxRelativeError = 0,
 		integer kNearest = 1);
 
 }

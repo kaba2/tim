@@ -18,7 +18,11 @@
 % or by using the transfer_entropy() function instead.
 %
 % XLAG, YLAG, ZLAG, and WLAG are the lags in samples applied to 
-% signals X, Y, Z, and W, respectively.
+% signals X, Y, Z, and W, respectively. Each can be given either as a 
+% scalar or as an array. In case some of the lags are given as arrays, 
+% those arrays must have the same number of elements, and a scalar lag is 
+% interpreted as an array of the same size with the given value as 
+% elements. Default 0.
 %
 % K determines which k:th nearest neighbor the algorithm
 % uses for estimation. Default 1.
@@ -69,7 +73,7 @@ if ~iscell(X) || ~iscell(Y) || ~iscell(Z) || ~iscell(W)
     error('X, Y, Z, or W is not a cell-array.');
 end
 
-if numel(X) ~= numel(Y) || numel(X) ~= numel(Z) || ..
+if numel(X) ~= numel(Y) || numel(X) ~= numel(Z) || ...
     numel(X) ~= numel(W)
     error('The number of trials in X, Y, Z, and W differ.');
 end
@@ -77,7 +81,8 @@ end
 % Pass parameter error checking to entropy_combination.
 
 I = entropy_combination_t(...
-    [W(:), X(:), Z(:), Y(:)]', ...
+    [W(:)'; X(:)'; Z(:)'; Y(:)'], ...
     [1, 3, 1; 2, 4, 1; 2, 3, -1], ...
     timeWindowRadius, ...
-    [wLag, xLag, zLag, yLag], k, threads);
+    {wLag, xLag, zLag, yLag}, ...
+    k, threads);

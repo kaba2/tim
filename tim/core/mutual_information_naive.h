@@ -55,7 +55,6 @@ namespace Tim
 	/*!
 	Preconditions:
 	kNearest > 0
-	maxRelativeError >= 0
 
 	signalSet:
 	A set of signals between which the mutual information
@@ -64,13 +63,6 @@ namespace Tim
 	kNearest:
 	The k:th neighbor to use in the estimation of the
 	differential entropies.
-
-	maxRelativeError:
-	The maximum relative error in the distance of the
-	nearest neighbors. Allowing approximate results in
-	nearest neighbor searching can accelerate performance 
-	by one to two orders of magnitude in higher dimensions.
-	0 = exact, 1 = 100% relative error, 2 = 200% relative error,
 
 	normBijection:
 	The norm to use to do the estimations.
@@ -85,7 +77,6 @@ namespace Tim
 	real mutualInformationFromEntropy(
 		const std::vector<SignalPtr>& signalSet,
 		integer kNearest,
-		real maxRelativeError,
 		const NormBijection& normBijection);
 
 }

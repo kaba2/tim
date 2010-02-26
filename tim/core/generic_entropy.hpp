@@ -29,11 +29,9 @@ namespace Tim
 		const EntropyAlgorithm& entropyAlgorithm,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
-		real maxRelativeError,
 		integer kNearest)
 	{
 		ENSURE_OP(timeWindowRadius, >=, 0);
-		ENSURE_OP(maxRelativeError, >=, 0);
 		ENSURE_OP(kNearest, >, 0);
 
 		// This function encapsulates the common
@@ -105,7 +103,7 @@ namespace Tim
 				0,
 				&distanceArray,
 				randomAccessRange(constantIterator(infinity<real>()), trials),
-				maxRelativeError,
+				0,
 				entropyAlgorithm.normBijection());
 
 			// After we have found the distances, we simply evaluate
@@ -116,8 +114,8 @@ namespace Tim
 			real estimate = 0;
 			for (integer i = 0;i < trials;++i)
 			{
-				// The logarithm of zero would give -infinity,
-				// so we must avoid that. Such samples are
+				// Points that are at identical positions do not
+				// provide any information. Such samples are
 				// not taken in the estimate.
 				if (distanceArray(i) > 0)
 				{
@@ -135,10 +133,8 @@ namespace Tim
 			{
 				// If all distances were zero, we can't say
 				// anything about generic entropy. This is
-				// marked with a NaN.
-				// One can later apply the theory of irregular 
-				// sampling to reconstruct these missing values
-				// assuming continuity.
+				// marked with a NaN. We will later attempt
+				// to reconstruct these values.
 
 				estimateSet[t] = nan<real>();
 				++missingValues;
@@ -161,7 +157,6 @@ namespace Tim
 		const EntropyAlgorithm& entropyAlgorithm,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
-		real maxRelativeError,
 		integer kNearest)
 	{
 		return Tim::temporalGenericEntropy(
@@ -169,7 +164,6 @@ namespace Tim
 			entropyAlgorithm,
 			timeWindowRadius,
 			result,
-			maxRelativeError,
 			kNearest);
 	}
 
@@ -182,11 +176,9 @@ namespace Tim
 	real genericEntropy(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		const EntropyAlgorithm& entropyAlgorithm,
-		real maxRelativeError,
 		integer kNearest)
 	{
 		ENSURE_OP(kNearest, >, 0);
-		ENSURE_OP(maxRelativeError, >=, 0);
 
 		if (signalSet.empty())
 		{
@@ -221,7 +213,7 @@ namespace Tim
 			0,
 			&distanceArray,
 			randomAccessRange(constantIterator(infinity<real>()), estimateSamples),
-			maxRelativeError,
+			0,
 			entropyAlgorithm.normBijection());
 
 		// After we have found the distances, we simply evaluate
@@ -262,13 +254,11 @@ namespace Tim
 	real genericEntropy(
 		const SignalPtr& signal,
 		const EntropyAlgorithm& entropyAlgorithm,
-		real maxRelativeError,
 		integer kNearest)
 	{
 		return Tim::genericEntropy(
 			forwardRange(constantIterator(signal)),
 			entropyAlgorithm,
-			maxRelativeError,
 			kNearest);
 	}
 
