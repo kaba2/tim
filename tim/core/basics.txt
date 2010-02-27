@@ -6,13 +6,13 @@ Basics of the C++ implementation
 Integers and reals
 ------------------
 
-The Pastel library defines the type aliases _integer_ and _real_ to work as abstractions
+The Pastel library defines the type aliases `integer` and `real` to work as abstractions
 for the corresponding mathematical concepts. In TIM, instead of making the underlying
-computation type a template parameter, we have chosen to use the real type throughout.
+computation type a template parameter, we have chosen to use the `real` type throughout.
 We believe this simplifies the library while not making it substantially less generic. 
-The real type can be chosen library-wide a float, a double, or a long double based 
-on the desired configuration. For the precompiled software we used the double type.
-The integer type is an alias for the int type.
+The `real` type can be chosen library-wide a `float`, a `double`, or a `long double` based 
+on the desired configuration. For the precompiled software we used the `double` type.
+The `integer` type is an alias for the `int` type.
 
 Iterators and iterator ranges
 -----------------------------
@@ -25,14 +25,14 @@ d is the distance between e and b. Apart from making the interface
 of functions compact, iterator ranges also offer a form of concept-based 
 overloading, compared to non-restricted templates when using only iterators.
 Whenever a template function parametrizes an iterator range, the types
-of the iterators are named in the form DereferencedType_Iterator. Here is
+of the iterators are named in the form `DereferencedType_Iterator`. Here is
 an example function template declaration from TIM:
 
 [[CppCode]]:
 	template <
 		typename SignalPtr_Iterator, 
 		typename Real_OutputIterator>
-	void temporalDifferentialEntropyKl(
+	integer temporalDifferentialEntropyKl(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
@@ -43,10 +43,8 @@ if the output of the function is varying in number of writes, as with
 the above function, then no fixed-size iterator range does. Therefore, 
 outputs are always specified with a single output iterator. Whenever a 
 template function parametrizes an output iterator, the type is named in the 
-form DereferencedType_OutputIterator. 
+form `DereferencedType_OutputIterator`. 
 
 You can read more about special iterators and iterator ranges from
-the Pastel library's documentation [here][Pastel_Iterator].
-
-[Pastel_Iterator]: /pastel/sys/iterator.txt
+the Pastel library's documentation.
 
