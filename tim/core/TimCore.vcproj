@@ -708,6 +708,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\signal_merge.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\signal_merge.h"
+				>
+			</File>
+			<File
+				RelativePath=".\signal_merge.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\signal_tools.cpp"
 				>
 			</File>

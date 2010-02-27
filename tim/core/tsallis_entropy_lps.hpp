@@ -114,7 +114,7 @@ namespace Tim
 
 		if (signalSet.empty())
 		{
-			return true;
+			return 0;
 		}
 
 		if (q == 1)
@@ -182,7 +182,7 @@ namespace Tim
 
 		if (signalSet.empty())
 		{
-			return true;
+			return 0;
 		}
 
 		if (q == 1)

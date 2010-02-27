@@ -136,7 +136,7 @@ namespace Tim
 
 		if (signalSet.empty())
 		{
-			return true;
+			return 0;
 		}
 
 		const integer kNearest = renyiDecideK(q, kNearestSuggestion);
