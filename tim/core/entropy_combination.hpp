@@ -4,6 +4,7 @@
 #include "tim/core/entropy_combination.h"
 #include "tim/core/signal_tools.h"
 #include "tim/core/signalpointset.h"
+#include "tim/core/reconstruction.h"
 
 #include <pastel/geometry/pointkdtree.h>
 #include <pastel/geometry/search_all_neighbors_pointkdtree.h>
@@ -25,7 +26,7 @@ namespace Tim
 		typename Integer3_Iterator,
 		typename Real_OutputIterator,
 		typename Integer_Iterator>
-	void temporalEntropyCombination(
+	integer temporalEntropyCombination(
 		const Array<SignalPtr, 2>& signalSet,
 		const ForwardRange<Integer3_Iterator>& rangeSet,
 		integer timeWindowRadius,
@@ -39,7 +40,7 @@ namespace Tim
 
 		if (signalSet.empty() || rangeSet.empty())
 		{
-			return;
+			return 0;
 		}
 
 		rangeSet.updateCache();
@@ -62,7 +63,7 @@ namespace Tim
 		const integer samples = jointSignalSet.front()->samples();
 		if (samples == 0)
 		{
-			return;
+			return 0;
 		}
 
 		const integer marginals = rangeSet.size();
@@ -82,6 +83,7 @@ namespace Tim
 		// maximum norm.
 
 		Maximum_NormBijection<real> normBijection;
+		integer missingValues = 0;
 
 		std::vector<real> estimateSet(samples);
 #pragma omp parallel
@@ -116,7 +118,7 @@ namespace Tim
 		Array<real, 2> distanceArray(1, trials);
 		std::vector<integer> countSet(trials, 0);
 
-#pragma omp for
+#pragma omp for reduction(+ : missingValues)
 		for (integer t = 0;t < samples;++t)
 		{
 			jointPointSet->setTimeWindow(
@@ -187,9 +189,19 @@ namespace Tim
 				if (acceptedSamples > 0)
 				{
 					signalEstimate /= acceptedSamples;
+					estimate -= signalEstimate * copyRangeSet[i][2];
 				}
-
-				estimate -= signalEstimate * copyRangeSet[i][2];
+				else
+				{
+					// The estimate is undefined, mark
+					// it with NaN. This value will
+					// probably be reconstructed later.
+					estimate = nan<real>();
+					++missingValues;
+					
+					// Skip to the next time instant.
+					break;
+				}
 			}
 
 			const integer estimateSamples = tWidth * trials;
@@ -201,20 +213,29 @@ namespace Tim
 		}
 		}
 
+		// Reconstruct the NaN's.
+
+		reconstruct(
+			forwardRange(estimateSet.begin(), estimateSet.end()));
+
+		// Copy the results to output.
+
 		std::copy(estimateSet.begin(), estimateSet.end(), result);
+
+		return missingValues;
 	}
 
 	template <
 		typename Integer3_Iterator,
 		typename Real_OutputIterator>
-	void temporalEntropyCombination(
+	integer temporalEntropyCombination(
 		const SignalPtr& signal,
 		const ForwardRange<Integer3_Iterator>& rangeSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
 		integer kNearest)
 	{
-		Tim::temporalEntropyCombination(
+		return Tim::temporalEntropyCombination(
 			forwardRange(constantIterator(signal)),
 			rangeSet,
 			timeWindowRadius,

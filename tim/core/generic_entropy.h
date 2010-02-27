@@ -43,19 +43,17 @@ namespace Tim
 	estimate generic entropy.
 
 	Returns:
-	True, if all estimates were succesfully estimated.
-	False, if at least one estimate could not be 
-	estimated and was given NaN.
-	One can later apply the theory of irregular 
-	sampling to reconstruct these missing values
-	assuming continuity.
+	The number of time instants that had an
+	undefined estimate. If not all estimates
+	were undefined, they were reconstructed from 
+	the defined estimates using interpolation.
 	*/
 
 	template <
 		typename SignalPtr_Iterator, 
 		typename EntropyAlgorithm,
 		typename Real_OutputIterator>
-	bool temporalGenericEntropy(
+	integer temporalGenericEntropy(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		const EntropyAlgorithm& entropyAlgorithm,
 		integer timeWindowRadius,
@@ -78,7 +76,7 @@ namespace Tim
 	template <
 		typename EntropyAlgorithm, 
 		typename Real_OutputIterator>
-	bool temporalGenericEntropy(
+	integer temporalGenericEntropy(
 		const SignalPtr& signal,
 		const EntropyAlgorithm& entropyAlgorithm,
 		integer timeWindowRadius,

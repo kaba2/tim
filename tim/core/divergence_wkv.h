@@ -1,4 +1,4 @@
-// Description: Divergence estimation
+// Description: Kullback-Leibler divergence estimation
 // Detail: Wang-Kulkarni-Verdu nearest neighbor estimator
 
 #ifndef TIM_DIVERGENCE_WKV_H
@@ -12,6 +12,21 @@
 namespace Tim
 {
 
+	//! Computes Kullback-Leibler divergence between signals.
+	/*!
+	xSignalSet:
+	An ensemble of signals representing trials
+	of the same experiment X.
+
+	ySignalSet:
+	An ensemble of signals representing trials
+	of the same experiment Y.
+
+	Returns:
+	The Kullback-Leibler divergence between the signals.
+	If the estimate is undefined, a NaN is returned.
+	*/
+
 	template <
 		typename SignalPtr_X_Iterator,
 		typename SignalPtr_Y_Iterator>
@@ -19,6 +34,13 @@ namespace Tim
 		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
 		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet);
 
+	//! Computes Kullback-Leibler divergence between signals.
+	/*!
+	This is a convenience function that calls the
+	more general divergenceWkv().
+
+	See the documentation for that function.
+	*/
 	TIM real divergenceWkv(
 		const SignalPtr& xSignal,
 		const SignalPtr& ySignal);

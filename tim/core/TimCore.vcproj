@@ -642,6 +642,22 @@
 						>
 					</File>
 					<Filter
+						Name="Analytic"
+						>
+						<File
+							RelativePath=".\tsallis_entropy_analytic.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\tsallis_entropy_analytic.h"
+							>
+						</File>
+						<File
+							RelativePath=".\tsallis_entropy_analytic.txt"
+							>
+						</File>
+					</Filter>
+					<Filter
 						Name="Leonenko-Pronzato-Savani"
 						>
 						<File
@@ -658,22 +674,6 @@
 						</File>
 						<File
 							RelativePath=".\tsallis_entropy_lps.txt"
-							>
-						</File>
-					</Filter>
-					<Filter
-						Name="Analytic"
-						>
-						<File
-							RelativePath=".\tsallis_entropy_analytic.cpp"
-							>
-						</File>
-						<File
-							RelativePath=".\tsallis_entropy_analytic.h"
-							>
-						</File>
-						<File
-							RelativePath=".\tsallis_entropy_analytic.txt"
 							>
 						</File>
 					</Filter>
@@ -780,16 +780,32 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="Reconstruction"
+			>
+			<File
+				RelativePath=".\reconstruction.h"
+				>
+			</File>
+			<File
+				RelativePath=".\reconstruction.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\reconstruction.txt"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\implementation.txt"
 			>
 		</File>
 		<File
-			RelativePath=".\more_news.txt"
+			RelativePath="..\..\more_news.txt"
 			>
 		</File>
 		<File
-			RelativePath=".\previous_releases.txt"
+			RelativePath="..\..\previous_releases.txt"
 			>
 		</File>
 		<File

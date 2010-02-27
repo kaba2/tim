@@ -78,8 +78,12 @@ namespace Tim
 			// this can be taken outside the logarithm with a 
 			// division by 2.
 			estimate *= (real)xDimension / (2 * acceptedSamples);
+			estimate += std::log((real)ySamples / (xSamples - 1));
 		}
-		estimate += std::log((real)ySamples / (xSamples - 1));
+		else
+		{
+			estimate = nan<real>();
+		}
 
 		return estimate;
 	}

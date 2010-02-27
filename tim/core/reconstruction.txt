@@ -1,0 +1,45 @@
+Handling of degeneracies
+========================
+
+[[Parent]]: tim_core.txt
+
+Most of the estimators are based on computing the
+distances to the k:th nearest neighbors and using that
+information to compute the estimates. However, zero distances 
+carry no information and can't be used for the estimation. 
+TIM degrades gracefully in these degenerate cases and 
+ignores the zero distances when computing the estimates.
+
+In a really degenerate case it might happen that all the
+distances are zero, i.e. all points are located at the same
+position: in this case TIM returns a NaN (not-a-number).
+While this might sound a rare case, it becomes a bit more
+important when considering the temporal estimators.
+
+Reconstruction for temporal estimators
+--------------------------------------
+
+When using temporal estimators, an estimate is given for
+each time instant. It might then happen that the estimate
+is not defined for all time instants. However, having NaNs
+here and there in a temporal estimate is inconvenient.
+Instead, TIM behaves as follows. Initially, the undefined
+temporal estimates are given a NaN. However, after all 
+temporal estimates have been computed, TIM reconstructs the
+NaNs from surrounding temporal estimates using linear 
+interpolation (and constant interpolation at the edges).
+This reconstruction assumes that the temporal estimates
+are continuous in time. If the estimates are undefined at
+all time instants, an array of NaNs is returned.
+
+### Examples
+
+Here are examples of the reconstruction:
+
+	[  1, NaN, NaN, NaN,   5] -> [  1,   2,   3,   4,   5]
+	[  1, NaN, NaN, NaN, Nan] -> [  1,   1,   1,   1,   1]
+	[NaN, NaN, NaN, NaN,   5] -> [  5,   5,   5,   5,   5]
+	[NaN, NaN,   3, NaN, NaN] -> [  3,   3,   3,   3,   3]
+	[  1, NaN,   3, NaN,   5] -> [  1,   2,   3,   4,   5]
+	[NaN, NaN, NaN, NaN, NaN] -> [NaN, NaN, NaN, NaN, NaN]
+	

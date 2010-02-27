@@ -101,7 +101,7 @@ namespace Tim
 	template <
 		typename SignalPtr_Iterator, 
 		typename Real_OutputIterator>
-	bool temporalTsallisEntropyLps(
+	integer temporalTsallisEntropyLps(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
@@ -153,7 +153,7 @@ namespace Tim
 	}
 
 	template <typename Real_OutputIterator>
-	bool temporalTsallisEntropyLps(
+	integer temporalTsallisEntropyLps(
 		const SignalPtr& signal,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
