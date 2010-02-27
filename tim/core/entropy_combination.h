@@ -37,21 +37,26 @@ namespace Tim
 	Smaller values give more temporal adaptivity,
 	but increase errors.
 
+	result:
+	Temporal estimates of the entropy combination of the
+	signals.
+
 	kNearest:
 	The k:th nearest neighbor that is used to
 	estimate entropy combination.
 
 	Returns:
-	An estimate of the temporal entropy combination of the signals
-	C(X_1, ..., X_m) = sum_{i = 1}^m s_i H(X_i) - H(X),
-	where H(X) is the differential entropy of X.
+	The number of time instants that had an
+	undefined estimate. If not all estimates
+	were undefined, they were reconstructed from 
+	the defined estimates using interpolation.
 	*/
 
 	template <
 		typename Integer3_Iterator,
 		typename Real_OutputIterator,
 		typename Integer_Iterator>
-	void temporalEntropyCombination(
+	integer temporalEntropyCombination(
 		const Array<SignalPtr, 2>& signalSet,
 		const ForwardRange<Integer3_Iterator>& rangeSet,
 		integer timeWindowRadius,
@@ -77,7 +82,7 @@ namespace Tim
 	template <
 		typename Integer3_Iterator,
 		typename Real_OutputIterator>
-	void temporalEntropyCombination(
+	integer temporalEntropyCombination(
 		const Array<SignalPtr, 2>& signalSet,
 		const ForwardRange<Integer3_Iterator>& rangeSet,
 		integer timeWindowRadius,
@@ -111,9 +116,7 @@ namespace Tim
 	estimate entropy combination.
 
 	Returns:
-	An estimate of the entropy combination of the signals
-	C(X_1, ..., X_m) = sum_{i = 1}^m s_i H(X_i) - H(X),
-	where H(X) is the differential entropy of X.
+	An estimate of the entropy combination of the signals.
 	*/
 
 	template <

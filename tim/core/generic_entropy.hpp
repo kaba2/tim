@@ -4,6 +4,7 @@
 #include "tim/core/generic_entropy.h"
 #include "tim/core/signal_tools.h"
 #include "tim/core/signalpointset.h"
+#include "tim/core/reconstruction.h"
 
 #include <pastel/sys/constantiterator.h>
 #include <pastel/sys/countingiterator.h>
@@ -24,7 +25,7 @@ namespace Tim
 		typename SignalPtr_Iterator, 
 		typename EntropyAlgorithm,
 		typename Real_OutputIterator>
-	bool temporalGenericEntropy(
+	integer temporalGenericEntropy(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		const EntropyAlgorithm& entropyAlgorithm,
 		integer timeWindowRadius,
@@ -40,7 +41,7 @@ namespace Tim
 
 		if (signalSet.empty())
 		{
-			return true;
+			return 0;
 		}
 
 		// This is done to avoid parallelization
@@ -73,7 +74,7 @@ namespace Tim
 		Array<real, 2> distanceArray(1, trials);
 		SignalPointSet pointSet(signalSet);
 
-#pragma omp for
+#pragma omp for reduction(+ : missingValues)
 		for (integer t = 0;t < samples;++t)
 		{
 			// Update the position of the time-window.
@@ -142,17 +143,22 @@ namespace Tim
 		}
 		}
 
+		// Reconstruct the NaN's.
+
+		reconstruct(
+			forwardRange(estimateSet.begin(), estimateSet.end()));
+
 		// Copy the results to the output.
 
 		std::copy(estimateSet.begin(), estimateSet.end(), result);
 
-		return (missingValues == 0);
+		return missingValues;
 	}
 
 	template <
 		typename EntropyAlgorithm, 
 		typename Real_OutputIterator>
-	bool temporalGenericEntropy(
+	integer temporalGenericEntropy(
 		const SignalPtr& signal,
 		const EntropyAlgorithm& entropyAlgorithm,
 		integer timeWindowRadius,

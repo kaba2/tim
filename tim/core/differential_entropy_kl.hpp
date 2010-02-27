@@ -63,7 +63,7 @@ namespace Tim
 		typename SignalPtr_Iterator, 
 		typename Real_OutputIterator,
 		typename NormBijection>
-	bool temporalDifferentialEntropyKl(
+	integer temporalDifferentialEntropyKl(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
@@ -87,7 +87,7 @@ namespace Tim
 	template <
 		typename SignalPtr_Iterator, 
 		typename Real_OutputIterator>
-	bool temporalDifferentialEntropyKl(
+	integer temporalDifferentialEntropyKl(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
@@ -104,7 +104,7 @@ namespace Tim
 	template <
 		typename Real_OutputIterator,
 		typename NormBijection>
-	bool temporalDifferentialEntropyKl(
+	integer temporalDifferentialEntropyKl(
 		const SignalPtr& signal,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
@@ -120,7 +120,7 @@ namespace Tim
 	}
 
 	template <typename Real_OutputIterator>
-	bool temporalDifferentialEntropyKl(
+	integer temporalDifferentialEntropyKl(
 		const SignalPtr& signal,
 		integer timeWindowRadius,
 		Real_OutputIterator result,

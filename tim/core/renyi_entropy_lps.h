@@ -70,18 +70,16 @@ namespace Tim
 	kNearestSuggestion >= 2 * ceil(q) - 1.
 
 	Returns:
-	True, if all estimates were succesfully estimated.
-	False, if at least one estimate could not be 
-	estimated and was given NaN.
-	One can later apply the theory of irregular 
-	sampling to reconstruct these missing values
-	assuming continuity.
+	The number of time instants that had an
+	undefined estimate. If not all estimates
+	were undefined, they were reconstructed from 
+	the defined estimates using interpolation.
 	*/
 
 	template <
 		typename SignalPtr_Iterator, 
 		typename Real_OutputIterator>
-	bool temporalRenyiEntropyLps(
+	integer temporalRenyiEntropyLps(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
@@ -101,7 +99,7 @@ namespace Tim
 	*/
 
 	template <typename Real_OutputIterator>
-	bool temporalRenyiEntropyLps(
+	integer temporalRenyiEntropyLps(
 		const SignalPtr& signal,
 		integer timeWindowRadius,
 		Real_OutputIterator result,

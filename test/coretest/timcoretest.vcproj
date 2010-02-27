@@ -383,6 +383,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\test_reconstruction.cpp"
+			>
+		</File>
+		<File
 			RelativePath=".\test_renyi_entropy.cpp"
 			>
 		</File>
