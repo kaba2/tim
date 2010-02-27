@@ -8,10 +8,13 @@ This page contains the previously released versions of TIM.
 Version 1.0.3
 -------------
 
+[Download TIM Source 1.0.3][TIM-Source-1.0.3]
+
 [Download TIM Console 1.0.3][TIM-Console-1.0.3]
 
 [Download TIM Matlab 1.0.3][TIM-Matlab-1.0.3]
 
+[TIM-Source-1.0.3]: files/tim-1.0.3.zip
 [TIM-Matlab-1.0.3]: files/tim-matlab-1.0.3.zip
 [TIM-Console-1.0.3]: files/tim-console-1.0.3.zip
 
