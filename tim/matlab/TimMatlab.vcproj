@@ -332,6 +332,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\compute_lagarray.m"
+				>
+			</File>
+			<File
 				RelativePath=".\differential_entropy_kl.m"
 				>
 			</File>
