@@ -720,6 +720,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\signal_properties.h"
+				>
+			</File>
+			<File
+				RelativePath=".\signal_properties.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\signal_tools.cpp"
 				>
 			</File>

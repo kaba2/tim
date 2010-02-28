@@ -13,59 +13,6 @@
 namespace Tim
 {
 
-	template <typename SignalPtr_Iterator>
-	integer minSamples(
-		const ForwardRange<SignalPtr_Iterator>& signalSet)
-	{
-		if (signalSet.empty())
-		{
-			return 0;
-		}
-
-		SignalPtr_Iterator iter = signalSet.begin();
-		const SignalPtr_Iterator iterEnd = signalSet.end();
-
-		integer samples = (*iter)->samples();
-		++iter;
-
-		while(iter != iterEnd)
-		{
-			samples = std::max(samples, (*iter)->samples());
-
-			++iter;
-		}
-
-		return samples;
-	}
-
-	template <typename SignalPtr_Iterator>
-	bool equalDimension(
-		const ForwardRange<SignalPtr_Iterator>& signalSet)
-	{
-		if (signalSet.empty())
-		{
-			return true;
-		}
-
-		SignalPtr_Iterator iter = signalSet.begin();
-		const SignalPtr_Iterator iterEnd = signalSet.end();
-
-		integer dimension = signalSet.front()->dimension();
-		++iter;
-
-		while(iter != iterEnd)
-		{
-			if ((*iter)->dimension() != dimension)
-			{
-				return false;
-			}
-
-			++iter;
-		}
-
-		return true;
-	}
-
 	template <typename SignalPtr_OutputIterator>
 	void split(
 		const SignalPtr& jointSignal,

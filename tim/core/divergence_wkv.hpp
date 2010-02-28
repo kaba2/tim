@@ -27,6 +27,9 @@ namespace Tim
 			return 0;
 		}
 
+		xSignalSet.updateCache();
+		ySignalSet.updateCache();
+
 		const integer xDimension = xSignalSet.front()->dimension();
 		const integer yDimension = ySignalSet.front()->dimension();
 
@@ -44,7 +47,7 @@ namespace Tim
 
 		integer acceptedSamples = 0;
 		real estimate = 0;
-//#pragma omp parallel for reduction(+ : estimate, acceptedSamples)
+#pragma omp parallel for reduction(+ : estimate, acceptedSamples)
 		for (integer i = 0;i < xSamples;++i)
 		{
 			// Find out the nearest neighbor in X for a point in X.

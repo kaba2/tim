@@ -2,6 +2,7 @@
 #define TIM_SIGNAL_MERGE_HPP
 
 #include "tim/core/signal_merge.h"
+#include "tim/core/signal_properties.h"
 
 namespace Tim
 {
@@ -41,80 +42,31 @@ namespace Tim
 			++signalIter;
 		}
 
-		// In the following we think of having signals
-		// embedded on the time axis, delayed with the given
-		// lags. We accept to the merged signal only that
-		// part in which all signals are present. E.g,
-		// if the following are the time intervals that
-		// three signals span:
-		// 
-		//        +--------------+
-		//   +--------+
-		//         +------+
-		//
-		// Then the their merged signal spans the following
-		// time interval:
-		//
-		//         +--+
+		const Integer2 sharedTime = 
+			sharedTimeInterval(signalSet, lagSet);
 
-		// Find out the common time interval
-		// [tLeftMax, tRightMin].
-
-		integer samples = 0;
-		integer maxLag = 0;
+		if (tMin)
 		{
-			Integer_Iterator lagIter = lagSet.begin();
-			const Integer_Iterator lagIterEnd = lagSet.end();
-			SignalPtr_Iterator signalIter = signalSet.begin();
-
-			integer tLeftMax = (*lagIter);
-			integer tRightMin = tLeftMax + (*signalIter)->samples();
-
-			while(lagIter != lagIterEnd)
-			{
-				const integer lag = *lagIter;
-
-				if (lag > maxLag)
-				{
-					maxLag = lag;
-				}
-
-				const integer tLeft = lag;
-				const integer tRight = lag + (*signalIter)->samples();
-
-				if (tLeft > tLeftMax)
-				{
-					tLeftMax = tLeft;
-				}
-				if (tRight < tRightMin)
-				{
-					tRightMin = tRight;
-				}
-
-				++lagIter;
-				++signalIter;
-			}
-			
-			samples = tRightMin - tLeftMax;
-
-			if (tMin)
-			{
-				*tMin = tLeftMax;
-			}
+			*tMin = sharedTime[0];
 		}
 
-		if  (samples <= 0)
-		{
-			// There is no common time interval that
-			// all signals would share.
-			return SignalPtr(new Signal(0, jointDimension));
-		}
+		const integer samples = sharedTime[1] - sharedTime[0];
 
 		// Allocate the joint signal.
 
 		SignalPtr jointSignal(new Signal(samples, jointDimension));
 		
+		if  (samples == 0)
+		{
+			// There is no common time interval that
+			// all signals would share.
+			return jointSignal;
+		}
+
 		// Copy the signals into parts of the joint signal.
+
+		const integer maxLag = *std::max_element(
+			lagSet.begin(), lagSet.end());
 
 		integer dimensionOffset = 0;
 
