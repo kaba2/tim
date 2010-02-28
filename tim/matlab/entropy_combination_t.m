@@ -137,10 +137,19 @@ if threads < 1
 end
 
 lags = size(lagArray, 2);
-I = cell(lags, 1);
+
+minSamples = size(signalSet{1}, 2);
+for i = 1 : numel(signalSet)
+    samples = size(signalSet{i}, 2);
+    if samples < minSamples
+        minSamples = samples;
+    end
+end
+
+I = zeros(lags, minSamples);
 
 for i = 1 : lags
-    I{i} = tim_matlab(...
+    I(i, :) = tim_matlab(...
         'entropy_combination_t', ...
         signalSet, rangeSet, timeWindowRadius, ...
         lagArray(:, i), k, threads);

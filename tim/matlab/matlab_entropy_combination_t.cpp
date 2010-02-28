@@ -48,21 +48,19 @@ namespace
 		const integer threads = getInteger(inputSet[threadsIndex]);
 		setNumberOfThreads(threads);
 
-		std::vector<real> estimateSet;
+		const integer outputWidth = minSamples(
+			forwardRange(signalSet.begin(), signalSet.end()));
+
+		outputSet[0] = mxCreateDoubleMatrix(1, outputWidth, mxREAL);
+		real* rawResult = mxGetPr(outputSet[0]);
 
 		temporalEntropyCombination(
 			signalSet,
 			forwardRange(rangeSet.begin(), rangeSet.end()),
 			timeWindowRadius,
-			std::back_inserter(estimateSet),
+			rawResult,
 			forwardRange(lagSet.begin(), lagSet.end()),
 			kNearest);
-
-		outputSet[0] = mxCreateDoubleMatrix(1, estimateSet.size(), mxREAL);
-		real* rawResult = mxGetPr(outputSet[0]);
-
-		std::copy(estimateSet.begin(), estimateSet.end(),
-			rawResult);
 	}
 
 	void addFunction()
