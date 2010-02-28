@@ -27,6 +27,20 @@ namespace Tim
 			return SignalPtr();
 		}
 
+		// Compute joint dimension.
+
+		integer jointDimension = 0;
+		SignalPtr_Iterator signalIter = signalSet.begin();
+		const SignalPtr_Iterator signalIterEnd = signalSet.end();
+
+		while(signalIter != signalIterEnd)
+		{
+			const SignalPtr signal = *signalIter;
+			jointDimension += signal->dimension();
+
+			++signalIter;
+		}
+
 		// In the following we think of having signals
 		// embedded on the time axis, delayed with the given
 		// lags. We accept to the merged signal only that
@@ -93,21 +107,7 @@ namespace Tim
 		{
 			// There is no common time interval that
 			// all signals would share.
-			return SignalPtr();
-		}
-
-		// Compute joint dimension.
-
-		integer jointDimension = 0;
-		SignalPtr_Iterator signalIter = signalSet.begin();
-		const SignalPtr_Iterator signalIterEnd = signalSet.end();
-
-		while(signalIter != signalIterEnd)
-		{
-			const SignalPtr signal = *signalIter;
-			jointDimension += signal->dimension();
-
-			++signalIter;
+			return SignalPtr(new Signal(0, jointDimension));
 		}
 
 		// Allocate the joint signal.

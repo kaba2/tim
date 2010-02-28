@@ -16,8 +16,10 @@
 #include <pastel/sys/constantiterator.h>
 #include <pastel/sys/forwardrange.h>
 #include <pastel/sys/eps.h>
+#include <pastel/sys/stdext_copy_n.h>
 
 #include <numeric>
+#include <iterator>
 
 namespace Tim
 {
@@ -85,7 +87,44 @@ namespace Tim
 		Maximum_NormBijection<real> normBijection;
 		integer missingValues = 0;
 
-		std::vector<real> estimateSet(samples);
+		// There are several goals to keep in mind when
+		// reporting the results:
+		// 1) We want the size of the output data to be 
+		// independent of the lags.
+		// 2) The time instant of the first element of the
+		// output data must be 0.
+		// 3) The width of the output data must be able
+		// to contain all temporal estimates no matter
+		// which lags are used (this requires the user
+		// to choose lags so that the common time interval
+		// of the signals does not lie outside the 
+		// time-window of the output data).
+
+		// The requirements 1 and 2 are satisfied by
+		// choosing the width of the output data as
+		// the minimum number of samples among all
+		// involved signals.
+	
+		const integer outputWidth = minSamples(
+			forwardRange(signalSet.begin(), signalSet.end()));
+
+		// The requirements 2 is satisfied by padding
+		// the output data before and after the estimates
+		// with NaNs. The beginning of the computed estimates 
+		// in time is given by the maximum of the used lags.
+		
+		const integer nansBefore = *std::max_element(
+			lagSet.begin(), lagSet.end());
+
+		if (nansBefore >= outputWidth)
+		{
+			std::fill_n(result, outputWidth, nan<real>());
+			return 0;
+		}
+
+		const integer estimates = std::min(samples, outputWidth - nansBefore);
+
+		std::vector<real> estimateSet(outputWidth, nan<real>());
 #pragma omp parallel
 		{
 		// Compute SignalPointSets.
@@ -119,7 +158,7 @@ namespace Tim
 		std::vector<integer> countSet(trials, 0);
 
 #pragma omp for reduction(+ : missingValues)
-		for (integer t = 0;t < samples;++t)
+		for (integer t = 0;t < estimates;++t)
 		{
 			jointPointSet->setTimeWindow(
 				t - timeWindowRadius, 
@@ -209,18 +248,21 @@ namespace Tim
 			estimate += digamma<real>(kNearest);
 			estimate += (sumWeight - 1) * digamma<real>(estimateSamples);
 
-			estimateSet[t] = estimate;
+			estimateSet[t + nansBefore] = estimate;
 		}
 		}
 
-		// Reconstruct the NaN's.
+		// Reconstruct the NaN's in the estimates.
 
 		reconstruct(
-			forwardRange(estimateSet.begin(), estimateSet.end()));
+			forwardRange(estimateSet.begin() + nansBefore, estimates));
 
 		// Copy the results to output.
 
 		std::copy(estimateSet.begin(), estimateSet.end(), result);
+
+		// Done. Report the number of undefined
+		// temporal estimates.
 
 		return missingValues;
 	}
