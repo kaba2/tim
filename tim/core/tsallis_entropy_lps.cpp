@@ -6,11 +6,12 @@ namespace Tim
 	TIM real tsallisEntropyLps(
 		const SignalPtr& signal,
 		real q,
-		integer kNearest)
+		integer kNearestSuggestion)
 	{
 		return Tim::tsallisEntropyLps(
-			signal, q,
-			kNearest);
+			forwardRange(constantIterator(signal)), 
+			q,
+			kNearestSuggestion);
 	}
 
 	TIM real tsallisDecideK(real q, integer kNearestSuggestion)

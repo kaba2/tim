@@ -153,7 +153,8 @@ namespace Tim
 	This is a convenience function that calls:
 
 	renyiEntropyLps(
-		signal, q, 
+		forwardRange(constantIterator(signal)),
+		q,
 		kNearestSuggestion);
 
 	See the documentation for that function.

@@ -302,10 +302,20 @@ namespace
 		//printLatex(measureTable, std::cout);
 	}
 
+	void testBoundaryLag()
+	{
+		SignalPtr signal = generateGaussian(100, 1);
+		std::vector<real> estimateSet;
+		temporalMutualInformation(
+			signal, signal, 10, std::back_inserter(estimateSet),
+			0, 99, 1);
+	}
+
 	void testAdd()
 	{
 		timTestList().add("mutual_information", testMutualInformation);
 		timTestList().add("mi_timing", testTiming);
+		timTestList().add("mi_boundary_lag", testBoundaryLag);
 	}
 
 	CallFunction run(testAdd);

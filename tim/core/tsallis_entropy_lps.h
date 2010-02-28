@@ -154,7 +154,8 @@ namespace Tim
 	This is a convenience function that calls:
 
 	tsallisEntropyLps(
-		signal, q, 
+		forwardRange(constantIterator(signal)), 
+		q, 
 		kNearestSuggestion);
 
 	See the documentation for that function.

@@ -42,10 +42,14 @@ namespace Tim
 
 		if (signalSet.empty() || rangeSet.empty())
 		{
+			// There's nothing to do.
 			return 0;
 		}
 
 		rangeSet.updateCache();
+
+		// Check that the trials of signals have the 
+		// same dimension.
 
 		const integer signals = signalSet.height();
 		for (integer i = 0;i < signals;++i)
@@ -56,17 +60,56 @@ namespace Tim
 
 		const integer trials = signalSet.width();
 
+		// There are several goals to keep in mind when
+		// reporting the results:
+		// 1) We want the size of the output data to be 
+		// independent of the lags.
+		// 2) The time instant of the first element of the
+		// output data must be 0.
+		// 3) The width of the output data must be able
+		// to contain all temporal estimates no matter
+		// which lags are used (this requires the user
+		// to choose lags so that the common time interval
+		// of the signals does not lie outside the 
+		// time-window of the output data).
+
+		// The requirements 1 and 3 are satisfied by
+		// choosing the width of the output data as
+		// the minimum number of samples among all
+		// involved signals.
+	
+		const integer outputWidth = minSamples(
+			forwardRange(signalSet.begin(), signalSet.end()));
+
+		// Find out the shared time interval that
+		// the signals share.
+
+		const Integer2 sharedTime = sharedTimeInterval(
+			forwardRange(signalSet.begin(), signalSet.end()),
+			lagSet);
+
+		if (sharedTime[0] == sharedTime[1] ||
+			sharedTime[0] >= outputWidth ||
+			sharedTime[1] <= 0)
+		{
+			// The shared time interval is not in the
+			// output range. Return all NaNs.
+			std::fill_n(result, outputWidth, nan<real>());
+			return 0;
+		}
+		
+		// We are only interested in estimates in the
+		// output range.
+		const integer estimateBegin = std::max(sharedTime[0], 0);
+		const integer estimateEnd = std::min(sharedTime[1], outputWidth);
+		const integer estimates = estimateEnd - estimateBegin;
+		const integer estimateOffset = estimateBegin - sharedTime[0];
+
 		// Construct the joint signal.
 
 		std::vector<SignalPtr> jointSignalSet;
 		jointSignalSet.reserve(trials);
 		merge(signalSet, std::back_inserter(jointSignalSet), lagSet);
-
-		const integer samples = jointSignalSet.front()->samples();
-		if (samples == 0)
-		{
-			return 0;
-		}
 
 		const integer marginals = rangeSet.size();
 
@@ -87,44 +130,12 @@ namespace Tim
 		Maximum_NormBijection<real> normBijection;
 		integer missingValues = 0;
 
-		// There are several goals to keep in mind when
-		// reporting the results:
-		// 1) We want the size of the output data to be 
-		// independent of the lags.
-		// 2) The time instant of the first element of the
-		// output data must be 0.
-		// 3) The width of the output data must be able
-		// to contain all temporal estimates no matter
-		// which lags are used (this requires the user
-		// to choose lags so that the common time interval
-		// of the signals does not lie outside the 
-		// time-window of the output data).
-
-		// The requirements 1 and 2 are satisfied by
-		// choosing the width of the output data as
-		// the minimum number of samples among all
-		// involved signals.
-	
-		const integer outputWidth = minSamples(
-			forwardRange(signalSet.begin(), signalSet.end()));
-
-		// The requirements 2 is satisfied by padding
+		// The requirement 2 is satisfied by padding
 		// the output data before and after the estimates
-		// with NaNs. The beginning of the computed estimates 
-		// in time is given by the maximum of the used lags.
-		
-		const integer nansBefore = *std::max_element(
-			lagSet.begin(), lagSet.end());
-
-		if (nansBefore >= outputWidth)
-		{
-			std::fill_n(result, outputWidth, nan<real>());
-			return 0;
-		}
-
-		const integer estimates = std::min(samples, outputWidth - nansBefore);
+		// with NaNs.
 
 		std::vector<real> estimateSet(outputWidth, nan<real>());
+
 #pragma omp parallel
 		{
 		// Compute SignalPointSets.
@@ -158,7 +169,7 @@ namespace Tim
 		std::vector<integer> countSet(trials, 0);
 
 #pragma omp for reduction(+ : missingValues)
-		for (integer t = 0;t < estimates;++t)
+		for (integer t = estimateOffset;t < estimateOffset + estimates;++t)
 		{
 			jointPointSet->setTimeWindow(
 				t - timeWindowRadius, 
@@ -192,7 +203,7 @@ namespace Tim
 				// it happens in the marginal neighbor searching for every point. 
 				// Tracing this bug took many days.
 
-				distanceArray(j) = nextSmaller(distanceArray(j));
+				distanceArray(j) = std::max(nextSmaller(distanceArray(j)), (real)0);
 			}
 
 			real estimate = 0;
@@ -248,14 +259,14 @@ namespace Tim
 			estimate += digamma<real>(kNearest);
 			estimate += (sumWeight - 1) * digamma<real>(estimateSamples);
 
-			estimateSet[t + nansBefore] = estimate;
+			estimateSet[t - estimateOffset + estimateBegin] = estimate;
 		}
 		}
 
 		// Reconstruct the NaN's in the estimates.
 
 		reconstruct(
-			forwardRange(estimateSet.begin() + nansBefore, estimates));
+			forwardRange(estimateSet.begin() + estimateBegin, estimates));
 
 		// Copy the results to output.
 
@@ -388,7 +399,7 @@ namespace Tim
 			// it happens in the marginal neighbor searching for every point. 
 			// Tracing this bug took many days.
 
-			distanceArray(j) = nextSmaller(distanceArray(j));
+			distanceArray(j) = std::max(nextSmaller(distanceArray(j)), (real)0);
 		}
 
 		ENSURE_OP(*std::max_element(distanceArray.begin(), distanceArray.end()), !=, infinity<real>());

@@ -6,11 +6,12 @@ namespace Tim
 	TIM real renyiEntropyLps(
 		const SignalPtr& signal,
 		real q,
-		integer kNearest)
+		integer kNearestSuggestion)
 	{
 		return Tim::renyiEntropyLps(
-			signal, q,
-			kNearest);
+			forwardRange(constantIterator(signal)),
+			q,
+			kNearestSuggestion);
 	}
 
 	TIM real renyiDecideK(real q, integer kNearestSuggestion)

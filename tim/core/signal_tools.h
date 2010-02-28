@@ -5,6 +5,7 @@
 
 #include "tim/core/signal.h"
 #include "tim/core/signal_merge.h"
+#include "tim/core/signal_properties.h"
 
 #include <pastel/math/matrix.h>
 
@@ -20,24 +21,6 @@ namespace Tim
 {
 
 	TIM std::ostream& operator<<(std::ostream& stream, const Signal& signal);
-
-	//! Returns the minimum number of samples among the signals.
-	/*!
-	Preconditions:
-	SignalPtr_Iterator must dereference to SignalPtr.
-	*/
-	template <typename SignalPtr_Iterator>
-	integer minSamples(
-		const ForwardRange<SignalPtr_Iterator>& signalSet);
-
-	//! Returns true if all signals have the same dimension.
-	/*!
-	Preconditions:
-	SignalPtr_Iterator must dereference to SignalPtr.
-	*/
-	template <typename SignalPtr_Iterator>
-	bool equalDimension(
-		const ForwardRange<SignalPtr_Iterator>& signalSet);
 
 	// Split
 	// -----
