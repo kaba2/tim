@@ -49,12 +49,12 @@ News
 
  * Packed all functionality to a single mex 
  file instead of multiple ones.
+ * Allowed multiple lags to be specified for 
+ entropy combination estimators.
  
 #### TIM Matlab and TIM Console
 
  * Added delay embedding.
- * Allowed multiple lags to be specified for 
- estimators.
  
 [[Link]]: more_news.txt
 

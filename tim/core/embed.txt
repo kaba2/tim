@@ -40,4 +40,14 @@ the signal ''Q : ZZ -> RR^n'' such that
 
 ''Q(t) = S(t + t_0 + k Delta t)''
 
+Practice
+--------
 
+The signals that are used have a finite number of samples. 
+One convenient property to require from a delay-embedding 
+of finite signals is that the resulting signal should have the 
+same number of samples as the input signal. To achieve this,
+TIM extends the finite input signal to an infinite one by replication,
+that is, the signal is turned periodic. This extended signal
+is then delay-embedded and the finite time interval [0, samples[ 
+is picked in the resulting signal.
