@@ -7,7 +7,7 @@ TIM allows to compute many of the measures using temporally
 adaptive estimators. This means that a time-window is used
 to concentrate on a smaller piece of the time series at a
 given time instant and no samples are used for the estimation 
-beyond the window. 
+beyond the time-window. 
 
 ### Temporal weighting functions
 
@@ -27,11 +27,13 @@ values by the sum-value.
 
 The temporal entropy combinations output an array of data,
 where each element corresponds to an estimate at the given
-time instant.
-An important thing to know is that the size of the output
-array is independent on the lags that are used. Rather,
+time instant. An important thing to know is that the size of 
+the output array is independent of the lags that are used. Rather,
 the size is given by the minimum number of samples among the
-used signals. To give time correspondence between the output
-and the original signals, the output array is padded with
-NaNs before and after the temporal estimates.
+used signals. To give time correspondence between the output and 
+the original signals, the output array is padded with NaNs before 
+and after the temporal estimates. The less the signals have
+common in time, the less the temporal estimates and the more the NaNs.
+The first element of the output array always corresponds to time
+instant 0.
 
