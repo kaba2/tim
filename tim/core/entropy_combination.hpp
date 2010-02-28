@@ -402,8 +402,6 @@ namespace Tim
 			distanceArray(j) = std::max(nextSmaller(distanceArray(j)), (real)0);
 		}
 
-		ENSURE_OP(*std::max_element(distanceArray.begin(), distanceArray.end()), !=, infinity<real>());
-
 		const real sumWeight = 
 			std::accumulate(weightSet.begin(), weightSet.end(), (real)0);
 

@@ -36,6 +36,12 @@ namespace Tim
 	kNearest:
 	The number of nearest neighbors to use in the estimation.
 
+	Returns:
+	The number of time instants that had an
+	undefined estimate. If not all estimates
+	were undefined, they were reconstructed from 
+	the defined estimates using interpolation.
+
 	If the number of samples varies between trials, 
 	then the minimum number of samples among the trials
 	is used.
@@ -46,7 +52,7 @@ namespace Tim
 		typename SignalPtr_Y_Iterator,
 		typename SignalPtr_Z_Iterator,
 		typename Real_OutputIterator>
-	void temporalPartialMutualInformation(
+	integer temporalPartialMutualInformation(
 		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
 		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
 		const ForwardRange<SignalPtr_Z_Iterator>& zSignalSet,
@@ -72,7 +78,7 @@ namespace Tim
 	*/
 
 	template <typename Real_OutputIterator>
-	void temporalPartialMutualInformation(
+	integer temporalPartialMutualInformation(
 		const SignalPtr& xSignal,
 		const SignalPtr& ySignal,
 		const SignalPtr& zSignal,
