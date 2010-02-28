@@ -24,19 +24,19 @@ namespace Tim
 		const integer samples = signal->samples();
 
 		const integer embedDimension = k * n;
-		const integer embedSamples = samples - t0;
+		const integer embedSamples = std::max(samples - t0, 0);
 		//const integer embedSampleWidth = (k - 1) * dt + 1;
 		//const integer embedSamples = (signal->samples() - t0) - embedSampleWidth + 1;
 
-		if (embedSamples <= 0)
+		const SignalPtr embedSignal = SignalPtr(
+			new Signal(embedSamples, embedDimension));
+
+		if (embedSamples == 0)
 		{
 			// The embedding shift goes out of the
 			// signal. Return an empty signal.
-			return SignalPtr(new Signal(0, embedDimension));
+			return embedSignal;
 		}
-
-		const SignalPtr embedSignal = SignalPtr(
-			new Signal(embedSamples, embedDimension));
 
 		integer sBegin = t0;
 		for (integer t = 0;t < embedSamples;++t)
@@ -51,7 +51,7 @@ namespace Tim
 					embedSignal->data().rowBegin(t) + iBegin);
 
 				s += dt;
-				if (s > samples)
+				if (s >= samples)
 				{
 					s %= samples;
 				}
