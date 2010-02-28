@@ -7,7 +7,8 @@
 % where
 %
 % X, Y, and W are cell-arrays of arbitrary dimension whose linearizations
-% contain q trials of the signals X, Y, and W, respectively. 
+% contain q trials of the signals X, Y, and W, respectively. A real array 
+% is interpreted as a cell-array containing one trial. 
 %
 % TIMEWINDOWRADIUS determines the radius of the time-window in samples 
 % inside which samples are taken into consideration to the estimate at 
@@ -65,6 +66,24 @@ end
 
 if nargin < 9
     threads = maxNumCompThreads;
+end
+
+if isnumeric(X)
+    I = transfer_entropy_t({X}, Y, W, timeWindowRadius, ...
+        xLag, yLag, wLag, k, threads);
+    return
+end
+
+if isnumeric(Y)
+    I = transfer_entropy_t(X, {Y}, W, timeWindowRadius, ...
+        xLag, yLag, wLag, k, threads);
+    return
+end
+
+if isnumeric(W)
+    I = transfer_entropy_t(X, Y, {W}, timeWindowRadius, ...
+        xLag, yLag, wLag, k, threads);
+    return
 end
 
 if ~iscell(X) || ~iscell(Y) || ~iscell(W)

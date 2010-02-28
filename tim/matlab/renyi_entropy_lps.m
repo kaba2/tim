@@ -7,7 +7,8 @@
 % where
 %
 % S is an arbitrary-dimensional cell-array whose linearization contains
-% q trials of a signal. Each signal is a real (m x n)-matrix that 
+% q trials of a signal. A real array is interpreted as a cell-array 
+% containing one trial. Each signal is a real (m x n)-matrix that 
 % contains n samples of an m-dimensional signal.
 %
 % Q is the power in the definition Renyi entropy.
@@ -15,11 +16,6 @@
 % compute the result instead. 
 % If Q < 1, there are huge errors in the estimation.
 % Default 2.
-%
-% EPSILON is the maximum relative error in distance that
-% nearest neighbor searching is allowed to result in.
-% Higher tolerances result in enhanced performance, but
-% increases errors in the estimate. Default 0.
 %
 % KSUGGESTION is a suggestion for the k:th nearest neighbor 
 % that should be used for estimation. The k can't
@@ -38,13 +34,13 @@
 % Detail: Leonenko-Pronzato-Savani nearest neighbor estimator
 % Documentation: tim_matlab_matlab.txt
 
-function H = renyi_entropy_lps(S, q, epsilon, kSuggestion, threads)
+function H = renyi_entropy_lps(S, q, kSuggestion, threads)
 
 if nargin < 1
     error('Not enough input arguments.');
 end
 
-if nargin > 5
+if nargin > 4
     error('Too many input arguments.');
 end
 
@@ -57,15 +53,16 @@ if nargin < 2
 end
 
 if nargin < 3
-    epsilon = 0;
-end
-
-if nargin < 4
     kSuggestion = 0;
 end
 
-if nargin < 5
+if nargin < 4
     threads = maxNumCompThreads;
+end
+
+if isnumeric(S)
+    H = renyi_entropy_lps({S}, q, kSuggestion, threads);
+    return
 end
 
 check_signalset(S);
@@ -75,11 +72,6 @@ if size(q, 1) ~= 1 || ...
     error('Q must be a scalar.');
 end
 
-if size(epsilon, 1) ~= 1 || ...
-   size(epsilon, 2) ~= 1
-    error('EPSILON must be a scalar.');
-end
-
 if size(kSuggestion, 1) ~= 1 || ...
    size(kSuggestion, 2) ~= 1
     error('KSUGGESTION must be a scalar integer.');
@@ -87,10 +79,6 @@ end
 
 if q <= 0
 	error('Q must be positive');
-end
-
-if epsilon < 0
-    error('EPSILON must be non-negative.');
 end
 
 if kSuggestion < 0
@@ -107,4 +95,4 @@ if threads < 1
 end
 
 H = tim_matlab('renyi_entropy_lps', ...
-	S, q, epsilon, kSuggestion, threads);
+	S, q, kSuggestion, threads);

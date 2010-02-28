@@ -51,6 +51,8 @@ News
  file instead of multiple ones.
  * Allowed multiple lags to be specified for 
  entropy combination estimators.
+ * Real arrays are now interpreted as cell-arrays 
+ containing a single trial in the estimators.
  
 #### TIM Matlab and TIM Console
 

@@ -7,7 +7,8 @@
 % where
 %
 % S is an arbitrary-dimensional cell-array whose linearization contains
-% q trials of a signal. Each signal is a real (m x n)-matrix that 
+% q trials of a signal. A real array is interpreted as a cell-array 
+% containing one trial. Each signal is a real (m x n)-matrix that 
 % contains n samples of an m-dimensional signal.
 %
 % K determines which k:th nearest neighbor the algorithm
@@ -43,6 +44,11 @@ end
 
 if nargin < 3
     threads = maxNumCompThreads;
+end
+
+if isnumeric(S)
+    H = differential_entropy_kl({S}, k, threads);
+    return
 end
 
 check_signalset(S);

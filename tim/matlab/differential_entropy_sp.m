@@ -7,7 +7,8 @@
 % where
 %
 % S is an arbitrary-dimensional cell-array whose linearization contains
-% q trials of a signal. Each signal is a real (m x n)-matrix that 
+% q trials of a signal. A real array is interpreted as a cell-array 
+% containing one trial. Each signal is a real (m x n)-matrix that 
 % contains n samples of an m-dimensional signal.
 
 % Description: Differential entropy estimation
@@ -26,6 +27,11 @@ end
 
 if nargout > 1
     error('Too many output arguments.');
+end
+
+if isnumeric(S)
+    H = differential_entropy_sp({S});
+    return
 end
 
 check_signalset(S);

@@ -6,7 +6,8 @@
 % where
 %
 % X and Y are arbitrary-dimensional cell-arrays whose linearizations
-% contain q trials of signals X and Y, respectively.
+% contain q trials of signals X and Y, respectively. A real array is 
+% interpreted as a cell-array containing one trial.
 %
 % XLAG and YLAG are the lags in samples that are applied to 
 % signals X and Y, respectively. Each can be given either as a 
@@ -55,6 +56,16 @@ end
 
 if nargin < 6
     threads = maxNumCompThreads;
+end
+
+if isnumeric(X)
+    I = mutual_information({X}, Y, xLag, yLag, k, threads);
+    return
+end
+
+if isnumeric(Y)
+    I = mutual_information(X, {Y}, xLag, yLag, k, threads);
+    return
 end
 
 if ~iscell(X) || ~iscell(Y)

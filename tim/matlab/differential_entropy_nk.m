@@ -16,7 +16,8 @@
 % also estimated from the data and is an integer.
 %
 % S is an arbitrary-dimensional cell-array whose linearization contains
-% q trials of a signal. Each signal is a real (m x n)-matrix that 
+% q trials of a signal. A real array is interpreted as a cell-array 
+% containing one trial.Each signal is a real (m x n)-matrix that 
 % contains n samples of an m-dimensional signal.
 %
 % THREADS determines the number of threads to use for parallelization.
@@ -46,6 +47,12 @@ end
 if nargin < 2
     threads = maxNumCompThreads;
 end
+
+if isnumeric(S)
+    H = differential_entropy_nk({S}, threads);
+    return
+end
+
 
 check_signalset(S);
 

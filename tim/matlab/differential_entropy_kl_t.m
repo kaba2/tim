@@ -8,7 +8,8 @@
 % where
 %
 % S is an arbitrary-dimensional cell-array whose linearization contains
-% q trials of a signal. Each signal is a real (m x n)-matrix that 
+% q trials of a signal. A real array is interpreted as a cell-array 
+% containing one trial. Each signal is a real (m x n)-matrix that 
 % contains n samples of an m-dimensional signal.
 %
 % TIMEWINDOWRADIUS determines the radius of the time-window in samples 
@@ -52,6 +53,12 @@ end
 
 if nargin < 4
     threads = maxNumCompThreads;
+end
+
+if isnumeric(S)
+    H = differential_entropy_kl_t(...
+        {S}, timeWindowRadius, k, threads);
+    return
 end
 
 check_signalset(S);
