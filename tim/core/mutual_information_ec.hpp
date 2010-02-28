@@ -64,15 +64,13 @@ namespace Tim
 
 			if (wantTemporal)
 			{
-				temporalEntropyCombination(
+				return temporalEntropyCombination(
 					signalSet, 
 					forwardRange(rangeSet),
 					timeWindowRadius,
 					result,
 					forwardRange(lagSet),
 					kNearest);
-				
-				return 0;
 			}
 
 			return entropyCombination(
@@ -88,7 +86,7 @@ namespace Tim
 		typename SignalPtr_X_Iterator,
 		typename SignalPtr_Y_Iterator,
 		typename Real_OutputIterator>
-	void temporalMutualInformation(
+	integer temporalMutualInformation(
 		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
 		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
 		integer timeWindowRadius,
@@ -97,7 +95,7 @@ namespace Tim
 		integer yLag,
 		integer kNearest)
 	{
-		Tim::Detail_MutualInformation::mutualInformation(
+		return Tim::Detail_MutualInformation::mutualInformation(
 			xSignalSet,
 			ySignalSet,
 			timeWindowRadius,
@@ -108,7 +106,7 @@ namespace Tim
 	}
 
 	template <typename Real_OutputIterator>
-	void temporalMutualInformation(
+	integer temporalMutualInformation(
 		const SignalPtr& xSignal,
 		const SignalPtr& ySignal,
 		integer timeWindowRadius,
@@ -117,7 +115,7 @@ namespace Tim
 		integer yLag,
 		integer kNearest)
 	{
-		Tim::temporalMutualInformation(
+		return Tim::temporalMutualInformation(
 			forwardRange(constantIterator(xSignal)),
 			forwardRange(constantIterator(ySignal)),
 			timeWindowRadius,
