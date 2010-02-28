@@ -17,7 +17,6 @@ sense to give more weight to those samples near in time compared
 to those far away. Using a weighting function which is continuous 
 and goes to zero at the window edges turns the temporal estimate 
 into a continuous function of time.
-
 There is only one requirement for a weighting function:
 the weights inside the time-window must sum to a non-zero value.
 This sum-value need not be 1, because TIM divides the weighting
