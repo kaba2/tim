@@ -42,6 +42,16 @@ if nargin < 3
 	threads = maxNumCompThreads;
 end
 
+if isnumeric(X)
+    D = divergence_wkv({X}, Y, threads);
+    return
+end
+
+if isnumeric(Y)
+    D = divergence_wkv(X, {Y}, threads);
+    return
+end
+
 check_signalset(X);
 check_signalset(Y);
 

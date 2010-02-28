@@ -7,7 +7,8 @@
 % where
 %
 % X, Y, Z, and W are cell-arrays of arbitrary dimension whose linearization
-% contains q trials of the signals X, Y, Z, and W, respectively. 
+% contains q trials of the signals X, Y, Z, and W, respectively. A real 
+% array is interpreted as a cell-array containing one trial. 
 %
 % XLAG, YLAG, ZLAG, and WLAG are the lags in samples applied to 
 % signals X, Y, Z, and W, respectively. Each can be given either as a 
@@ -59,6 +60,30 @@ end
 
 if nargin < 10
     threads = maxNumCompThreads;
+end
+
+if isnumeric(X)
+    I = transfer_entropy_p({X}, Y, Z, W, ...
+        xLag, yLag, zLag, wLag, k, threads);
+    return
+end
+
+if isnumeric(Y)
+    I = transfer_entropy_p(X, {Y}, Z, W, ...
+        xLag, yLag, zLag, wLag, k, threads);
+    return
+end
+
+if isnumeric(Z)
+    I = transfer_entropy_p(X, Y, {Z}, W, ...
+        xLag, yLag, zLag, wLag, k, threads);
+    return
+end
+
+if isnumeric(W)
+    I = transfer_entropy_p(X, Y, Z, {W}, ...
+        xLag, yLag, zLag, wLag, k, threads);
+    return
 end
 
 if ~iscell(X) || ~iscell(Y) || ~iscell(Z) || ~iscell(W)

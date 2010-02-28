@@ -7,7 +7,8 @@
 %
 % X, Y, and Z are arbitrary-dimensional cell-arrays whose 
 % linearizations contain q trials of signal X, Y, and Z, 
-% respectively.
+% respectively. A real array is interpreted as a cell-array 
+% containing one trial.
 %
 % XLAG, YLAG and ZLAG are the lags in samples applied to 
 % signals X, Y and Z, respectively. Each can be given either as a 
@@ -58,6 +59,21 @@ end
 
 if nargin < 8
     threads = maxNumCompThreads;
+end
+
+if isnumeric(X)
+    I = mutual_information_p({X}, Y, Z, xLag, yLag, zLag, k, threads);
+    return
+end
+
+if isnumeric(Y)
+    I = mutual_information_p(X, {Y}, Z, xLag, yLag, zLag, k, threads);
+    return
+end
+
+if isnumeric(Z)
+    I = mutual_information_p(X, Y, {Z}, xLag, yLag, zLag, k, threads);
+    return
 end
 
 if ~iscell(X) || ~iscell(Y) || ~iscell(Z)

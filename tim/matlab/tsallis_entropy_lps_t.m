@@ -2,8 +2,8 @@
 % A temporal Tsallis entropy estimate from samples
 % using Leonenko-Pronzato-Savani nearest neighbor estimator.
 %
-% H = tsallis_entropy_kl_t(
-%     S, timeWindowRadius, q, epsilon, kSuggestion, threads)
+% H = tsallis_entropy_lps_t(
+%     S, timeWindowRadius, q, kSuggestion, threads)
 %
 % where
 %
@@ -22,11 +22,6 @@
 % achieved by either setting 'timeWindowRadius' maximally wide
 % or by using the tsallis_entropy() function instead.
 %
-% EPSILON is the maximum relative error in distance that
-% nearest neighbor searching is allowed to result in.
-% Higher tolerances result in enhanced performance, but
-% increases errors in the estimate. Default 0.
-%
 % KSUGGESTION is a suggestion for the k:th nearest neighbor 
 % that should be used for estimation. The k can't
 % be freely set because the estimation algorithm is only defined
@@ -44,14 +39,14 @@
 % Detail: Leonenko-Pronzato-Savani nearest neighbor estimator
 % Documentation: tim_matlab_matlab.txt
 
-function H = tsallis_entropy_kl_t(...
-    S, timeWindowRadius, q, epsilon, kSuggestion, threads)
+function H = tsallis_entropy_lps_t(...
+    S, timeWindowRadius, q, kSuggestion, threads)
 
 if nargin < 2
     error('Not enough input arguments.');
 end
 
-if nargin > 6
+if nargin > 5
     error('Too many input arguments.');
 end
 
@@ -64,15 +59,17 @@ if nargin < 3
 end
 
 if nargin < 4
-    epsilon = 0;
-end
-
-if nargin < 5
     kSuggestion = 0;
 end
 
-if nargin < 6
+if nargin < 5
     threads = maxNumCompThreads;
+end
+
+if isnumeric(S)
+    H = tsallis_entropy_lps_t({S}, timeWindowRadius, ...
+        q, kSuggestion, threads);
+    return
 end
 
 check_signalset(S);
@@ -91,17 +88,8 @@ if size(q, 1) ~= 1 || ...
     error('Q must be a scalar.');
 end
 
-if size(epsilon, 1) ~= 1 || ...
-   size(epsilon, 2) ~= 1
-    error('EPSILON must be a scalar.');
-end
-
 if q <= 0
 	error('Q must be positive');
-end
-
-if epsilon < 0
-    error('EPSILON must be non-negative.');
 end
 
 if size(kSuggestion, 1) ~= 1 || ...
@@ -123,4 +111,4 @@ if threads < 1
 end
 
 H = tim_matlab('tsallis_entropy_lps_t', ...
-    S, timeWindowRadius, q, epsilon, kSuggestion, threads);
+    S, timeWindowRadius, q, kSuggestion, threads);

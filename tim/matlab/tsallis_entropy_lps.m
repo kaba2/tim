@@ -2,7 +2,7 @@
 % A Tsallis entropy estimate from samples
 % using Leonenko-Pronzato-Savani nearest neighbor estimator.
 %
-% H = tsallis_entropy_lps(S, q, epsilon, kSuggestion, threads)
+% H = tsallis_entropy_lps(S, q, kSuggestion, threads)
 %
 % where
 %
@@ -13,11 +13,6 @@
 % Q is the power in the definition Tsallis entropy.
 % In case Q = 1, differential_entropy_kl() is used to
 % compute the result instead. Default 2.
-%
-% EPSILON is the maximum relative error in distance that
-% nearest neighbor searching is allowed to result in.
-% Higher tolerances result in enhanced performance, but
-% increases errors in the estimate. Default 0.
 %
 % KSUGGESTION is a suggestion for the k:th nearest neighbor 
 % that should be used for estimation. The k can't
@@ -36,13 +31,13 @@
 % Detail: Leonenko-Pronzato-Savani nearest neighbor estimator
 % Documentation: tim_matlab_matlab.txt
 
-function H = tsallis_entropy_lps(S, q, epsilon, kSuggestion, threads)
+function H = tsallis_entropy_lps(S, q, kSuggestion, threads)
 
 if nargin < 1
     error('Not enough input arguments.');
 end
 
-if nargin > 5
+if nargin > 4
     error('Too many input arguments.');
 end
 
@@ -55,15 +50,16 @@ if nargin < 2
 end
 
 if nargin < 3
-    epsilon = 0;
-end
-
-if nargin < 4
     kSuggestion = 0;
 end
 
-if nargin < 5
+if nargin < 4
     threads = maxNumCompThreads;
+end
+
+if isnumeric(S)
+    H = tsallis_entropy_lps({S}, q, kSuggestion, threads);
+    return
 end
 
 check_signalset(S);
@@ -73,11 +69,6 @@ if size(q, 1) ~= 1 || ...
     error('Q must be a scalar.');
 end
 
-if size(epsilon, 1) ~= 1 || ...
-   size(epsilon, 2) ~= 1
-    error('EPSILON must be a scalar.');
-end
-
 if size(kSuggestion, 1) ~= 1 || ...
    size(kSuggestion, 2) ~= 1
     error('KSUGGESTION must be a scalar integer.');
@@ -85,10 +76,6 @@ end
 
 if q <= 0
 	error('Q must be positive');
-end
-
-if epsilon < 0
-    error('EPSILON must be non-negative.');
 end
 
 if kSuggestion < 0
@@ -105,4 +92,4 @@ if threads < 1
 end
 
 H = tim_matlab('tsallis_entropy_lps', ...
-	S, q, epsilon, kSuggestion, threads);
+	S, q, kSuggestion, threads);

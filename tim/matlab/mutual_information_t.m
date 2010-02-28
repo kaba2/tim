@@ -7,7 +7,8 @@
 % where
 %
 % X and Y are arbitrary-dimensional cell-arrays whose linearizations
-% contain q trials of signal X and Y, respectively.
+% contain q trials of signal X and Y, respectively. A real array is 
+% interpreted as a cell-array containing one trial.
 %
 % TIMEWINDOWRADIUS determines the radius of the time-window inside which
 % samples are taken into consideration to the mutual information
@@ -66,6 +67,18 @@ end
 
 if nargin < 7
     threads = maxNumCompThreads;
+end
+
+if isnumeric(X)
+    I = mutual_information_t({X}, Y, timeWindowRadius, ...
+        xLag, yLag, k, threads);
+    return
+end
+
+if isnumeric(Y)
+    I = mutual_information_t(X, {Y}, timeWindowRadius, ...
+        xLag, yLag, k, threads);
+    return
 end
 
 if ~iscell(X) || ~iscell(Y)

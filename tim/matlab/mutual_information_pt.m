@@ -9,7 +9,8 @@
 %
 % X, Y, and Z are arbitrary-dimensional cell-arrays whose 
 % linearizations contain q trials of signal x, y, and z, 
-% respectively.
+% respectively. A real array is interpreted as a cell-array 
+% containing one trial.
 %
 % TIMEWINDOWRADIUS determines the radius of the time-window in samples 
 % inside which samples are taken into consideration to the estimate at 
@@ -67,6 +68,24 @@ end
 
 if nargin < 9
     threads = maxNumCompThreads;
+end
+
+if isnumeric(X)
+    I = mutual_information_pt({X}, Y, Z, timeWindowRadius, ...
+        xLag, yLag, zLag, k, threads);
+    return
+end
+
+if isnumeric(Y)
+    I = mutual_information_pt(X, {Y}, Z, timeWindowRadius, ...
+        xLag, yLag, zLag, k, threads);
+    return
+end
+
+if isnumeric(Z)
+    I = mutual_information_pt(X, Y, {Z}, timeWindowRadius, ...
+        xLag, yLag, zLag, k, threads);
+    return
 end
 
 if ~iscell(X) || ~iscell(Y) || ~iscell(Z)
