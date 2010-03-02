@@ -34,10 +34,10 @@ namespace
 			const SignalPtr xSignal = generateGaussian(samples, 1);
 			xEnsemble.push_back(xSignal);
 
-			const SignalPtr xSignalFuture = delayEmbed(xSignal, 1, 1, 1);
+			const SignalPtr xSignalFuture = delayEmbed(xSignal, 1, 1);
 			xFutureEnsemble.push_back(xSignalFuture);
 
-			const SignalPtr ySignal = delayEmbed(xSignal, 1, 10, 1);
+			const SignalPtr ySignal = delayEmbed(xSignal, 1, 1);
 			yEnsemble.push_back(ySignal);
 		}
 	}
@@ -138,7 +138,8 @@ namespace
 			forwardRange(signalSet.rowBegin(2), signalSet.rowEnd(2)),
 			forwardRange(futureSet.begin(), futureSet.end()),
 			5,
-			std::back_inserter(estimateSet));
+			std::back_inserter(estimateSet),
+			0, 10, 0, 0);
 
 		const SignalPtr estimate = SignalPtr(
 			new Signal(estimateSet.size(), 1));

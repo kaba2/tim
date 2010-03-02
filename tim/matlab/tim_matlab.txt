@@ -28,13 +28,6 @@ Because partialization and temporality are orthogonal
 concepts, there are also versions which have both. These are 
 named with the _pt_ suffix.
 
-### Efficiency
-
-If you do not need temporal results, you should use
-the non-temporal versions: they are more efficient
-in their memory use when using multiple threads 
-(however, their performance is similar).
-
 ### Integrated help
 
 You can find function-specific documentation by using 
@@ -46,7 +39,7 @@ using the differential_entropy_kl function:
 	  A differential entropy estimate from samples
 	  using Kozachenko-Leonenko nearest neighbor estimator.
 	 
-	  H = differential_entropy_kl(S, epsilon, k, threads)
+	  H = differential_entropy_kl(S, k, threads)
 	 
 	  where
 	  ...	

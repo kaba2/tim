@@ -336,6 +336,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\delay_embed.m"
+				>
+			</File>
+			<File
+				RelativePath=".\delay_embed_future.m"
+				>
+			</File>
+			<File
 				RelativePath=".\differential_entropy_kl.m"
 				>
 			</File>

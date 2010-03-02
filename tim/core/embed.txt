@@ -14,14 +14,12 @@ A _delay-embedding_ of ''S'' is a signal
 ''R : ZZ -> RR^(kn)'' such that 
 
 ''R(t) = (
-(S(t + t_0)), 
-(S(t + t_0 + Delta t)), 
+(S(t)), 
+(S(t + Delta t)), 
 (...), 
-(S(t + t_0 + (k - 1) Delta t)))''
+(S(t + (k - 1) Delta t)))''
 
 where
- 
- * ''t_0 in ZZ'' is the _embedding shift_.
  
  * ''Delta t in ZZ'' is the _embedding delay_.
  
@@ -30,24 +28,22 @@ where
  * ''kn'' is the _embedding dimension_.
  
 A specific delay-embedding can be identified with the 
-triple ''(t_0, Delta t, k)''.
+pair ''(Delta t, k)''.
 
 ### Future of a signal
 
 The _future_ of the signal ''S'' under a given 
-delay-embedding ''(t_0, Delta t, k)'' is given by
+delay-embedding ''(Delta t, k)'' is given by
 the signal ''Q : ZZ -> RR^n'' such that
 
-''Q(t) = S(t + t_0 + k Delta t)''
+''Q(t) = S(t + k Delta t)''
 
 Practice
 --------
 
-The signals that are used have a finite number of samples. 
-One convenient property to require from a delay-embedding 
-of finite signals is that the resulting signal should have the 
-same number of samples as the input signal. To achieve this,
-TIM extends the finite input signal to an infinite one by replication,
-that is, the signal is turned periodic. This extended signal
-is then delay-embedded and the finite time interval [0, samples[ 
-is picked in the resulting signal.
+You might notice that we do not allow for embedding shift,
+i.e. translation of the signal before delay-embedding.
+This is deliberate, since this way the time instant zero
+keeps associated to the first element of the embedded signal.
+The time shifting is done in the estimators via the lag 
+parameters.

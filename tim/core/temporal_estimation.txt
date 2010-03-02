@@ -9,18 +9,19 @@ to concentrate on a smaller piece of the time series at a
 given time instant and no samples are used for the estimation 
 beyond the time-window. 
 
-### Temporal weighting functions
+[[Comment]]:
+	### Temporal weighting functions
 
-TIM allows the user to specify the weighting of the samples 
-inside the time-window: for a given time instant it makes 
-sense to give more weight to those samples near in time compared 
-to those far away. Using a weighting function which is continuous 
-and goes to zero at the window edges turns the temporal estimate 
-into a continuous function of time.
-There is only one requirement for a weighting function:
-the weights inside the time-window must sum to a non-zero value.
-This sum-value need not be 1, because TIM divides the weighting
-values by the sum-value.
+	TIM allows the user to specify the weighting of the samples 
+	inside the time-window: for a given time instant it makes 
+	sense to give more weight to those samples near in time compared 
+	to those far away. Using a weighting function which is continuous 
+	and goes to zero at the window edges turns the temporal estimate 
+	into a continuous function of time.
+	There is only one requirement for a weighting function:
+	the weights inside the time-window must sum to a non-zero value.
+	This sum-value need not be 1, because TIM divides the weighting
+	values by the sum-value.
 
 ### Output of temporal entropy combination estimators
 

@@ -85,7 +85,7 @@ namespace Tim
 
 		while(iter != iterEnd)
 		{
-			samples = std::max(samples, (*iter)->samples());
+			samples = std::min(samples, (*iter)->samples());
 
 			++iter;
 		}
