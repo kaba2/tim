@@ -16,14 +16,10 @@ namespace Tim
 	/*!
 	Preconditions:
 	k > 0
-	t0 >= 0
 	dt >= 1
 
 	k:
 	Embedding factor.
-
-	t0:
-	Embedding shift.
 
 	dt:
 	Embedding delay.
@@ -32,21 +28,16 @@ namespace Tim
 	TIM SignalPtr delayEmbed(
 		const SignalPtr& signal,
 		integer k,
-		integer t0 = 0,
 		integer dt = 1);
 
 	//! Performs delay embedding for a set of signals.
 	/*!
 	Preconditions:
 	k > 0
-	t0 >= 0
 	dt >= 1
 
 	k:
 	Embedding factor.
-
-	t0:
-	Embedding shift.
 
 	dt:
 	Embedding delay.
@@ -59,21 +50,16 @@ namespace Tim
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		const OutputIterator& outputBegin,
 		integer k,
-		integer t0 = 0,
 		integer dt = 1);
 
 	//! Time shift to produce the future of a delay-embedded signal.
 	/*!
 	Preconditions:
 	k > 0
-	t0 >= 0
 	dt >= 1
 
 	k:
 	Embedding factor.
-
-	t0:
-	Embedding shift.
 
 	dt:
 	Embedding delay.
@@ -94,7 +80,6 @@ namespace Tim
 
 	TIM integer delayEmbedFutureShift(
 		integer k, 
-		integer t0 = 0, 
 		integer dt = 1);
 
 	//! Returns the future of a signal under a given delay-embedding.
@@ -107,30 +92,22 @@ namespace Tim
 	k:
 	Embedding factor.
 
-	t0:
-	Embedding shift.
-
 	dt:
 	Embedding delay.
 	*/
 	TIM SignalPtr delayEmbedFuture(
 		const SignalPtr& signal,
 		integer k,
-		integer t0 = 0,
 		integer dt = 1);
 
 	//! Computes the futures of signals under a given delay-embedding.
 	/*!
 	Preconditions:
 	k > 0
-	t0 >= 0
 	dt >= 1
 
 	k:
 	Embedding factor.
-
-	t0:
-	Embedding shift.
 
 	dt:
 	Embedding delay.
@@ -140,7 +117,6 @@ namespace Tim
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		const OutputIterator& outputBegin,
 		integer k,
-		integer t0 = 0,
 		integer dt = 1);
 
 }

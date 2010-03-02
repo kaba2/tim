@@ -7,38 +7,22 @@ namespace Tim
 	TIM SignalPtr delayEmbed(
 		const SignalPtr& signal,
 		integer k,
-		integer t0,
 		integer dt)
 	{
 		ENSURE_OP(k, >, 0);
-		ENSURE_OP(t0, >=, 0);
 		ENSURE_OP(dt, >=, 1);
 		
-		// We want the length of the delay-embedded 
-		// signal to be independent of k. To do this
-		// we extend the finite-length signal to an
-		// infinite length one by repetition, i.e. turn 
-		// the signal into a periodic one.
-
 		const integer n = signal->dimension();
 		const integer samples = signal->samples();
 
 		const integer embedDimension = k * n;
-		const integer embedSamples = std::max(samples - t0, 0);
-		//const integer embedSampleWidth = (k - 1) * dt + 1;
-		//const integer embedSamples = (signal->samples() - t0) - embedSampleWidth + 1;
+		const integer embedSampleWidth = (k - 1) * dt + 1;
+		const integer embedSamples = std::max(samples - embedSampleWidth + 1, 0);
 
 		const SignalPtr embedSignal = SignalPtr(
 			new Signal(embedSamples, embedDimension));
 
-		if (embedSamples == 0)
-		{
-			// The embedding shift goes out of the
-			// signal. Return an empty signal.
-			return embedSignal;
-		}
-
-		integer sBegin = t0;
+		integer sBegin = 0;
 		for (integer t = 0;t < embedSamples;++t)
 		{
 			integer iBegin = 0;
@@ -51,10 +35,6 @@ namespace Tim
 					embedSignal->data().rowBegin(t) + iBegin);
 
 				s += dt;
-				if (s >= samples)
-				{
-					s %= samples;
-				}
 				iBegin += n;
 			}
 			++sBegin;
@@ -66,29 +46,47 @@ namespace Tim
 	TIM SignalPtr delayEmbedFuture(
 		const SignalPtr& signal,
 		integer k,
-		integer t0,
 		integer dt)
 	{
 		ENSURE_OP(k, >, 0);
-		ENSURE_OP(t0, >=, 0);
 		ENSURE_OP(dt, >=, 1);
 
-		const integer futureShift = 
-			delayEmbedFutureShift(k, t0, dt);
+		const integer dimension =
+			signal->dimension();
+		const integer samples = 
+			signal->samples();
 
-		return delayEmbed(signal, 1, futureShift);
+		const integer futureShift = 
+			delayEmbedFutureShift(k, dt);
+
+		const integer embedSamples = 
+			std::max(samples - futureShift, 0);
+
+		SignalPtr embedSignal(
+			new Signal(embedSamples, dimension));
+
+		if (embedSamples > 0)
+		{
+			const integer beginIndex = futureShift * dimension;
+			const integer endIndex = beginIndex + embedSamples * dimension;
+
+			std::copy(
+				signal->data().rawBegin() + beginIndex,
+				signal->data().rawBegin() + endIndex,
+				embedSignal->data().rawBegin());
+		}
+
+		return embedSignal;
 	}
 
 	TIM integer delayEmbedFutureShift(
 		integer k, 
-		integer t0, 
 		integer dt)
 	{
 		PENSURE_OP(k, >, 0);
-		PENSURE_OP(t0, >=, 0);
 		PENSURE_OP(dt, >=, 1);
 
-		return t0 + dt * k;
+		return dt * k;
 	}
 
 }

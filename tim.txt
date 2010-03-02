@@ -37,13 +37,14 @@ News
  * Added estimation of Renyi entropies.
  * Added estimation of Tsallis entropies.
  * Improved the handling of degenerate cases.
- * Made the output of delay embedding to have a
- width independent of embedding arguments.
  * Made the output of temporal estimators to have a 
- width independent of lags (padded with NaNs).
+ width independent of lags (padded with NaNs) and the
+ first element to correspond to time instant 0.
  * Removed the parameter to specify maximum relative 
  error in nearest neighbors searching because of too 
  large errors in entropy estimators to be of use.
+ * Fixed a bug when computing entropy combinations
+ with signals of unequal length.
 
 #### TIM Matlab
 
@@ -56,7 +57,7 @@ News
  
 #### TIM Matlab and TIM Console
 
- * Added delay embedding.
+ * Added delay-embedding.
  
 [[Link]]: more_news.txt
 
@@ -65,13 +66,14 @@ News
 Software
 --------
 
-Here we provide prebuilt binaries for Windows users. Note that you may need to
-install the Visual C++ 2008 SP1 Redistributable Package if your computer does
-not have them installed already.
+Here we provide prebuilt binaries for Windows users. 
 
 [Download TIM Console interface 1.1.0][Download_Console]
 
 [Download TIM Matlab interface 1.1.0][Download_Matlab]
+
+__Important__: You need to have the Visual C++ 2008 SP1 Redistributable 
+Package installed for TIM to work.
 
 [Download_Matlab]: ./files/tim-matlab-1.1.0.zip
 [Download_Console]: ./files/tim-console-1.1.0.zip

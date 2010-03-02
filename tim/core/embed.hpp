@@ -11,11 +11,9 @@ namespace Tim
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		const OutputIterator& outputBegin,
 		integer k,
-		integer t0,
 		integer dt)
 	{
 		ENSURE_OP(k, >, 0);
-		ENSURE_OP(t0, >=, 0);
 		ENSURE_OP(dt, >=, 1);
 
 		SignalPtr_Iterator signalIter = signalSet.begin();
@@ -23,7 +21,7 @@ namespace Tim
 		OutputIterator outputIter = outputBegin;
 		while(signalIter != signalEnd)
 		{
-			*outputIter = delayEmbed(*signalIter, k, t0, dt);
+			*outputIter = delayEmbed(*signalIter, k, dt);
 			++outputIter;
 			++signalIter;
 		}
@@ -34,11 +32,9 @@ namespace Tim
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		const OutputIterator& outputBegin,
 		integer k,
-		integer t0,
 		integer dt)
 	{
 		ENSURE_OP(k, >, 0);
-		ENSURE_OP(t0, >=, 0);
 		ENSURE_OP(dt, >=, 1);
 
 		SignalPtr_Iterator signalIter = signalSet.begin();
@@ -46,7 +42,7 @@ namespace Tim
 		OutputIterator outputIter = outputBegin;
 		while(signalIter != signalEnd)
 		{
-			*outputIter = Tim::delayEmbedFuture(*signalIter, k, t0, dt);
+			*outputIter = Tim::delayEmbedFuture(*signalIter, k, dt);
 			++outputIter;
 			++signalIter;
 		}

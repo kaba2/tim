@@ -138,7 +138,7 @@ namespace
 			{
 				SignalPtr y = delayEmbed(x, 3);
 				SignalPtr yCorrect =
-					SignalPtr(new Signal(15, 3));
+					SignalPtr(new Signal(13, 3));
 				yCorrect->data() |=
 					0, 1, 2,
 					1, 2, 3,
@@ -152,32 +152,7 @@ namespace
 					9, 10, 11,
 					10, 11, 12,
 					11, 12, 13,
-					12, 13, 14,
-					13, 14, 0,
-					14, 0, 1;
-
-				TEST_ENSURE(y->data() == yCorrect->data());
-			}
-
-			{
-				SignalPtr y = delayEmbed(x, 3, 1);
-				SignalPtr yCorrect =
-					SignalPtr(new Signal(14, 3));
-				yCorrect->data() |=
-					1, 2, 3,
-					2, 3, 4,
-					3, 4, 5,
-					4, 5, 6,
-					5, 6, 7,
-					6, 7, 8,
-					7, 8, 9, 
-					8, 9, 10,
-					9, 10, 11,
-					10, 11, 12,
-					11, 12, 13,
-					12, 13, 14,
-					13, 14, 0,
-					14, 0, 1;
+					12, 13, 14;
 
 				TEST_ENSURE(y->data() == yCorrect->data());
 			}
@@ -185,29 +160,7 @@ namespace
 			{
 				SignalPtr y = delayEmbed(x, 3, 2);
 				SignalPtr yCorrect =
-					SignalPtr(new Signal(13, 3));
-				yCorrect->data() |=
-					2, 3, 4,
-					3, 4, 5,
-					4, 5, 6,
-					5, 6, 7,
-					6, 7, 8,
-					7, 8, 9, 
-					8, 9, 10,
-					9, 10, 11,
-					10, 11, 12,
-					11, 12, 13,
-					12, 13, 14,
-					13, 14, 0,
-					14, 0, 1;
-		
-				TEST_ENSURE(y->data() == yCorrect->data());
-			}
-
-			{
-				SignalPtr y = delayEmbed(x, 3, 0, 2);
-				SignalPtr yCorrect =
-					SignalPtr(new Signal(15, 3));
+					SignalPtr(new Signal(11, 3));
 				yCorrect->data() |=
 					0, 2, 4,
 					1, 3, 5,
@@ -219,34 +172,7 @@ namespace
 					7, 9, 11,
 					8, 10, 12,
 					9, 11, 13,
-					10, 12, 14,
-					11, 13, 0,
-					12, 14, 1,
-					13, 0, 2,
-					14, 1, 3;
-		
-				TEST_ENSURE(y->data() == yCorrect->data());
-			}
-
-			{
-				SignalPtr y = delayEmbed(x, 3, 1, 2);
-				SignalPtr yCorrect =
-					SignalPtr(new Signal(14, 3));
-				yCorrect->data() |=
-					1, 3, 5,
-					2, 4, 6,
-					3, 5, 7,
-					4, 6, 8,
-					5, 7, 9,
-					6, 8, 10,
-					7, 9, 11,
-					8, 10, 12,
-					9, 11, 13,
-					10, 12, 14,
-					11, 13, 0,
-					12, 14, 1,
-					13, 0, 2,
-					14, 1, 3;
+					10, 12, 14;
 		
 				TEST_ENSURE(y->data() == yCorrect->data());
 			}
