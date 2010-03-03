@@ -40,9 +40,6 @@ News
  * Made the output of temporal estimators to have a 
  width independent of lags (padded with NaNs) and the
  first element to correspond to time instant 0.
- * Removed the parameter to specify maximum relative 
- error in nearest neighbors searching because of too 
- large errors in entropy estimators to be of use.
  * Fixed a bug when computing entropy combinations
  with signals of unequal length.
 
@@ -58,7 +55,13 @@ News
 #### TIM Matlab and TIM Console
 
  * Added delay-embedding.
- 
+
+### Breaking changes
+
+ * Removed the parameter to specify maximum relative 
+ error in nearest neighbors searching because of too 
+ large errors in entropy estimators to be of use.
+
 [[Link]]: more_news.txt
 
 [[add DocChildren.no_links_for]]: more_news.txt
@@ -72,15 +75,15 @@ Here we provide prebuilt binaries for Windows users.
 
 [Download TIM Matlab interface 1.1.0][Download_Matlab]
 
-__Important__: You need to have the Visual C++ 2008 SP1 Redistributable 
-Package installed for TIM to work.
+[[Link]]: previous_releases.txt
+
+_Important: You need to have the Visual C++ 2008 SP1 Redistributable 
+Package installed for TIM to work._
+
+[[add DocChildren.no_links_for]]: previous_releases.txt
 
 [Download_Matlab]: ./files/tim-matlab-1.1.0.zip
 [Download_Console]: ./files/tim-console-1.1.0.zip
-
-[[Link]]: previous_releases.txt
-
-[[add DocChildren.no_links_for]]: previous_releases.txt
 
 Source-code
 -----------

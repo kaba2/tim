@@ -28,8 +28,8 @@ beyond the time-window.
 The temporal entropy combinations output an array of data,
 where each element corresponds to an estimate at the given
 time instant. An important thing to know is that the size of 
-the output array is independent of the lags that are used. Rather,
-the size is given by the minimum number of samples among the
+the output array is independent of the lags that are used. 
+The size is given by the minimum number of samples among the
 used signals. To give time correspondence between the output and 
 the original signals, the output array is padded with NaNs before 
 and after the temporal estimates. The less the signals have
