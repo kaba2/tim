@@ -91,7 +91,7 @@ namespace Tim
 	This is a convenience function that calls:
 
 	temporalTsallisEntropyLps(
-		forwardRange(constantIterator(signal)),
+		constantRange(signal),
 		timeWindowRadius, q, result, 
 		kNearestSuggestion);
 
@@ -154,7 +154,7 @@ namespace Tim
 	This is a convenience function that calls:
 
 	tsallisEntropyLps(
-		forwardRange(constantIterator(signal)), 
+		constantRange(signal), 
 		q, 
 		kNearestSuggestion);
 

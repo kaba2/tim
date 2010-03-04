@@ -65,7 +65,7 @@ namespace Tim
 	This is a convenience function that calls:
 
 	temporalGenericEntropy(
-		forwardRange(constantIterator(signal)),
+		constantRange(signal),
 		entropyAlgorithm,
 		timeWindowRadius, result,
 		kNearest);
@@ -124,7 +124,7 @@ namespace Tim
 	This is a convenience function that calls:
 
 	genericEntropy(
-		forwardRange(constantIterator(signal)),
+		constantRange(signal),
 		entropyAlgorithm,
 		kNearest);
 

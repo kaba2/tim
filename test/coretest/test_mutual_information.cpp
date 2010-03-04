@@ -71,7 +71,7 @@ namespace
 		log() << "Mutual information estimates: " << logNewLine;
 
 		const integer samples = 10000;
-		const integer timeWindowRadius = 10000;
+		const integer timeWindowRadius = 1000;
 		const integer kNearest = 10;
 
 		log() << "2d correlated gaussian" << logNewLine;

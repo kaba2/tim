@@ -15,10 +15,10 @@ namespace Tim
 		integer kNearest)
 	{
 		return Tim::partialTransferEntropy(
-			forwardRange(constantIterator(xSignal)),
-			forwardRange(constantIterator(ySignal)),
-			forwardRange(constantIterator(zSignal)),
-			forwardRange(constantIterator(wSignal)),
+			constantRange(xSignal),
+			constantRange(ySignal),
+			constantRange(zSignal),
+			constantRange(wSignal),
 			xLag, yLag, zLag, wLag,
 			kNearest);
 	}

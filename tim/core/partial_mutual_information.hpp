@@ -127,9 +127,9 @@ namespace Tim
 		integer kNearest)
 	{
 		return Tim::temporalPartialMutualInformation(
-			forwardRange(constantIterator(xSignal)),
-			forwardRange(constantIterator(ySignal)),
-			forwardRange(constantIterator(zSignal)),
+			constantRange(xSignal),
+			constantRange(ySignal),
+			constantRange(zSignal),
 			timeWindowRadius,
 			result,
 			xLag,

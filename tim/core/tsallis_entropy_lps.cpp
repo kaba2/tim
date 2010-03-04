@@ -9,7 +9,7 @@ namespace Tim
 		integer kNearestSuggestion)
 	{
 		return Tim::tsallisEntropyLps(
-			forwardRange(constantIterator(signal)), 
+			constantRange(signal), 
 			q,
 			kNearestSuggestion);
 	}

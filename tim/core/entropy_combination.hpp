@@ -21,6 +21,9 @@
 #include <numeric>
 #include <iterator>
 
+#include <vector>
+#include <deque>
+
 namespace Tim
 {
 
@@ -100,6 +103,7 @@ namespace Tim
 		
 		// We are only interested in estimates in the
 		// output range.
+
 		const integer estimateBegin = std::max(sharedTime[0], 0);
 		const integer estimateEnd = std::min(sharedTime[1], outputWidth);
 		const integer estimates = estimateEnd - estimateBegin;
@@ -136,62 +140,97 @@ namespace Tim
 
 		std::vector<real> estimateSet(outputWidth, nan<real>());
 
-#pragma omp parallel
+		const integer maxSamplesInTimeWindow = 
+			std::min(2 * timeWindowRadius + 1, estimates);
+
+		std::vector<Integer3> copyRangeSet(
+			rangeSet.begin(), rangeSet.end());
+
+		std::vector<real> copyWeightSet;
+		copyWeightSet.reserve(maxSamplesInTimeWindow * trials);
+
+		// Create a triangle filter.
+		for (integer t = 0;t < maxSamplesInTimeWindow;++t)
+		{
+			const real x = 
+				(real)std::abs(t - timeWindowRadius) / 
+				(timeWindowRadius + (real)0.5);
+			std::fill_n(
+				std::back_inserter(copyWeightSet), trials, 1 - x);
+		}
+
+//#pragma omp parallel
 		{
 		// Compute SignalPointSets.
 
 		SignalPointSetPtr jointPointSet(new SignalPointSet(
 			forwardRange(jointSignalSet.begin(), jointSignalSet.end())));
 
-		std::vector<Integer3> copyRangeSet(
-			rangeSet.begin(), rangeSet.end());
+		std::vector<SignalPointSetPtr> pointSet(marginals);
 
-		std::vector<integer> marginalOffsetSet;
-		marginalOffsetSet.reserve(marginals);
-
-		std::vector<SignalPointSetPtr> pointSet;
-		pointSet.reserve(marginals);
-
-		real sumWeight = 0;
+		real signalWeightSum = 0;
+#pragma omp parallel for reduction(+ : signalWeightSum)
 		for (integer i = 0;i < marginals;++i)
 		{
 			const Integer3& range = copyRangeSet[i];
 
-			pointSet.push_back(
-				SignalPointSetPtr(new SignalPointSet(
+			const SignalPointSetPtr marginalPointSet(
+				new SignalPointSet(
 				forwardRange(jointSignalSet.begin(), jointSignalSet.end()), false,
-				offsetSet[range[0]], offsetSet[range[1]])));
+				offsetSet[range[0]], offsetSet[range[1]]));
 
-			sumWeight += range[2];
+			pointSet[i] = marginalPointSet;
+				
+			signalWeightSum += range[2];
 		}
 
-		Array<real, 2> distanceArray(1, trials);
-		std::vector<integer> countSet(trials, 0);
+		Array<real, 2> distanceArray(1, maxSamplesInTimeWindow * trials, infinity<real>());
+		std::deque<real> hintDistanceSet(
+			maxSamplesInTimeWindow * trials, infinity<real>());
+		
+		std::vector<integer> countSet(maxSamplesInTimeWindow * trials, 0);
 
-#pragma omp for reduction(+ : missingValues)
+//#pragma omp for reduction(+ : missingValues)
 		for (integer t = estimateOffset;t < estimateOffset + estimates;++t)
 		{
 			jointPointSet->setTimeWindow(
 				t - timeWindowRadius, 
 				t + timeWindowRadius + 1);
 			
-			const integer tDelta = t - jointPointSet->timeBegin();
-			const integer tWidth = jointPointSet->timeEnd() - jointPointSet->timeBegin();
+			const integer tBegin = jointPointSet->timeBegin();
+			const integer tEnd = jointPointSet->timeEnd();
+			const integer tWidth = tEnd - tBegin;
+			const integer tDelta = tBegin - (t - timeWindowRadius);
+
+			const integer estimateSamples = tWidth * trials;
+			const real maxRelativeError = 0;
 
 			searchAllNeighbors(
 				jointPointSet->kdTree(),
 				randomAccessRange(
-				jointPointSet->begin() + tDelta * trials, 
-				jointPointSet->begin() + (tDelta + 1) * trials),
+				jointPointSet->begin(), 
+				jointPointSet->end()),
 				kNearest - 1,
 				kNearest, 
 				0,
 				&distanceArray,
-				randomAccessRange(constantIterator(infinity<real>()), trials),
-				0,
-				normBijection);
+				constantRange(infinity<real>(), estimateSamples),
+				maxRelativeError,
+				normBijection,
+				randomAccessRange(hintDistanceSet.begin(), estimateSamples));
+			
+			if (tDelta == 0)
+			{
+				// Shift the hint distances to the left
+				// for the next time instant.
+				for (integer i = 0;i < trials;++i)
+				{
+					hintDistanceSet.push_back(infinity<real>());
+					hintDistanceSet.pop_front();
+				}
+			}
 
-			for (integer j = 0;j < trials;++j)
+			for (integer j = 0;j < estimateSamples;++j)
 			{
 				// This is an important part of the algorithm although it may
 				// not seem like it from the first look. Because of the use of
@@ -216,29 +255,33 @@ namespace Tim
 				countAllNeighbors(
 					pointSet[i]->kdTree(),
 					randomAccessRange(
-					pointSet[i]->begin() + tDelta * trials, 
-					pointSet[i]->begin() + (tDelta + 1) * trials),
-					randomAccessRange(distanceArray.begin(), trials),
+					pointSet[i]->begin(), 
+					pointSet[i]->end()),
+					randomAccessRange(distanceArray.begin(), estimateSamples),
 					countSet.begin(),
 					normBijection);
 				
-				integer acceptedSamples = 0;
 				real signalEstimate = 0;
-				for (integer j = 0;j < trials;++j)
+				real weightSum = 0;
+				const integer weightOffset = tDelta * trials;
+#pragma omp parallel for reduction(+ : signalEstimate, weightSum)
+				for (integer j = 0;j < estimateSamples;++j)
 				{
 					const integer k = countSet[j];
+
 					// A neighbor count of zero can happen when the distance
 					// to the k:th neighbor is zero because of using an
 					// open search ball. These points are ignored.
 					if (k > 0)
 					{
-						signalEstimate += digamma<real>(k);
-						++acceptedSamples;
+						const real weight = copyWeightSet[j + weightOffset];
+						signalEstimate += weight * digamma<real>(k);
+						weightSum += weight;
 					}
 				}
-				if (acceptedSamples > 0)
+				if (weightSum != 0)
 				{
-					signalEstimate /= acceptedSamples;
+					signalEstimate /= weightSum;
 					estimate -= signalEstimate * copyRangeSet[i][2];
 				}
 				else
@@ -254,10 +297,8 @@ namespace Tim
 				}
 			}
 
-			const integer estimateSamples = tWidth * trials;
-
 			estimate += digamma<real>(kNearest);
-			estimate += (sumWeight - 1) * digamma<real>(estimateSamples);
+			estimate += (signalWeightSum - 1) * digamma<real>(estimateSamples);
 
 			estimateSet[t - estimateOffset + estimateBegin] = estimate;
 		}
@@ -289,7 +330,7 @@ namespace Tim
 		integer kNearest)
 	{
 		return Tim::temporalEntropyCombination(
-			forwardRange(constantIterator(signal)),
+			constantRange(signal),
 			rangeSet,
 			timeWindowRadius,
 			result,
@@ -382,7 +423,7 @@ namespace Tim
 			kNearest, 
 			0,
 			&distanceArray,
-			randomAccessRange(constantIterator(infinity<real>()), estimateSamples),
+			constantRange(infinity<real>(), estimateSamples),
 			0,
 			normBijection);
 
@@ -402,7 +443,7 @@ namespace Tim
 			distanceArray(j) = std::max(nextSmaller(distanceArray(j)), (real)0);
 		}
 
-		const real sumWeight = 
+		const real signalWeightSum = 
 			std::accumulate(weightSet.begin(), weightSet.end(), (real)0);
 
 		std::vector<integer> countSet(estimateSamples, 0);
@@ -441,7 +482,7 @@ namespace Tim
 		}
 		
 		estimate += digamma<real>(kNearest);
-		estimate += (sumWeight - 1) * digamma<real>(estimateSamples);
+		estimate += (signalWeightSum - 1) * digamma<real>(estimateSamples);
 
 		return estimate;
 	}
@@ -456,7 +497,7 @@ namespace Tim
 		return Tim::entropyCombination(
 			signalSet,
 			rangeSet,
-			forwardRange(constantIterator(0), signalSet.height()),
+			constantRange(0, signalSet.height()),
 			kNearest);
 	}
 

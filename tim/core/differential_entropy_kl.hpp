@@ -112,7 +112,7 @@ namespace Tim
 		const NormBijection& normBijection)
 	{
 		return Tim::temporalDifferentialEntropyKl(
-			forwardRange(constantIterator(signal)),
+			constantRange(signal),
 			timeWindowRadius,
 			result,
 			kNearest,
@@ -171,7 +171,7 @@ namespace Tim
 		const NormBijection& normBijection)
 	{
 		return Tim::differentialEntropyKl(
-			forwardRange(constantIterator(signal)),
+			constantRange(signal),
 			kNearest,
 			normBijection);
 	}

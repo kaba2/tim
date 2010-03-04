@@ -72,10 +72,10 @@ namespace Tim
 	This is a convenience function that calls:
 
 	temporalPartialTransferEntropy(
-		forwardRange(constantIterator(xSignal)), 
-		forwardRange(constantIterator(ySignal)), 
-		forwardRange(constantIterator(zSignal)), 
-		forwardRange(constantIterator(wSignal)), 
+		constantRange(xSignal), 
+		constantRange(ySignal), 
+		constantRange(zSignal), 
+		constantRange(wSignal), 
 		timeWindowRadius, result,
 		xLag, yLag, zLag, wLag, kNearest);
 
@@ -141,10 +141,10 @@ namespace Tim
 	This is a convenience function that calls:
 
 	partialTransferEntropy(
-		forwardRange(constantIterator(xSignal)), 
-		forwardRange(constantIterator(ySignal)), 
-		forwardRange(constantIterator(zSignal)), 
-		forwardRange(constantIterator(wSignal)), 
+		constantRange(xSignal), 
+		constantRange(ySignal), 
+		constantRange(zSignal), 
+		constantRange(wSignal), 
 		xLag, yLag, zLag, wLag, kNearest);
 
 	See the documentation for that function.

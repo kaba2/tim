@@ -103,7 +103,7 @@ namespace Tim
 				kNearest, 
 				0,
 				&distanceArray,
-				randomAccessRange(constantIterator(infinity<real>()), trials),
+				constantRange(infinity<real>(), trials),
 				0,
 				entropyAlgorithm.normBijection());
 
@@ -166,7 +166,7 @@ namespace Tim
 		integer kNearest)
 	{
 		return Tim::temporalGenericEntropy(
-			forwardRange(constantIterator(signal)),
+			constantRange(signal),
 			entropyAlgorithm,
 			timeWindowRadius,
 			result,
@@ -218,7 +218,7 @@ namespace Tim
 			kNearest, 
 			0,
 			&distanceArray,
-			randomAccessRange(constantIterator(infinity<real>()), estimateSamples),
+			constantRange(infinity<real>(), estimateSamples),
 			0,
 			entropyAlgorithm.normBijection());
 
@@ -263,7 +263,7 @@ namespace Tim
 		integer kNearest)
 	{
 		return Tim::genericEntropy(
-			forwardRange(constantIterator(signal)),
+			constantRange(signal),
 			entropyAlgorithm,
 			kNearest);
 	}
