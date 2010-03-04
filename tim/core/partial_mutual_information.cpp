@@ -12,9 +12,9 @@ namespace Tim
 		integer kNearest)
 	{
 		return Tim::partialMutualInformation(
-			forwardRange(constantIterator(xSignal)),
-			forwardRange(constantIterator(ySignal)),
-			forwardRange(constantIterator(zSignal)),
+			constantRange(xSignal),
+			constantRange(ySignal),
+			constantRange(zSignal),
 			yLag,
 			zLag,
 			kNearest);

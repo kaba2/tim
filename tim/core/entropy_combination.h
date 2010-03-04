@@ -69,11 +69,11 @@ namespace Tim
 	This is a convenience function that calls:
 
 	temporalEntropyCombination(
-		forwardRange(constantIterator(signal)),
+		constantRange(signal),
 		rangeSet,
 		timeWindowRadius,
 		result,
-		forwardRange(constantIterator(0), signalSet.height()),
+		constantRange(0, signalSet.height()),
 		1);
 
 	See the documentation for that function.
@@ -133,9 +133,9 @@ namespace Tim
 	This is a convenience function that calls:
 
 	entropyCombination(
-		forwardRange(constantIterator(signal)),
+		constantRange(signal),
 		rangeSet,
-		forwardRange(constantIterator(0), signalSet.height()),
+		constantRange(0, signalSet.height()),
 		kNearest);
 
 	See the documentation for that function.

@@ -34,7 +34,7 @@ namespace Tim
 	This is a convenience function that calls:
 
 	merge(signalSet,
-		forwardRange(constantIterator(0)),
+		constantRange(0, signalSet.size()),
 		tMin);
 
 	See the documentation for that function.
@@ -91,7 +91,7 @@ namespace Tim
 	/*!
 	This is a convenience function that calls:
 	merge(ensembleSet, result,
-		forwardRange(constantIterator(0), ensembleSet.height()));
+		constantRange(0, ensembleSet.height()));
 	*/
 	template <typename SignalPtr_OutputIterator>
 	void merge(

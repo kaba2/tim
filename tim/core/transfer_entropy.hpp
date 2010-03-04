@@ -124,9 +124,9 @@ namespace Tim
 		integer kNearest)
 	{
 		return Tim::temporalTransferEntropy(
-			forwardRange(constantIterator(xSignal)),
-			forwardRange(constantIterator(ySignal)),
-			forwardRange(constantIterator(wSignal)),
+			constantRange(xSignal),
+			constantRange(ySignal),
+			constantRange(wSignal),
 			timeWindowRadius,
 			result,
 			xLag, yLag, wLag,

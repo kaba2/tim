@@ -105,7 +105,7 @@ namespace Tim
 	This is a convenience function that calls:
 
 	temporalDifferentialEntropyKl(
-		forwardRange(constantIterator(signal)),
+		constantRange(signal),
 		timeWindowRadius, result, 
 		kNearest, Default_NormBijection());
 
@@ -176,7 +176,7 @@ namespace Tim
 	This is a convenience function that calls:
 
 	differentialEntropyKl(
-		forwardRange(constantIterator(signal)),
+		constantRange(signal),
 		kNearest,
 		normBijection);
 

@@ -103,7 +103,7 @@ namespace Tim
 		integer* tMin)
 	{
 		return Tim::merge(signalSet,
-			forwardRange(constantIterator(0)),
+			constantRange(0, signalSet.size()),
 			tMin);
 	}
 
@@ -133,7 +133,7 @@ namespace Tim
 		SignalPtr_OutputIterator result)
 	{
 		Tim::merge(ensembleSet, result,
-			forwardRange(constantIterator(0), ensembleSet.height()));
+			constantRange(0, ensembleSet.height()));
 	}
 
 	template <

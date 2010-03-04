@@ -11,8 +11,8 @@ namespace Tim
 		integer kNearest)
 	{
 		return Tim::mutualInformation(
-			forwardRange(constantIterator(xSignal)),
-			forwardRange(constantIterator(ySignal)),
+			constantRange(xSignal),
+			constantRange(ySignal),
 			xLag,
 			yLag,
 			kNearest);

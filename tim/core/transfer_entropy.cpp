@@ -13,9 +13,9 @@ namespace Tim
 		integer kNearest)
 	{
 		return Tim::transferEntropy(
-			forwardRange(constantIterator(xSignal)),
-			forwardRange(constantIterator(ySignal)),
-			forwardRange(constantIterator(wSignal)),
+			constantRange(xSignal),
+			constantRange(ySignal),
+			constantRange(wSignal),
 			xLag, yLag, wLag,
 			kNearest);
 	}

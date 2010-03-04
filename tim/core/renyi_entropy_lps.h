@@ -91,7 +91,7 @@ namespace Tim
 	This is a convenience function that calls:
 
 	temporalRenyiEntropyLps(
-		forwardRange(constantIterator(signal)),
+		constantRange(signal),
 		timeWindowRadius, q, result, 
 		kNearestSuggestion);
 
@@ -153,7 +153,7 @@ namespace Tim
 	This is a convenience function that calls:
 
 	renyiEntropyLps(
-		forwardRange(constantIterator(signal)),
+		constantRange(signal),
 		q,
 		kNearestSuggestion);
 

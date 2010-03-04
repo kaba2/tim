@@ -68,9 +68,9 @@ namespace Tim
 	This is a convenience function that calls:
 
 	temporalPartialMutualInformation(
-		forwardRange(constantIterator(xSignal)), 
-		forwardRange(constantIterator(ySignal)), 
-		forwardRange(constantIterator(zSignal)), 
+		constantRange(xSignal), 
+		constantRange(ySignal), 
+		constantRange(zSignal), 
 		timeWindowRadius, result,
 		xLag, yLag, zLag, kNearest);
 
@@ -130,9 +130,9 @@ namespace Tim
 	This is a convenience function that calls:
 
 	partialMutualInformation(
-		forwardRange(constantIterator(xSignal)), 
-		forwardRange(constantIterator(ySignal)), 
-		forwardRange(constantIterator(zSignal)), 
+		constantRange(xSignal), 
+		constantRange(ySignal), 
+		constantRange(zSignal), 
 		xLag, yLag, zLag, kNearest);
 
 	See the documentation for that function.
