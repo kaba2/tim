@@ -1,4 +1,3 @@
-function data = tutorial_gauss_data(ntrials,nsamples,delay,cfunc)
 % TUTORIAL_GAUSS_DATA
 % Generates samples from three non-linearly coupled Gaussian processes
 %
@@ -24,7 +23,9 @@ function data = tutorial_gauss_data(ntrials,nsamples,delay,cfunc)
 
 % Description: Data generation
 % Documentation: tutorial_gauss.txt
+% Author: German Gomez-Herrero
 
+function data = tutorial_gauss_data(ntrials,nsamples,delay,cfunc)
 
 OUT_FILENAME = 'gaussian_process.mat';
 

@@ -1,4 +1,3 @@
-function fig_handle = tutorial_gauss_figures(results, compact_flag, web_flag)
 % TUTORIAL_GAUSS_FIGURES
 % Plots figures for the estimated partial transfer entropy between the
 % three non-linearly coupled Gaussian processes
@@ -25,6 +24,9 @@ function fig_handle = tutorial_gauss_figures(results, compact_flag, web_flag)
 
 % Description: Generate the tutorial figures
 % Documentation: tutorial_gauss.txt
+% Author: German Gomez-Herrero
+
+function fig_handle = tutorial_gauss_figures(results, compact_flag, web_flag)
 
 IN_FILE = 'tutorial_gauss_analysis';  % analysis results file
 

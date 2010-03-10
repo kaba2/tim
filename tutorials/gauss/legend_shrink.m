@@ -1,14 +1,15 @@
-function y = legend_shrink(h, factor, factor2, factor3)
 % LEGEND_SHRINK 
 % Shrinks the size of the legend
 %
 % legend_shrink(legend_handle)
 %
 % where LEGEND_HANDLE is a handle to a legend object. 
-%
 
 % Description: Shrink the size of the legend of a figure
 % Documentation: tutorial_gauss.txt
+% Author: German Gomez-Herrero
+
+function y = legend_shrink(h, factor, factor2, factor3)
 
 if nargin < 4 || isempty(factor3), factor3 = .95; end
 if nargin < 3 || isempty(factor2), factor2 = .8; end

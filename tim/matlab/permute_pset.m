@@ -1,4 +1,3 @@
-function y = permute_pset(x,I,nc)
 % PERMUTE_PSET 
 % Permute trials from a pointset object. 
 %
@@ -6,7 +5,8 @@ function y = permute_pset(x,I,nc)
 %
 % where
 %
-% X is the original point set.
+% X is a 2-dimensional cell-array of signals, where the
+% element (i, j) contains the j:th trial of the i:th signal.
 %
 % N is the number of random permutations to generate.
 %
@@ -17,15 +17,21 @@ function y = permute_pset(x,I,nc)
 % second and fourth time-series have to correspond to the same trial while the
 % third row should correspond to a different trial. 
 %
-% Y is a cell array of permuted pointsets. 
+% Y is a cell-array of permuted pointsets. 
 
 % Description: Random permutations of a pointset
-% Documentation: tutorial_gauss.txt
+% Documentation: tim_matlab_matlab.txt
+% Author: German Gomez-Herrero
 
-if nargin < 3 || isempty(nc), nc = 1; end % number of permuted psets to return!
+function y = permute_pset(x, I, nc)
 
-ntrials = size(x,2);
-ndim = size(x,1);
+if nargin < 3 || isempty(nc)
+	% number of permuted psets to return!
+	nc = 1; 
+end 
+
+ntrials = size(x, 2);
+ndim = size(x, 1);
 
 if nargin < 2 || isempty(I),
     I = 1:ndim;
@@ -37,8 +43,12 @@ if length(uI) < 2,
 end
 
 k = length(uI);
-ncmax = factorial(ntrials)/(factorial(k)*factorial(ntrials-k));
-if isnan(ncmax), ncmax=Inf; end
+ncmax = factorial(ntrials) / (factorial(k) * factorial(ntrials - k));
+
+if isnan(ncmax)
+	ncmax = Inf; 
+end
+
 if nc > ncmax,
     error('(permutepset) At most %d permuted psets can be generated.',ncmax);
 end
@@ -46,23 +56,25 @@ end
 trialperms = zeros(ntrials,ntrials);
 trialperms(1,:) = 1:ntrials;
 for i = 2:ntrials
-    trialperms(i,:) = circshift(trialperms(i-1,:)',1)';
+    trialperms(i, :) = circshift(trialperms(i - 1, :)', 1)';
 end
 
 % possible combinations of rows
-irow = nchoosek(1:ntrials,k);
+irow = nchoosek(1 : ntrials,k);
 
-y=cell(nc,1);
-for j = 1:nc
+y = cell(nc, 1);
+for j = 1 : nc
     yin = x;
-    for i = 1:length(uI)         
+    for i = 1 : length(uI)         
         yin(I==uI(i),:) = x(I==uI(i),trialperms(irow(j,i),:));
     end
     y{j} = yin;
 end
 
-if nc<ncmax,
+if nc < ncmax,
     y = y(randperm(nc));
 end
 
-if length(y)<2, y = y{1}; end
+if length(y) < 2
+	y = y{1}; 
+end

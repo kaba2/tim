@@ -392,6 +392,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\permutation_test.m"
+				>
+			</File>
+			<File
+				RelativePath=".\permute_pset.m"
+				>
+			</File>
+			<File
 				RelativePath=".\renyi_entropy_lps.m"
 				>
 			</File>

@@ -1,9 +1,7 @@
 Tutorial: Assessing coupling dynamics
 =====================================
 
-[Back to TIM][Back]
-
-[Back]: http://www.tut.fi/tim
+[[Parent]]: tutorials.txt
 
 In this tutorial we will characterize coupling dynamics between several
 scalar time-series using the function [[FileLink: transfer_entropy_pt.m]], 
@@ -51,10 +49,10 @@ You could write yourself a Matlab script to generate these time-series.
 We have done this for you so you just need to type the following Matlab 
 command:
 
-	>> data = gaussian_process;
+	>> load gaussian_process;
 
-where `data` is a cell array of dimensions 3 x 50. The rows of this 
-cell array  correspond to the x, y, and z time-series and the columns 
+This loads a cell-array `data` of dimensions 3 x 50. The rows of this 
+cell array correspond to the x, y, and z time-series and the columns 
 contain different random repetitions. 
 
 Measuring information transfer
@@ -98,7 +96,8 @@ experts in the field. In our case, the default choice of `tau = 1` and
 For convenience, we shall define a lambda function (or `function_handle` 
 in Matlab's terminology) as follows:
 
-	>> estimator = @(x, lag) transfer_entropy_pt(x(1,:), x(2,:), x(3,:), x(4,:), ...
+	>> estimator = @(x, lag) transfer_entropy_pt(...
+		x(1,:), x(2,:), x(3,:), x(4,:), ...
 		5, 0, lag, 0, 0, 20); 	
 
 This lambda function bundles together the chosen information measure 
@@ -177,7 +176,7 @@ determine the significance threshold is a type of
 ### Doing it with TIM
 
 Determining the significance threshold can be easily done with 
-[TIM-Matlab][tim-matlab] using the following commands:
+[TIM Matlab][tim-matlab] using the following commands:
 
 	pte21_sig = permutation_test([Sy; Sx; Sz; W], [1 2 1 1], ...
 		@(x) estimator_smooth(x, 9), 0.05);
