@@ -15,7 +15,7 @@
 % Documentation: tim_matlab_matlab.txt
 
 function I = mutual_information_pt(...
-    X, Y, Z, timeWindowRadius, xLag, yLag, zLag, k, threads)
+    X, Y, Z, timeWindowRadius, xLag, yLag, zLag, k, filter, threads)
 
 if nargin < 4
     error('Not enough input arguments.');
@@ -36,24 +36,28 @@ if nargin < 8
 end
 
 if nargin < 9
+    filter = [1];
+end
+
+if nargin < 10
     threads = maxNumCompThreads;
 end
 
 if isnumeric(X)
     I = mutual_information_pt({X}, Y, Z, timeWindowRadius, ...
-        xLag, yLag, zLag, k, threads);
+        xLag, yLag, zLag, k, filter, threads);
     return
 end
 
 if isnumeric(Y)
     I = mutual_information_pt(X, {Y}, Z, timeWindowRadius, ...
-        xLag, yLag, zLag, k, threads);
+        xLag, yLag, zLag, k, filter, threads);
     return
 end
 
 if isnumeric(Z)
     I = mutual_information_pt(X, Y, {Z}, timeWindowRadius, ...
-        xLag, yLag, zLag, k, threads);
+        xLag, yLag, zLag, k, filter, threads);
     return
 end
 
@@ -71,4 +75,4 @@ I = entropy_combination_t(...
     [X(:)'; Z(:)'; Y(:)'], ...
     [1, 2, 1; 2, 3, 1; 2, 2, -1], timeWindowRadius, ...
     {xLag, zLag, yLag}, ...
-    k, threads);
+    k, filter, threads);
