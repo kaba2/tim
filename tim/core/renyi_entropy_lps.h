@@ -78,29 +78,33 @@ namespace Tim
 
 	template <
 		typename SignalPtr_Iterator, 
-		typename Real_OutputIterator>
+		typename Real_OutputIterator,
+		typename Real_Filter_Iterator>
 	integer temporalRenyiEntropyLps(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
-		real q = 2,
-		integer kNearestSuggestion = 0);
+		real q,
+		integer kNearestSuggestion,
+		const ForwardRange<Real_Filter_Iterator>& filter);
 
 	//! Computes temporal Renyi entropy of a signal.
 	/*!
 	This is a convenience function that calls:
 
 	temporalRenyiEntropyLps(
-		constantRange(signal),
-		timeWindowRadius, q, result, 
-		kNearestSuggestion);
+		signalSet, timeWindowRadius, result, 
+		q, kNearestSuggestion,
+		constantRange((real)1, 1));
 
 	See the documentation for that function.
 	*/
 
-	template <typename Real_OutputIterator>
+	template <
+		typename SignalPtr_Iterator, 
+		typename Real_OutputIterator>
 	integer temporalRenyiEntropyLps(
-		const SignalPtr& signal,
+		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
 		real q = 2,
@@ -145,22 +149,6 @@ namespace Tim
 	template <typename SignalPtr_Iterator>
 	real renyiEntropyLps(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
-		real q = 2,
-		integer kNearestSuggestion = 0);
-
-	//! Computes Renyi entropy of a signal.
-	/*!
-	This is a convenience function that calls:
-
-	renyiEntropyLps(
-		constantRange(signal),
-		q,
-		kNearestSuggestion);
-
-	See the documentation for that function.
-	*/
-	TIM real renyiEntropyLps(
-		const SignalPtr& signal,
 		real q = 2,
 		integer kNearestSuggestion = 0);
 

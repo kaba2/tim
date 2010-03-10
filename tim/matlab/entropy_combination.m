@@ -63,7 +63,7 @@ signals = size(signalSet, 1);
 marginals = size(rangeSet, 1);
 
 for i = 1 : signals
-    check_signalset(signalSet(i, :));
+    check(signalSet(i, :), 'signalSet');
 end
 
 if marginals == 0

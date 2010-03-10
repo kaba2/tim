@@ -48,34 +48,11 @@ if isnumeric(S)
     return
 end
 
-check_signalset(S);
-
-if size(timeWindowRadius, 1) ~= 1 || ...
-   size(timeWindowRadius, 2) ~= 1
-    error('TIMEWINDOWRADIUS must be a scalar.');
-end
-
-if timeWindowRadius < 0
-    error('TIMEWINDOWRADIUS must be non-negative.');
-end
-
-if size(k, 1) ~= 1 || ...
-   size(k, 2) ~= 1
-    error('K must be a scalar integer.');
-end
-
-if k < 1
-    error('K must be at least 1.');
-end
-
-if size(threads, 1) ~= 1 || ...
-   size(threads, 2) ~= 1
-    error('THREADS must be a scalar integer.');
-end
-
-if threads < 1
-    error('THREADS must be at least 1.');
-end
+check(S, 'signalSet');
+check(timeWindowRadius, 'timeWindowRadius');
+check(k, 'k');
+check(filter);
+check(threads, 'threads');
 
 H = tim_matlab('differential_entropy_kl_t', ...
     S, timeWindowRadius, k, filter, threads);

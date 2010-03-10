@@ -3,17 +3,6 @@
 namespace Tim
 {
 
-	TIM real renyiEntropyLps(
-		const SignalPtr& signal,
-		real q,
-		integer kNearestSuggestion)
-	{
-		return Tim::renyiEntropyLps(
-			constantRange(signal),
-			q,
-			kNearestSuggestion);
-	}
-
 	TIM real renyiDecideK(real q, integer kNearestSuggestion)
 	{
 		PENSURE_OP(q, >, 0);

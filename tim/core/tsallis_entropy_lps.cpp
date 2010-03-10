@@ -3,17 +3,6 @@
 namespace Tim
 {
 
-	TIM real tsallisEntropyLps(
-		const SignalPtr& signal,
-		real q,
-		integer kNearestSuggestion)
-	{
-		return Tim::tsallisEntropyLps(
-			constantRange(signal), 
-			q,
-			kNearestSuggestion);
-	}
-
 	TIM real tsallisDecideK(real q, integer kNearestSuggestion)
 	{
 		PENSURE_OP(q, >, 0);

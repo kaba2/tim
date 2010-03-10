@@ -19,6 +19,7 @@ namespace
 			xIndex,
 			timeWindowRadiusIndex,
 			kNearestIndex,
+			filterIndex,
 			threadsIndex
 		};
 
@@ -27,6 +28,10 @@ namespace
 
 		const integer timeWindowRadius = getInteger(inputSet[timeWindowRadiusIndex]);
 		const integer kNearest = getInteger(inputSet[kNearestIndex]);
+
+		std::vector<real> filter;
+		getReals(inputSet[filterIndex], std::back_inserter(filter));
+
 		const integer threads = getInteger(inputSet[threadsIndex]);
 		setNumberOfThreads(threads);
 
@@ -36,7 +41,9 @@ namespace
 		temporalDifferentialEntropyKl(
 			forwardRange(xEnsemble.begin(), xEnsemble.end()), 
 			timeWindowRadius, std::back_inserter(estimateSet),
-			kNearest);
+			kNearest,
+			Default_NormBijection(),
+			forwardRange(filter.begin(), filter.end()));
 
 		outputSet[0] = mxCreateDoubleMatrix(1, estimateSet.size(), mxREAL);
 		real* rawResult = mxGetPr(outputSet[0]);
