@@ -33,7 +33,7 @@ if isnumeric(S)
     return
 end
 
-check_signalset(S);
+check(S, 'signalSet');
 
 if (size(S{1}, 1) > 3)
 	warning('This estimator has bad accuracy for dimensions > 3!');

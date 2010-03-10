@@ -328,7 +328,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\check_signalset.m"
+				RelativePath=".\check.m"
 				>
 			</File>
 			<File
@@ -405,6 +405,10 @@
 			</File>
 			<File
 				RelativePath=".\renyi_entropy_lps_t.m"
+				>
+			</File>
+			<File
+				RelativePath=".\test_all.m"
 				>
 			</File>
 			<File

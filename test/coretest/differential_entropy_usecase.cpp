@@ -28,26 +28,28 @@ namespace
 		// a single signal:
 
 		averageEstimate = differentialEntropyKl(
-			xSignal);
+			constantRange(xSignal));
 		averageEstimate = differentialEntropyKl(
-			xSignal);
+			constantRange(xSignal));
 		averageEstimate = differentialEntropyKl(
-			xSignal, kNearest);
+			constantRange(xSignal), kNearest);
 
 		// To compute temporal differential
 		// entropy where the neighborhood is given by
 		// a time-window:
 
 		temporalDifferentialEntropyKl(
-			xSignal, timeWindowRadius, estimateSet,
+			constantRange(xSignal), timeWindowRadius, estimateSet,
 			kNearest, normBijection);
 
 		averageEstimate = differentialEntropyKl(
-			xSignal, kNearest, normBijection);
+			constantRange(xSignal), kNearest, normBijection);
 
-		temporalDifferentialEntropyKl(xSignal, timeWindowRadius, estimateSet, 
+		temporalDifferentialEntropyKl(
+			constantRange(xSignal), timeWindowRadius, estimateSet, 
 			kNearest);
-		temporalDifferentialEntropyKl(xSignal, timeWindowRadius, estimateSet,
+		temporalDifferentialEntropyKl(
+			constantRange(xSignal), timeWindowRadius, estimateSet,
 			kNearest, normBijection);
 
 		// To compute differential entropy for

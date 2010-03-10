@@ -100,17 +100,20 @@ namespace Tim
 
 	template <
 		typename SignalPtr_Iterator, 
-		typename Real_OutputIterator>
+		typename Real_OutputIterator,
+		typename Real_Filter_Iterator>
 	integer temporalTsallisEntropyLps(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
 		real q,
-		integer kNearestSuggestion)
+		integer kNearestSuggestion,
+		const ForwardRange<Real_Filter_Iterator>& filter)
 	{
 		ENSURE_OP(timeWindowRadius, >=, 0);
 		ENSURE_OP(q, >, 0);
 		ENSURE_OP(kNearestSuggestion, >=, 0);
+		ENSURE(odd(filter.size()));
 
 		if (signalSet.empty())
 		{
@@ -149,23 +152,24 @@ namespace Tim
 			entropyAlgorithm,
 			timeWindowRadius,
 			result,
-			kNearest);
+			kNearest,
+			filter);
 	}
 
-	template <typename Real_OutputIterator>
+	template <
+		typename SignalPtr_Iterator, 
+		typename Real_OutputIterator>
 	integer temporalTsallisEntropyLps(
-		const SignalPtr& signal,
+		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
 		real q,
 		integer kNearestSuggestion)
 	{
 		return Tim::temporalTsallisEntropyLps(
-			signal,
-			timeWindowRadius,
-			result,
-			q,
-			kNearestSuggestion);
+			signalSet, timeWindowRadius, result, 
+			q, kNearestSuggestion,
+			constantRange((real)1, 1));
 	}
 
 	// Tsallis entropy

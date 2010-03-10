@@ -42,8 +42,8 @@ if isnumeric(Y)
     return
 end
 
-check_signalset(X);
-check_signalset(Y);
+check(X, 'signalSet');
+check(Y, 'signalSet');
 
 if numel(X) ~= numel(Y)
 	error('The number of trials in X and Y do not match.');
@@ -53,14 +53,7 @@ if size(X{1}, 1) ~= size(Y{1}, 1)
     error('The dimensions of X and Y do not match.');
 end
 
-if size(threads, 1) ~= 1 || ...
-   size(threads, 2) ~= 1
-    error('THREADS must be a scalar integer.');
-end
-
-if threads < 1
-    error('THREADS must be at least 1.');
-end
+check(threads, 'threads');
 
 D = tim_matlab('divergence_wkv', ...
 	X, Y, threads);

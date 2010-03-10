@@ -47,16 +47,8 @@ if isnumeric(S)
 end
 
 
-check_signalset(S);
-
-if size(threads, 1) ~= 1 || ...
-   size(threads, 2) ~= 1
-    error('THREADS must be a scalar integer.');
-end
-
-if threads < 1
-    error('THREADS must be at least 1.');
-end
+check(S, 'signalSet');
+check(threads, 'threads');
 
 [H, dOut] = tim_matlab('differential_entropy_nk', ...
 	S, threads);

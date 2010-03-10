@@ -64,11 +64,7 @@ end
 signals = size(signalSet, 1);
 
 for i = 1 : signals
-    check_signalset(signalSet(i, :));
-end
-
-if timeWindowRadius < 0
-    error('TIMEWINDOWRADIUS must be non-negative');
+    check(signalSet(i, :), 'signalSet');
 end
 
 marginals = size(rangeSet, 1);
@@ -100,31 +96,9 @@ end
 
 lagArray = compute_lagarray(lagSet);
 
-if size(k, 1) ~= 1 || ...
-   size(k, 2) ~= 1
-    error('K must be a scalar integer.');
-end
-
-if k < 1
-    error('K must be at least 1.');
-end
-
-if ~isa(filter, 'double')
-	error('FILTER must be a real array')
-end
-
-if sum(filter(:)) == 0
-	error('FILTER must not sum to 0')
-end	
-
-if size(threads, 1) ~= 1 || ...
-   size(threads, 2) ~= 1
-    error('THREADS must be a scalar integer.');
-end
-
-if threads < 1
-    error('THREADS must be at least 1.');
-end
+check(k, 'k')
+check(filter, 'filter');
+check(threads, 'threads');
 
 lags = size(lagArray, 2);
 
