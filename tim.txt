@@ -64,8 +64,6 @@ News
 
 [[Link]]: more_news.txt
 
-[[add DocChildren.no_links_for]]: more_news.txt
-
 Software
 --------
 
@@ -79,8 +77,6 @@ Here we provide prebuilt binaries for Windows users.
 
 _Important: You need to have the Visual C++ 2008 SP1 Redistributable 
 Package installed for TIM to work._
-
-[[add DocChildren.no_links_for]]: previous_releases.txt
 
 [Download_Matlab]: ./files/tim-matlab-1.1.0.zip
 [Download_Console]: ./files/tim-console-1.1.0.zip
@@ -143,3 +139,6 @@ idea of creating TIM, having created a similar library in Matlab himself.
 [TES]: http://www.kolumbus.fi/tes/
 [German]: http://www.cs.tut.fi/~gomezher
 
+[[add_outer DocChildren.no_links_for]]: 
+	more_news.txt
+	previous_releases.txt

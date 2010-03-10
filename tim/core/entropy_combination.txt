@@ -9,7 +9,7 @@ Theory
 Let ''X = (X_1, ..., X_m)'' be a random variable.
 An _entropy combination_ is defined by
 
-''EC(X_{L_1}, ..., X_{L_p}) = [sum_{i = 1}^p s_i H(X_{L_i})] - H(X)''
+''C(X_{L_1}, ..., X_{L_p}) = [sum_{i = 1}^p s_i H(X_{L_i})] - H(X)''
 
 where ''H'' is the differential entropy and 
 ''\forall i in [1, p]: L_i sub [1, m]'' and ''s_i in {-1, 1}'' such that 
@@ -35,11 +35,9 @@ and partial transfer entropy can all be arranged to have this property.
 References
 ----------
 
-_Synchronization and Interdependence Measures and their
-Applications to the Electroencephalogram of Epilepsy
-Patients and Clustering of Data_, <br />
-Alexander Kraskov, <br />
-PhD thesis, NIC Series Vol. 24, February 2004.
+[Estimation of Entropy combinations (PDF)][Entropy-Combination]
+
+[Entropy-Combination]: ../../files/estimation-of-entropy-combinations.pdf
 
 See also
 --------
