@@ -436,7 +436,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\matlab_differential_entropy_kl_tl.cpp"
+				RelativePath=".\matlab_differential_entropy_kl_t.cpp"
 				>
 			</File>
 			<File

@@ -41,4 +41,4 @@ end
 
 futureShift = dt * k;
 
-Y = X(:, futureShift + 1 : end)
+Y = X(:, futureShift + 1 : end);

@@ -159,7 +159,7 @@ namespace Tim
 				std::back_inserter(copyWeightSet), trials, 1 - x);
 		}
 
-//#pragma omp parallel
+#pragma omp parallel
 		{
 		// Compute SignalPointSets.
 
@@ -169,7 +169,7 @@ namespace Tim
 		std::vector<SignalPointSetPtr> pointSet(marginals);
 
 		real signalWeightSum = 0;
-#pragma omp parallel for reduction(+ : signalWeightSum)
+//#pragma omp parallel for reduction(+ : signalWeightSum)
 		for (integer i = 0;i < marginals;++i)
 		{
 			const Integer3& range = copyRangeSet[i];
@@ -190,7 +190,7 @@ namespace Tim
 		
 		std::vector<integer> countSet(maxSamplesInTimeWindow * trials, 0);
 
-//#pragma omp for reduction(+ : missingValues)
+#pragma omp for reduction(+ : missingValues)
 		for (integer t = estimateOffset;t < estimateOffset + estimates;++t)
 		{
 			jointPointSet->setTimeWindow(
@@ -264,7 +264,7 @@ namespace Tim
 				real signalEstimate = 0;
 				real weightSum = 0;
 				const integer weightOffset = tDelta * trials;
-#pragma omp parallel for reduction(+ : signalEstimate, weightSum)
+//#pragma omp parallel for reduction(+ : signalEstimate, weightSum)
 				for (integer j = 0;j < estimateSamples;++j)
 				{
 					const integer k = countSet[j];
