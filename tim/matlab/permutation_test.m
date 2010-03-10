@@ -1,4 +1,3 @@
-function [y, yvals] = permutation_test(pset, pindex, ifunc, alpha)
 % PERMUTATION_TEST 
 % Use a permutation test to obtain significance thresholds
 %
@@ -24,20 +23,24 @@ function [y, yvals] = permutation_test(pset, pindex, ifunc, alpha)
 %   10, 0, 0, 0, 0, 20);
 %
 % y = permutation_test(pset, [1 2 1 1], ifunc);
-%
 
 % Description: Permutation test to determine significance threshold
-% Documentation: tutorial_gauss.txt
+% Documentation: tim_matlab_matlab.txt
+% Author: German Gomez-Herrero
+
+function [y, yvals] = permutation_test(pset, pindex, ifunc, alpha)
 
 K = 0; % use 1 to increase the number of permutations beyond the minimum 
 
-if nargin < 4 || isempty(alpha), alpha = 0.05; end
+if nargin < 4 || isempty(alpha)
+	alpha = 0.05; 
+end
 
 if nargin < 3, 
     error('Not enough input parameters');
 end
 
-ns = ceil((1-alpha)*10^(-log10(alpha)+K));
+ns = ceil((1 - alpha) * 10^(-log10(alpha) + K));
 
 if ns > size(pset,2),
     error('%d data trials are needed for alpha=%1.2f.',ns,alpha);
@@ -47,10 +50,12 @@ psetperm = permute_pset(pset, pindex, ns);
 
 yvals = [];
 fprintf('  Performing %d permutations',ns);
+
 for i = 1:ns
    tmp = ifunc(psetperm{i});
    yvals = [yvals;tmp];
    fprintf('.');
 end
+
 fprintf('[done]\n');
 y = nanmax(yvals);

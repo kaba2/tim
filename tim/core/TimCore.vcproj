@@ -848,6 +848,10 @@
 			RelativePath=".\tim_core.txt"
 			>
 		</File>
+		<File
+			RelativePath="..\..\tutorials.txt"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

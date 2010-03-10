@@ -1,0 +1,6 @@
+Tutorials
+=========
+
+[[Parent]]: tim.txt
+
+This page contains tutorials on TIM.

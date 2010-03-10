@@ -1,4 +1,3 @@
-function results = tutorial_gauss_analysis(data)
 % TUTORIAL_GAUSS_ANALYSIS
 % Estimates partial transfer entropy (PTE) for the toy experiment with three
 % non-linearly coupled Gaussian processes
@@ -20,7 +19,9 @@ function results = tutorial_gauss_analysis(data)
 
 % Description: Time-varying partial transfer entropy
 % Documentation: tutorial_gauss.txt
+% Author: German Gomez-Herrero
 
+function results = tutorial_gauss_analysis(data)
 
 IN_FILE = 'gaussian_process.mat';    % default data file
 OUT_FILE = 'tutorial_gauss_analysis'; % results will be saved here
