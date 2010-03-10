@@ -5,6 +5,7 @@
 #include "tim/core/signal_tools.h"
 #include "tim/core/signalpointset.h"
 #include "tim/core/entropy_combination.h"
+#include "tim/core/entropy_combination_t.h"
 
 #include <pastel/sys/constantiterator.h>
 #include <pastel/sys/nulliterator.h>
@@ -19,21 +20,22 @@ namespace Tim
 			typename SignalPtr_X_Iterator,
 			typename SignalPtr_Y_Iterator,
 			typename SignalPtr_Z_Iterator,
-			typename Real_OutputIterator>
+			typename Real_OutputIterator,
+			typename Real_Filter_Iterator>
 		real partialMutualInformation(
 			const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
 			const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
 			const ForwardRange<SignalPtr_Z_Iterator>& zSignalSet,
 			integer timeWindowRadius,
 			Real_OutputIterator result,
-			integer xLag,
-			integer yLag,
-			integer zLag,
+			integer xLag, integer yLag, integer zLag,
 			integer kNearest,
+			const ForwardRange<Real_Filter_Iterator>& filter,
 			bool wantTemporal)
 		{
 			ENSURE_OP(timeWindowRadius, >=, 0);
 			ENSURE_OP(kNearest, >, 0);
+			ENSURE(odd(filter.size()));
 			PENSURE_OP(xSignalSet.size(), ==, ySignalSet.size());
 			PENSURE_OP(xSignalSet.size(), ==, zSignalSet.size());
 			PENSURE(equalDimension(xSignalSet));
@@ -73,7 +75,8 @@ namespace Tim
 					timeWindowRadius,
 					result,
 					forwardRange(lagSet),
-					kNearest);
+					kNearest,
+					filter);
 			}
 
 			return entropyCombination(
@@ -89,6 +92,32 @@ namespace Tim
 		typename SignalPtr_X_Iterator,
 		typename SignalPtr_Y_Iterator,
 		typename SignalPtr_Z_Iterator,
+		typename Real_OutputIterator,
+		typename Real_Filter_Iterator>
+	integer temporalPartialMutualInformation(
+		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
+		const ForwardRange<SignalPtr_Z_Iterator>& zSignalSet,
+		integer timeWindowRadius,
+		Real_OutputIterator result,
+		integer xLag, integer yLag, integer zLag,
+		integer kNearest,
+		const ForwardRange<Real_Filter_Iterator>& filter)
+	{
+		return Tim::Detail_PartialMutualInformation::partialMutualInformation(
+			xSignalSet, ySignalSet, zSignalSet,
+			timeWindowRadius,
+			result,
+			xLag, yLag,	zLag,
+			kNearest,
+			filter,
+			true);
+	}
+
+	template <
+		typename SignalPtr_X_Iterator,
+		typename SignalPtr_Y_Iterator,
+		typename SignalPtr_Z_Iterator,
 		typename Real_OutputIterator>
 	integer temporalPartialMutualInformation(
 		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
@@ -96,46 +125,15 @@ namespace Tim
 		const ForwardRange<SignalPtr_Z_Iterator>& zSignalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
-		integer xLag,
-		integer yLag,
-		integer zLag,
+		integer xLag, integer yLag, integer zLag,
 		integer kNearest)
 	{
-		return Tim::Detail_PartialMutualInformation::partialMutualInformation(
-			xSignalSet,
-			ySignalSet,
-			zSignalSet,
-			timeWindowRadius,
-			result,
-			xLag,
-			yLag,
-			zLag,
+		return temporalPartialMutualInformation(
+			xSignalSet, ySignalSet, zSignalSet, 
+			timeWindowRadius, result,
+			xLag, yLag, zLag, 
 			kNearest,
-			true);
-	}
-
-	template <typename Real_OutputIterator>
-	integer temporalPartialMutualInformation(
-		const SignalPtr& xSignal,
-		const SignalPtr& ySignal,
-		const SignalPtr& zSignal,
-		integer timeWindowRadius,
-		Real_OutputIterator result,
-		integer xLag,
-		integer yLag,
-		integer zLag,
-		integer kNearest)
-	{
-		return Tim::temporalPartialMutualInformation(
-			constantRange(xSignal),
-			constantRange(ySignal),
-			constantRange(zSignal),
-			timeWindowRadius,
-			result,
-			xLag,
-			yLag,
-			zLag,
-			kNearest);
+			constantRange((real)1, 1));
 	}
 
 	template <
@@ -152,15 +150,11 @@ namespace Tim
 		integer kNearest)
 	{
 		return Tim::Detail_PartialMutualInformation::partialMutualInformation(
-			xSignalSet,
-			ySignalSet,
-			zSignalSet,
-			0,
-			NullIterator(),
-			xLag,
-			yLag,
-			zLag,
+			xSignalSet, ySignalSet, zSignalSet,
+			0, NullIterator(),
+			xLag, yLag, zLag,
 			kNearest,
+			constantRange((real)1, 1),
 			false);
 	}
 

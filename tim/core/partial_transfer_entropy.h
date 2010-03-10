@@ -53,6 +53,38 @@ namespace Tim
 		typename SignalPtr_Y_Iterator,
 		typename SignalPtr_Z_Iterator,
 		typename SignalPtr_W_Iterator,
+		typename Real_OutputIterator,
+		typename Real_Filter_Iterator>
+	integer temporalPartialTransferEntropy(
+		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
+		const ForwardRange<SignalPtr_Z_Iterator>& zSignalSet,
+		const ForwardRange<SignalPtr_W_Iterator>& wSignalSet,
+		integer timeWindowRadius,
+		Real_OutputIterator result,
+		integer xLag, integer yLag, integer zLag, integer wLag,
+		integer kNearest,
+		const ForwardRange<Real_Filter_Iterator>& filter);
+
+	//! Computes temporal partial mutual information.
+	/*!
+	This is a convenience function that calls:
+
+	temporalPartialTransferEntropy(
+		xSignalSet, ySignalSet, zSignalSet, wSignalSet,
+		timeWindowRadius, result,
+		xLag, yLag, zLag, wLag,
+		kNearest,
+		constantRange((real)1, 1));
+
+	See the documentation for that function.
+	*/
+
+	template <
+		typename SignalPtr_X_Iterator,
+		typename SignalPtr_Y_Iterator,
+		typename SignalPtr_Z_Iterator,
+		typename SignalPtr_W_Iterator,
 		typename Real_OutputIterator>
 	integer temporalPartialTransferEntropy(
 		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
@@ -61,39 +93,8 @@ namespace Tim
 		const ForwardRange<SignalPtr_W_Iterator>& wSignalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
-		integer xLag = 0,
-		integer yLag = 0,
-		integer zLag = 0,
-		integer wLag = 0,
-		integer kNearest = 1);
-
-	//! Computes temporal partial transfer entropy.
-	/*!
-	This is a convenience function that calls:
-
-	temporalPartialTransferEntropy(
-		constantRange(xSignal), 
-		constantRange(ySignal), 
-		constantRange(zSignal), 
-		constantRange(wSignal), 
-		timeWindowRadius, result,
-		xLag, yLag, zLag, wLag, kNearest);
-
-	See the documentation for that function.
-	*/
-
-	template <typename Real_OutputIterator>
-	integer temporalPartialTransferEntropy(
-		const SignalPtr& xSignal,
-		const SignalPtr& ySignal,
-		const SignalPtr& zSignal,
-		const SignalPtr& wSignal,
-		integer timeWindowRadius,
-		Real_OutputIterator result,
-		integer xLag = 0,
-		integer yLag = 0,
-		integer zLag = 0,
-		integer wLag = 0,
+		integer xLag = 0, integer yLag = 0,
+		integer zLag = 0, integer wLag = 0,
 		integer kNearest = 1);
 
 	//! Computes partial transfer entropy.
@@ -130,35 +131,8 @@ namespace Tim
 		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
 		const ForwardRange<SignalPtr_Z_Iterator>& zSignalSet,
 		const ForwardRange<SignalPtr_W_Iterator>& wSignalSet,
-		integer xLag = 0,
-		integer yLag = 0,
-		integer zLag = 0,
-		integer wLag = 0,
-		integer kNearest = 1);
-
-	//! Computes partial transfer entropy.
-	/*!
-	This is a convenience function that calls:
-
-	partialTransferEntropy(
-		constantRange(xSignal), 
-		constantRange(ySignal), 
-		constantRange(zSignal), 
-		constantRange(wSignal), 
-		xLag, yLag, zLag, wLag, kNearest);
-
-	See the documentation for that function.
-	*/
-
-	TIM real partialTransferEntropy(
-		const SignalPtr& xSignal,
-		const SignalPtr& ySignal,
-		const SignalPtr& zSignal,
-		const SignalPtr& wSignal,
-		integer xLag = 0,
-		integer yLag = 0,
-		integer zLag = 0,
-		integer wLag = 0,
+		integer xLag = 0, integer yLag = 0,
+		integer zLag = 0, integer wLag = 0,
 		integer kNearest = 1);
 
 }

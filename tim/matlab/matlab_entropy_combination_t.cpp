@@ -3,7 +3,7 @@
 
 #include "tim/matlab/tim_matlab.h"
 
-#include "tim/core/entropy_combination.h"
+#include "tim/core/entropy_combination_t.h"
 
 using namespace Tim;
 

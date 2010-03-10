@@ -5,6 +5,7 @@
 #include "tim/core/signal_tools.h"
 #include "tim/core/signalpointset.h"
 #include "tim/core/entropy_combination.h"
+#include "tim/core/entropy_combination_t.h"
 
 #include <pastel/sys/constantiterator.h>
 #include <pastel/sys/nulliterator.h>
@@ -18,15 +19,16 @@ namespace Tim
 		template <
 			typename SignalPtr_X_Iterator,
 			typename SignalPtr_Y_Iterator,
-			typename Real_OutputIterator>
+			typename Real_OutputIterator,
+			typename Real_Filter_Iterator>
 		real mutualInformation(
 			const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
 			const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
 			integer timeWindowRadius,
 			Real_OutputIterator result,
-			integer xLag,
-			integer yLag,
+			integer xLag, integer yLag,
 			integer kNearest,
+			const ForwardRange<Real_Filter_Iterator>& filter,
 			bool wantTemporal)
 		{
 			ENSURE_OP(timeWindowRadius, >=, 0);
@@ -34,8 +36,9 @@ namespace Tim
 			PENSURE_OP(xSignalSet.size(), ==, ySignalSet.size());
 			PENSURE(equalDimension(xSignalSet));
 			PENSURE(equalDimension(ySignalSet));
+			ENSURE(odd(filter.size()));
 
-			if (xSignalSet.empty())
+			if (xSignalSet.empty() || ySignalSet.empty())
 			{
 				return 0;
 			}
@@ -70,7 +73,8 @@ namespace Tim
 					timeWindowRadius,
 					result,
 					forwardRange(lagSet),
-					kNearest);
+					kNearest,
+					filter);
 			}
 
 			return entropyCombination(
@@ -85,7 +89,8 @@ namespace Tim
 	template <
 		typename SignalPtr_X_Iterator,
 		typename SignalPtr_Y_Iterator,
-		typename Real_OutputIterator>
+		typename Real_OutputIterator,
+		typename Real_Filter_Iterator>
 	integer temporalMutualInformation(
 		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
 		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
@@ -93,35 +98,38 @@ namespace Tim
 		Real_OutputIterator result,
 		integer xLag,
 		integer yLag,
-		integer kNearest)
+		integer kNearest,
+		const ForwardRange<Real_Filter_Iterator>& filter)
 	{
 		return Tim::Detail_MutualInformation::mutualInformation(
-			xSignalSet,
-			ySignalSet,
+			xSignalSet, ySignalSet,
 			timeWindowRadius,
 			result,
 			xLag, yLag,
 			kNearest,
+			filter,
 			true);
 	}
 
-	template <typename Real_OutputIterator>
+	template <
+		typename SignalPtr_X_Iterator,
+		typename SignalPtr_Y_Iterator,
+		typename Real_OutputIterator>
 	integer temporalMutualInformation(
-		const SignalPtr& xSignal,
-		const SignalPtr& ySignal,
+		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
-		integer xLag,
-		integer yLag,
+		integer xLag, integer yLag,
 		integer kNearest)
 	{
 		return Tim::temporalMutualInformation(
-			constantRange(xSignal),
-			constantRange(ySignal),
+			xSignalSet, ySignalSet,
 			timeWindowRadius,
 			result,
 			xLag, yLag,
-			kNearest);
+			kNearest,
+			constantRange((real)1, 1));
 	}
 
 	template <
@@ -134,12 +142,12 @@ namespace Tim
 		integer kNearest)
 	{
 		return Tim::Detail_MutualInformation::mutualInformation(
-			xSignalSet,
-			ySignalSet,
+			xSignalSet, ySignalSet,
 			0,
 			NullIterator(),
 			xLag, yLag,
 			kNearest,
+			constantRange((real)1, 1),
 			false);
 	}
 
