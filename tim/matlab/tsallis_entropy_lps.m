@@ -76,7 +76,7 @@ if kSuggestion < 0
     error('KSUGGESTION must be non-negative.');
 end
 
-check(threads, 'threads);
+check(threads, 'threads');
 
 H = tim_matlab('tsallis_entropy_lps', ...
 	S, q, kSuggestion, threads);

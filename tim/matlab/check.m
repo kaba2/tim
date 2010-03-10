@@ -92,19 +92,19 @@ if strcmp(check, 'timeWindowRadius')
 		error('TIMEWINDOWRADIUS must be a scalar integer.');
 	end
 
-	if timeWindowRadius < 0
+	if X < 0
 		error('TIMEWINDOWRADIUS must be non-negative');
     end
     handled = 1;
 end
 
 if strcmp(check, 'threads')
-    if size(threads, 1) ~= 1 || ...
-       size(threads, 2) ~= 1
+    if size(X, 1) ~= 1 || ...
+       size(X, 2) ~= 1
         error('THREADS must be a scalar integer.');
     end
 
-    if threads < 1
+    if X < 1
         error('THREADS must be at least 1.');
     end
     handled = 1;
