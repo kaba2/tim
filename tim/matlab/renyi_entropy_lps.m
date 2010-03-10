@@ -2,7 +2,7 @@
 % A Renyi entropy estimate from samples
 % using Leonenko-Pronzato-Savani nearest neighbor estimator.
 %
-% H = renyi_entropy_lps(S, q, epsilon, kSuggestion, threads)
+% H = renyi_entropy_lps(S, q, kSuggestion, threads)
 %
 % where
 %

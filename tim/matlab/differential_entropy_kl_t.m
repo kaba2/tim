@@ -51,7 +51,7 @@ end
 check(S, 'signalSet');
 check(timeWindowRadius, 'timeWindowRadius');
 check(k, 'k');
-check(filter);
+check(filter, 'filter');
 check(threads, 'threads');
 
 H = tim_matlab('differential_entropy_kl_t', ...
