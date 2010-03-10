@@ -637,6 +637,14 @@
 						RelativePath=".\generic_entropy.txt"
 						>
 					</File>
+					<File
+						RelativePath=".\generic_entropy_t.h"
+						>
+					</File>
+					<File
+						RelativePath=".\generic_entropy_t.hpp"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="Tsallis entropy"

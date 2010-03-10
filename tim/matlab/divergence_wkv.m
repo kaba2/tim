@@ -8,7 +8,7 @@
 %
 % X and Y are signal sets.
 %
-% Type 'help tim_matlab' for documentation.
+% Type 'help tim' for documentation.
 
 % Description: Kullback-Leibler divergence estimation
 % Detail: Wang-Kulkarni-Verdu nearest neighbor estimator

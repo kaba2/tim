@@ -21,7 +21,7 @@
 % is used. For accurate results one should choose 
 % kSuggestion >= 2 * ceil(q) - 1. Default 0.
 %
-% Type 'help tim_matlab' for more documentation.
+% Type 'help tim' for more documentation.
 
 % Description: Renyi entropy estimation
 % Detail: Leonenko-Pronzato-Savani nearest neighbor estimator

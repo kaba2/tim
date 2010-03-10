@@ -36,7 +36,6 @@ namespace Tim
 			real estimate, 
 			integer dimension, 
 			integer kNearest, 
-			integer acceptedSamples, 
 			integer estimateSamples) const;
 	};
 

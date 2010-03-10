@@ -3,6 +3,7 @@
 
 #include "tim/core/tsallis_entropy_lps.h"
 #include "tim/core/generic_entropy.h"
+#include "tim/core/generic_entropy_t.h"
 #include "tim/core/differential_entropy_kl.h"
 
 #include "pastel/math/euclidean_normbijection.h"
@@ -64,7 +65,6 @@ namespace Tim
 			real estimate, 
 			integer dimension, 
 			integer kNearest, 
-			integer acceptedSamples, 
 			integer estimateSamples) const
 		{
 			// F = ((M - 1) C_k V_m)^(1 - q)
@@ -79,7 +79,7 @@ namespace Tim
 				std::exp(normBijection_.lnVolumeUnitSphere(dimension)), 1 - q_) *
 				gammaRatio_;
 
-			const real I = F * (estimate / acceptedSamples);
+			const real I = F * estimate;
 
 			const real tsallisEntropy = 
 				(1 - I) * finalFactor_;

@@ -21,6 +21,7 @@ namespace
 			timeWindowRadiusIndex,
 			lagSetIndex,
 			kNearestIndex,
+			filterIndex,
 			threadsIndex
 		};
 
@@ -45,6 +46,10 @@ namespace
 
 		const integer timeWindowRadius = getInteger(inputSet[timeWindowRadiusIndex]);
 		const integer kNearest = getInteger(inputSet[kNearestIndex]);
+
+		std::vector<real> filter;
+		getReals(inputSet[filterIndex], std::back_inserter(filter));
+
 		const integer threads = getInteger(inputSet[threadsIndex]);
 		setNumberOfThreads(threads);
 
@@ -60,7 +65,8 @@ namespace
 			timeWindowRadius,
 			rawResult,
 			forwardRange(lagSet.begin(), lagSet.end()),
-			kNearest);
+			kNearest,
+			forwardRange(filter.begin(), filter.end()));
 	}
 
 	void addFunction()

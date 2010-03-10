@@ -17,7 +17,7 @@
 % lieing on a d-dimensional differentiable manifold, where d is
 % also estimated from the data and is an integer.
 %
-% Type 'help tim_matlab' for more documentation.
+% Type 'help tim' for more documentation.
 
 % Description: Differential entropy estimation
 % Detail: Nilsson-Kleijn manifold nearest neighbor estimator

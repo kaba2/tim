@@ -223,10 +223,8 @@ namespace Tim
 			const integer tWidth = tEnd - tBegin;
 			const integer tLocalFilterBegin = std::max(t - filterRadius, tBegin) - tBegin;
 			const integer tLocalFilterEnd = std::min(t + filterRadius + 1, tEnd) - tBegin;
-			const integer tLocalFilterWidth = tLocalFilterEnd - tLocalFilterBegin;
 			const integer tFilterDelta = std::max(t - filterRadius, tBegin) - (t - filterRadius);
-
-			const integer estimateSamples = tWidth * trials;
+			const integer windowSamples = (tLocalFilterEnd - tLocalFilterBegin) * trials;
 			const real maxRelativeError = 0;
 
 			searchAllNeighbors(
@@ -238,10 +236,10 @@ namespace Tim
 				kNearest, 
 				0,
 				&distanceArray,
-				constantRange(infinity<real>(), tLocalFilterWidth * trials),
+				constantRange(infinity<real>(), windowSamples),
 				maxRelativeError,
 				normBijection,
-				randomAccessRange(hintDistanceSet.begin(), tLocalFilterWidth * trials));
+				randomAccessRange(hintDistanceSet.begin(), windowSamples));
 			
 			if (tFilterDelta == 0)
 			{
@@ -254,7 +252,7 @@ namespace Tim
 				}
 			}
 
-			for (integer j = 0;j < tLocalFilterWidth;++j)
+			for (integer j = 0;j < windowSamples;++j)
 			{
 				// This is an important part of the algorithm although it may
 				// not seem like it from the first look. Because of the use of
@@ -281,7 +279,7 @@ namespace Tim
 					randomAccessRange(
 					pointSet[i]->begin() + tLocalFilterBegin * trials, 
 					pointSet[i]->begin() + tLocalFilterEnd * trials),
-					randomAccessRange(distanceArray.begin(), tLocalFilterWidth * trials),
+					randomAccessRange(distanceArray.begin(), windowSamples),
 					countSet.begin(),
 					normBijection);
 				
@@ -289,7 +287,7 @@ namespace Tim
 				real weightSum = 0;
 				const integer filterOffset = tFilterDelta * trials;
 //#pragma omp parallel for reduction(+ : signalEstimate, weightSum)
-				for (integer j = 0;j < tLocalFilterWidth;++j)
+				for (integer j = 0;j < windowSamples;++j)
 				{
 					const integer k = countSet[j];
 
@@ -320,6 +318,8 @@ namespace Tim
 					break;
 				}
 			}
+
+			const integer estimateSamples = tWidth * trials;
 
 			estimate += digamma<real>(kNearest);
 			estimate += (signalWeightSum - 1) * digamma<real>(estimateSamples);
