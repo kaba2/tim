@@ -5,6 +5,7 @@
 #include "tim/core/signal_tools.h"
 #include "tim/core/signalpointset.h"
 #include "tim/core/entropy_combination.h"
+#include "tim/core/entropy_combination_t.h"
 
 #include <pastel/sys/constantiterator.h>
 #include <pastel/sys/nulliterator.h>
@@ -19,21 +20,22 @@ namespace Tim
 			typename SignalPtr_X_Iterator,
 			typename SignalPtr_Y_Iterator,
 			typename SignalPtr_W_Iterator,
-			typename Real_OutputIterator>
+			typename Real_OutputIterator,
+			typename Real_Filter_Iterator>
 		real transferEntropy(
 			const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
 			const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
 			const ForwardRange<SignalPtr_W_Iterator>& wSignalSet,
 			integer timeWindowRadius,
 			Real_OutputIterator result,
-			integer xLag,
-			integer yLag,
-			integer wLag,
+			integer xLag, integer yLag, integer wLag,
 			integer kNearest,
+			const ForwardRange<Real_Filter_Iterator>& filter,
 			bool wantTemporal)
 		{
 			ENSURE_OP(timeWindowRadius, >=, 0);
 			ENSURE_OP(kNearest, >, 0);
+			ENSURE(odd(filter.size()));
 			PENSURE_OP(xSignalSet.size(), ==, ySignalSet.size());
 			PENSURE_OP(xSignalSet.size(), ==, wSignalSet.size());
 			PENSURE(equalDimension(xSignalSet));
@@ -76,7 +78,8 @@ namespace Tim
 					timeWindowRadius,
 					result,
 					forwardRange(lagSet),
-					kNearest);
+					kNearest,
+					filter);
 			}
 
 			return entropyCombination(
@@ -92,17 +95,17 @@ namespace Tim
 		typename SignalPtr_X_Iterator,
 		typename SignalPtr_Y_Iterator,
 		typename SignalPtr_W_Iterator,
-		typename Real_OutputIterator>
+		typename Real_OutputIterator,
+		typename Real_Filter_Iterator>
 	integer temporalTransferEntropy(
 		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
 		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
 		const ForwardRange<SignalPtr_W_Iterator>& wSignalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
-		integer xLag,
-		integer yLag,
-		integer wLag,
-		integer kNearest)
+		integer xLag, integer yLag, integer wLag,
+		integer kNearest,
+		const ForwardRange<Real_Filter_Iterator>& filter)
 	{
 		return Tim::Detail_TransferEntropy::transferEntropy(
 			xSignalSet, ySignalSet, wSignalSet,
@@ -110,27 +113,31 @@ namespace Tim
 			result,
 			xLag, yLag, wLag,
 			kNearest,
+			filter,
 			true);
 	}
 
-	template <typename Real_OutputIterator>
+	template <
+		typename SignalPtr_X_Iterator,
+		typename SignalPtr_Y_Iterator,
+		typename SignalPtr_W_Iterator,
+		typename Real_OutputIterator>
 	integer temporalTransferEntropy(
-		const SignalPtr& xSignal,
-		const SignalPtr& ySignal,
-		const SignalPtr& wSignal,
+		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
+		const ForwardRange<SignalPtr_W_Iterator>& wSignalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
 		integer xLag, integer yLag, integer wLag,
 		integer kNearest)
 	{
 		return Tim::temporalTransferEntropy(
-			constantRange(xSignal),
-			constantRange(ySignal),
-			constantRange(wSignal),
+			xSignalSet, ySignalSet, wSignalSet,
 			timeWindowRadius,
 			result,
 			xLag, yLag, wLag,
-			kNearest);
+			kNearest,
+			constantRange((real)1, 1));
 	}
 
 	template <
@@ -150,6 +157,7 @@ namespace Tim
 			NullIterator(),
 			xLag, yLag, wLag,
 			kNearest,
+			constantRange((real)1, 1),
 			false);
 	}
 

@@ -31,12 +31,12 @@ namespace
 		real correctMi)
 	{
 		const real mi = mutualInformation(
-			xSignal, ySignal, 
+			constantRange(xSignal), constantRange(ySignal), 
 			xLag, yLag, kNearest);
 
 		std::vector<real> miSet;
 		temporalMutualInformation(
-			xSignal, ySignal, 
+			constantRange(xSignal), constantRange(ySignal), 
 			timeWindowRadius,
 			std::back_inserter(miSet), 
 			xLag, yLag, kNearest);
@@ -270,8 +270,8 @@ namespace
 				
 				timer.setStart();
 				const real mi = mutualInformation(
-					xSignal,
-					ySignal,
+					constantRange(xSignal),
+					constantRange(ySignal),
 					0, 0,
 					kNearest);
 				timer.store();
@@ -307,7 +307,9 @@ namespace
 		SignalPtr signal = generateGaussian(100, 1);
 		std::vector<real> estimateSet;
 		temporalMutualInformation(
-			signal, signal, 10, std::back_inserter(estimateSet),
+			constantRange(signal), 
+			constantRange(signal), 
+			10, std::back_inserter(estimateSet),
 			0, 99, 1);
 	}
 

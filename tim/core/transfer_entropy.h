@@ -51,6 +51,36 @@ namespace Tim
 		typename SignalPtr_X_Iterator,
 		typename SignalPtr_Y_Iterator,
 		typename SignalPtr_W_Iterator,
+		typename Real_OutputIterator,
+		typename Real_Filter_Iterator>
+	integer temporalTransferEntropy(
+		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
+		const ForwardRange<SignalPtr_W_Iterator>& wSignalSet,
+		integer timeWindowRadius,
+		Real_OutputIterator result,
+		integer xLag, integer yLag, integer wLag,
+		integer kNearest,
+		const ForwardRange<Real_Filter_Iterator>& filter);
+
+	//! Computes temporal partial mutual information.
+	/*!
+	This is a convenience function that calls:
+
+	temporalTransferEntropy(
+		xSignalSet, ySignalSet, wSignalSet,
+		timeWindowRadius, result,
+		xLag, yLag, wLag,
+		kNearest,
+		constantRange((real)1, 1));
+
+	See the documentation for that function.
+	*/
+
+	template <
+		typename SignalPtr_X_Iterator,
+		typename SignalPtr_Y_Iterator,
+		typename SignalPtr_W_Iterator,
 		typename Real_OutputIterator>
 	integer temporalTransferEntropy(
 		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
@@ -58,35 +88,7 @@ namespace Tim
 		const ForwardRange<SignalPtr_W_Iterator>& wSignalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
-		integer xLag = 0,
-		integer yLag = 0,
-		integer wLag = 0,
-		integer kNearest = 1);
-
-	//! Computes temporal transfer entropy.
-	/*!
-	This is a convenience function that calls:
-
-	temporalTransferEntropy(
-		constantRange(xSignal), 
-		constantRange(ySignal), 
-		constantRange(wSignal), 
-		timeWindowRadius, result,
-		xLag, yLag, wLag, kNearest);
-
-	See the documentation for that function.
-	*/
-
-	template <typename Real_OutputIterator>
-	integer temporalTransferEntropy(
-		const SignalPtr& xSignal,
-		const SignalPtr& ySignal,
-		const SignalPtr& wSignal,
-		integer timeWindowRadius,
-		Real_OutputIterator result,
-		integer xLag = 0,
-		integer yLag = 0,
-		integer wLag = 0,
+		integer xLag = 0, integer yLag = 0, integer wLag = 0,
 		integer kNearest = 1);
 
 	//! Computes transfer entropy.
@@ -120,31 +122,7 @@ namespace Tim
 		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
 		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
 		const ForwardRange<SignalPtr_W_Iterator>& wSignalSet,
-		integer xLag = 0,
-		integer yLag = 0,
-		integer wLag = 0,
-		integer kNearest = 1);
-
-	//! Computes transfer entropy.
-	/*!
-	This is a convenience function that calls:
-
-	transferEntropy(
-		constantRange(xSignal), 
-		constantRange(ySignal), 
-		constantRange(wSignal), 
-		xLag, yLag, wLag, kNearest);
-
-	See the documentation for that function.
-	*/
-
-	TIM real transferEntropy(
-		const SignalPtr& xSignal,
-		const SignalPtr& ySignal,
-		const SignalPtr& wSignal,
-		integer xLag = 0,
-		integer yLag = 0,
-		integer wLag = 0,
+		integer xLag = 0, integer yLag = 0, integer wLag = 0,
 		integer kNearest = 1);
 
 }

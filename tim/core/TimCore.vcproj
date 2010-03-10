@@ -338,6 +338,14 @@
 					RelativePath=".\entropy_combination.txt"
 					>
 				</File>
+				<File
+					RelativePath=".\entropy_combination_t.h"
+					>
+				</File>
+				<File
+					RelativePath=".\entropy_combination_t.hpp"
+					>
+				</File>
 				<Filter
 					Name="Mutual information"
 					>
