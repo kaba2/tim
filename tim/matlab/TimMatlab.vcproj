@@ -408,7 +408,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\tim_matlab.m"
+				RelativePath=".\tim.m"
 				>
 			</File>
 			<File
@@ -518,6 +518,10 @@
 		</Filter>
 		<File
 			RelativePath=".\tim_matlab.txt"
+			>
+		</File>
+		<File
+			RelativePath=".\tim_matlab_help.txt"
 			>
 		</File>
 	</Files>

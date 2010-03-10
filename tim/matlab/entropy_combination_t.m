@@ -25,7 +25,7 @@
 % array with L elements with the scalar as its elements.
 % Default: a (p x 1) cell-array of scalar zeros.
 %
-% Type 'help tim_matlab' for more documentation.
+% Type 'help tim' for more documentation.
 
 % Description: Temporal entropy combination estimation
 % Documentation: tim_matlab_matlab.txt

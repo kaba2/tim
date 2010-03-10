@@ -28,7 +28,7 @@
 % the number of specified lags. The I(i) corresponds to the entropy
 % combination estimate using the lag LAGSET{j}(i) for signal j.
 %
-% Type 'help tim_matlab' for more documentation.
+% Type 'help tim' for more documentation.
 
 % Description: Entropy combination estimation
 % Documentation: tim_matlab_matlab.txt

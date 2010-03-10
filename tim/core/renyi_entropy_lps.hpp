@@ -3,6 +3,7 @@
 
 #include "tim/core/renyi_entropy_lps.h"
 #include "tim/core/generic_entropy.h"
+#include "tim/core/generic_entropy_t.h"
 #include "tim/core/differential_entropy_kl.h"
 
 #include "pastel/math/euclidean_normbijection.h"
@@ -64,7 +65,6 @@ namespace Tim
 			real estimate, 
 			integer dimension, 
 			integer kNearest, 
-			integer acceptedSamples, 
 			integer estimateSamples) const
 		{
 			// F = log[((M - 1) C_k V_m)^(1 - q)]
@@ -83,7 +83,7 @@ namespace Tim
 				lnGammaDifference_;
 			
 			const real renyiEntropy = 
-				finalFactor_ * (F + std::log(estimate / acceptedSamples));
+				finalFactor_ * (F + std::log(estimate));
 
 			return renyiEntropy;
 		}

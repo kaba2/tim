@@ -7,7 +7,7 @@
 %
 % X, Y, and Z are signal sets.
 %
-% Type 'help tim_matlab' for more documentation.
+% Type 'help tim' for more documentation.
 
 % Description: Partial mutual information estimation
 % Documentation: tim_matlab_matlab.txt
@@ -17,6 +17,10 @@ function I = mutual_information_p(...
 
 if nargin < 3
     error('Not enough input arguments.');
+end
+
+if nargin > 8
+    error('Too many input arguments.');
 end
 
 if nargin >= 4 && nargin < 6

@@ -8,7 +8,7 @@
 %
 % S is a signal set.
 %
-% Type 'help tim_matlab' for documentation.
+% Type 'help tim' for documentation.
 
 % Description: Differential entropy estimation
 % Detail: Stowell-Plumbley recursive partition estimator

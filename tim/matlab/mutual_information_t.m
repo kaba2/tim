@@ -8,7 +8,7 @@
 %
 % X and Y are signal sets.
 %
-% Type 'help tim_matlab' for more documentation.
+% Type 'help tim' for more documentation.
 
 % Description: Temporal mutual information estimation
 % Documentation: tim_matlab_matlab.txt
@@ -18,6 +18,10 @@ function I = mutual_information_t(X, Y, timeWindowRadius, ...
 
 if nargin < 3
     error('Not enough input arguments.');
+end
+
+if nargin > 8
+    error('Too many input arguments.');
 end
 
 if nargin >= 4 && nargin < 5
@@ -43,13 +47,13 @@ end
 
 if isnumeric(X)
     I = mutual_information_t({X}, Y, timeWindowRadius, ...
-        xLag, yLag, k, threads);
+        xLag, yLag, k, filter, threads);
     return
 end
 
 if isnumeric(Y)
     I = mutual_information_t(X, {Y}, timeWindowRadius, ...
-        xLag, yLag, k, threads);
+        xLag, yLag, k, filter, threads);
     return
 end
 

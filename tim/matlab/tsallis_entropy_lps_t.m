@@ -3,7 +3,7 @@
 % using Leonenko-Pronzato-Savani nearest neighbor estimator.
 %
 % H = tsallis_entropy_lps_t(
-%     S, timeWindowRadius, q, kSuggestion, threads)
+%     S, timeWindowRadius, q, kSuggestion, filter, threads)
 %
 % where
 %
@@ -20,20 +20,20 @@
 % is used. For accurate results one should choose 
 % kSuggestion >= 2 * ceil(q) - 1. Default 0.
 %
-% Type 'help tim_matlab' for more documentation.
+% Type 'help tim' for more documentation.
 
 % Description: Temporal Tsallis entropy estimation
 % Detail: Leonenko-Pronzato-Savani nearest neighbor estimator
 % Documentation: tim_matlab_matlab.txt
 
 function H = tsallis_entropy_lps_t(...
-    S, timeWindowRadius, q, kSuggestion, threads)
+    S, timeWindowRadius, q, kSuggestion, filter, threads)
 
 if nargin < 2
     error('Not enough input arguments.');
 end
 
-if nargin > 5
+if nargin > 6
     error('Too many input arguments.');
 end
 
@@ -50,12 +50,16 @@ if nargin < 4
 end
 
 if nargin < 5
+    filter = [1];
+end
+
+if nargin < 6
     threads = maxNumCompThreads;
 end
 
 if isnumeric(S)
     H = tsallis_entropy_lps_t({S}, timeWindowRadius, ...
-        q, kSuggestion, threads);
+        q, kSuggestion, filter, threads);
     return
 end
 
@@ -98,4 +102,4 @@ if threads < 1
 end
 
 H = tim_matlab('tsallis_entropy_lps_t', ...
-    S, timeWindowRadius, q, kSuggestion, threads);
+    S, timeWindowRadius, q, kSuggestion, filter, threads);

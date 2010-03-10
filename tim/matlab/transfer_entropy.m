@@ -8,7 +8,7 @@
 %
 % X, Y, and W are signal sets.
 %
-% Type 'help tim_matlab' for more documentation.
+% Type 'help tim' for more documentation.
 
 % Description: Transfer entropy estimation
 % Documentation: tim_matlab_matlab.txt
@@ -18,6 +18,10 @@ function I = transfer_entropy(X, Y, W, ...
 
 if nargin < 3
     error('Not enough input arguments.');
+end
+
+if nargin > 8
+    error('Too many input arguments.');
 end
 
 if nargin >= 4 && nargin < 6

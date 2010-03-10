@@ -7,7 +7,7 @@
 %
 % X and Y are signal sets.
 %
-% Type 'help tim_matlab' for more documentation.
+% Type 'help tim' for more documentation.
 
 % Description: Mutual information estimation
 % Documentation: tim_matlab_matlab.txt
@@ -16,6 +16,10 @@ function I = mutual_information(X, Y, xLag, yLag, k, threads)
 
 if nargin < 2
     error('Not enough input arguments.');
+end
+
+if nargin > 6
+    error('Too many input arguments.');
 end
  
 if nargin >= 3 && nargin < 4

@@ -41,8 +41,15 @@ namespace Tim
 	void getIntegers(const mxArray* input,
 					 Integer_OutputIterator output)
 	{
-		const integer integers = mxGetNumberOfElements(input);
-		StdExt::copy_n(mxGetPr(input), integers, output);
+		getReals(input, output);
+	}
+
+	template <typename Integer_OutputIterator>
+	void getReals(const mxArray* input,
+				  Integer_OutputIterator output)
+	{
+		const integer n = mxGetNumberOfElements(input);
+		StdExt::copy_n(mxGetPr(input), n, output);
 	}
 
 	inline integer getInteger(const mxArray* input)

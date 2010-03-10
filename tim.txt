@@ -40,6 +40,9 @@ News
  * Made the output of temporal estimators to have a 
  width independent of lags (padded with NaNs) and the
  first element to correspond to time instant 0.
+ * Generalized temporal estimation such that the
+ contributions of the estimates can be weighted with 
+ respect to the distance in time.
  * Fixed a bug when computing entropy combinations
  with signals of unequal length.
 
@@ -51,6 +54,7 @@ News
  entropy combination estimators.
  * Real arrays are now interpreted as cell-arrays 
  containing a single trial in the estimators.
+ * Added trial permutation and permutation test.
  
 #### TIM Matlab and TIM Console
 
@@ -61,6 +65,9 @@ News
  * Removed the parameter to specify maximum relative 
  error in nearest neighbors searching because of too 
  large errors in entropy estimators to be of use.
+ 
+ * Added the `filter` parameter before the `threads`
+ parameter in temporal estimators.
 
 [[Link]]: more_news.txt
 

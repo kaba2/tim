@@ -8,7 +8,7 @@
 %
 % S is a signal set.
 %
-% Type 'help tim_matlab' for more documentation.
+% Type 'help tim' for more documentation.
 
 % Description: Differential entropy estimation
 % Detail: Kozachenko-Leonenko nearest neighbor estimator

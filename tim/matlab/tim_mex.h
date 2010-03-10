@@ -41,6 +41,10 @@ namespace Tim
 	void getIntegers(const mxArray* input,
 					 Integer_OutputIterator output);
 
+	template <typename Integer_OutputIterator>
+	void getReals(const mxArray* input,
+				  Integer_OutputIterator output);
+
 	integer getInteger(const mxArray* input);
 
 	real getReal(const mxArray* input);

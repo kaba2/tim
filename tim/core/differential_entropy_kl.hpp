@@ -3,6 +3,7 @@
 
 #include "tim/core/differential_entropy_kl.h"
 #include "tim/core/generic_entropy.h"
+#include "tim/core/generic_entropy_t.h"
 
 namespace Tim
 {
@@ -41,10 +42,9 @@ namespace Tim
 			real estimate, 
 			integer dimension, 
 			integer kNearest, 
-			integer acceptedSamples, 
 			integer estimateSamples) const
 		{
-			estimate *= (real)dimension / acceptedSamples;
+			estimate *= (real)dimension;
 			estimate -= digamma<real>(kNearest);
 			estimate += digamma<real>(estimateSamples);
 			estimate += normBijection_.lnVolumeUnitSphere(dimension);
