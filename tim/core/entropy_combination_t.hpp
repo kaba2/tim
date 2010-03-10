@@ -221,8 +221,8 @@ namespace Tim
 			const integer tBegin = jointPointSet->timeBegin();
 			const integer tEnd = jointPointSet->timeEnd();
 			const integer tWidth = tEnd - tBegin;
-			const integer tLocalFilterBegin = tBegin - std::max(t - filterRadius, tBegin);
-			const integer tLocalFilterEnd = tBegin - std::min(t + filterRadius + 1, tEnd);
+			const integer tLocalFilterBegin = std::max(t - filterRadius, tBegin) - tBegin;
+			const integer tLocalFilterEnd = std::min(t + filterRadius + 1, tEnd) - tBegin;
 			const integer tLocalFilterWidth = tLocalFilterEnd - tLocalFilterBegin;
 			const integer tFilterDelta = std::max(t - filterRadius, tBegin) - (t - filterRadius);
 
@@ -233,15 +233,15 @@ namespace Tim
 				jointPointSet->kdTree(),
 				randomAccessRange(
 				jointPointSet->begin() + tLocalFilterBegin * trials, 
-				jointPointSet->end() + tLocalFilterEnd * trials),
+				jointPointSet->begin() + tLocalFilterEnd * trials),
 				kNearest - 1,
 				kNearest, 
 				0,
 				&distanceArray,
-				constantRange(infinity<real>(), tLocalFilterWidth),
+				constantRange(infinity<real>(), tLocalFilterWidth * trials),
 				maxRelativeError,
 				normBijection,
-				randomAccessRange(hintDistanceSet.begin(), tLocalFilterWidth));
+				randomAccessRange(hintDistanceSet.begin(), tLocalFilterWidth * trials));
 			
 			if (tFilterDelta == 0)
 			{
@@ -279,9 +279,9 @@ namespace Tim
 				countAllNeighbors(
 					pointSet[i]->kdTree(),
 					randomAccessRange(
-					pointSet[i]->begin() + tLocalFilterBegin, 
-					pointSet[i]->end() + tLocalFilterEnd),
-					randomAccessRange(distanceArray.begin(), tLocalFilterWidth),
+					pointSet[i]->begin() + tLocalFilterBegin * trials, 
+					pointSet[i]->begin() + tLocalFilterEnd * trials),
+					randomAccessRange(distanceArray.begin(), tLocalFilterWidth * trials),
 					countSet.begin(),
 					normBijection);
 				

@@ -48,7 +48,8 @@ namespace Tim
 	An array of coefficients by which to weight the results
 	in the time-window. The center of the array corresponds 
 	to the current time instant. The width of the array can 
-	be arbitrary but must be odd.
+	be arbitrary but must be odd. The coefficients must sum
+	to a non-zero value.
 
 	kNearest:
 	The k:th nearest neighbor that is used to

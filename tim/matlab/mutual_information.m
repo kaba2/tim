@@ -5,32 +5,9 @@
 %
 % where
 %
-% X and Y are arbitrary-dimensional cell-arrays whose linearizations
-% contain q trials of signals X and Y, respectively. A real array is 
-% interpreted as a cell-array containing one trial.
+% X and Y are signal sets.
 %
-% XLAG and YLAG are the lags in samples that are applied to 
-% signals X and Y, respectively. Each can be given either as a 
-% scalar or as an array. In case some of the lags are given as arrays, 
-% those arrays must have the same number of elements, and a scalar lag is 
-% interpreted as an array of the same size with the given value as 
-% elements. Default 0.
-%
-% K determines which k:th nearest neighbor the algorithm
-% uses for estimation. Default 1.
-%
-% THREADS determines the number of threads to use for parallelization.
-% To fully take advantage of multiple cores in your machine, set this
-% to the number of cores in your machine. Note however that this makes 
-% your computer unresponsive to other tasks. When you need responsiveness, 
-% spare one core for other work. Default maxNumCompThreads.
-%
-% Each signal is a real (m x n)-matrix that contains n samples of an
-% m-dimensional signal. The signals contained in X (Y) must all have equal
-% dimensionality, but their number of samples may vary. 
-% If the number of samples varies with trials, the function uses 
-% the minimum sample count among the trials of X and Y.
-% The number of trials in X and Y must be equal.
+% Type 'help tim_matlab' for more documentation.
 
 % Description: Mutual information estimation
 % Documentation: tim_matlab_matlab.txt

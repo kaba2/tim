@@ -6,19 +6,9 @@
 %
 % where
 %
-% X and Y are arbitrary-dimensional cell-arrays whose linearizations 
-% contain q trials of signals X and Y, respectively.
+% X and Y are signal sets.
 %
-% THREADS determines the number of threads to use for parallelization.
-% To fully take advantage of multiple cores in your machine, set this
-% to the number of cores in your machine. Note however that this makes 
-% your computer unresponsive to other tasks. When you need responsiveness, 
-% spare one core for other work. Default maxNumCompThreads.
-%
-% Each signal is a real (m x n)-matrix that contains n samples of an
-% m-dimensional signal. The signals contained in X (Y) must all have equal
-% dimensionality, but their number of samples may vary. 
-% The number of trials in X and Y must be equal.
+% Type 'help tim_matlab' for documentation.
 
 % Description: Kullback-Leibler divergence estimation
 % Detail: Wang-Kulkarni-Verdu nearest neighbor estimator

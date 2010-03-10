@@ -2,7 +2,7 @@
 % A temporal entropy combination estimate from samples.
 %
 % I = entropy_combination_t(signalSet, rangeSet, 
-%       timeWindowRadius, lagSet, k, threads)
+%       timeWindowRadius, lagSet, k, filter, threads)
 %
 % where
 %
@@ -17,15 +17,6 @@
 % the factor by which the differential entropy is multiplied before
 % summing to the end-result.
 %
-% TIMEWINDOWRADIUS determines the radius of the time-window inside which
-% samples are taken into consideration to the mutual information
-% estimate at time instant t. The time-window at time instant t
-% is given by [t - timeWindowRadius, t + timeWindowRadius]. 
-% This allows the estimate to be adaptive to temporal changes in mutual 
-% information. If no such changes should happen, better accuracy can be 
-% achieved by either setting 'timeWindowRadius' to the number of samples 
-% or using the entropy_combination() function instead.
-%
 % LAGSET is an arbitrary-dimensional cell-array whose linearization 
 % contains p arrays of lags to apply to each signal. Each array of lags
 % is either a scalar, or has L elements, where L is the maximum number of 
@@ -34,32 +25,19 @@
 % array with L elements with the scalar as its elements.
 % Default: a (p x 1) cell-array of scalar zeros.
 %
-% K determines which k:th nearest neighbor the algorithm
-% uses for estimation. Default 1.
-%
-% THREADS determines the number of threads to use for parallelization.
-% To fully take advantage of multiple cores in your machine, set this
-% to the number of cores in your machine. Note however that this makes 
-% your computer unresponsive to other tasks. When you need responsiveness, 
-% spare one core for other work. Default maxNumCompThreads.
-%
-% Each signal is a real (m x n)-matrix that contains n samples of an
-% m-dimensional signal. The dimensions of the signals need not coincide.
-% However, the trials of a given signal must have equal dimension.
-% If the number of samples varies with trials, the function uses 
-% the minimum sample count among all the trials in SIGNALSET.
+% Type 'help tim_matlab' for more documentation.
 
 % Description: Temporal entropy combination estimation
 % Documentation: tim_matlab_matlab.txt
 
 function I = entropy_combination_t(signalSet, rangeSet, ...
-    timeWindowRadius, lagSet, k, threads)
+    timeWindowRadius, lagSet, k, filter, threads)
 
 if nargin < 3
     error('Not enough input arguments.');
 end
 
-if nargin > 6
+if nargin > 7
     error('Too many input arguments.');
 end
 
@@ -76,6 +54,10 @@ if nargin < 5
 end
 
 if nargin < 6
+	filter = [1]
+end
+
+if nargin < 7
     threads = maxNumCompThreads;
 end
 
@@ -127,6 +109,14 @@ if k < 1
     error('K must be at least 1.');
 end
 
+if ~isa(filter, 'double')
+	error('FILTER must be a real array')
+end
+
+if sum(filter(:)) == 0
+	error('FILTER must not sum to 0')
+end	
+
 if size(threads, 1) ~= 1 || ...
    size(threads, 2) ~= 1
     error('THREADS must be a scalar integer.');
@@ -152,5 +142,5 @@ for i = 1 : lags
     I(i, :) = tim_matlab(...
         'entropy_combination_t', ...
         signalSet, rangeSet, timeWindowRadius, ...
-        lagArray(:, i), k, threads);
+        lagArray(:, i), k, filter(:), threads);
 end

@@ -6,10 +6,9 @@
 %
 % where
 %
-% S is an arbitrary-dimensional cell-array whose linearization contains
-% q trials of a signal. A real array is interpreted as a cell-array 
-% containing one trial. Each signal is a real (m x n)-matrix that 
-% contains n samples of an m-dimensional signal.
+% S is a signal set.
+%
+% Type 'help tim_matlab' for documentation.
 
 % Description: Differential entropy estimation
 % Detail: Stowell-Plumbley recursive partition estimator

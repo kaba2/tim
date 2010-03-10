@@ -6,9 +6,7 @@
 %
 % where
 %
-% S is an arbitrary-dimensional cell-array whose linearization contains
-% q trials of a signal. Each signal is a real (m x n)-matrix that 
-% contains n samples of an m-dimensional signal.
+% S is a signal set.
 %
 % Q is the power in the definition Tsallis entropy.
 % In case Q = 1, differential_entropy_kl() is used to
@@ -21,11 +19,7 @@
 % is used. For accurate results one should choose 
 % kSuggestion >= 2 * ceil(q) - 1. Default 0.
 %
-% THREADS determines the number of threads to use for parallelization.
-% To fully take advantage of multiple cores in your machine, set this
-% to the number of cores in your machine. Note however that this makes 
-% your computer unresponsive to other tasks. When you need responsiveness, 
-% spare one core for other work. Default maxNumCompThreads.
+% Type 'help tim_matlab' for more documentation.
 
 % Description: Tsallis entropy estimation
 % Detail: Leonenko-Pronzato-Savani nearest neighbor estimator
