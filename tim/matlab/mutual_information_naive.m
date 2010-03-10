@@ -11,6 +11,8 @@
 % BINS determines the number of bins to use for 1d
 % distribution estimation. Default 100.
 %
+% Type 'help tim_matlab' for more documentation.
+
 % Description: Naive mutual information estimation
 % Documentation: tim_matlab_matlab.txt
 

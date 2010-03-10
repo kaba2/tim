@@ -7,26 +7,9 @@
 %
 % where
 %
-% S is an arbitrary-dimensional cell-array whose linearization contains
-% q trials of a signal. A real array is interpreted as a cell-array 
-% containing one trial. Each signal is a real (m x n)-matrix that 
-% contains n samples of an m-dimensional signal.
+% S is a signal set.
 %
-% TIMEWINDOWRADIUS determines the radius of the time-window in samples 
-% inside which samples are taken into consideration to the estimate at 
-% time instant t. This allows the estimate to be adaptive to temporal changes.
-% If no such changes should happen, better accuracy can be 
-% achieved by either setting 'timeWindowRadius' maximally wide
-% or by using the differential_entropy() function instead.
-%
-% K determines which k:th nearest neighbor the algorithm
-% uses for estimation. Default 1.
-%
-% THREADS determines the number of threads to use for parallelization.
-% To fully take advantage of multiple cores in your machine, set this
-% to the number of cores in your machine. Note however that this makes 
-% your computer unresponsive to other tasks. When you need responsiveness, 
-% spare one core for other work. Default maxNumCompThreads.
+% Type 'help tim_matlab' for more documentation.
 
 % Description: Temporal differential entropy estimation
 % Detail: Kozachenko-Leonenko nearest neighbor estimator

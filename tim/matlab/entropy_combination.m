@@ -24,24 +24,11 @@
 % array with L elements with the scalar as its elements.
 % Default: a (p x 1) cell-array of scalar zeros.
 %
-% K determines which k:th nearest neighbor the algorithm
-% uses for estimation. Default 1.
-%
-% THREADS determines the number of threads to use for parallelization.
-% To fully take advantage of multiple cores in your machine, set this
-% to the number of cores in your machine. Note however that this makes 
-% your computer unresponsive to other tasks. When you need responsiveness, 
-% spare one core for other work. Default maxNumCompThreads.
-%
 % I is a real (L x 1)-matrix of computed entropy combinations, where L is 
 % the number of specified lags. The I(i) corresponds to the entropy
 % combination estimate using the lag LAGSET{j}(i) for signal j.
 %
-% Each signal is a real (m x n)-matrix that contains n samples of an
-% m-dimensional signal. The dimensions of the signals need not coincide.
-% However, the trials of a given signal must have equal dimension.
-% If the number of samples varies with trials, the function uses 
-% the minimum sample count among all the trials in SIGNALSET.
+% Type 'help tim_matlab' for more documentation.
 
 % Description: Entropy combination estimation
 % Documentation: tim_matlab_matlab.txt

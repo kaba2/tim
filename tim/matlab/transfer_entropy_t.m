@@ -6,39 +6,9 @@
 %
 % where
 %
-% X, Y, and W are cell-arrays of arbitrary dimension whose linearizations
-% contain q trials of the signals X, Y, and W, respectively. A real array 
-% is interpreted as a cell-array containing one trial. 
+% X, Y, and W are signal sets.
 %
-% TIMEWINDOWRADIUS determines the radius of the time-window in samples 
-% inside which samples are taken into consideration to the estimate at 
-% time instant t. This allows the estimate to be adaptive to temporal changes.
-% If no such changes should happen, better accuracy can be 
-% achieved by either setting 'timeWindowRadius' maximally wide
-% or by using the transfer_entropy() function instead.
-%
-% XLAG, YLAG, and WLAG are the lags in samples applied to 
-% signals X, Y, and W, respectively. Each can be given either as a 
-% scalar or as an array. In case some of the lags are given as arrays, 
-% those arrays must have the same number of elements, and a scalar lag is 
-% interpreted as an array of the same size with the given value as 
-% elements. Default 0.
-%
-% K determines which k:th nearest neighbor the algorithm
-% uses for estimation. Default 1.
-%
-% THREADS determines the number of threads to use for parallelization.
-% To fully take advantage of multiple cores in your machine, set this
-% to the number of cores in your machine. Note however that this makes 
-% your computer unresponsive to other tasks. When you need responsiveness, 
-% spare one core for other work. Default maxNumCompThreads.
-%
-% Each signal is a real (m x n)-matrix that contains n samples of an
-% m-dimensional signal. The signals contained in X (or Y or W) 
-% must all have equal dimensionality, but their number of samples may vary. 
-% If the number of samples varies with trials, the function uses 
-% the minimum sample count among the trials of X, Y, and W.
-% The number of trials in X, Y, and W must be equal.
+% Type 'help tim_matlab' for more documentation.
 
 % Description: Temporal transfer entropy estimation
 % Documentation: tim_matlab_matlab.txt

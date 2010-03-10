@@ -11,20 +11,13 @@
 %
 % where
 %
+% S is a signal set.
+%
 % H is the differential entropy estimate of a random distribution
 % lieing on a d-dimensional differentiable manifold, where d is
 % also estimated from the data and is an integer.
 %
-% S is an arbitrary-dimensional cell-array whose linearization contains
-% q trials of a signal. A real array is interpreted as a cell-array 
-% containing one trial.Each signal is a real (m x n)-matrix that 
-% contains n samples of an m-dimensional signal.
-%
-% THREADS determines the number of threads to use for parallelization.
-% To fully take advantage of multiple cores in your machine, set this
-% to the number of cores in your machine. Note however that this makes 
-% your computer unresponsive to other tasks. When you need responsiveness, 
-% spare one core for other work. Default maxNumCompThreads.
+% Type 'help tim_matlab' for more documentation.
 
 % Description: Differential entropy estimation
 % Detail: Nilsson-Kleijn manifold nearest neighbor estimator

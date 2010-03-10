@@ -400,6 +400,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\tim_matlab.m"
+				>
+			</File>
+			<File
 				RelativePath=".\tim_matlab_matlab.txt"
 				>
 			</File>
