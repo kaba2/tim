@@ -9,19 +9,36 @@ to concentrate on a smaller piece of the time series at a
 given time instant and no samples are used for the estimation 
 beyond the time-window. 
 
-[[Comment]]:
-	### Temporal weighting functions
+### Temporal weighting functions
 
-	TIM allows the user to specify the weighting of the samples 
-	inside the time-window: for a given time instant it makes 
-	sense to give more weight to those samples near in time compared 
-	to those far away. Using a weighting function which is continuous 
-	and goes to zero at the window edges turns the temporal estimate 
-	into a continuous function of time.
-	There is only one requirement for a weighting function:
-	the weights inside the time-window must sum to a non-zero value.
-	This sum-value need not be 1, because TIM divides the weighting
-	values by the sum-value.
+TIM allows the user to specify a weighting function, 
+also called a _filter_, for the samples inside a time-window.
+The weighting function allows, for example, to give more weight to 
+those samples near in time compared to those far away. Using a 
+weighting function which is continuous and goes to zero at the 
+window edges turns the temporal estimate into a continuous 
+function of time. There is only one requirement for a weighting 
+function: the weights inside the time-window must sum to a non-zero 
+value. This sum-value need not be 1, because TIM divides the weighting
+values by the sum-value. The weighting function is centered on the 
+current time instant.
+
+The default weighting function in TIM is the dirac delta, which is
+1 for the samples at the current time instant, and (implicitly) 0 
+for other time instants. This results in an estimator which is
+very efficient to evaluate, but has high variance. To lower the
+variance one can average (low-pass filter) the output as a 
+post-process. This combined process is a rough approximation of what
+TIM does when a wider weighting function is provided. One should note 
+that in this post-process the actual time-window of samples from which 
+the estimates are dependent on grows.
+
+The use of wider weighting functions gives more accurate estimates.
+However, the run-times of the temporal estimators are dependent on the 
+size of support of the weighting function. The needs in accuracy and 
+performance can be balanced with a hybrid approach of using a moderately 
+wide weighting function and then taking out the rest of the variance with 
+a small post-processing filter.
 
 ### Output of temporal entropy combination estimators
 
@@ -36,4 +53,29 @@ and after the temporal estimates. The less the signals have
 common in time, the less the temporal estimates and the more the NaNs.
 The first element of the output array always corresponds to time
 instant 0.
+
+#### Example
+
+To illustrate, consider the following 1D signal:
+
+	>> A = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+	
+We will now compute the temporal mutual information of A with a 
+2 positions delayed version of itself:
+
+	>> mutual_information_t(A, A, 2, 0, 2)
+	
+This results in:
+
+	NaN NaN 1.5000 1.8333 2.0833 2.0833 2.0833 2.0833 1.8333 1.5000
+
+To see where the NaNs come from, consider the involved signals
+written matched in time:
+
+	0 1 2 3 4 5 6 7 8 9
+	    0 1 2 3 4 5 6 7 8 9
+
+The entropy combination is defined only on that time interval where
+all signals are present, which in this case is [2, 9]. Thus the
+first two elements are given NaNs.
 
