@@ -5,4 +5,8 @@ More news
 
 ### 13.1.2010 - Released version 1.0.0
 
- * Initial release
+ * Initial release.
+ * Source built over Pastel 1.0.
+ * Documentation built over Remark 1.0.
+ 
+ 

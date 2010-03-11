@@ -69,16 +69,21 @@ News
  large errors in entropy estimators to be of use. You
  will need to remove this argument from calls to
  `differential_entropy_kl` and `differential_entropy_kl_t`.
- 
  * The now-introduced padded NaNs in temporal estimates 
  might make your current subsequent computations fail. 
- 
  * In TIM Matlab, the new `filter` parameter has been
  inserted before the `threads`. If you used the `threads`
  parameter, you will need the add the `filter` argument
  before it.
 
+#### Other stuff
+
+ * Source built over [Pastel][] 1.1. 
+ * Documentation built over [Remark][] 1.2.
+
 [[Link]]: more_news.txt
+
+[Remark]: http://kaba.hilvi.org/remark
 
 Software
 --------
