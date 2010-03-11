@@ -129,13 +129,13 @@ you to use these browsers to view these pages.
 Acknowledgements
 ----------------
 
-The development of TIM has been financially supported 
-by the EU project _GABA_ (FP6-2005-NEST-Path 043309).
+The version 1.0 of TIM was programmed under funding from the EU project 
+_GABA_ (FP6-2005-NEST-Path 043309).
 
 [Global Approach to Brain Activity: From Cognition to Disease][GABA]
 
-TIM Console interface was programmed under funding from the 
-[Finnish Foundation for Technology Promotion][TES]
+TIM Console interface and the update from version 1.0 to 1.1 were programmed 
+under funding from the [Finnish Foundation for Technology Promotion][TES]
 
 [German Gomez-Herrero][German] provided substantial amount of beta testing, feedback, 
 and guidance during the development. He is also the driving force behind the 
