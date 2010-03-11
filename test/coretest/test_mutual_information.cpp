@@ -313,11 +313,26 @@ namespace
 			0, 99, 1);
 	}
 
+	void testTemporal()
+	{
+		//SignalPtr signal(new Signal(10, 1));
+		//StdExt::copy_n(countingIterator(0), 10, signal->data().begin());
+		SignalPtr signal = generateGaussian(10, 1);
+		real filter[] = {0.25, 0.5, 1, 0.5, 0.25};
+		temporalMutualInformation(
+			constantRange(signal, 2),
+			constantRange(signal, 2),
+			2, NullIterator(),
+			0, 0, 1,
+			forwardRange(filter));
+	}
+
 	void testAdd()
 	{
 		timTestList().add("mutual_information", testMutualInformation);
 		timTestList().add("mi_timing", testTiming);
 		timTestList().add("mi_boundary_lag", testBoundaryLag);
+		timTestList().add("mi_temporal", testTemporal);
 	}
 
 	CallFunction run(testAdd);

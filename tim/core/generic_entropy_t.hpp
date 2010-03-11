@@ -18,9 +18,6 @@
 namespace Tim
 {
 
-	// Temporal generic entropy
-	// ------------------------
-
 	template <
 		typename SignalPtr_Iterator, 
 		typename EntropyAlgorithm,
@@ -97,7 +94,7 @@ namespace Tim
 		// know how else this could be done.
 
 		Array<real, 2> distanceArray(1, maxLocalFilterWidth * trials);
-		std::deque<real> hintDistanceSet(
+		std::vector<real> hintDistanceSet(
 			maxLocalFilterWidth * trials, infinity<real>());
 
 		SignalPointSet pointSet(signalSet);
@@ -116,7 +113,8 @@ namespace Tim
 			const integer tWidth = tEnd - tBegin;
 			const integer tLocalFilterBegin = std::max(t - filterRadius, tBegin) - tBegin;
 			const integer tLocalFilterEnd = std::min(t + filterRadius + 1, tEnd) - tBegin;
-			const integer tFilterDelta = std::max(t - filterRadius, tBegin) - (t - filterRadius);
+			const integer tFilterDelta = tBegin - (t - filterRadius);
+			const integer tFilterOffset = std::max(tFilterDelta, 0);
 			const integer windowSamples = (tLocalFilterEnd - tLocalFilterBegin) * trials;
 			
 			// For each point at the current time instant in all
@@ -144,15 +142,20 @@ namespace Tim
 				entropyAlgorithm.normBijection(),
 				randomAccessRange(hintDistanceSet.begin(), windowSamples));
 
-			if (tFilterDelta == 0)
+			// Move the hint distances to the next time instant.
+			// The point here is to make use of temporal coherence:
+			// with high probability the nearest neighbors do not
+			// change when moving from a time instant to another.
+			// Thus the previous time instant hints a probable
+			// distance under which the neighbor is found.
+			if (tFilterOffset == 0)
 			{
-				// Shift the hint distances to the left
-				// for the next time instant.
-				for (integer i = 0;i < trials;++i)
-				{
-					hintDistanceSet.push_back(infinity<real>());
-					hintDistanceSet.pop_front();
-				}
+				StdExt::copy_n(distanceArray.begin() + trials, windowSamples - trials, hintDistanceSet.begin());
+				std::fill_n(hintDistanceSet.begin() + windowSamples - trials, trials, infinity<real>());
+			}
+			else
+			{
+				StdExt::copy_n(distanceArray.begin(), windowSamples, hintDistanceSet.begin());
 			}
 
 			// After we have found the distances, we simply evaluate
@@ -160,7 +163,7 @@ namespace Tim
 			// the current time instant.
 
 			real weightSum = 0;
-			const integer filterOffset = tFilterDelta * trials;
+			const integer filterOffset = tFilterOffset * trials;
 			real estimate = 0;
 			for (integer i = 0;i < windowSamples;++i)
 			{

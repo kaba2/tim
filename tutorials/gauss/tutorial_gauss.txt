@@ -12,9 +12,7 @@ which is included in [TIM Matlab interface][tim-matlab].
 Tutorial files
 ---------------
 
-Here we provide the Matlab scripts that are used in this tutorial. We also 
-include pre-computed results for each step of the tutorial (time-series 
-generation, partial transfer entropy computation, final analysis figures). 
+Here we provide the Matlab scripts that are used in this tutorial. 
 
 [Download tutorial files][tutorial-gauss-files]
 
@@ -44,12 +42,9 @@ factors:
 
 ''\kappa_{zy}[n]={(\cos(0.004\pi n), for 750 <= n <=1250),(0,otherwise):}''
 
+The following function generates these time-series:
 
-You could write yourself a Matlab script to generate these time-series. 
-We have done this for you so you just need to type the following Matlab 
-command:
-
-	>> load gaussian_process;
+	>> data = tutorial_gauss_data();
 
 This loads a cell-array `data` of dimensions 3 x 50. The rows of this 
 cell array correspond to the x, y, and z time-series and the columns 
@@ -70,12 +65,12 @@ time-series, which can be done using delay embedding:
 
 [delayembed]: delay_embed.htm
 
+	>> k = 1, tau = 1;
+	>> Sx = delay_embed(data(1, :), k, tau);
+	>> Sy = delay_embed(data(2, :), k, tau);
+	>> Sz = delay_embed(data(3, :), k, tau);
 
-	>> Sx = delay_embed(data(1,:), dim, tau);
-	>> Sy = delay_embed(data(2,:), dim, tau);
-	>> Sz = delay_embed(data(3,:), dim, tau);
-
-where `dim` and `tau` are the embedding dimension and the embedding delay, 
+where `k` and `tau` are the embedding factor and the embedding delay, 
 respectively. Choosing the right embedding parameters can be a tricky 
 issue. The simplest way is to take `tau = 1` and successively embed in 
 higher dimensions until the results of the analysis are consistent. 
@@ -84,7 +79,7 @@ that you may want to try. For a comprehensive review on delay embedding
 and state-space reconstruction, we recommend you [this book][kantzbook] 
 by [Holger Kantz][kantz] and [Thomas Shreiber][schreiber], two well-known 
 experts in the field. In our case, the default choice of `tau = 1` and 
-`dim = 1` will produce satisfactory results, as we will see later. 
+`k = 1` will produce satisfactory results, as we will see later.
 
 [embeddingbookchapter]: http://www.worldscibooks.com/etextbook/5722/5722_chap1.pdf
 [kantz]:  http://www.mpipks-dresden.mpg.de/~kantz/
@@ -116,15 +111,15 @@ step, we further define the following lambda function:
 We are now ready to measure information flow e.g. from system `Sx` towards 
 system `Sy` using the partial transfer entropy (PTE):
 
-	>> W = delay_embed_future(Sy);
-	pte21 = estimator_smooth([Sy;Sx;Sz;W], 9);
+	>> W = delay_embed_future(Sy, k, tau);
+	>> pte21 = estimator_smooth([Sy;Sx;Sz;W], 9);
 
 where the first command builds the future of `Sy`. The delay of `Sx` should 
-be such that the mutual information with W is maximized. By construction of 
+be such that the mutual information with `W` is maximized. By construction of 
 our toy dataset, the lag that optimally aligns `Sx` and `W` is equal to 
-''\tau_{yx}-1=9'' samples. If you do not know the optimum value a priori then 
+''tau_{yx} - 1 = 9'' samples. If you do not know the optimum value a priori then 
 you should compute the mutual information between `Sx` and `W` for multiple 
-candidate lags using function [[FileLink: mutual_information.m]].
+candidate lags using the function [[FileLink: mutual_information.m]].
 
 Assessing significance
 ----------------------
@@ -162,7 +157,7 @@ let us assume that `r = 2` in the equation describing the dynamics of
 our simulated dataset. Then, an uncoupled surrogate of our original 
 time-series would be:
 
-	surrogate = {Sx{1,1} Sx{1,2};Sy{1,2} Sy{1,1};Sz{1,1} Sz{1,2}}
+	>> surrogate = {Sx{1,1} Sx{1,2};Sy{1,2} Sy{1,1};Sz{1,1} Sz{1,2}}
 
 Since `Sx{1,1}` and `Sy{1,2}` correspond to different data trials, we 
 know for sure that they do not exchange information. At the same time, 
@@ -178,7 +173,7 @@ determine the significance threshold is a type of
 Determining the significance threshold can be easily done with 
 [TIM Matlab][tim-matlab] using the following commands:
 
-	pte21_sig = permutation_test([Sy; Sx; Sz; W], [1 2 1 1], ...
+	>> pte21_sig = permutation_test([Sy; Sx; Sz; W], [1 2 1 1], ...
 		@(x) estimator_smooth(x, 9), 0.05);
 
 The last input parameter to function [[FileLink: permutation_test.m]] is 
