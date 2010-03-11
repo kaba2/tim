@@ -1,5 +1,4 @@
 // Description: Estimation of entropy combinations
-// Detail: Both temporal and non-temporal variants
 
 #ifndef TIM_ENTROPY_COMBINATION_H
 #define TIM_ENTROPY_COMBINATION_H
