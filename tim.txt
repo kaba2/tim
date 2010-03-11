@@ -62,7 +62,7 @@ News
  * Added support for the generalized versions
  of the temporal estimators.
 
-### Breaking changes
+#### Breaking changes
 
  * Removed the parameter to specify maximum relative 
  error in nearest neighbors searching because of too 
