@@ -14,7 +14,7 @@
 % 'timeWindowRadius'
 % 'threads'
 
-% Description: Checks a filter for basic validity
+% Description: Checks a variable for validity
 % Documentation: tim_matlab_matlab.txt
 
 function check_variable(X, check)
@@ -27,7 +27,7 @@ if strcmp(check, 'filter')
 	end
 
 	if mod(numel(X), 2) == 0
-		error('FILTER must have odd number of elements.');
+		error('FILTER must have an odd number of elements.');
 	end	
 
 	if sum(X(:)) == 0

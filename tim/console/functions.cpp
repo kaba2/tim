@@ -532,7 +532,8 @@ namespace Tim
 			{
 				cellIndex,
 				timeWindowRadiusIndex,
-				kNearestIndex
+				kNearestIndex,
+				filterIndex
 			};
 
 			const CellPtr cell = 
@@ -541,6 +542,8 @@ namespace Tim
 				boost::any_cast<integer>(argSet[timeWindowRadiusIndex]);;
 			const integer kNearest = 
 				boost::any_cast<integer>(argSet[kNearestIndex]);
+			const SignalPtr filter =
+				boost::any_cast<SignalPtr>(argSet[filterIndex]);
 			
 			// Check parameters.
 
@@ -554,6 +557,12 @@ namespace Tim
 			if (kNearest < 1)
 			{
 				reportError("kNearest must be at least 1.");
+				error = true;
+			}
+
+			if (!odd(filter->data().size()))
+			{
+				reportError("The number of elements in filter must be odd.");
 				error = true;
 			}
 			
@@ -570,7 +579,9 @@ namespace Tim
 				forwardRange(cell->begin(), cell->end()),
 				timeWindowRadius,
 				std::back_inserter(deSet),
-				kNearest);
+				kNearest,
+				Default_NormBijection(),
+				forwardRange(filter->data().begin(), filter->data().end()));
 				
 			SignalPtr signal = SignalPtr(new Signal(deSet.size(), 1));
 			std::copy(deSet.begin(), deSet.end(),
@@ -672,7 +683,8 @@ namespace Tim
 				cellIndex,
 				timeWindowRadiusIndex,
 				qIndex,
-				kNearestIndex
+				kNearestIndex,
+				filterIndex
 			};
 
 			const CellPtr cell = 
@@ -683,6 +695,8 @@ namespace Tim
 				boost::any_cast<real>(argSet[qIndex]);
 			const integer kNearest = 
 				boost::any_cast<integer>(argSet[kNearestIndex]);
+			const SignalPtr filter =
+				boost::any_cast<SignalPtr>(argSet[filterIndex]);
 			
 			// Check parameters.
 
@@ -705,6 +719,12 @@ namespace Tim
 				error = true;
 			}
 			
+			if (!odd(filter->data().size()))
+			{
+				reportError("The number of elements in filter must be odd.");
+				error = true;
+			}
+
 			if (error)
 			{
 				throw FunctionCall_Exception();
@@ -719,7 +739,8 @@ namespace Tim
 				timeWindowRadius,
 				std::back_inserter(deSet),
 				q,
-				kNearest);
+				kNearest,
+				forwardRange(filter->data().begin(), filter->data().end()));
 				
 			SignalPtr signal = SignalPtr(new Signal(deSet.size(), 1));
 			std::copy(deSet.begin(), deSet.end(),
@@ -785,7 +806,8 @@ namespace Tim
 				cellIndex,
 				timeWindowRadiusIndex,
 				qIndex,
-				kNearestIndex
+				kNearestIndex,
+				filterIndex
 			};
 
 			const CellPtr cell = 
@@ -796,6 +818,8 @@ namespace Tim
 				boost::any_cast<real>(argSet[qIndex]);
 			const integer kNearest = 
 				boost::any_cast<integer>(argSet[kNearestIndex]);
+			const SignalPtr filter =
+				boost::any_cast<SignalPtr>(argSet[filterIndex]);
 			
 			// Check parameters.
 
@@ -817,6 +841,12 @@ namespace Tim
 				reportError("kNearest must be at least 1.");
 				error = true;
 			}
+
+			if (!odd(filter->data().size()))
+			{
+				reportError("The number of elements in filter must be odd.");
+				error = true;
+			}
 			
 			if (error)
 			{
@@ -832,7 +862,8 @@ namespace Tim
 				timeWindowRadius,
 				std::back_inserter(deSet),
 				q,
-				kNearest);
+				kNearest,
+				forwardRange(filter->data().begin(), filter->data().end()));
 				
 			SignalPtr signal = SignalPtr(new Signal(deSet.size(), 1));
 			std::copy(deSet.begin(), deSet.end(),
@@ -852,7 +883,8 @@ namespace Tim
 				timeWindowRadiusIndex,
 				xLagIndex,
 				yLagIndex,
-				kNearestIndex
+				kNearestIndex,
+				filterIndex
 			};
 
 			const CellPtr xCell = 
@@ -867,6 +899,8 @@ namespace Tim
 				boost::any_cast<integer>(argSet[yLagIndex]);
 			const integer kNearest = 
 				boost::any_cast<integer>(argSet[kNearestIndex]);
+			const SignalPtr filter =
+				boost::any_cast<SignalPtr>(argSet[filterIndex]);
 
 			// Check parameters.
 			
@@ -883,6 +917,12 @@ namespace Tim
 				error = true;
 			}
 			
+			if (!odd(filter->data().size()))
+			{
+				reportError("The number of elements in filter must be odd.");
+				error = true;
+			}
+
 			if (error)
 			{
 				throw FunctionCall_Exception();
@@ -898,7 +938,8 @@ namespace Tim
 				timeWindowRadius,
 				std::back_inserter(miSet),
 				xLag, yLag,
-				kNearest);
+				kNearest,
+				forwardRange(filter->data().begin(), filter->data().end()));
 				
 			SignalPtr signal = SignalPtr(new Signal(miSet.size(), 1));
 			std::copy(miSet.begin(), miSet.end(),
@@ -969,7 +1010,8 @@ namespace Tim
 				xLagIndex,
 				yLagIndex,
 				zLagIndex,
-				kNearestIndex
+				kNearestIndex,
+				filterIndex
 			};
 
 			const CellPtr xCell = 
@@ -988,6 +1030,8 @@ namespace Tim
 				boost::any_cast<integer>(argSet[zLagIndex]);
 			const integer kNearest = 
 				boost::any_cast<integer>(argSet[kNearestIndex]);
+			const SignalPtr filter =
+				boost::any_cast<SignalPtr>(argSet[filterIndex]);
 			
 			// Check parameters.
 
@@ -1004,6 +1048,12 @@ namespace Tim
 				error = true;
 			}
 			
+			if (!odd(filter->data().size()))
+			{
+				reportError("The number of elements in filter must be odd.");
+				error = true;
+			}
+
 			if (error)
 			{
 				throw FunctionCall_Exception();
@@ -1020,7 +1070,8 @@ namespace Tim
 				timeWindowRadius,
 				std::back_inserter(miSet),
 				xLag, yLag, zLag,
-				kNearest);
+				kNearest,
+				forwardRange(filter->data().begin(), filter->data().end()));
 				
 			SignalPtr signal = SignalPtr(new Signal(miSet.size(), 1));
 			std::copy(miSet.begin(), miSet.end(),
@@ -1098,7 +1149,8 @@ namespace Tim
 				xLagIndex,
 				yLagIndex,
 				wLagIndex,
-				kNearestIndex
+				kNearestIndex,
+				filterIndex
 			};
 
 			const CellPtr xCell = 
@@ -1117,6 +1169,8 @@ namespace Tim
 				boost::any_cast<integer>(argSet[wLagIndex]);
 			const integer kNearest = 
 				boost::any_cast<integer>(argSet[kNearestIndex]);
+			const SignalPtr filter =
+				boost::any_cast<SignalPtr>(argSet[filterIndex]);
 			
 			// Check parameters.
 
@@ -1133,6 +1187,12 @@ namespace Tim
 				error = true;
 			}
 			
+			if (!odd(filter->data().size()))
+			{
+				reportError("The number of elements in filter must be odd.");
+				error = true;
+			}
+
 			if (error)
 			{
 				throw FunctionCall_Exception();
@@ -1149,7 +1209,8 @@ namespace Tim
 				timeWindowRadius,
 				std::back_inserter(teSet),
 				xLag, yLag, wLag,
-				kNearest);
+				kNearest,
+				forwardRange(filter->data().begin(), filter->data().end()));
 				
 			SignalPtr signal = SignalPtr(new Signal(teSet.size(), 1));
 			std::copy(teSet.begin(), teSet.end(),
@@ -1173,7 +1234,8 @@ namespace Tim
 				yLagIndex,
 				zLagIndex,
 				wLagIndex,
-				kNearestIndex
+				kNearestIndex,
+				filterIndex
 			};
 
 			const CellPtr xCell = 
@@ -1196,6 +1258,8 @@ namespace Tim
 				boost::any_cast<integer>(argSet[wLagIndex]);
 			const integer kNearest = 
 				boost::any_cast<integer>(argSet[kNearestIndex]);
+			const SignalPtr filter =
+				boost::any_cast<SignalPtr>(argSet[filterIndex]);
 
 			// Check parameters.
 
@@ -1212,6 +1276,12 @@ namespace Tim
 				error = true;
 			}
 			
+			if (!odd(filter->data().size()))
+			{
+				reportError("The number of elements in filter must be odd.");
+				error = true;
+			}
+
 			if (error)
 			{
 				throw FunctionCall_Exception();
@@ -1229,7 +1299,8 @@ namespace Tim
 				timeWindowRadius,
 				std::back_inserter(teSet),
 				xLag, yLag, zLag, wLag,
-				kNearest);
+				kNearest,
+				forwardRange(filter->data().begin(), filter->data().end()));
 				
 			SignalPtr signal = SignalPtr(new Signal(teSet.size(), 1));
 			std::copy(teSet.begin(), teSet.end(),
@@ -1423,6 +1494,9 @@ namespace Tim
 				return;
 			}
 
+			SignalPtr filter(new Signal(1, 1));
+			filter->data()(0) = 1;
+
 			// delay_embed
 			{
 				boost::any parameterSet[] =
@@ -1578,7 +1652,9 @@ namespace Tim
 					// timeWindowRadius
 					boost::any((integer)0),
 					// kNearest
-					boost::any((integer)1)
+					boost::any((integer)1),
+					// filter
+					boost::any(filter)
 				};
 			
 				functionMap.insert(
@@ -1636,7 +1712,9 @@ namespace Tim
 					// q
 					boost::any((real)2),
 					// kNearestSuggestion
-					boost::any((integer)0)
+					boost::any((integer)0),
+					// filter
+					boost::any(filter)
 				};
 			
 				functionMap.insert(
@@ -1678,7 +1756,9 @@ namespace Tim
 					// q
 					boost::any((real)2),
 					// kNearestSuggestion
-					boost::any((integer)0)
+					boost::any((integer)0),
+					// filter
+					boost::any(filter)
 				};
 			
 				functionMap.insert(
@@ -1722,7 +1802,9 @@ namespace Tim
 					// yLag
 					boost::any((integer)0),
 					// kNearest
-					boost::any((integer)1)
+					boost::any((integer)1),
+					// filter
+					boost::any(filter)
 				};
 			
 				functionMap.insert(
@@ -1776,7 +1858,9 @@ namespace Tim
 					// zLag
 					boost::any((integer)0),
 					// kNearest
-					boost::any((integer)1)
+					boost::any((integer)1),
+					// filter
+					boost::any(filter)
 				};
 			
 				functionMap.insert(
@@ -1834,7 +1918,9 @@ namespace Tim
 					// wLag
 					boost::any((integer)0),
 					// kNearest
-					boost::any((integer)1)
+					boost::any((integer)1),
+					// filter
+					boost::any(filter)
 				};
 			
 				functionMap.insert(
@@ -1868,7 +1954,9 @@ namespace Tim
 					// wLag
 					boost::any((integer)0),
 					// kNearest
-					boost::any((integer)1)
+					boost::any((integer)1),
+					// filter
+					boost::any(filter)
 				};
 			
 				functionMap.insert(

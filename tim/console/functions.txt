@@ -34,7 +34,7 @@ The function definitions are given in the following form:
 		t0 = 0 : integer,
 		dt = 1 : integer) : signal
 		
-See [[Link: ../core/embed.txt]].
+See [[Link: embed.txt]].
 
 ### Import functions
 
@@ -135,12 +135,13 @@ is prefixed with '{' and suffixed with '}'.
 	differential_entropy_kl_t(
 		S : cell-array, 
 		timeWindowRadius : integer, 
-		kNearest = 1 : integer) : real-array
+		kNearest = 1 : integer,
+		filter = [1] : real-array) : real-array
 	
 	differential_entropy_nk(
 		S : cell-array) : real-array
 	
-See [[Link: ../core/differential_entropy.txt]].
+See [[Link: differential_entropy.txt]].
 
 ### Renyi entropy
 
@@ -153,9 +154,10 @@ See [[Link: ../core/differential_entropy.txt]].
 		S : cell-array,
 		timeWindowRadius : integer,
 		q = 2.0 : real,
-		kNearestSuggestion = 0 : integer) : real-array
+		kNearestSuggestion = 0 : integer,
+		filter = [1] : real-array) : real-array
 
-See [[Link: ../core/renyi_entropy.txt]].
+See [[Link: renyi_entropy.txt]].
 
 ### Tsallis entropy
 
@@ -168,9 +170,10 @@ See [[Link: ../core/renyi_entropy.txt]].
 		S : cell-array,
 		timeWindowRadius : integer,
 		q = 2.0 : real,
-		kNearestSuggestion = 0 : integer) : real-array
+		kNearestSuggestion = 0 : integer,
+		filter = [1] : real-array) : real-array
 
-See [[Link: ../core/tsallis_entropy.txt]].
+See [[Link: tsallis_entropy.txt]].
 
 ### Divergence	
 
@@ -178,7 +181,7 @@ See [[Link: ../core/tsallis_entropy.txt]].
 		X : cell-array, 
 		Y : cell-array) : real
 
-See [[Link: ../core/divergence.txt]].
+See [[Link: divergence.txt]].
 	
 ### Mutual information
 	
@@ -195,9 +198,10 @@ See [[Link: ../core/divergence.txt]].
 		timeWindowRadius : integer,
 		xLag = 0 : integer,
 		yLag = 0 : integer,
-		kNearest = 1 : integer) : real_array
+		kNearest = 1 : integer,
+		filter = [1] : real-array) : real_array
 
-See [[Link: ../core/mutual_information.txt]].
+See [[Link: mutual_information.txt]].
 
 ### Partial mutual information
 
@@ -218,9 +222,10 @@ See [[Link: ../core/mutual_information.txt]].
 		xLag = 0 : integer,
 		yLag = 0 : integer,
 		zLag = 0 : integer,
-		kNearest = 1 : integer) : real_array
+		kNearest = 1 : integer,
+		filter = [1] : real-array) : real_array
 
-See [[Link: ../core/partial_mutual_information.txt]].
+See [[Link: partial_mutual_information.txt]].
 
 ### Transfer entropy
 
@@ -241,9 +246,10 @@ See [[Link: ../core/partial_mutual_information.txt]].
 		xLag = 0 : integer,
 		yLag = 0 : integer,
 		wLag = 0 : integer,
-		kNearest = 1 : integer) : real_array
+		kNearest = 1 : integer,
+		filter = [1] : real-array) : real_array
 
-See [[Link: ../core/transfer_entropy.txt]].
+See [[Link: transfer_entropy.txt]].
 
 ### Partial transfer entropy
 
@@ -268,6 +274,7 @@ See [[Link: ../core/transfer_entropy.txt]].
 		yLag = 0 : integer,
 		zLag = 0 : integer,
 		wLag = 0 : integer,
-		kNearest = 1 : integer) : real_array
+		kNearest = 1 : integer,
+		filter = [1] : real-array) : real_array
 
-See [[Link: ../core/partial_transfer_entropy.txt]].
+See [[Link: partial_transfer_entropy.txt]].
