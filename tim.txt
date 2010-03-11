@@ -66,7 +66,17 @@ News
 
  * Removed the parameter to specify maximum relative 
  error in nearest neighbors searching because of too 
- large errors in entropy estimators to be of use.
+ large errors in entropy estimators to be of use. You
+ will need to remove this argument from calls to
+ `differential_entropy_kl` and `differential_entropy_kl_t`.
+ 
+ * The now-introduced padded NaNs in temporal estimates 
+ might make your current subsequent computations fail. 
+ 
+ * In TIM Matlab, the new `filter` parameter has been
+ inserted before the `threads`. If you used the `threads`
+ parameter, you will need the add the `filter` argument
+ before it.
 
 [[Link]]: more_news.txt
 
@@ -148,3 +158,19 @@ idea of creating TIM, having created a similar library in Matlab himself.
 [[add_outer DocChildren.no_links_for]]: 
 	more_news.txt
 	previous_releases.txt
+
+[[Comment]]:
+	The following is a javascript for Google Analytics by which we can
+	monitor the visitor statistics of the TIM homepage.
+
+[[Html]]:
+	<script type="text/javascript">
+	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+	try {
+	var pageTracker = _gat._getTracker("UA-15174506-1");
+	pageTracker._trackPageview();
+	} catch(err) {}</script>
+
