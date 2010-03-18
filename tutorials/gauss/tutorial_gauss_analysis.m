@@ -33,7 +33,7 @@ LAG21 = 9;
 LAG32 = 14;
 LAG31 = 24;
 FILTER_ORDER = 20;   % order of the post-processing moving average filter
-ALPHA = 0.05;        % significance level
+ALPHA = 0.1;        % significance level
 
 if nargin < 1 || isempty(data),
     s = load(IN_FILE);

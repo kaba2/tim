@@ -5,8 +5,8 @@ Previous releases
 
 This page contains the previously released versions of TIM.
 
-Version 1.0.2
--------------
+Version 1.0
+-----------
 
 [Download TIM Source 1.0.2][TIM-Source-1.0.2]
 

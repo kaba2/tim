@@ -3,6 +3,11 @@ TIM Console interface
 
 [[Parent]]: tim.txt
 
+_Note: In case you came to this page directly, 
+TIM Console can be downloaded from [TIM's main page][TIM]_.
+
+[TIM]: [[Ref: tim.txt]]
+
 The TIM Console interface is one of the three ways to access the 
 functionality in TIM. This interface offers a minimalistic 
 programming language to specify data as well as to compute the 

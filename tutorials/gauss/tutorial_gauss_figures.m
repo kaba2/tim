@@ -39,11 +39,7 @@ if nargin < 2 || isempty(compact_flag),
 end
 
 if nargin < 1 || isempty(results),
-    if avg_flag,
-        s = load([IN_FILE '_avg.mat']);
-    else
-        s = load([IN_FILE '.mat']);
-    end
+    s = load([IN_FILE '.mat']);
     results = s.results;
 elseif ischar(data),
     s = load(data);

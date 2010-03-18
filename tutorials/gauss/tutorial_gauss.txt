@@ -18,6 +18,16 @@ Here we provide the Matlab scripts that are used in this tutorial.
 
 [tutorial-gauss-files]: files/tutorial-gauss-1.2.0.zip
 
+We have implemented all the tutorial steps in just three
+Matlab functions: [[FileLink: tutorial_gauss_data.m]], 
+[[FileLink: tutorial_gauss_analysis.m]], and [[FileLink: tutorial_gauss_figures.m]].
+These functions generate the data, perform the connectivity analysis, and 
+generate the figures, respectively. You can obviously reproduce the final
+results of the tutorial by simply running those three files. However, the
+purpose of this tutorial is to teach you how to perform the connectivity
+analysis yourself. That is why we will ignore function 
+[[FileLink: tutorial_gauss_analysis.m]] until the end of this tutorial.
+
 Data generation
 ---------------
 
@@ -50,27 +60,24 @@ This loads a cell-array `data` of dimensions 3 x 50. The rows of this
 cell array correspond to the x, y, and z time-series and the columns 
 contain different random repetitions. 
 
-Measuring information transfer
+State-space reconstruction
 ------------------------------
 
 Let us assume that we have measured ''x^{(r)}[n]'', ''y^{(r)}[n]'' and 
 ''z^{(r)}[n]'' and that we want to infer the underlying connectivity 
 pattern and the corresponding 
-coupling dynamics. 
-
-### State-space reconstruction
-
-Before anything else, we have to reconstruct the state-space of these scalar 
-time-series, which can be done using delay embedding:
+coupling dynamics. Before anything else, we have to reconstruct the
+state-space of these scalar time-series, which can be done using delay
+embedding:
 
 [delayembed]: delay_embed.htm
 
-	>> k = 1, tau = 1;
-	>> Sx = delay_embed(data(1, :), k, tau);
-	>> Sy = delay_embed(data(2, :), k, tau);
-	>> Sz = delay_embed(data(3, :), k, tau);
+	>> dim = 1, tau = 1;
+	>> Sx = delay_embed(data(1, :), dim, tau);
+	>> Sy = delay_embed(data(2, :), dim, tau);
+	>> Sz = delay_embed(data(3, :), dim, tau);
 
-where `k` and `tau` are the embedding factor and the embedding delay, 
+where `dim` and `tau` are the embedding dimension and the embedding delay, 
 respectively. Choosing the right embedding parameters can be a tricky 
 issue. The simplest way is to take `tau = 1` and successively embed in 
 higher dimensions until the results of the analysis are consistent. 
@@ -79,14 +86,21 @@ that you may want to try. For a comprehensive review on delay embedding
 and state-space reconstruction, we recommend you [this book][kantzbook] 
 by [Holger Kantz][kantz] and [Thomas Shreiber][schreiber], two well-known 
 experts in the field. In our case, the default choice of `tau = 1` and 
-`k = 1` will produce satisfactory results, as we will see later.
+`dim = 1` will produce satisfactory results, as we will see later.
 
 [embeddingbookchapter]: http://www.worldscibooks.com/etextbook/5722/5722_chap1.pdf
 [kantz]:  http://www.mpipks-dresden.mpg.de/~kantz/
 [schreiber]: http://www.mpipks-dresden.mpg.de/~schreibe/ 
 [kantzbook]: http://books.google.fi/books?id=RfQjAG2pKMUC&lpg=PP1&hl=en&pg=PP1#v=onepage&q=&f=false
 
-## Lambda functions
+
+Measuring information transfer
+------------------------------
+
+In this section we will perform the actual coupling analysis between
+the state-spaces that were generated in the previous section.
+
+### Lambda functions
 
 For convenience, we shall define a lambda function (or `function_handle` 
 in Matlab's terminology) as follows:
@@ -106,12 +120,12 @@ step, we further define the following lambda function:
 
 	estimator_smooth = @(x, lag) filter(1/20*ones(1,20), 1, estimator(x,lag), [], 2);
 	
-## Partial transfer entropy	
+### Partial transfer entropy	
 
 We are now ready to measure information flow e.g. from system `Sx` towards 
 system `Sy` using the partial transfer entropy (PTE):
 
-	>> W = delay_embed_future(Sy, k, tau);
+	>> W = delay_embed_future(Sy, dim, tau);
 	>> pte21 = estimator_smooth([Sy;Sx;Sz;W], 9);
 
 where the first command builds the future of `Sy`. The delay of `Sx` should 
@@ -157,7 +171,7 @@ let us assume that `r = 2` in the equation describing the dynamics of
 our simulated dataset. Then, an uncoupled surrogate of our original 
 time-series would be:
 
-	>> surrogate = {Sx{1,1} Sx{1,2};Sy{1,2} Sy{1,1};Sz{1,1} Sz{1,2}}
+	surrogate = {Sx{1,1} Sx{1,2};Sy{1,2} Sy{1,1};Sz{1,1} Sz{1,2}}
 
 Since `Sx{1,1}` and `Sy{1,2}` correspond to different data trials, we 
 know for sure that they do not exchange information. At the same time, 
@@ -173,7 +187,7 @@ determine the significance threshold is a type of
 Determining the significance threshold can be easily done with 
 [TIM Matlab][tim-matlab] using the following commands:
 
-	>> pte21_sig = permutation_test([Sy; Sx; Sz; W], [1 2 1 1], ...
+	pte21_sig = permutation_test([Sy; Sx; Sz; W], [1 2 1 1], ...
 		@(x) estimator_smooth(x, 9), 0.05);
 
 The last input parameter to function [[FileLink: permutation_test.m]] is 
@@ -197,8 +211,22 @@ for further explanations.
 Results
 -------
 
-After assessing all possible directions of information transfer, we have 
-obtained the following figures:
+In order to perform a complete connectivity analysis, you should repeat
+all the coupling analysis for all possible link directions. You
+should try to do this yourself, to be sure that you learned how to do it.
+However, we have implemented the whole analysis in function 
+[[FileLink: tutorial_gauss_analysis.m]] so, if you are feeling lazy, you
+can just run:
+
+	>> tutorial_gauss_analysis; 
+
+This command will save the whole analysis results into a file called
+`tutorial_gauss_analysis.mat`. Then, to generate some nice figures you can
+just run:
+
+	>> tutorial_gauss_figures;  
+
+which should produce these figures:
 
 [[Gallery]]:
 	images/tutorial.gauss.fig21.png
@@ -214,15 +242,13 @@ obtained the following figures:
 	images/tutorial.gauss.fig13.png
 	- Information flow from time-series z towards time-series x.
 
-These figures can be reproduced in MATLAB with the commands:
 
-	>> tutorial_gauss_data; 	% generate the time-series
-	>> tutorial_gauss_analysis; % estimate temporal partial transfer entropy
-	>> tutorial_gauss_figures;  % generate the figures
 	
 Credits
 -------
 
-This tutorial was written by [German Gomez-Herrero][German].
+[German Gomez-Herrero][German] wrote this tutorial. [Kalle Rutanen][Kalle]
+helped with editing, proofreading, and testing the tutorial files.
 
 [German]: http://www.cs.tut.fi/~gomezher/index.htm
+[Kalle]: http://kaba.hilvi.org/
