@@ -210,8 +210,6 @@ namespace Tim
 		}
 
 		Array<real, 2> distanceArray(1, maxLocalFilterWidth * trials, infinity<real>());
-		std::vector<real> hintDistanceSet(
-			maxLocalFilterWidth * trials, infinity<real>());
 		
 		std::vector<integer> countSet(maxLocalFilterWidth * trials, 0);
 
@@ -244,34 +242,8 @@ namespace Tim
 				&distanceArray,
 				constantRange(infinity<real>(), windowSamples),
 				maxRelativeError,
-				normBijection,
-				randomAccessRange(hintDistanceSet.begin(), windowSamples));
+				normBijection);
 			
-			// Move the hint distances to the next time instant.
-			// The point here is to make use of temporal coherence:
-			// with high probability the nearest neighbors do not
-			// change when moving from a time instant to another.
-			// Thus the previous time instant hints a probable
-			// distance under which the neighbor is found.
-			if (tFilterOffset == 0)
-			{
-				StdExt::copy_n(distanceArray.begin() + trials, windowSamples - trials, hintDistanceSet.begin());
-				std::fill_n(hintDistanceSet.begin() + windowSamples - trials, trials, infinity<real>());
-			}
-			else
-			{
-				StdExt::copy_n(distanceArray.begin(), windowSamples, hintDistanceSet.begin());
-			}
-
-			/*
-			printf("Hint distances:\n");
-			for (integer i = 0;i < hintDistanceSet.size();++i)
-			{
-				printf("%f ", hintDistanceSet[i]);
-			}
-			printf("\n");
-			*/
-
 			for (integer j = 0;j < windowSamples;++j)
 			{
 				// This is an important part of the algorithm although it may
