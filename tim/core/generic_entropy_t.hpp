@@ -94,8 +94,6 @@ namespace Tim
 		// know how else this could be done.
 
 		Array<real, 2> distanceArray(1, maxLocalFilterWidth * trials);
-		std::vector<real> hintDistanceSet(
-			maxLocalFilterWidth * trials, infinity<real>());
 
 		SignalPointSet pointSet(signalSet);
 
@@ -139,24 +137,7 @@ namespace Tim
 				&distanceArray,
 				constantRange(infinity<real>(), windowSamples),
 				0,
-				entropyAlgorithm.normBijection(),
-				randomAccessRange(hintDistanceSet.begin(), windowSamples));
-
-			// Move the hint distances to the next time instant.
-			// The point here is to make use of temporal coherence:
-			// with high probability the nearest neighbors do not
-			// change when moving from a time instant to another.
-			// Thus the previous time instant hints a probable
-			// distance under which the neighbor is found.
-			if (tFilterOffset == 0)
-			{
-				StdExt::copy_n(distanceArray.begin() + trials, windowSamples - trials, hintDistanceSet.begin());
-				std::fill_n(hintDistanceSet.begin() + windowSamples - trials, trials, infinity<real>());
-			}
-			else
-			{
-				StdExt::copy_n(distanceArray.begin(), windowSamples, hintDistanceSet.begin());
-			}
+				entropyAlgorithm.normBijection());
 
 			// After we have found the distances, we simply evaluate
 			// the generic entropy estimator over the samples of
