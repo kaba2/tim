@@ -3,6 +3,11 @@ TIM Matlab interface
 
 [[Parent]]: tim.txt
 
+_Note: In case you came to this page directly, 
+TIM Matlab can be downloaded from [TIM's main page][TIM]_.
+
+[TIM]: [[Ref: tim.txt]]
+
 There are two sides to the implementation of TIM Matlab:
 the C++ implementation and the Matlab implementation.
 The Matlab implementation consists mostly of redirection

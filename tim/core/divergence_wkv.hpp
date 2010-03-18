@@ -52,15 +52,15 @@ namespace Tim
 		{
 			// Find out the nearest neighbor in X for a point in X.
 
+			const Vector<real> queryPoint(ofDimension(xDimension), 
+				withAliasing((real*)(*(xPointSet->begin() + i))->object()));
+
 			const real xxDistance2 = 
-				searchNearestOne(xPointSet->kdTree(), *(xPointSet->begin() + i)).key();
+				searchNearestOne(xPointSet->kdTree(), queryPoint).key();
 			
 			if (xxDistance2 > 0)
 			{		
 				// Find out the nearest neighbor in Y for a point in X.
-
-				const Vector<real> queryPoint(ofDimension(xDimension), 
-					withAliasing((real*)(*(xPointSet->begin() + i))->object()));
 
 				const real xyDistance2 = 
 					searchNearestOne(yPointSet->kdTree(), queryPoint).key();
