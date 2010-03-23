@@ -8,7 +8,7 @@
 
 #include <pastel/geometry/pointkdtree.h>
 #include <pastel/geometry/search_all_neighbors_pointkdtree.h>
-#include <pastel/geometry/count_all_neighbors_pointkdtree.h>
+#include <pastel/geometry/count_all_range_pointkdtree.h>
 #include <pastel/geometry/distance_point_point.h>
 
 #include <pastel/math/normbijection.h>
@@ -140,13 +140,12 @@ namespace Tim
 		real estimate = 0;
 		for (integer i = 0;i < marginals;++i)
 		{
-			countAllNeighbors(
+			countAllRange(
 				pointSet[i]->kdTree(),
 				randomAccessRange(pointSet[i]->begin(), pointSet[i]->end()),
 				randomAccessRange(distanceArray.begin(), estimateSamples),
-				countSet.begin(),
-				normBijection);
-
+				countSet.begin());
+			
 			integer acceptedSamples = 0;
 			real signalEstimate = 0;
 #pragma omp parallel for reduction(+ : signalEstimate, acceptedSamples)
