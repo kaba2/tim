@@ -8,7 +8,7 @@
 
 #include <pastel/geometry/pointkdtree.h>
 #include <pastel/geometry/search_all_neighbors_pointkdtree.h>
-#include <pastel/geometry/count_all_neighbors_pointkdtree.h>
+#include <pastel/geometry/count_all_range_pointkdtree.h>
 #include <pastel/geometry/distance_point_point.h>
 
 #include <pastel/math/normbijection.h>
@@ -266,14 +266,13 @@ namespace Tim
 					t - timeWindowRadius, 
 					t + timeWindowRadius + 1);
 
-				countAllNeighbors(
+				countAllRange(
 					pointSet[i]->kdTree(),
 					randomAccessRange(
 					pointSet[i]->begin() + tLocalFilterBegin * trials, 
 					pointSet[i]->begin() + tLocalFilterEnd * trials),
 					randomAccessRange(distanceArray.begin(), windowSamples),
-					countSet.begin(),
-					normBijection);
+					countSet.begin());
 				
 				real signalEstimate = 0;
 				real weightSum = 0;
