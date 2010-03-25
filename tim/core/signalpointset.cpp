@@ -37,7 +37,7 @@ namespace Tim
 
 		// Compute a fine subdivision for the points.
 
-		kdTree_.refine(SlidingMidpoint2_SplitRule_PointKdTree());
+		kdTree_.refine();
 
 		if (!startFull)
 		{

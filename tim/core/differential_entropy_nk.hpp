@@ -70,7 +70,7 @@ namespace Tim
 		KdTree kdTree(ofDimension(dimension));
 
 		kdTree.insert(pointSet.begin(), pointSet.end());
-		kdTree.refine(SlidingMidpoint2_SplitRule_PointKdTree());
+		kdTree.refine();
 
 		// For each m, compute average log-distance alpha_m to the nearest 
 		// codebook point for all points _not_ in the codebook 
@@ -106,6 +106,7 @@ namespace Tim
 					VectorD(ofDimension(dimension), withAliasing((real*)pointSet[i])),
 					infinity<real>(), 0,
 					Always_AcceptPoint<ConstObjectIterator>(),
+					8,
 					normBijection).key();
 
 				// The logarithm of zero would give -infinity,

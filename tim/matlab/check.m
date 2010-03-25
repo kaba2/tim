@@ -21,6 +21,8 @@ function check_variable(X, check)
 
 handled = 0;
 
+%maxDimension = 1000
+
 if strcmp(check, 'filter')
 	if ~isa(X, 'double')
 		error('FILTER must be a real array');
@@ -41,12 +43,6 @@ if strcmp(check, 'signalSet')
 		error('A signal-set is not a cell-array.');
 	end
 
-	% The limit for the dimension is arbitrary, but
-	% protects for the case when the user accidentally
-	% passes the transpose of the intended data.
-
-	maxDimension = 32;
-
 	signals = numel(X);
 
 	if signals == 0
@@ -64,10 +60,10 @@ if strcmp(check, 'signalSet')
 			error(['The dimensions of the trials do not match.']);
 		end
 
-		if size(X{i}, 1) > maxDimension
-			error(['Some signal has dimension greater than ', ...
-				int2str(maxDimension), '.']);
-		end
+%		if size(X{i}, 1) > maxDimension
+%			error(['Some signal has dimension greater than ', ...
+%				int2str(maxDimension), '.']);
+%		end
     end
     
     handled = 1;
