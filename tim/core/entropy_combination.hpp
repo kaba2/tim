@@ -8,6 +8,7 @@
 
 #include <pastel/geometry/pointkdtree.h>
 #include <pastel/geometry/search_all_neighbors_pointkdtree.h>
+#include <pastel/geometry/search_depth_first_pointkdtree.h>
 #include <pastel/geometry/count_all_range_pointkdtree.h>
 #include <pastel/geometry/distance_point_point.h>
 
@@ -114,23 +115,8 @@ namespace Tim
 			&distanceArray,
 			constantRange(infinity<real>(), estimateSamples),
 			0,
-			normBijection);
-
-#pragma omp parallel for
-		for (integer j = 0;j < estimateSamples;++j)
-		{
-			// This is an important part of the algorithm although it may
-			// not seem like it from the first look. Because of the use of
-			// the maximum norm, the k:th neighbor will be at least on the
-			// surface of one of the marginal balls. Those points on the 
-			// surfaces must not be counted or otherwise the result becomes
-			// biased. I.e. one must use an open search ball for counting marginal
-			// neighbors, and not a closed one. This is not a rare case: 
-			// it happens in the marginal neighbor searching for every point. 
-			// Tracing this bug took many days.
-
-			distanceArray(j) = std::max(nextSmaller(distanceArray(j)), (real)0);
-		}
+			normBijection,
+			DepthFirst_SearchAlgorithm_PointKdTree());
 
 		const real signalWeightSum = 
 			std::accumulate(weightSet.begin(), weightSet.end(), (real)0);
@@ -140,6 +126,8 @@ namespace Tim
 		real estimate = 0;
 		for (integer i = 0;i < marginals;++i)
 		{
+			// Note: the maximum norm bijection values coincide 
+			// with the norm values, so no need to convert.
 			countAllRange(
 				pointSet[i]->kdTree(),
 				randomAccessRange(pointSet[i]->begin(), pointSet[i]->end()),
@@ -151,7 +139,7 @@ namespace Tim
 #pragma omp parallel for reduction(+ : signalEstimate, acceptedSamples)
 			for (integer j = 0;j < estimateSamples;++j)
 			{
-				const integer k = countSet[j];
+				const integer k = countSet[j] - 1;
 				// A neighbor count of zero can happen when the distance
 				// to the k:th neighbor is zero because of using an
 				// open search ball. These points are ignored.

@@ -37,7 +37,7 @@ namespace Tim
 
 		// Compute a fine subdivision for the points.
 
-		kdTree_.refine();
+		kdTree_.refine(SplitRule());
 
 		if (!startFull)
 		{

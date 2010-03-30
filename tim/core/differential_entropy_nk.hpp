@@ -70,7 +70,7 @@ namespace Tim
 		KdTree kdTree(ofDimension(dimension));
 
 		kdTree.insert(pointSet.begin(), pointSet.end());
-		kdTree.refine();
+		kdTree.refine(SplitRule());
 
 		// For each m, compute average log-distance alpha_m to the nearest 
 		// codebook point for all points _not_ in the codebook 

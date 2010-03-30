@@ -11,6 +11,7 @@
 #include <pastel/sys/vector_tools.h>
 
 #include <pastel/math/maximum_normbijection.h>
+#include <pastel/geometry/splitrule_pointkdtree.h>
 
 namespace Tim
 {
@@ -18,6 +19,7 @@ namespace Tim
 	using namespace Pastel;
 
 	typedef Maximum_NormBijection<real> Default_NormBijection;
+	typedef SlidingMidpoint_SplitRule_PointKdTree SplitRule;
 
 }
 

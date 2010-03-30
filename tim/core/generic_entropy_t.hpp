@@ -11,6 +11,7 @@
 #include <pastel/sys/randomaccessrange.h>
 
 #include <pastel/geometry/search_all_neighbors_pointkdtree.h>
+#include <pastel/geometry/search_depth_first_pointkdtree.h>
 
 #include <algorithm>
 #include <numeric>
@@ -137,7 +138,8 @@ namespace Tim
 				&distanceArray,
 				constantRange(infinity<real>(), windowSamples),
 				0,
-				entropyAlgorithm.normBijection());
+				entropyAlgorithm.normBijection(),
+				DepthFirst_SearchAlgorithm_PointKdTree());
 
 			// After we have found the distances, we simply evaluate
 			// the generic entropy estimator over the samples of
