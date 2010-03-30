@@ -10,6 +10,7 @@
 #include <pastel/geometry/search_all_neighbors_pointkdtree.h>
 #include <pastel/geometry/count_all_range_pointkdtree.h>
 #include <pastel/geometry/distance_point_point.h>
+#include <pastel/geometry/search_depth_first_pointkdtree.h>
 
 #include <pastel/math/normbijection.h>
 
@@ -242,23 +243,9 @@ namespace Tim
 				&distanceArray,
 				constantRange(infinity<real>(), windowSamples),
 				maxRelativeError,
-				normBijection);
+				normBijection,
+				DepthFirst_SearchAlgorithm_PointKdTree());
 			
-			for (integer j = 0;j < windowSamples;++j)
-			{
-				// This is an important part of the algorithm although it may
-				// not seem like it from the first look. Because of the use of
-				// the maximum norm, the k:th neighbor will be at least on the
-				// surface of one of the marginal balls. Those points on the 
-				// surfaces must not be counted or otherwise the result becomes
-				// biased. I.e. one must use an open search ball for counting marginal
-				// neighbors, and not a closed one. This is not a rare case: 
-				// it happens in the marginal neighbor searching for every point. 
-				// Tracing this bug took many days.
-
-				distanceArray(j) = std::max(nextSmaller(distanceArray(j)), (real)0);
-			}
-
 			real estimate = 0;
 			for (integer i = 0;i < marginals;++i)
 			{
@@ -266,6 +253,8 @@ namespace Tim
 					t - timeWindowRadius, 
 					t + timeWindowRadius + 1);
 
+				// Note: the maximum norm bijection values coincide 
+				// with the norm values, so no need to convert.
 				countAllRange(
 					pointSet[i]->kdTree(),
 					randomAccessRange(
@@ -290,7 +279,7 @@ namespace Tim
 //#pragma omp parallel for reduction(+ : signalEstimate, weightSum)
 				for (integer j = 0;j < windowSamples;++j)
 				{
-					const integer k = countSet[j];
+					const integer k = countSet[j] - 1;
 
 					// A neighbor count of zero can happen when the distance
 					// to the k:th neighbor is zero because of using an
