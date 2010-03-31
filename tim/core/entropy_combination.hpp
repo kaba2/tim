@@ -8,7 +8,6 @@
 
 #include <pastel/geometry/pointkdtree.h>
 #include <pastel/geometry/search_all_neighbors_pointkdtree.h>
-#include <pastel/geometry/search_depth_first_pointkdtree.h>
 #include <pastel/geometry/count_all_range_pointkdtree.h>
 #include <pastel/geometry/distance_point_point.h>
 
@@ -115,8 +114,7 @@ namespace Tim
 			&distanceArray,
 			constantRange(infinity<real>(), estimateSamples),
 			0,
-			normBijection,
-			DepthFirst_SearchAlgorithm_PointKdTree());
+			normBijection);
 
 		const real signalWeightSum = 
 			std::accumulate(weightSet.begin(), weightSet.end(), (real)0);

@@ -10,7 +10,6 @@
 #include <pastel/geometry/search_all_neighbors_pointkdtree.h>
 #include <pastel/geometry/count_all_range_pointkdtree.h>
 #include <pastel/geometry/distance_point_point.h>
-#include <pastel/geometry/search_depth_first_pointkdtree.h>
 
 #include <pastel/math/normbijection.h>
 
@@ -243,8 +242,7 @@ namespace Tim
 				&distanceArray,
 				constantRange(infinity<real>(), windowSamples),
 				maxRelativeError,
-				normBijection,
-				DepthFirst_SearchAlgorithm_PointKdTree());
+				normBijection);
 			
 			real estimate = 0;
 			for (integer i = 0;i < marginals;++i)
