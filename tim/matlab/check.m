@@ -21,7 +21,7 @@ function check_variable(X, check)
 
 handled = 0;
 
-%maxDimension = 1000
+maxDimension = 32;
 
 if strcmp(check, 'filter')
 	if ~isa(X, 'double')
@@ -60,10 +60,10 @@ if strcmp(check, 'signalSet')
 			error(['The dimensions of the trials do not match.']);
 		end
 
-%		if size(X{i}, 1) > maxDimension
-%			error(['Some signal has dimension greater than ', ...
-%				int2str(maxDimension), '.']);
-%		end
+		if size(X{i}, 1) > maxDimension
+			error(['Some signal has dimension greater than ', ...
+				int2str(maxDimension), '.']);
+		end
     end
     
     handled = 1;

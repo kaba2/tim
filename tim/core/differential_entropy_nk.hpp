@@ -11,6 +11,7 @@
 #include <pastel/geometry/pointkdtree.h>
 #include <pastel/geometry/search_all_neighbors_pointkdtree.h>
 #include <pastel/geometry/slidingmidpoint_splitrule_pointkdtree.h>
+#include <pastel/geometry/array_pointpolicy.h>
 
 #include <vector>
 
@@ -63,7 +64,7 @@ namespace Tim
 
 		// Create a kd-tree.
 
-		typedef PointKdTree<real, Dynamic, Array_ObjectPolicy_PointKdTree<real> > KdTree;
+		typedef PointKdTree<real, Dynamic, Array_PointPolicy<real> > KdTree;
 		typedef KdTree::ConstObjectIterator ConstObjectIterator;
 		typedef KdTree::Object Object;
 
