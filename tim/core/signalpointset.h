@@ -8,6 +8,7 @@
 #include "tim/core/signal.h"
 
 #include <pastel/geometry/pointkdtree.h>
+#include <pastel/geometry/array_pointpolicy.h>
 
 #include <pastel/sys/countedptr.h>
 #include <pastel/sys/forwardrange.h>
@@ -28,9 +29,9 @@ namespace Tim
 		: public ReferenceCounted
 	{
 	public:
-		// The Array_ObjectPolicy_PointKdTree<real> represents points
+		// The Array_PointPolicy<real> represents points
 		// by a const real* to the beginning of point coordinate data.
-		typedef PointKdTree<real, Dynamic, Array_ObjectPolicy_PointKdTree<real> > KdTree;
+		typedef PointKdTree<real, Dynamic, Array_PointPolicy<real> > KdTree;
 		typedef KdTree::ConstObjectIterator ConstObjectIterator;
 		typedef KdTree::Object Object;
 
