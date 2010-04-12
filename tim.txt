@@ -30,7 +30,7 @@ partial mutual information, transfer entropy, and partial transfer entropy.
 News
 ----
 
-### 11.3.2010 - Released version 1.1.0
+### 12.4.2010 - Released version 1.1.0
 
 #### TIM Core
 
@@ -78,7 +78,7 @@ News
 
 #### Other stuff
 
- * Source built over [Pastel][] 1.1. 
+ * Source built over [Pastel][] 1.2. 
  * Documentation built over [Remark][] 1.2.
 
 [[Link]]: more_news.txt
