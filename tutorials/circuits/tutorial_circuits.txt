@@ -56,12 +56,12 @@ the available voltage measurements, without any further a priori information.
 If you have access to the internet you can load the data into Matlab by
 simply running:
 
-	pset = generate_pset;
+	>> pset = generate_pset;
 
 If you are running the tutorial offline and have downloaded the tutorial
 data file manually then you should run instead:
 
-	pset = generate_pset('tutorial-circuits-data.zip');
+	>> pset = generate_pset('tutorial-circuits-data.zip');
 
 The output of this command is a cell-array `pset` of dimensions 2 x 182. The
 rows of this cell array correspond to the time-series obtained from each of
@@ -105,7 +105,7 @@ embed in higher dimensions until the results of the analysis are consistent.
 For convenience, we shall define a lambda function (or `function_handle` 
 in Matlab's terminology) as follows:
 
-	estimator = @(x) transfer_entropy_t(x(1,:), x(2,:), x(3,:), ...
+	>> estimator = @(x) transfer_entropy_t(x(1,:), x(2,:), x(3,:), ...
 		5, 0, 5:30, 0, 20);
 
 This lambda function bundles together the chosen information measure 
@@ -124,15 +124,15 @@ slow, we can reduce the variance by simply smoothing the estimates e.g.
 with a moving average filter. In order to incorporate this post-processing 
 step, we further define the following lambda function:
 
-	estimator_smooth = @(x) filter(1/20*ones(1,20), 1, estimator(x), [], 2);
+	>> estimator_smooth = @(x) filter(1/20*ones(1,20), 1, estimator(x), [], 2);
 	
 ### Temporal transfer entropy estimates
 
 We are now ready to measure information flow from the _source_ time-series 
 towards the _sink_ time-series using transfer entropy (TE):
 
-	W = delay_embed_future(Ssink);
-	te21 = estimator_smooth([Ssink;Ssource;W]);
+	>> W = delay_embed_future(Ssink);
+	>> te21 = estimator_smooth([Ssink;Ssource;W]);
 
 where the first command builds the future of `Ssink`. 
 
@@ -146,7 +146,7 @@ Determining the significance threshold for the temporal TE estimates that
 we obtained in the previous section can be easily done with 
 [TIM Matlab interface][tim-matlab] using the following commands:
 
-	te21sig = permutation_test([Ssink; Ssource;W], [1 2 1], ...
+	>> te21sig = permutation_test([Ssink; Ssource;W], [1 2 1], ...
 		estimator_smooth, .05);
 
 The last input parameter to function [[FileLink: permutation_test.m]] is 
@@ -204,14 +204,12 @@ from slave to master at any lag.
 For convenience, you can generate the four figures above by just running
 the following commands:
 
-	pset = generate_pset                       % load the dataset
-	results = tutorial-circuits-analysis(pset) % performs the TE analysis
-	tutorial-circuits-figures(results) 		   % generates the figures
-
+	>> pset = generate_pset                       % load the dataset
+	>> results = tutorial-circuits-analysis(pset) % performs the TE analysis
+	>> tutorial-circuits-figures(results)         % generates the figures
 
 However, the best way of learning this tutorial is that you try to re-generate
 these figures without using the provided function `tutorial-circuits-analysis`.
-
 
 	
 Credits
