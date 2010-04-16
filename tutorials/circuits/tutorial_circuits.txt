@@ -217,5 +217,9 @@ Credits
 
 [German Gomez-Herrero][German] wrote this tutorial. 
 
-[German]: http://www.cs.tut.fi/~gomezher/index.htm
+The experimental measurements were obtained by Miguel C. Soriano from the
+[Institute for Cross-Disciplinary Physics and Complex Systems][IFISC],
+at Palma de Mallorca, Spain.
 
+[German]: http://www.cs.tut.fi/~gomezher/index.htm
+[IFISC]: http://ifisc.uib.es/
