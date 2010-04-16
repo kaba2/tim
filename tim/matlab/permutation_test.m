@@ -8,9 +8,9 @@
 % PSET is a pointset object, i.e. a N x T cell array containing N
 % time-series and T repetitions for each time series. 
 %
-% PINDEX is a vector of permutation indices. See help file of permute_pset.
+% PINDEX is a vector of permutation indices. See: help permute_pset.
 %
-% IFUNC is a function_handle that takes a pointset object a single input
+% IFUNC is a function_handle that takes a pointset object as input
 % parameter. 
 %
 % ALPHA is the significance level. Default 0.05.
@@ -19,16 +19,18 @@
 % pset = [X Y Z W] when calculating the temporal partial transfer
 % entropy we would do:
 %
-% ifunc = @(pset) transfer_entropy(pset(1,:), pset(2,:), pset(3,:), pset(4,:), ...
-%   10, 0, 0, 0, 0, 20);
+% ifunc = @(pset) transfer_entropy_pt(pset(1,:), pset(2,:), pset(3,:), ...
+%	 pset(4,:), 10);
 %
 % y = permutation_test(pset, [1 2 1 1], ifunc);
+%
+% See also: permute_pset
 
 % Description: Permutation test to determine significance threshold
 % Documentation: tim_matlab_matlab.txt
 % Author: German Gomez-Herrero
 
-function [y, yvals] = permutation_test(pset, pindex, ifunc, alpha)
+function y = permutation_test(pset, pindex, ifunc, alpha)
 
 K = 0; % use 1 to increase the number of permutations beyond the minimum 
 
@@ -48,14 +50,17 @@ end
 
 psetperm = permute_pset(pset, pindex, ns);
 
-yvals = [];
+y = [];
 fprintf('  Performing %d permutations',ns);
 
 for i = 1:ns
    tmp = ifunc(psetperm{i});
-   yvals = [yvals;tmp];
+   if isempty(y),
+       y = tmp;
+   else
+       y = max(y, tmp);
+   end   
    fprintf('.');
 end
-
 fprintf('[done]\n');
-y = nanmax(yvals);
+

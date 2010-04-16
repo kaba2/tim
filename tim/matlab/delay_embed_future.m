@@ -18,7 +18,7 @@ function Y = delay_embed_future(X, k, dt)
 
 if nargin < 3 || isempty(dt), dt = 1; end
 if nargin < 2 || isempty(k) || isempty(X),
-    error('Not enough input arguments');
+    k = 1;
 end
 
 % Deal with the case of multiple input signals.

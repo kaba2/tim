@@ -37,6 +37,12 @@ if dt < 1,
     error('dt must be a positive integer.');
 end
 
+% use this line when TIM estimators admit NaNs
+% X = [nan(size(X,1),(k-1)*dt) X];
+% for the moment we use circular shifting
+tmp = circshift(X, [0 (k-1)*dt]);
+X = [tmp(:,1:(k-1)*dt) X];
+
 n = size(X, 1);
 
 embedDimension = k * n;
@@ -44,6 +50,7 @@ embedSampleWidth = (k - 1) * dt + 1;
 embedSamples = size(X, 2) - embedSampleWidth + 1;
 
 Y = zeros(embedDimension, embedSamples);
+
 
 for j = 1 : k
    s = dt * (j - 1) + 1; 

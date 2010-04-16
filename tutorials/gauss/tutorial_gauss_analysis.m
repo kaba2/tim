@@ -23,9 +23,9 @@
 
 function results = tutorial_gauss_analysis(data)
 
-IN_FILE = 'gaussian_process.mat';    % default data file
+IN_FILE = 'gaussian_process.mat';     % default data file
 OUT_FILE = 'tutorial_gauss_analysis'; % results will be saved here
-DIM = 1;                             % embedding dimension
+DIM = 1;                              % embedding dimension
 STEP = 1;
 K = 20;              % number of nearest neighbors
 WINDOW_RADIUS = 5;
@@ -100,7 +100,7 @@ results = struct('pte12', pte12, 'pte12sig', pte12sig, ...
     'pte13', pte13, 'pte13sig', pte13sig, ...
     'pte31', pte31, 'pte31sig', pte31sig, ...
     'windowRadius', WINDOW_RADIUS, 'filterOrder', FILTER_ORDER, ...
-    'k', K, 'alpha', ALPHA, 'stem', STEP, 'dim', DIM);
+    'k', K, 'alpha', ALPHA, 'step', STEP, 'dim', DIM);
 
 
 save([OUT_FILE '.mat'], 'results');
