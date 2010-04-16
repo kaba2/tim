@@ -54,7 +54,7 @@ factors:
 
 The following function generates these time-series:
 
-	>> data = tutorial_gauss_data();
+	data = tutorial_gauss_data();
 
 This loads a cell-array `data` of dimensions 3 x 50. The rows of this 
 cell array correspond to the x, y, and z time-series and the columns 
@@ -72,10 +72,10 @@ embedding:
 
 [delayembed]: delay_embed.htm
 
-	>> dim = 1, tau = 1;
-	>> Sx = delay_embed(data(1, :), dim, tau);
-	>> Sy = delay_embed(data(2, :), dim, tau);
-	>> Sz = delay_embed(data(3, :), dim, tau);
+	dim = 1, tau = 1;
+	Sx = delay_embed(data(1, :), dim, tau);
+	Sy = delay_embed(data(2, :), dim, tau);
+	Sz = delay_embed(data(3, :), dim, tau);
 
 where `dim` and `tau` are the embedding dimension and the embedding delay, 
 respectively. Choosing the right embedding parameters can be a tricky 
@@ -105,7 +105,7 @@ the state-spaces that were generated in the previous section.
 For convenience, we shall define a lambda function (or `function_handle` 
 in Matlab's terminology) as follows:
 
-	>> estimator = @(x, lag) transfer_entropy_pt(...
+	estimator = @(x, lag) transfer_entropy_pt(...
 		x(1,:), x(2,:), x(3,:), x(4,:), ...
 		5, 0, lag, 0, 0, 20); 	
 
@@ -125,8 +125,8 @@ step, we further define the following lambda function:
 We are now ready to measure information flow e.g. from system `Sx` towards 
 system `Sy` using the partial transfer entropy (PTE):
 
-	>> W = delay_embed_future(Sy, dim, tau);
-	>> pte21 = estimator_smooth([Sy;Sx;Sz;W], 9);
+	W = delay_embed_future(Sy);
+	pte21 = estimator_smooth([Sy;Sx;Sz;W], 9);
 
 where the first command builds the future of `Sy`. The delay of `Sx` should 
 be such that the mutual information with `W` is maximized. By construction of 
@@ -218,13 +218,13 @@ However, we have implemented the whole analysis in function
 [[FileLink: tutorial_gauss_analysis.m]] so, if you are feeling lazy, you
 can just run:
 
-	>> tutorial_gauss_analysis; 
+	tutorial_gauss_analysis; 
 
 This command will save the whole analysis results into a file called
 `tutorial_gauss_analysis.mat`. Then, to generate some nice figures you can
 just run:
 
-	>> tutorial_gauss_figures;  
+	tutorial_gauss_figures;  
 
 which should produce these figures:
 
