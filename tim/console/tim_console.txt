@@ -34,38 +34,31 @@ keyboard does not work._
 Quick-start: Example script file
 --------------------------------
 
-	// This is a row-comment.
-	% This is a row-comment too.
+	% This is a row-comment.
+	// This is a row-comment too.
 
-	// Define a 3x3 real-array A.
-
+	% Define a 3x3 real-array A.
 	A = [     1.231, .324,        3.0;
 			  -4.32,    5,        6.2;
 		 -7.324e-12,   -8, +9.435E-12]
 		 
-	// Define an integer.
-	
+	% Define an integer.
 	k = 1
 	
-	// Define a real number.
-	
+	% Define a real number.
 	eps = 0.1
 	     
-	// Output the contents of A to standard output.
-	
+	% Output the contents of A to standard output.
 	print A
 
-	// Define B as an alias to A.
-	
+	% Define B as an alias to A.
 	B = A
 	
-	// Define a 2x2 cell-array C.
-
+	% Define a 2x2 cell-array C.
 	C = {A, B; 
 		 B, A}
 		 
-	// Compute differential entropy and
-	// print it to standard output.
-	
+	% Compute differential entropy and
+	% print it to standard output.
 	print differential_entropy_kl(C)
 

@@ -110,6 +110,7 @@
 #include "tim/console/errorlog.h"
 #include "tim/console/functions.h"
 
+#include <pastel/sys/stdext_isnan.h>
 #include <pastel/sys/stdext_copy_n.h>
 #include <pastel/sys/string_tools.h>
 
@@ -160,7 +161,7 @@ namespace
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 53 "console_parser.y"
+#line 54 "console_parser.y"
 {
 	Tim::Statement_AstNode* statement;
 	Tim::Expression_AstNode* expression;
@@ -181,7 +182,7 @@ typedef union YYSTYPE
 	std::string* string;
 }
 /* Line 187 of yacc.c.  */
-#line 185 "console_parser.tab.c"
+#line 186 "console_parser.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -206,7 +207,7 @@ typedef struct YYLTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 210 "console_parser.tab.c"
+#line 211 "console_parser.tab.c"
 
 #ifdef short
 # undef short
@@ -503,11 +504,11 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    97,    97,   105,   111,   120,   124,   130,   140,   150,
-     161,   165,   173,   179,   188,   197,   201,   205,   209,   216,
-     223,   233,   240,   250,   260,   267,   309,   348,   354,   364,
-     368,   375,   381,   390,   396,   406,   410,   418,   426,   437,
-     441
+       0,    98,    98,   106,   112,   121,   125,   131,   141,   151,
+     162,   166,   174,   180,   189,   198,   202,   206,   210,   217,
+     224,   234,   241,   251,   261,   268,   325,   364,   370,   380,
+     384,   391,   397,   406,   412,   422,   426,   434,   442,   453,
+     457
 };
 #endif
 
@@ -1467,7 +1468,7 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 98 "console_parser.y"
+#line 99 "console_parser.y"
     {
 		programAst = new Program_AstNode((yyvsp[(1) - (1)].program));
 		setPosition(programAst, (yylsp[(1) - (1)]));
@@ -1475,7 +1476,7 @@ yyreduce:
     break;
 
   case 3:
-#line 106 "console_parser.y"
+#line 107 "console_parser.y"
     {
 		StatementSet* statementSet = new StatementSet;
 		statementSet->push_back((yyvsp[(1) - (1)].statement));
@@ -1484,7 +1485,7 @@ yyreduce:
     break;
 
   case 4:
-#line 112 "console_parser.y"
+#line 113 "console_parser.y"
     {
 		StatementSet* statementSet = (yyvsp[(1) - (2)].program);
 		statementSet->push_back((yyvsp[(2) - (2)].statement));
@@ -1493,14 +1494,14 @@ yyreduce:
     break;
 
   case 5:
-#line 121 "console_parser.y"
+#line 122 "console_parser.y"
     {
 		(yyval.statement) = (yyvsp[(1) - (1)].declaration);
 	;}
     break;
 
   case 6:
-#line 125 "console_parser.y"
+#line 126 "console_parser.y"
     {
 		Print_AstNode* printNode = new Print_AstNode((yyvsp[(2) - (2)].expression));
 		setPosition(printNode, (yylsp[(1) - (2)]));
@@ -1509,7 +1510,7 @@ yyreduce:
     break;
 
   case 7:
-#line 131 "console_parser.y"
+#line 132 "console_parser.y"
     {
 		Declaration_AstNode* declaration = 
 			new Declaration_AstNode("ans", (yyvsp[(1) - (1)].expression));
@@ -1519,7 +1520,7 @@ yyreduce:
     break;
 
   case 8:
-#line 141 "console_parser.y"
+#line 142 "console_parser.y"
     {
 		Declaration_AstNode* declaration = 
 			new Declaration_AstNode(*(yyvsp[(1) - (3)].string), (yyvsp[(3) - (3)].expression));
@@ -1529,7 +1530,7 @@ yyreduce:
     break;
 
   case 9:
-#line 151 "console_parser.y"
+#line 152 "console_parser.y"
     {
 		FunctionCall_AstNode* functionCall = 
 			new FunctionCall_AstNode(*(yyvsp[(1) - (4)].string), (yyvsp[(3) - (4)].expression_list));
@@ -1539,7 +1540,7 @@ yyreduce:
     break;
 
   case 10:
-#line 161 "console_parser.y"
+#line 162 "console_parser.y"
     {
 		ExpressionSet* expressionSet = new ExpressionSet;
 		(yyval.expression_list) = expressionSet;
@@ -1547,7 +1548,7 @@ yyreduce:
     break;
 
   case 11:
-#line 166 "console_parser.y"
+#line 167 "console_parser.y"
     {
 		ExpressionSet* expressionSet = (yyvsp[(1) - (1)].expression_list);
 		(yyval.expression_list) = expressionSet;
@@ -1555,7 +1556,7 @@ yyreduce:
     break;
 
   case 12:
-#line 174 "console_parser.y"
+#line 175 "console_parser.y"
     {
 		ExpressionSet* expressionSet = new ExpressionSet;
 		expressionSet->push_back((yyvsp[(1) - (1)].expression));
@@ -1564,7 +1565,7 @@ yyreduce:
     break;
 
   case 13:
-#line 180 "console_parser.y"
+#line 181 "console_parser.y"
     {
 		ExpressionSet* expressionSet = (yyvsp[(1) - (3)].expression_list);
 		expressionSet->push_back((yyvsp[(3) - (3)].expression));
@@ -1573,7 +1574,7 @@ yyreduce:
     break;
 
   case 14:
-#line 189 "console_parser.y"
+#line 190 "console_parser.y"
     {
 		std::string* name = (yyvsp[(1) - (1)].string);
 		Identifier_AstNode* identifier = 
@@ -1585,28 +1586,28 @@ yyreduce:
     break;
 
   case 15:
-#line 198 "console_parser.y"
+#line 199 "console_parser.y"
     {
 		(yyval.expression) = (yyvsp[(1) - (1)].function_call);
 	;}
     break;
 
   case 16:
-#line 202 "console_parser.y"
+#line 203 "console_parser.y"
     {
 		(yyval.expression) = (yyvsp[(1) - (1)].real_array);
 	;}
     break;
 
   case 17:
-#line 206 "console_parser.y"
+#line 207 "console_parser.y"
     {
 		(yyval.expression) = (yyvsp[(1) - (1)].cell_array);
 	;}
     break;
 
   case 18:
-#line 210 "console_parser.y"
+#line 211 "console_parser.y"
     {
 		Integer_AstNode* integerNode = 
 			new Integer_AstNode((yyvsp[(1) - (1)].integer_value));
@@ -1616,7 +1617,7 @@ yyreduce:
     break;
 
   case 19:
-#line 217 "console_parser.y"
+#line 218 "console_parser.y"
     {
 		Real_AstNode* realNode = 
 			new Real_AstNode((yyvsp[(1) - (1)].real_value));
@@ -1626,7 +1627,7 @@ yyreduce:
     break;
 
   case 20:
-#line 224 "console_parser.y"
+#line 225 "console_parser.y"
     {
 		String_AstNode* stringNode =
 			new String_AstNode(*(yyvsp[(1) - (1)].string));
@@ -1636,14 +1637,14 @@ yyreduce:
     break;
 
   case 21:
-#line 234 "console_parser.y"
+#line 235 "console_parser.y"
     {
 		(yyval.string) = (yyvsp[(1) - (1)].string);
 	;}
     break;
 
   case 22:
-#line 241 "console_parser.y"
+#line 242 "console_parser.y"
     {
 		std::string* text = (yyvsp[(1) - (1)].string);
 		const integer value = stringToInteger(*text);
@@ -1653,7 +1654,7 @@ yyreduce:
     break;
 
   case 23:
-#line 251 "console_parser.y"
+#line 252 "console_parser.y"
     {
 		std::string* text = (yyvsp[(1) - (1)].string);
 		const real value = stringToReal(*text);
@@ -1663,17 +1664,32 @@ yyreduce:
     break;
 
   case 24:
-#line 261 "console_parser.y"
+#line 262 "console_parser.y"
     {
 		(yyval.string) = (yyvsp[(1) - (1)].string);
 	;}
     break;
 
   case 25:
-#line 268 "console_parser.y"
+#line 269 "console_parser.y"
     {
 		RealSetSet* realSetSet = (yyvsp[(2) - (3)].real_array_content);
 		
+		// Find out the amount of nan-padding.
+		integer nans = 0;
+		if (!realSetSet->empty())
+		{
+			RealSet* realSet = realSetSet->front();
+			while(nans < realSet->size())
+			{
+				if (!StdExt::isNan((*realSet)[nans]))
+				{
+					break;
+				}
+				++nans;
+			}
+		}		
+
 		// Find out the maximum width and height
 		// of the matrix.
 
@@ -1681,7 +1697,7 @@ yyreduce:
 		integer width = 0;
 		for (integer y = 0;y < height;++y)
 		{
-			RealSet*& realSet = (*realSetSet)[y];
+			RealSet* realSet = (*realSetSet)[y];
 			if (realSet->size() > width)
 			{
 				width = realSet->size();				
@@ -1690,15 +1706,15 @@ yyreduce:
 		
 		// Copy the data to a signal.
 		
-		const integer samples = width;
+		const integer samples = width - nans;
 		const integer dimension = height;
 
-		SignalPtr signal = SignalPtr(new Signal(samples, dimension));
+		SignalPtr signal = SignalPtr(new Signal(samples, dimension, nans));
 		
 		for (integer y = 0;y < height;++y)
 		{
 			RealSet* realSet = (*realSetSet)[y];
-			std::copy(realSet->begin(), realSet->end(),
+			std::copy(realSet->begin() + nans, realSet->end(),
 				signal->data().columnBegin(y));
 			delete realSet;
 		}
@@ -1712,7 +1728,7 @@ yyreduce:
     break;
 
   case 26:
-#line 310 "console_parser.y"
+#line 326 "console_parser.y"
     {
 		StringSetSet* cellSetSet = (yyvsp[(2) - (3)].cell_array_content);
 		
@@ -1751,7 +1767,7 @@ yyreduce:
     break;
 
   case 27:
-#line 349 "console_parser.y"
+#line 365 "console_parser.y"
     {
 		RealSetSet* realSetSet = new RealSetSet;
 		realSetSet->push_back((yyvsp[(1) - (1)].real_list));
@@ -1760,7 +1776,7 @@ yyreduce:
     break;
 
   case 28:
-#line 355 "console_parser.y"
+#line 371 "console_parser.y"
     {
 		RealSetSet* realSetSet = (yyvsp[(1) - (3)].real_array_content);
 		realSetSet->push_back((yyvsp[(3) - (3)].real_list));
@@ -1769,7 +1785,7 @@ yyreduce:
     break;
 
   case 29:
-#line 364 "console_parser.y"
+#line 380 "console_parser.y"
     {
 		RealSet* realSet = new RealSet;
 		(yyval.real_list) = realSet;
@@ -1777,14 +1793,14 @@ yyreduce:
     break;
 
   case 30:
-#line 369 "console_parser.y"
+#line 385 "console_parser.y"
     {
 		(yyval.real_list) = (yyvsp[(1) - (1)].real_list);
 	;}
     break;
 
   case 31:
-#line 376 "console_parser.y"
+#line 392 "console_parser.y"
     {
 		RealSet* realSet = new RealSet;
 		realSet->push_back((yyvsp[(1) - (1)].real_value));
@@ -1793,7 +1809,7 @@ yyreduce:
     break;
 
   case 32:
-#line 382 "console_parser.y"
+#line 398 "console_parser.y"
     {
 		RealSet* realSet = (yyvsp[(1) - (3)].real_list);
 		realSet->push_back((yyvsp[(3) - (3)].real_value));
@@ -1802,7 +1818,7 @@ yyreduce:
     break;
 
   case 33:
-#line 391 "console_parser.y"
+#line 407 "console_parser.y"
     {
 		StringSetSet* stringSetSet = new StringSetSet;
 		stringSetSet->push_back((yyvsp[(1) - (1)].cell_list));
@@ -1811,7 +1827,7 @@ yyreduce:
     break;
 
   case 34:
-#line 397 "console_parser.y"
+#line 413 "console_parser.y"
     {
 		StringSetSet* stringSetSet = (yyvsp[(1) - (3)].cell_array_content);
 		stringSetSet->push_back((yyvsp[(3) - (3)].cell_list));
@@ -1820,7 +1836,7 @@ yyreduce:
     break;
 
   case 35:
-#line 406 "console_parser.y"
+#line 422 "console_parser.y"
     {
 		StringSet* stringSet = new StringSet;
 		(yyval.cell_list) = stringSet;
@@ -1828,7 +1844,7 @@ yyreduce:
     break;
 
   case 36:
-#line 411 "console_parser.y"
+#line 427 "console_parser.y"
     {
 		StringSet* stringSet = (yyvsp[(1) - (1)].cell_list);
 		(yyval.cell_list) = stringSet;
@@ -1836,7 +1852,7 @@ yyreduce:
     break;
 
   case 37:
-#line 419 "console_parser.y"
+#line 435 "console_parser.y"
     {
 		std::string* name = (yyvsp[(1) - (1)].string);
 		StringSet* stringSet = new StringSet;
@@ -1847,7 +1863,7 @@ yyreduce:
     break;
 
   case 38:
-#line 427 "console_parser.y"
+#line 443 "console_parser.y"
     {
 		std::string* name = (yyvsp[(3) - (3)].string);
 		StringSet* stringSet = (yyvsp[(1) - (3)].cell_list);
@@ -1858,14 +1874,14 @@ yyreduce:
     break;
 
   case 39:
-#line 438 "console_parser.y"
+#line 454 "console_parser.y"
     {
 		(yyval.real_value) = (yyvsp[(1) - (1)].integer_value);
 	;}
     break;
 
   case 40:
-#line 442 "console_parser.y"
+#line 458 "console_parser.y"
     {
 		(yyval.real_value) = (yyvsp[(1) - (1)].real_value);
 	;}
@@ -1873,7 +1889,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 1877 "console_parser.tab.c"
+#line 1893 "console_parser.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2093,7 +2109,7 @@ yyreturn:
 }
 
 
-#line 447 "console_parser.y"
+#line 463 "console_parser.y"
 
 
 void console_error(const std::string& s)

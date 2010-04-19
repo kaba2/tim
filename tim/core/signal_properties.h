@@ -36,6 +36,15 @@ namespace Tim
 	bool equalDimension(
 		const ForwardRange<SignalPtr_Iterator>& signalSet);
 
+	//! Returns true if all signals have the same number of samples.
+	/*!
+	Preconditions:
+	SignalPtr_Iterator must dereference to SignalPtr.
+	*/
+	template <typename SignalPtr_Iterator>
+	bool equalSamples(
+		const ForwardRange<SignalPtr_Iterator>& signalSet);
+
 }
 
 #include "tim/core/signal_properties.hpp"

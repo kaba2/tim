@@ -124,6 +124,34 @@ namespace Tim
 		return true;
 	}
 
+	template <typename SignalPtr_Iterator>
+	bool equalSamples(
+		const ForwardRange<SignalPtr_Iterator>& signalSet)
+	{
+		if (signalSet.empty())
+		{
+			return true;
+		}
+
+		SignalPtr_Iterator iter = signalSet.begin();
+		const SignalPtr_Iterator iterEnd = signalSet.end();
+
+		integer samples = signalSet.front()->samples();
+		++iter;
+
+		while(iter != iterEnd)
+		{
+			if ((*iter)->samples() != samples)
+			{
+				return false;
+			}
+
+			++iter;
+		}
+
+		return true;
+	}
+
 }
 
 #endif
