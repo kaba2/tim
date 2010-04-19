@@ -19,11 +19,12 @@ given in EBNF form as follows.
 	function_call := identifier '(' expression % ',' ')'
 
 	real_array := '[' real_list % ';' ']'
-	real_list := real % ','
+	real_list := number % ','
 
 	cell_array := '{' cell_list % ';' '}'
 	cell_list := identifier % ','
 
+	number := real | integer
 	identifier := alpha (alpha | digit)*
 	
 The following terminals are better given as regular expressions.
@@ -31,7 +32,10 @@ The following terminals are better given as regular expressions.
 	alpha := [A-Z]|[a-z]|_
 	digit := [0-9]
 	integer := [+-]?[0-9]+
-	real := [+-]?[0-9]*\.[0-9]+([Ee][+-]?[0-9]+)?
+	real_nan := [Nn][Aa][Nn]
+	real_inf := [Ii][Nn][Ff]
+	real_num := [0-9]*\.[0-9]+([Ee][+-]?[0-9]+)?
+	real := [+-]?({real_nan}|{real_inf}|{real_num})
 	string := '"' [^"]* '"'
 
 Semantics

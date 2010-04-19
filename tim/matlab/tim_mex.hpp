@@ -4,6 +4,7 @@
 #include "tim/matlab/tim_mex.h"
 
 #include "tim/core/signal.h"
+#include "tim/core/signal_tools.h"
 
 #include <pastel/sys/ensure.h>
 #include <pastel/sys/pastelomp.h>
@@ -11,6 +12,23 @@
 
 namespace Tim
 {
+
+	inline SignalPtr getSignal(const mxArray* signal)
+	{
+		// It is intentional to assign the width
+		// and height the wrong way. The reason
+		// is that Matlab uses column-major storage
+		// while we use row-major storage.
+		const integer samples = mxGetN(signal);
+		const integer dimension = mxGetM(signal);
+
+		real* rawData = mxGetPr(signal);
+
+		const SignalPtr nanForm = SignalPtr(
+			new Signal(samples, dimension, 0, rawData));
+
+		return nanToLagged(nanForm);
+	}
 
 	template <typename SignalPtr_OutputIterator>
 	void getSignals(const mxArray* input,
@@ -20,19 +38,8 @@ namespace Tim
 
 		for (integer i = 0;i < trials;++i)
 		{
-			const mxArray* signalArray = mxGetCell(input, i);
-
-			// It is intentional to assign the width
-			// and height the wrong way. The reason
-			// is that Matlab uses column-major storage
-			// while we use row-major storage.
-			const integer samples = mxGetN(signalArray);
-			const integer dimension = mxGetM(signalArray);
-
-			real* rawData = mxGetPr(signalArray);
-
-			*output = SignalPtr(
-				new Signal(samples, dimension, rawData));
+			const mxArray* signal = mxGetCell(input, i);
+			*output = getSignal(signal);
 			++output;
 		}
 	}
@@ -91,15 +98,10 @@ namespace Tim
 		{
 			for (integer x = 0;x < trials;++x)
 			{
-				const mxArray* signalArray = mxGetCell(signalSetArray, signals * x + y);
+				const mxArray* signal = 
+					mxGetCell(signalSetArray, signals * x + y);
 
-				const integer samples = mxGetN(signalArray);
-				const integer dimension = mxGetM(signalArray);
-
-				real* rawData = mxGetPr(signalArray);
-
-				signalSet(x, y) = SignalPtr(
-					new Signal(samples, dimension, rawData));
+				signalSet(x, y) = getSignal(signal);
 			}
 		}
 	}

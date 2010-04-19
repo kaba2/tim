@@ -82,6 +82,8 @@ namespace
 				3, 8,
 				4, 9,
 				5, 10;
+			TEST_ENSURE(z->data() == zCorrect->data());
+			TEST_ENSURE_OP(z->t(), ==, 0);
 
 			{
 				SignalPtr w = merge(z, z);
@@ -95,14 +97,17 @@ namespace
 					5, 10, 5, 10;
 
 				TEST_ENSURE(w->data() == wCorrect->data());
+				TEST_ENSURE_OP(w->t(), ==, 0);
 
 				SignalPtr u = split(wCorrect, 0, 2);
 
 				TEST_ENSURE(u->data() == zCorrect->data());
+				TEST_ENSURE_OP(u->t(), ==, 0);
 
 				SignalPtr v = split(wCorrect, 2, 4);
 
 				TEST_ENSURE(v->data() == zCorrect->data());
+				TEST_ENSURE_OP(v->t(), ==, 0);
 			}
 			{
 				SignalPtr w = merge(z, z, 0, 1);
@@ -115,6 +120,7 @@ namespace
 					5, 10, 4, 9;
 
 				TEST_ENSURE(w->data() == wCorrect->data());
+				TEST_ENSURE_OP(w->t(), ==, 1);
 			}
 			{
 				SignalPtr w = merge(z, z, 0, 2);
@@ -126,6 +132,22 @@ namespace
 					5, 10, 3, 8;
 
 				TEST_ENSURE(w->data() == wCorrect->data());
+				TEST_ENSURE_OP(w->t(), ==, 2);
+			}
+			{
+				SignalPtr z2 = SignalPtr(new Signal(*z));
+				z2->setT(2);
+
+				SignalPtr w = merge(z, z2);
+				SignalPtr wCorrect =
+					SignalPtr(new Signal(3, 4));
+				wCorrect->data() |= 
+					3, 8, 1, 6,
+					4, 9, 2, 7,
+					5, 10, 3, 8;
+
+				TEST_ENSURE(w->data() == wCorrect->data());
+				TEST_ENSURE_OP(w->t(), ==, 2);
 			}
 		}
 
@@ -155,6 +177,7 @@ namespace
 					12, 13, 14;
 
 				TEST_ENSURE(y->data() == yCorrect->data());
+				TEST_ENSURE_OP(y->t(), ==, 2);
 			}
 
 			{
@@ -175,6 +198,7 @@ namespace
 					10, 12, 14;
 		
 				TEST_ENSURE(y->data() == yCorrect->data());
+				TEST_ENSURE_OP(y->t(), ==, 4);
 			}
 		}
 	};

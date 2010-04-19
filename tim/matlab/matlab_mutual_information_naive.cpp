@@ -20,14 +20,10 @@ namespace
 			binsIndex
 		};
 
-		const integer samples = mxGetN(inputSet[xIndex]);
-		const integer dimension = mxGetM(inputSet[xIndex]);
-		real* rawData = mxGetPr(inputSet[xIndex]);
+		const SignalPtr data = getSignal(inputSet[xIndex]);
+		const integer bins = getInteger(inputSet[binsIndex]);
 
-		integer bins = getInteger(inputSet[binsIndex]);
-
-		const SignalPtr data = SignalPtr(
-			new Signal(samples, dimension, withAliasing(rawData)));
+		const integer dimension = data->dimension();
 
 		outputSet[0] = mxCreateDoubleMatrix(dimension, dimension, mxREAL);
 		real* rawResult = mxGetPr(outputSet[0]);

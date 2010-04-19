@@ -29,6 +29,9 @@ namespace Tim
 		// time interval:
 		//
 		//         +--+
+		//
+		// Note that each signal also has its own lag which
+		// must be added to the given lag.
 
 		// Find out the common time interval
 		// [tLeftMax, tRightMin[.
@@ -37,14 +40,14 @@ namespace Tim
 		const Integer_Iterator lagIterEnd = lagSet.end();
 		SignalPtr_Iterator signalIter = signalSet.begin();
 
-		integer tLeftMax = (*lagIter);
+		integer tLeftMax = (*lagIter) + (*signalIter)->t();
 		integer tRightMin = tLeftMax + (*signalIter)->samples();
 		++lagIter;
 		++signalIter;
 
 		while(lagIter != lagIterEnd)
 		{
-			const integer tLeft = *lagIter;
+			const integer tLeft = *lagIter + (*signalIter)->t();
 			const integer tRight = tLeft + (*signalIter)->samples();
 
 			if (tLeft > tLeftMax)

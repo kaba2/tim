@@ -239,14 +239,20 @@ identifier
 integer_value
 	: T_INTEGER
 	{
-		$$ = stringToInteger(*$1);
+		std::string* text = $1;
+		const integer value = stringToInteger(*text);
+		delete text;
+		$$ = value;
 	}
 	;
 
 real_value
 	: T_REAL
 	{
-		$$ = stringToReal(*$1);
+		std::string* text = $1;
+		const real value = stringToReal(*text);
+		delete text;
+		$$ = value;
 	}
 	;
 
@@ -428,19 +434,13 @@ cell_list_1
 	;
 
 number
-	: T_INTEGER
+	: integer_value
 	{
-		std::string* text = $1;
-		const integer value = stringToInteger(*text);
-		delete text;
-		$$ = value;
+		$$ = $1;
 	}
-	| T_REAL
+	| real_value
 	{
-		std::string* text = $1;
-		const integer value = stringToReal(*text);
-		delete text;
-		$$ = value;
+		$$ = $1;
 	}
 	;
 

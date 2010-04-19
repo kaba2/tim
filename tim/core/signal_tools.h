@@ -5,13 +5,13 @@
 
 #include "tim/core/signal.h"
 #include "tim/core/signal_merge.h"
+#include "tim/core/signal_split.h"
 #include "tim/core/signal_properties.h"
 
 #include <pastel/math/matrix.h>
 
 #include <pastel/gfx/color.h>
 
-#include <pastel/sys/smallset.h>
 #include <pastel/sys/forwardrange.h>
 #include <pastel/sys/array.h>
 
@@ -20,49 +20,25 @@
 namespace Tim
 {
 
+	//! Converts from nan-padded form to lagged form.
+	/*!
+	The output signal aliases the input signal such that
+	the NaNs from the beginning of the signal are skipped.
+
+	TIM Matlab allows two forms for signals, a _lagged form_, 
+	and a _NaN-padded form_. In NaN-padded form the start of the 
+	signal contains NaNs, whose role is only to keep the first
+	sample associated to the time instant zero. When converting 
+	from NaN-padded form to lagged form, the NaN part is removed 
+	from the signal and the signal is interpreted to begin at
+	the first non-NaN sample. To maintain time-correspondence,
+	the first sample in the lagged form is taken to begin at a 
+	time instant given by the number of NaN samples in the 
+	NaN-padded form.
+	*/
+	TIM SignalPtr nanToLagged(const SignalPtr& signal);
+
 	TIM std::ostream& operator<<(std::ostream& stream, const Signal& signal);
-
-	// Split
-	// -----
-
-	//! Creates aliases for 1d-marginal signals.
-	/*!
-	See the more specialized
-	'split' function for more information.
-	*/
-	template <typename SignalPtr_OutputIterator>
-	void split(
-		const SignalPtr& jointSignal,
-		SignalPtr_OutputIterator signalSet);
-
-	//! Creates aliases for marginal signals.
-	/*!
-	The partition of the joint signal is given
-	by the 'partition' set. Assume that 'jointSignal'
-	is of dimension 4 and 'partition' contains the 
-	numbers 0, 2, 3, 4. Then the marginal signals
-	are splitd with the dimension subranges
-	[0, 2[, [2, 3[, [3, 4[.
-	*/
-	template <typename SignalPtr_OutputIterator>
-	void split(
-		const SignalPtr& jointSignal,
-		const SmallSet<integer>& partition,
-		SignalPtr_OutputIterator signalSet);
-
-	//! Creates an alias for a marginal signal.
-	/*
-	Returns a signal S which refers to a marginal signal of P. 
-	For each sample x in P, S refers only to the dimension subrange 
-	[dimensionBegin, dimensionEnd[. S then has dimension
-	(dimensionEnd - dimensionBegin). Note S shares memory
-	with P and thus changes in either are reflected in
-	the other.
-	*/
-	TIM SignalPtr split(
-		const SignalPtr& signal,
-		integer dimensionBegin,
-		integer dimensionEnd);
 
 	//! Computes the covariance of the signal samples.
 	TIM void computeCovariance(
