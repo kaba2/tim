@@ -20,6 +20,7 @@
 #include "tim/console/errorlog.h"
 #include "tim/console/functions.h"
 
+#include <pastel/sys/stdext_isnan.h>
 #include <pastel/sys/stdext_copy_n.h>
 #include <pastel/sys/string_tools.h>
 
@@ -268,6 +269,21 @@ real_array
 	{
 		RealSetSet* realSetSet = $2;
 		
+		// Find out the amount of nan-padding.
+		integer nans = 0;
+		if (!realSetSet->empty())
+		{
+			RealSet* realSet = realSetSet->front();
+			while(nans < realSet->size())
+			{
+				if (!StdExt::isNan((*realSet)[nans]))
+				{
+					break;
+				}
+				++nans;
+			}
+		}		
+
 		// Find out the maximum width and height
 		// of the matrix.
 
@@ -275,7 +291,7 @@ real_array
 		integer width = 0;
 		for (integer y = 0;y < height;++y)
 		{
-			RealSet*& realSet = (*realSetSet)[y];
+			RealSet* realSet = (*realSetSet)[y];
 			if (realSet->size() > width)
 			{
 				width = realSet->size();				
@@ -284,15 +300,15 @@ real_array
 		
 		// Copy the data to a signal.
 		
-		const integer samples = width;
+		const integer samples = width - nans;
 		const integer dimension = height;
 
-		SignalPtr signal = SignalPtr(new Signal(samples, dimension));
+		SignalPtr signal = SignalPtr(new Signal(samples, dimension, nans));
 		
 		for (integer y = 0;y < height;++y)
 		{
 			RealSet* realSet = (*realSetSet)[y];
-			std::copy(realSet->begin(), realSet->end(),
+			std::copy(realSet->begin() + nans, realSet->end(),
 				signal->data().columnBegin(y));
 			delete realSet;
 		}

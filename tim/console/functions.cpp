@@ -208,7 +208,6 @@ namespace Tim
 			// Read the values into a continuous array.
 
 			std::vector<real> data;
-			real value = 0;
 
 			const integer samplesToRead = product(width);
 			if (!samplesUnknown)
@@ -217,46 +216,53 @@ namespace Tim
 			}
 
 			integer readSamples = 0;
-
-			while(true)
+			bool finished = false;
+			while(!finished)
 			{
-				// Read as many white-space separated values
-				// as possible.
-				while(file >> value)
-				{
-					data.push_back(value);
-					++readSamples;
-					if (!samplesUnknown && readSamples == samplesToRead)
-					{
-						// No need to read more samples since
-						// we already got all we need to form the
-						// signals.
-						break;
-					}
-				}
-				if (!samplesUnknown && readSamples == samplesToRead)
-				{
-					break;
-				}
-				
-				// Clear the failbit, since we just failed
-				// to read a floating point number.
-				file.clear();
-
-				// See if we can read a separator instead.
-				char separator = 0;
-				file >> separator;
+				// Read one word.
+				std::string text;
+				file >> text;
 				if (!file)
 				{
-					// No luck. Seems like this is the
-					// end of the data.
+					// There is no more data in the file.
+					finished = true;
 					break;
 				}
-				else if (separatorSet.find(separator) == std::string::npos)
+				// We found a word.
+				while(!text.empty())
 				{
-					// There was something, but it was not a separator either.
-					reportError(std::string("Invalid separator ") + separator + ".");
-					throw FunctionCall_Exception();
+					// From the word, try to read a real
+					// number.
+					integer indexEnd = 0;
+					const real value = stringToReal(text, &indexEnd);
+					if (indexEnd > 0)
+					{
+						// Found some real value.
+						data.push_back(value);
+						++readSamples;
+						if (!samplesUnknown && readSamples == samplesToRead)
+						{
+							// No need to read more samples since
+							// we already got all we need to form the
+							// signals.
+							finished = true;
+							break;
+						}
+						// Concentrate on the rest of the word.
+						text = text.substr(indexEnd);
+					}
+					else
+					{
+						// See if we can read a separator instead.
+						char separator = text[0];
+						if (separatorSet.find(separator) == std::string::npos)
+						{
+							// There was something, but it was not a separator either.
+							reportError(std::string("Invalid separator ") + separator + ".");
+							throw FunctionCall_Exception();
+						}
+						text = text.substr(1);
+					}
 				}
 			}
 
@@ -382,6 +388,18 @@ namespace Tim
 				error = true;
 			}
 
+			if (!equalDimension(forwardRange(cell->begin(), cell->end())))
+			{
+				reportError("The signals in the cell-array must have equal dimension.");
+				error = true;
+			}
+
+			if (!equalSamples(forwardRange(cell->begin(), cell->end())))
+			{
+				reportError("The signals in the cell-array must have equal number of samples.");
+				error = true;
+			}
+
 			if (error)
 			{
 				throw FunctionCall_Exception();
@@ -389,7 +407,8 @@ namespace Tim
 
 			const integer trials = cell->width();
 			const integer series = cell->height();
-			const integer samples = (*cell)(0)->samples();
+			const integer nans = (*cell)(0)->t();
+			const integer samples = (*cell)(0)->samples() + nans;
 			const integer dimension = (*cell)(0)->dimension();
 
 			Vector<integer, 4> width = permute(
@@ -421,10 +440,15 @@ namespace Tim
 					const SignalPtr signal = (*cell)(x, y);
 					for (integer i = 0;i < dimension;++i)
 					{
-						for (integer j = 0;j < samples;++j)
+						for (integer j = 0;j < nans;++j)
 						{
 							const integer offset = dot(stride, Vector<integer, 4>(j, i, x, y));
-							data[offset] = signal->data()(j, i);
+							data[offset] = nan<real>();
+						}
+						for (integer j = nans;j < samples;++j)
+						{
+							const integer offset = dot(stride, Vector<integer, 4>(j, i, x, y));
+							data[offset] = signal->data()(j - nans, i);
 						}
 					}
 				}
@@ -471,7 +495,7 @@ namespace Tim
 								file << separator0;
 							}
 							file << prefix0;
-							file << data[index];
+							file << realToString(data[index]);
 							file << suffix0;
 							++index;
 						}

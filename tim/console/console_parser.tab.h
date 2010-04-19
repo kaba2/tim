@@ -58,7 +58,7 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 53 "console_parser.y"
+#line 54 "console_parser.y"
 {
 	Tim::Statement_AstNode* statement;
 	Tim::Expression_AstNode* expression;
