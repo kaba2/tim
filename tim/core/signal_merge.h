@@ -13,36 +13,25 @@ namespace Tim
 	/*!
 	Preconditions:
 	SignalPtr_Iterator dereferences to SignalPtr.
-
-	tMin:
-	If given, is filled with the start of the
-	time interval from which the merged signal
-	was formed from.
-
-	The output signal will have as many samples as
-	the input signal with the least number of samples.
 	*/
 	template <
 		typename SignalPtr_Iterator,
 		typename Integer_Iterator>
 	SignalPtr merge(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
-		const ForwardRange<Integer_Iterator>& lagSet,
-		integer* tMin = 0);
+		const ForwardRange<Integer_Iterator>& lagSet);
 
 	/*!
 	This is a convenience function that calls:
 
 	merge(signalSet,
-		constantRange(0, signalSet.size()),
-		tMin);
+		constantRange(0, signalSet.size()));
 
 	See the documentation for that function.
 	*/
 	template <typename SignalPtr_Iterator>
 	SignalPtr merge(
-		const ForwardRange<SignalPtr_Iterator>& signalSet,
-		integer* tMin = 0);
+		const ForwardRange<SignalPtr_Iterator>& signalSet);
 
 	//! Merges two signal sets pairwise into a new signal set.
 	/*!
@@ -102,9 +91,6 @@ namespace Tim
 	/*!
 	Preconditions:
 	SignalPtr_Iterator dereferences to SignalPtr.
-
-	The output signal will have as many samples as
-	the input signal with the least number of samples.
 	*/
 	TIM SignalPtr merge(
 		const SignalPtr& xSignal,

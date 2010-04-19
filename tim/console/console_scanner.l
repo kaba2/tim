@@ -20,11 +20,14 @@ void console_error(char *s);
 ALPHA		[A-Z]|[a-z]|_
 DIGIT		[0-9]
 ALNUM		{ALPHA}|{DIGIT}
-IDENTIFIER	{ALPHA}{ALNUM}*
 INTEGER		[+-]?[0-9]+
-REAL		[+-]?[0-9]*\.[0-9]+([Ee][+-]?[0-9]+)?
+REAL_NAN	[Nn][Aa][Nn]
+REAL_INF	[Ii][Nn][Ff]
+REAL_NUMBER [0-9]*\.[0-9]+([Ee][+-]?[0-9]+)?
+REAL		[+-]?({REAL_NAN}|{REAL_INF}|{REAL_NUMBER})
 SHORTIES	[,;\[\]\*={}()]
 STRING		\"[^\"]*\"
+IDENTIFIER	{ALPHA}{ALNUM}*
 
 %%
 
@@ -44,11 +47,6 @@ print		{
 				return console_text[0]; 
 			}
 
-{IDENTIFIER}	{
-					console_lval.string = new std::string(console_text);
-					return T_IDENTIFIER;
-				}
-
 {INTEGER}	{
 				console_lval.string = new std::string(console_text);
 				return T_INTEGER; 
@@ -58,6 +56,11 @@ print		{
 				console_lval.string = new std::string(console_text);
 				return T_REAL; 
 			}
+
+{IDENTIFIER}	{
+					console_lval.string = new std::string(console_text);
+					return T_IDENTIFIER;
+				}
 
 {STRING}	{
 				std::string copy(console_text);

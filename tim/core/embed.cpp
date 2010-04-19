@@ -16,11 +16,11 @@ namespace Tim
 		const integer samples = signal->samples();
 
 		const integer embedDimension = k * n;
-		const integer embedSampleWidth = (k - 1) * dt + 1;
-		const integer embedSamples = std::max(samples - embedSampleWidth + 1, 0);
+		const integer embedLag = (k - 1) * dt;
+		const integer embedSamples = std::max(samples - embedLag, 0);
 
 		const SignalPtr embedSignal = SignalPtr(
-			new Signal(embedSamples, embedDimension));
+			new Signal(embedSamples, embedDimension, signal->t() + embedLag));
 
 		integer sBegin = 0;
 		for (integer t = 0;t < embedSamples;++t)
@@ -62,9 +62,11 @@ namespace Tim
 		const integer embedSamples = 
 			std::max(samples - futureShift, 0);
 
-		SignalPtr embedSignal(
-			new Signal(embedSamples, dimension));
+		const SignalPtr embedSignal = SignalPtr(
+			new Signal(embedSamples, dimension,
+			signal->t(), &*signal->data().rowBegin(futureShift)));
 
+		/*
 		if (embedSamples > 0)
 		{
 			const integer beginIndex = futureShift * dimension;
@@ -75,6 +77,7 @@ namespace Tim
 				signal->data().rawBegin() + endIndex,
 				embedSignal->data().rawBegin());
 		}
+		*/
 
 		return embedSignal;
 	}
@@ -86,7 +89,7 @@ namespace Tim
 		PENSURE_OP(k, >, 0);
 		PENSURE_OP(dt, >=, 1);
 
-		return dt * k;
+		return dt;
 	}
 
 }

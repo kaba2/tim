@@ -32,9 +32,9 @@ namespace Tim
 		// Using default destructor.
 
 		Signal();
-		Signal(integer samples, integer dimension);
-		Signal(integer samples, integer dimension,
-			real* dataToAlias);
+		Signal(integer samples, integer dimension, integer t = 0);
+		Signal(integer samples, integer dimension, 
+			integer t, real* dataToAlias);
 
 		void setName(const std::string& name);
 		const std::string& name() const;
@@ -45,6 +45,9 @@ namespace Tim
 		MatrixD& data();
 		const MatrixD& data() const;
 
+		void setT(integer t);
+		integer t() const;
+
 		PointIterator pointBegin(integer dimensionBegin = 0);
 		ConstPointIterator pointBegin(integer dimensionBegin = 0) const;
 
@@ -54,6 +57,7 @@ namespace Tim
 	private:
 		std::string name_;
 		MatrixD data_;
+		integer t_;
 	};
 
 	typedef CountedPtr<Signal> SignalPtr;

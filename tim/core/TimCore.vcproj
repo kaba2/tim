@@ -736,11 +736,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\signal_properties.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\signal_properties.h"
 				>
 			</File>
 			<File
 				RelativePath=".\signal_properties.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\signal_split.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\signal_split.h"
+				>
+			</File>
+			<File
+				RelativePath=".\signal_split.hpp"
 				>
 			</File>
 			<File
