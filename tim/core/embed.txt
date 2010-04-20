@@ -14,7 +14,7 @@ A _delay-embedding_ of ''S'' is a signal
 ''R : ZZ -> RR^(kn)'' such that 
 
 ''R(t) = (
-(S(t - (k - 1) Delta t))
+(S(t - (k - 1) Delta t)),
 (...), 
 (S(t - Delta t)), 
 (S(t)))''
@@ -51,36 +51,17 @@ parameters.
 In practice the signals are only defined on a bounded support. 
 In TIM the signals are extended to the whole domain by padding them
 with NaNs. The result is that there are NaNs in the beginning of 
-each delay-embedded signal. These NaNs in the beginning are virtually
-clipped away in the estimators and replaced with additional lags.
-For example, in TIM Matlab:
+each delay-embedded signal. For example, in TIM Matlab:
 
 	>> A = delay_embed([1, 2, 3, 4], 3, 1);
-	>> [B, lag] = delay_embed([1, 2, 3, 4], 3, 1, 'compact');
 	
 Yields:
 
 	A = NaN NaN 1 2 
 	    NaN   1 2 3 
 	      1   2 3 4
-	      
-	B = 1 2
-	    2 3
-	    3 4
-	    
-Computing
-
-	>> differential_entropy_kl(A);
-	>> differential_entropy_kl(B);
-
-Yields the same results. The same applies to other estimators, if only
-one remembers to apply the additional lag:
-
-	>> mutual_information(A, A);
-	>> mutual_information(A, B, 0, lag);
-
-	
-	    
-	     
-	
-
+	      	     
+The samples containing NaNs at the first element are clipped away 
+when the control transfers from TIM Matlab to TIM Core and replaced 
+with additional lags. For example, in the previous example A is 
+equivalent to the signal [1, 2;2, 3;3, 4] with a lag of 2.

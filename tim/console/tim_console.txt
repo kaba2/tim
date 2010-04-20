@@ -1,17 +1,13 @@
-TIM Console interface
-=======================
+TIM Console
+===========
 
 [[Parent]]: tim.txt
 
-_Note: In case you came to this page directly, 
-TIM Console can be downloaded from [TIM's main page][TIM]_.
-
-[TIM]: [[Ref: tim.txt]]
-
-The TIM Console interface is one of the three ways to access the 
-functionality in TIM. This interface offers a minimalistic 
-programming language to specify data as well as to compute the 
-needed estimates. The syntax of this language mimics that of Matlab.
+_TIM Console_ is one of the three ways to access the 
+functionality in TIM. It is a simple command-line program that
+interprets a script written in a minimalistic programming language 
+to specify data as well as to compute the needed estimates. The 
+syntax of this language mimics that of Matlab.
 
 Usage
 -----
@@ -30,7 +26,26 @@ write the results to files (in the script).
 
 _Note: Running TIM Console and passing input row-by-row from 
 keyboard does not work._
+
+Download
+--------
+
+Here we provide prebuilt binaries for Windows users. 
+
+_Important: You need to have the Visual C++ 2008 SP1 Redistributable 
+Package installed for TIM Console to work._
+
+### Latest version
 	
+[Download TIM Console 1.1.0][TIM-Console-1.1.0]
+
+### Previous versions
+
+[Download TIM Console 1.0.2][TIM-Console-1.0.2]
+
+[TIM-Console-1.1.0]: ../../files/tim-console-1.1.0.zip
+[TIM-Console-1.0.2]: ../../files/tim-console-1.0.2.zip
+
 Quick-start: Example script file
 --------------------------------
 
