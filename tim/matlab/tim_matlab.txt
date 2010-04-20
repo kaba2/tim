@@ -20,6 +20,7 @@ Download
 --------
 
 Here we provide prebuilt binaries for Windows users. 
+
 _Important: You need to have the Visual C++ 2008 SP1 Redistributable 
 Package installed for TIM Matlab to work._
 
@@ -36,6 +37,10 @@ Package installed for TIM Matlab to work._
 
 General information
 -------------------
+
+For the theoretical background, visit the [documentation for TIM Core][TIM-Core].
+
+[TIM-Core]: [[Ref]]: tim_core.txt
 
 ### Naming
 

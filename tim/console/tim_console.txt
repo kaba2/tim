@@ -49,6 +49,11 @@ Package installed for TIM Console to work._
 Quick-start: Example script file
 --------------------------------
 
+For the theoretical background, visit the [documentation for TIM Core][TIM-Core].
+
+[TIM-Core]: [[Ref]]: tim_core.txt
+
+
 	% This is a row-comment.
 	// This is a row-comment too.
 
