@@ -277,7 +277,7 @@ namespace Tim
 //#pragma omp parallel for reduction(+ : signalEstimate, weightSum)
 				for (integer j = 0;j < windowSamples;++j)
 				{
-					const integer k = countSet[j] - 1;
+					const integer k = countSet[j];
 
 					// A neighbor count of zero can happen when the distance
 					// to the k:th neighbor is zero because of using an
