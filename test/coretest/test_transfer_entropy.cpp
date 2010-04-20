@@ -43,7 +43,7 @@ namespace
 	}
 
 	void generateCouplingTest(
-		Array<SignalPtr, 2>& signalSet)
+		Array<SignalPtr>& signalSet)
 	{
 		const integer samples = 1500;
 		const integer trials = 5;
@@ -77,7 +77,7 @@ namespace
 
 		const integer kNearest = 20;
 
-		Array<SignalPtr, 2> signalSet;
+		Array<SignalPtr> signalSet;
 
 		//generateGaussianTest(
 		//	xEnsemble, xFutureEnsemble, yEnsemble);
@@ -112,7 +112,7 @@ namespace
 			const SignalPtr miLag = SignalPtr(
 				new Signal(xzMiSet.size(), 1));
 
-			Array<Color, 2> image(xzMiSet.size(), 100);
+			Array<Color> image(xzMiSet.size(), 100);
 			
 			std::copy(
 				xzMiSet.begin(),
@@ -149,7 +149,7 @@ namespace
 			estimateSet.end(),
 			estimate->data().begin());
 
-		Array<Color, 2> image(estimateSet.size(), 100);
+		Array<Color> image(estimateSet.size(), 100);
 
 		drawSignal(estimate, arrayView(image));
 		savePcx(image, "test_mte_coupling.pcx");

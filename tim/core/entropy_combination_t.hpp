@@ -33,7 +33,7 @@ namespace Tim
 		typename Integer_Iterator,
 		typename Real_Filter_Iterator>
 	integer temporalEntropyCombination(
-		const Array<SignalPtr, 2>& signalSet,
+		const Array<SignalPtr>& signalSet,
 		const ForwardRange<Integer3_Iterator>& rangeSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
@@ -65,8 +65,6 @@ namespace Tim
 		}
 
 		const integer trials = signalSet.width();
-
-		log() << "Trials = " << trials << logNewLine;
 
 		// There are several goals to keep in mind when
 		// reporting the results:
@@ -209,7 +207,7 @@ namespace Tim
 			signalWeightSum += range[2];
 		}
 
-		Array<real, 2> distanceArray(1, maxLocalFilterWidth * trials, infinity<real>());
+		Array<real> distanceArray(1, maxLocalFilterWidth * trials, infinity<real>());
 		
 		std::vector<integer> countSet(maxLocalFilterWidth * trials, 0);
 
@@ -336,7 +334,7 @@ namespace Tim
 		typename Real_OutputIterator,
 		typename Integer_Iterator>
 	integer temporalEntropyCombination(
-		const Array<SignalPtr, 2>& signalSet,
+		const Array<SignalPtr>& signalSet,
 		const ForwardRange<Integer3_Iterator>& rangeSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
@@ -357,7 +355,7 @@ namespace Tim
 		typename Integer3_Iterator,
 		typename Real_OutputIterator>
 	integer temporalEntropyCombination(
-		const Array<SignalPtr, 2>& signalSet,
+		const Array<SignalPtr>& signalSet,
 		const ForwardRange<Integer3_Iterator>& rangeSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result)

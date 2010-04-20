@@ -49,7 +49,7 @@ namespace Tim
 		const integer dimension = signalSet.front()->dimension();
 		const integer estimateSamples = samples * trials;
 
-		Array<real, 2> distanceArray(1, estimateSamples);
+		Array<real> distanceArray(1, estimateSamples);
 
 		// Find the distance to the k:th nearest neighbor for all points.
 

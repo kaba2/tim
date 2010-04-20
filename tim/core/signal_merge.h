@@ -72,7 +72,7 @@ namespace Tim
 		typename SignalPtr_OutputIterator,
 		typename Integer_Iterator>
 	void merge(
-		const Array<SignalPtr, 2>& ensembleSet,
+		const Array<SignalPtr>& ensembleSet,
 		SignalPtr_OutputIterator result,
 		const ForwardRange<Integer_Iterator>& lagSet);
 
@@ -84,7 +84,7 @@ namespace Tim
 	*/
 	template <typename SignalPtr_OutputIterator>
 	void merge(
-		const Array<SignalPtr, 2>& ensembleSet,
+		const Array<SignalPtr>& ensembleSet,
 		SignalPtr_OutputIterator result);
 
 	//! Merges two signals into a higher-dimensional signal.

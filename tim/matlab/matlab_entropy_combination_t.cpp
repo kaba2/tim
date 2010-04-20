@@ -25,7 +25,7 @@ namespace
 			threadsIndex
 		};
 
-		Array<SignalPtr, 2> signalSet;
+		Array<SignalPtr> signalSet;
 		getSignalArray(inputSet[signalSetIndex], signalSet);
 
 		std::vector<integer> lagSet;

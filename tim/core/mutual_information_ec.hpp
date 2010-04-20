@@ -47,7 +47,7 @@ namespace Tim
 
 			const integer trials = xSignalSet.size();
 
-			Array<SignalPtr, 2> signalSet(trials, 2);
+			Array<SignalPtr> signalSet(trials, 2);
 			std::copy(xSignalSet.begin(), xSignalSet.end(),
 				signalSet.rowBegin(0));
 			std::copy(ySignalSet.begin(), ySignalSet.end(),
