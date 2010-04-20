@@ -30,13 +30,15 @@ partial mutual information, transfer entropy, and partial transfer entropy.
 News
 ----
 
-### 12.4.2010 - Released version 1.1.0
+### 20.4.2010 - Released version 1.1.0
 
 #### TIM Core
 
  * Added estimation of Renyi entropies.
  * Added estimation of Tsallis entropies.
  * Improved the handling of degenerate cases.
+ * Improved the performance of range counting used
+ in entropy combination estimators.
  * Made the output of temporal estimators to have a 
  width independent of lags (padded with NaNs) and the
  first element to correspond to time instant 0.
@@ -48,20 +50,27 @@ News
 
 #### TIM Matlab
 
- * Packed all functionality to a single mex 
- file instead of multiple ones.
- * Allowed multiple lags to be specified for 
- entropy combination estimators.
  * Real arrays are now interpreted as cell-arrays 
  containing a single trial in the estimators.
+ * Allowed multiple lags to be specified for 
+ entropy combination estimators.
  * Added trial permutation and permutation test.
+ * Packed all functionality to a single mex 
+ file instead of multiple ones.
  
+#### TIM Console
+
+ * Added support for Not-A-Number (NaN) and 
+ infinity (Inf) real values.
+ * Fixed a bug which caused manually specified
+ real-arrays to be rounded to integer values.
+
 #### TIM Matlab and TIM Console
 
  * Added delay-embedding.
- * Added support for the generalized versions
- of the temporal estimators.
-
+ * Added support for generalized versions
+ of temporal estimators.
+ 
 #### Breaking changes
 
  * Removed the parameter to specify maximum relative 
