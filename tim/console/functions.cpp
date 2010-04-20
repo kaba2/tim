@@ -301,13 +301,23 @@ namespace Tim
 			{
 				for (integer x = 0;x < trials;++x)
 				{
-					SignalPtr signal = SignalPtr(new Signal(samples, dimension));
+					integer nans = 0;
+					for (integer j = 0;j < samples;++j)
+					{
+						const integer offset = dot(stride, Vector<integer, 4>(j, 0, x, y));
+						if (!StdExt::isNan(data[offset]))
+						{
+							break;
+						}
+						++nans;
+					}
+					SignalPtr signal = SignalPtr(new Signal(samples - nans, dimension, nans));
 					for (integer i = 0;i < dimension;++i)
 					{
-						for (integer j = 0;j < samples;++j)
+						for (integer j = nans;j < samples;++j)
 						{
 							const integer offset = dot(stride, Vector<integer, 4>(j, i, x, y));
-							signal->data()(j, i) = data[offset];
+							signal->data()(j - nans, i) = data[offset];
 						}
 					}
 					(*cellArray)(x, y) = signal;
