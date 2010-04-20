@@ -14,31 +14,27 @@ beyond the time-window.
 TIM allows the user to specify a weighting function, 
 also called a _filter_, for the samples inside a time-window.
 The weighting function allows, for example, to give more weight to 
-those samples near in time compared to those far away. Using a 
-weighting function which is continuous and goes to zero at the 
-window edges turns the temporal estimate into a continuous 
-function of time. There is only one requirement for a weighting 
-function: the weights inside the time-window must sum to a non-zero 
-value. This sum-value need not be 1, because TIM divides the weighting
-values by the sum-value. The weighting function is centered on the 
-current time instant.
+those samples near in time compared to those far away. There is only 
+one requirement for a weighting function: the weights inside the 
+time-window must sum to a non-zero value. This sum-value need not 
+be 1, because TIM divides the weighting values by the sum-value. 
+The weighting function is centered on the current time instant.
 
 The default weighting function in TIM is the dirac delta, which is
 1 for the samples at the current time instant, and (implicitly) 0 
 for other time instants. This results in an estimator which is
 very efficient to evaluate, but has high variance. To lower the
-variance one can average (low-pass filter) the output as a 
-post-process. This combined process is a rough approximation of what
-TIM does when a wider weighting function is provided. One should note 
-that in this post-process the actual time-window of samples from which 
-the estimates are dependent on grows.
+variance, one can average (low-pass filter) the output as a 
+post-process. One should note that in this post-process the actual 
+time-window of samples from which the estimates are dependent on grows.
 
-The use of wider weighting functions gives more accurate estimates.
-However, the run-times of the temporal estimators are dependent on the 
-size of support of the weighting function. The needs in accuracy and 
-performance can be balanced with a hybrid approach of using a moderately 
-wide weighting function and then taking out the rest of the variance with 
-a small post-processing filter.
+The dirac delta weighting function combined with averaging has been 
+studied before in the literature and is known to give good results. 
+In contrast, there is no research available for the wider weighting 
+functions yet. Thus we recommend that you use the default weighting 
+function. The wider weighting functions are included in TIM on an 
+experimental basis. The run-times of the temporal estimators are 
+linearly dependent on the size of support of the weighting function. 
 
 ### Output of temporal entropy combination estimators
 
