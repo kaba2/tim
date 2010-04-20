@@ -51,7 +51,7 @@ namespace Tim
 
 			// Note the signals are listed in XZY order.
 
-			Array<SignalPtr, 2> signalSet(trials, 3);
+			Array<SignalPtr> signalSet(trials, 3);
 			std::copy(xSignalSet.begin(), xSignalSet.end(), signalSet.rowBegin(0));
 			std::copy(zSignalSet.begin(), zSignalSet.end(), signalSet.rowBegin(1));
 			std::copy(ySignalSet.begin(), ySignalSet.end(), signalSet.rowBegin(2));

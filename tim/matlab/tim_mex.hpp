@@ -87,7 +87,7 @@ namespace Tim
 
 	inline void getSignalArray(
 		const mxArray* signalSetArray, 
-		Array<SignalPtr, 2>& signalSet)
+		Array<SignalPtr>& signalSet)
 	{
 		const integer signals = mxGetM(signalSetArray);
 		const integer trials = mxGetN(signalSetArray);
