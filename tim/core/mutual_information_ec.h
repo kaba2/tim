@@ -39,12 +39,6 @@ namespace Tim
 	kNearest:
 	The number of nearest neighbors to use in the estimation.
 
-	Returns:
-	The number of time instants that had an
-	undefined estimate. If not all estimates
-	were undefined, they were reconstructed from 
-	the defined estimates using interpolation.
-
 	If the number of samples varies between trials, 
 	then the minimum number of samples among the trials
 	is used.
@@ -53,13 +47,11 @@ namespace Tim
 	template <
 		typename SignalPtr_X_Iterator,
 		typename SignalPtr_Y_Iterator,
-		typename Real_OutputIterator,
 		typename Real_Filter_Iterator>
-	integer temporalMutualInformation(
+	SignalPtr temporalMutualInformation(
 		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
 		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		integer xLag, integer yLag,
 		integer kNearest,
 		const ForwardRange<Real_Filter_Iterator>& filter);
@@ -72,7 +64,6 @@ namespace Tim
 		xSignalSet,
 		ySignalSet,
 		timeWindowRadius,
-		result,
 		xLag, yLag,
 		filter,
 		kNearest,
@@ -83,13 +74,11 @@ namespace Tim
 
 	template <
 		typename SignalPtr_X_Iterator,
-		typename SignalPtr_Y_Iterator,
-		typename Real_OutputIterator>
-	integer temporalMutualInformation(
+		typename SignalPtr_Y_Iterator>
+	SignalPtr temporalMutualInformation(
 		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
 		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		integer xLag = 0, integer yLag = 0,
 		integer kNearest = 1);
 

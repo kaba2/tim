@@ -72,6 +72,15 @@ namespace Tim
 	}
 
 	template <typename SignalPtr_Iterator>
+	Integer2 sharedTimeInterval(
+		const ForwardRange<SignalPtr_Iterator>& signalSet)
+	{
+		return sharedTimeInterval(
+			signalSet,
+			constantRange(0, signalSet.size()));
+	}
+
+	template <typename SignalPtr_Iterator>
 	integer minSamples(
 		const ForwardRange<SignalPtr_Iterator>& signalSet)
 	{

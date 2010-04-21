@@ -29,11 +29,6 @@ namespace Tim
 	Smaller values give more temporal adaptivity,
 	but increase errors.
 
-	result:
-	A real output iterator, denoting the start
-	of the region where the sequence of temporal
-	differential entropies are to be stored.
-
 	kNearest:
 	The k:th nearest neighbor that is used to
 	estimate differential entropy.
@@ -41,23 +36,15 @@ namespace Tim
 	normBijection:
 	A measure of distance to use. See 
 	'pastel/math/normbijection.txt'	for documentation.
-
-	Returns:
-	The number of time instants that had an
-	undefined estimate. If not all estimates
-	were undefined, they were reconstructed from 
-	the defined estimates using interpolation.
 	*/
 
 	template <
 		typename SignalPtr_Iterator, 
-		typename Real_OutputIterator,
 		typename NormBijection,
 		typename Real_Filter_Iterator>
-	integer temporalDifferentialEntropyKl(
+	SignalPtr temporalDifferentialEntropyKl(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		integer kNearest,
 		const NormBijection& normBijection,
 		const ForwardRange<Real_Filter_Iterator>& filter);
@@ -67,7 +54,7 @@ namespace Tim
 	This is a convenience function that calls:
 
 	temporalDifferentialEntropyKl(
-		signalSet, timeWindowRadius, result, 
+		signalSet, timeWindowRadius,
 		kNearest, Default_NormBijection());
 
 	See the documentation for that function.
@@ -75,12 +62,10 @@ namespace Tim
 
 	template <
 		typename SignalPtr_Iterator, 
-		typename Real_OutputIterator,
 		typename NormBijection>
-	integer temporalDifferentialEntropyKl(
+	SignalPtr temporalDifferentialEntropyKl(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		integer kNearest,
 		const NormBijection& normBijection);
 
@@ -89,19 +74,16 @@ namespace Tim
 	This is a convenience function that calls:
 
 	temporalDifferentialEntropyKl(
-		signalSet, timeWindowRadius, result, 
+		signalSet, timeWindowRadius,
 		kNearest, Default_NormBijection());
 
 	See the documentation for that function.
 	*/
 
-	template <
-		typename SignalPtr_Iterator, 
-		typename Real_OutputIterator>
-	integer temporalDifferentialEntropyKl(
+	template <typename SignalPtr_Iterator>
+	SignalPtr temporalDifferentialEntropyKl(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		integer kNearest = 1);
 
 	// Differential entropy

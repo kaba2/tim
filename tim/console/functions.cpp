@@ -607,21 +607,14 @@ namespace Tim
 
 			// Compute.
 			
-			std::vector<real> deSet;
-			
-			temporalDifferentialEntropyKl(
+			const SignalPtr de = temporalDifferentialEntropyKl(
 				forwardRange(cell->begin(), cell->end()),
 				timeWindowRadius,
-				std::back_inserter(deSet),
 				kNearest,
 				Default_NormBijection(),
 				forwardRange(filter->data().begin(), filter->data().end()));
 				
-			SignalPtr signal = SignalPtr(new Signal(deSet.size(), 1));
-			std::copy(deSet.begin(), deSet.end(),
-				signal->data().begin());
-				
-			return boost::any(signal);
+			return boost::any(de);
 		}
 
 		boost::any differential_entropy_nk(const AnySet& argSet, integer passedArgs)
@@ -766,21 +759,14 @@ namespace Tim
 
 			// Compute.
 			
-			std::vector<real> deSet;
-			
-			temporalRenyiEntropyLps(
+			const SignalPtr re = temporalRenyiEntropyLps(
 				forwardRange(cell->begin(), cell->end()),
 				timeWindowRadius,
-				std::back_inserter(deSet),
 				q,
 				kNearest,
 				forwardRange(filter->data().begin(), filter->data().end()));
 				
-			SignalPtr signal = SignalPtr(new Signal(deSet.size(), 1));
-			std::copy(deSet.begin(), deSet.end(),
-				signal->data().begin());
-				
-			return boost::any(signal);
+			return boost::any(re);
 		}
 
 		boost::any tsallis_entropy_lps(const AnySet& argSet, integer passedArgs)
@@ -889,21 +875,14 @@ namespace Tim
 
 			// Compute.
 			
-			std::vector<real> deSet;
-			
-			temporalTsallisEntropyLps(
+			const SignalPtr estimate = temporalTsallisEntropyLps(
 				forwardRange(cell->begin(), cell->end()),
 				timeWindowRadius,
-				std::back_inserter(deSet),
 				q,
 				kNearest,
 				forwardRange(filter->data().begin(), filter->data().end()));
 				
-			SignalPtr signal = SignalPtr(new Signal(deSet.size(), 1));
-			std::copy(deSet.begin(), deSet.end(),
-				signal->data().begin());
-				
-			return boost::any(signal);
+			return boost::any(estimate);
 		}
 
 		boost::any mutual_information_t(const AnySet& argSet, integer passedArgs)
@@ -964,22 +943,15 @@ namespace Tim
 
 			// Compute.
 			
-			std::vector<real> miSet;
-			
-			temporalMutualInformation(
+			const SignalPtr mi = temporalMutualInformation(
 				forwardRange(xCell->begin(), xCell->end()),
 				forwardRange(yCell->begin(), yCell->end()),
 				timeWindowRadius,
-				std::back_inserter(miSet),
 				xLag, yLag,
 				kNearest,
 				forwardRange(filter->data().begin(), filter->data().end()));
 				
-			SignalPtr signal = SignalPtr(new Signal(miSet.size(), 1));
-			std::copy(miSet.begin(), miSet.end(),
-				signal->data().begin());
-				
-			return boost::any(signal);
+			return boost::any(mi);
 		}
 
 		boost::any mutual_information(const AnySet& argSet, integer passedArgs)
@@ -1095,23 +1067,16 @@ namespace Tim
 
 			// Compute.
 			
-			std::vector<real> miSet;
-			
-			temporalPartialMutualInformation(
+			const SignalPtr mi = temporalPartialMutualInformation(
 				forwardRange(xCell->begin(), xCell->end()),
 				forwardRange(yCell->begin(), yCell->end()),
 				forwardRange(zCell->begin(), zCell->end()),
 				timeWindowRadius,
-				std::back_inserter(miSet),
 				xLag, yLag, zLag,
 				kNearest,
 				forwardRange(filter->data().begin(), filter->data().end()));
 				
-			SignalPtr signal = SignalPtr(new Signal(miSet.size(), 1));
-			std::copy(miSet.begin(), miSet.end(),
-				signal->data().begin());
-				
-			return boost::any(signal);
+			return boost::any(mi);
 		}
 
 		boost::any mutual_information_p(const AnySet& argSet, integer passedArgs)
@@ -1234,23 +1199,16 @@ namespace Tim
 
 			// Compute.
 			
-			std::vector<real> teSet;
-			
-			temporalTransferEntropy(
+			const SignalPtr te = temporalTransferEntropy(
 				forwardRange(xCell->begin(), xCell->end()),
 				forwardRange(yCell->begin(), yCell->end()),
 				forwardRange(wCell->begin(), wCell->end()),
 				timeWindowRadius,
-				std::back_inserter(teSet),
 				xLag, yLag, wLag,
 				kNearest,
 				forwardRange(filter->data().begin(), filter->data().end()));
 				
-			SignalPtr signal = SignalPtr(new Signal(teSet.size(), 1));
-			std::copy(teSet.begin(), teSet.end(),
-				signal->data().begin());
-				
-			return boost::any(signal);
+			return boost::any(te);
 		}
 
 		boost::any transfer_entropy_pt(const AnySet& argSet, integer passedArgs)
@@ -1323,24 +1281,17 @@ namespace Tim
 
 			// Compute.
 			
-			std::vector<real> teSet;
-			
-			temporalPartialTransferEntropy(
+			const SignalPtr pte = temporalPartialTransferEntropy(
 				forwardRange(xCell->begin(), xCell->end()),
 				forwardRange(yCell->begin(), yCell->end()),
 				forwardRange(zCell->begin(), zCell->end()),
 				forwardRange(wCell->begin(), wCell->end()),
 				timeWindowRadius,
-				std::back_inserter(teSet),
 				xLag, yLag, zLag, wLag,
 				kNearest,
 				forwardRange(filter->data().begin(), filter->data().end()));
 				
-			SignalPtr signal = SignalPtr(new Signal(teSet.size(), 1));
-			std::copy(teSet.begin(), teSet.end(),
-				signal->data().begin());
-				
-			return boost::any(signal);
+			return boost::any(pte);
 		}
 
 		boost::any transfer_entropy(const AnySet& argSet, integer passedArgs)
