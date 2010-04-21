@@ -35,21 +35,22 @@ namespace
 		const integer threads = getInteger(inputSet[threadsIndex]);
 		setNumberOfThreads(threads);
 
-		std::vector<real> estimateSet;
-		estimateSet.reserve(minSamples(forwardRange(xEnsemble.begin(), xEnsemble.end())));
-
-		temporalDifferentialEntropyKl(
+		const SignalPtr estimate = temporalDifferentialEntropyKl(
 			forwardRange(xEnsemble.begin(), xEnsemble.end()), 
-			timeWindowRadius, std::back_inserter(estimateSet),
+			timeWindowRadius, 
 			kNearest,
 			Default_NormBijection(),
 			forwardRange(filter.begin(), filter.end()));
 
-		outputSet[0] = mxCreateDoubleMatrix(1, estimateSet.size(), mxREAL);
-		real* rawResult = mxGetPr(outputSet[0]);
+		const integer nans = std::max(estimate->t(), 0);
+		const integer skip = std::max(-estimate->t(), 0); 
+		const integer samples = std::max(nans + estimate->samples() - skip, 0);
 
-		std::copy(estimateSet.begin(), estimateSet.end(),
-			rawResult);
+		outputSet[0] = mxCreateDoubleMatrix(1, samples, mxREAL);
+		real* rawResult = mxGetPr(outputSet[0]);
+		std::fill_n(rawResult, nans, nan<real>());
+		std::copy(estimate->data().begin() + skip, 
+			estimate->data().end(), rawResult + nans);
 	}
 
 	void addFunction()

@@ -21,7 +21,6 @@ namespace
 		const integer kNearest = 1;
 		real averageEstimate = 0;
 
-		NullIterator estimateSet;
 		Euclidean_NormBijection<real> normBijection;
 
 		// To compute differential entropy for
@@ -39,17 +38,17 @@ namespace
 		// a time-window:
 
 		temporalDifferentialEntropyKl(
-			constantRange(xSignal), timeWindowRadius, estimateSet,
+			constantRange(xSignal), timeWindowRadius,
 			kNearest, normBijection);
 
 		averageEstimate = differentialEntropyKl(
 			constantRange(xSignal), kNearest, normBijection);
 
 		temporalDifferentialEntropyKl(
-			constantRange(xSignal), timeWindowRadius, estimateSet, 
+			constantRange(xSignal), timeWindowRadius,
 			kNearest);
 		temporalDifferentialEntropyKl(
-			constantRange(xSignal), timeWindowRadius, estimateSet,
+			constantRange(xSignal), timeWindowRadius,
 			kNearest, normBijection);
 
 		// To compute differential entropy for
@@ -72,17 +71,16 @@ namespace
 
 		temporalDifferentialEntropyKl(
 			forwardRange(signalSet), 
-			timeWindowRadius, estimateSet); 
+			timeWindowRadius); 
 		temporalDifferentialEntropyKl(
 			forwardRange(signalSet), 
-			timeWindowRadius, estimateSet); 
+			timeWindowRadius); 
 		temporalDifferentialEntropyKl(
 			forwardRange(signalSet), 
-			timeWindowRadius, estimateSet, 
+			timeWindowRadius, 
 			kNearest);
 		temporalDifferentialEntropyKl(
 			forwardRange(signalSet), timeWindowRadius, 
-			estimateSet,
 			kNearest,
 			normBijection);
 	}

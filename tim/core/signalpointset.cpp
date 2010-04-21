@@ -27,8 +27,8 @@ namespace Tim
 			kdTree_.insert(pointSet_.begin(), pointSet_.end(), 
 				std::back_inserter(objectSet_));
 			
-			timeBegin_ = 0;
-			timeEnd_ = pointSet_.size();
+			windowBegin_ = timeBegin_;
+			windowEnd_ = timeBegin_ + pointSet_.size();
 		}
 		else
 		{
@@ -52,10 +52,11 @@ namespace Tim
 		objectSet_.swap(that.objectSet_);
 		std::swap(signals_, that.signals_);
 		std::swap(samples_, that.samples_);
-		std::swap(timeBegin_, that.timeBegin_);
-		std::swap(timeEnd_, that.timeEnd_);
+		std::swap(windowBegin_, that.windowBegin_);
+		std::swap(windowEnd_, that.windowEnd_);
 		std::swap(dimensionBegin_, that.dimensionBegin_);
 		std::swap(dimension_, that.dimension_);
+		std::swap(timeBegin_, that.timeBegin_);
 	}
 
 	SignalPointSet& SignalPointSet::operator=(
@@ -67,15 +68,15 @@ namespace Tim
 	}
 
 	void SignalPointSet::setTimeWindow(
-		integer newTimeBegin, integer newTimeEnd)
+		integer newWindowBegin, integer newWindowEnd)
 	{
-		ENSURE_OP(newTimeBegin, <=, newTimeEnd);
+		ENSURE_OP(newWindowBegin, <=, newWindowEnd);
 
-		newTimeBegin = clamp(newTimeBegin, 0, samples_);
-		newTimeEnd = clamp(newTimeEnd, 0, samples_);
+		newWindowBegin = clamp(newWindowBegin, timeBegin_, timeBegin_ + samples_);
+		newWindowEnd = clamp(newWindowEnd, timeBegin_, timeBegin_ + samples_);
 
-		if (newTimeBegin >= timeEnd_ || newTimeEnd <= timeBegin_ ||
-			newTimeBegin == newTimeEnd || timeBegin_ == timeEnd_)
+		if (newWindowBegin >= windowEnd_ || newWindowEnd <= windowBegin_ ||
+			newWindowBegin == newWindowEnd || windowBegin_ == windowEnd_)
 		{
 			// The time-windows do not share any
 			// elements. Clear all objects from
@@ -87,8 +88,8 @@ namespace Tim
 			// And insert the new ones.
 
 			kdTree_.insert(
-				pointSet_.begin() + newTimeBegin * signals_,
-				pointSet_.begin() + newTimeEnd * signals_,
+				pointSet_.begin() + (newWindowBegin - timeBegin_) * signals_,
+				pointSet_.begin() + (newWindowEnd - timeBegin_) * signals_,
 				std::back_inserter(objectSet_));
 		}
 		else
@@ -97,7 +98,7 @@ namespace Tim
 			// which are common to both, remove and insert
 			// appropriately to get the new time-window.
 
-			integer deltaRight = timeEnd_ - newTimeEnd;
+			integer deltaRight = windowEnd_ - newWindowEnd;
 			if (deltaRight > 0)
 			{
 				// Remove objects from the right.
@@ -114,21 +115,21 @@ namespace Tim
 				// Add objects to the right.
 
 				kdTree_.insert(
-					pointSet_.begin() + timeEnd_ * signals_,
-					pointSet_.begin() + newTimeEnd * signals_,
+					pointSet_.begin() + (windowEnd_ - timeBegin_) * signals_,
+					pointSet_.begin() + (newWindowEnd - timeBegin_) * signals_,
 					std::back_inserter(objectSet_));
 			}
 
-			integer deltaLeft = timeBegin_ - newTimeBegin;
+			integer deltaLeft = windowBegin_ - newWindowBegin;
 			if (deltaLeft > 0)
 			{
 				// Add objects to the left.
 
 				kdTree_.insert(
 					boost::make_reverse_iterator(
-					pointSet_.begin() + timeBegin_ * signals_),
+					pointSet_.begin() + (windowBegin_ - timeBegin_) * signals_),
 					boost::make_reverse_iterator(
-					pointSet_.begin() + newTimeBegin * signals_),
+					pointSet_.begin() + (newWindowBegin - timeBegin_) * signals_),
 					std::front_inserter(objectSet_));
 			}
 			else if (deltaLeft < 0)
@@ -144,8 +145,8 @@ namespace Tim
 			}
 		}
 
-		timeBegin_ = newTimeBegin;
-		timeEnd_ = newTimeEnd;
+		windowBegin_ = newWindowBegin;
+		windowEnd_ = newWindowEnd;
 	}
 
 	const SignalPointSet::KdTree& SignalPointSet::kdTree() const
@@ -165,14 +166,14 @@ namespace Tim
 		return objectSet_.end();
 	}
 
-	integer SignalPointSet::timeBegin() const
+	integer SignalPointSet::windowBegin() const
 	{
-		return timeBegin_;
+		return windowBegin_;
 	}
 
-	integer SignalPointSet::timeEnd() const
+	integer SignalPointSet::windowEnd() const
 	{
-		return timeEnd_;
+		return windowEnd_;
 	}
 
 	integer SignalPointSet::samples() const

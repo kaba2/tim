@@ -48,11 +48,6 @@ namespace Tim
 	Smaller values give more temporal adaptivity,
 	but increase errors.
 
-	result:
-	A real output iterator, denoting the start
-	of the region where the sequence of temporal
-	Tsallis entropies are to be stored.
-
 	q:
 	The exponent in the definition of Tsallis entropy.
 	If q == 1, the result of temporalDifferentialEntropyKl() 
@@ -68,22 +63,14 @@ namespace Tim
 	The actual k that is used is given by tsallisDecideK().
 	For accurate results one should choose 
 	kNearestSuggestion >= 2 * ceil(q) - 1.
-
-	Returns:
-	The number of time instants that had an
-	undefined estimate. If not all estimates
-	were undefined, they were reconstructed from 
-	the defined estimates using interpolation.
 	*/
 
 	template <
 		typename SignalPtr_Iterator, 
-		typename Real_OutputIterator,
 		typename Real_Filter_Iterator>
-	integer temporalTsallisEntropyLps(
+	SignalPtr temporalTsallisEntropyLps(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		real q,
 		integer kNearestSuggestion,
 		const ForwardRange<Real_Filter_Iterator>& filter);
@@ -93,20 +80,17 @@ namespace Tim
 	This is a convenience function that calls:
 
 	temporalTsallisEntropyLps(
-		signalSet, timeWindowRadius, result, 
+		signalSet, timeWindowRadius,
 		q, kNearestSuggestion,
 		constantRange((real)1, 1));
 
 	See the documentation for that function.
 	*/
 
-	template <
-		typename SignalPtr_Iterator, 
-		typename Real_OutputIterator>
-	integer temporalTsallisEntropyLps(
+	template <typename SignalPtr_Iterator>
+	SignalPtr temporalTsallisEntropyLps(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		real q = 2,
 		integer kNearestSuggestion = 0);
 

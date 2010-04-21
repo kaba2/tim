@@ -131,25 +131,15 @@ namespace
 			forwardRange(signalSet.rowBegin(0), signalSet.rowEnd(0)),
 			std::back_inserter(futureSet), 1);
 
-		std::vector<real> estimateSet;
-		temporalPartialTransferEntropy(
+		const SignalPtr estimate = temporalPartialTransferEntropy(
 			forwardRange(signalSet.rowBegin(0), signalSet.rowEnd(0)),
 			forwardRange(signalSet.rowBegin(1), signalSet.rowEnd(1)),
 			forwardRange(signalSet.rowBegin(2), signalSet.rowEnd(2)),
 			forwardRange(futureSet.begin(), futureSet.end()),
 			5,
-			std::back_inserter(estimateSet),
 			0, 10, 0, 0);
 
-		const SignalPtr estimate = SignalPtr(
-			new Signal(estimateSet.size(), 1));
-		
-		std::copy(
-			estimateSet.begin(),
-			estimateSet.end(),
-			estimate->data().begin());
-
-		Array<Color> image(estimateSet.size(), 100);
+		Array<Color> image(estimate->samples(), 100);
 
 		drawSignal(estimate, arrayView(image));
 		savePcx(image, "test_mte_coupling.pcx");

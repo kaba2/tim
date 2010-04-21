@@ -56,22 +56,17 @@ namespace Tim
 	estimate entropy combination.
 
 	Returns:
-	The number of time instants that had an
-	undefined estimate. If not all estimates
-	were undefined, they were reconstructed from 
-	the defined estimates using interpolation.
+	The temporal estimates in a 1d-signal.
 	*/
 
 	template <
 		typename Integer3_Iterator,
-		typename Real_OutputIterator,
 		typename Integer_Iterator,
 		typename Real_Filter_Iterator>
-	integer temporalEntropyCombination(
+	SignalPtr temporalEntropyCombination(
 		const Array<SignalPtr>& signalSet,
 		const ForwardRange<Integer3_Iterator>& rangeSet,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		const ForwardRange<Integer_Iterator>& lagSet,
 		integer kNearest,
 		const ForwardRange<Real_Filter_Iterator>& filter);
@@ -84,7 +79,6 @@ namespace Tim
 		signalSet,
 		rangeSet,
 		timeWindowRadius,
-		result,
 		lagSet,
 		kNearest,
 		constantRange((real)1, 1));
@@ -94,13 +88,11 @@ namespace Tim
 
 	template <
 		typename Integer3_Iterator,
-		typename Real_OutputIterator,
 		typename Integer_Iterator>
-	integer temporalEntropyCombination(
+	SignalPtr temporalEntropyCombination(
 		const Array<SignalPtr>& signalSet,
 		const ForwardRange<Integer3_Iterator>& rangeSet,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		const ForwardRange<Integer_Iterator>& lagSet,
 		integer kNearest = 1);
 
@@ -112,20 +104,16 @@ namespace Tim
 		signalSet,
 		rangeSet,
 		timeWindowRadius,
-		result,
 		constantRange(0, signalSet.height()));
 
 	See the documentation for that function.
 	*/
 
-	template <
-		typename Integer3_Iterator,
-		typename Real_OutputIterator>
-	integer temporalEntropyCombination(
+	template <typename Integer3_Iterator>
+	SignalPtr temporalEntropyCombination(
 		const Array<SignalPtr>& signalSet,
 		const ForwardRange<Integer3_Iterator>& rangeSet,
-		integer timeWindowRadius,
-		Real_OutputIterator result);
+		integer timeWindowRadius);
 
 }
 

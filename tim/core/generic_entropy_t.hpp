@@ -21,13 +21,11 @@ namespace Tim
 	template <
 		typename SignalPtr_Iterator, 
 		typename EntropyAlgorithm,
-		typename Real_OutputIterator,
 		typename Real_Filter_Iterator>
-	integer temporalGenericEntropy(
+	SignalPtr temporalGenericEntropy(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		const EntropyAlgorithm& entropyAlgorithm,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		integer kNearest,
 		const ForwardRange<Real_Filter_Iterator>& filter)
 	{
@@ -41,7 +39,7 @@ namespace Tim
 
 		if (signalSet.empty())
 		{
-			return 0;
+			return SignalPtr(new Signal(0, 1));
 		}
 
 		// This is done to avoid parallelization
@@ -49,8 +47,12 @@ namespace Tim
 
 		signalSet.updateCache();
 
+		const Integer2 sharedTime = sharedTimeInterval(signalSet);
+		const integer estimateBegin = sharedTime[0];
+		const integer estimateEnd = sharedTime[1];
+		const integer samples = estimateEnd - estimateBegin;
+
 		const integer trials = signalSet.size();
-		const integer samples = minSamples(signalSet);
 		const integer dimension = signalSet.front()->dimension();
 		const integer totalSamples = samples * trials;
 
@@ -78,11 +80,7 @@ namespace Tim
 			}
 		}
 
-		// We create an own array to hold the results since the
-		// 'result' iterator is not necessarily random-access
-		// (which is needed for parallelization below).
-
-		std::vector<real> estimateSet(samples);
+		SignalPtr result(new Signal(samples, 1, estimateBegin));
 		integer missingValues = 0;
 
 #pragma omp parallel
@@ -98,7 +96,7 @@ namespace Tim
 		SignalPointSet pointSet(signalSet);
 
 #pragma omp for reduction(+ : missingValues)
-		for (integer t = 0;t < samples;++t)
+		for (integer t = estimateBegin;t < estimateEnd;++t)
 		{
 			// Update the position of the time-window.
 
@@ -106,8 +104,8 @@ namespace Tim
 				t - timeWindowRadius, 
 				t + timeWindowRadius + 1);
 
-			const integer tBegin = pointSet.timeBegin();
-			const integer tEnd = pointSet.timeEnd();
+			const integer tBegin = pointSet.windowBegin();
+			const integer tEnd = pointSet.windowEnd();
 			const integer tWidth = tEnd - tBegin;
 			const integer tLocalFilterBegin = std::max(t - filterRadius, tBegin) - tBegin;
 			const integer tLocalFilterEnd = std::min(t + filterRadius + 1, tEnd) - tBegin;
@@ -160,7 +158,8 @@ namespace Tim
 			}
 			if (weightSum != 0)
 			{
-				estimateSet[t] = entropyAlgorithm.finishEstimate(
+				result->data()(t - estimateBegin) = 
+					entropyAlgorithm.finishEstimate(
 					estimate / weightSum, dimension, 
 					kNearest, tWidth * trials);
 			}
@@ -171,7 +170,7 @@ namespace Tim
 				// marked with a NaN. We will later attempt
 				// to reconstruct these values.
 
-				estimateSet[t] = nan<real>();
+				result->data()(t - estimateBegin) = nan<real>();
 				++missingValues;
 			}
 		}
@@ -180,31 +179,24 @@ namespace Tim
 		// Reconstruct the NaN's.
 
 		reconstruct(
-			forwardRange(estimateSet.begin(), estimateSet.end()));
+			forwardRange(result->data().begin(), result->data().end()));
 
-		// Copy the results to the output.
-
-		std::copy(estimateSet.begin(), estimateSet.end(), result);
-
-		return missingValues;
+		return result;
 	}
 
 	template <
 		typename SignalPtr_Iterator, 
-		typename EntropyAlgorithm,
-		typename Real_OutputIterator>
-	integer temporalGenericEntropy(
+		typename EntropyAlgorithm>
+	SignalPtr temporalGenericEntropy(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		const EntropyAlgorithm& entropyAlgorithm,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		integer kNearest)
 	{
 		return Tim::temporalGenericEntropy(
 			signalSet,
 			entropyAlgorithm,
 			timeWindowRadius,
-			result,
 			kNearest,
 			constantRange((real)1, 1));
 	}

@@ -37,12 +37,6 @@ namespace Tim
 	kNearest:
 	The number of nearest neighbors to use in the estimation.
 
-	Returns:
-	The number of time instants that had an
-	undefined estimate. If not all estimates
-	were undefined, they were reconstructed from 
-	the defined estimates using interpolation.
-
 	If the number of samples varies between trials, 
 	then the minimum number of samples among the trials
 	is used.
@@ -53,15 +47,13 @@ namespace Tim
 		typename SignalPtr_Y_Iterator,
 		typename SignalPtr_Z_Iterator,
 		typename SignalPtr_W_Iterator,
-		typename Real_OutputIterator,
 		typename Real_Filter_Iterator>
-	integer temporalPartialTransferEntropy(
+	SignalPtr temporalPartialTransferEntropy(
 		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
 		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
 		const ForwardRange<SignalPtr_Z_Iterator>& zSignalSet,
 		const ForwardRange<SignalPtr_W_Iterator>& wSignalSet,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		integer xLag, integer yLag, integer zLag, integer wLag,
 		integer kNearest,
 		const ForwardRange<Real_Filter_Iterator>& filter);
@@ -72,7 +64,7 @@ namespace Tim
 
 	temporalPartialTransferEntropy(
 		xSignalSet, ySignalSet, zSignalSet, wSignalSet,
-		timeWindowRadius, result,
+		timeWindowRadius,
 		xLag, yLag, zLag, wLag,
 		kNearest,
 		constantRange((real)1, 1));
@@ -84,15 +76,13 @@ namespace Tim
 		typename SignalPtr_X_Iterator,
 		typename SignalPtr_Y_Iterator,
 		typename SignalPtr_Z_Iterator,
-		typename SignalPtr_W_Iterator,
-		typename Real_OutputIterator>
-	integer temporalPartialTransferEntropy(
+		typename SignalPtr_W_Iterator>
+	SignalPtr temporalPartialTransferEntropy(
 		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
 		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
 		const ForwardRange<SignalPtr_Z_Iterator>& zSignalSet,
 		const ForwardRange<SignalPtr_W_Iterator>& wSignalSet,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		integer xLag = 0, integer yLag = 0,
 		integer zLag = 0, integer wLag = 0,
 		integer kNearest = 1);

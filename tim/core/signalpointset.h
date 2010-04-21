@@ -102,15 +102,15 @@ namespace Tim
 
 		//! Returns the beginning time of the current time-window.
 		/*!
-		The interval of the time-window is given by	[timeBegin(), timeEnd()[.
+		The interval of the time-window is given by	[windowBegin(), windowEnd()[.
 		*/
-		integer timeBegin() const;
+		integer windowBegin() const;
 
 		//! Returns the one-past-last time of the current time-window.
 		/*!
-		The interval of the time-window is given by	[timeBegin(), timeEnd()[.
+		The interval of the time-window is given by	[windowBegin(), windowEnd()[.
 		*/
-		integer timeEnd() const;
+		integer windowEnd() const;
 
 		//! Returns the total number of points in the point set.
 		integer samples() const;
@@ -178,9 +178,9 @@ namespace Tim
 		Contains the number of samples that are considered
 		for each signal.
 
-		timeBegin_, timeEnd_:
+		windowBegin_, windowEnd_:
 		The position of the time-window is given by the
-		integer interval [timeBegin_, timeEnd_[.
+		integer interval [windowBegin_, windowEnd_[.
 
 		dimensionBegin_, dimension_:
 		The signals can also be considered by their
@@ -188,6 +188,10 @@ namespace Tim
 		[dimensionBegin_, dimensionBegin_ + dimension_]
 		denotes a subdimension interval inside
 		the signals.
+
+		timeBegin_:
+		The time instant t corresponding to 'pointSet_[i]'
+		is given by 't = timeBegin_ + (i / signals_)'.
 		*/
 
 		KdTree kdTree_;
@@ -195,10 +199,11 @@ namespace Tim
 		ObjectSet objectSet_;
 		integer signals_;
 		integer samples_;
-		integer timeBegin_;
-		integer timeEnd_;
+		integer windowBegin_;
+		integer windowEnd_;
 		integer dimensionBegin_;
 		integer dimension_;
+		integer timeBegin_;
 	};
 
 	typedef CountedPtr<SignalPointSet> SignalPointSetPtr;

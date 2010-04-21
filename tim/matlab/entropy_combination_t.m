@@ -102,19 +102,24 @@ check(threads, 'threads');
 
 lags = size(lagArray, 2);
 
-minSamples = size(signalSet{1}, 2);
-for i = 1 : numel(signalSet)
-    samples = size(signalSet{i}, 2);
-    if samples < minSamples
-        minSamples = samples;
-    end
-end
-
-I = zeros(lags, minSamples);
+estimateSet = cell(1, lags);
 
 for i = 1 : lags
-    I(i, :) = tim_matlab(...
+    estimateSet{i} = tim_matlab(...
         'entropy_combination_t', ...
         signalSet, rangeSet, timeWindowRadius, ...
         lagArray(:, i), k, filter(:), threads);
 end
+
+maxSamples = 0;
+for i = 1 : lags
+    if numel(estimateSet{i}) > maxSamples
+        maxSamples = numel(estimateSet{i});
+    end
+end
+
+I = nan(lags, maxSamples);
+for i = 1 : lags
+    I(i, 1 : numel(estimateSet{i})) = estimateSet{i};
+end
+

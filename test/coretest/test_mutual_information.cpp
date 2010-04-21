@@ -34,14 +34,13 @@ namespace
 			constantRange(xSignal), constantRange(ySignal), 
 			xLag, yLag, kNearest);
 
-		std::vector<real> miSet;
-		temporalMutualInformation(
+		const SignalPtr temporalMi = temporalMutualInformation(
 			constantRange(xSignal), constantRange(ySignal), 
 			timeWindowRadius,
-			std::back_inserter(miSet), 
 			xLag, yLag, kNearest);
 		const real averageMi = 
-			std::accumulate(miSet.begin(), miSet.end(), (real)0) / miSet.size();
+			std::accumulate(temporalMi->data().begin(), 
+			temporalMi->data().end(), (real)0) / temporalMi->samples();
 
 		/*
 		std::vector<SignalPtr> signalSet;
@@ -305,11 +304,10 @@ namespace
 	void testBoundaryLag()
 	{
 		SignalPtr signal = generateGaussian(100, 1);
-		std::vector<real> estimateSet;
-		temporalMutualInformation(
+		const SignalPtr temporalMi = temporalMutualInformation(
 			constantRange(signal), 
 			constantRange(signal), 
-			10, std::back_inserter(estimateSet),
+			10, 
 			0, 99, 1);
 	}
 
@@ -319,10 +317,10 @@ namespace
 		//StdExt::copy_n(countingIterator(0), 10, signal->data().begin());
 		SignalPtr signal = generateGaussian(10, 1);
 		real filter[] = {0.25, 0.5, 1, 0.5, 0.25};
-		temporalMutualInformation(
+		const SignalPtr temporalMi = temporalMutualInformation(
 			constantRange(signal, 2),
 			constantRange(signal, 2),
-			2, NullIterator(),
+			2,
 			0, 0, 1,
 			forwardRange(filter));
 	}

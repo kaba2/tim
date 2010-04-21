@@ -100,12 +100,10 @@ namespace Tim
 
 	template <
 		typename SignalPtr_Iterator, 
-		typename Real_OutputIterator,
 		typename Real_Filter_Iterator>
-	integer temporalTsallisEntropyLps(
+	SignalPtr temporalTsallisEntropyLps(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		real q,
 		integer kNearestSuggestion,
 		const ForwardRange<Real_Filter_Iterator>& filter)
@@ -117,7 +115,7 @@ namespace Tim
 
 		if (signalSet.empty())
 		{
-			return 0;
+			return SignalPtr(new Signal(0, 1));
 		}
 
 		if (q == 1)
@@ -137,7 +135,6 @@ namespace Tim
 			return temporalDifferentialEntropyKl(
 				signalSet,
 				timeWindowRadius,
-				result,
 				kNearest);
 		}
 
@@ -151,23 +148,19 @@ namespace Tim
 			signalSet,
 			entropyAlgorithm,
 			timeWindowRadius,
-			result,
 			kNearest,
 			filter);
 	}
 
-	template <
-		typename SignalPtr_Iterator, 
-		typename Real_OutputIterator>
-	integer temporalTsallisEntropyLps(
+	template <typename SignalPtr_Iterator>
+	SignalPtr temporalTsallisEntropyLps(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		real q,
 		integer kNearestSuggestion)
 	{
 		return Tim::temporalTsallisEntropyLps(
-			signalSet, timeWindowRadius, result, 
+			signalSet, timeWindowRadius, 
 			q, kNearestSuggestion,
 			constantRange((real)1, 1));
 	}
