@@ -24,15 +24,17 @@ namespace Tim
 
 		if (startFull)
 		{
-			kdTree_.insert(pointSet_.begin(), pointSet_.end(), 
-				std::back_inserter(objectSet_));
+			kdTree_.insert(
+				forwardRange(pointSet_.begin(), pointSet_.end()), 
+				std::back_inserter(activeSet_));
 			
 			windowBegin_ = timeBegin_;
 			windowEnd_ = timeBegin_ + pointSet_.size();
 		}
 		else
 		{
-			kdTree_.insert(pointSet_.begin(), pointSet_.end());
+			kdTree_.insert(
+				forwardRange(pointSet_.begin(), pointSet_.end()));
 		}
 
 		// Compute a fine subdivision for the points.
@@ -41,7 +43,7 @@ namespace Tim
 
 		if (!startFull)
 		{
-			kdTree_.eraseObjects();
+			kdTree_.erase();
 		}
 	}
 
@@ -49,7 +51,7 @@ namespace Tim
 	{
 		kdTree_.swap(that.kdTree_);
 		pointSet_.swap(that.pointSet_);
-		objectSet_.swap(that.objectSet_);
+		activeSet_.swap(that.activeSet_);
 		std::swap(signals_, that.signals_);
 		std::swap(samples_, that.samples_);
 		std::swap(windowBegin_, that.windowBegin_);
@@ -79,68 +81,71 @@ namespace Tim
 			newWindowBegin == newWindowEnd || windowBegin_ == windowEnd_)
 		{
 			// The time-windows do not share any
-			// elements. Clear all objects from
+			// elements. Clear all points from
 			// the kdtree.
 
-			kdTree_.eraseObjects();
-			objectSet_.clear();
+			kdTree_.erase();
+			activeSet_.clear();
 
 			// And insert the new ones.
 
 			kdTree_.insert(
+				forwardRange(
 				pointSet_.begin() + (newWindowBegin - timeBegin_) * signals_,
-				pointSet_.begin() + (newWindowEnd - timeBegin_) * signals_,
-				std::back_inserter(objectSet_));
+				pointSet_.begin() + (newWindowEnd - timeBegin_) * signals_),
+				std::back_inserter(activeSet_));
 		}
 		else
 		{
-			// The time-windows overlap. Keep those objects
+			// The time-windows overlap. Keep those points
 			// which are common to both, remove and insert
 			// appropriately to get the new time-window.
 
 			integer deltaRight = windowEnd_ - newWindowEnd;
 			if (deltaRight > 0)
 			{
-				// Remove objects from the right.
+				// Remove points from the right.
 
 				const integer amount = deltaRight * signals_;
 				for (integer i = 0;i < amount;++i)
 				{
-					kdTree_.erase(objectSet_.back());
-					objectSet_.pop_back();
+					kdTree_.erase(activeSet_.back());
+					activeSet_.pop_back();
 				}
 			}
 			else if (deltaRight < 0)
 			{
-				// Add objects to the right.
+				// Add points to the right.
 
 				kdTree_.insert(
+					forwardRange(
 					pointSet_.begin() + (windowEnd_ - timeBegin_) * signals_,
-					pointSet_.begin() + (newWindowEnd - timeBegin_) * signals_,
-					std::back_inserter(objectSet_));
+					pointSet_.begin() + (newWindowEnd - timeBegin_) * signals_),
+					std::back_inserter(activeSet_));
 			}
 
 			integer deltaLeft = windowBegin_ - newWindowBegin;
 			if (deltaLeft > 0)
 			{
-				// Add objects to the left.
+				// Add points to the left.
 
 				kdTree_.insert(
+					forwardRange(
 					boost::make_reverse_iterator(
 					pointSet_.begin() + (windowBegin_ - timeBegin_) * signals_),
 					boost::make_reverse_iterator(
-					pointSet_.begin() + (newWindowBegin - timeBegin_) * signals_),
-					std::front_inserter(objectSet_));
+					pointSet_.begin() + (newWindowBegin - timeBegin_) * signals_)),
+					std::front_inserter(activeSet_));
 			}
 			else if (deltaLeft < 0)
 			{
-				// Remove objects from the left.
+				// Remove points from the left.
 
 				const integer amount = -deltaLeft * signals_;
 				for (integer i = 0;i < amount;++i)
 				{
-					kdTree_.erase(objectSet_.front());
-					objectSet_.pop_front();
+					kdTree_.erase(activeSet_.front());
+					activeSet_.pop_front();
 				}
 			}
 		}
@@ -154,16 +159,16 @@ namespace Tim
 		return kdTree_;
 	}
 
-	SignalPointSet::ConstObjectIterator_Iterator 
+	SignalPointSet::Point_ConstIterator_Iterator 
 		SignalPointSet::begin() const
 	{
-		return objectSet_.begin();
+		return activeSet_.begin();
 	}
 
-	SignalPointSet::ConstObjectIterator_Iterator 
+	SignalPointSet::Point_ConstIterator_Iterator 
 		SignalPointSet::end() const
 	{
-		return objectSet_.end();
+		return activeSet_.end();
 	}
 
 	integer SignalPointSet::windowBegin() const
@@ -191,9 +196,9 @@ namespace Tim
 		return dimensionBegin_;
 	}
 
-	VectorD SignalPointSet::point(const Object& object) const
+	VectorD SignalPointSet::point(const Point& point) const
 	{
-		return kdTree_.point(object);
+		return kdTree_.pointPolicy()(point);
 	}
 
 }

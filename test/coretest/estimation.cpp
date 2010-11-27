@@ -16,8 +16,8 @@ int estimationMain()
 {
 	deviceSystem().initialize();
 
-	log().addObserver(LogObserverPtr(new StreamLogObserver(&std::cout)));
-	log().addObserver(LogObserverPtr(new FileLogObserver("log.txt")));
+	log().addLogger(LoggerPtr(new Stream_Logger(&std::cout)));
+	log().addLogger(LoggerPtr(new File_Logger("log.txt")));
 
 	timTestList().console();
 	generateTestReport(timTestReport(), log());

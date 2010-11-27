@@ -5,13 +5,13 @@
 #include "tim/core/signal_tools.h"
 
 #include <pastel/sys/stdext_algorithm.h>
+#include <pastel/sys/array_pointpolicy.h>
 
 #include <pastel/math/matrix_tools.h>
 
 #include <pastel/geometry/pointkdtree.h>
 #include <pastel/geometry/search_all_neighbors_pointkdtree.h>
 #include <pastel/geometry/slidingmidpoint_splitrule_pointkdtree.h>
-#include <pastel/geometry/array_pointpolicy.h>
 
 #include <vector>
 
@@ -65,12 +65,15 @@ namespace Tim
 		// Create a kd-tree.
 
 		typedef PointKdTree<real, Dynamic, Array_PointPolicy<real> > KdTree;
-		typedef KdTree::ConstObjectIterator ConstObjectIterator;
-		typedef KdTree::Object Object;
+		typedef KdTree::Point_ConstIterator Point_ConstIterator;
+		typedef KdTree::Point Point;
 
-		KdTree kdTree(ofDimension(dimension));
+		Array_PointPolicy<real> pointPolicy(dimension);
 
-		kdTree.insert(pointSet.begin(), pointSet.end());
+		KdTree kdTree(pointPolicy);
+
+		kdTree.insert(
+			forwardRange(pointSet.begin(), pointSet.end()));
 		kdTree.refine(SplitRule());
 
 		// For each m, compute average log-distance alpha_m to the nearest 
@@ -89,8 +92,9 @@ namespace Tim
 				pointSet.begin(), pointSet.end(),
 				subsetSize);
 
-			kdTree.eraseObjects();
-			kdTree.insert(pointSet.begin(), pointSet.begin() + subsetSize);
+			kdTree.erase();
+			kdTree.insert(
+				forwardRange(pointSet.begin(), pointSet.begin() + subsetSize));
 			
 			// Find the distance to the nearest codebook point for
 			// all points not in the codebook. Compute their
@@ -106,7 +110,7 @@ namespace Tim
 					kdTree,
 					VectorD(ofDimension(dimension), withAliasing((real*)pointSet[i])),
 					infinity<real>(), 0,
-					Always_AcceptPoint<ConstObjectIterator>(),
+					Always_AcceptPoint<Point_ConstIterator>(),
 					8,
 					normBijection).key();
 
