@@ -78,12 +78,10 @@ namespace Tim
 
 	template <
 		typename SignalPtr_Iterator, 
-		typename Real_OutputIterator,
 		typename Real_Filter_Iterator>
-	integer temporalRenyiEntropyLps(
+	SignalPtr temporalRenyiEntropyLps(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		real q,
 		integer kNearestSuggestion,
 		const ForwardRange<Real_Filter_Iterator>& filter);
@@ -100,13 +98,10 @@ namespace Tim
 	See the documentation for that function.
 	*/
 
-	template <
-		typename SignalPtr_Iterator, 
-		typename Real_OutputIterator>
-	integer temporalRenyiEntropyLps(
+	template <typename SignalPtr_Iterator>
+	SignalPtr temporalRenyiEntropyLps(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		real q = 2,
 		integer kNearestSuggestion = 0);
 

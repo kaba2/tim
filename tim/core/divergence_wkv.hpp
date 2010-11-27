@@ -35,7 +35,7 @@ namespace Tim
 
 		ENSURE_OP(xDimension, ==, yDimension);
 
-		typedef SignalPointSet::ConstObjectIterator ConstObjectIterator;
+		typedef SignalPointSet::Point_ConstIterator Point_ConstIterator;
 
 		// Construct point-sets.
 
@@ -53,7 +53,7 @@ namespace Tim
 			// Find out the nearest neighbor in X for a point in X.
 
 			const Vector<real> queryPoint(ofDimension(xDimension), 
-				withAliasing((real*)(*(xPointSet->begin() + i))->object()));
+				withAliasing((real*)(*(xPointSet->begin() + i))->point()));
 
 			const real xxDistance2 = 
 				searchNearestOne(xPointSet->kdTree(), queryPoint).key();

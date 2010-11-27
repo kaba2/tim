@@ -12,15 +12,9 @@ namespace Tim
 		typename Integer_Iterator>
 	SignalPtr merge(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
-		const ForwardRange<Integer_Iterator>& lagSet,
-		integer* tMin)
+		const ForwardRange<Integer_Iterator>& lagSet)
 	{
 		ENSURE_OP(signalSet.size(), ==, lagSet.size());
-
-		if (tMin)
-		{
-			*tMin = 0;
-		}
 
 		if (signalSet.empty() ||
 			lagSet.empty())
@@ -44,17 +38,11 @@ namespace Tim
 
 		const Integer2 sharedTime = 
 			sharedTimeInterval(signalSet, lagSet);
-
-		if (tMin)
-		{
-			*tMin = sharedTime[0];
-		}
-
 		const integer samples = sharedTime[1] - sharedTime[0];
 
 		// Allocate the joint signal.
 
-		SignalPtr jointSignal(new Signal(samples, jointDimension));
+		SignalPtr jointSignal(new Signal(samples, jointDimension, sharedTime[0]));
 		
 		if  (samples == 0)
 		{
@@ -65,9 +53,6 @@ namespace Tim
 
 		// Copy the signals into parts of the joint signal.
 
-		const integer maxLag = *std::max_element(
-			lagSet.begin(), lagSet.end());
-
 		integer dimensionOffset = 0;
 
 		Integer_Iterator lagIter = lagSet.begin();
@@ -77,7 +62,7 @@ namespace Tim
 		while(lagIter != lagIterEnd)
 		{
 			const SignalPtr signal = *signalIter;
-			const integer lagOffset = maxLag - *lagIter;
+			const integer lagOffset = sharedTime[0] - (signal->t() + *lagIter);
 			const integer dimension = signal->dimension();
 
 			for (integer i = 0;i < samples;++i)
@@ -99,19 +84,17 @@ namespace Tim
 
 	template <typename SignalPtr_Iterator>
 	SignalPtr merge(
-		const ForwardRange<SignalPtr_Iterator>& signalSet,
-		integer* tMin)
+		const ForwardRange<SignalPtr_Iterator>& signalSet)
 	{
 		return Tim::merge(signalSet,
-			constantRange(0, signalSet.size()),
-			tMin);
+			constantRange(0, signalSet.size()));
 	}
 
 	template <
 		typename SignalPtr_OutputIterator,
 		typename Integer_Iterator>
 	void merge(
-		const Array<SignalPtr, 2>& ensembleSet,
+		const Array<SignalPtr>& ensembleSet,
 		SignalPtr_OutputIterator result,
 		const ForwardRange<Integer_Iterator>& lagSet)
 	{
@@ -129,7 +112,7 @@ namespace Tim
 
 	template <typename SignalPtr_OutputIterator>
 	void merge(
-		const Array<SignalPtr, 2>& ensembleSet,
+		const Array<SignalPtr>& ensembleSet,
 		SignalPtr_OutputIterator result)
 	{
 		Tim::merge(ensembleSet, result,

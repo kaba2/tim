@@ -1,17 +1,13 @@
-TIM Console interface
-=======================
+TIM Console
+===========
 
 [[Parent]]: tim.txt
 
-_Note: In case you came to this page directly, 
-TIM Console can be downloaded from [TIM's main page][TIM]_.
-
-[TIM]: [[Ref: tim.txt]]
-
-The TIM Console interface is one of the three ways to access the 
-functionality in TIM. This interface offers a minimalistic 
-programming language to specify data as well as to compute the 
-needed estimates. The syntax of this language mimics that of Matlab.
+_TIM Console_ is one of the three ways to access the 
+functionality in TIM. It is a simple command-line program that
+interprets a script written in a minimalistic programming language 
+to specify data as well as to compute the needed estimates. The 
+syntax of this language mimics that of Matlab.
 
 Usage
 -----
@@ -30,42 +26,59 @@ write the results to files (in the script).
 
 _Note: Running TIM Console and passing input row-by-row from 
 keyboard does not work._
+
+Download
+--------
+
+Here we provide prebuilt binaries for Windows users. 
+
+_Important: You need to have the Visual C++ 2008 SP1 Redistributable 
+Package installed for TIM Console to work._
+
+### Latest version
 	
+[Download TIM Console 1.1.0][TIM-Console-1.1.0]
+
+### Previous versions
+
+[Download TIM Console 1.0.2][TIM-Console-1.0.2]
+
+[TIM-Console-1.1.0]: ../../files/tim-console-1.1.0.zip
+[TIM-Console-1.0.2]: ../../files/tim-console-1.0.2.zip
+
 Quick-start: Example script file
 --------------------------------
 
-	// This is a row-comment.
-	% This is a row-comment too.
+For the theoretical background, visit the [documentation for TIM Core][TIM-Core].
 
-	// Define a 3x3 real-array A.
+[TIM-Core]: [[Ref]]: tim_core.txt
 
+
+	% This is a row-comment.
+	// This is a row-comment too.
+
+	% Define a 3x3 real-array A.
 	A = [     1.231, .324,        3.0;
 			  -4.32,    5,        6.2;
 		 -7.324e-12,   -8, +9.435E-12]
 		 
-	// Define an integer.
-	
+	% Define an integer.
 	k = 1
 	
-	// Define a real number.
-	
+	% Define a real number.
 	eps = 0.1
 	     
-	// Output the contents of A to standard output.
-	
+	% Output the contents of A to standard output.
 	print A
 
-	// Define B as an alias to A.
-	
+	% Define B as an alias to A.
 	B = A
 	
-	// Define a 2x2 cell-array C.
-
+	% Define a 2x2 cell-array C.
 	C = {A, B; 
 		 B, A}
 		 
-	// Compute differential entropy and
-	// print it to standard output.
-	
+	% Compute differential entropy and
+	% print it to standard output.
 	print differential_entropy_kl(C)
 

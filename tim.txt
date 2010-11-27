@@ -8,7 +8,7 @@ TIM
 Description
 -----------
 
-TIM is a C++ library for efficient estimation of information-theoretic measures
+_TIM_ is a C++ library for efficient estimation of information-theoretic measures
 from continuous-valued time-series' in arbitrary dimensions. It has a Matlab interface 
 as well as a console interface.
 
@@ -30,77 +30,13 @@ partial mutual information, transfer entropy, and partial transfer entropy.
 News
 ----
 
-### 12.4.2010 - Released version 1.1.0
+### 20.4.2010 - Released version 1.1.0
 
-#### TIM Core
-
- * Added estimation of Renyi entropies.
- * Added estimation of Tsallis entropies.
- * Improved the handling of degenerate cases.
- * Made the output of temporal estimators to have a 
- width independent of lags (padded with NaNs) and the
- first element to correspond to time instant 0.
- * Generalized temporal estimation such that the
- contributions of the estimates can be weighted with 
- respect to the distance in time.
- * Fixed a bug when computing entropy combinations
- with signals of unequal length.
-
-#### TIM Matlab
-
- * Packed all functionality to a single mex 
- file instead of multiple ones.
- * Allowed multiple lags to be specified for 
- entropy combination estimators.
- * Real arrays are now interpreted as cell-arrays 
- containing a single trial in the estimators.
- * Added trial permutation and permutation test.
- 
-#### TIM Matlab and TIM Console
-
- * Added delay-embedding.
- * Added support for the generalized versions
- of the temporal estimators.
-
-#### Breaking changes
-
- * Removed the parameter to specify maximum relative 
- error in nearest neighbors searching because of too 
- large errors in entropy estimators to be of use. You
- will need to remove this argument from calls to
- `differential_entropy_kl` and `differential_entropy_kl_t`.
- * The now-introduced padded NaNs in temporal estimates 
- might make your current subsequent computations fail. 
- * In TIM Matlab, the new `filter` parameter has been
- inserted before the `threads`. If you used the `threads`
- parameter, you will need the add the `filter` argument
- before it.
-
-#### Other stuff
-
- * Source built over [Pastel][] 1.2. 
- * Documentation built over [Remark][] 1.2.
+See [release history][release_history] for details.
 
 [[Link]]: more_news.txt
 
-[Remark]: http://kaba.hilvi.org/remark
-
-Software
---------
-
-Here we provide prebuilt binaries for Windows users. 
-
-[Download TIM Console interface 1.1.0][Download_Console]
-
-[Download TIM Matlab interface 1.1.0][Download_Matlab]
-
-[[Link]]: previous_releases.txt
-
-_Important: You need to have the Visual C++ 2008 SP1 Redistributable 
-Package installed for TIM to work._
-
-[Download_Matlab]: ./files/tim-matlab-1.1.0.zip
-[Download_Console]: ./files/tim-console-1.1.0.zip
+[release_history]: [[Ref: release_history.txt]]
 
 Source-code
 -----------
@@ -121,9 +57,16 @@ complete with coloring and linking. You might find this a more convenient altern
 when familiarizing yourself with the source-code, compared to downloading and viewing 
 the raw source-code.
 
-[Download TIM Source 1.1.0][Download_Source]
+### Latest version
 
-[Download_Source]: ./files/tim-1.1.0.zip
+[Download TIM Source 1.1.0][TIM-Source-1.1.0]
+
+### Previous versions
+
+[Download TIM Source 1.0.2][TIM-Source-1.0.2]
+
+[TIM-Source-1.1.0]: ./files/tim-1.1.0.zip
+[TIM-Source-1.0.2]: ./files/tim-1.0.2.zip
 [Pastel]: http://kaba.hilvi.org/pastel
 [Boost]: http://www.boost.org
 
@@ -149,7 +92,7 @@ _GABA_ (FP6-2005-NEST-Path 043309).
 
 [Global Approach to Brain Activity: From Cognition to Disease][GABA]
 
-TIM Console interface and the update from version 1.0 to 1.1 were programmed 
+TIM Console and the update from version 1.0 to 1.1 were programmed 
 under funding from the [Finnish Foundation for Technology Promotion][TES]
 
 [German Gomez-Herrero][German] provided substantial amount of beta testing, feedback, 
@@ -162,7 +105,6 @@ idea of creating TIM, having created a similar library in Matlab himself.
 
 [[add_outer DocChildren.no_links_for]]: 
 	more_news.txt
-	previous_releases.txt
 
 [[Comment]]:
 	The following is a javascript for Google Analytics by which we can

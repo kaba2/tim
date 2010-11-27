@@ -39,6 +39,6 @@ if dt < 1,
     error('dt must be a positive integer.');
 end
 
-futureShift = dt * k;
+futureShift = dt;
 
 Y = X(:, futureShift + 1 : end);

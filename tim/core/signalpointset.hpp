@@ -13,15 +13,16 @@ namespace Tim
 	SignalPointSet::SignalPointSet(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		bool startFull)
-		: kdTree_(ofDimension(signalSet.empty() ? 0 : signalSet.front()->dimension()))
+		: kdTree_(Array_PointPolicy<real>(signalSet.empty() ? 0 : signalSet.front()->dimension()))
 		, pointSet_()
-		, objectSet_()
+		, activeSet_()
 		, signals_(signalSet.size())
 		, samples_(0)
-		, timeBegin_(0)
-		, timeEnd_(0)
+		, windowBegin_(0)
+		, windowEnd_(0)
 		, dimensionBegin_(0)
 		, dimension_(kdTree_.dimension())
+		, timeBegin_(0)
 	{
 		ENSURE(!signalSet.empty());
 		PENSURE(equalDimension(signalSet));
@@ -37,15 +38,16 @@ namespace Tim
 		bool startFull,
 		integer dimensionBegin,
 		integer dimensionEnd)
-		: kdTree_(ofDimension(dimensionEnd - dimensionBegin))
+		: kdTree_(Array_PointPolicy<real>(dimensionEnd - dimensionBegin))
 		, pointSet_()
-		, objectSet_()
+		, activeSet_()
 		, signals_(signalSet.size())
 		, samples_(0)
-		, timeBegin_(0)
-		, timeEnd_(0)
+		, windowBegin_(0)
+		, windowEnd_(0)
 		, dimensionBegin_(dimensionBegin)
 		, dimension_(dimensionEnd - dimensionBegin)
+		, timeBegin_(0)
 	{
 		ENSURE(!signalSet.empty());
 		PENSURE(equalDimension(signalSet));
@@ -64,22 +66,28 @@ namespace Tim
 	void SignalPointSet::createPointSet(
 		const ForwardRange<SignalPtr_Iterator>& signalSet)
 	{
-		const integer signals = signalSet.size();
-		const integer samples = minSamples(signalSet);
+		// Find out the time interval on which
+		// all trials are defined.
+
+		const Integer2 sharedTime = sharedTimeInterval(signalSet);
+		const integer tBegin = sharedTime[0];
+		const integer tEnd = sharedTime[1];
+		const integer samples = tEnd - tBegin;
 
 		// Store points in an interleaved
 		// manner.
 
+		const integer signals = signalSet.size();
 		pointSet_.resize(samples * signals);
 
 		SignalPtr_Iterator iter = signalSet.begin();
 		for (integer i = 0;i < signals;++i)
 		{
 			SignalPtr signal = *iter;
-			for (integer t = 0;t < samples;++t)
+			for (integer t = tBegin;t < tEnd;++t)
 			{
-				pointSet_[t * signals + i] = 
-					signal->pointBegin(dimensionBegin_)[t];
+				pointSet_[(t - tBegin) * signals + i] = 
+					signal->pointBegin(dimensionBegin_)[t - signal->t()];
 			}
 			
 			++iter;
@@ -87,6 +95,7 @@ namespace Tim
 
 		signals_ = signals;
 		samples_ = samples;
+		timeBegin_ = tBegin;
 	}
 
 }

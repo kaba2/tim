@@ -16,24 +16,17 @@ Implemented estimators
 ### Entropy estimators
 
  * Kozachenko-Leonenko estimator for Shannon differential entropy
- 
  * Nilsson-Kleijn estimator for Shannon differential entropy
  on embedded differentiable manifolds
- 
  * Stowell-Plumbley estimator for Shannon differential entropy
- 
  * Leonenko-Pronzato-Savani estimator for Renyi entropies
- 
  * Leonenko-Pronzato-Savani estimator for Tsallis entropies
 
 ### Entropy combination estimators
 
  * Mutual information
- 
  * Partial mutual information
- 
  * Transfer entropy
- 
  * Partial transfer entropy
 
 ### Divergence

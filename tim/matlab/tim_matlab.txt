@@ -1,28 +1,46 @@
-TIM Matlab interface
-====================
+TIM Matlab
+==========
 
 [[Parent]]: tim.txt
 
-_Note: In case you came to this page directly, 
-TIM Matlab can be downloaded from [TIM's main page][TIM]_.
-
-[TIM]: [[Ref: tim.txt]]
-
-There are two sides to the implementation of TIM Matlab:
-the C++ implementation and the Matlab implementation.
+_TIM Matlab_ is one of the three ways to access the 
+functionality in TIM. It consists of a set of Matlab functions
+together with a mex file implemented in C++.
 The Matlab implementation consists mostly of redirection
 functions that check the parameters at the Matlab's side,
-and if they are correct, forward the calls to the C++
-implementation via the tim_matlab mex file.
-In the C++ implementation side, TIM Matlab mostly
-consists of interpreting the data via correct
-data abstractions so that they can be forwarded to the 
-actual computation functions of TIM Core. As a user
-of TIM Matlab, you only need to know about the Matlab
-implementation.
+and forward the calls to the C++ implementation via the 
+tim_matlab mex file. 
+The C++ implementation mostly consists of interpreting the 
+data via correct data abstractions so that they can be 
+forwarded to the actual computation functions of TIM Core. 
+As a user of TIM Matlab, you only need to know about the 
+Matlab implementation.
+
+Download
+--------
+
+Here we provide prebuilt binaries for Windows users. 
+
+_Important: You need to have the Visual C++ 2008 SP1 Redistributable 
+Package installed for TIM Matlab to work._
+
+### Latest version
+
+[Download TIM Matlab 1.1.0][TIM-Matlab-1.1.0]
+
+### Previous versions
+
+[Download TIM Matlab 1.0.2][TIM-Matlab-1.0.2]
+
+[TIM-Matlab-1.1.0]: ../../files/tim-matlab-1.1.0.zip
+[TIM-Matlab-1.0.2]: ../../files/tim-matlab-1.0.2.zip
 
 General information
 -------------------
+
+For the theoretical background, visit the [documentation for TIM Core][TIM-Core].
+
+[TIM-Core]: [[Ref]]: tim_core.txt
 
 ### Naming
 

@@ -10,8 +10,10 @@ it is important to use arguments with the right types.
 The intepreter will emit errors when this is not the case.
 The definitions and names of these functions have been
 made similar to those in the TIM Matlab interface. For documentation,
-refer to the documentation of the TIM Matlab interface
-functions.
+refer to the documentation of the [TIM Matlab interface
+functions][1].
+
+[1]: [[Ref]]: tim_matlab_help.txt
 
 Built-in functions
 ------------------
