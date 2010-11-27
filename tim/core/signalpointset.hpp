@@ -13,9 +13,9 @@ namespace Tim
 	SignalPointSet::SignalPointSet(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		bool startFull)
-		: kdTree_(ofDimension(signalSet.empty() ? 0 : signalSet.front()->dimension()))
+		: kdTree_(Array_PointPolicy<real>(signalSet.empty() ? 0 : signalSet.front()->dimension()))
 		, pointSet_()
-		, objectSet_()
+		, activeSet_()
 		, signals_(signalSet.size())
 		, samples_(0)
 		, windowBegin_(0)
@@ -38,9 +38,9 @@ namespace Tim
 		bool startFull,
 		integer dimensionBegin,
 		integer dimensionEnd)
-		: kdTree_(ofDimension(dimensionEnd - dimensionBegin))
+		: kdTree_(Array_PointPolicy<real>(dimensionEnd - dimensionBegin))
 		, pointSet_()
-		, objectSet_()
+		, activeSet_()
 		, signals_(signalSet.size())
 		, samples_(0)
 		, windowBegin_(0)

@@ -88,7 +88,8 @@ namespace
 					covariance);
 
 				testTsallisEntropyCase(
-					"Cor.G.(" + realToString(determinant(covariance), 2) + ", " + realToString(conditionManhattan(covariance), 2) + ")",
+					"Cor.G.(" + realToString(determinant(covariance), 2) + ", " + 
+					realToString(cond, 2) + ")",
 					generateCorrelatedGaussian(samples, dimension, cholesky),
 					q,
 					gaussianTsallisEntropy(q, dimension, determinant(cholesky)));
@@ -106,7 +107,8 @@ namespace
 					covariance);
 
 				testTsallisEntropyCase(
-					"Cor.G.(" + realToString(determinant(covariance), 2) + ", " + realToString(conditionManhattan(covariance), 2) + ")",
+					"Cor.G.(" + realToString(determinant(covariance), 2) + ", " + 
+					realToString(cond, 2) + ")",
 					generateCorrelatedGaussian(samples, dimension, cholesky),
 					q,
 					gaussianTsallisEntropy(q, dimension, determinant(cholesky)));

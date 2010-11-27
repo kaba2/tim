@@ -8,8 +8,8 @@
 #include "tim/core/signal.h"
 
 #include <pastel/geometry/pointkdtree.h>
-#include <pastel/geometry/array_pointpolicy.h>
 
+#include <pastel/sys/array_pointpolicy.h>
 #include <pastel/sys/countedptr.h>
 #include <pastel/sys/forwardrange.h>
 #include <pastel/sys/array.h>
@@ -32,20 +32,20 @@ namespace Tim
 		// The Array_PointPolicy<real> represents points
 		// by a const real* to the beginning of point coordinate data.
 		typedef PointKdTree<real, Dynamic, Array_PointPolicy<real> > KdTree;
-		typedef KdTree::ConstObjectIterator ConstObjectIterator;
-		typedef KdTree::Object Object;
+		typedef KdTree::Point_ConstIterator Point_ConstIterator;
+		typedef KdTree::Point Point;
 
 	private:
-		// This container will hold the set of objects currently in
+		// This container will hold the set of points currently in
 		// the kd-tree and thus also in the time-window. Because
-		// objects need to be inserted and removed from both front
+		// points need to be inserted and removed from both front
 		// and back, the std::deque is a good choice for a container.
-		typedef std::deque<ConstObjectIterator> ObjectSet;
+		typedef std::deque<Point_ConstIterator> ActiveSet;
 
 	public:
 		// Using default destructor.
 
-		typedef ObjectSet::const_iterator ConstObjectIterator_Iterator;
+		typedef ActiveSet::const_iterator Point_ConstIterator_Iterator;
 
 		//! Constructs using the given ensemble of signals.
 		template <typename SignalPtr_Iterator>
@@ -95,10 +95,10 @@ namespace Tim
 		const KdTree& kdTree() const;
 
 		//! First iterator to set of points currently in the kd-tree.
-		ConstObjectIterator_Iterator begin() const;
+		Point_ConstIterator_Iterator begin() const;
 
 		//! One-past-last iterator to set of points currently in the kd-tree.
-		ConstObjectIterator_Iterator end() const;
+		Point_ConstIterator_Iterator end() const;
 
 		//! Returns the beginning time of the current time-window.
 		/*!
@@ -131,8 +131,8 @@ namespace Tim
 		*/
 		integer dimensionBegin() const;
 
-		//! Returns a point that corresponds to a given kd-tree object.
-		VectorD point(const Object& object) const;
+		//! Returns a vector that corresponds to a given point.
+		VectorD point(const Point& object) const;
 
 	private:
 		// Prohibited, for now.
@@ -164,12 +164,12 @@ namespace Tim
 		Contains a set of pointers with each pointer pointing
 		to the beginning of point coordinate data. This set represents
 		the set of all available points without culling by a 
-		time-window. Note that kdTree_ uses an object policy
-		in which the object is a const real*. This container is
+		time-window. Note that kdTree_ uses a PointPolicy
+		in which the point is a const real*. This container is
 		needed to insert points when the time-window is moved.
 
-		objectSet_:
-		Contains a set of object iterators to the kdTree_,
+		activeSet_:
+		Contains a set of point iterators to the kdTree_,
 		including only those points which are currently in
 		the time-window. This container is needed to be able
 		to remove points when the time-window is moved.
@@ -196,7 +196,7 @@ namespace Tim
 
 		KdTree kdTree_;
 		std::vector<const real*> pointSet_;
-		ObjectSet objectSet_;
+		ActiveSet activeSet_;
 		integer signals_;
 		integer samples_;
 		integer windowBegin_;

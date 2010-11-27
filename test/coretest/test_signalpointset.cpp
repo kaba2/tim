@@ -70,14 +70,14 @@ namespace
 			changeTimeWindow(pointSet, 1, 4);
 			changeTimeWindow(pointSet, 1, 4);
 
-			TEST_ENSURE((*pointSet.begin())->object() == &(xy->data()(3 * 1)));
-			TEST_ENSURE((*(pointSet.end() - 1))->object() == &(xy->data()(3 * 3)));
+			TEST_ENSURE((*pointSet.begin())->point() == &(xy->data()(3 * 1)));
+			TEST_ENSURE((*(pointSet.end() - 1))->point() == &(xy->data()(3 * 3)));
 
 			{
 				SignalPointSet pointSet(forwardRange(signalSet), true);
 
 				TEST_ENSURE_OP(std::distance(pointSet.begin(), pointSet.end()), ==, xy->samples());
-				TEST_ENSURE_OP(pointSet.kdTree().objects(), ==, xy->samples());
+				TEST_ENSURE_OP(pointSet.kdTree().points(), ==, xy->samples());
 				TEST_ENSURE_OP(pointSet.samples(), ==, xy->samples());
 				TEST_ENSURE_OP(pointSet.dimension(), ==, xy->dimension());
 			}
@@ -85,12 +85,12 @@ namespace
 				SignalPointSet pointSet(forwardRange(signalSet), true, 1, 2);
 
 				TEST_ENSURE_OP(std::distance(pointSet.begin(), pointSet.end()), ==, xy->samples());
-				TEST_ENSURE_OP(pointSet.kdTree().objects(), ==, xy->samples());
+				TEST_ENSURE_OP(pointSet.kdTree().points(), ==, xy->samples());
 				TEST_ENSURE_OP(pointSet.samples(), ==, xy->samples());
 				TEST_ENSURE_OP(pointSet.dimension(), ==, 1);
 
-				TEST_ENSURE((*pointSet.begin())->object() == &(xy->data()(3 * 0 + 1)));
-				TEST_ENSURE((*(pointSet.end() - 1))->object() == &(xy->data()(3 * 4 + 1)));
+				TEST_ENSURE((*pointSet.begin())->point() == &(xy->data()(3 * 0 + 1)));
+				TEST_ENSURE((*(pointSet.end() - 1))->point() == &(xy->data()(3 * 4 + 1)));
 			}
 		}
 
@@ -136,8 +136,8 @@ namespace
 			changeTimeWindow(pointSet, 1, 4);
 			changeTimeWindow(pointSet, 1, 4);
 
-			TEST_ENSURE((*pointSet.begin())->object() == &(xy->data()(3 * 0)));
-			TEST_ENSURE((*(pointSet.end() - 1))->object() == &(xy->data()(3 * 2)));
+			TEST_ENSURE((*pointSet.begin())->point() == &(xy->data()(3 * 0)));
+			TEST_ENSURE((*(pointSet.end() - 1))->point() == &(xy->data()(3 * 2)));
 		}
 
 		void changeTimeWindow(SignalPointSet& pointSet, integer begin, integer end)
@@ -145,7 +145,7 @@ namespace
 			pointSet.setTimeWindow(begin, end);
 			const integer tWidth = pointSet.windowEnd() - pointSet.windowBegin();
 			TEST_ENSURE_OP(std::distance(pointSet.begin(), pointSet.end()), ==, tWidth);
-			TEST_ENSURE_OP(pointSet.kdTree().objects(), ==, tWidth);
+			TEST_ENSURE_OP(pointSet.kdTree().points(), ==, tWidth);
 		}
 	};
 
