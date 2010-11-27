@@ -70,7 +70,8 @@ namespace Tim
 					}
 
 					const SignalPtr signal = (*cellArray)(x, y);
-					std::cout << "[" << signal->dimension() << " x " << signal->samples() << " signal]";
+					std::cout << "[" << signal->dimension() << " x " 
+						<< signal->samples() + signal->t() << " signal]";
 					//std::cout << *signal << std::endl;
 				}
 			}

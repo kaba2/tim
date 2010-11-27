@@ -1,0 +1,85 @@
+Release history
+===============
+
+[[Parent]]: tim.txt
+
+The versioning of TIM is given in the form x.y.z, where x, y, and z are integers. 
+The x increments only for major changes, the y increments for feature changes, and 
+the z increments for bug fixes or documentation updates. Whenever y is incremented,
+z is zeroed, and whenever x is incremented, both y and z are zeroed. The x, y, and z
+need not consist of a single digit, and, for example, 1.12.0 is a much later version than 1.1.3.
+
+TIM 1.1.0
+---------
+
+Release date 20.4.2010.
+
+#### TIM Core
+
+ * Added estimation of Renyi entropies.
+ * Added estimation of Tsallis entropies.
+ * Improved the handling of degenerate cases.
+ * Improved the performance of range counting used
+ in entropy combination estimators.
+ * Made the output of temporal estimators to have a 
+ width independent of lags (padded with NaNs) and the
+ first element to correspond to time instant 0.
+ * Generalized temporal estimation such that the
+ contributions of the estimates can be weighted with 
+ respect to the distance in time.
+ * Fixed a bug when computing entropy combinations
+ with signals of unequal length.
+
+#### TIM Matlab
+
+ * Real arrays are now interpreted as cell-arrays 
+ containing a single trial in the estimators.
+ * Allowed multiple lags to be specified for 
+ entropy combination estimators.
+ * Added trial permutation and permutation test.
+ * Packed all functionality to a single mex 
+ file instead of multiple ones.
+ 
+#### TIM Console
+
+ * Added support for Not-A-Number (NaN) and 
+ infinity (Inf) real values.
+ * Fixed a bug which caused manually specified
+ real-arrays to be rounded to integer values.
+
+#### TIM Matlab and TIM Console
+
+ * Added delay-embedding.
+ * Added support for generalized versions
+ of temporal estimators.
+ 
+#### Breaking changes
+
+ * Removed the parameter to specify maximum relative 
+ error in nearest neighbors searching because of too 
+ large errors in entropy estimators to be of use. You
+ will need to remove this argument from calls to
+ `differential_entropy_kl` and `differential_entropy_kl_t`.
+ * The now-introduced padded NaNs in temporal estimates 
+ might make your current subsequent computations fail. 
+ * In TIM Matlab, the new `filter` parameter has been
+ inserted before the `threads`. If you used the `threads`
+ parameter, you will need the add the `filter` argument
+ before it.
+
+#### Other stuff
+
+ * Source built over [Pastel][] 1.2. 
+ * Documentation built over [Remark][] 1.2.
+
+TIM 1.0.0
+---------
+
+Release date 13.1.2010.
+
+ * Initial release.
+ * Source built over [Pastel][] 1.0.
+ * Documentation built over [Remark][] 1.0.
+
+[Remark]: http://kaba.hilvi.org/remark
+[Pastel]: http://kaba.hilvi.org/pastel

@@ -47,7 +47,7 @@ namespace Tim
 		typename Integer3_Iterator,
 		typename Integer_Iterator>
 	real entropyCombination(
-		const Array<SignalPtr, 2>& signalSet,
+		const Array<SignalPtr>& signalSet,
 		const ForwardRange<Integer3_Iterator>& rangeSet,
 		const ForwardRange<Integer_Iterator>& lagSet,
 		integer kNearest = 1);
@@ -68,7 +68,7 @@ namespace Tim
 		typename Integer3_Iterator,
 		typename Real_OutputIterator>
 	real entropyCombination(
-		const Array<SignalPtr, 2>& signalSet,
+		const Array<SignalPtr>& signalSet,
 		const ForwardRange<Integer3_Iterator>& rangeSet);
 
 }

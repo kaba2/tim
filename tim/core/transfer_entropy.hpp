@@ -20,18 +20,16 @@ namespace Tim
 			typename SignalPtr_X_Iterator,
 			typename SignalPtr_Y_Iterator,
 			typename SignalPtr_W_Iterator,
-			typename Real_OutputIterator,
 			typename Real_Filter_Iterator>
 		real transferEntropy(
 			const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
 			const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
 			const ForwardRange<SignalPtr_W_Iterator>& wSignalSet,
 			integer timeWindowRadius,
-			Real_OutputIterator result,
+			SignalPtr* result,
 			integer xLag, integer yLag, integer wLag,
 			integer kNearest,
-			const ForwardRange<Real_Filter_Iterator>& filter,
-			bool wantTemporal)
+			const ForwardRange<Real_Filter_Iterator>& filter)
 		{
 			ENSURE_OP(timeWindowRadius, >=, 0);
 			ENSURE_OP(kNearest, >, 0);
@@ -54,7 +52,7 @@ namespace Tim
 			std::vector<SignalPtr> jointSignalSet;
 			jointSignalSet.reserve(trials);
 
-			Array<SignalPtr, 2> signalSet(trials, 3);
+			Array<SignalPtr> signalSet(trials, 3);
 			std::copy(wSignalSet.begin(), wSignalSet.end(), signalSet.rowBegin(0));
 			std::copy(xSignalSet.begin(), xSignalSet.end(), signalSet.rowBegin(1));
 			std::copy(ySignalSet.begin(), ySignalSet.end(), signalSet.rowBegin(2));
@@ -70,16 +68,16 @@ namespace Tim
 				Integer3(1, 2, -1)
 			};
 
-			if (wantTemporal)
+			if (result)
 			{
-				return temporalEntropyCombination(
+				*result = temporalEntropyCombination(
 					signalSet,
 					forwardRange(rangeSet),
 					timeWindowRadius,
-					result,
 					forwardRange(lagSet),
 					kNearest,
 					filter);
+				return 0;
 			}
 
 			return entropyCombination(
@@ -95,46 +93,42 @@ namespace Tim
 		typename SignalPtr_X_Iterator,
 		typename SignalPtr_Y_Iterator,
 		typename SignalPtr_W_Iterator,
-		typename Real_OutputIterator,
 		typename Real_Filter_Iterator>
-	integer temporalTransferEntropy(
+	SignalPtr temporalTransferEntropy(
 		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
 		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
 		const ForwardRange<SignalPtr_W_Iterator>& wSignalSet,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		integer xLag, integer yLag, integer wLag,
 		integer kNearest,
 		const ForwardRange<Real_Filter_Iterator>& filter)
 	{
-		return Tim::Detail_TransferEntropy::transferEntropy(
+		SignalPtr result;
+		Tim::Detail_TransferEntropy::transferEntropy(
 			xSignalSet, ySignalSet, wSignalSet,
 			timeWindowRadius,
-			result,
+			&result,
 			xLag, yLag, wLag,
 			kNearest,
-			filter,
-			true);
+			filter);
+		return result;
 	}
 
 	template <
 		typename SignalPtr_X_Iterator,
 		typename SignalPtr_Y_Iterator,
-		typename SignalPtr_W_Iterator,
-		typename Real_OutputIterator>
-	integer temporalTransferEntropy(
+		typename SignalPtr_W_Iterator>
+	SignalPtr temporalTransferEntropy(
 		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
 		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
 		const ForwardRange<SignalPtr_W_Iterator>& wSignalSet,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		integer xLag, integer yLag, integer wLag,
 		integer kNearest)
 	{
 		return Tim::temporalTransferEntropy(
 			xSignalSet, ySignalSet, wSignalSet,
 			timeWindowRadius,
-			result,
 			xLag, yLag, wLag,
 			kNearest,
 			constantRange((real)1, 1));
@@ -153,12 +147,10 @@ namespace Tim
 	{
 		return Tim::Detail_TransferEntropy::transferEntropy(
 			xSignalSet, ySignalSet, wSignalSet,
-			0,
-			NullIterator(),
+			0, 0,
 			xLag, yLag, wLag,
 			kNearest,
-			constantRange((real)1, 1),
-			false);
+			constantRange((real)1, 1));
 	}
 
 }

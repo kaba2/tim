@@ -101,28 +101,28 @@ namespace
 				const real q00 = 
 					summedAreaTable(
 					constArrayView(summedPdf), 
-					Rectangle2(
+					AlignedBox2i(
 					center.x() - x, center.y() - y,
 					center.x() + x + 1, center.y() + y + 1)) * binSize;
 
 				const real q10 = 
 					summedAreaTable(
 					constArrayView(summedPdf), 
-					Rectangle2(
+					AlignedBox2i(
 					center.x() - (x + 1), center.y() - y,
 					center.x() + (x + 1) + 1, center.y() + y + 1)) * binSize;
 
 				const real q01 = 
 					summedAreaTable(
 					constArrayView(summedPdf), 
-					Rectangle2(
+					AlignedBox2i(
 					center.x() - x, center.y() - (y + 1),
 					center.x() + x + 1, center.y() + (y + 1) + 1)) * binSize;
 
 				const real q11 = 
 					summedAreaTable(
 					constArrayView(summedPdf), 
-					Rectangle2(
+					AlignedBox2i(
 					center.x() - (x + 1), center.y() - (y + 1),
 					center.x() + (x + 1) + 1, center.y() + (y + 1) + 1)) * binSize;
 
@@ -135,7 +135,7 @@ namespace
 					std::max(
 					summedAreaTable(
 					constArrayView(summedPdf), 
-					Rectangle2(
+					AlignedBox2i(
 					center.x() - z, center.y() - z,
 					center.x() + z + 1, center.y() + z + 1)) * binSize, (real)0);
 

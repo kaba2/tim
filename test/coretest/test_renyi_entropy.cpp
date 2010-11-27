@@ -88,7 +88,8 @@ namespace
 					covariance);
 
 				testRenyiEntropyCase(
-					"Cor.G.(" + realToString(determinant(covariance), 2) + ", " + realToString(conditionManhattan(covariance), 2) + ")",
+					"Cor.G.(" + realToString(determinant(covariance), 2) + ", " + 
+					realToString(cond) + ")",
 					generateCorrelatedGaussian(samples, dimension, cholesky),
 					q,
 					gaussianRenyiEntropy(q, dimension, determinant(cholesky)));
@@ -106,7 +107,8 @@ namespace
 					covariance);
 
 				testRenyiEntropyCase(
-					"Cor.G.(" + realToString(determinant(covariance), 2) + ", " + realToString(conditionManhattan(covariance), 2) + ")",
+					"Cor.G.(" + realToString(determinant(covariance), 2) + ", " + 
+					realToString(cond) + ")",
 					generateCorrelatedGaussian(samples, dimension, cholesky),
 					q,
 					gaussianRenyiEntropy(q, dimension, determinant(cholesky)));

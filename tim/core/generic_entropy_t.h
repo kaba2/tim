@@ -30,11 +30,6 @@ namespace Tim
 	Smaller values give more temporal adaptivity,
 	but increase errors.
 
-	result:
-	A real output iterator, denoting the start
-	of the region where the sequence of temporal
-	differential entropies are to be stored.
-
 	kNearest:
 	The k:th nearest neighbor that is used to
 	estimate generic entropy.
@@ -45,24 +40,16 @@ namespace Tim
 	to the current time instant. The width of the array can 
 	be arbitrary but must be odd. The coefficients must sum
 	to a non-zero value.
-
-	Returns:
-	The number of time instants that had an
-	undefined estimate. If not all estimates
-	were undefined, they were reconstructed from 
-	the defined estimates using interpolation.
 	*/
 
 	template <
 		typename SignalPtr_Iterator, 
 		typename EntropyAlgorithm,
-		typename Real_OutputIterator,
 		typename Real_Filter_Iterator>
-	integer temporalGenericEntropy(
+	SignalPtr temporalGenericEntropy(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		const EntropyAlgorithm& entropyAlgorithm,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		integer kNearest,
 		const ForwardRange<Real_Filter_Iterator>& filter);
 
@@ -83,13 +70,11 @@ namespace Tim
 
 	template <
 		typename SignalPtr_Iterator, 
-		typename EntropyAlgorithm,
-		typename Real_OutputIterator>
-	integer temporalGenericEntropy(
+		typename EntropyAlgorithm>
+	SignalPtr temporalGenericEntropy(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		const EntropyAlgorithm& entropyAlgorithm,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		integer kNearest = 1);
 
 }

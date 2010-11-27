@@ -1,6 +1,7 @@
 #include "tim/core/signal_tools.h"
 
 #include <pastel/sys/constantiterator.h>
+#include <pastel/sys/string_tools.h>
 
 #include <pastel/math/cholesky_decomposition.h>
 #include <pastel/math/matrix_tools.h>
@@ -8,11 +9,64 @@
 namespace Tim
 {
 
+	TIM SignalPtr nanToLagged(const SignalPtr& signal)
+	{
+		const integer nans = nanSamples(signal);
+
+		// The following correctly skips rows, because
+		// data is stored in row-major order.
+		const SignalPtr lagged = SignalPtr(
+			new Signal(signal->samples() - nans, signal->dimension(), 
+			nans, &*signal->data().rowBegin(nans)));
+
+		return lagged;
+	}
+
 	TIM std::ostream& operator<<(
 		std::ostream& stream, const Signal& signal)
 	{
 		const integer dimension = signal.dimension();
 		const integer samples = signal.samples();
+
+		if (samples == 0 || dimension == 0)
+		{
+			std::cout << "[]" << std::endl;
+		}
+		else
+		{
+			std::cout << "[";
+			for (integer x = 0; x < dimension;++x)
+			{
+				if (x > 0)
+				{
+					std::cout << ";" << std::endl;
+				}
+				// The beginning time instant is
+				// transmitted by padding the first samples
+				// of the outputted signal with NaNs.
+				for (integer y = 0; y < signal.t();++y)
+				{
+					if (y > 0)
+					{
+						std::cout << ", ";
+					}
+					std::cout << "nan";
+				}
+				// The NaN-padding is followed by the actual
+				// signal.
+				for (integer y = 0; y < samples;++y)
+				{
+					if (y + signal.t() > 0)
+					{
+						std::cout << ", ";
+					}
+					std::cout << realToString(signal.data()(y, x));
+				}
+			}
+			std::cout << "]";
+		}
+
+		/*
 		stream << "[";
 		for (integer i = 0;i < dimension;++i)
 		{
@@ -30,29 +84,9 @@ namespace Tim
 			}
 		}
 		stream << "]";
+		*/
 
 		return stream;
-	}
-
-	TIM SignalPtr split(
-		const SignalPtr& signal,
-		integer dimensionBegin,
-		integer dimensionEnd)
-	{
-		ENSURE_OP(dimensionBegin, <=, dimensionEnd);
-		ENSURE_OP(dimensionBegin, >=, 0);
-		ENSURE_OP(dimensionEnd, <=, signal->dimension());
-
-		const integer dimension = dimensionEnd - dimensionBegin;
-		const integer samples = signal->samples();
-
-		SignalPtr splitSignal(new Signal(
-			signal->samples(), dimension));
-
-		splitSignal->data() = signal->data()(
-			Vector2i(0, dimensionBegin), Vector2i(samples, dimensionEnd));
-
-		return splitSignal;
 	}
 
 	TIM void computeCovariance(

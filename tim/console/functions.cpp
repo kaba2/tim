@@ -208,7 +208,6 @@ namespace Tim
 			// Read the values into a continuous array.
 
 			std::vector<real> data;
-			real value = 0;
 
 			const integer samplesToRead = product(width);
 			if (!samplesUnknown)
@@ -217,46 +216,53 @@ namespace Tim
 			}
 
 			integer readSamples = 0;
-
-			while(true)
+			bool finished = false;
+			while(!finished)
 			{
-				// Read as many white-space separated values
-				// as possible.
-				while(file >> value)
-				{
-					data.push_back(value);
-					++readSamples;
-					if (!samplesUnknown && readSamples == samplesToRead)
-					{
-						// No need to read more samples since
-						// we already got all we need to form the
-						// signals.
-						break;
-					}
-				}
-				if (!samplesUnknown && readSamples == samplesToRead)
-				{
-					break;
-				}
-				
-				// Clear the failbit, since we just failed
-				// to read a floating point number.
-				file.clear();
-
-				// See if we can read a separator instead.
-				char separator = 0;
-				file >> separator;
+				// Read one word.
+				std::string text;
+				file >> text;
 				if (!file)
 				{
-					// No luck. Seems like this is the
-					// end of the data.
+					// There is no more data in the file.
+					finished = true;
 					break;
 				}
-				else if (separatorSet.find(separator) == std::string::npos)
+				// We found a word.
+				while(!text.empty())
 				{
-					// There was something, but it was not a separator either.
-					reportError(std::string("Invalid separator ") + separator + ".");
-					throw FunctionCall_Exception();
+					// From the word, try to read a real
+					// number.
+					integer indexEnd = 0;
+					const real value = stringToReal(text, &indexEnd);
+					if (indexEnd > 0)
+					{
+						// Found some real value.
+						data.push_back(value);
+						++readSamples;
+						if (!samplesUnknown && readSamples == samplesToRead)
+						{
+							// No need to read more samples since
+							// we already got all we need to form the
+							// signals.
+							finished = true;
+							break;
+						}
+						// Concentrate on the rest of the word.
+						text = text.substr(indexEnd);
+					}
+					else
+					{
+						// See if we can read a separator instead.
+						char separator = text[0];
+						if (separatorSet.find(separator) == std::string::npos)
+						{
+							// There was something, but it was not a separator either.
+							reportError(std::string("Invalid separator ") + separator + ".");
+							throw FunctionCall_Exception();
+						}
+						text = text.substr(1);
+					}
 				}
 			}
 
@@ -295,13 +301,23 @@ namespace Tim
 			{
 				for (integer x = 0;x < trials;++x)
 				{
-					SignalPtr signal = SignalPtr(new Signal(samples, dimension));
+					integer nans = 0;
+					for (integer j = 0;j < samples;++j)
+					{
+						const integer offset = dot(stride, Vector<integer, 4>(j, 0, x, y));
+						if (!StdExt::isNan(data[offset]))
+						{
+							break;
+						}
+						++nans;
+					}
+					SignalPtr signal = SignalPtr(new Signal(samples - nans, dimension, nans));
 					for (integer i = 0;i < dimension;++i)
 					{
-						for (integer j = 0;j < samples;++j)
+						for (integer j = nans;j < samples;++j)
 						{
 							const integer offset = dot(stride, Vector<integer, 4>(j, i, x, y));
-							signal->data()(j, i) = data[offset];
+							signal->data()(j - nans, i) = data[offset];
 						}
 					}
 					(*cellArray)(x, y) = signal;
@@ -382,6 +398,18 @@ namespace Tim
 				error = true;
 			}
 
+			if (!equalDimension(forwardRange(cell->begin(), cell->end())))
+			{
+				reportError("The signals in the cell-array must have equal dimension.");
+				error = true;
+			}
+
+			if (!equalSamples(forwardRange(cell->begin(), cell->end())))
+			{
+				reportError("The signals in the cell-array must have equal number of samples.");
+				error = true;
+			}
+
 			if (error)
 			{
 				throw FunctionCall_Exception();
@@ -389,7 +417,8 @@ namespace Tim
 
 			const integer trials = cell->width();
 			const integer series = cell->height();
-			const integer samples = (*cell)(0)->samples();
+			const integer nans = (*cell)(0)->t();
+			const integer samples = (*cell)(0)->samples() + nans;
 			const integer dimension = (*cell)(0)->dimension();
 
 			Vector<integer, 4> width = permute(
@@ -421,10 +450,15 @@ namespace Tim
 					const SignalPtr signal = (*cell)(x, y);
 					for (integer i = 0;i < dimension;++i)
 					{
-						for (integer j = 0;j < samples;++j)
+						for (integer j = 0;j < nans;++j)
 						{
 							const integer offset = dot(stride, Vector<integer, 4>(j, i, x, y));
-							data[offset] = signal->data()(j, i);
+							data[offset] = nan<real>();
+						}
+						for (integer j = nans;j < samples;++j)
+						{
+							const integer offset = dot(stride, Vector<integer, 4>(j, i, x, y));
+							data[offset] = signal->data()(j - nans, i);
 						}
 					}
 				}
@@ -471,7 +505,7 @@ namespace Tim
 								file << separator0;
 							}
 							file << prefix0;
-							file << data[index];
+							file << realToString(data[index]);
 							file << suffix0;
 							++index;
 						}
@@ -573,21 +607,14 @@ namespace Tim
 
 			// Compute.
 			
-			std::vector<real> deSet;
-			
-			temporalDifferentialEntropyKl(
+			const SignalPtr de = temporalDifferentialEntropyKl(
 				forwardRange(cell->begin(), cell->end()),
 				timeWindowRadius,
-				std::back_inserter(deSet),
 				kNearest,
 				Default_NormBijection(),
 				forwardRange(filter->data().begin(), filter->data().end()));
 				
-			SignalPtr signal = SignalPtr(new Signal(deSet.size(), 1));
-			std::copy(deSet.begin(), deSet.end(),
-				signal->data().begin());
-				
-			return boost::any(signal);
+			return boost::any(de);
 		}
 
 		boost::any differential_entropy_nk(const AnySet& argSet, integer passedArgs)
@@ -732,21 +759,14 @@ namespace Tim
 
 			// Compute.
 			
-			std::vector<real> deSet;
-			
-			temporalRenyiEntropyLps(
+			const SignalPtr re = temporalRenyiEntropyLps(
 				forwardRange(cell->begin(), cell->end()),
 				timeWindowRadius,
-				std::back_inserter(deSet),
 				q,
 				kNearest,
 				forwardRange(filter->data().begin(), filter->data().end()));
 				
-			SignalPtr signal = SignalPtr(new Signal(deSet.size(), 1));
-			std::copy(deSet.begin(), deSet.end(),
-				signal->data().begin());
-				
-			return boost::any(signal);
+			return boost::any(re);
 		}
 
 		boost::any tsallis_entropy_lps(const AnySet& argSet, integer passedArgs)
@@ -855,21 +875,14 @@ namespace Tim
 
 			// Compute.
 			
-			std::vector<real> deSet;
-			
-			temporalTsallisEntropyLps(
+			const SignalPtr estimate = temporalTsallisEntropyLps(
 				forwardRange(cell->begin(), cell->end()),
 				timeWindowRadius,
-				std::back_inserter(deSet),
 				q,
 				kNearest,
 				forwardRange(filter->data().begin(), filter->data().end()));
 				
-			SignalPtr signal = SignalPtr(new Signal(deSet.size(), 1));
-			std::copy(deSet.begin(), deSet.end(),
-				signal->data().begin());
-				
-			return boost::any(signal);
+			return boost::any(estimate);
 		}
 
 		boost::any mutual_information_t(const AnySet& argSet, integer passedArgs)
@@ -930,22 +943,15 @@ namespace Tim
 
 			// Compute.
 			
-			std::vector<real> miSet;
-			
-			temporalMutualInformation(
+			const SignalPtr mi = temporalMutualInformation(
 				forwardRange(xCell->begin(), xCell->end()),
 				forwardRange(yCell->begin(), yCell->end()),
 				timeWindowRadius,
-				std::back_inserter(miSet),
 				xLag, yLag,
 				kNearest,
 				forwardRange(filter->data().begin(), filter->data().end()));
 				
-			SignalPtr signal = SignalPtr(new Signal(miSet.size(), 1));
-			std::copy(miSet.begin(), miSet.end(),
-				signal->data().begin());
-				
-			return boost::any(signal);
+			return boost::any(mi);
 		}
 
 		boost::any mutual_information(const AnySet& argSet, integer passedArgs)
@@ -1061,23 +1067,16 @@ namespace Tim
 
 			// Compute.
 			
-			std::vector<real> miSet;
-			
-			temporalPartialMutualInformation(
+			const SignalPtr mi = temporalPartialMutualInformation(
 				forwardRange(xCell->begin(), xCell->end()),
 				forwardRange(yCell->begin(), yCell->end()),
 				forwardRange(zCell->begin(), zCell->end()),
 				timeWindowRadius,
-				std::back_inserter(miSet),
 				xLag, yLag, zLag,
 				kNearest,
 				forwardRange(filter->data().begin(), filter->data().end()));
 				
-			SignalPtr signal = SignalPtr(new Signal(miSet.size(), 1));
-			std::copy(miSet.begin(), miSet.end(),
-				signal->data().begin());
-				
-			return boost::any(signal);
+			return boost::any(mi);
 		}
 
 		boost::any mutual_information_p(const AnySet& argSet, integer passedArgs)
@@ -1200,23 +1199,16 @@ namespace Tim
 
 			// Compute.
 			
-			std::vector<real> teSet;
-			
-			temporalTransferEntropy(
+			const SignalPtr te = temporalTransferEntropy(
 				forwardRange(xCell->begin(), xCell->end()),
 				forwardRange(yCell->begin(), yCell->end()),
 				forwardRange(wCell->begin(), wCell->end()),
 				timeWindowRadius,
-				std::back_inserter(teSet),
 				xLag, yLag, wLag,
 				kNearest,
 				forwardRange(filter->data().begin(), filter->data().end()));
 				
-			SignalPtr signal = SignalPtr(new Signal(teSet.size(), 1));
-			std::copy(teSet.begin(), teSet.end(),
-				signal->data().begin());
-				
-			return boost::any(signal);
+			return boost::any(te);
 		}
 
 		boost::any transfer_entropy_pt(const AnySet& argSet, integer passedArgs)
@@ -1289,24 +1281,17 @@ namespace Tim
 
 			// Compute.
 			
-			std::vector<real> teSet;
-			
-			temporalPartialTransferEntropy(
+			const SignalPtr pte = temporalPartialTransferEntropy(
 				forwardRange(xCell->begin(), xCell->end()),
 				forwardRange(yCell->begin(), yCell->end()),
 				forwardRange(zCell->begin(), zCell->end()),
 				forwardRange(wCell->begin(), wCell->end()),
 				timeWindowRadius,
-				std::back_inserter(teSet),
 				xLag, yLag, zLag, wLag,
 				kNearest,
 				forwardRange(filter->data().begin(), filter->data().end()));
 				
-			SignalPtr signal = SignalPtr(new Signal(teSet.size(), 1));
-			std::copy(teSet.begin(), teSet.end(),
-				signal->data().begin());
-				
-			return boost::any(signal);
+			return boost::any(pte);
 		}
 
 		boost::any transfer_entropy(const AnySet& argSet, integer passedArgs)

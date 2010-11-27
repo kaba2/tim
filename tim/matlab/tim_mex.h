@@ -41,9 +41,9 @@ namespace Tim
 	void getIntegers(const mxArray* input,
 					 Integer_OutputIterator output);
 
-	template <typename Integer_OutputIterator>
+	template <typename Real_OutputIterator>
 	void getReals(const mxArray* input,
-				  Integer_OutputIterator output);
+				  Real_OutputIterator output);
 
 	integer getInteger(const mxArray* input);
 
@@ -55,7 +55,7 @@ namespace Tim
 
 	void getSignalArray(
 		const mxArray* signalSetArray, 
-		Array<SignalPtr, 2>& signalSet);
+		Array<SignalPtr>& signalSet);
 	
 }
 

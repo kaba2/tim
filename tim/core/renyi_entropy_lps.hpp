@@ -101,12 +101,10 @@ namespace Tim
 
 	template <
 		typename SignalPtr_Iterator, 
-		typename Real_OutputIterator,
 		typename Real_Filter_Iterator>
-	integer temporalRenyiEntropyLps(
+	SignalPtr temporalRenyiEntropyLps(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		real q,
 		integer kNearestSuggestion,
 		const ForwardRange<Real_Filter_Iterator>& filter)
@@ -133,13 +131,12 @@ namespace Tim
 			return temporalDifferentialEntropyKl(
 				signalSet,
 				timeWindowRadius,
-				result,
 				kNearest);
 		}
 
 		if (signalSet.empty())
 		{
-			return 0;
+			return SignalPtr(new Signal(0, 1));
 		}
 
 		const integer kNearest = renyiDecideK(q, kNearestSuggestion);
@@ -152,23 +149,19 @@ namespace Tim
 			signalSet,
 			entropyAlgorithm,
 			timeWindowRadius,
-			result,
 			kNearest,
 			filter);
 	}
 
-	template <
-		typename SignalPtr_Iterator, 
-		typename Real_OutputIterator>
-	integer temporalRenyiEntropyLps(
+	template <typename SignalPtr_Iterator>
+	SignalPtr temporalRenyiEntropyLps(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		real q,
 		integer kNearestSuggestion)
 	{
 		return Tim::temporalRenyiEntropyLps(
-			signalSet, timeWindowRadius, result, 
+			signalSet, timeWindowRadius,
 			q, kNearestSuggestion,
 			constantRange((real)1, 1));
 	}

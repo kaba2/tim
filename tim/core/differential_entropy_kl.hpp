@@ -61,13 +61,11 @@ namespace Tim
 
 	template <
 		typename SignalPtr_Iterator, 
-		typename Real_OutputIterator,
 		typename NormBijection,
 		typename Real_Filter_Iterator>
-	integer temporalDifferentialEntropyKl(
+	SignalPtr temporalDifferentialEntropyKl(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		integer kNearest,
 		const NormBijection& normBijection,
 		const ForwardRange<Real_Filter_Iterator>& filter)
@@ -82,44 +80,36 @@ namespace Tim
 			signalSet,
 			entropyAlgorithm,
 			timeWindowRadius,
-			result,
 			kNearest,
 			filter);
 	}
 
 	template <
 		typename SignalPtr_Iterator, 
-		typename Real_OutputIterator,
 		typename NormBijection>
-	integer temporalDifferentialEntropyKl(
+	SignalPtr temporalDifferentialEntropyKl(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		integer kNearest,
 		const NormBijection& normBijection)
 	{
 		return Tim::temporalDifferentialEntropyKl(
 			signalSet,
 			timeWindowRadius,
-			result,
 			kNearest,
 			normBijection,
 			constantRange((real)1, 1));
 	}
 
-	template <
-		typename SignalPtr_Iterator, 
-		typename Real_OutputIterator>
-	integer temporalDifferentialEntropyKl(
+	template <typename SignalPtr_Iterator>
+	SignalPtr temporalDifferentialEntropyKl(
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		integer kNearest)
 	{
 		return Tim::temporalDifferentialEntropyKl(
 			signalSet,
 			timeWindowRadius,
-			result,
 			kNearest,
 			Default_NormBijection());
 	}

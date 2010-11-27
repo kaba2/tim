@@ -9,19 +9,22 @@ namespace Tim
 	Signal::Signal()
 		: name_()
 		, data_()
+		, t_(0)
 	{
 	}
 
-	Signal::Signal(integer samples, integer dimension)
+	Signal::Signal(integer samples, integer dimension, integer t)
 		: name_()
 		, data_(samples, dimension)
+		, t_(t)
 	{
 	}
 
 	Signal::Signal(integer samples, integer dimension, 
-		real* dataToAlias)
+		integer t, real* dataToAlias)
 		: name_()
 		, data_(samples, dimension, withAliasing(dataToAlias))
+		, t_(t)
 	{
 	}
 
@@ -53,6 +56,16 @@ namespace Tim
 	const MatrixD& Signal::data() const
 	{
 		return data_;
+	}
+
+	void Signal::setT(integer t)
+	{
+		t_ = t;
+	}
+
+	integer Signal::t() const
+	{
+		return t_;
 	}
 
 	Signal::PointIterator Signal::pointBegin(integer dimensionBegin)

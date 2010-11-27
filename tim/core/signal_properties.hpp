@@ -29,6 +29,9 @@ namespace Tim
 		// time interval:
 		//
 		//         +--+
+		//
+		// Note that each signal also has its own lag which
+		// must be added to the given lag.
 
 		// Find out the common time interval
 		// [tLeftMax, tRightMin[.
@@ -37,14 +40,14 @@ namespace Tim
 		const Integer_Iterator lagIterEnd = lagSet.end();
 		SignalPtr_Iterator signalIter = signalSet.begin();
 
-		integer tLeftMax = (*lagIter);
+		integer tLeftMax = (*lagIter) + (*signalIter)->t();
 		integer tRightMin = tLeftMax + (*signalIter)->samples();
 		++lagIter;
 		++signalIter;
 
 		while(lagIter != lagIterEnd)
 		{
-			const integer tLeft = *lagIter;
+			const integer tLeft = *lagIter + (*signalIter)->t();
 			const integer tRight = tLeft + (*signalIter)->samples();
 
 			if (tLeft > tLeftMax)
@@ -66,6 +69,15 @@ namespace Tim
 		}
 		
 		return Integer2(tLeftMax, tRightMin);
+	}
+
+	template <typename SignalPtr_Iterator>
+	Integer2 sharedTimeInterval(
+		const ForwardRange<SignalPtr_Iterator>& signalSet)
+	{
+		return sharedTimeInterval(
+			signalSet,
+			constantRange(0, signalSet.size()));
 	}
 
 	template <typename SignalPtr_Iterator>
@@ -111,6 +123,34 @@ namespace Tim
 		while(iter != iterEnd)
 		{
 			if ((*iter)->dimension() != dimension)
+			{
+				return false;
+			}
+
+			++iter;
+		}
+
+		return true;
+	}
+
+	template <typename SignalPtr_Iterator>
+	bool equalSamples(
+		const ForwardRange<SignalPtr_Iterator>& signalSet)
+	{
+		if (signalSet.empty())
+		{
+			return true;
+		}
+
+		SignalPtr_Iterator iter = signalSet.begin();
+		const SignalPtr_Iterator iterEnd = signalSet.end();
+
+		integer samples = signalSet.front()->samples();
+		++iter;
+
+		while(iter != iterEnd)
+		{
+			if ((*iter)->samples() != samples)
 			{
 				return false;
 			}

@@ -30,7 +30,7 @@ namespace Tim
 		typename Integer3_Iterator,
 		typename Integer_Iterator>
 	real entropyCombination(
-		const Array<SignalPtr, 2>& signalSet,
+		const Array<SignalPtr>& signalSet,
 		const ForwardRange<Integer3_Iterator>& rangeSet,
 		const ForwardRange<Integer_Iterator>& lagSet,
 		integer kNearest)
@@ -103,7 +103,7 @@ namespace Tim
 
 		// Start estimation.
 
-		Array<real, 2> distanceArray(1, estimateSamples);
+		Array<real> distanceArray(1, estimateSamples);
 
 		searchAllNeighbors(
 			jointPointSet.kdTree(),
@@ -137,7 +137,7 @@ namespace Tim
 #pragma omp parallel for reduction(+ : signalEstimate, acceptedSamples)
 			for (integer j = 0;j < estimateSamples;++j)
 			{
-				const integer k = countSet[j] - 1;
+				const integer k = countSet[j];
 				// A neighbor count of zero can happen when the distance
 				// to the k:th neighbor is zero because of using an
 				// open search ball. These points are ignored.
@@ -165,7 +165,7 @@ namespace Tim
 		typename Integer3_Iterator,
 		typename Real_OutputIterator>
 	real entropyCombination(
-		const Array<SignalPtr, 2>& signalSet,
+		const Array<SignalPtr>& signalSet,
 		const ForwardRange<Integer3_Iterator>& rangeSet)
 	{
 		return Tim::entropyCombination(

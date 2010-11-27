@@ -29,14 +29,12 @@ namespace Tim
 
 	template <
 		typename Integer3_Iterator,
-		typename Real_OutputIterator,
 		typename Integer_Iterator,
 		typename Real_Filter_Iterator>
-	integer temporalEntropyCombination(
-		const Array<SignalPtr, 2>& signalSet,
+	SignalPtr temporalEntropyCombination(
+		const Array<SignalPtr>& signalSet,
 		const ForwardRange<Integer3_Iterator>& rangeSet,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		const ForwardRange<Integer_Iterator>& lagSet,
 		integer kNearest,
 		const ForwardRange<Real_Filter_Iterator>& filter)
@@ -49,7 +47,7 @@ namespace Tim
 		if (signalSet.empty() || rangeSet.empty() || filter.empty())
 		{
 			// There's nothing to do.
-			return 0;
+			return SignalPtr(new Signal(0, 1));
 		}
 
 		rangeSet.updateCache();
@@ -66,29 +64,6 @@ namespace Tim
 
 		const integer trials = signalSet.width();
 
-		log() << "Trials = " << trials << logNewLine;
-
-		// There are several goals to keep in mind when
-		// reporting the results:
-		// 1) We want the size of the output data to be 
-		// independent of the lags.
-		// 2) The time instant of the first element of the
-		// output data must be 0.
-		// 3) The width of the output data must be able
-		// to contain all temporal estimates no matter
-		// which lags are used (this requires the user
-		// to choose lags so that the common time interval
-		// of the signals does not lie outside the 
-		// time-window of the output data).
-
-		// The requirements 1 and 3 are satisfied by
-		// choosing the width of the output data as
-		// the minimum number of samples among all
-		// involved signals.
-	
-		const integer outputWidth = minSamples(
-			forwardRange(signalSet.begin(), signalSet.end()));
-
 		// Find out the shared time interval that
 		// the signals share.
 
@@ -96,24 +71,17 @@ namespace Tim
 			forwardRange(signalSet.begin(), signalSet.end()),
 			lagSet);
 
-		if (sharedTime[0] == sharedTime[1] ||
-			sharedTime[0] >= outputWidth ||
-			sharedTime[1] <= 0)
+		const integer estimateBegin = sharedTime[0];
+		const integer estimateEnd = sharedTime[1];
+		const integer estimates = estimateEnd - estimateBegin;
+
+		if (estimates == 0)
 		{
-			// The shared time interval is not in the
-			// output range. Return all NaNs.
-			std::fill_n(result, outputWidth, nan<real>());
-			return 0;
+			// The signals do not share any time interval:
+			// return an empty signal.
+			return SignalPtr(new Signal(0, 1));
 		}
 		
-		// We are only interested in estimates in the
-		// output range.
-
-		const integer estimateBegin = std::max(sharedTime[0], 0);
-		const integer estimateEnd = std::min(sharedTime[1], outputWidth);
-		const integer estimates = estimateEnd - estimateBegin;
-		const integer estimateOffset = estimateBegin - sharedTime[0];
-
 		// Construct the joint signal.
 
 		std::vector<SignalPtr> jointSignalSet;
@@ -130,7 +98,8 @@ namespace Tim
 		offsetSet.push_back(0);
 		for (integer i = 1;i < signals + 1;++i)
 		{
-			offsetSet.push_back(offsetSet[i - 1] + signalSet(0, i - 1)->dimension());
+			const integer marginalDimension = signalSet(0, i - 1)->dimension();
+			offsetSet.push_back(offsetSet[i - 1] + marginalDimension);
 		}
 
 		// It is essential that the used norm is the
@@ -139,13 +108,11 @@ namespace Tim
 		Maximum_NormBijection<real> normBijection;
 		integer missingValues = 0;
 
-		// The requirement 2 is satisfied by padding
-		// the output data before and after the estimates
-		// with NaNs.
-
-		std::vector<real> estimateSet(outputWidth, nan<real>());
-
-		std::vector<Integer3> copyRangeSet(
+		// This is where the estimates are stored at.
+		
+		SignalPtr result(new Signal(estimates, 1, estimateBegin));
+		
+		const std::vector<Integer3> copyRangeSet(
 			rangeSet.begin(), rangeSet.end());
 
 		// Copy the filter and replicate
@@ -169,18 +136,6 @@ namespace Tim
 				++iter;
 			}
 		}
-
-		/*
-		// Create a triangle filter.
-		for (integer t = 0;t < filterWidth;++t)
-		{
-			const real x = 
-				(real)std::abs(t - timeWindowRadius) / 
-				(timeWindowRadius + (real)0.5);
-			std::fill_n(
-				std::back_inserter(copyFilter), trials, 1 - x);
-		}
-		*/
 
 // Parallelization version 1
 #pragma omp parallel
@@ -209,20 +164,20 @@ namespace Tim
 			signalWeightSum += range[2];
 		}
 
-		Array<real, 2> distanceArray(1, maxLocalFilterWidth * trials, infinity<real>());
+		Array<real> distanceArray(1, maxLocalFilterWidth * trials, infinity<real>());
 		
 		std::vector<integer> countSet(maxLocalFilterWidth * trials, 0);
 
 // Parallelization version 1
 #pragma omp for reduction(+ : missingValues)
-		for (integer t = estimateOffset;t < estimateOffset + estimates;++t)
+		for (integer t = estimateBegin;t < estimateEnd;++t)
 		{
 			jointPointSet->setTimeWindow(
 				t - timeWindowRadius, 
 				t + timeWindowRadius + 1);
 			
-			const integer tBegin = jointPointSet->timeBegin();
-			const integer tEnd = jointPointSet->timeEnd();
+			const integer tBegin = jointPointSet->windowBegin();
+			const integer tEnd = jointPointSet->windowEnd();
 			const integer tWidth = tEnd - tBegin;
 			const integer tLocalFilterBegin = std::max(t - filterRadius, tBegin) - tBegin;
 			const integer tLocalFilterEnd = std::min(t + filterRadius + 1, tEnd) - tBegin;
@@ -277,7 +232,7 @@ namespace Tim
 //#pragma omp parallel for reduction(+ : signalEstimate, weightSum)
 				for (integer j = 0;j < windowSamples;++j)
 				{
-					const integer k = countSet[j] - 1;
+					const integer k = countSet[j];
 
 					// A neighbor count of zero can happen when the distance
 					// to the k:th neighbor is zero because of using an
@@ -312,34 +267,25 @@ namespace Tim
 			estimate += digamma<real>(kNearest);
 			estimate += (signalWeightSum - 1) * digamma<real>(estimateSamples);
 
-			estimateSet[t - estimateOffset + estimateBegin] = estimate;
+			result->data()(t - estimateBegin) = estimate;
 		}
 		}
 
 		// Reconstruct the NaN's in the estimates.
 
 		reconstruct(
-			forwardRange(estimateSet.begin() + estimateBegin, estimates));
+			forwardRange(result->data().begin(), estimates));
 
-		// Copy the results to output.
-
-		std::copy(estimateSet.begin(), estimateSet.end(), result);
-
-		// Done. Report the number of undefined
-		// temporal estimates.
-
-		return missingValues;
+		return result;
 	}
 
 	template <
 		typename Integer3_Iterator,
-		typename Real_OutputIterator,
 		typename Integer_Iterator>
-	integer temporalEntropyCombination(
-		const Array<SignalPtr, 2>& signalSet,
+	SignalPtr temporalEntropyCombination(
+		const Array<SignalPtr>& signalSet,
 		const ForwardRange<Integer3_Iterator>& rangeSet,
 		integer timeWindowRadius,
-		Real_OutputIterator result,
 		const ForwardRange<Integer_Iterator>& lagSet,
 		integer kNearest)
 	{
@@ -347,26 +293,21 @@ namespace Tim
 			signalSet,
 			rangeSet,
 			timeWindowRadius,
-			result,
 			lagSet,
 			kNearest,
 			constantRange((real)1, 1));
 	}
 
-	template <
-		typename Integer3_Iterator,
-		typename Real_OutputIterator>
-	integer temporalEntropyCombination(
-		const Array<SignalPtr, 2>& signalSet,
+	template <typename Integer3_Iterator>
+	SignalPtr temporalEntropyCombination(
+		const Array<SignalPtr>& signalSet,
 		const ForwardRange<Integer3_Iterator>& rangeSet,
-		integer timeWindowRadius,
-		Real_OutputIterator result)
+		integer timeWindowRadius)
 	{
 		return temporalEntropyCombination(
 			signalSet,
 			rangeSet,
 			timeWindowRadius,
-			result,
 			constantRange(0, signalSet.height()));
 	}
 }
