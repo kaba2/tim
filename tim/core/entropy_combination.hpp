@@ -38,6 +38,9 @@ namespace Tim
 		ENSURE_OP(kNearest, >, 0);
 		ENSURE_OP(lagSet.size(), ==, signalSet.height());
 
+		typedef typename SignalPointSet::Point_ConstIterator
+			Point_ConstIterator;
+
 		if (signalSet.empty() || rangeSet.empty())
 		{
 			return 0;
@@ -110,7 +113,7 @@ namespace Tim
 			randomAccessRange(jointPointSet.begin(), jointPointSet.end()),
 			kNearest - 1,
 			kNearest, 
-			0,
+			(Array<Point_ConstIterator>*)0,
 			&distanceArray,
 			constantRange(infinity<real>(), estimateSamples),
 			0,

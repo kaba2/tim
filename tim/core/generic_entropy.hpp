@@ -28,6 +28,9 @@ namespace Tim
 	{
 		ENSURE_OP(kNearest, >, 0);
 
+		typedef typename SignalPointSet::Point_ConstIterator
+			Point_ConstIterator;
+
 		if (signalSet.empty())
 		{
 			return nan<real>();
@@ -58,7 +61,7 @@ namespace Tim
 			randomAccessRange(pointSet.begin(), pointSet.end()),
 			kNearest - 1,
 			kNearest, 
-			0,
+			(Array<Point_ConstIterator>*)0,
 			&distanceArray,
 			constantRange(infinity<real>(), estimateSamples),
 			0,
