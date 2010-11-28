@@ -27,8 +27,6 @@ namespace Tim
 		SignalPtr_Iterator iter = signalSet.begin();
 		SignalPtr_Iterator iterEnd = signalSet.end();
 
-		std::vector<real> estimate;
-
 		real estimate = 0;
 		while(iter != iterEnd)
 		{

@@ -54,7 +54,6 @@ namespace Tim
 		5) Compute mutual information for the piecewise-constant distributions.
 		*/
 
-		const integer samples = signal->samples();
 		const integer n = signal->dimension();
 
 		result.setSize(n, n);
