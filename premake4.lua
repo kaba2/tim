@@ -155,7 +155,7 @@ solution "Tim"
 		buildoptions 
 		{ 
 			-- Pragma warnings caused by OpenMP support not being enabled.
-			"-Wno-pragmas", 
+			"-Wno-unknown-pragmas", 
 			-- Comparison between an unsigned and a signed integer.
 			"-Wno-sign-compare", 
 			-- Conversion between an unsigned and a signed integer.
@@ -172,6 +172,7 @@ solution "Tim"
 
 	configuration { "gmake",  "release" }
 		buildoptions { "-fopenmp" }		
+		links { "gomp" }
 
 	function addPrefix(prefix, stringSet)
 		resultSet = {}
