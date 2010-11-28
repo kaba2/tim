@@ -57,7 +57,7 @@ namespace Tim
 	This is a convenience function that calls:
 
 	entropyCombination(
-		constantRange(signal),
+		signalSet,
 		rangeSet,
 		constantRange(0, signalSet.height()));
 
