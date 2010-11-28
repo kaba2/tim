@@ -32,28 +32,16 @@ namespace Tim
 		const ForwardRange<SignalPtr_Iterator>& signalSet);
 
 	//! Returns the minimum number of samples among the signals.
-	/*!
-	Preconditions:
-	SignalPtr_Iterator must dereference to SignalPtr.
-	*/
 	template <typename SignalPtr_Iterator>
 	integer minSamples(
 		const ForwardRange<SignalPtr_Iterator>& signalSet);
 
 	//! Returns true if all signals have the same dimension.
-	/*!
-	Preconditions:
-	SignalPtr_Iterator must dereference to SignalPtr.
-	*/
 	template <typename SignalPtr_Iterator>
 	bool equalDimension(
 		const ForwardRange<SignalPtr_Iterator>& signalSet);
 
 	//! Returns true if all signals have the same number of samples.
-	/*!
-	Preconditions:
-	SignalPtr_Iterator must dereference to SignalPtr.
-	*/
 	template <typename SignalPtr_Iterator>
 	bool equalSamples(
 		const ForwardRange<SignalPtr_Iterator>& signalSet);

@@ -857,6 +857,10 @@
 			>
 		</File>
 		<File
+			RelativePath="..\..\premake4.lua"
+			>
+		</File>
+		<File
 			RelativePath="..\..\release_history.txt"
 			>
 		</File>

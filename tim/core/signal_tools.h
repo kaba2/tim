@@ -38,7 +38,9 @@ namespace Tim
 	*/
 	TIM SignalPtr nanToLagged(const SignalPtr& signal);
 
-	TIM std::ostream& operator<<(std::ostream& stream, const Signal& signal);
+	//! Prints the signal into an output stream.
+	TIM std::ostream& operator<<(
+		std::ostream& stream, const Signal& signal);
 
 	//! Computes the covariance of the signal samples.
 	TIM void computeCovariance(
