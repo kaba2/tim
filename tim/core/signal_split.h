@@ -25,7 +25,7 @@ namespace Tim
 	by the 'partition' set. Assume that 'jointSignal'
 	is of dimension 4 and 'partition' contains the 
 	numbers 0, 2, 3, 4. Then the marginal signals
-	are splitd with the dimension subranges
+	are split with the dimension subranges
 	[0, 2[, [2, 3[, [3, 4[.
 	*/
 	template <typename SignalPtr_OutputIterator>

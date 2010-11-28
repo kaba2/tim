@@ -10,10 +10,6 @@ namespace Tim
 {
 
 	//! Merges a signal set into a higher-dimensional signal.
-	/*!
-	Preconditions:
-	SignalPtr_Iterator dereferences to SignalPtr.
-	*/
 	template <
 		typename SignalPtr_Iterator,
 		typename Integer_Iterator>
@@ -21,12 +17,10 @@ namespace Tim
 		const ForwardRange<SignalPtr_Iterator>& signalSet,
 		const ForwardRange<Integer_Iterator>& lagSet);
 
+	//! Merges a signal set into a higher-dimensional signal.
 	/*!
 	This is a convenience function that calls:
-
-	merge(signalSet,
-		constantRange(0, signalSet.size()));
-
+	merge(signalSet, constantRange(0, signalSet.size()));
 	See the documentation for that function.
 	*/
 	template <typename SignalPtr_Iterator>
@@ -34,12 +28,6 @@ namespace Tim
 		const ForwardRange<SignalPtr_Iterator>& signalSet);
 
 	//! Merges two signal sets pairwise into a new signal set.
-	/*!
-	Preconditions:
-	SignalPtr_X_Iterator dereferences to SignalPtr.
-	SignalPtr_X_Iterator dereferences to SignalPtr.
-	SignalPtr_OutputIterator dereferences to SignalPtr.
-	*/
 	template <
 		typename SignalPtr_X_Iterator,
 		typename SignalPtr_Y_Iterator,
@@ -48,8 +36,7 @@ namespace Tim
 		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
 		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
 		SignalPtr_OutputIterator result,
-		integer xLag = 0,
-		integer yLag = 0);
+		integer xLag = 0, integer yLag = 0);
 
 	//! Merges signals into a single high-dimensional signal.
 	/*!
@@ -88,10 +75,6 @@ namespace Tim
 		SignalPtr_OutputIterator result);
 
 	//! Merges two signals into a higher-dimensional signal.
-	/*!
-	Preconditions:
-	SignalPtr_Iterator dereferences to SignalPtr.
-	*/
 	TIM SignalPtr merge(
 		const SignalPtr& xSignal,
 		const SignalPtr& ySignal,
