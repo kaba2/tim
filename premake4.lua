@@ -197,7 +197,7 @@ solution "Tim"
 		files(addPrefix("tim/core/", fileSet))
 	
 	project "TimCoreTest"
-		kind(libKind)
+		kind("ConsoleApp")
 		includedirs(includeDirectorySet)
 		libdirs(libraryDirectorySet)
 		files(addPrefix("test/coretest/", fileSet))
