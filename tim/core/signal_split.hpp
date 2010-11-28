@@ -31,8 +31,6 @@ namespace Tim
 	{
 		ENSURE_OP(partition.size(), >=, 2);
 
-		const integer dimension = jointSignal->dimension();
-		const integer samples = jointSignal->samples();
 		const integer signals = partition.size() - 1;
 
 		for (integer x = 0;x < signals;++x)

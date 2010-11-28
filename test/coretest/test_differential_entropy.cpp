@@ -25,7 +25,7 @@ namespace
 		//Maximum_NormBijection<real> normBijection;
 		//Manhattan_NormBijection<real> normBijection;
 
-		const integer kNearest = 1;
+		//const integer kNearest = 1;
 		//const integer timeWindowRadius = signal->samples() / 10;
 
 		SignalPtr signalSet[] = {signal};

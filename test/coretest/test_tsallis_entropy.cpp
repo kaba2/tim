@@ -22,7 +22,7 @@ namespace
 		real q,
 		real correct)
 	{
-		const integer kNearest = 1;
+		//const integer kNearest = 1;
 		//const integer timeWindowRadius = signal->samples() / 10;
 
 		SignalPtr signalSet[] = {signal};

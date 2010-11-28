@@ -21,7 +21,6 @@ namespace Tim
 		const integer dimension = signal->dimension();
 		const integer samples = signal->samples();
 
-		const integer width = image.width();
 		const integer height = image.height();
 
 		clear(Color(0), image);
