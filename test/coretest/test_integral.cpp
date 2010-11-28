@@ -39,7 +39,7 @@ namespace
 			correlation, 1);
 		const Matrix2 invCovariance = inverse(covariance);
 
-		const real covDet = determinant(covariance);
+		//const real covDet = determinant(covariance);
 
 		Array<real> pdf(xBins, yBins, 0);
 

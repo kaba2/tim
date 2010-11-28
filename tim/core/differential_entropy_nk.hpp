@@ -26,7 +26,7 @@ namespace Tim
 		const NormBijection& normBijection,
 		integer* outIntrinsicDimension)
 	{
-		const integer kNearest = 1;
+		//const integer kNearest = 1;
 
 		const integer trials = signalSet.size();
 		const integer samples = minSamples(signalSet);

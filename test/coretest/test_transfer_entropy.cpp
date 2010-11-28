@@ -123,8 +123,6 @@ namespace
 			savePcx(image, "test_mi_xz.pcx");
 		}
 
-		const integer signals = signalSet.height();
-
 		std::vector<SignalPtr> futureSet;
 
 		delayEmbedFuture(
