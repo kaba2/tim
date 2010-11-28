@@ -171,8 +171,7 @@ namespace Tim
 		return Tim::entropyCombination(
 			signalSet,
 			rangeSet,
-			constantRange(0, signalSet.height()),
-			kNearest);
+			constantRange(0, signalSet.height()));
 	}
 
 }
