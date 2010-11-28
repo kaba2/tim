@@ -18,9 +18,14 @@ sdlLibraryDir = "../../external/SDL-1.2.14/lib"
 pastelIncludeDir = "../pastel_main"
 pastelLibraryDir = "../pastel_main/lib"
 
+outputDirectory = "build/" .. _ACTION
+
 solution "Tim"
 
 	language "C++"
+
+	location(outputDirectory)
+	targetdir(outputDirectory .. "/lib")
 
 	configurations 
 	{
@@ -76,8 +81,6 @@ solution "Tim"
 	-- Determine the SDL library name.	
 	sdlLibrary = "SDL"
 	
-	outputDirectory = "build/" .. _ACTION
-
 	includeDirectorySet = 
 	{
 		"./",
@@ -98,9 +101,6 @@ solution "Tim"
 		"*.hpp",
 		"*.h"
 	}
-
-	location(outputDirectory)
-	targetdir(outputDirectory .. "/lib")
 
 	-- Visual Studio specific build options
 	configuration "vs*"
