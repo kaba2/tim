@@ -33,6 +33,9 @@ namespace Tim
 		ENSURE_OP(kNearest, >, 0);
 		ENSURE(odd(filter.size()));
 
+		typedef typename SignalPointSet::Point_ConstIterator
+			Point_ConstIterator;
+
 		// This function encapsulates the common
 		// properties of the temporal entropy estimation 
 		// algorithms based on k-nearest neighbors.
@@ -131,7 +134,7 @@ namespace Tim
 				pointSet.begin() + tLocalFilterEnd * trials),
 				kNearest - 1,
 				kNearest, 
-				0,
+				(Array<Point_ConstIterator>*)0,
 				&distanceArray,
 				constantRange(infinity<real>(), windowSamples),
 				0,
