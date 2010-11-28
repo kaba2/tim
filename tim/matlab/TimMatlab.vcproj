@@ -66,6 +66,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="timcore_d.lib pasteldevice_d.lib pastelsys_d.lib pastelmath_d.lib pastelgeometry_d.lib"
+				OutputFile="$(OutDir)\$(ProjectName)_sd.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(SolutionDir)\lib"
 				ModuleDefinitionFile=""
@@ -146,6 +147,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="timcore.lib pasteldevice.lib pastelsys.lib pastelmath.lib pastelgeometry.lib"
+				OutputFile="$(OutDir)\$(ProjectName)_s.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(SolutionDir)\lib"
 				ModuleDefinitionFile=""
@@ -227,7 +229,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\$(ProjectName)_s.lib"
+				OutputFile="$(OutDir)\$(ProjectName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -294,7 +296,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\$(ProjectName)_sd.lib"
+				OutputFile="$(OutDir)\$(ProjectName)_d.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

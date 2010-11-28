@@ -65,7 +65,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="timcore_d.lib pastelsys_d.lib"
+				AdditionalDependencies="timcore_sd.lib pastelsys_sd.lib"
 				OutputFile="$(OutDir)\tim_console.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(SolutionDir)\lib"
@@ -145,7 +145,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="timcore.lib pastelsys.lib"
+				AdditionalDependencies="timcore_s.lib pastelsys_s.lib"
 				OutputFile="$(OutDir)\tim_console.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(SolutionDir)\lib"
@@ -226,7 +226,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="timcore_sd.lib pastelsys_sd.lib pastelmath_sd.lib pastelgeometry_sd.lib"
+				AdditionalDependencies="timcore_d.lib pastelsys_d.lib pastelmath_d.lib pastelgeometry_d.lib"
 				OutputFile="$(OutDir)\tim_console.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(SolutionDir)\lib"
@@ -306,7 +306,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="timcore_s.lib pastelsys_s.lib pastelmath_s.lib pastelgeometry_s.lib"
+				AdditionalDependencies="timcore.lib pastelsys.lib pastelmath.lib pastelgeometry.lib"
 				OutputFile="$(OutDir)\tim_console.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(SolutionDir)\lib"
