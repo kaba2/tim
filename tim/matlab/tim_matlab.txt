@@ -19,21 +19,9 @@ Matlab implementation.
 Download
 --------
 
-Here we provide prebuilt binaries for Windows users. 
+To obtain TIM Matlab, see the [main page][Main].
 
-_Important: You need to have the Visual C++ 2008 SP1 Redistributable 
-Package installed for TIM Matlab to work._
-
-### Latest version
-
-[Download TIM Matlab 1.1.0][TIM-Matlab-1.1.0]
-
-### Previous versions
-
-[Download TIM Matlab 1.0.2][TIM-Matlab-1.0.2]
-
-[TIM-Matlab-1.1.0]: ../../files/tim-matlab-1.1.0.zip
-[TIM-Matlab-1.0.2]: ../../files/tim-matlab-1.0.2.zip
+[Main]: [[Ref]]: tim.txt
 
 General information
 -------------------

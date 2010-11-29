@@ -173,7 +173,7 @@ circuit are shown in the figure below:
 	- Information flow from the master circuit towards the slave circuit. 
 
 The	waveform in the lower part of the figure depicts TE values at lag = 20 
-sampling instants. The following figure shows in dark red the tuplas
+sampling instants. The following figure shows in dark red the pairs
 (lag, time instant) where the estimated TE value reached significance
 (p < 0.05) and in blue those where it did not reach significance:
 

@@ -850,11 +850,11 @@
 			</File>
 		</Filter>
 		<File
-			RelativePath=".\implementation.txt"
+			RelativePath="..\..\building.txt"
 			>
 		</File>
 		<File
-			RelativePath="..\..\more_news.txt"
+			RelativePath=".\implementation.txt"
 			>
 		</File>
 		<File

@@ -30,21 +30,9 @@ keyboard does not work._
 Download
 --------
 
-Here we provide prebuilt binaries for Windows users. 
+To obtain TIM Console, see the [main page][Main].
 
-_Important: You need to have the Visual C++ 2008 SP1 Redistributable 
-Package installed for TIM Console to work._
-
-### Latest version
-	
-[Download TIM Console 1.1.0][TIM-Console-1.1.0]
-
-### Previous versions
-
-[Download TIM Console 1.0.2][TIM-Console-1.0.2]
-
-[TIM-Console-1.1.0]: ../../files/tim-console-1.1.0.zip
-[TIM-Console-1.0.2]: ../../files/tim-console-1.0.2.zip
+[Main]: [[Ref]]: tim.txt
 
 Quick-start: Example script file
 --------------------------------

@@ -5,9 +5,6 @@ TIM
 
 [Back]: http://kaba.hilvi.org
 
-Description
------------
-
 _TIM_ is a C++ library for efficient estimation of information-theoretic measures
 from continuous-valued time-series' in arbitrary dimensions. It has a Matlab interface 
 as well as a console interface.
@@ -15,28 +12,77 @@ as well as a console interface.
 Features
 --------
 
- * Estimation of Shannon differential entropy using various estimators.
- * Estimation of Renyi entropies.
- * Estimation of Tsallis entropies.
- * Estimation of a general class of entropy combinations including mutual information, 
-partial mutual information, transfer entropy, and partial transfer entropy.
- * Estimation of Kullback-Leibler divergence.
- * Temporal estimation using time-windowing.
- * Estimation from an ensemble of time-series' representing trials of the same experiment.
+ * Estimation of [Shannon differential entropy][Shannon] 
+ using various estimators.
+ * Estimation of [Renyi entropies][Renyi].
+ * Estimation of [Tsallis entropies][Tsallis].
+ * Estimation of [entropy combinations][Combinations] including mutual 
+ information, partial mutual information, transfer entropy, and partial 
+ transfer entropy.
+ * Estimation of [Kullback-Leibler divergence][Divergence].
+ * [Temporal estimation][Temporal] using time-windowing.
+ * Estimation from an ensemble of time-series' representing trials of 
+ the same experiment.
  * Time-series' with arbitrary-dimensionality.
  * Multi-core parallel computation.
- * Three ways to use: as a C++ library, through TIM Matlab interface, or through TIM Console interface.
+ * Three ways to use: as a C++ library, through TIM Matlab interface, or 
+ through TIM Console interface.
 
-News
-----
+[Shannon]: [[Ref]]: differential_entropy.txt
+[Renyi]: [[Ref]]: renyi_entropy.txt
+[Tsallis]: [[Ref]]: tsallis_entropy.txt
+[Combinations]: [[Ref]]: entropy_combination.txt
+[Divergence]: [[Ref]]: divergence.txt
+[Temporal]: [[Ref]]: temporal_estimation.txt
 
-### 20.4.2010 - Released version 1.1.0
+Download
+--------
 
-See [release history][release_history] for details.
+Here you can download the latest version of TIM in various forms.
+To obtain previous versions, see the [release history][ReleaseHistory]
+[ReleaseHistory]: [[Ref]]: release_history.txt
 
-[[Link]]: more_news.txt
+### Prebuilt binaries for TIM Matlab
 
-[release_history]: [[Ref: release_history.txt]]
+[TIM Matlab 1.1.0 for 32-bit Windows][TIM-Matlab-1.1.0-Win32]
+
+[TIM Matlab 1.1.0 for 64-bit Windows][TIM-Matlab-1.1.0-Win64]
+
+[TIM Matlab 1.1.0 for 32-bit Linux][TIM-Matlab-1.1.0-Linux32]
+
+[TIM Matlab 1.1.0 for 64-bit Linux][TIM-Matlab-1.1.0-Linux64]
+
+_Important: You need to have the Visual C++ 2008 SP1 Redistributable 
+Package installed for the prebuilt TIM Matlab to work._
+
+[TIM-Matlab-1.1.0-Win32]: ../files/tim-matlab-1.1.0-win32.zip
+[TIM-Matlab-1.1.0-Win64]: ../files/tim-matlab-1.1.0-win64.zip
+[TIM-Matlab-1.1.0-Linux32]: ../files/tim-matlab-1.1.0-linux32.zip
+[TIM-Matlab-1.1.0-Linux64]: ../files/tim-matlab-1.1.0-linux64.zip
+
+### Prebuilt binaries for TIM Console
+
+[TIM Console 1.1.0 for 32-bit Windows][TIM-Console-1.1.0-Win32]
+
+[TIM Console 1.1.0 for 64-bit Windows][TIM-Console-1.1.0-Win64]
+
+[TIM Console 1.1.0 for 32-bit Linux][TIM-Console-1.1.0-Linux32]
+
+[TIM Console 1.1.0 for 64-bit Linux][TIM-Console-1.1.0-Linux64]
+
+_Important: You need to have the Visual C++ 2008 SP1 Redistributable 
+Package installed for the prebuilt TIM Console to work._
+
+[TIM-Console-1.1.0-Win32]: ../../files/tim-console-1.1.0-win32.zip
+[TIM-Console-1.1.0-Win64]: ../../files/tim-console-1.1.0-win64.zip
+[TIM-Console-1.1.0-Linux32]: ../../files/tim-console-1.1.0-linux32.zip
+[TIM-Console-1.1.0-Linux64]: ../../files/tim-console-1.1.0-linux64.zip
+
+### Source code
+
+[Download TIM Source 1.1.0][TIM-Source-1.1.0]
+
+[TIM-Source-1.1.0]: ./files/tim-1.1.0.zip
 
 Source-code
 -----------
@@ -48,27 +94,12 @@ actually building software that depends on it. This is because we can't guarante
 interfaces, i.e., we continue development of TIM and in this process can make 
 breaking changes to interfaces.
 
-TIM is built on the [Pastel][] library which must also be 
-installed if you want to build TIM yourself. It also uses some features
-of the [Boost][] library.
-
-On these documentation pages we provide an easy way to browse the source-code 
-complete with coloring and linking. You might find this a more convenient alternative
-when familiarizing yourself with the source-code, compared to downloading and viewing 
-the raw source-code.
-
-### Latest version
-
 [Download TIM Source 1.1.0][TIM-Source-1.1.0]
 
-### Previous versions
-
-[Download TIM Source 1.0.2][TIM-Source-1.0.2]
+To obtain previous versions, see the [release history][ReleaseHistory]
 
 [TIM-Source-1.1.0]: ./files/tim-1.1.0.zip
-[TIM-Source-1.0.2]: ./files/tim-1.0.2.zip
-[Pastel]: http://kaba.hilvi.org/pastel
-[Boost]: http://www.boost.org
+[ReleaseHistory]: [[Ref]]: release_history.txt
 
 Note on web-browsers
 --------------------
@@ -88,23 +119,19 @@ Acknowledgements
 ----------------
 
 The version 1.0 of TIM was programmed under funding from the EU project 
-_GABA_ (FP6-2005-NEST-Path 043309).
+[GABA][GABA] (FP6-2005-NEST-Path 043309). TIM Console and the update from 
+version 1.0 to 1.1 were programmed under funding from the 
+[Finnish Foundation for Technology Promotion][TES].
 
-[Global Approach to Brain Activity: From Cognition to Disease][GABA]
-
-TIM Console and the update from version 1.0 to 1.1 were programmed 
-under funding from the [Finnish Foundation for Technology Promotion][TES]
-
-[German Gomez-Herrero][German] provided substantial amount of beta testing, feedback, 
-and guidance during the development. He is also the driving force behind the 
-idea of creating TIM, having created a similar library in Matlab himself. 
+[German Gomez Herrero][German] is the driving force behind the idea of 
+creating TIM, having created a similar library in Matlab himself. German
+provided substantial amount of beta testing, feedback, and guidance 
+during the development. He has also written the tutorials in this
+documentation.
 
 [GABA]: http://www.gaba-project.eu/
 [TES]: http://www.kolumbus.fi/tes/
 [German]: http://www.cs.tut.fi/~gomezher
-
-[[add_outer DocChildren.no_links_for]]: 
-	more_news.txt
 
 [[Comment]]:
 	The following is a javascript for Google Analytics by which we can

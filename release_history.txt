@@ -12,7 +12,11 @@ need not consist of a single digit, and, for example, 1.12.0 is a much later ver
 TIM 1.1.0
 ---------
 
-Release date 20.4.2010.
+[Download TIM Source 1.1.0][TIM-Source-1.1.0]
+
+[TIM-Source-1.1.0]: ./files/tim-1.1.0.zip
+
+Release date xx.xx.2010.
 
 #### TIM Core
 
@@ -74,6 +78,10 @@ Release date 20.4.2010.
 
 TIM 1.0.0
 ---------
+
+[Download TIM Source 1.0.2][TIM-Source-1.0.2]
+
+[TIM-Source-1.0.2]: ./files/tim-1.0.2.zip
 
 Release date 13.1.2010.
 
