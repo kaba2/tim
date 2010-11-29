@@ -5,9 +5,10 @@ TIM
 
 [Back]: http://kaba.hilvi.org
 
-_TIM_ is a C++ library for efficient estimation of information-theoretic measures
-from continuous-valued time-series' in arbitrary dimensions. It has a Matlab interface 
-as well as a console interface.
+_TIM_ is a cross-platform C++ library for efficient estimation of 
+information-theoretic measures from continuous-valued time-series' 
+in arbitrary dimensions. It has a Matlab interface as well as a 
+console interface.
 
 Features
 --------
