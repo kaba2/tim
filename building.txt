@@ -1,0 +1,130 @@
+Building the TIM library
+========================
+
+[[Parent]]: tim.txt
+
+This page describes how to build the TIM library. This is only
+necessary if prebuilt binaries are not available for your platform 
+at the [main page][Main].
+TIM uses the [Premake][Premake] build-script generator to turn
+cross-platform building into a trivial task. Premake is a program, 
+contained in a single executable, which reads in a generic 
+build-script and outputs a tool-specific build-script. 
+
+__Note__: While the source code contains Visual Studio specific 
+build files, you should ignore them, and follow the build process 
+described here.
+
+[Main]: [[Ref]]: tim.txt
+
+Build process
+-------------
+
+The steps to build TIM are as follows:
+
+### 1. Install Premake
+
+Premake can be downloaded from [here][DownloadPremake]. You might want 
+to make it so that it can be invoked from any location, or alternatively 
+just copy it to the TIM root directory.
+ 
+### 2. Set the external library directories
+
+In the TIM root directory, open the file `premake4.lua`, and modify
+the directories to external libraries to correspond to your setup:
+
+	-- The directory of the Boost library's source code.
+	-- The includes are of the form 'boost/static_assert.hpp'.
+	boostIncludeDir = "../../external/boost_1_43_0"
+
+	-- The directory of the SDL library's header files.
+	-- The includes are of the form 'SDL.h'.
+	sdlIncludeDir = "../../external/SDL-1.2.14/include"
+	sdlLibraryDir = "../../external/SDL-1.2.14/lib"
+
+	-- The directory of the GLEW library's header files.
+	-- The includes are of the form 'glew.h'.
+	glewIncludeDir = "../../external/glew-1.5.7/include"
+	glewLibraryDir = "../../external/glew-1.5.7/lib"
+
+	-- The directory of the Pastel library's source code.
+	-- The includes are of the form 'pastel/sys/array.h'
+	pastelIncludeDir = "../pastel_main"
+	pastelLibraryDir = "../pastel_main/lib"
+
+### 3. Generate tool-specific build-scripts using Premake. 
+
+In the TIM root directory, type
+
+	premake4 action
+
+where `action` describes the tool-set you want to generate
+the build-scripts for (Visual Studio, gcc and makefiles, etc.). 
+To see the supported tool-sets, type
+
+	premake4 --help
+
+### 4. Choose configuration and build
+	
+Go to the generated directory `build/action/`, where `action`
+is the tool-set you chose in step 2, choose the desired configuration,
+and start the build.
+
+Configurations
+--------------
+
+TIM comes with four different build configurations. These are:
+
+ * debug
+ * develop
+ * release
+ * release-without-openmp
+
+The `debug` configuration enables debugging information and turns on all
+ASSERTs and PENSUREs. All other configurations 
+disable debugging information. The `develop` version retains `ASSERT`s and 
+`PENSURE`s, while `release` and `release-without-openmp` removes them. The 
+`release-without-openmp` configuration is otherwise equivalent to `release` 
+configuration, but disables OpenMP (e.g. when your tool-set does not
+support it, as is the case with Express versions of Visual Studio).
+
+Building
+--------
+
+When Premake has generated you the build-scripts, you probably already
+know how to proceed. However, here are some specific examples:
+
+### Visual Studio
+
+To build TIM using Visual Studio:
+
+ * Open the solution file `Tim.sln`. 
+ * Right click on the solution in Solution Explorer, and choose 
+ Configuration Manager. 
+ * Select the desired Active Solution Configuration.
+ * Build solution.
+
+### Makefiles
+
+To build TIM using makefiles, type 
+	
+	make config=configuration
+
+Where `configuration` is one of the configurations listed in the
+previous section. To obtain further information, type 
+
+	make help 
+
+Output files
+------------
+
+The libraries and executables will be written to the `lib/`
+sub-directory of the `build/action/` directory. The intermediate
+files, such as object files, will be written to the `obj/`
+sub-directory of the `build/action` directory.
+The `debug` versions will be suffixed with `_d`, while the
+`develop` versions will be suffixed with `_v`.
+
+[Premake]: http://industriousone.com/premake
+
+[DownloadPremake]: http://industriousone.com/premake/download
