@@ -42,7 +42,7 @@ namespace
 
 			SignalPtr signalSet[] = {xy};
 
-			SignalPointSet pointSet(forwardRange(signalSet));
+			SignalPointSet pointSet(range(signalSet));
 
 			TEST_ENSURE_OP(pointSet.windowBegin(), ==, pointSet.windowEnd());
 			TEST_ENSURE(pointSet.begin() == pointSet.end());
@@ -74,7 +74,7 @@ namespace
 			TEST_ENSURE((*(pointSet.end() - 1))->point() == &(xy->data()(3 * 3)));
 
 			{
-				SignalPointSet pointSet(forwardRange(signalSet), true);
+				SignalPointSet pointSet(range(signalSet), true);
 
 				TEST_ENSURE_OP(std::distance(pointSet.begin(), pointSet.end()), ==, xy->samples());
 				TEST_ENSURE_OP(pointSet.kdTree().points(), ==, xy->samples());
@@ -82,7 +82,7 @@ namespace
 				TEST_ENSURE_OP(pointSet.dimension(), ==, xy->dimension());
 			}
 			{
-				SignalPointSet pointSet(forwardRange(signalSet), true, 1, 2);
+				SignalPointSet pointSet(range(signalSet), true, 1, 2);
 
 				TEST_ENSURE_OP(std::distance(pointSet.begin(), pointSet.end()), ==, xy->samples());
 				TEST_ENSURE_OP(pointSet.kdTree().points(), ==, xy->samples());
@@ -108,7 +108,7 @@ namespace
 
 			SignalPtr signalSet[] = {xy};
 
-			SignalPointSet pointSet(forwardRange(signalSet));
+			SignalPointSet pointSet(range(signalSet));
 
 			TEST_ENSURE_OP(pointSet.windowBegin(), ==, pointSet.windowEnd());
 			TEST_ENSURE(pointSet.begin() == pointSet.end());

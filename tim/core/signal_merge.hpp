@@ -104,7 +104,7 @@ namespace Tim
 		for (integer i = 0;i < trials;++i)
 		{
 			*result = merge(
-				forwardRange(ensembleSet.columnBegin(i),
+				range(ensembleSet.columnBegin(i),
 				ensembleSet.columnEnd(i)), lagSet);
 			++result;
 		}

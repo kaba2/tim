@@ -34,8 +34,8 @@ namespace
 		real* rawResult = mxGetPr(outputSet[0]);
 
 		*rawResult = divergenceWkv(
-			randomAccessRange(xEnsemble.begin(), xEnsemble.end()), 
-			randomAccessRange(yEnsemble.begin(), yEnsemble.end()));
+			range(xEnsemble.begin(), xEnsemble.end()), 
+			range(yEnsemble.begin(), yEnsemble.end()));
 	}
 
 	void addFunction()

@@ -66,7 +66,7 @@ namespace Tim
 
 	normBijection:
 	The norm to use to do the estimations.
-	See 'pastel/math/normbijection.h'.
+	See 'pastel/math/normbijections.h'.
 
 	This technique is not recommended because it tends
 	to give large errors in estimation. The intent of

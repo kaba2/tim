@@ -6,7 +6,7 @@
 #include "tim/core/mytypes.h"
 #include "tim/core/signal.h"
 
-#include <pastel/sys/forwardrange.h>
+#include <pastel/sys/iteratorrange.h>
 #include <pastel/sys/array.h>
 
 namespace Tim

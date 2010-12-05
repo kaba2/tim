@@ -3,7 +3,7 @@
 
 #include <pastel/sys/nulliterator.h>
 
-#include <pastel/math/normbijection.h>
+#include <pastel/math/normbijections.h>
 
 using namespace Tim;
 
@@ -55,13 +55,13 @@ namespace
 		// different trial of the same experiment:
 
 		averageEstimate = mutualInformation(
-			forwardRange(signalSet));
+			range(signalSet));
 		averageEstimate = mutualInformation(
-			forwardRange(signalSet));
+			range(signalSet));
 		averageEstimate = mutualInformation(
-			forwardRange(signalSet), kNearest);
+			range(signalSet), kNearest);
 		averageEstimate = mutualInformation(
-			forwardRange(signalSet) 
+			range(signalSet) 
 			kNearest, normBijection);
 
 		// To compute temporal differential entropy for
@@ -69,17 +69,17 @@ namespace
 		// different trial of the same experiment:
 
 		temporalMutualInformation(
-			forwardRange(signalSet), 
+			range(signalSet), 
 			timeWindowRadius, estimateSet); 
 		temporalMutualInformation(
-			forwardRange(signalSet), 
+			range(signalSet), 
 			timeWindowRadius, estimateSet); 
 		temporalMutualInformation(
-			forwardRange(signalSet), 
+			range(signalSet), 
 			timeWindowRadius, estimateSet, 
 			kNearest);
 		temporalMutualInformation(
-			forwardRange(signalSet), timeWindowRadius, 
+			range(signalSet), timeWindowRadius, 
 			estimateSet,
 			kNearest,
 			normBijection);

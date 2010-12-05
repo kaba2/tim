@@ -12,7 +12,7 @@
 
 #include <pastel/gfx/color.h>
 
-#include <pastel/sys/forwardrange.h>
+#include <pastel/sys/iteratorrange.h>
 #include <pastel/sys/array.h>
 
 #include <iostream>

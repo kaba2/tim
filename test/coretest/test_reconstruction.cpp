@@ -40,64 +40,64 @@ namespace
 				real data[] = {1, nan<real>(), nan<real>(), nan<real>(), 5};
 				const real correct[] = {1, 2, 3, 4, 5};
 
-				testCase(forwardRange(data), 
-					forwardRange(correct));
+				testCase(range(data), 
+					range(correct));
 			}
 		
 			{
 				real data[] = {1, nan<real>(), nan<real>(), nan<real>(), nan<real>()};
 				const real correct[] = {1, 1, 1, 1, 1};
 
-				testCase(forwardRange(data), 
-					forwardRange(correct));
+				testCase(range(data), 
+					range(correct));
 			}
 
 			{
 				real data[] = {nan<real>(), nan<real>(), nan<real>(), nan<real>(), 5};
 				const real correct[] = {5, 5, 5, 5, 5};
 
-				testCase(forwardRange(data), 
-					forwardRange(correct));
+				testCase(range(data), 
+					range(correct));
 			}
 
 			{
 				real data[] = {nan<real>(), nan<real>(), 3, 4, nan<real>()};
 				const real correct[] = {3, 3, 3, 4, 4};
 
-				testCase(forwardRange(data), 
-					forwardRange(correct));
+				testCase(range(data), 
+					range(correct));
 			}
 
 			{
 				real data[] = {1, nan<real>(), 3, nan<real>(), 5};
 				const real correct[] = {1, 2, 3, 4, 5};
 
-				testCase(forwardRange(data), 
-					forwardRange(correct));
+				testCase(range(data), 
+					range(correct));
 			}
 
 			{
 				real data[] = {nan<real>(), nan<real>(), 3, nan<real>(), nan<real>()};
 				const real correct[] = {3, 3, 3, 3, 3};
 
-				testCase(forwardRange(data), 
-					forwardRange(correct));
+				testCase(range(data), 
+					range(correct));
 			}
 
 			{
 				real data[] = {nan<real>(), nan<real>(), 3, 4, 5};
 				const real correct[] = {3, 3, 3, 4, 5};
 
-				testCase(forwardRange(data), 
-					forwardRange(correct));
+				testCase(range(data), 
+					range(correct));
 			}
 
 			{
 				real data[] = {1, 2, 3, nan<real>(), nan<real>()};
 				const real correct[] = {1, 2, 3, 3, 3};
 
-				testCase(forwardRange(data), 
-					forwardRange(correct));
+				testCase(range(data), 
+					range(correct));
 			}
 		}
 	};

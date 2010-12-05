@@ -11,10 +11,10 @@
 #include <pastel/geometry/count_all_range_pointkdtree.h>
 #include <pastel/geometry/distance_point_point.h>
 
-#include <pastel/math/normbijection.h>
+#include <pastel/math/normbijections.h>
 
 #include <pastel/sys/constantiterator.h>
-#include <pastel/sys/forwardrange.h>
+#include <pastel/sys/iteratorrange.h>
 #include <pastel/sys/eps.h>
 #include <pastel/sys/stdext_copy_n.h>
 
@@ -79,7 +79,7 @@ namespace Tim
 		// Construct point sets
 
 		SignalPointSet jointPointSet(
-			forwardRange(jointSignalSet.begin(), jointSignalSet.end()), true);
+			range(jointSignalSet.begin(), jointSignalSet.end()), true);
 	
 		std::vector<integer> weightSet;
 		weightSet.reserve(marginals);
@@ -92,7 +92,7 @@ namespace Tim
 			const Integer3& range = *iter;
 			pointSet.push_back(
 				SignalPointSetPtr(new SignalPointSet(
-				forwardRange(jointSignalSet.begin(), jointSignalSet.end()), 
+				Pastel::range(jointSignalSet.begin(), jointSignalSet.end()), 
 				true,
 				offsetSet[range[0]], offsetSet[range[1]])));
 			weightSet.push_back(range[2]);
@@ -110,7 +110,7 @@ namespace Tim
 
 		searchAllNeighbors(
 			jointPointSet.kdTree(),
-			randomAccessRange(jointPointSet.begin(), jointPointSet.end()),
+			range(jointPointSet.begin(), jointPointSet.end()),
 			kNearest - 1,
 			kNearest, 
 			(Array<Point_ConstIterator>*)0,
@@ -131,8 +131,8 @@ namespace Tim
 			// with the norm values, so no need to convert.
 			countAllRange(
 				pointSet[i]->kdTree(),
-				randomAccessRange(pointSet[i]->begin(), pointSet[i]->end()),
-				randomAccessRange(distanceArray.begin(), estimateSamples),
+				range(pointSet[i]->begin(), pointSet[i]->end()),
+				range(distanceArray.begin(), estimateSamples),
 				countSet.begin());
 			
 			integer acceptedSamples = 0;

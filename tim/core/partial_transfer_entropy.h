@@ -5,7 +5,7 @@
 
 #include "tim/core/signal.h"
 
-#include <pastel/sys/forwardrange.h>
+#include <pastel/sys/iteratorrange.h>
 
 namespace Tim
 {

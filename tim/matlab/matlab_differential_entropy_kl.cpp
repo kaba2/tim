@@ -32,7 +32,7 @@ namespace
 		real* rawResult = mxGetPr(outputSet[0]);
 
 		*rawResult = differentialEntropyKl(
-			randomAccessRange(xEnsemble.begin(), xEnsemble.end()), 
+			range(xEnsemble.begin(), xEnsemble.end()), 
 			kNearest);
 	}
 

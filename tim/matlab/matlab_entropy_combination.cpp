@@ -52,8 +52,8 @@ namespace
 
 		*rawResult = entropyCombination(
 			signalSet,
-			forwardRange(rangeSet.begin(), rangeSet.end()),
-			forwardRange(lagSet.begin(), lagSet.end()),
+			range(rangeSet.begin(), rangeSet.end()),
+			range(lagSet.begin(), lagSet.end()),
 			kNearest);
 	}
 

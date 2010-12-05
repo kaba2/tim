@@ -102,8 +102,8 @@ namespace
 
 			xzMiSet.push_back(
 				mutualInformation(
-				forwardRange(signalSet.rowBegin(0), signalSet.rowEnd(0)),
-				forwardRange(signalSet.rowBegin(2), signalSet.rowEnd(2)),
+				range(signalSet.rowBegin(0), signalSet.rowEnd(0)),
+				range(signalSet.rowBegin(2), signalSet.rowEnd(2)),
 				i, kNearest));
 		}
 		std::cout << std::endl;
@@ -126,14 +126,14 @@ namespace
 		std::vector<SignalPtr> futureSet;
 
 		delayEmbedFuture(
-			forwardRange(signalSet.rowBegin(0), signalSet.rowEnd(0)),
+			range(signalSet.rowBegin(0), signalSet.rowEnd(0)),
 			std::back_inserter(futureSet), 1);
 
 		const SignalPtr estimate = temporalPartialTransferEntropy(
-			forwardRange(signalSet.rowBegin(0), signalSet.rowEnd(0)),
-			forwardRange(signalSet.rowBegin(1), signalSet.rowEnd(1)),
-			forwardRange(signalSet.rowBegin(2), signalSet.rowEnd(2)),
-			forwardRange(futureSet.begin(), futureSet.end()),
+			range(signalSet.rowBegin(0), signalSet.rowEnd(0)),
+			range(signalSet.rowBegin(1), signalSet.rowEnd(1)),
+			range(signalSet.rowBegin(2), signalSet.rowEnd(2)),
+			range(futureSet.begin(), futureSet.end()),
 			5,
 			0, 10, 0, 0);
 

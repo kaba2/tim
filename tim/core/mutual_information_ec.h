@@ -9,7 +9,7 @@
 #include <pastel/math/cholesky_decomposition.h>
 
 #include <pastel/sys/smallset.h>
-#include <pastel/sys/forwardrange.h>
+#include <pastel/sys/iteratorrange.h>
 
 namespace Tim
 {

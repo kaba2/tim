@@ -3,7 +3,7 @@
 
 #include <pastel/sys/nulliterator.h>
 
-#include <pastel/math/normbijection.h>
+#include <pastel/math/normbijections.h>
 
 using namespace Tim;
 
@@ -56,13 +56,13 @@ namespace
 		// different trial of the same experiment:
 
 		averageEstimate = differentialEntropyKl(
-			forwardRange(signalSet));
+			range(signalSet));
 		averageEstimate = differentialEntropyKl(
-			forwardRange(signalSet));
+			range(signalSet));
 		averageEstimate = differentialEntropyKl(
-			forwardRange(signalSet), kNearest);
+			range(signalSet), kNearest);
 		averageEstimate = differentialEntropyKl(
-			forwardRange(signalSet), 
+			range(signalSet), 
 			kNearest, normBijection);
 
 		// To compute temporal differential entropy for
@@ -70,17 +70,17 @@ namespace
 		// different trial of the same experiment:
 
 		temporalDifferentialEntropyKl(
-			forwardRange(signalSet), 
+			range(signalSet), 
 			timeWindowRadius); 
 		temporalDifferentialEntropyKl(
-			forwardRange(signalSet), 
+			range(signalSet), 
 			timeWindowRadius); 
 		temporalDifferentialEntropyKl(
-			forwardRange(signalSet), 
+			range(signalSet), 
 			timeWindowRadius, 
 			kNearest);
 		temporalDifferentialEntropyKl(
-			forwardRange(signalSet), timeWindowRadius, 
+			range(signalSet), timeWindowRadius, 
 			kNearest,
 			normBijection);
 	}

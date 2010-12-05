@@ -34,7 +34,7 @@ namespace
 		real* rawResult = mxGetPr(outputSet[0]);
 
 		*rawResult = renyiEntropyLps(
-			randomAccessRange(xEnsemble.begin(), xEnsemble.end()), 
+			range(xEnsemble.begin(), xEnsemble.end()), 
 			q, kNearestSuggestion);
 	}
 

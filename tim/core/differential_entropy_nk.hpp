@@ -73,7 +73,7 @@ namespace Tim
 		KdTree kdTree(pointPolicy);
 
 		kdTree.insert(
-			forwardRange(pointSet.begin(), pointSet.end()));
+			range(pointSet.begin(), pointSet.end()));
 		kdTree.refine(SplitRule());
 
 		// For each m, compute average log-distance alpha_m to the nearest 
@@ -94,7 +94,7 @@ namespace Tim
 
 			kdTree.erase();
 			kdTree.insert(
-				forwardRange(pointSet.begin(), pointSet.begin() + subsetSize));
+				range(pointSet.begin(), pointSet.begin() + subsetSize));
 			
 			// Find the distance to the nearest codebook point for
 			// all points not in the codebook. Compute their

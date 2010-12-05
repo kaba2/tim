@@ -3,7 +3,7 @@
 #ifndef TIM_RECONSTRUCTION_H
 #define TIM_RECONSTRUCTION_H
 
-#include "pastel/sys/forwardrange.h"
+#include "pastel/sys/iteratorrange.h"
 
 namespace Tim
 {

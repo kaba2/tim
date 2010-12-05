@@ -322,7 +322,7 @@ namespace
 			constantRange(signal, 2),
 			2,
 			0, 0, 1,
-			forwardRange(filter));
+			range(filter));
 	}
 
 	void testAdd()
