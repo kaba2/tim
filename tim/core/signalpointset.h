@@ -11,7 +11,7 @@
 
 #include <pastel/sys/array_pointpolicy.h>
 #include <pastel/sys/countedptr.h>
-#include <pastel/sys/forwardrange.h>
+#include <pastel/sys/iteratorrange.h>
 #include <pastel/sys/array.h>
 
 #include <vector>

@@ -36,11 +36,11 @@ namespace
 		setNumberOfThreads(threads);
 
 		const SignalPtr estimate = temporalDifferentialEntropyKl(
-			forwardRange(xEnsemble.begin(), xEnsemble.end()), 
+			range(xEnsemble.begin(), xEnsemble.end()), 
 			timeWindowRadius, 
 			kNearest,
 			Default_NormBijection(),
-			forwardRange(filter.begin(), filter.end()));
+			range(filter.begin(), filter.end()));
 
 		const integer nans = std::max(estimate->t(), 0);
 		const integer skip = std::max(-estimate->t(), 0); 

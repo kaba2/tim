@@ -76,9 +76,9 @@ namespace Tim
 			{
 				*result = temporalEntropyCombination(
 					signalSet,
-					forwardRange(rangeSet),
+					range(rangeSet),
 					timeWindowRadius,
-					forwardRange(lagSet),
+					range(lagSet),
 					kNearest,
 					filter);
 				return 0;
@@ -86,8 +86,8 @@ namespace Tim
 
 			return entropyCombination(
 				signalSet,
-				forwardRange(rangeSet),
-				forwardRange(lagSet),
+				range(rangeSet),
+				range(lagSet),
 				kNearest);
 		}
 

@@ -26,7 +26,7 @@ namespace
 		real* rawResult = mxGetPr(outputSet[0]);
 
 		*rawResult = differentialEntropySp(
-			forwardRange(xEnsemble.begin(), xEnsemble.end()));
+			range(xEnsemble.begin(), xEnsemble.end()));
 	}
 
 	void addFunction()

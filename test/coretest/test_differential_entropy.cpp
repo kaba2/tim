@@ -31,12 +31,12 @@ namespace
 		SignalPtr signalSet[] = {signal};
 
 		const real estimate = differentialEntropyNk(
-			forwardRange(signalSet), 
+			range(signalSet), 
 			normBijection);
 
 		/*
 		const real estimate = differentialEntropyKl(
-			forwardRange(signalSet), kNearest, 
+			range(signalSet), kNearest, 
 			normBijection);
 		*/
 
@@ -44,7 +44,7 @@ namespace
 		std::vector<real> entropySet;
 		entropySet.reserve(signal->samples());
 		temporalDifferentialEntropyKl(
-			forwardRange(signalSet), signal->samples() / 10, std::back_inserter(entropySet), 
+			range(signalSet), signal->samples() / 10, std::back_inserter(entropySet), 
 			kNearest, normBijection);
 		const real estimate = std::accumulate(entropySet.begin(), entropySet.end(), (real)0) /
 			entropySet.size();

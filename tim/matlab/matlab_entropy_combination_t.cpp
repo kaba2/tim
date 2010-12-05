@@ -55,11 +55,11 @@ namespace
 
 		const SignalPtr estimate = temporalEntropyCombination(
 			signalSet,
-			forwardRange(rangeSet.begin(), rangeSet.end()),
+			range(rangeSet.begin(), rangeSet.end()),
 			timeWindowRadius,
-			forwardRange(lagSet.begin(), lagSet.end()),
+			range(lagSet.begin(), lagSet.end()),
 			kNearest,
-			forwardRange(filter.begin(), filter.end()));
+			range(filter.begin(), filter.end()));
 
 		const integer nans = std::max(estimate->t(), 0);
 		const integer skip = std::max(-estimate->t(), 0); 

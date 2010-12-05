@@ -398,13 +398,13 @@ namespace Tim
 				error = true;
 			}
 
-			if (!equalDimension(forwardRange(cell->begin(), cell->end())))
+			if (!equalDimension(range(cell->begin(), cell->end())))
 			{
 				reportError("The signals in the cell-array must have equal dimension.");
 				error = true;
 			}
 
-			if (!equalSamples(forwardRange(cell->begin(), cell->end())))
+			if (!equalSamples(range(cell->begin(), cell->end())))
 			{
 				reportError("The signals in the cell-array must have equal number of samples.");
 				error = true;
@@ -552,7 +552,7 @@ namespace Tim
 			// Compute.
 
 			const real de = differentialEntropyKl(
-				forwardRange(cell->begin(), cell->end()),
+				range(cell->begin(), cell->end()),
 				kNearest);
 				
 			return boost::any(de);
@@ -608,11 +608,11 @@ namespace Tim
 			// Compute.
 			
 			const SignalPtr de = temporalDifferentialEntropyKl(
-				forwardRange(cell->begin(), cell->end()),
+				range(cell->begin(), cell->end()),
 				timeWindowRadius,
 				kNearest,
 				Default_NormBijection(),
-				forwardRange(filter->data().begin(), filter->data().end()));
+				range(filter->data().begin(), filter->data().end()));
 				
 			return boost::any(de);
 		}
@@ -642,7 +642,7 @@ namespace Tim
 			integer dimension = 0;
 
 			const real de = differentialEntropyNk(
-				forwardRange(cell->begin(), cell->end()),
+				range(cell->begin(), cell->end()),
 				Default_NormBijection(),
 				&dimension);
 				
@@ -694,7 +694,7 @@ namespace Tim
 			// Compute.
 
 			const real de = renyiEntropyLps(
-				forwardRange(cell->begin(), cell->end()),
+				range(cell->begin(), cell->end()),
 				q,
 				kNearest);
 				
@@ -760,11 +760,11 @@ namespace Tim
 			// Compute.
 			
 			const SignalPtr re = temporalRenyiEntropyLps(
-				forwardRange(cell->begin(), cell->end()),
+				range(cell->begin(), cell->end()),
 				timeWindowRadius,
 				q,
 				kNearest,
-				forwardRange(filter->data().begin(), filter->data().end()));
+				range(filter->data().begin(), filter->data().end()));
 				
 			return boost::any(re);
 		}
@@ -810,7 +810,7 @@ namespace Tim
 			// Compute.
 
 			const real de = tsallisEntropyLps(
-				forwardRange(cell->begin(), cell->end()),
+				range(cell->begin(), cell->end()),
 				q,
 				kNearest);
 				
@@ -876,11 +876,11 @@ namespace Tim
 			// Compute.
 			
 			const SignalPtr estimate = temporalTsallisEntropyLps(
-				forwardRange(cell->begin(), cell->end()),
+				range(cell->begin(), cell->end()),
 				timeWindowRadius,
 				q,
 				kNearest,
-				forwardRange(filter->data().begin(), filter->data().end()));
+				range(filter->data().begin(), filter->data().end()));
 				
 			return boost::any(estimate);
 		}
@@ -944,12 +944,12 @@ namespace Tim
 			// Compute.
 			
 			const SignalPtr mi = temporalMutualInformation(
-				forwardRange(xCell->begin(), xCell->end()),
-				forwardRange(yCell->begin(), yCell->end()),
+				range(xCell->begin(), xCell->end()),
+				range(yCell->begin(), yCell->end()),
 				timeWindowRadius,
 				xLag, yLag,
 				kNearest,
-				forwardRange(filter->data().begin(), filter->data().end()));
+				range(filter->data().begin(), filter->data().end()));
 				
 			return boost::any(mi);
 		}
@@ -995,8 +995,8 @@ namespace Tim
 			// Compute.
 
 			const real mi = mutualInformation(
-				forwardRange(xCell->begin(), xCell->end()),
-				forwardRange(yCell->begin(), yCell->end()),
+				range(xCell->begin(), xCell->end()),
+				range(yCell->begin(), yCell->end()),
 				xLag, yLag,
 				kNearest);
 				
@@ -1068,13 +1068,13 @@ namespace Tim
 			// Compute.
 			
 			const SignalPtr mi = temporalPartialMutualInformation(
-				forwardRange(xCell->begin(), xCell->end()),
-				forwardRange(yCell->begin(), yCell->end()),
-				forwardRange(zCell->begin(), zCell->end()),
+				range(xCell->begin(), xCell->end()),
+				range(yCell->begin(), yCell->end()),
+				range(zCell->begin(), zCell->end()),
 				timeWindowRadius,
 				xLag, yLag, zLag,
 				kNearest,
-				forwardRange(filter->data().begin(), filter->data().end()));
+				range(filter->data().begin(), filter->data().end()));
 				
 			return boost::any(mi);
 		}
@@ -1126,9 +1126,9 @@ namespace Tim
 			// Compute.
 			
 			const real pmi = partialMutualInformation(
-				forwardRange(xCell->begin(), xCell->end()),
-				forwardRange(yCell->begin(), yCell->end()),
-				forwardRange(zCell->begin(), zCell->end()),
+				range(xCell->begin(), xCell->end()),
+				range(yCell->begin(), yCell->end()),
+				range(zCell->begin(), zCell->end()),
 				xLag, yLag, zLag,
 				kNearest);
 				
@@ -1200,13 +1200,13 @@ namespace Tim
 			// Compute.
 			
 			const SignalPtr te = temporalTransferEntropy(
-				forwardRange(xCell->begin(), xCell->end()),
-				forwardRange(yCell->begin(), yCell->end()),
-				forwardRange(wCell->begin(), wCell->end()),
+				range(xCell->begin(), xCell->end()),
+				range(yCell->begin(), yCell->end()),
+				range(wCell->begin(), wCell->end()),
 				timeWindowRadius,
 				xLag, yLag, wLag,
 				kNearest,
-				forwardRange(filter->data().begin(), filter->data().end()));
+				range(filter->data().begin(), filter->data().end()));
 				
 			return boost::any(te);
 		}
@@ -1282,14 +1282,14 @@ namespace Tim
 			// Compute.
 			
 			const SignalPtr pte = temporalPartialTransferEntropy(
-				forwardRange(xCell->begin(), xCell->end()),
-				forwardRange(yCell->begin(), yCell->end()),
-				forwardRange(zCell->begin(), zCell->end()),
-				forwardRange(wCell->begin(), wCell->end()),
+				range(xCell->begin(), xCell->end()),
+				range(yCell->begin(), yCell->end()),
+				range(zCell->begin(), zCell->end()),
+				range(wCell->begin(), wCell->end()),
 				timeWindowRadius,
 				xLag, yLag, zLag, wLag,
 				kNearest,
-				forwardRange(filter->data().begin(), filter->data().end()));
+				range(filter->data().begin(), filter->data().end()));
 				
 			return boost::any(pte);
 		}
@@ -1341,9 +1341,9 @@ namespace Tim
 			// Compute.
 			
 			const real te = transferEntropy(
-				forwardRange(xCell->begin(), xCell->end()),
-				forwardRange(yCell->begin(), yCell->end()),
-				forwardRange(wCell->begin(), wCell->end()),
+				range(xCell->begin(), xCell->end()),
+				range(yCell->begin(), yCell->end()),
+				range(wCell->begin(), wCell->end()),
 				xLag, yLag, wLag,
 				kNearest);
 				
@@ -1403,10 +1403,10 @@ namespace Tim
 			// Compute.
 			
 			const real pte = partialTransferEntropy(
-				forwardRange(xCell->begin(), xCell->end()),
-				forwardRange(yCell->begin(), yCell->end()),
-				forwardRange(zCell->begin(), zCell->end()),
-				forwardRange(wCell->begin(), wCell->end()),
+				range(xCell->begin(), xCell->end()),
+				range(yCell->begin(), yCell->end()),
+				range(zCell->begin(), zCell->end()),
+				range(wCell->begin(), wCell->end()),
 				xLag, yLag, zLag, wLag,
 				kNearest);
 				
@@ -1431,8 +1431,8 @@ namespace Tim
 			// Compute.
 
 			const real div = divergenceWkv(
-				forwardRange(xCell->begin(), xCell->end()),
-				forwardRange(yCell->begin(), yCell->end()));
+				range(xCell->begin(), xCell->end()),
+				range(yCell->begin(), yCell->end()));
 				
 			return boost::any(div);
 		}
@@ -1499,7 +1499,7 @@ namespace Tim
 					"delay_embed", 
 					FunctionInfo(
 						delay_embed, 
-						forwardRange(parameterSet), 2)));
+						range(parameterSet), 2)));
 			}
 
 			// delay_embed_future
@@ -1519,7 +1519,7 @@ namespace Tim
 					"delay_embed_future", 
 					FunctionInfo(
 						delay_embed_future, 
-						forwardRange(parameterSet), 2)));
+						range(parameterSet), 2)));
 			}
 
 			// read_csv
@@ -1553,7 +1553,7 @@ namespace Tim
 					"read_csv", 
 					FunctionInfo(
 						read_csv, 
-						forwardRange(parameterSet), 1)));
+						range(parameterSet), 1)));
 			}
 
 			// write_csv
@@ -1607,7 +1607,7 @@ namespace Tim
 					"write_csv", 
 					FunctionInfo(
 						write_csv, 
-						forwardRange(parameterSet), 2)));
+						range(parameterSet), 2)));
 			}
 
 			// differential_entropy_kl
@@ -1625,7 +1625,7 @@ namespace Tim
 					"differential_entropy_kl", 
 					FunctionInfo(
 						differential_entropy_kl, 
-						forwardRange(parameterSet), 1)));
+						range(parameterSet), 1)));
 			}
 			
 			// differential_entropy_kl_t
@@ -1647,7 +1647,7 @@ namespace Tim
 					"differential_entropy_kl_t", 
 					FunctionInfo(
 						differential_entropy_kl_t, 
-						forwardRange(parameterSet), 2)));
+						range(parameterSet), 2)));
 			}
 				
 			// differential_entropy_nk
@@ -1663,7 +1663,7 @@ namespace Tim
 					"differential_entropy_nk", 
 					FunctionInfo(
 						differential_entropy_nk, 
-						forwardRange(parameterSet), 1)));
+						range(parameterSet), 1)));
 			}
 
 			// renyi_entropy_lps
@@ -1683,7 +1683,7 @@ namespace Tim
 					"renyi_entropy_lps", 
 					FunctionInfo(
 						renyi_entropy_lps, 
-						forwardRange(parameterSet), 1)));
+						range(parameterSet), 1)));
 			}
 			
 			// renyi_entropy_lps_t
@@ -1707,7 +1707,7 @@ namespace Tim
 					"renyi_entropy_lps_t", 
 					FunctionInfo(
 						renyi_entropy_lps_t, 
-						forwardRange(parameterSet), 2)));
+						range(parameterSet), 2)));
 			}
 
 			// tsallis_entropy_lps
@@ -1727,7 +1727,7 @@ namespace Tim
 					"tsallis_entropy_lps", 
 					FunctionInfo(
 						tsallis_entropy_lps, 
-						forwardRange(parameterSet), 1)));
+						range(parameterSet), 1)));
 			}
 			
 			// tsallis_entropy_lps_t
@@ -1751,7 +1751,7 @@ namespace Tim
 					"tsallis_entropy_lps_t", 
 					FunctionInfo(
 						tsallis_entropy_lps_t, 
-						forwardRange(parameterSet), 2)));
+						range(parameterSet), 2)));
 			}
 
 			// divergence_wkv
@@ -1769,7 +1769,7 @@ namespace Tim
 					"divergence_wkv", 
 					FunctionInfo(
 						divergence_wkv, 
-						forwardRange(parameterSet), 2)));
+						range(parameterSet), 2)));
 			}
 
 			// mutual_information_t
@@ -1797,7 +1797,7 @@ namespace Tim
 					"mutual_information_t", 
 					FunctionInfo(
 						mutual_information_t, 
-						forwardRange(parameterSet), 3)));
+						range(parameterSet), 3)));
 			}
 
 			// mutual_information
@@ -1821,7 +1821,7 @@ namespace Tim
 					"mutual_information", 
 					FunctionInfo(
 						mutual_information, 
-						forwardRange(parameterSet), 2)));
+						range(parameterSet), 2)));
 			}
 
 			// mutual_information_pt
@@ -1853,7 +1853,7 @@ namespace Tim
 					"mutual_information_pt", 
 					FunctionInfo(
 						mutual_information_pt, 
-						forwardRange(parameterSet), 4)));
+						range(parameterSet), 4)));
 			}
 
 			// mutual_information_p
@@ -1881,7 +1881,7 @@ namespace Tim
 					"mutual_information_p", 
 					FunctionInfo(
 						mutual_information_p, 
-						forwardRange(parameterSet), 3)));
+						range(parameterSet), 3)));
 			}
 				
 			// transfer_entropy_t
@@ -1913,7 +1913,7 @@ namespace Tim
 					"transfer_entropy_t", 
 					FunctionInfo(
 						transfer_entropy_t, 
-						forwardRange(parameterSet), 4)));
+						range(parameterSet), 4)));
 			}
 
 			// transfer_entropy_pt
@@ -1949,7 +1949,7 @@ namespace Tim
 					"transfer_entropy_pt", 
 					FunctionInfo(
 						transfer_entropy_pt, 
-						forwardRange(parameterSet), 5)));
+						range(parameterSet), 5)));
 			}
 
 			// transfer_entropy
@@ -1977,7 +1977,7 @@ namespace Tim
 					"transfer_entropy", 
 					FunctionInfo(
 						transfer_entropy, 
-						forwardRange(parameterSet), 3)));
+						range(parameterSet), 3)));
 			}
 
 			// transfer_entropy_p
@@ -2009,7 +2009,7 @@ namespace Tim
 					"transfer_entropy_p", 
 					FunctionInfo(
 						transfer_entropy_p, 
-						forwardRange(parameterSet), 4)));
+						range(parameterSet), 4)));
 			}
 
 			initialized = true;

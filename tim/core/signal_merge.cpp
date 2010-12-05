@@ -13,8 +13,8 @@ namespace Tim
 		const integer lagSet[2] = {xLag, yLag};
 
 		return Tim::merge(
-			forwardRange(signalSet),
-			forwardRange(lagSet));
+			range(signalSet),
+			range(lagSet));
 	}
 
 }

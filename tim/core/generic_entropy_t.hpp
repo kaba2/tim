@@ -8,7 +8,7 @@
 
 #include <pastel/sys/constantiterator.h>
 #include <pastel/sys/countingiterator.h>
-#include <pastel/sys/randomaccessrange.h>
+#include <pastel/sys/iteratorrange.h>
 
 #include <pastel/geometry/search_all_neighbors_pointkdtree.h>
 
@@ -129,7 +129,7 @@ namespace Tim
 
 			searchAllNeighbors(
 				pointSet.kdTree(),
-				randomAccessRange(
+				range(
 				pointSet.begin() + tLocalFilterBegin * trials, 
 				pointSet.begin() + tLocalFilterEnd * trials),
 				kNearest - 1,
@@ -182,7 +182,7 @@ namespace Tim
 		// Reconstruct the NaN's.
 
 		reconstruct(
-			forwardRange(result->data().begin(), result->data().end()));
+			range(result->data().begin(), result->data().end()));
 
 		return result;
 	}

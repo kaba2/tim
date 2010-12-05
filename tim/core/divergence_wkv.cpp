@@ -11,8 +11,8 @@ namespace Tim
 		const SignalPtr ySignalSet[] = {ySignal};
 
 		return Tim::divergenceWkv(
-			forwardRange(xSignalSet),
-			forwardRange(ySignalSet));
+			range(xSignalSet),
+			range(ySignalSet));
 	}
 
 }

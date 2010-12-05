@@ -28,11 +28,11 @@ namespace
 		SignalPtr signalSet[] = {signal};
 
 		const real estimate = renyiEntropyLps(
-			forwardRange(signalSet), q);
+			range(signalSet), q);
 
 		/*
 		const real estimate = renyiEntropyKl(
-			forwardRange(signalSet), q, 
+			range(signalSet), q, 
 			kNearest, 
 			normBijection);
 		*/
@@ -41,7 +41,7 @@ namespace
 		std::vector<real> entropySet;
 		entropySet.reserve(signal->samples());
 		temporalRenyiEntropyKl(
-			forwardRange(signalSet), signal->samples() / 10, std::back_inserter(entropySet), 
+			range(signalSet), signal->samples() / 10, std::back_inserter(entropySet), 
 			kNearest);
 		const real estimate = std::accumulate(entropySet.begin(), entropySet.end(), (real)0) /
 			entropySet.size();

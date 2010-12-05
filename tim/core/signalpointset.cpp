@@ -6,7 +6,7 @@
 
 #include <pastel/sys/constantiterator.h>
 
-#include <pastel/math/normbijection.h>
+#include <pastel/math/normbijections.h>
 
 #include <boost/iterator/reverse_iterator.hpp>
 
@@ -25,7 +25,7 @@ namespace Tim
 		if (startFull)
 		{
 			kdTree_.insert(
-				forwardRange(pointSet_.begin(), pointSet_.end()), 
+				range(pointSet_.begin(), pointSet_.end()), 
 				std::back_inserter(activeSet_));
 			
 			windowBegin_ = timeBegin_;
@@ -34,7 +34,7 @@ namespace Tim
 		else
 		{
 			kdTree_.insert(
-				forwardRange(pointSet_.begin(), pointSet_.end()));
+				range(pointSet_.begin(), pointSet_.end()));
 		}
 
 		// Compute a fine subdivision for the points.
@@ -90,7 +90,7 @@ namespace Tim
 			// And insert the new ones.
 
 			kdTree_.insert(
-				forwardRange(
+				range(
 				pointSet_.begin() + (newWindowBegin - timeBegin_) * signals_,
 				pointSet_.begin() + (newWindowEnd - timeBegin_) * signals_),
 				std::back_inserter(activeSet_));
@@ -118,7 +118,7 @@ namespace Tim
 				// Add points to the right.
 
 				kdTree_.insert(
-					forwardRange(
+					range(
 					pointSet_.begin() + (windowEnd_ - timeBegin_) * signals_,
 					pointSet_.begin() + (newWindowEnd - timeBegin_) * signals_),
 					std::back_inserter(activeSet_));
@@ -130,7 +130,7 @@ namespace Tim
 				// Add points to the left.
 
 				kdTree_.insert(
-					forwardRange(
+					range(
 					boost::make_reverse_iterator(
 					pointSet_.begin() + (windowBegin_ - timeBegin_) * signals_),
 					boost::make_reverse_iterator(

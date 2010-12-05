@@ -88,7 +88,7 @@ namespace
 		// the iterator range abstraction:
 
 		SignalPtr xyyx = merge(
-			forwardRange(signalSet.begin(), signalSet.end()));
+			range(signalSet.begin(), signalSet.end()));
 
 		// You could have also used any other container:
 
@@ -98,7 +98,7 @@ namespace
 		ySignalSet.insert(yx);
 
 		SignalPtr bXyyx = merge(
-			forwardRange(ySignalSet.begin(), ySignalSet.end()));
+			range(ySignalSet.begin(), ySignalSet.end()));
 		
 		// When merging signals, each of the signals
 		// can be delayed. In the following we delay
@@ -110,8 +110,8 @@ namespace
 		lagSet.push_back(5);
 
 		SignalPtr delayedXyyx = merge(
-			forwardRange(signalSet.begin(), signalSet.end()),
-			forwardRange(lagSet.begin(), lagSet.end()));
+			range(signalSet.begin(), signalSet.end()),
+			range(lagSet.begin(), lagSet.end()));
 
 		// However, since the lags are sequential number, 
 		// we could have avoided forming the lagSet container
@@ -120,20 +120,20 @@ namespace
 		// in the begin-size form.
 
 		SignalPtr bDelayedXyyx = merge(
-			forwardRange(signalSet.begin(), signalSet.end()),
-			forwardRange(countingIterator(3), signalSet.size()));
+			range(signalSet.begin(), signalSet.end()),
+			range(countingIterator(3), signalSet.size()));
 
 		// If the lags were 3, 5, and 7, we could still use a 
 		// combination of a CountingIterator and a SparseIterator:
 
 		SignalPtr cDelayedXyyx = merge(
-			forwardRange(signalSet.begin(), signalSet.end()),
-			forwardRange(sparseIterator(countingIterator(3), 2), signalSet.size()));
+			range(signalSet.begin(), signalSet.end()),
+			range(sparseIterator(countingIterator(3), 2), signalSet.size()));
 
 		// Arrays can be used to form iterator ranges.
 
 		SignalPtr signalArray[3] = {x, y, yx};
-		SignalPtr eXyyx = merge(forwardRange(signalArray));
+		SignalPtr eXyyx = merge(range(signalArray));
 	}
 
 }

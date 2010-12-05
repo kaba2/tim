@@ -11,10 +11,10 @@
 #include <pastel/geometry/count_all_range_pointkdtree.h>
 #include <pastel/geometry/distance_point_point.h>
 
-#include <pastel/math/normbijection.h>
+#include <pastel/math/normbijections.h>
 
 #include <pastel/sys/constantiterator.h>
-#include <pastel/sys/forwardrange.h>
+#include <pastel/sys/iteratorrange.h>
 #include <pastel/sys/eps.h>
 #include <pastel/sys/stdext_copy_n.h>
 
@@ -62,7 +62,7 @@ namespace Tim
 		for (integer i = 0;i < signals;++i)
 		{
 			PENSURE(equalDimension(
-				forwardRange(signalSet.rowBegin(i), signalSet.rowEnd(i))));
+				range(signalSet.rowBegin(i), signalSet.rowEnd(i))));
 		}
 
 		const integer trials = signalSet.width();
@@ -71,7 +71,7 @@ namespace Tim
 		// the signals share.
 
 		const Integer2 sharedTime = sharedTimeInterval(
-			forwardRange(signalSet.begin(), signalSet.end()),
+			range(signalSet.begin(), signalSet.end()),
 			lagSet);
 
 		const integer estimateBegin = sharedTime[0];
@@ -146,7 +146,7 @@ namespace Tim
 		// Compute SignalPointSets.
 
 		SignalPointSetPtr jointPointSet(new SignalPointSet(
-			forwardRange(jointSignalSet.begin(), jointSignalSet.end())));
+			range(jointSignalSet.begin(), jointSignalSet.end())));
 
 		std::vector<SignalPointSetPtr> pointSet(marginals);
 
@@ -159,7 +159,7 @@ namespace Tim
 
 			const SignalPointSetPtr marginalPointSet(
 				new SignalPointSet(
-				forwardRange(jointSignalSet.begin(), jointSignalSet.end()), false,
+				Pastel::range(jointSignalSet.begin(), jointSignalSet.end()), false,
 				offsetSet[range[0]], offsetSet[range[1]]));
 
 			pointSet[i] = marginalPointSet;
@@ -191,7 +191,7 @@ namespace Tim
 
 			searchAllNeighbors(
 				jointPointSet->kdTree(),
-				randomAccessRange(
+				range(
 				jointPointSet->begin() + tLocalFilterBegin * trials, 
 				jointPointSet->begin() + tLocalFilterEnd * trials),
 				kNearest - 1,
@@ -213,10 +213,10 @@ namespace Tim
 				// with the norm values, so no need to convert.
 				countAllRange(
 					pointSet[i]->kdTree(),
-					randomAccessRange(
+					range(
 					pointSet[i]->begin() + tLocalFilterBegin * trials, 
 					pointSet[i]->begin() + tLocalFilterEnd * trials),
-					randomAccessRange(distanceArray.begin(), windowSamples),
+					range(distanceArray.begin(), windowSamples),
 					countSet.begin());
 				
 				real signalEstimate = 0;
@@ -277,7 +277,7 @@ namespace Tim
 		// Reconstruct the NaN's in the estimates.
 
 		reconstruct(
-			forwardRange(result->data().begin(), estimates));
+			range(result->data().begin(), estimates));
 
 		return result;
 	}
