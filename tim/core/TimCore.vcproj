@@ -854,6 +854,10 @@
 			>
 		</File>
 		<File
+			RelativePath="..\..\building_matlab.txt"
+			>
+		</File>
+		<File
 			RelativePath="..\..\dependencies.txt"
 			>
 		</File>

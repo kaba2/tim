@@ -6,7 +6,7 @@
 
 -- The directory of the Boost library's source code.
 -- The includes are of the form 'boost/static_assert.hpp'.
-boostIncludeDir = "../../external/boost_1_43_0"
+boostIncludeDir = "../../external/boost_1_45_0"
 
 -- The directory of the SDL library's header files.
 -- The includes are of the form 'SDL.h'.
@@ -15,8 +15,8 @@ sdlLibraryDir = "../../external/SDL-1.2.14/lib"
 
 -- The directory of the Pastel library's source code.
 -- The includes are of the form 'pastel/sys/array.h'
-pastelIncludeDir = "../pastel_main"
-pastelLibraryDir = "../pastel_main/lib"
+pastelIncludeDir = "../pastel"
+pastelLibraryDir = "../pastel/lib"
 
 outputDirectory = "build/" .. _ACTION
 

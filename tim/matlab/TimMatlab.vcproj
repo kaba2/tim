@@ -523,10 +523,6 @@
 			</File>
 		</Filter>
 		<File
-			RelativePath=".\building_matlab.txt"
-			>
-		</File>
-		<File
 			RelativePath=".\tim_matlab.txt"
 			>
 		</File>
