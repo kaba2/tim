@@ -10,6 +10,10 @@ TIM uses the [Premake][Premake] build-script generator to turn
 cross-platform building into a trivial task. Premake is a program, 
 contained in a single executable, which reads in a generic 
 build-script and outputs a tool-specific build-script. 
+The TIM Matlab library needs to be [separately built][Matlab],
+but to be able to do that you need to first build TIM Core.
+
+[Matlab]: [[Ref]]: building_matlab.txt
 
 __Note__: While the source code contains Visual Studio specific 
 build files, you should ignore them, and follow the build process 
