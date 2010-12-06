@@ -22,37 +22,39 @@ Build process
 
 The steps to build TIM are as follows:
 
-### 1. Install Premake
+### 1. Install external libraries
+
+See the [dependencies][Dependencies] page.
+
+[Dependencies]: [[Ref]]: dependencies.txt
+ 
+### 2. Install Premake
 
 Premake can be downloaded from [here][DownloadPremake]. You might want 
 to make it so that it can be invoked from any location, or alternatively 
 just copy it to the TIM root directory.
- 
-### 2. Set the external library directories
+
+### 3. Set the external library directories
 
 In the TIM root directory, open the file `premake4.lua`, and modify
-the directories to external libraries to correspond to your setup:
+the directories to correspond to the locations you installed the 
+external libraries in step 1.
 
 	-- The directory of the Boost library's source code.
 	-- The includes are of the form 'boost/static_assert.hpp'.
-	boostIncludeDir = "../../external/boost_1_43_0"
+	boostIncludeDir = "../boost_1_43_0"
 
 	-- The directory of the SDL library's header files.
 	-- The includes are of the form 'SDL.h'.
-	sdlIncludeDir = "../../external/SDL-1.2.14/include"
-	sdlLibraryDir = "../../external/SDL-1.2.14/lib"
-
-	-- The directory of the GLEW library's header files.
-	-- The includes are of the form 'glew.h'.
-	glewIncludeDir = "../../external/glew-1.5.7/include"
-	glewLibraryDir = "../../external/glew-1.5.7/lib"
+	sdlIncludeDir = "../SDL-1.2.14/include"
+	sdlLibraryDir = "../SDL-1.2.14/lib"
 
 	-- The directory of the Pastel library's source code.
 	-- The includes are of the form 'pastel/sys/array.h'
-	pastelIncludeDir = "../pastel_main"
-	pastelLibraryDir = "../pastel_main/lib"
+	pastelIncludeDir = "../pastel"
+	pastelLibraryDir = "../pastel/lib"
 
-### 3. Generate tool-specific build-scripts using Premake. 
+### 4. Generate tool-specific build-scripts using Premake. 
 
 In the TIM root directory, type
 
@@ -64,10 +66,10 @@ To see the supported tool-sets, type
 
 	premake4 --help
 
-### 4. Choose configuration and build
+### 5. Choose configuration and build
 	
 Go to the generated directory `build/action/`, where `action`
-is the tool-set you chose in step 2, choose the desired configuration,
+is the tool-set you chose in step 4, choose the desired configuration,
 and start the build.
 
 Configurations
