@@ -66,3 +66,9 @@ To build TIM Matlab in release mode, type in Matlab command line:
 To build TIM Matlab in debug mode, type in Matlab command line:
 
 	>> build_tim_debug
+
+Output files
+------------
+
+The only output file from this process is the `tim_matlab` mex file.
+
