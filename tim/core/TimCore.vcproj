@@ -854,6 +854,10 @@
 			>
 		</File>
 		<File
+			RelativePath="..\..\dependencies.txt"
+			>
+		</File>
+		<File
 			RelativePath=".\implementation.txt"
 			>
 		</File>

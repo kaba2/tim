@@ -1,0 +1,33 @@
+Dependencies
+============
+
+[[Parent]]: tim.txt
+
+TIM uses a few external libraries which must be installed in order 
+to compile and link TIM succesfully. These libraries are listed here.
+
+### Pastel
+
+<http://kaba.hilvi.org/pastel>
+
+TIM refers to Pastel's include files in the form
+`pastel/sys/array.h`. Pastel is licensed under the
+GNU Lesser GPL license.
+
+### Boost
+
+<http://www.boost.org/>
+
+TIM refers to Boost's include files in the form
+`boost/operators.hpp`.
+TIM only uses the template code found in Boost and
+thus requires no linking with object code.
+Boost is licensed under the Boost license.
+
+### SDL (Simple DirectMedia Layer)
+
+<http://www.libsdl.org/>
+
+TIM refers to SDL's include files in the form `SDL.h`. 
+SDL is licensed under the GNU Lesser GPL license.
+
