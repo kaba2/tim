@@ -1,0 +1,68 @@
+Building TIM Matlab
+===================
+
+[[Parent]]: tim_matlab.txt
+
+This page describes how to build TIM Matlab. This is only
+necessary if prebuilt binaries are not available for your platform 
+at the [main page][Main]. To be able to build TIM Matlab, you
+need to first [build TIM Core][Core].
+
+[Core]: [[Ref]]: building.txt
+[Main]: [[Ref]]: tim.txt
+
+Build process
+-------------
+
+Matlab uses special kinds of shared libraries to extend it. These
+are called _mex files_. The building process for such files must be 
+driven from Matlab, because this is the only way that the approriate
+libraries will get linked into the resulting mex library, no matter
+what the Matlab version. Matlab redirects the compilation and linking
+to an external compiler, such as Visual Studio or gcc. 
+
+### 1. Select a compiler
+
+To be able to build TIM Matlab on your compiler, the used Matlab version 
+must support the compiler. For example, support for Visual Studio 2010 
+was added in Matlab 2010b. To select the compiler Matlab uses, type
+
+	mex -setup
+	
+on the Matlab command line, and follow the instructions. The compiler 
+you select must be the same you used to build TIM Core. 
+
+### 2. Set the external library directories
+
+In `tim/matlab` directory, open the file `build_options.txt`,
+which will read something like this:
+
+	tim_matlab.cpp
+	*.cpp
+	-I'../../../pastel' 
+	-I'../../../tim'
+	-I'../../../../external/boost_1_45_0'
+	-L'../../../pastel/build/vs2008/lib'
+	-L'../../../tim/build/vs2008/lib'
+	-lpastelsys
+	-lpastelmath
+	-lpastelgeometry
+	-lpasteldevice
+	-lpasteldsp
+	-lpastelgfx
+	-ltimcore
+	
+Replace the directories to reflect the locations of the libraries.
+The `I` is for an include directory, while `L` is for a library
+directory. For debug mode, there is a similar option file
+`build_options_debug.txt`.
+
+### 3. Choose configuration and build
+
+To build TIM Matlab in release mode, type in Matlab command line:
+
+	>> build_tim
+	
+To build TIM Matlab in debug mode, type in Matlab command line:
+
+	>> build_tim_debug
