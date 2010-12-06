@@ -98,6 +98,7 @@ solution "Tim"
 	fileSet = 
 	{
 		"*.cpp",
+		"*.c",
 		"*.hpp",
 		"*.h"
 	}
