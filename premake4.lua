@@ -218,6 +218,19 @@ solution "Tim"
 			"PastelSys"
 		}
 	
+	project "TimConsole"
+		kind("ConsoleApp")
+		includedirs(includeDirectorySet)
+		libdirs(libraryDirectorySet)
+		files(addPrefix("tim/console/", fileSet))
+		links
+		{
+			"PastelGeometry",
+			"PastelMath",
+			"PastelSys",
+			"TimCore"
+		}
+
 	project "TimCoreTest"
 		kind("ConsoleApp")
 		includedirs(includeDirectorySet)
