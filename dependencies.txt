@@ -5,8 +5,11 @@ Dependencies
 
 TIM uses a few external libraries which must be installed in order 
 to compile and link TIM succesfully. These libraries are listed here.
+The version number that follows the library name is the one that the
+current version of TIM was used to develop against. This is useful to 
+know in case a later version breaks backward compatibility.
 
-### Pastel
+### Pastel 1.2
 
 <http://kaba.hilvi.org/pastel>
 
@@ -14,7 +17,7 @@ TIM refers to Pastel's include files in the form
 `pastel/sys/array.h`. Pastel is licensed under the
 GNU Lesser GPL license.
 
-### Boost
+### Boost 1.43
 
 <http://www.boost.org/>
 
@@ -24,10 +27,16 @@ TIM only uses the template code found in Boost and
 thus requires no linking with object code.
 Boost is licensed under the Boost license.
 
-### SDL (Simple DirectMedia Layer)
+### SDL 1.2
 
 <http://www.libsdl.org/>
 
 TIM refers to SDL's include files in the form `SDL.h`. 
 SDL is licensed under the GNU Lesser GPL license.
 
+### Remark 1.2
+
+<http://kaba.hilvi.org/remark>
+
+The documentation for TIM is written in Remark. This library is
+not required to build TIM.
