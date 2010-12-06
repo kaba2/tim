@@ -169,6 +169,20 @@ solution "Tim"
 		
 	-- Enable OpenMP if requested
 
+	configuration "debug"
+		defines 
+		{ 
+			"PASTEL_ENABLE_PENSURES",
+			"PASTEL_DEBUG_MODE"
+		}
+
+	configuration "develop"
+		defines 
+		{ 
+			"PASTEL_ENABLE_PENSURES",
+			"PASTEL_DEBUG_MODE"
+		}
+
 	configuration "release"
 		defines { "PASTEL_ENABLE_OMP" }
 
@@ -195,6 +209,14 @@ solution "Tim"
 		includedirs(includeDirectorySet)
 		libdirs(libraryDirectorySet)
 		files(addPrefix("tim/core/", fileSet))
+		links
+		{
+			"PastelGfx",
+			"PastelGeometry",
+			"PastelDsp",
+			"PastelMath",
+			"PastelSys"
+		}
 	
 	project "TimCoreTest"
 		kind("ConsoleApp")
@@ -205,6 +227,10 @@ solution "Tim"
 		{
 			"SDL",
 			"PastelDevice",
+			"PastelGfx",
+			"PastelGeometry",
+			"PastelDsp",
+			"PastelMath",
 			"PastelSys",
 			"TimCore"
 		}
