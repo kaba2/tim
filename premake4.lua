@@ -16,7 +16,7 @@ sdlLibraryDir = "../../external/SDL-1.2.14/lib"
 -- The directory of the Pastel library's source code.
 -- The includes are of the form 'pastel/sys/array.h'
 pastelIncludeDir = "../pastel"
-pastelLibraryDir = "../pastel/lib"
+pastelLibraryDir = "../pastel/build/vs2008/lib"
 
 outputDirectory = "build/" .. _ACTION
 
