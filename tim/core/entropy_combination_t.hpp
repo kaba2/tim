@@ -14,7 +14,7 @@
 #include <pastel/math/normbijections.h>
 
 #include <pastel/sys/constantiterator.h>
-#include <pastel/sys/iteratorrange.h>
+#include <pastel/sys/iterator_range.h>
 #include <pastel/sys/eps.h>
 #include <pastel/sys/stdext_copy_n.h>
 
@@ -33,11 +33,11 @@ namespace Tim
 		typename Real_Filter_Iterator>
 	SignalPtr temporalEntropyCombination(
 		const Array<SignalPtr>& signalSet,
-		const ForwardRange<Integer3_Iterator>& rangeSet,
+		const ForwardIterator_Range<Integer3_Iterator>& rangeSet,
 		integer timeWindowRadius,
-		const ForwardRange<Integer_Iterator>& lagSet,
+		const ForwardIterator_Range<Integer_Iterator>& lagSet,
 		integer kNearest,
-		const ForwardRange<Real_Filter_Iterator>& filter)
+		const ForwardIterator_Range<Real_Filter_Iterator>& filter)
 	{
 		ENSURE_OP(timeWindowRadius, >=, 0);
 		ENSURE_OP(kNearest, >, 0);
@@ -287,9 +287,9 @@ namespace Tim
 		typename Integer_Iterator>
 	SignalPtr temporalEntropyCombination(
 		const Array<SignalPtr>& signalSet,
-		const ForwardRange<Integer3_Iterator>& rangeSet,
+		const ForwardIterator_Range<Integer3_Iterator>& rangeSet,
 		integer timeWindowRadius,
-		const ForwardRange<Integer_Iterator>& lagSet,
+		const ForwardIterator_Range<Integer_Iterator>& lagSet,
 		integer kNearest)
 	{
 		return temporalEntropyCombination(
@@ -304,7 +304,7 @@ namespace Tim
 	template <typename Integer3_Iterator>
 	SignalPtr temporalEntropyCombination(
 		const Array<SignalPtr>& signalSet,
-		const ForwardRange<Integer3_Iterator>& rangeSet,
+		const ForwardIterator_Range<Integer3_Iterator>& rangeSet,
 		integer timeWindowRadius)
 	{
 		return temporalEntropyCombination(

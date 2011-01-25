@@ -6,7 +6,7 @@
 #include "tim/core/mytypes.h"
 #include "tim/core/signal.h"
 
-#include <pastel/sys/iteratorrange.h>
+#include <pastel/sys/iterator_range.h>
 #include <pastel/sys/array.h>
 
 namespace Tim
@@ -48,8 +48,8 @@ namespace Tim
 		typename Integer_Iterator>
 	real entropyCombination(
 		const Array<SignalPtr>& signalSet,
-		const ForwardRange<Integer3_Iterator>& rangeSet,
-		const ForwardRange<Integer_Iterator>& lagSet,
+		const ForwardIterator_Range<Integer3_Iterator>& rangeSet,
+		const ForwardIterator_Range<Integer_Iterator>& lagSet,
 		integer kNearest = 1);
 
 	//! Computes an entropy combination of signals.
@@ -69,7 +69,7 @@ namespace Tim
 		typename Real_OutputIterator>
 	real entropyCombination(
 		const Array<SignalPtr>& signalSet,
-		const ForwardRange<Integer3_Iterator>& rangeSet);
+		const ForwardIterator_Range<Integer3_Iterator>& rangeSet);
 
 }
 

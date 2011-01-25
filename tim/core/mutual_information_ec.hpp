@@ -21,13 +21,13 @@ namespace Tim
 			typename SignalPtr_Y_Iterator,
 			typename Real_Filter_Iterator>
 		real mutualInformation(
-			const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
-			const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
+			const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
+			const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet,
 			integer timeWindowRadius,
 			SignalPtr* result,
 			integer xLag, integer yLag,
 			integer kNearest,
-			const ForwardRange<Real_Filter_Iterator>& filter)
+			const ForwardIterator_Range<Real_Filter_Iterator>& filter)
 		{
 			ENSURE_OP(timeWindowRadius, >=, 0);
 			ENSURE_OP(kNearest, >, 0);
@@ -90,12 +90,12 @@ namespace Tim
 		typename SignalPtr_Y_Iterator,
 		typename Real_Filter_Iterator>
 	SignalPtr temporalMutualInformation(
-		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
-		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
+		const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet,
 		integer timeWindowRadius,
 		integer xLag, integer yLag,
 		integer kNearest,
-		const ForwardRange<Real_Filter_Iterator>& filter)
+		const ForwardIterator_Range<Real_Filter_Iterator>& filter)
 	{
 		SignalPtr result;
 		Tim::Detail_MutualInformation::mutualInformation(
@@ -112,8 +112,8 @@ namespace Tim
 		typename SignalPtr_X_Iterator,
 		typename SignalPtr_Y_Iterator>
 	SignalPtr temporalMutualInformation(
-		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
-		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
+		const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet,
 		integer timeWindowRadius,
 		integer xLag, integer yLag,
 		integer kNearest)
@@ -130,8 +130,8 @@ namespace Tim
 		typename SignalPtr_X_Iterator,
 		typename SignalPtr_Y_Iterator>
 	real mutualInformation(
-		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
-		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
+		const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet,
 		integer xLag, integer yLag,
 		integer kNearest)
 	{

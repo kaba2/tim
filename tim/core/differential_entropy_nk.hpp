@@ -22,7 +22,7 @@ namespace Tim
 		typename SignalPtr_Iterator, 
 		typename NormBijection>
 	real differentialEntropyNk(
-		const ForwardRange<SignalPtr_Iterator>& signalSet,
+		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
 		const NormBijection& normBijection,
 		integer* outIntrinsicDimension)
 	{

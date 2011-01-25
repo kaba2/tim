@@ -5,7 +5,7 @@
 
 #include "tim/core/signal.h"
 
-#include <pastel/sys/iteratorrange.h>
+#include <pastel/sys/iterator_range.h>
 
 namespace Tim
 {
@@ -47,13 +47,13 @@ namespace Tim
 		typename SignalPtr_Z_Iterator,
 		typename Real_Filter_Iterator>
 	SignalPtr temporalPartialMutualInformation(
-		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
-		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
-		const ForwardRange<SignalPtr_Z_Iterator>& zSignalSet,
+		const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet,
+		const ForwardIterator_Range<SignalPtr_Z_Iterator>& zSignalSet,
 		integer timeWindowRadius,
 		integer xLag, integer yLag, integer zLag,
 		integer kNearest,
-		const ForwardRange<Real_Filter_Iterator>& filter);
+		const ForwardIterator_Range<Real_Filter_Iterator>& filter);
 
 	//! Computes temporal partial mutual information.
 	/*!
@@ -76,9 +76,9 @@ namespace Tim
 		typename SignalPtr_Y_Iterator,
 		typename SignalPtr_Z_Iterator>
 	SignalPtr temporalPartialMutualInformation(
-		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
-		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
-		const ForwardRange<SignalPtr_Z_Iterator>& zSignalSet,
+		const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet,
+		const ForwardIterator_Range<SignalPtr_Z_Iterator>& zSignalSet,
 		integer timeWindowRadius,
 		integer xLag = 0, integer yLag = 0, integer zLag = 0,
 		integer kNearest = 1);
@@ -111,9 +111,9 @@ namespace Tim
 		typename SignalPtr_Y_Iterator,
 		typename SignalPtr_Z_Iterator>
 	real partialMutualInformation(
-		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
-		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
-		const ForwardRange<SignalPtr_Z_Iterator>& zSignalSet,
+		const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet,
+		const ForwardIterator_Range<SignalPtr_Z_Iterator>& zSignalSet,
 		integer xLag = 0, integer yLag = 0, integer zLag = 0,
 		integer kNearest = 1);
 

@@ -22,14 +22,14 @@ namespace Tim
 			typename SignalPtr_W_Iterator,
 			typename Real_Filter_Iterator>
 		real transferEntropy(
-			const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
-			const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
-			const ForwardRange<SignalPtr_W_Iterator>& wSignalSet,
+			const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
+			const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet,
+			const ForwardIterator_Range<SignalPtr_W_Iterator>& wSignalSet,
 			integer timeWindowRadius,
 			SignalPtr* result,
 			integer xLag, integer yLag, integer wLag,
 			integer kNearest,
-			const ForwardRange<Real_Filter_Iterator>& filter)
+			const ForwardIterator_Range<Real_Filter_Iterator>& filter)
 		{
 			ENSURE_OP(timeWindowRadius, >=, 0);
 			ENSURE_OP(kNearest, >, 0);
@@ -95,13 +95,13 @@ namespace Tim
 		typename SignalPtr_W_Iterator,
 		typename Real_Filter_Iterator>
 	SignalPtr temporalTransferEntropy(
-		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
-		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
-		const ForwardRange<SignalPtr_W_Iterator>& wSignalSet,
+		const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet,
+		const ForwardIterator_Range<SignalPtr_W_Iterator>& wSignalSet,
 		integer timeWindowRadius,
 		integer xLag, integer yLag, integer wLag,
 		integer kNearest,
-		const ForwardRange<Real_Filter_Iterator>& filter)
+		const ForwardIterator_Range<Real_Filter_Iterator>& filter)
 	{
 		SignalPtr result;
 		Tim::Detail_TransferEntropy::transferEntropy(
@@ -119,9 +119,9 @@ namespace Tim
 		typename SignalPtr_Y_Iterator,
 		typename SignalPtr_W_Iterator>
 	SignalPtr temporalTransferEntropy(
-		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
-		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
-		const ForwardRange<SignalPtr_W_Iterator>& wSignalSet,
+		const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet,
+		const ForwardIterator_Range<SignalPtr_W_Iterator>& wSignalSet,
 		integer timeWindowRadius,
 		integer xLag, integer yLag, integer wLag,
 		integer kNearest)
@@ -139,9 +139,9 @@ namespace Tim
 		typename SignalPtr_Y_Iterator,
 		typename SignalPtr_W_Iterator>
 	real transferEntropy(
-		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
-		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
-		const ForwardRange<SignalPtr_W_Iterator>& wSignalSet,
+		const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet,
+		const ForwardIterator_Range<SignalPtr_W_Iterator>& wSignalSet,
 		integer xLag, integer yLag, integer wLag,
 		integer kNearest)
 	{

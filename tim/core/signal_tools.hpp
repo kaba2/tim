@@ -42,7 +42,7 @@ namespace Tim
 
 	template <typename SignalPtr_Iterator>
 	void constructPointSet(
-		const ForwardRange<SignalPtr_Iterator>& signalSet,
+		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
 		integer sampleBegin,
 		integer sampleEnd,
 		integer dimensionBegin,

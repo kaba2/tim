@@ -6,7 +6,7 @@
 
 #include "tim/core/mytypes.h"
 
-#include <pastel/sys/iteratorrange.h>
+#include <pastel/sys/iterator_range.h>
 
 namespace Tim
 {
@@ -15,7 +15,7 @@ namespace Tim
 		typename SignalPtr_Iterator, 
 		typename NormBijection>
 	real differentialEntropyNk(
-		const ForwardRange<SignalPtr_Iterator>& signalSet,
+		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
 		const NormBijection& normBijection,
 		integer* outIntrinsicDimension = 0);
 

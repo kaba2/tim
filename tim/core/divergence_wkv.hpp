@@ -13,8 +13,8 @@ namespace Tim
 		typename SignalPtr_X_Iterator,
 		typename SignalPtr_Y_Iterator>
 	real divergenceWkv(
-		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
-		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet)
+		const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet)
 	{
 		// "A Nearest-Neighbor Approach to Estimating
 		// Divergence between Continuous Random Vectors"

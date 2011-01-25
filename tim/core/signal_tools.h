@@ -12,7 +12,7 @@
 
 #include <pastel/gfx/color.h>
 
-#include <pastel/sys/iteratorrange.h>
+#include <pastel/sys/iterator_range.h>
 #include <pastel/sys/array.h>
 
 #include <iostream>
@@ -59,7 +59,7 @@ namespace Tim
 
 	template <typename SignalPtr_Iterator>
 	void constructPointSet(
-		const ForwardRange<SignalPtr_Iterator>& signalSet,
+		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
 		integer sampleBegin,
 		integer sampleEnd,
 		integer dimensionBegin,
