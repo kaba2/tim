@@ -20,8 +20,8 @@ namespace
 			binsIndex
 		};
 
-		const SignalPtr data = getSignal(inputSet[xIndex]);
-		const integer bins = getInteger(inputSet[binsIndex]);
+		const SignalPtr data = asSignal(inputSet[xIndex]);
+		const integer bins = asInteger(inputSet[binsIndex]);
 
 		const integer dimension = data->dimension();
 

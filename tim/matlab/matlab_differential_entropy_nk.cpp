@@ -25,7 +25,7 @@ namespace
 		std::vector<SignalPtr> xEnsemble;
 		getSignals(inputSet[xIndex], std::back_inserter(xEnsemble));
 
-		const integer threads = getInteger(inputSet[threadsIndex]);
+		const integer threads = asInteger(inputSet[threadsIndex]);
 		setNumberOfThreads(threads);
 
 		integer intrinsicDimension = 0;

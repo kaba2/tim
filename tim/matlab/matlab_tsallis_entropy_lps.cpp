@@ -25,9 +25,9 @@ namespace
 		std::vector<SignalPtr> xEnsemble;
 		getSignals(inputSet[xIndex], std::back_inserter(xEnsemble));
 
-		const real q = getReal(inputSet[qIndex]);
-		const integer kNearestSuggestion = getInteger(inputSet[kNearestSuggestionIndex]);
-		const integer threads = getInteger(inputSet[threadsIndex]);
+		const real q = asReal(inputSet[qIndex]);
+		const integer kNearestSuggestion = asInteger(inputSet[kNearestSuggestionIndex]);
+		const integer threads = asInteger(inputSet[threadsIndex]);
 		setNumberOfThreads(threads);
 
 		outputSet[0] = mxCreateDoubleMatrix(1, 1, mxREAL);

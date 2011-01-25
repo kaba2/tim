@@ -27,7 +27,7 @@ namespace
 		std::vector<SignalPtr> yEnsemble;
 		getSignals(inputSet[yIndex], std::back_inserter(yEnsemble));
 
-		const integer threads = getInteger(inputSet[threadsIndex]);
+		const integer threads = asInteger(inputSet[threadsIndex]);
 		setNumberOfThreads(threads);
 
 		outputSet[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
