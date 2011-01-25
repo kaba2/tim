@@ -3,7 +3,7 @@
 
 #include "tim/core/signal.h"
 
-#include <pastel/sys/iteratorrange.h>
+#include <pastel/sys/iterator_range.h>
 #include <pastel/sys/array.h>
 
 namespace Tim
@@ -14,8 +14,8 @@ namespace Tim
 		typename SignalPtr_Iterator,
 		typename Integer_Iterator>
 	SignalPtr merge(
-		const ForwardRange<SignalPtr_Iterator>& signalSet,
-		const ForwardRange<Integer_Iterator>& lagSet);
+		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
+		const ForwardIterator_Range<Integer_Iterator>& lagSet);
 
 	//! Merges a signal set into a higher-dimensional signal.
 	/*!
@@ -25,7 +25,7 @@ namespace Tim
 	*/
 	template <typename SignalPtr_Iterator>
 	SignalPtr merge(
-		const ForwardRange<SignalPtr_Iterator>& signalSet);
+		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet);
 
 	//! Merges two signal sets pairwise into a new signal set.
 	template <
@@ -33,8 +33,8 @@ namespace Tim
 		typename SignalPtr_Y_Iterator,
 		typename SignalPtr_OutputIterator>
 	void merge(
-		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
-		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
+		const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet,
 		SignalPtr_OutputIterator result,
 		integer xLag = 0, integer yLag = 0);
 
@@ -61,7 +61,7 @@ namespace Tim
 	void merge(
 		const Array<SignalPtr>& ensembleSet,
 		SignalPtr_OutputIterator result,
-		const ForwardRange<Integer_Iterator>& lagSet);
+		const ForwardIterator_Range<Integer_Iterator>& lagSet);
 
 	//! Merges signals into a single high-dimensional signal.
 	/*!

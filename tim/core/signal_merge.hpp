@@ -11,8 +11,8 @@ namespace Tim
 		typename SignalPtr_Iterator,
 		typename Integer_Iterator>
 	SignalPtr merge(
-		const ForwardRange<SignalPtr_Iterator>& signalSet,
-		const ForwardRange<Integer_Iterator>& lagSet)
+		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
+		const ForwardIterator_Range<Integer_Iterator>& lagSet)
 	{
 		ENSURE_OP(signalSet.size(), ==, lagSet.size());
 
@@ -84,7 +84,7 @@ namespace Tim
 
 	template <typename SignalPtr_Iterator>
 	SignalPtr merge(
-		const ForwardRange<SignalPtr_Iterator>& signalSet)
+		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet)
 	{
 		return Tim::merge(signalSet,
 			constantRange(0, signalSet.size()));
@@ -96,7 +96,7 @@ namespace Tim
 	void merge(
 		const Array<SignalPtr>& ensembleSet,
 		SignalPtr_OutputIterator result,
-		const ForwardRange<Integer_Iterator>& lagSet)
+		const ForwardIterator_Range<Integer_Iterator>& lagSet)
 	{
 		ENSURE_OP(lagSet.size(), ==, ensembleSet.height());
 
@@ -124,8 +124,8 @@ namespace Tim
 		typename SignalPtr_Y_Iterator,
 		typename SignalPtr_OutputIterator>
 	void merge(
-		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
-		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
+		const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet,
 		SignalPtr_OutputIterator result,
 		integer xLag,
 		integer yLag)

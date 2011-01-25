@@ -9,7 +9,7 @@
 #include <pastel/math/cholesky_decomposition.h>
 
 #include <pastel/sys/smallset.h>
-#include <pastel/sys/iteratorrange.h>
+#include <pastel/sys/iterator_range.h>
 
 namespace Tim
 {
@@ -49,12 +49,12 @@ namespace Tim
 		typename SignalPtr_Y_Iterator,
 		typename Real_Filter_Iterator>
 	SignalPtr temporalMutualInformation(
-		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
-		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
+		const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet,
 		integer timeWindowRadius,
 		integer xLag, integer yLag,
 		integer kNearest,
-		const ForwardRange<Real_Filter_Iterator>& filter);
+		const ForwardIterator_Range<Real_Filter_Iterator>& filter);
 
 	//! Computes temporal mutual information.
 	/*!
@@ -76,8 +76,8 @@ namespace Tim
 		typename SignalPtr_X_Iterator,
 		typename SignalPtr_Y_Iterator>
 	SignalPtr temporalMutualInformation(
-		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
-		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
+		const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet,
 		integer timeWindowRadius,
 		integer xLag = 0, integer yLag = 0,
 		integer kNearest = 1);
@@ -108,8 +108,8 @@ namespace Tim
 		typename SignalPtr_X_Iterator,
 		typename SignalPtr_Y_Iterator>
 	real mutualInformation(
-		const ForwardRange<SignalPtr_X_Iterator>& xSignalSet,
-		const ForwardRange<SignalPtr_Y_Iterator>& ySignalSet,
+		const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
+		const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet,
 		integer xLag = 0, integer yLag = 0,
 		integer kNearest = 1);
 

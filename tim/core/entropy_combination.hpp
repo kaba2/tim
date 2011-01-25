@@ -14,7 +14,7 @@
 #include <pastel/math/normbijections.h>
 
 #include <pastel/sys/constantiterator.h>
-#include <pastel/sys/iteratorrange.h>
+#include <pastel/sys/iterator_range.h>
 #include <pastel/sys/eps.h>
 #include <pastel/sys/stdext_copy_n.h>
 
@@ -31,8 +31,8 @@ namespace Tim
 		typename Integer_Iterator>
 	real entropyCombination(
 		const Array<SignalPtr>& signalSet,
-		const ForwardRange<Integer3_Iterator>& rangeSet,
-		const ForwardRange<Integer_Iterator>& lagSet,
+		const ForwardIterator_Range<Integer3_Iterator>& rangeSet,
+		const ForwardIterator_Range<Integer_Iterator>& lagSet,
 		integer kNearest)
 	{
 		ENSURE_OP(kNearest, >, 0);
@@ -169,7 +169,7 @@ namespace Tim
 		typename Real_OutputIterator>
 	real entropyCombination(
 		const Array<SignalPtr>& signalSet,
-		const ForwardRange<Integer3_Iterator>& rangeSet)
+		const ForwardIterator_Range<Integer3_Iterator>& rangeSet)
 	{
 		return Tim::entropyCombination(
 			signalSet,

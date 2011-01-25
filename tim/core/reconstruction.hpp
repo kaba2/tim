@@ -13,7 +13,7 @@ namespace Tim
 
 	template <typename Real_InputIterator>
 	void reconstruct(
-		const ForwardRange<Real_InputIterator>& data)
+		const ForwardIterator_Range<Real_InputIterator>& data)
 	{
 		real startValue = nan<real>();
 

@@ -8,7 +8,7 @@
 
 #include <pastel/sys/constantiterator.h>
 #include <pastel/sys/countingiterator.h>
-#include <pastel/sys/iteratorrange.h>
+#include <pastel/sys/iterator_range.h>
 
 #include <pastel/geometry/search_all_neighbors_pointkdtree.h>
 
@@ -23,11 +23,11 @@ namespace Tim
 		typename EntropyAlgorithm,
 		typename Real_Filter_Iterator>
 	SignalPtr temporalGenericEntropy(
-		const ForwardRange<SignalPtr_Iterator>& signalSet,
+		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
 		const EntropyAlgorithm& entropyAlgorithm,
 		integer timeWindowRadius,
 		integer kNearest,
-		const ForwardRange<Real_Filter_Iterator>& filter)
+		const ForwardIterator_Range<Real_Filter_Iterator>& filter)
 	{
 		ENSURE_OP(timeWindowRadius, >=, 0);
 		ENSURE_OP(kNearest, >, 0);
@@ -191,7 +191,7 @@ namespace Tim
 		typename SignalPtr_Iterator, 
 		typename EntropyAlgorithm>
 	SignalPtr temporalGenericEntropy(
-		const ForwardRange<SignalPtr_Iterator>& signalSet,
+		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
 		const EntropyAlgorithm& entropyAlgorithm,
 		integer timeWindowRadius,
 		integer kNearest)

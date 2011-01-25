@@ -11,7 +11,7 @@ namespace Tim
 
 	template <typename SignalPtr_Iterator>
 	SignalPointSet::SignalPointSet(
-		const ForwardRange<SignalPtr_Iterator>& signalSet,
+		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
 		bool startFull)
 		: kdTree_(Array_PointPolicy<real>(signalSet.empty() ? 0 : signalSet.front()->dimension()))
 		, pointSet_()
@@ -34,7 +34,7 @@ namespace Tim
 
 	template <typename SignalPtr_Iterator>
 	SignalPointSet::SignalPointSet(
-		const ForwardRange<SignalPtr_Iterator>& signalSet,
+		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
 		bool startFull,
 		integer dimensionBegin,
 		integer dimensionEnd)
@@ -64,7 +64,7 @@ namespace Tim
 
 	template <typename SignalPtr_Iterator>
 	void SignalPointSet::createPointSet(
-		const ForwardRange<SignalPtr_Iterator>& signalSet)
+		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet)
 	{
 		// Find out the time interval on which
 		// all trials are defined.

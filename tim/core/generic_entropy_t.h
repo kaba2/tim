@@ -6,7 +6,7 @@
 
 #include "tim/core/signal.h"
 
-#include <pastel/sys/iteratorrange.h>
+#include <pastel/sys/iterator_range.h>
 
 namespace Tim
 {
@@ -47,11 +47,11 @@ namespace Tim
 		typename EntropyAlgorithm,
 		typename Real_Filter_Iterator>
 	SignalPtr temporalGenericEntropy(
-		const ForwardRange<SignalPtr_Iterator>& signalSet,
+		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
 		const EntropyAlgorithm& entropyAlgorithm,
 		integer timeWindowRadius,
 		integer kNearest,
-		const ForwardRange<Real_Filter_Iterator>& filter);
+		const ForwardIterator_Range<Real_Filter_Iterator>& filter);
 
 	//! Computes temporal generic entropy of a signal.
 	/*!
@@ -72,7 +72,7 @@ namespace Tim
 		typename SignalPtr_Iterator, 
 		typename EntropyAlgorithm>
 	SignalPtr temporalGenericEntropy(
-		const ForwardRange<SignalPtr_Iterator>& signalSet,
+		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
 		const EntropyAlgorithm& entropyAlgorithm,
 		integer timeWindowRadius,
 		integer kNearest = 1);

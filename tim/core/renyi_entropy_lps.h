@@ -6,7 +6,7 @@
 
 #include "tim/core/signal.h"
 
-#include <pastel/sys/iteratorrange.h>
+#include <pastel/sys/iterator_range.h>
 
 namespace Tim
 {
@@ -80,11 +80,11 @@ namespace Tim
 		typename SignalPtr_Iterator, 
 		typename Real_Filter_Iterator>
 	SignalPtr temporalRenyiEntropyLps(
-		const ForwardRange<SignalPtr_Iterator>& signalSet,
+		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		real q,
 		integer kNearestSuggestion,
-		const ForwardRange<Real_Filter_Iterator>& filter);
+		const ForwardIterator_Range<Real_Filter_Iterator>& filter);
 
 	//! Computes temporal Renyi entropy of a signal.
 	/*!
@@ -100,7 +100,7 @@ namespace Tim
 
 	template <typename SignalPtr_Iterator>
 	SignalPtr temporalRenyiEntropyLps(
-		const ForwardRange<SignalPtr_Iterator>& signalSet,
+		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		real q = 2,
 		integer kNearestSuggestion = 0);
@@ -143,7 +143,7 @@ namespace Tim
 
 	template <typename SignalPtr_Iterator>
 	real renyiEntropyLps(
-		const ForwardRange<SignalPtr_Iterator>& signalSet,
+		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
 		real q = 2,
 		integer kNearestSuggestion = 0);
 
