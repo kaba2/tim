@@ -44,7 +44,7 @@
 				AdditionalOptions="/D &quot;_SECURE_SCL=0&quot; /D &quot;_HAS_ITERATOR_DEBUGGING=0&quot;"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="$(SolutionDir)\..\"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\..\..\pastel&quot;;&quot;$(SolutionDir)\..\&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -110,7 +110,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/D &quot;_SECURE_SCL=0&quot; /D &quot;_HAS_ITERATOR_DEBUGGING=0&quot;"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(SolutionDir)\..\"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\..\..\pastel&quot;;&quot;$(SolutionDir)\..\&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -163,7 +163,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\build_options_debug.txt"
+				>
+			</File>
+			<File
 				RelativePath=".\build_tim.m"
+				>
+			</File>
+			<File
+				RelativePath=".\build_tim_debug.m"
 				>
 			</File>
 			<File
