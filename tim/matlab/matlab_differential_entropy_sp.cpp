@@ -5,6 +5,8 @@
 
 #include "tim/core/differential_entropy_sp.h"
 
+void force_linking_differential_entropy_sp() {};
+
 using namespace Tim;
 
 namespace

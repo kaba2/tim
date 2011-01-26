@@ -5,6 +5,8 @@
 
 #include "tim/core/mutual_information_naive.h"
 
+void force_linking_mutual_information_naive() {};
+
 using namespace Tim;
 
 namespace

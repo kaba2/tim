@@ -13,33 +13,6 @@
 namespace Tim
 {
 
-	template <typename Image_View>
-	void drawSignal(
-		const SignalPtr& signal,
-		const View<2, Color, Image_View>& image)
-	{
-		const integer dimension = signal->dimension();
-		const integer samples = signal->samples();
-
-		const integer height = image.height();
-
-		clear(Color(0), image);
-
-		if (dimension == 1)
-		{
-			const real yMax = max(abs(signal->data()))[0];
-			std::cout << yMax << std::endl;
-
-			for (integer x = 0;x < samples;++x)
-			{
-				const real y = mabs(signal->data()(x)) / yMax;
-
-				drawPixel(Vector2(x + 0.5, y * (height - 1)), 
-					Color(0, 1, 0), image);
-			}
-		}
-	}
-
 	template <typename SignalPtr_Iterator>
 	void constructPointSet(
 		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
