@@ -16,19 +16,30 @@ namespace
 		int outputs, mxArray *outputSet[],
 		int inputs, const mxArray *inputSet[])
 	{
-		enum
+		enum Input
 		{
-			xIndex,
-			binsIndex
+			X,
+			Bins,
+			Inputs
+		};
+		
+		enum Output
+		{
+			Estimate,
+			Outputs
 		};
 
-		const SignalPtr data = asSignal(inputSet[xIndex]);
-		const integer bins = asInteger(inputSet[binsIndex]);
+		ENSURE_OP(inputs, ==, Inputs);
+		ENSURE_OP(outputs, ==, Outputs);
+
+		const SignalPtr data = asSignal(inputSet[X]);
+		const integer bins = asInteger(inputSet[Bins]);
 
 		const integer dimension = data->dimension();
 
-		outputSet[0] = mxCreateDoubleMatrix(dimension, dimension, mxREAL);
-		real* rawResult = mxGetPr(outputSet[0]);
+		outputSet[Estimate] = 
+			mxCreateDoubleMatrix(dimension, dimension, mxREAL);
+		real* rawResult = mxGetPr(outputSet[Estimate]);
 
 		MatrixD result(dimension, dimension, withAliasing(rawResult));
 

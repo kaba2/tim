@@ -50,7 +50,7 @@ using the differential_entropy_kl function:
 	  A differential entropy estimate from samples
 	  using Kozachenko-Leonenko nearest neighbor estimator.
 	 
-	  H = differential_entropy_kl(S, k, threads)
+	  H = differential_entropy_kl(S, k)
 	 
 	  where
 	  ...	

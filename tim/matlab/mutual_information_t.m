@@ -2,7 +2,7 @@
 % A temporal mutual information estimate from samples.
 %
 % I = mutual_information_t(X, Y, timeWindowRadius, 
-%       xLag, yLag, k, filter, threads)
+%       xLag, yLag, k, filter)
 %
 % where
 %
@@ -14,19 +14,10 @@
 % Documentation: tim_matlab_matlab.txt
 
 function I = mutual_information_t(X, Y, timeWindowRadius, ...
-    xLag, yLag, k, filter, threads)
+    xLag, yLag, k, filter)
 
-if nargin < 3
-    error('Not enough input arguments.');
-end
-
-if nargin > 8
-    error('Too many input arguments.');
-end
-
-if nargin >= 4 && nargin < 5
-    error('Lags must be specified all at once to avoid errors.');
-end
+check(nargin, 'inputs', [3, 5, 6, 7]);
+check(nargout, 'outputs', 0 : 1);
 
 if nargin < 4
     xLag = 0;
@@ -38,23 +29,15 @@ if nargin < 6
 end
 
 if nargin < 7
-    filter = [1];
-end
-
-if nargin < 8
-    threads = maxNumCompThreads;
+    filter = 1;
 end
 
 if isnumeric(X)
-    I = mutual_information_t({X}, Y, timeWindowRadius, ...
-        xLag, yLag, k, filter, threads);
-    return
+    X = {X};
 end
 
 if isnumeric(Y)
-    I = mutual_information_t(X, {Y}, timeWindowRadius, ...
-        xLag, yLag, k, filter, threads);
-    return
+    Y = {Y};
 end
 
 if ~iscell(X) || ~iscell(Y)
@@ -71,4 +54,4 @@ I = entropy_combination_t(...
     [X(:)'; Y(:)'], ...
     [1, 1, 1; 2, 2, 1], timeWindowRadius, ...
     {xLag, yLag}, ...
-    k, filter, threads);
+    k, filter);

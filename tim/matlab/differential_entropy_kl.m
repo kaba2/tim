@@ -2,7 +2,7 @@
 % A differential entropy estimate from samples
 % using Kozachenko-Leonenko nearest neighbor estimator.
 %
-% H = differential_entropy_kl(S, k, threads)
+% H = differential_entropy_kl(S, k)
 %
 % where
 %
@@ -14,36 +14,21 @@
 % Detail: Kozachenko-Leonenko nearest neighbor estimator
 % Documentation: tim_matlab_matlab.txt
 
-function H = differential_entropy_kl(S, k, threads)
+function H = differential_entropy_kl(S, k)
 
-if nargin < 1
-    error('Not enough input arguments.');
-end
-
-if nargin > 3
-    error('Too many input arguments.');
-end
-
-if nargout > 1
-    error('Too many output arguments.');
-end
+check(nargin, 'inputs', 1 : 2);
+check(nargout, 'outputs', 0 : 1);
 
 if nargin < 2
     k = 1;
 end
 
-if nargin < 3
-    threads = maxNumCompThreads;
-end
-
 if isnumeric(S)
-    H = differential_entropy_kl({S}, k, threads);
-    return
+    S = {S};
 end
 
 check(S, 'signalSet');
 check(k, 'k');
-check(threads, 'threads');
 
 H = tim_matlab('differential_entropy_kl', ...
-	S, k, threads);
+	S, k);

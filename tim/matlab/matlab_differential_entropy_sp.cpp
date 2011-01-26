@@ -16,16 +16,26 @@ namespace
 		int outputs, mxArray *outputSet[],
 		int inputs, const mxArray *inputSet[])
 	{
-		enum
+		enum Input
 		{
-			xIndex
+			X,
+			Inputs
 		};
 
-		std::vector<SignalPtr> xEnsemble;
-		getSignals(inputSet[xIndex], std::back_inserter(xEnsemble));
+		enum Output
+		{
+			Estimate,
+			Outputs
+		};
 
-		outputSet[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
-		real* rawResult = mxGetPr(outputSet[0]);
+		ENSURE_OP(inputs, ==, Inputs);
+		ENSURE_OP(outputs, ==, Outputs);
+
+		std::vector<SignalPtr> xEnsemble;
+		getSignals(inputSet[X], std::back_inserter(xEnsemble));
+
+		outputSet[Estimate] = mxCreateDoubleMatrix(1, 1, mxREAL);
+		real* rawResult = mxGetPr(outputSet[Estimate]);
 
 		*rawResult = differentialEntropySp(
 			range(xEnsemble.begin(), xEnsemble.end()));

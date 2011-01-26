@@ -18,17 +18,8 @@
 
 function I = mutual_information_naive(S, bins)
 
-if nargin < 1
-    error('Not enough input arguments.');
-end
-
-if nargin > 2
-    error('Too many input arguments.');
-end
-
-if nargout > 1
-    error('Too many output arguments.');
-end
+check(nargin, 'inputs', 1 : 2);
+check(nargout, 'outputs', 0 : 1);
 
 if nargin < 2
     bins = 100;

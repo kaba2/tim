@@ -41,7 +41,7 @@ Release date xx.xx.2010.
  * Allowed multiple lags to be specified for 
  entropy combination estimators.
  * Added trial permutation and permutation test.
- * Packed all functionality to a single mex 
+ * Packed all functionality into a single mex 
  file instead of multiple ones.
  
 #### TIM Console
@@ -57,7 +57,7 @@ Release date xx.xx.2010.
  * Added support for generalized versions
  of temporal estimators.
  
-#### Breaking changes
+#### Breaking changes in TIM Matlab
 
  * Removed the parameter to specify maximum relative 
  error in nearest neighbors searching because of too 
@@ -66,10 +66,10 @@ Release date xx.xx.2010.
  `differential_entropy_kl` and `differential_entropy_kl_t`.
  * The now-introduced padded NaNs in temporal estimates 
  might make your current subsequent computations fail. 
- * In TIM Matlab, the new `filter` parameter has been
- inserted before the `threads`. If you used the `threads`
- parameter, you will need the add the `filter` argument
- before it.
+ * The 'threads' parameter has been removed.
+ * A new `filter` parameter has been inserted in temporal 
+ estimators. This can accidentally get mixed with 'threads' 
+ parameter of the previous version.
 
 #### Other stuff
 

@@ -16,22 +16,29 @@ namespace
 		int outputs, mxArray *outputSet[],
 		int inputs, const mxArray *inputSet[])
 	{
-		enum
+		enum Input
 		{
-			xIndex,
-			kNearestIndex,
-			threadsIndex
+			X,
+			KNearest,
+			Inputs
 		};
 
+		enum Output
+		{
+			Estimate,
+			Outputs
+		};
+
+		ENSURE_OP(inputs, ==, Inputs);
+		ENSURE_OP(outputs, ==, Outputs);
+
 		std::vector<SignalPtr> xEnsemble;
-		getSignals(inputSet[xIndex], std::back_inserter(xEnsemble));
+		getSignals(inputSet[X], std::back_inserter(xEnsemble));
 
-		const integer kNearest = asInteger(inputSet[kNearestIndex]);
-		const integer threads = asInteger(inputSet[threadsIndex]);
-		setNumberOfThreads(threads);
+		const integer kNearest = asInteger(inputSet[KNearest]);
 
-		outputSet[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
-		real* rawResult = mxGetPr(outputSet[0]);
+		outputSet[Estimate] = mxCreateDoubleMatrix(1, 1, mxREAL);
+		real* rawResult = mxGetPr(outputSet[Estimate]);
 
 		*rawResult = differentialEntropyKl(
 			range(xEnsemble.begin(), xEnsemble.end()), 

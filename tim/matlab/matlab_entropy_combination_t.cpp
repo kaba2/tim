@@ -16,28 +16,37 @@ namespace
 		int outputs, mxArray *outputSet[],
 		int inputs, const mxArray *inputSet[])
 	{
-		enum
+		enum Input
 		{
-			signalSetIndex,
-			rangeSetIndex,
-			timeWindowRadiusIndex,
-			lagSetIndex,
-			kNearestIndex,
-			filterIndex,
-			threadsIndex
+			SignalSet,
+			RangeSet,
+			TimeWindowRadius,
+			LagSet,
+			KNearest,
+			FilterIndex,
+			Inputs
 		};
 
+		enum Output
+		{
+			Estimate,
+			Outputs
+		};
+
+		ENSURE_OP(inputs, ==, Inputs);
+		ENSURE_OP(outputs, ==, Outputs);
+
 		Array<SignalPtr> signalSet;
-		getSignalArray(inputSet[signalSetIndex], signalSet);
+		getSignalArray(inputSet[SignalSet], signalSet);
 
 		std::vector<integer> lagSet;
-		getIntegers(inputSet[lagSetIndex], std::back_inserter(lagSet));
+		getIntegers(inputSet[LagSet], std::back_inserter(lagSet));
 
-		const integer marginals = mxGetM(inputSet[rangeSetIndex]);
+		const integer marginals = mxGetM(inputSet[RangeSet]);
 		std::vector<Integer3> rangeSet;
 		rangeSet.reserve(marginals);
 		{
-			real* rawData = mxGetPr(inputSet[rangeSetIndex]);
+			real* rawData = mxGetPr(inputSet[RangeSet]);
 			for (integer i = 0;i < marginals;++i)
 			{
 				rangeSet.push_back(Integer3(*rawData - 1, *(rawData + marginals), *(rawData + 2 * marginals)));
@@ -46,14 +55,11 @@ namespace
 			}
 		}
 
-		const integer timeWindowRadius = asInteger(inputSet[timeWindowRadiusIndex]);
-		const integer kNearest = asInteger(inputSet[kNearestIndex]);
+		const integer timeWindowRadius = asInteger(inputSet[TimeWindowRadius]);
+		const integer kNearest = asInteger(inputSet[KNearest]);
 
 		std::vector<real> filter;
-		getReals(inputSet[filterIndex], std::back_inserter(filter));
-
-		const integer threads = asInteger(inputSet[threadsIndex]);
-		setNumberOfThreads(threads);
+		getReals(inputSet[FilterIndex], std::back_inserter(filter));
 
 		const SignalPtr estimate = temporalEntropyCombination(
 			signalSet,
@@ -67,8 +73,8 @@ namespace
 		const integer skip = std::max(-estimate->t(), 0); 
 		const integer samples = std::max(nans + estimate->samples() - skip, 0);
 
-		outputSet[0] = mxCreateDoubleMatrix(1, samples, mxREAL);
-		real* rawResult = mxGetPr(outputSet[0]);
+		outputSet[Estimate] = mxCreateDoubleMatrix(1, samples, mxREAL);
+		real* rawResult = mxGetPr(outputSet[Estimate]);
 		std::fill_n(rawResult, nans, nan<real>());
 		std::copy(estimate->data().begin() + skip, 
 			estimate->data().end(), rawResult + nans);

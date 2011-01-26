@@ -2,7 +2,7 @@
 % A temporal partial transfer entropy estimate from samples.
 %
 % I = transfer_entropy_pt(X, Y, Z, W, 
-%       timeWindowRadius, xLag, yLag, zLag, wLag, k, filter, threads)
+%       timeWindowRadius, xLag, yLag, zLag, wLag, k, filter)
 %
 % where
 %
@@ -14,19 +14,10 @@
 % Documentation: tim_matlab_matlab.txt
 
 function I = transfer_entropy_pt(X, Y, Z, W, ...
-    timeWindowRadius, xLag, yLag, zLag, wLag, k, filter, threads)
+    timeWindowRadius, xLag, yLag, zLag, wLag, k, filter)
 
-if nargin < 5
-    error('Not enough input arguments.');
-end
-
-if nargin > 12
-    error('Too many input arguments.');
-end
-
-if nargin >= 6 && nargin < 9
-    error('Lags must be specified all at once to avoid errors.');
-end
+check(nargin, 'inputs', [5, 9, 10, 11]);
+check(nargout, 'outputs', 0 : 1);
 
 if nargin < 6
     xLag = 0;
@@ -43,32 +34,20 @@ if nargin < 11
     filter = [1];
 end
 
-if nargin < 12
-    threads = maxNumCompThreads;
-end
-
 if isnumeric(X)
-    I = transfer_entropy_pt({X}, Y, Z, W, timeWindowRadius, ...
-        xLag, yLag, zLag, wLag, k, filter, threads);
-    return
+    X = {X};
 end
 
 if isnumeric(Y)
-    I = transfer_entropy_pt(X, {Y}, Z, W, timeWindowRadius, ...
-        xLag, yLag, zLag, wLag, k, filter, threads);
-    return
+    Y = {Y};
 end
 
 if isnumeric(Z)
-    I = transfer_entropy_pt(X, Y, {Z}, W, timeWindowRadius, ...
-        xLag, yLag, zLag, wLag, k, filter, threads);
-    return
+    Z = {Z};
 end
 
 if isnumeric(W)
-    I = transfer_entropy_pt(X, Y, Z, {W}, timeWindowRadius, ...
-        xLag, yLag, zLag, wLag, k, filter, threads);
-    return
+    W = {W};
 end
 
 if ~iscell(X) || ~iscell(Y) || ~iscell(Z) || ~iscell(W)
@@ -87,4 +66,4 @@ I = entropy_combination_t(...
     [1, 3, 1; 2, 4, 1; 2, 3, -1], ...
     timeWindowRadius, ...
     {wLag, xLag, zLag, yLag}, ...
-    k, filter, threads);
+    k, filter);

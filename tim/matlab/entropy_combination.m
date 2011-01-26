@@ -1,7 +1,7 @@
 % ENTROPY_COMBINATION
 % An entropy combination estimate from samples.
 %
-% I = entropy_combination(signalSet, rangeSet, lagSet, k, threads)
+% I = entropy_combination(signalSet, rangeSet, lagSet, k)
 %
 % where
 %
@@ -33,19 +33,10 @@
 % Description: Entropy combination estimation
 % Documentation: tim_matlab_matlab.txt
 
-function I = entropy_combination(signalSet, rangeSet, lagSet, k, threads)
+function I = entropy_combination(signalSet, rangeSet, lagSet, k)
 
-if nargin < 2
-    error('Not enough input arguments.');
-end
-
-if nargin > 5
-    error('Too many input arguments.');
-end
-
-if nargout > 1
-    error('Too many output arguments.');
-end
+check(nargin, 'inputs', 2 : 4);
+check(nargout, 'outputs', 0 : 1);
 
 if nargin < 3
 	lagSet = num2cell(zeros(size(signalSet, 1), 1));
@@ -53,10 +44,6 @@ end
 
 if nargin < 4
     k = 1;
-end
-
-if nargin < 5
-    threads = maxNumCompThreads;
 end
 
 signals = size(signalSet, 1);
@@ -102,15 +89,6 @@ if k < 1
     error('K must be at least 1.');
 end
 
-if size(threads, 1) ~= 1 || ...
-   size(threads, 2) ~= 1
-    error('THREADS must be a scalar integer.');
-end
-
-if threads < 1
-    error('THREADS must be at least 1.');
-end
-
 lags = size(lagArray, 2);
 I = zeros(lags, 1);
 
@@ -118,5 +96,5 @@ for i = 1 : lags
     I(i) = tim_matlab(...
         'entropy_combination', ...
         signalSet, rangeSet, ...
-        lagArray(:, i), k, threads);
+        lagArray(:, i), k);
 end

@@ -18,25 +18,34 @@ namespace
 	{
 		enum
 		{
-			signalSetIndex,
-			rangeSetIndex,
-			lagSetIndex,
-			kNearestIndex,
-			threadsIndex
+			SignalSet,
+			RangeSet,
+			LagSet,
+			KNearest,
+			Inputs
 		};
 
+		enum Output
+		{
+			Estimate,
+			Outputs
+		};
+
+		ENSURE_OP(inputs, ==, Inputs);
+		ENSURE_OP(outputs, ==, Outputs);
+
 		Array<SignalPtr> signalSet;
-		getSignalArray(inputSet[signalSetIndex], signalSet);
+		getSignalArray(inputSet[SignalSet], signalSet);
 
 		std::vector<integer> lagSet;
-		getIntegers(inputSet[lagSetIndex], std::back_inserter(lagSet));
+		getIntegers(inputSet[LagSet], std::back_inserter(lagSet));
 
-		const integer marginals = mxGetM(inputSet[rangeSetIndex]);
+		const integer marginals = mxGetM(inputSet[RangeSet]);
 		//printf("%d marginals", marginals);
 		std::vector<Integer3> rangeSet;
 		rangeSet.reserve(marginals);
 		{
-			real* rawData = mxGetPr(inputSet[rangeSetIndex]);
+			real* rawData = mxGetPr(inputSet[RangeSet]);
 			for (integer i = 0;i < marginals;++i)
 			{
 				rangeSet.push_back(Integer3(*rawData - 1, *(rawData + marginals), *(rawData + 2 * marginals)));
@@ -45,12 +54,10 @@ namespace
 			}
 		}
 
-		const integer kNearest = asInteger(inputSet[kNearestIndex]);
-		const integer threads = asInteger(inputSet[threadsIndex]);
-		setNumberOfThreads(threads);
+		const integer kNearest = asInteger(inputSet[KNearest]);
 
-		outputSet[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
-		real* rawResult = mxGetPr(outputSet[0]);
+		outputSet[Estimate] = mxCreateDoubleMatrix(1, 1, mxREAL);
+		real* rawResult = mxGetPr(outputSet[Estimate]);
 
 		*rawResult = entropyCombination(
 			signalSet,

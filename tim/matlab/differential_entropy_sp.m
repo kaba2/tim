@@ -16,21 +16,11 @@
 
 function H = differential_entropy_sp(S)
 
-if nargin < 1
-    error('Not enough input arguments.');
-end
-
-if nargin > 1
-    error('Too many input arguments.');
-end
-
-if nargout > 1
-    error('Too many output arguments.');
-end
+check(nargin, 'inputs', 1);
+check(nargout, 'outputs', 0 : 1);
 
 if isnumeric(S)
-    H = differential_entropy_sp({S});
-    return
+    S = {S};
 end
 
 check(S, 'signalSet');
