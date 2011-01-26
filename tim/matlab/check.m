@@ -33,8 +33,9 @@ if strcmp(checkName, 'inputs')
             error('Too many input arguments.');
         end
         error(['The number of input arguments must be one of ', ...
-            num2str(checkParam(:), '.']));
+            num2str(checkParam(:)), '.']);
     end
+    handled = 1;
 end
 
 if strcmp(checkName, 'outputs')
@@ -46,8 +47,9 @@ if strcmp(checkName, 'outputs')
             error('Too many output arguments.');
         end
         error(['The number of output arguments must be one of ', ...
-            num2str(checkParam(:), '.']));
+            num2str(checkParam(:)), '.']);
     end
+    handled = 1;
 end
 
 if strcmp(checkName, 'filter')
@@ -122,5 +124,5 @@ if strcmp(checkName, 'timeWindowRadius')
 end
 
 if ~handled
-    error(['No such check ', checkName, '.']);
+    error(['There is no check named "', checkName, '".']);
 end
