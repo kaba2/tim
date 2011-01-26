@@ -5,6 +5,8 @@
 
 #include "tim/core/entropy_combination.h"
 
+void force_linking_entropy_combination() {};
+
 using namespace Tim;
 
 namespace

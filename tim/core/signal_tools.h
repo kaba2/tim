@@ -10,8 +10,6 @@
 
 #include <pastel/math/matrix.h>
 
-#include <pastel/gfx/color.h>
-
 #include <pastel/sys/iterator_range.h>
 #include <pastel/sys/array.h>
 
@@ -51,11 +49,6 @@ namespace Tim
 	TIM void normalizeCovariance(
 		const SignalPtr& signal,
 		const MatrixD& covariance);
-
-	template <typename Image_View>
-	void drawSignal(
-		const SignalPtr& signal,
-		const View<2, Color, Image_View>& image);
 
 	template <typename SignalPtr_Iterator>
 	void constructPointSet(

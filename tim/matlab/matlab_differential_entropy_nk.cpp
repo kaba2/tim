@@ -7,6 +7,8 @@
 
 #include <pastel/math/euclidean_normbijection.h>
 
+void force_linking_differential_entropy_nk() {};
+
 using namespace Tim;
 
 namespace

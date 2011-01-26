@@ -5,6 +5,8 @@
 
 #include "tim/core/divergence_wkv.h"
 
+void force_linking_divergence_wkv() {};
+
 using namespace Tim;
 
 namespace

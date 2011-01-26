@@ -5,6 +5,8 @@
 
 #include "tim/core/renyi_entropy_lps.h"
 
+void force_linking_renyi_entropy_lps_t() {};
+
 using namespace Tim;
 
 namespace
