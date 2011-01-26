@@ -2,7 +2,7 @@
 % A Kullback-Leibler divergence estimate from samples
 % using Wang-Kulkarni-Verdu nearest neighbor estimator.
 %
-% D = divergence_wkv(X, Y, threads)
+% D = divergence_wkv(X, Y)
 %
 % where
 %
@@ -14,32 +14,17 @@
 % Detail: Wang-Kulkarni-Verdu nearest neighbor estimator
 % Documentation: tim_matlab_matlab.txt
 
-function D = divergence_wkv(X, Y, threads)
+function D = divergence_wkv(X, Y)
 
-if nargin < 2
-    error('Not enough input arguments.');
-end
-
-if nargin > 3
-    error('Too many input arguments.');
-end
-
-if nargout > 1
-    error('Too many output arguments.');
-end
-
-if nargin < 3
-	threads = maxNumCompThreads;
-end
+check(nargin, 'inputs', 2);
+check(nargout, 'outputs', 0 : 1);
 
 if isnumeric(X)
-    D = divergence_wkv({X}, Y, threads);
-    return
+    X = {X};
 end
 
 if isnumeric(Y)
-    D = divergence_wkv(X, {Y}, threads);
-    return
+    Y = {Y};
 end
 
 check(X, 'signalSet');
@@ -53,9 +38,7 @@ if size(X{1}, 1) ~= size(Y{1}, 1)
     error('The dimensions of X and Y do not match.');
 end
 
-check(threads, 'threads');
-
 D = tim_matlab('divergence_wkv', ...
-	X, Y, threads);
+	X, Y);
 
 end

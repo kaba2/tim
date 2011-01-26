@@ -1,29 +1,56 @@
 % CHECK
 % Checks a variable for validity.
 %
-% check(X, check)
+% check(X, checkName)
 %
 % where
 %
 % X is some variable.
 %
 % CHECK is one of:
+% 'inputs'
+% 'outputs'
 % 'filter'
 % 'signalSet'
 % 'k'
 % 'timeWindowRadius'
-% 'threads'
 
 % Description: Checks a variable for validity
 % Documentation: tim_matlab_matlab.txt
 
-function check_variable(X, check)
+function check(X, checkName, checkParam)
 
 handled = 0;
 
 maxDimension = 32;
 
-if strcmp(check, 'filter')
+if strcmp(checkName, 'inputs')
+    if isempty(find(checkParam(:) == X, 1))
+        if X < min(checkParam(:))
+            error('Not enough input arguments.');
+        end
+        if X > max(checkParam(:))
+            error('Too many input arguments.');
+        end
+        error(['The number of input arguments must be one of ', ...
+            num2str(checkParam(:), '.']));
+    end
+end
+
+if strcmp(checkName, 'outputs')
+    if isempty(find(checkParam(:) == X, 1))
+        if X < min(checkParam(:))
+            error('Not enough output arguments.');
+        end
+        if X > max(checkParam(:))
+            error('Too many output arguments.');
+        end
+        error(['The number of output arguments must be one of ', ...
+            num2str(checkParam(:), '.']));
+    end
+end
+
+if strcmp(checkName, 'filter')
 	if ~isa(X, 'double')
 		error('FILTER must be a real array');
 	end
@@ -38,7 +65,7 @@ if strcmp(check, 'filter')
     handled = 1;
 end
 
-if strcmp(check, 'signalSet')
+if strcmp(checkName, 'signalSet')
 	if ~iscell(X)
 		error('A signal-set is not a cell-array.');
 	end
@@ -69,7 +96,7 @@ if strcmp(check, 'signalSet')
     handled = 1;
 end
 
-if strcmp(check, 'k')
+if strcmp(checkName, 'k')
 	if size(X, 1) ~= 1 || ...
 	   size(X, 2) ~= 1
 		error('K must be a scalar integer.');
@@ -82,7 +109,7 @@ if strcmp(check, 'k')
     handled = 1;
 end
 
-if strcmp(check, 'timeWindowRadius')
+if strcmp(checkName, 'timeWindowRadius')
 	if size(X, 1) ~= 1 || ...
 	   size(X, 2) ~= 1
 		error('TIMEWINDOWRADIUS must be a scalar integer.');
@@ -94,18 +121,6 @@ if strcmp(check, 'timeWindowRadius')
     handled = 1;
 end
 
-if strcmp(check, 'threads')
-    if size(X, 1) ~= 1 || ...
-       size(X, 2) ~= 1
-        error('THREADS must be a scalar integer.');
-    end
-
-    if X < 1
-        error('THREADS must be at least 1.');
-    end
-    handled = 1;
-end
-
 if ~handled
-    error(['No such check ', check, '.']);
+    error(['No such check ', checkName, '.']);
 end

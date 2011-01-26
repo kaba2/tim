@@ -215,26 +215,12 @@ solution "Tim"
 		includedirs(includeDirectorySet)
 		libdirs(libraryDirectorySet)
 		files(addPrefix("tim/core/", fileSet))
-		links
-		{
-			"PastelGeometry",
-			"PastelMath",
-			"PastelSys"
-		}
 	
 	project "TimMatlab"
 		kind(libKind)
 		includedirs(includeDirectorySet)
 		libdirs(libraryDirectorySet)
 		files(addPrefix("tim/matlab/", fileSet))
-		links
-		{
-			"TimCore",
-			"PastelGeometry",
-			"PastelMath",
-			"PastelMatlab",
-			"PastelSys"
-		}
 
 	project "TimConsole"
 		kind("ConsoleApp")

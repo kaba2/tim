@@ -3,7 +3,7 @@
 %
 % I = mutual_information_pt(
 %         X, Y, Z, timeWindowRadius, 
-%         xLag, yLag, zLag, k, filter, threads)
+%         xLag, yLag, zLag, k, filter)
 %
 % where
 %
@@ -15,19 +15,10 @@
 % Documentation: tim_matlab_matlab.txt
 
 function I = mutual_information_pt(...
-    X, Y, Z, timeWindowRadius, xLag, yLag, zLag, k, filter, threads)
+    X, Y, Z, timeWindowRadius, xLag, yLag, zLag, k, filter)
 
-if nargin < 4
-    error('Not enough input arguments.');
-end
-
-if nargin > 10
-    error('Too many input arguments.');
-end
-
-if nargin >= 5 && nargin < 7
-    error('Lags must be specified all at once to avoid errors.');
-end
+check(nargin, 'inputs', [4, 7, 8, 9]);
+check(nargout, 'outputs', 0 : 1);
 
 if nargin < 5
     xLag = 0;
@@ -40,29 +31,19 @@ if nargin < 8
 end
 
 if nargin < 9
-    filter = [1];
-end
-
-if nargin < 10
-    threads = maxNumCompThreads;
+    filter = 1;
 end
 
 if isnumeric(X)
-    I = mutual_information_pt({X}, Y, Z, timeWindowRadius, ...
-        xLag, yLag, zLag, k, filter, threads);
-    return
+    X = {X};
 end
 
 if isnumeric(Y)
-    I = mutual_information_pt(X, {Y}, Z, timeWindowRadius, ...
-        xLag, yLag, zLag, k, filter, threads);
-    return
+    Y = {Y};
 end
 
 if isnumeric(Z)
-    I = mutual_information_pt(X, Y, {Z}, timeWindowRadius, ...
-        xLag, yLag, zLag, k, filter, threads);
-    return
+    Z = {Z};
 end
 
 if ~iscell(X) || ~iscell(Y) || ~iscell(Z)
@@ -79,4 +60,4 @@ I = entropy_combination_t(...
     [X(:)'; Z(:)'; Y(:)'], ...
     [1, 2, 1; 2, 3, 1; 2, 2, -1], timeWindowRadius, ...
     {xLag, zLag, yLag}, ...
-    k, filter, threads);
+    k, filter);

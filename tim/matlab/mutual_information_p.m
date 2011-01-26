@@ -1,7 +1,7 @@
 % MUTUAL_INFORMATION_P
 % A partial mutual information estimate from samples.
 %
-% I = mutual_information_p(X, Y, Z, xLag, yLag, zLag, k, threads)
+% I = mutual_information_p(X, Y, Z, xLag, yLag, zLag, k)
 %
 % where
 %
@@ -13,19 +13,10 @@
 % Documentation: tim_matlab_matlab.txt
 
 function I = mutual_information_p(...
-    X, Y, Z, xLag, yLag, zLag, k, threads)
+    X, Y, Z, xLag, yLag, zLag, k)
 
-if nargin < 3
-    error('Not enough input arguments.');
-end
-
-if nargin > 8
-    error('Too many input arguments.');
-end
-
-if nargin >= 4 && nargin < 6
-    error('Lags must be specified all at once to avoid errors.');
-end
+check(nargin, 'inputs', [3, 6, 7]);
+check(nargout, 'outputs', 0 : 1);
 
 if nargin < 4
     xLag = 0;
@@ -37,23 +28,16 @@ if nargin < 7
     k = 1;
 end
 
-if nargin < 8
-    threads = maxNumCompThreads;
-end
-
 if isnumeric(X)
-    I = mutual_information_p({X}, Y, Z, xLag, yLag, zLag, k, threads);
-    return
+    X = {X};
 end
 
 if isnumeric(Y)
-    I = mutual_information_p(X, {Y}, Z, xLag, yLag, zLag, k, threads);
-    return
+    Y = {Y};
 end
 
 if isnumeric(Z)
-    I = mutual_information_p(X, Y, {Z}, xLag, yLag, zLag, k, threads);
-    return
+    Z = {Z};
 end
 
 if ~iscell(X) || ~iscell(Y) || ~iscell(Z)
@@ -70,4 +54,4 @@ I = entropy_combination(...
     [X(:)'; Z(:)'; Y(:)'], ...
     [1, 2, 1; 2, 3, 1; 2, 2, -1], ...
     {xLag, zLag, yLag}, ...
-    k, threads);
+    k);

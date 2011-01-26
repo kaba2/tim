@@ -2,7 +2,7 @@
 % A Renyi entropy estimate from samples
 % using Leonenko-Pronzato-Savani nearest neighbor estimator.
 %
-% H = renyi_entropy_lps(S, q, kSuggestion, threads)
+% H = renyi_entropy_lps(S, q, kSuggestion)
 %
 % where
 %
@@ -27,19 +27,10 @@
 % Detail: Leonenko-Pronzato-Savani nearest neighbor estimator
 % Documentation: tim_matlab_matlab.txt
 
-function H = renyi_entropy_lps(S, q, kSuggestion, threads)
+function H = renyi_entropy_lps(S, q, kSuggestion)
 
-if nargin < 1
-    error('Not enough input arguments.');
-end
-
-if nargin > 4
-    error('Too many input arguments.');
-end
-
-if nargout > 1
-    error('Too many output arguments.');
-end
+check(nargin, 'inputs', 1 : 3);
+check(nargout, 'outputs', 0 : 1);
 
 if nargin < 2
 	q = 2;
@@ -49,13 +40,8 @@ if nargin < 3
     kSuggestion = 0;
 end
 
-if nargin < 4
-    threads = maxNumCompThreads;
-end
-
 if isnumeric(S)
-    H = renyi_entropy_lps({S}, q, kSuggestion, threads);
-    return
+    S = {S};
 end
 
 check(S, 'signalSet');
@@ -78,7 +64,5 @@ if kSuggestion < 0
     error('KSUGGESTION must be non-negative.');
 end
 
-check(threads, 'threads');
-
 H = tim_matlab('renyi_entropy_lps', ...
-	S, q, kSuggestion, threads);
+	S, q, kSuggestion);

@@ -3,7 +3,7 @@
 % using Kozachenko-Leonenko nearest neighbor estimator.
 %
 % H = differential_entropy_kl_t(
-%     S, timeWindowRadius, k, filter, threads)
+%     S, timeWindowRadius, k, filter)
 %
 % where
 %
@@ -16,19 +16,10 @@
 % Documentation: tim_matlab_matlab.txt
 
 function H = differential_entropy_kl_t(...
-    S, timeWindowRadius, k, filter, threads)
+    S, timeWindowRadius, k, filter)
 
-if nargin < 2
-    error('Not enough input arguments.');
-end
-
-if nargin > 5
-    error('Too many input arguments.');
-end
-
-if nargout > 1
-    error('Too many output arguments.');
-end
+check(nargin, 'inputs', 2 : 4);
+check(nargout, 'outputs', 0 : 1);
 
 if nargin < 3
     k = 1;
@@ -38,21 +29,14 @@ if nargin < 4
     filter = [1];
 end
 
-if nargin < 5
-    threads = maxNumCompThreads;
-end
-
 if isnumeric(S)
-    H = differential_entropy_kl_t(...
-        {S}, timeWindowRadius, k, filter, threads);
-    return
+    S = {S};
 end
 
 check(S, 'signalSet');
 check(timeWindowRadius, 'timeWindowRadius');
 check(k, 'k');
 check(filter, 'filter');
-check(threads, 'threads');
 
 H = tim_matlab('differential_entropy_kl_t', ...
-    S, timeWindowRadius, k, filter, threads);
+    S, timeWindowRadius, k, filter);

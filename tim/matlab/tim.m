@@ -70,13 +70,6 @@
 % Many of the estimators are based on k:th nearest neighbors. The
 % `k` here can be specified in many of the estimators. The default
 % for it is 1.
-%
-% Since TIM makes use of multiple cores if present, the `threads` parameter
-% in the estimators determines the number of threads to use for parallelization.
-% To fully take advantage of multiple cores in your machine, set this
-% to the number of cores in your machine. Note however that this makes 
-% your computer unresponsive to other tasks. When you need responsiveness, 
-% spare one core for other work. Default `maxNumCompThreads`.
 
 % Description: TIM Matlab help
 % Documentation: tim_matlab_matlab.txt

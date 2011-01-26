@@ -2,7 +2,7 @@
 % A transfer entropy estimate from samples.
 %
 % I = transfer_entropy(X, Y, W, 
-%       xLag, yLag, wLag, k, threads)
+%       xLag, yLag, wLag, k)
 %
 % where
 %
@@ -14,19 +14,10 @@
 % Documentation: tim_matlab_matlab.txt
 
 function I = transfer_entropy(X, Y, W, ...
-    xLag, yLag, wLag, k, threads)
+    xLag, yLag, wLag, k)
 
-if nargin < 3
-    error('Not enough input arguments.');
-end
-
-if nargin > 8
-    error('Too many input arguments.');
-end
-
-if nargin >= 4 && nargin < 6
-    error('Lags must be specified all at once to avoid errors.');
-end
+check(nargin, 'inputs', [3, 6, 7]);
+check(nargout, 'outputs', 0 : 1);
 
 if nargin < 4
     xLag = 0;
@@ -38,26 +29,16 @@ if nargin < 7
     k = 1;
 end
 
-if nargin < 8
-    threads = maxNumCompThreads;
-end
-
 if isnumeric(X)
-    I = transfer_entropy({X}, Y, W, ...
-        xLag, yLag, wLag, k, threads);
-    return
+    X = {X};
 end
 
 if isnumeric(Y)
-    I = transfer_entropy(X, {Y}, W, ...
-        xLag, yLag, wLag, k, threads);
-    return
+    Y = {Y};
 end
 
 if isnumeric(W)
-    I = transfer_entropy(X, Y, {W}, ...
-        xLag, yLag, wLag, k, threads);
-    return
+    W = {W};
 end
 
 if ~iscell(X) || ~iscell(Y) || ~iscell(W)
@@ -74,4 +55,4 @@ I = entropy_combination(...
     [W(:)'; X(:)'; Y(:)'], ...
     [1, 2, 1; 2, 3, 1; 2, 2, -1], ...
     {wLag, xLag, yLag}, ...
-    k, threads);
+    k);

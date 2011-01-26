@@ -2,7 +2,7 @@
 % A temporal transfer entropy estimate from samples.
 %
 % I = transfer_entropy_t(X, Y, W, 
-%       timeWindowRadius, xLag, yLag, wLag, k, filter, threads)
+%       timeWindowRadius, xLag, yLag, wLag, k, filter)
 %
 % where
 %
@@ -14,19 +14,10 @@
 % Documentation: tim_matlab_matlab.txt
 
 function I = transfer_entropy_t(X, Y, W, ...
-    timeWindowRadius, xLag, yLag, wLag, k, filter, threads)
+    timeWindowRadius, xLag, yLag, wLag, k, filter)
 
-if nargin < 4
-    error('Not enough input arguments.');
-end
-
-if nargin > 10
-    error('Too many input arguments.');
-end
-
-if nargin >= 5 && nargin < 7
-    error('Lags must be specified all at once to avoid errors.');
-end
+check(nargin, 'inputs', [4, 7, 8, 9]);
+check(nargout, 'outputs', 0 : 1);
 
 if nargin < 5
     xLag = 0;
@@ -39,29 +30,19 @@ if nargin < 8
 end
 
 if nargin < 9
-    filter = [1];
-end
-
-if nargin < 10
-    threads = maxNumCompThreads;
+    filter = 1;
 end
 
 if isnumeric(X)
-    I = transfer_entropy_t({X}, Y, W, timeWindowRadius, ...
-        xLag, yLag, wLag, k, filter, threads);
-    return
+    X = {X};
 end
 
 if isnumeric(Y)
-    I = transfer_entropy_t(X, {Y}, W, timeWindowRadius, ...
-        xLag, yLag, wLag, k, filter, threads);
-    return
+    Y = {Y};
 end
 
 if isnumeric(W)
-    I = transfer_entropy_t(X, Y, {W}, timeWindowRadius, ...
-        xLag, yLag, wLag, k, filter, threads);
-    return
+    W = {W};
 end
 
 if ~iscell(X) || ~iscell(Y) || ~iscell(W)
@@ -76,4 +57,4 @@ I = entropy_combination_t(...
     [W(:)'; X(:)'; Y(:)'], ...
     [1, 2, 1; 2, 3, 1; 2, 2, -1], ...
     timeWindowRadius, ...
-    {wLag, xLag, yLag}, k, filter, threads);
+    {wLag, xLag, yLag}, k, filter);

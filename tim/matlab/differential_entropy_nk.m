@@ -3,11 +3,11 @@
 % using Nilsson-Kleijn manifold nearest neighbor
 % estimator.
 %
-% [H, d] = differential_entropy_nk(S, threads)
+% [H, d] = differential_entropy_nk(S)
 %
 % or
 %
-% H = differential_entropy_nk(S, threads)
+% H = differential_entropy_nk(S)
 %
 % where
 %
@@ -23,35 +23,21 @@
 % Detail: Nilsson-Kleijn manifold nearest neighbor estimator
 % Documentation: tim_matlab_matlab.txt
 
-function [H, d] = differential_entropy_nk(S, threads)
+function [H, d] = differential_entropy_nk(S)
 
-if nargin < 1
-    error('Not enough input arguments.');
-end
-
-if nargin > 2
-    error('Too many input arguments.');
-end
-
-if nargout > 2
-    error('Too many output arguments.');
-end
-
-if nargin < 2
-    threads = maxNumCompThreads;
-end
+check(nargin, 'inputs', 1);
+check(nargout, 'outputs', 0 : 2);
 
 if isnumeric(S)
-    H = differential_entropy_nk({S}, threads);
-    return
+    S = {S};
 end
 
 
 check(S, 'signalSet');
-check(threads, 'threads');
 
-[H, dOut] = tim_matlab('differential_entropy_nk', ...
-	S, threads);
+[H, dOut] = tim_matlab(...
+    'differential_entropy_nk', ...
+	S);
 
 if nargout > 1
     d = dOut;

@@ -2,7 +2,7 @@
 % A partial transfer entropy estimate from samples.
 %
 % I = transfer_entropy_p(X, Y, Z, W, 
-%       xLag, yLag, zLag, wLag, k, threads)
+%       xLag, yLag, zLag, wLag, k)
 %
 % where
 %
@@ -14,19 +14,10 @@
 % Documentation: tim_matlab_matlab.txt
 
 function I = transfer_entropy_p(X, Y, Z, W, ...
-    xLag, yLag, zLag, wLag, k, threads)
+    xLag, yLag, zLag, wLag, k)
 
-if nargin < 4
-    error('Not enough input arguments.');
-end
-
-if nargin > 10
-    error('Too many input arguments.');
-end
-
-if nargin >= 5 && nargin < 8
-    error('Lags must be specified all at once to avoid errors.');
-end
+check(nargin, 'inputs', [4, 8, 9]);
+check(nargout, 'outputs', 0 : 1);
 
 if nargin < 5
     xLag = 0;
@@ -39,32 +30,20 @@ if nargin < 9
     k = 1;
 end
 
-if nargin < 10
-    threads = maxNumCompThreads;
-end
-
 if isnumeric(X)
-    I = transfer_entropy_p({X}, Y, Z, W, ...
-        xLag, yLag, zLag, wLag, k, threads);
-    return
+    X = {X};
 end
 
 if isnumeric(Y)
-    I = transfer_entropy_p(X, {Y}, Z, W, ...
-        xLag, yLag, zLag, wLag, k, threads);
-    return
+    Y = {Y};
 end
 
 if isnumeric(Z)
-    I = transfer_entropy_p(X, Y, {Z}, W, ...
-        xLag, yLag, zLag, wLag, k, threads);
-    return
+    Z = {Z};
 end
 
 if isnumeric(W)
-    I = transfer_entropy_p(X, Y, Z, {W}, ...
-        xLag, yLag, zLag, wLag, k, threads);
-    return
+    W = {W};
 end
 
 if ~iscell(X) || ~iscell(Y) || ~iscell(Z) || ~iscell(W)
@@ -82,4 +61,4 @@ I = entropy_combination(...
     [W(:)'; X(:)'; Z(:)'; Y(:)'], ...
     [1, 3, 1; 2, 4, 1; 2, 3, -1], ...
     {wLag, xLag, zLag, yLag}, ...
-    k, threads);
+    k);

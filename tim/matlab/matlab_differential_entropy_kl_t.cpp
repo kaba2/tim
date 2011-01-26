@@ -16,26 +16,32 @@ namespace
 		int outputs, mxArray *outputSet[],
 		int inputs, const mxArray *inputSet[])
 	{
-		enum
+		enum Input
 		{
-			xIndex,
-			timeWindowRadiusIndex,
-			kNearestIndex,
-			filterIndex,
-			threadsIndex
+			X,
+			TimeWindowRadius,
+			KNearest,
+			FilterIndex,
+			Inputs
 		};
 
-		std::vector<SignalPtr> xEnsemble;
-		getSignals(inputSet[xIndex], std::back_inserter(xEnsemble));
+		enum Output
+		{
+			Estimate,
+			Outputs
+		};
 
-		const integer timeWindowRadius = asInteger(inputSet[timeWindowRadiusIndex]);
-		const integer kNearest = asInteger(inputSet[kNearestIndex]);
+		ENSURE_OP(inputs, ==, Inputs);
+		ENSURE_OP(outputs, ==, Outputs);
+
+		std::vector<SignalPtr> xEnsemble;
+		getSignals(inputSet[X], std::back_inserter(xEnsemble));
+
+		const integer timeWindowRadius = asInteger(inputSet[TimeWindowRadius]);
+		const integer kNearest = asInteger(inputSet[KNearest]);
 
 		std::vector<real> filter;
-		getReals(inputSet[filterIndex], std::back_inserter(filter));
-
-		const integer threads = asInteger(inputSet[threadsIndex]);
-		setNumberOfThreads(threads);
+		getReals(inputSet[FilterIndex], std::back_inserter(filter));
 
 		const SignalPtr estimate = temporalDifferentialEntropyKl(
 			range(xEnsemble.begin(), xEnsemble.end()), 
@@ -48,8 +54,8 @@ namespace
 		const integer skip = std::max(-estimate->t(), 0); 
 		const integer samples = std::max(nans + estimate->samples() - skip, 0);
 
-		outputSet[0] = mxCreateDoubleMatrix(1, samples, mxREAL);
-		real* rawResult = mxGetPr(outputSet[0]);
+		outputSet[Estimate] = mxCreateDoubleMatrix(1, samples, mxREAL);
+		real* rawResult = mxGetPr(outputSet[Estimate]);
 		std::fill_n(rawResult, nans, nan<real>());
 		std::copy(estimate->data().begin() + skip, 
 			estimate->data().end(), rawResult + nans);

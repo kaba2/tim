@@ -1,7 +1,7 @@
 % MUTUAL_INFORMATION 
 % A mutual information estimate from samples.
 %
-% I = mutual_information(X, Y, xLag, yLag, k, threads)
+% I = mutual_information(X, Y, xLag, yLag, k)
 %
 % where
 %
@@ -12,19 +12,10 @@
 % Description: Mutual information estimation
 % Documentation: tim_matlab_matlab.txt
 
-function I = mutual_information(X, Y, xLag, yLag, k, threads)
+function I = mutual_information(X, Y, xLag, yLag, k)
 
-if nargin < 2
-    error('Not enough input arguments.');
-end
-
-if nargin > 6
-    error('Too many input arguments.');
-end
- 
-if nargin >= 3 && nargin < 4
-    error('Lags must be specified all at once to avoid errors.');
-end
+check(nargin, 'inputs', [2, 4, 5]);
+check(nargout, 'outputs', 0 : 1);
 
 if nargin < 3
     xLag = 0;
@@ -35,18 +26,12 @@ if nargin < 5
     k = 1;
 end
 
-if nargin < 6
-    threads = maxNumCompThreads;
-end
-
 if isnumeric(X)
-    I = mutual_information({X}, Y, xLag, yLag, k, threads);
-    return
+    X = {X};
 end
 
 if isnumeric(Y)
-    I = mutual_information(X, {Y}, xLag, yLag, k, threads);
-    return
+    Y = {Y};
 end
 
 if ~iscell(X) || ~iscell(Y)
@@ -63,4 +48,4 @@ I = entropy_combination(...
     [X(:)'; Y(:)'], ...
     [1, 1, 1; 2, 2, 1], ...
     {xLag, yLag}, ...
-    k, threads);
+    k);

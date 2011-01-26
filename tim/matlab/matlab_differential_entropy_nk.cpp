@@ -18,17 +18,24 @@ namespace
 		int outputs, mxArray *outputSet[],
 		int inputs, const mxArray *inputSet[])
 	{
-		enum
+		enum Input
 		{
-			xIndex,
-			threadsIndex
+			X,
+			Inputs
 		};
 
-		std::vector<SignalPtr> xEnsemble;
-		getSignals(inputSet[xIndex], std::back_inserter(xEnsemble));
+		enum Output
+		{
+			Estimate,
+			IntrinsicDimension,
+			Outputs
+		};
 
-		const integer threads = asInteger(inputSet[threadsIndex]);
-		setNumberOfThreads(threads);
+		ENSURE_OP(inputs, ==, Inputs);
+		ENSURE_OP(outputs, ==, Outputs);
+
+		std::vector<SignalPtr> xEnsemble;
+		getSignals(inputSet[X], std::back_inserter(xEnsemble));
 
 		integer intrinsicDimension = 0;
 
@@ -40,15 +47,16 @@ namespace
 
 		if (outputs > 0)
 		{
-			outputSet[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
-			real* outEntropy = mxGetPr(outputSet[0]);
+			outputSet[Estimate] = mxCreateDoubleMatrix(1, 1, mxREAL);
+			real* outEntropy = mxGetPr(outputSet[Estimate]);
 			*outEntropy = entropy;
 		}
 
 		if (outputs > 1)
 		{
-			outputSet[1] = mxCreateDoubleMatrix(1, 1, mxREAL);
-			real* outIntrinsicDimension = mxGetPr(outputSet[1]);
+			outputSet[IntrinsicDimension] = 
+				mxCreateDoubleMatrix(1, 1, mxREAL);
+			real* outIntrinsicDimension = mxGetPr(outputSet[IntrinsicDimension]);
 			*outIntrinsicDimension = intrinsicDimension;
 		}
 	}

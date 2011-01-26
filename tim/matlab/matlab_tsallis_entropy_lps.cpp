@@ -16,24 +16,31 @@ namespace
 		int outputs, mxArray *outputSet[],
 		int inputs, const mxArray *inputSet[])
 	{
-		enum
+		enum Input
 		{
-			xIndex,
-			qIndex,
-			kNearestSuggestionIndex,
-			threadsIndex
+			X,
+			Q,
+			KNearestSuggestion,
+			Inputs
 		};
 
+		enum Output
+		{
+			Estimate,
+			Outputs
+		};
+
+		ENSURE_OP(inputs, ==, Inputs);
+		ENSURE_OP(outputs, ==, Outputs);
+
 		std::vector<SignalPtr> xEnsemble;
-		getSignals(inputSet[xIndex], std::back_inserter(xEnsemble));
+		getSignals(inputSet[X], std::back_inserter(xEnsemble));
 
-		const real q = asReal(inputSet[qIndex]);
-		const integer kNearestSuggestion = asInteger(inputSet[kNearestSuggestionIndex]);
-		const integer threads = asInteger(inputSet[threadsIndex]);
-		setNumberOfThreads(threads);
+		const real q = asReal(inputSet[Q]);
+		const integer kNearestSuggestion = asInteger(inputSet[KNearestSuggestion]);
 
-		outputSet[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
-		real* rawResult = mxGetPr(outputSet[0]);
+		outputSet[Estimate] = mxCreateDoubleMatrix(1, 1, mxREAL);
+		real* rawResult = mxGetPr(outputSet[Estimate]);
 
 		*rawResult = tsallisEntropyLps(
 			range(xEnsemble.begin(), xEnsemble.end()), 

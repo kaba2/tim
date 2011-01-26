@@ -2,7 +2,7 @@
 % A temporal entropy combination estimate from samples.
 %
 % I = entropy_combination_t(signalSet, rangeSet, 
-%       timeWindowRadius, lagSet, k, filter, threads)
+%       timeWindowRadius, lagSet, k, filter)
 %
 % where
 %
@@ -31,19 +31,10 @@
 % Documentation: tim_matlab_matlab.txt
 
 function I = entropy_combination_t(signalSet, rangeSet, ...
-    timeWindowRadius, lagSet, k, filter, threads)
+    timeWindowRadius, lagSet, k, filter)
 
-if nargin < 3
-    error('Not enough input arguments.');
-end
-
-if nargin > 7
-    error('Too many input arguments.');
-end
-
-if nargout > 1
-    error('Too many output arguments.');
-end
+check(nargin, 'inputs', 3 : 6);
+check(nargout, 'outputs', 0 : 1);
 
 if nargin < 4
 	lagSet = num2cell(zeros(size(signalSet, 1), 1));
@@ -54,11 +45,7 @@ if nargin < 5
 end
 
 if nargin < 6
-	filter = [1]
-end
-
-if nargin < 7
-    threads = maxNumCompThreads;
+	filter = [1];
 end
 
 signals = size(signalSet, 1);
@@ -98,7 +85,6 @@ lagArray = compute_lagarray(lagSet);
 
 check(k, 'k')
 check(filter, 'filter');
-check(threads, 'threads');
 
 lags = size(lagArray, 2);
 
@@ -108,7 +94,7 @@ for i = 1 : lags
     estimateSet{i} = tim_matlab(...
         'entropy_combination_t', ...
         signalSet, rangeSet, timeWindowRadius, ...
-        lagArray(:, i), k, filter(:), threads);
+        lagArray(:, i), k, filter(:));
 end
 
 maxSamples = 0;
