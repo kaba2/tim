@@ -38,12 +38,12 @@ namespace
 		std::vector<SignalPtr> xEnsemble;
 		getSignals(inputSet[X], std::back_inserter(xEnsemble));
 
-		const integer timeWindowRadius = asInteger(inputSet[TimeWindowRadius]);
-		const real q = asReal(inputSet[Q]);
-		const integer kNearestSuggestion = asInteger(inputSet[KNearestSuggestion]);
+		const integer timeWindowRadius = asScalar<integer>(inputSet[TimeWindowRadius]);
+		const real q = asScalar<real>(inputSet[Q]);
+		const integer kNearestSuggestion = asScalar<integer>(inputSet[KNearestSuggestion]);
 
 		std::vector<real> filter;
-		getReals(inputSet[FilterIndex], std::back_inserter(filter));
+		getScalars(inputSet[FilterIndex], std::back_inserter(filter));
 
 		const SignalPtr estimate = temporalTsallisEntropyLps(
 			range(xEnsemble.begin(), xEnsemble.end()),
