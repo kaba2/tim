@@ -40,7 +40,7 @@ namespace
 		getSignalArray(inputSet[SignalSet], signalSet);
 
 		std::vector<integer> lagSet;
-		getIntegers(inputSet[LagSet], std::back_inserter(lagSet));
+		getScalars(inputSet[LagSet], std::back_inserter(lagSet));
 
 		const integer marginals = mxGetM(inputSet[RangeSet]);
 		std::vector<Integer3> rangeSet;
@@ -55,11 +55,11 @@ namespace
 			}
 		}
 
-		const integer timeWindowRadius = asInteger(inputSet[TimeWindowRadius]);
-		const integer kNearest = asInteger(inputSet[KNearest]);
+		const integer timeWindowRadius = asScalar<integer>(inputSet[TimeWindowRadius]);
+		const integer kNearest = asScalar<integer>(inputSet[KNearest]);
 
 		std::vector<real> filter;
-		getReals(inputSet[FilterIndex], std::back_inserter(filter));
+		getScalars(inputSet[FilterIndex], std::back_inserter(filter));
 
 		const SignalPtr estimate = temporalEntropyCombination(
 			signalSet,

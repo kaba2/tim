@@ -35,7 +35,7 @@ namespace
 		std::vector<SignalPtr> xEnsemble;
 		getSignals(inputSet[X], std::back_inserter(xEnsemble));
 
-		const integer kNearest = asInteger(inputSet[KNearest]);
+		const integer kNearest = asScalar<integer>(inputSet[KNearest]);
 
 		outputSet[Estimate] = mxCreateDoubleMatrix(1, 1, mxREAL);
 		real* rawResult = mxGetPr(outputSet[Estimate]);

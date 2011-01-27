@@ -38,7 +38,7 @@ namespace
 		getSignalArray(inputSet[SignalSet], signalSet);
 
 		std::vector<integer> lagSet;
-		getIntegers(inputSet[LagSet], std::back_inserter(lagSet));
+		getScalars(inputSet[LagSet], std::back_inserter(lagSet));
 
 		const integer marginals = mxGetM(inputSet[RangeSet]);
 		//printf("%d marginals", marginals);
@@ -54,7 +54,7 @@ namespace
 			}
 		}
 
-		const integer kNearest = asInteger(inputSet[KNearest]);
+		const integer kNearest = asScalar<integer>(inputSet[KNearest]);
 
 		outputSet[Estimate] = mxCreateDoubleMatrix(1, 1, mxREAL);
 		real* rawResult = mxGetPr(outputSet[Estimate]);

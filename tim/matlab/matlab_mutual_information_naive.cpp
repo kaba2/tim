@@ -33,7 +33,7 @@ namespace
 		ENSURE_OP(outputs, ==, Outputs);
 
 		const SignalPtr data = asSignal(inputSet[X]);
-		const integer bins = asInteger(inputSet[Bins]);
+		const integer bins = asScalar<integer>(inputSet[Bins]);
 
 		const integer dimension = data->dimension();
 

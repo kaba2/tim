@@ -37,11 +37,11 @@ namespace
 		std::vector<SignalPtr> xEnsemble;
 		getSignals(inputSet[X], std::back_inserter(xEnsemble));
 
-		const integer timeWindowRadius = asInteger(inputSet[TimeWindowRadius]);
-		const integer kNearest = asInteger(inputSet[KNearest]);
+		const integer timeWindowRadius = asScalar<integer>(inputSet[TimeWindowRadius]);
+		const integer kNearest = asScalar<integer>(inputSet[KNearest]);
 
 		std::vector<real> filter;
-		getReals(inputSet[FilterIndex], std::back_inserter(filter));
+		getScalars(inputSet[FilterIndex], std::back_inserter(filter));
 
 		const SignalPtr estimate = temporalDifferentialEntropyKl(
 			range(xEnsemble.begin(), xEnsemble.end()), 

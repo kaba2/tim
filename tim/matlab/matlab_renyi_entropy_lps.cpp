@@ -36,8 +36,8 @@ namespace
 		std::vector<SignalPtr> xEnsemble;
 		getSignals(inputSet[X], std::back_inserter(xEnsemble));
 
-		const real q = asReal(inputSet[Q]);
-		const integer kNearestSuggestion = asInteger(inputSet[KNearestSuggestion]);
+		const real q = asScalar<real>(inputSet[Q]);
+		const integer kNearestSuggestion = asScalar<integer>(inputSet[KNearestSuggestion]);
 
 		outputSet[Estimate] = mxCreateDoubleMatrix(1, 1, mxREAL);
 		real* rawResult = mxGetPr(outputSet[Estimate]);
