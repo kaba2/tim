@@ -56,10 +56,8 @@ namespace
 
 		const integer kNearest = asScalar<integer>(inputSet[KNearest]);
 
-		outputSet[Estimate] = mxCreateDoubleMatrix(1, 1, mxREAL);
-		real* rawResult = mxGetPr(outputSet[Estimate]);
-
-		*rawResult = entropyCombination(
+		real* outResult = createScalar<real>(outputSet[Estimate]);
+		*outResult = entropyCombination(
 			signalSet,
 			range(rangeSet.begin(), rangeSet.end()),
 			range(lagSet.begin(), lagSet.end()),

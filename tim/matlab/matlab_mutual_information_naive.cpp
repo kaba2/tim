@@ -35,15 +35,13 @@ namespace
 		const SignalPtr data = asSignal(inputSet[X]);
 		const integer bins = asScalar<integer>(inputSet[Bins]);
 
-		const integer dimension = data->dimension();
+		const integer n = data->dimension();
 
-		outputSet[Estimate] = 
-			mxCreateDoubleMatrix(dimension, dimension, mxREAL);
-		real* rawResult = mxGetPr(outputSet[Estimate]);
+		RealArrayPtr result =
+			createArray<real>(Vector2i(n, n), 
+			outputSet[Estimate]);
 
-		MatrixD result(dimension, dimension, withAliasing(rawResult));
-
-		mutualInformationFromBinning(data, bins, result);
+		*result = mutualInformationFromBinning(data, bins);
 	}
 
 	void addFunction()

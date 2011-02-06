@@ -33,10 +33,9 @@ namespace Tim
 
 	}
 
-	TIM void mutualInformationFromBinning(
+	TIM Array<real> mutualInformationFromBinning(
 		const SignalPtr& signal,
-		integer bins,
-		MatrixD& result)
+		integer bins)
 	{
 		ENSURE_OP(bins, >, 0);
 
@@ -56,7 +55,7 @@ namespace Tim
 
 		const integer n = signal->dimension();
 
-		result.setSize(n, n);
+		Array<real> result(n, n);
 
 		VectorD minBound = min(signal->data());
 		VectorD maxBound = max(signal->data());
@@ -137,6 +136,8 @@ namespace Tim
 				marginalHistogram.rowEnd(i),
 				binExtent[i]);
 		}
+
+		return result;
 	}
 
 }

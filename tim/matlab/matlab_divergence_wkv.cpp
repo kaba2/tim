@@ -38,10 +38,8 @@ namespace
 		std::vector<SignalPtr> yEnsemble;
 		getSignals(inputSet[Y], std::back_inserter(yEnsemble));
 
-		outputSet[Estimate] = mxCreateDoubleMatrix(1, 1, mxREAL);
-		real* rawResult = mxGetPr(outputSet[Estimate]);
-
-		*rawResult = divergenceWkv(
+		real* outResult = createScalar<real>(outputSet[Estimate]);
+		*outResult = divergenceWkv(
 			range(xEnsemble.begin(), xEnsemble.end()), 
 			range(yEnsemble.begin(), yEnsemble.end()));
 	}

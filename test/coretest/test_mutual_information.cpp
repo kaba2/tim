@@ -279,13 +279,11 @@ namespace
 					realToString(timer.seconds(), 4);
 				measureTable(TimMi_Column, experiment).text() = 
 					realToString(mi, 4);
-
-				MatrixD pairwiseMi;
+				
 				timer.setStart();
-				mutualInformationFromBinning(
+				Array<real> pairwiseMi = mutualInformationFromBinning(
 					jointSignal,
-					100,
-					pairwiseMi);
+					100);
 				timer.store();
 
 				measureTable(ElTime_Column, experiment).text() = 
