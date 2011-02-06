@@ -34,10 +34,8 @@ namespace
 		std::vector<SignalPtr> xEnsemble;
 		getSignals(inputSet[X], std::back_inserter(xEnsemble));
 
-		outputSet[Estimate] = mxCreateDoubleMatrix(1, 1, mxREAL);
-		real* rawResult = mxGetPr(outputSet[Estimate]);
-
-		*rawResult = differentialEntropySp(
+		real* outResult = createScalar<real>(outputSet[Estimate]);
+		*outResult = differentialEntropySp(
 			range(xEnsemble.begin(), xEnsemble.end()));
 	}
 

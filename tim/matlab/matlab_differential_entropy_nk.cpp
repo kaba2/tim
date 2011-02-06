@@ -32,7 +32,7 @@ namespace
 		};
 
 		ENSURE_OP(inputs, ==, Inputs);
-		ENSURE_OP(outputs, ==, Outputs);
+		ENSURE_OP(outputs, <=, Outputs);
 
 		std::vector<SignalPtr> xEnsemble;
 		getSignals(inputSet[X], std::back_inserter(xEnsemble));
@@ -47,16 +47,15 @@ namespace
 
 		if (outputs > 0)
 		{
-			outputSet[Estimate] = mxCreateDoubleMatrix(1, 1, mxREAL);
-			real* outEntropy = mxGetPr(outputSet[Estimate]);
+			real* outEntropy =
+				createScalar<real>(outputSet[Estimate]);
 			*outEntropy = entropy;
 		}
 
 		if (outputs > 1)
 		{
-			outputSet[IntrinsicDimension] = 
-				mxCreateDoubleMatrix(1, 1, mxREAL);
-			real* outIntrinsicDimension = mxGetPr(outputSet[IntrinsicDimension]);
+			integer* outIntrinsicDimension =
+				createScalar<integer>(outputSet[IntrinsicDimension]);
 			*outIntrinsicDimension = intrinsicDimension;
 		}
 	}

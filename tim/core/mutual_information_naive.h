@@ -46,10 +46,9 @@ namespace Tim
 	this function is to demonstrate the non-applicability
 	of the technique.
 	*/
-	TIM void mutualInformationFromBinning(
+	TIM Array<real> mutualInformationFromBinning(
 		const SignalPtr& signal,
-		integer bins,
-		MatrixD& result);
+		integer bins);
 
 	//! Computes mutual information from entropies.
 	/*!

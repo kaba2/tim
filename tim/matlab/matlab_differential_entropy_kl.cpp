@@ -37,10 +37,8 @@ namespace
 
 		const integer kNearest = asScalar<integer>(inputSet[KNearest]);
 
-		outputSet[Estimate] = mxCreateDoubleMatrix(1, 1, mxREAL);
-		real* rawResult = mxGetPr(outputSet[Estimate]);
-
-		*rawResult = differentialEntropyKl(
+		real* outResult = createScalar<real>(outputSet[Estimate]);
+		*outResult = differentialEntropyKl(
 			range(xEnsemble.begin(), xEnsemble.end()), 
 			kNearest);
 	}

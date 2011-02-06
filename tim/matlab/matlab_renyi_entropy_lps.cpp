@@ -39,10 +39,8 @@ namespace
 		const real q = asScalar<real>(inputSet[Q]);
 		const integer kNearestSuggestion = asScalar<integer>(inputSet[KNearestSuggestion]);
 
-		outputSet[Estimate] = mxCreateDoubleMatrix(1, 1, mxREAL);
-		real* rawResult = mxGetPr(outputSet[Estimate]);
-
-		*rawResult = renyiEntropyLps(
+		real* outResult = createScalar<real>(outputSet[Estimate]);
+		*outResult = renyiEntropyLps(
 			range(xEnsemble.begin(), xEnsemble.end()), 
 			q, kNearestSuggestion);
 	}
