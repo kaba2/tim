@@ -1,7 +1,7 @@
 TIM Console
 ===========
 
-[[Parent]]: tim.txt
+[[Parent]]: user_documentation.txt
 
 _TIM Console_ is one of the three ways to access the 
 functionality in TIM. It is a simple command-line program that

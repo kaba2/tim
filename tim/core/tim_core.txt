@@ -1,7 +1,7 @@
-TIM Core
-========
+TIM Core implementation
+=======================
 
-[[Parent]]: tim.txt
+[[Parent]]: implementation.txt
 
 _TIM Core_ is the part of TIM which actually computes the estimates.
 The central abstractions in TIM Core are modeled by the classes

@@ -552,6 +552,58 @@
 			</File>
 		</Filter>
 		<Filter
+			Name="Tutorials"
+			>
+			<File
+				RelativePath="..\..\tutorials\tutorials.txt"
+				>
+			</File>
+			<Filter
+				Name="Circuits"
+				>
+				<File
+					RelativePath="..\..\tutorials\circuits\generate_pset.m"
+					>
+				</File>
+				<File
+					RelativePath="..\..\tutorials\circuits\tutorial_circuits.txt"
+					>
+				</File>
+				<File
+					RelativePath="..\..\tutorials\circuits\tutorial_circuits_analysis.m"
+					>
+				</File>
+				<File
+					RelativePath="..\..\tutorials\circuits\tutorial_circuits_figures.m"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Gauss"
+				>
+				<File
+					RelativePath="..\..\tutorials\gauss\legend_shrink.m"
+					>
+				</File>
+				<File
+					RelativePath="..\..\tutorials\gauss\tutorial_gauss.txt"
+					>
+				</File>
+				<File
+					RelativePath="..\..\tutorials\gauss\tutorial_gauss_analysis.m"
+					>
+				</File>
+				<File
+					RelativePath="..\..\tutorials\gauss\tutorial_gauss_data.m"
+					>
+				</File>
+				<File
+					RelativePath="..\..\tutorials\gauss\tutorial_gauss_figures.m"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
 			Name="Delay embedding"
 			>
 			<File
@@ -574,26 +626,10 @@
 		<Filter
 			Name="Implementation"
 			>
-			<Filter
-				Name="Basics"
+			<File
+				RelativePath=".\tim_core.txt"
 				>
-				<File
-					RelativePath=".\basics.txt"
-					>
-				</File>
-				<File
-					RelativePath=".\mytypes.h"
-					>
-				</File>
-				<File
-					RelativePath=".\tim_library.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\tim_library.h"
-					>
-				</File>
-			</Filter>
+			</File>
 			<Filter
 				Name="Signal"
 				>
@@ -690,6 +726,26 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Basics"
+				>
+				<File
+					RelativePath=".\basics.txt"
+					>
+				</File>
+				<File
+					RelativePath=".\mytypes.h"
+					>
+				</File>
+				<File
+					RelativePath=".\tim_library.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\tim_library.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Reconstruction"
@@ -712,6 +768,10 @@
 			>
 		</File>
 		<File
+			RelativePath="..\..\implementation.txt"
+			>
+		</File>
+		<File
 			RelativePath="..\..\release_history.txt"
 			>
 		</File>
@@ -724,11 +784,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\tim_core.txt"
-			>
-		</File>
-		<File
-			RelativePath="..\..\tutorials.txt"
+			RelativePath="..\..\user_documentation.txt"
 			>
 		</File>
 	</Files>

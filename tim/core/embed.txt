@@ -1,7 +1,7 @@
 Delay embedding
 ===============
 
-[[Parent]]: tim.txt
+[[Parent]]: user_documentation.txt
 
 Theory
 ------
