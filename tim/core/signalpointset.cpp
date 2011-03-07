@@ -56,28 +56,38 @@ namespace Tim
 			newWindowBegin, newWindowEnd);
 
 		// Cut the new window to the defined time range.
-		intersect(newWindow, sampleWindow, newWindow);
-		
-		if (!overlaps(window, newWindow))
+		if (!intersect(newWindow, sampleWindow, newWindow))
 		{
-			// The new window does not contain any of the
-			// existing points.
+			// The new window does not overlap with the
+			// sample window. Hide all points.
 			kdTree_.hide();
-		}
-		else if (contains(newWindow, sampleWindow))
-		{
-			// The new window contains all points.
-			kdTree_.show();
 		}
 		else
 		{
-			// Hide those points which are not in the new window.
-			difference(window, newWindow, 
-				boost::bind(&SignalPointSet::hide, this, _1));
+			if (!overlaps(window, newWindow))
+			{
+				// The new window does not contain any of the
+				// existing points.
+				kdTree_.hide();
+			}
+			else
+			{			
+				// Hide those points which are not in the new window.
+				difference(window, newWindow, 
+					boost::bind(&SignalPointSet::hide, this, _1));
+			}
 
-			// Show all those points not yet in the window.
-			difference(newWindow, window, 
-				boost::bind(&SignalPointSet::show, this, _1));
+			if (contains(newWindow, sampleWindow))
+			{
+				// The new window contains all points.
+				kdTree_.show();
+			}
+			else
+			{
+				// Show all those points not yet in the window.
+				difference(newWindow, window, 
+					boost::bind(&SignalPointSet::show, this, _1));
+			}
 		}
 
 		windowBegin_ = newWindow.min().x();
