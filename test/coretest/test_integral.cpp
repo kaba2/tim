@@ -60,7 +60,7 @@ namespace
 
 		const real fNormalization = 
 			std::pow((real)k, (real)m) *
-			choose<real>(n - 1, k);
+			binomial<real>(n - 1, k);
 
 		//log() << "C = " << fNormalization << logNewLine;
 

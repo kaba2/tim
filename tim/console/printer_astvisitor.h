@@ -5,6 +5,8 @@
 #ifndef TIM_PRINTER_ASTVISITOR_H
 #define TIM_PRINTER_ASTVISITOR_H
 
+#include "tim/core/mytypes.h"
+
 #include "tim/console/astvisitor.h"
 
 #include <iostream>
