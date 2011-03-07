@@ -4,7 +4,7 @@
 
 #include "tim/core/signal_tools.h"
 
-#include <pastel/sys/string_tools.h>
+#include <pastel/sys/string_algorithms.h>
 
 namespace Tim
 {

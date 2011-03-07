@@ -39,8 +39,8 @@ namespace Tim
 
 		// Construct point-sets.
 
-		SignalPointSetPtr xPointSet(new SignalPointSet(xSignalSet, true));
-		SignalPointSetPtr yPointSet(new SignalPointSet(ySignalSet, true));
+		SignalPointSetPtr xPointSet(new SignalPointSet(xSignalSet));
+		SignalPointSetPtr yPointSet(new SignalPointSet(ySignalSet));
 
 		const integer xSamples = xPointSet->samples();
 		const integer ySamples = yPointSet->samples();

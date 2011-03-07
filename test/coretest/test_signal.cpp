@@ -5,7 +5,7 @@
 
 #include <pastel/sys/view_all.h>
 #include <pastel/sys/random.h>
-#include <pastel/sys/string_tools.h>
+#include <pastel/sys/string_algorithms.h>
 
 using namespace Tim;
 

@@ -6,7 +6,7 @@
 
 #include <pastel/sys/view_all.h>
 #include <pastel/sys/random.h>
-#include <pastel/sys/string_tools.h>
+#include <pastel/sys/string_algorithms.h>
 
 using namespace Tim;
 
@@ -44,9 +44,9 @@ namespace
 
 			SignalPointSet pointSet(range(signalSet));
 
-			TEST_ENSURE_OP(pointSet.windowBegin(), ==, pointSet.windowEnd());
-			TEST_ENSURE(pointSet.begin() == pointSet.end());
-			TEST_ENSURE(pointSet.kdTree().empty());
+			TEST_ENSURE_OP(pointSet.windowBegin() + pointSet.samples(), ==, pointSet.windowEnd());
+			TEST_ENSURE_OP(std::distance(pointSet.begin(), pointSet.end()), ==, xy->samples());
+			TEST_ENSURE_OP(pointSet.kdTree().points(), ==, xy->samples());
 			TEST_ENSURE_OP(pointSet.samples(), ==, xy->samples());
 			TEST_ENSURE_OP(pointSet.dimension(), ==, xy->dimension());
 
@@ -74,7 +74,7 @@ namespace
 			TEST_ENSURE((*(pointSet.end() - 1))->point() == &(xy->data()(3 * 3)));
 
 			{
-				SignalPointSet pointSet(range(signalSet), true);
+				SignalPointSet pointSet(range(signalSet));
 
 				TEST_ENSURE_OP(std::distance(pointSet.begin(), pointSet.end()), ==, xy->samples());
 				TEST_ENSURE_OP(pointSet.kdTree().points(), ==, xy->samples());
@@ -82,7 +82,7 @@ namespace
 				TEST_ENSURE_OP(pointSet.dimension(), ==, xy->dimension());
 			}
 			{
-				SignalPointSet pointSet(range(signalSet), true, 1, 2);
+				SignalPointSet pointSet(range(signalSet), 1, 2);
 
 				TEST_ENSURE_OP(std::distance(pointSet.begin(), pointSet.end()), ==, xy->samples());
 				TEST_ENSURE_OP(pointSet.kdTree().points(), ==, xy->samples());
@@ -110,9 +110,9 @@ namespace
 
 			SignalPointSet pointSet(range(signalSet));
 
-			TEST_ENSURE_OP(pointSet.windowBegin(), ==, pointSet.windowEnd());
-			TEST_ENSURE(pointSet.begin() == pointSet.end());
-			TEST_ENSURE(pointSet.kdTree().empty());
+			TEST_ENSURE_OP(pointSet.windowBegin(), ==, 1);
+			TEST_ENSURE_OP(pointSet.windowEnd(), ==, 6);
+			TEST_ENSURE_OP(std::distance(pointSet.begin(), pointSet.end()), ==, xy->samples());
 			TEST_ENSURE_OP(pointSet.samples(), ==, xy->samples());
 			TEST_ENSURE_OP(pointSet.dimension(), ==, xy->dimension());
 

@@ -45,7 +45,7 @@ namespace Tim
 
 		signalSet.updateCache();
 
-		SignalPointSet pointSet(signalSet, true);
+		SignalPointSet pointSet(signalSet);
 
 		const integer trials = signalSet.size();
 		const integer samples = pointSet.samples();

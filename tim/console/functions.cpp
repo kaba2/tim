@@ -12,7 +12,7 @@
 #include <tim/core/divergence_wkv.h>
 #include <tim/core/embed.h>
 
-#include <pastel/sys/string_tools.h>
+#include <pastel/sys/string_algorithms.h>
 
 #include <fstream>
 #include <map>
