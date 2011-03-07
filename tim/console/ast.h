@@ -7,14 +7,14 @@
 #include "tim/core/mytypes.h"
 #include "tim/core/signal.h"
 
+#include "tim/console/astvisitor.h"
+
 #include <pastel/sys/array.h>
 
 #include <vector>
 
 namespace Tim
 {
-
-	class AstVisitor;
 
 	class AstNode
 	{
