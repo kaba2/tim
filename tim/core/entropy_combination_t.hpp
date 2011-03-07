@@ -159,7 +159,7 @@ namespace Tim
 
 			const SignalPointSetPtr marginalPointSet(
 				new SignalPointSet(
-				Pastel::range(jointSignalSet.begin(), jointSignalSet.end()), false,
+				Pastel::range(jointSignalSet.begin(), jointSignalSet.end()),
 				offsetSet[range[0]], offsetSet[range[1]]));
 
 			pointSet[i] = marginalPointSet;

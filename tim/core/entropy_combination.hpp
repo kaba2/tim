@@ -79,7 +79,7 @@ namespace Tim
 		// Construct point sets
 
 		SignalPointSet jointPointSet(
-			range(jointSignalSet.begin(), jointSignalSet.end()), true);
+			range(jointSignalSet.begin(), jointSignalSet.end()));
 	
 		std::vector<integer> weightSet;
 		weightSet.reserve(marginals);
@@ -93,7 +93,6 @@ namespace Tim
 			pointSet.push_back(
 				SignalPointSetPtr(new SignalPointSet(
 				Pastel::range(jointSignalSet.begin(), jointSignalSet.end()), 
-				true,
 				offsetSet[range[0]], offsetSet[range[1]])));
 			weightSet.push_back(range[2]);
 			++iter;

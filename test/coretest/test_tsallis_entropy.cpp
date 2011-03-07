@@ -6,7 +6,7 @@
 #include <pastel/device/timer.h>
 
 #include <pastel/sys/random.h>
-#include <pastel/sys/string_tools.h>
+#include <pastel/sys/string_algorithms.h>
 
 #include <pastel/math/cholesky_decomposition_tools.h>
 #include <pastel/math/matrix_tools.h>

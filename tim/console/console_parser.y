@@ -22,7 +22,7 @@
 
 #include <pastel/sys/stdext_isnan.h>
 #include <pastel/sys/stdext_copy_n.h>
-#include <pastel/sys/string_tools.h>
+#include <pastel/sys/string_algorithms.h>
 
 #include <boost/any.hpp>
 #include <boost/function.hpp>

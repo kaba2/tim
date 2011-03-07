@@ -35,23 +35,16 @@ namespace Tim
 		typedef KdTree::Point_ConstIterator Point_ConstIterator;
 		typedef KdTree::Point Point;
 
-	private:
-		// This container will hold the set of points currently in
-		// the kd-tree and thus also in the time-window. Because
-		// points need to be inserted and removed from both front
-		// and back, the std::deque is a good choice for a container.
-		typedef std::deque<Point_ConstIterator> ActiveSet;
+		typedef std::vector<Point_ConstIterator> PointSet;
+		typedef PointSet::const_iterator Point_ConstIterator_Iterator;
 
 	public:
 		// Using default destructor.
 
-		typedef ActiveSet::const_iterator Point_ConstIterator_Iterator;
-
 		//! Constructs using the given ensemble of signals.
 		template <typename SignalPtr_Iterator>
 		explicit SignalPointSet(
-			const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
-			bool startFull = false);
+			const ForwardIterator_Range<SignalPtr_Iterator>& signalSet);
 
 		//! Constructs using given subdimensions and initial time-window.
 		/*!
@@ -68,7 +61,6 @@ namespace Tim
 		template <typename SignalPtr_Iterator>
 		SignalPointSet(
 			const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
-			bool startFull,
 			integer dimensionBegin,
 			integer dimensionEnd);
 
@@ -94,10 +86,10 @@ namespace Tim
 		//! Returns a non-mutable reference to the multi-resolution kd-tree.
 		const KdTree& kdTree() const;
 
-		//! First iterator to set of points currently in the kd-tree.
+		//! First iterator to set of points currently in the window.
 		Point_ConstIterator_Iterator begin() const;
 
-		//! One-past-last iterator to set of points currently in the kd-tree.
+		//! One-past-last iterator to set of points currently in the window.
 		Point_ConstIterator_Iterator end() const;
 
 		//! Returns the beginning time of the current time-window.
@@ -147,7 +139,11 @@ namespace Tim
 		void createPointSet(
 			const ForwardIterator_Range<SignalPtr_Iterator>& signalSet);
 
-		void construct(bool startFull);
+		void hide(
+			const AlignedBox<integer, 1>& range);
+
+		void show(
+			const AlignedBox<integer, 1>& range);
 
 		/*
 		kdTree_:
@@ -167,12 +163,6 @@ namespace Tim
 		time-window. Note that kdTree_ uses a PointPolicy
 		in which the point is a const real*. This container is
 		needed to insert points when the time-window is moved.
-
-		activeSet_:
-		Contains a set of point iterators to the kdTree_,
-		including only those points which are currently in
-		the time-window. This container is needed to be able
-		to remove points when the time-window is moved.
 
 		samples_:
 		Contains the number of samples that are considered
@@ -195,8 +185,7 @@ namespace Tim
 		*/
 
 		KdTree kdTree_;
-		std::vector<const real*> pointSet_;
-		ActiveSet activeSet_;
+		PointSet pointSet_;
 		integer signals_;
 		integer samples_;
 		integer windowBegin_;

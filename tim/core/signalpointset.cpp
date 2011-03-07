@@ -3,6 +3,10 @@
 
 #include <pastel/geometry/search_all_neighbors_pointkdtree.h>
 #include <pastel/geometry/slidingmidpoint_splitrule_pointkdtree.h>
+#include <pastel/geometry/difference_alignedbox_alignedbox.h>
+#include <pastel/geometry/intersect_alignedbox_alignedbox.h>
+#include <pastel/geometry/overlaps_alignedbox_alignedbox.h>
+#include <pastel/geometry/contains_alignedbox_alignedbox.h>
 
 #include <pastel/sys/constantiterator.h>
 
@@ -18,40 +22,10 @@ namespace Tim
 		ENSURE(false);
 	}
 
-	void SignalPointSet::construct(bool startFull)
-	{
-		// Insert all the points into the tree.
-
-		if (startFull)
-		{
-			kdTree_.insert(
-				range(pointSet_.begin(), pointSet_.end()), 
-				std::back_inserter(activeSet_));
-			
-			windowBegin_ = timeBegin_;
-			windowEnd_ = timeBegin_ + pointSet_.size();
-		}
-		else
-		{
-			kdTree_.insert(
-				range(pointSet_.begin(), pointSet_.end()));
-		}
-
-		// Compute a fine subdivision for the points.
-
-		kdTree_.refine(SplitRule());
-
-		if (!startFull)
-		{
-			kdTree_.erase();
-		}
-	}
-
 	void SignalPointSet::swap(SignalPointSet& that)
 	{
 		kdTree_.swap(that.kdTree_);
 		pointSet_.swap(that.pointSet_);
-		activeSet_.swap(that.activeSet_);
 		std::swap(signals_, that.signals_);
 		std::swap(samples_, that.samples_);
 		std::swap(windowBegin_, that.windowBegin_);
@@ -74,84 +48,40 @@ namespace Tim
 	{
 		ENSURE_OP(newWindowBegin, <=, newWindowEnd);
 
-		newWindowBegin = clamp(newWindowBegin, timeBegin_, timeBegin_ + samples_);
-		newWindowEnd = clamp(newWindowEnd, timeBegin_, timeBegin_ + samples_);
+		const AlignedBox<integer, 1> sampleWindow(
+			timeBegin_, timeBegin_ + samples_);
+		const AlignedBox<integer, 1> window(
+			windowBegin_, windowEnd_);
+		AlignedBox<integer, 1> newWindow(
+			newWindowBegin, newWindowEnd);
 
-		if (newWindowBegin >= windowEnd_ || newWindowEnd <= windowBegin_ ||
-			newWindowBegin == newWindowEnd || windowBegin_ == windowEnd_)
+		// Cut the new window to the defined time range.
+		intersect(newWindow, sampleWindow, newWindow);
+		
+		if (!overlaps(window, newWindow))
 		{
-			// The time-windows do not share any
-			// elements. Clear all points from
-			// the kdtree.
-
-			kdTree_.erase();
-			activeSet_.clear();
-
-			// And insert the new ones.
-
-			kdTree_.insert(
-				range(
-				pointSet_.begin() + (newWindowBegin - timeBegin_) * signals_,
-				pointSet_.begin() + (newWindowEnd - timeBegin_) * signals_),
-				std::back_inserter(activeSet_));
+			// The new window does not contain any of the
+			// existing points.
+			kdTree_.hide();
+		}
+		else if (contains(newWindow, sampleWindow))
+		{
+			// The new window contains all points.
+			kdTree_.show();
 		}
 		else
 		{
-			// The time-windows overlap. Keep those points
-			// which are common to both, remove and insert
-			// appropriately to get the new time-window.
+			// Hide those points which are not in the new window.
+			difference(window, newWindow, 
+				boost::bind(&SignalPointSet::hide, this, _1));
 
-			integer deltaRight = windowEnd_ - newWindowEnd;
-			if (deltaRight > 0)
-			{
-				// Remove points from the right.
-
-				const integer amount = deltaRight * signals_;
-				for (integer i = 0;i < amount;++i)
-				{
-					kdTree_.erase(activeSet_.back());
-					activeSet_.pop_back();
-				}
-			}
-			else if (deltaRight < 0)
-			{
-				// Add points to the right.
-
-				kdTree_.insert(
-					range(
-					pointSet_.begin() + (windowEnd_ - timeBegin_) * signals_,
-					pointSet_.begin() + (newWindowEnd - timeBegin_) * signals_),
-					std::back_inserter(activeSet_));
-			}
-
-			integer deltaLeft = windowBegin_ - newWindowBegin;
-			if (deltaLeft > 0)
-			{
-				// Add points to the left.
-
-				kdTree_.insert(
-					range(
-					boost::make_reverse_iterator(
-					pointSet_.begin() + (windowBegin_ - timeBegin_) * signals_),
-					boost::make_reverse_iterator(
-					pointSet_.begin() + (newWindowBegin - timeBegin_) * signals_)),
-					std::front_inserter(activeSet_));
-			}
-			else if (deltaLeft < 0)
-			{
-				// Remove points from the left.
-
-				const integer amount = -deltaLeft * signals_;
-				for (integer i = 0;i < amount;++i)
-				{
-					kdTree_.erase(activeSet_.front());
-					activeSet_.pop_front();
-				}
-			}
+			// Show all those points not yet in the window.
+			difference(newWindow, window, 
+				boost::bind(&SignalPointSet::show, this, _1));
 		}
 
-		windowBegin_ = newWindowBegin;
-		windowEnd_ = newWindowEnd;
+		windowBegin_ = newWindow.min().x();
+		windowEnd_ = newWindow.max().x();
 	}
 
 	const SignalPointSet::KdTree& SignalPointSet::kdTree() const
@@ -162,13 +92,13 @@ namespace Tim
 	SignalPointSet::Point_ConstIterator_Iterator 
 		SignalPointSet::begin() const
 	{
-		return activeSet_.begin();
+		return pointSet_.begin() + (windowBegin_ - timeBegin_) * signals_;
 	}
 
 	SignalPointSet::Point_ConstIterator_Iterator 
 		SignalPointSet::end() const
 	{
-		return activeSet_.end();
+		return pointSet_.begin() + (windowEnd_ - timeBegin_) * signals_;
 	}
 
 	integer SignalPointSet::windowBegin() const
@@ -199,6 +129,30 @@ namespace Tim
 	VectorD SignalPointSet::point(const Point& point) const
 	{
 		return kdTree_.pointPolicy()(point);
+	}
+
+	// Private
+
+	void SignalPointSet::hide(
+		const AlignedBox<integer, 1>& range)
+	{
+		const integer iBegin = (range.min().x() - timeBegin_) * signals_;
+		const integer iEnd = (range.max().x() - timeBegin_) * signals_;
+		for (integer i = iBegin;i < iEnd;++i)
+		{
+			kdTree_.hide(pointSet_[i]);
+		}
+	}
+
+	void SignalPointSet::show(
+		const AlignedBox<integer, 1>& range)
+	{
+		const integer iBegin = (range.min().x() - timeBegin_) * signals_;
+		const integer iEnd = (range.max().x() - timeBegin_) * signals_;
+		for (integer i = iBegin;i < iEnd;++i)
+		{
+			kdTree_.show(pointSet_[i]);
+		}
 	}
 
 }

@@ -8,7 +8,7 @@ TIM can optionally carry out many of these estimations so that they
 are adaptive to time (via time-windowing). TIM can also efficiently 
 take advantage of data from multiple trials of the same experiment.
 Note that the estimators work with continuous variables. No support
-for discrete variables is planned in the future.
+for discrete variables is available.
 
 Implemented estimators
 ----------------------

@@ -22,9 +22,9 @@ Tutorial files
 
 Here we provide the Matlab scripts that are used in this tutorial. 
 
-[Download tutorial files][tutorial-circuits-files]
+[Download tutorial files][tutorial_circuits_files]
 
-[tutorial-circuits-files]: files/tutorial-circuits-1.0.0.zip
+[tutorial_circuits_files]: files/tutorial-circuits-1.0.0.zip
 
 Using the scripts above you can easily reproduce the final results of
 the tutorial. However, our purpose is to teach you how to write the analysis
@@ -35,10 +35,9 @@ If you are planning to run this tutorial in a computer which does not have
 access to the Internet you should also download the following data file and
 place it in the same folder as the tutorial scripts:
 
-[Download tutorial dataset][tutorial-circuits-dataset]
+[Download tutorial dataset][tutorial_circuits_dataset]
 
-[tutorial-circuits-dataset]: files/tutorial-circuits-data.zip
-
+[tutorial_circuits_dataset]: files/tutorial-circuits-data.zip
 
 Data generation
 ---------------
@@ -67,7 +66,6 @@ The output of this command is a cell-array `pset` of dimensions 2 x 182. The
 rows of this cell array correspond to the time-series obtained from each of
 the two electronic circuits while the columns contain independent repetitions
 of those time-series.
-
 
 Measuring information transfer
 ------------------------------
@@ -169,7 +167,7 @@ The TE values corresponding to the flow from the master towards the slave
 circuit are shown in the figure below:
 
 [[Gallery]]:
-	images/tutorial.circuits.fig21.png
+	images/tutorial-circuits-fig21.png
 	- Information flow from the master circuit towards the slave circuit. 
 
 The	waveform in the lower part of the figure depicts TE values at lag = 20 
@@ -178,7 +176,7 @@ sampling instants. The following figure shows in dark red the pairs
 (p < 0.05) and in blue those where it did not reach significance:
 
 [[Gallery]]:
-	images/tutorial.circuits.fig21sig.png
+	images/tutorial-circuits-fig21sig.png
 	- Significance for transfer entropy from the master circuit towards the slave circuit. 
 
 The waveform in the lower part of the figure above depicts TE significance
@@ -193,9 +191,9 @@ information flow from the slave circuit towards the master. The result
 would be the following two figures:
 
 [[Gallery]]:
-	images/tutorial.circuits.fig12.png
+	images/tutorial-circuits-fig12.png
 	- Information flow from the slave circuit towards the master circuit. 
-	images/tutorial.circuits.fig12sig.png
+	images/tutorial-circuits-fig12sig.png
 	- Significance for transfer entropy from the slave circuit towards the master circuit. 
 
 which correctly indicate that there is not any significant flow of information
@@ -205,11 +203,11 @@ For convenience, you can generate the four figures above by just running
 the following commands:
 
 	>> pset = generate_pset                       % load the dataset
-	>> results = tutorial-circuits-analysis(pset) % performs the TE analysis
-	>> tutorial-circuits-figures(results)         % generates the figures
+	>> results = tutorial_circuits_analysis(pset) % performs the TE analysis
+	>> tutorial_circuits_figures(results)         % generates the figures
 
 However, the best way of learning this tutorial is that you try to re-generate
-these figures without using the provided function `tutorial-circuits-analysis`.
+these figures without using the provided function `tutorial_circuits_analysis`.
 
 	
 Credits

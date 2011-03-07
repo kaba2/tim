@@ -2,7 +2,7 @@
 
 #include <pastel/device/devicesystem.h>
 
-#include <pastel/sys/log_all.h>
+#include <pastel/sys/logging.h>
 #include <pastel/sys/testreport.h>
 
 #include <iostream>
@@ -14,10 +14,13 @@ void estimation();
 
 int estimationMain()
 {
-	deviceSystem().initialize();
-
 	log().addLogger(LoggerPtr(new Stream_Logger(&std::cout)));
 	log().addLogger(LoggerPtr(new File_Logger("log.txt")));
+
+	setInvariantFailureAction(
+		InvariantFailureAction::Throw);
+
+	deviceSystem().initialize();
 
 	timTestList().console();
 	generateTestReport(timTestReport(), log());

@@ -5,17 +5,16 @@
 #include "tim/core/signal_tools.h"
 
 #include <pastel/sys/ensure.h>
+#include <pastel/sys/interleave.h>
 
 namespace Tim
 {
 
 	template <typename SignalPtr_Iterator>
 	SignalPointSet::SignalPointSet(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
-		bool startFull)
+		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet)
 		: kdTree_(Array_PointPolicy<real>(signalSet.empty() ? 0 : signalSet.front()->dimension()))
 		, pointSet_()
-		, activeSet_()
 		, signals_(signalSet.size())
 		, samples_(0)
 		, windowBegin_(0)
@@ -28,19 +27,15 @@ namespace Tim
 		PENSURE(equalDimension(signalSet));
 
 		createPointSet(signalSet);
-
-		construct(startFull);
 	}
 
 	template <typename SignalPtr_Iterator>
 	SignalPointSet::SignalPointSet(
 		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
-		bool startFull,
 		integer dimensionBegin,
 		integer dimensionEnd)
 		: kdTree_(Array_PointPolicy<real>(dimensionEnd - dimensionBegin))
 		, pointSet_()
-		, activeSet_()
 		, signals_(signalSet.size())
 		, samples_(0)
 		, windowBegin_(0)
@@ -56,8 +51,6 @@ namespace Tim
 		ENSURE_OP(dimensionEnd, <=, signalSet.front()->dimension());
 
 		createPointSet(signalSet);
-
-		construct(startFull);
 	}
 
 	// Private
@@ -78,7 +71,7 @@ namespace Tim
 		// manner.
 
 		const integer signals = signalSet.size();
-		pointSet_.resize(samples * signals);
+		pointSet_.reserve(samples * signals);
 
 		SignalPtr_Iterator iter = signalSet.begin();
 		for (integer i = 0;i < signals;++i)
@@ -86,16 +79,30 @@ namespace Tim
 			SignalPtr signal = *iter;
 			for (integer t = tBegin;t < tEnd;++t)
 			{
-				pointSet_[(t - tBegin) * signals + i] = 
+				const real* point = 
 					signal->pointBegin(dimensionBegin_)[t - signal->t()];
+				pointSet_.push_back(
+					kdTree_.insert(point));
 			}
 			
 			++iter;
 		}
+		// The signals are now listed one after each
+		// other. However, we want them to be interleaved
+		// in time. Do that.
+
+		interleave(
+			range(pointSet_.begin(), pointSet_.end()),
+			signals);
 
 		signals_ = signals;
 		samples_ = samples;
 		timeBegin_ = tBegin;
+
+		windowBegin_ = tBegin;
+		windowEnd_ = tBegin + samples;
+
+		kdTree_.refine(SplitRule());
 	}
 
 }

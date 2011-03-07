@@ -38,19 +38,19 @@ In `tim/matlab` directory, open the file `build_options.txt`,
 which will read something like this:
 
 	tim_matlab.cpp
-	*.cpp
+	-D_HAS_ITERATOR_DEBUGGING=0 
+	-DPASTEL_ENABLE_OMP
 	-I'../../../pastel' 
 	-I'../../../tim'
 	-I'../../../../external/boost_1_45_0'
 	-L'../../../pastel/build/vs2008/lib'
 	-L'../../../tim/build/vs2008/lib'
-	-lpastelsys
-	-lpastelmath
-	-lpastelgeometry
-	-lpasteldevice
-	-lpasteldsp
-	-lpastelgfx
-	-ltimcore
+	-lPastelSys
+	-lPastelMatlab
+	-lPastelMath
+	-lPastelGeometry
+	-lTimCore
+	-lTimMatlab
 	
 Replace the directories to reflect the locations of the libraries.
 The `I` is for an include directory, while `L` is for a library

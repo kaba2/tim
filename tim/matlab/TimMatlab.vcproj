@@ -159,19 +159,19 @@
 			Name="Matlab files"
 			>
 			<File
-				RelativePath=".\build_options.txt"
-				>
-			</File>
-			<File
-				RelativePath=".\build_options_debug.txt"
-				>
-			</File>
-			<File
 				RelativePath=".\build_tim.m"
 				>
 			</File>
 			<File
 				RelativePath=".\build_tim_debug.m"
+				>
+			</File>
+			<File
+				RelativePath=".\build_tim_debug_options.txt"
+				>
+			</File>
+			<File
+				RelativePath=".\build_tim_options.txt"
 				>
 			</File>
 			<File
@@ -366,6 +366,58 @@
 				RelativePath=".\tim_mex.hpp"
 				>
 			</File>
+		</Filter>
+		<Filter
+			Name="Tutorials"
+			>
+			<File
+				RelativePath="..\..\tutorials\tutorials.txt"
+				>
+			</File>
+			<Filter
+				Name="Circuits"
+				>
+				<File
+					RelativePath="..\..\tutorials\circuits\generate_pset.m"
+					>
+				</File>
+				<File
+					RelativePath="..\..\tutorials\circuits\tutorial_circuits.txt"
+					>
+				</File>
+				<File
+					RelativePath="..\..\tutorials\circuits\tutorial_circuits_analysis.m"
+					>
+				</File>
+				<File
+					RelativePath="..\..\tutorials\circuits\tutorial_circuits_figures.m"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Gauss"
+				>
+				<File
+					RelativePath="..\..\tutorials\gauss\legend_shrink.m"
+					>
+				</File>
+				<File
+					RelativePath="..\..\tutorials\gauss\tutorial_gauss.txt"
+					>
+				</File>
+				<File
+					RelativePath="..\..\tutorials\gauss\tutorial_gauss_analysis.m"
+					>
+				</File>
+				<File
+					RelativePath="..\..\tutorials\gauss\tutorial_gauss_data.m"
+					>
+				</File>
+				<File
+					RelativePath="..\..\tutorials\gauss\tutorial_gauss_figures.m"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<File
 			RelativePath=".\tim_matlab.txt"
