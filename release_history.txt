@@ -3,6 +3,11 @@ Release history
 
 [[Parent]]: tim.txt
 
+This section summarizes the release history of TIM.
+
+Versioning
+----------
+
 The versioning of TIM is given in the form x.y.z, where x, y, and z 
 are integers. The x increments only for major changes, the y increments 
 for feature changes, and the z increments for bug fixes or documentation 

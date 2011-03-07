@@ -1,7 +1,7 @@
 TIM Console implementation
 ==========================
 
-[[Parent]]: tim_console.txt
+[[Parent]]: implementation.txt
 
 This page contains the implementation of TIM Console. 
 It is written purely in C++. The parser is generated using 

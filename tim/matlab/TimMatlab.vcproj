@@ -192,58 +192,6 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="Tutorials"
-			>
-			<File
-				RelativePath="..\..\tutorials\tutorials.txt"
-				>
-			</File>
-			<Filter
-				Name="Circuits"
-				>
-				<File
-					RelativePath="..\..\tutorials\circuits\generate_pset.m"
-					>
-				</File>
-				<File
-					RelativePath="..\..\tutorials\circuits\tutorial_circuits.txt"
-					>
-				</File>
-				<File
-					RelativePath="..\..\tutorials\circuits\tutorial_circuits_analysis.m"
-					>
-				</File>
-				<File
-					RelativePath="..\..\tutorials\circuits\tutorial_circuits_figures.m"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Gauss"
-				>
-				<File
-					RelativePath="..\..\tutorials\gauss\legend_shrink.m"
-					>
-				</File>
-				<File
-					RelativePath="..\..\tutorials\gauss\tutorial_gauss.txt"
-					>
-				</File>
-				<File
-					RelativePath="..\..\tutorials\gauss\tutorial_gauss_analysis.m"
-					>
-				</File>
-				<File
-					RelativePath="..\..\tutorials\gauss\tutorial_gauss_data.m"
-					>
-				</File>
-				<File
-					RelativePath="..\..\tutorials\gauss\tutorial_gauss_figures.m"
-					>
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
 			Name="Estimators"
 			>
 			<Filter

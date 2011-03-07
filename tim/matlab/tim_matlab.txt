@@ -1,7 +1,7 @@
 TIM Matlab
 ==========
 
-[[Parent]]: tim.txt
+[[Parent]]: user_documentation.txt
 
 _TIM Matlab_ is one of the three ways to access the 
 functionality in TIM. It consists of a set of Matlab functions
@@ -23,10 +23,6 @@ To obtain TIM Matlab, see the [main page][Main].
 
 General information
 -------------------
-
-For the theoretical background, visit the [documentation for TIM Core][TIM-Core].
-
-[TIM-Core]: [[Ref]]: tim_core.txt
 
 ### Naming
 

@@ -1,7 +1,7 @@
-Implementation details
-======================
+TIM Matlab implementation
+=========================
 
-[[Parent]]: tim_matlab.txt
+[[Parent]]: implementation.txt
 
 This section contains some implementation details of the TIM Matlab 
 interface.

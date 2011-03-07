@@ -3,6 +3,9 @@ Syntax and semantics
 
 [[Parent]]: tim_console.txt
 
+This section summarizes the syntax and semantics of the TIM Console
+scripting language.
+
 Formal syntax
 -------------
 

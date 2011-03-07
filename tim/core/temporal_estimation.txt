@@ -1,7 +1,7 @@
 Temporal estimation
 ===================
 
-[[Parent]]: tim.txt
+[[Parent]]: user_documentation.txt
 
 TIM allows to compute many of the measures using temporally 
 adaptive estimators. This means that a time-window is used

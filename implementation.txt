@@ -1,0 +1,7 @@
+Implementation details
+======================
+
+[[Parent]]: tim.txt
+
+This section contains implementation details, which are mostly of 
+interest to developers.
