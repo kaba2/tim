@@ -66,12 +66,12 @@ pastelLibraryDir = "../pastel/build/vs2008/lib"
 
 -- The directory of the Boost library's source code.
 -- The includes are of the form 'boost/static_assert.hpp'.
-boostIncludeDir = "../../external/boost_1_45_0"
+boostIncludeDir = "../external/boost_1_45_0"
 
 -- The directory of the SDL library's header files.
 -- The includes are of the form 'SDL.h'.
-sdlIncludeDir = "../../external/SDL-1.2.14/include"
-sdlLibraryDir = "../../external/SDL-1.2.14/lib"
+sdlIncludeDir = "../external/SDL-1.2.14/include"
+sdlLibraryDir = "../external/SDL-1.2.14/lib"
 
 -- The directory of the Matlab header files.
 -- The includes are of the form 'mex.h'.
