@@ -1,8 +1,68 @@
 -- This is a Premake script for producing
 -- build files for the TIM library.
 
+-- Available external libraries
+-- ============================
+
+-- Whether you have Pastel 1.2 include files and binaries.
+gotPastel = true
+
+-- Whether you have Boost 1.45 include files.
+gotBoost = true
+
+-- Whether you have SDL 1.2 include files and binaries.
+gotSdl = true
+
+-- Whether you have Matlab (say, 2008a or never) include files.
+gotMatlab = true
+
+-- Note: To succesfully _compile_ the libraries, 
+-- you only need the header files for the external
+-- libraries. This allows you to try the compilation
+-- even if you did not have the external library
+-- binaries. It is only in the _linking_ phase of 
+-- executables and shared libraries (i.e. tests and 
+-- examples) where the binaries are needed .
+
+-- Main build switches
+-- ===================
+
+-- Whether to build the libraries.
+buildLibraries = true
+
+-- Whether to build the tests.
+buildTests = true
+
+-- Detailed build switches
+-- =======================
+
+-- Requirements
+basicRequirements = gotPastel and gotBoost
+libraryRequirements = basicRequirements and buildLibraries
+testRequirements = basicRequirements and buildTests and gotSdl
+
+-- Whether to build the TIM Core library.
+buildTimCore = true and libraryRequirements
+
+-- Whether to build the TIM Console interface.
+buildTimConsole = true and libraryRequirements
+
+-- Whether to build the TIM Matlab interface.
+buildTimMatlab = true and libraryRequirements and gotMatlab
+
+-- Whether to build the test project.
+buildTimCoreTest = true and testRequirements
+
+-- Paths
+-- =====
+
 -- Change the following directories to reflect your own
 -- build environment.
+
+-- The directory of the Pastel library's source code.
+-- The includes are of the form 'pastel/sys/array.h'
+pastelIncludeDir = "../pastel"
+pastelLibraryDir = "../pastel/build/vs2008/lib"
 
 -- The directory of the Boost library's source code.
 -- The includes are of the form 'boost/static_assert.hpp'.
@@ -13,10 +73,12 @@ boostIncludeDir = "../../external/boost_1_45_0"
 sdlIncludeDir = "../../external/SDL-1.2.14/include"
 sdlLibraryDir = "../../external/SDL-1.2.14/lib"
 
--- The directory of the Pastel library's source code.
--- The includes are of the form 'pastel/sys/array.h'
-pastelIncludeDir = "../pastel"
-pastelLibraryDir = "../pastel/build/vs2008/lib"
+-- The directory of the Matlab header files.
+-- The includes are of the form 'mex.h'.
+matlabIncludeDir = "C:/Program Files/MATLAB/R2008a/extern/include"
+
+-- No need to give a library path for Matlab:
+-- Mex files are built from within Matlab.
 
 outputDirectory = "build/" .. _ACTION
 
@@ -92,7 +154,8 @@ solution "Tim"
 		"./",
 		boostIncludeDir,
 		sdlIncludeDir,
-		pastelIncludeDir
+		pastelIncludeDir,
+		matlabIncludeDir
 	}
 	
 	libraryDirectorySet =
@@ -210,44 +273,56 @@ solution "Tim"
 
 	libKind = "StaticLib"
 
-	project "TimCore"
-		kind(libKind)
-		includedirs(includeDirectorySet)
-		libdirs(libraryDirectorySet)
-		files(addPrefix("tim/core/", fileSet))
-	
-	project "TimMatlab"
-		kind(libKind)
-		includedirs(includeDirectorySet)
-		libdirs(libraryDirectorySet)
-		files(addPrefix("tim/matlab/", fileSet))
+	if buildTimCore
+	then
+		project "TimCore"
+			kind(libKind)
+			includedirs(includeDirectorySet)
+			libdirs(libraryDirectorySet)
+			files(addPrefix("tim/core/", fileSet))
+	end
 
-	project "TimConsole"
-		kind("ConsoleApp")
-		includedirs(includeDirectorySet)
-		libdirs(libraryDirectorySet)
-		files(addPrefix("tim/console/", fileSet))
-		links
-		{
-			"PastelGeometry",
-			"PastelMath",
-			"PastelSys",
-			"TimCore"
-		}
+	if buildTimMatlab
+	then	
+		project "TimMatlab"
+			kind(libKind)
+			includedirs(includeDirectorySet)
+			libdirs(libraryDirectorySet)
+			files(addPrefix("tim/matlab/", fileSet))
+	end
 
-	project "TimCoreTest"
-		kind("ConsoleApp")
-		includedirs(includeDirectorySet)
-		libdirs(libraryDirectorySet)
-		files(addPrefix("test/coretest/", fileSet))
-		links
-		{
-			"SDL",
-			"PastelDevice",
-			"PastelGfx",
-			"PastelGeometry",
-			"PastelDsp",
-			"PastelMath",
-			"PastelSys",
-			"TimCore"
-		}
+	if buildTimConsole
+	then
+		project "TimConsole"
+			kind("ConsoleApp")
+			includedirs(includeDirectorySet)
+			libdirs(libraryDirectorySet)
+			files(addPrefix("tim/console/", fileSet))
+			links
+			{
+				"PastelGeometry",
+				"PastelMath",
+				"PastelSys",
+				"TimCore"
+			}
+	end
+
+	if buildTimCoreTest
+	then
+		project "TimCoreTest"
+			kind("ConsoleApp")
+			includedirs(includeDirectorySet)
+			libdirs(libraryDirectorySet)
+			files(addPrefix("test/coretest/", fileSet))
+			links
+			{
+				"SDL",
+				"PastelDevice",
+				"PastelGfx",
+				"PastelGeometry",
+				"PastelDsp",
+				"PastelMath",
+				"PastelSys",
+				"TimCore"
+			}
+	end
