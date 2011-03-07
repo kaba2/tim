@@ -1443,8 +1443,8 @@ namespace Tim
 
 			FunctionInfo()
 			: callback()
-			, minArgs(0)
 			, parameterSet()
+			, minArgs(0)
 			{
 			}
 
