@@ -1,3 +1,5 @@
+// Description: Merging signals into higher-dimensional signals
+
 #ifndef TIM_SIGNAL_MERGE_H
 #define TIM_SIGNAL_MERGE_H
 

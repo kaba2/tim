@@ -1,0 +1,7 @@
+Implementation details
+======================
+
+[[Parent]]: tim_matlab.txt
+
+This section contains some implementation details of the TIM Matlab 
+interface.

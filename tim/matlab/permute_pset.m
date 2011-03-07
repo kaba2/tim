@@ -20,7 +20,7 @@
 % Y is a cell-array of permuted pointsets. 
 
 % Description: Random permutations of a pointset
-% Documentation: tim_matlab_matlab.txt
+% Documentation: tim_matlab_impl.txt
 % Author: German Gomez-Herrero
 
 function y = permute_pset(x, I, nc)

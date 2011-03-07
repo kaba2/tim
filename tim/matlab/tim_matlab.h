@@ -1,5 +1,5 @@
-// Description: tim_matlab() function registration
-// Documentation: tim_matlab_cpp.txt
+// Description: TIM Matlab interface build file
+// Documentation: building_matlab.txt
 
 #ifndef TIM_TIM_MATLAB_H
 #define TIM_TIM_MATLAB_H

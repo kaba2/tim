@@ -11,7 +11,7 @@
 % Type 'help tim' for more documentation.
 
 % Description: Transfer entropy estimation
-% Documentation: tim_matlab_matlab.txt
+% Documentation: transfer_entropy.txt
 
 function I = transfer_entropy(X, Y, W, ...
     xLag, yLag, wLag, k)

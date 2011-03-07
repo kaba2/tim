@@ -1,3 +1,5 @@
+// Description: Splitting a signal into lower-dimensional signals
+
 #ifndef TIM_SIGNAL_SPLIT_H
 #define TIM_SIGNAL_SPLIT_H
 

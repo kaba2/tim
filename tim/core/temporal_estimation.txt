@@ -1,7 +1,7 @@
 Temporal estimation
 ===================
 
-[[Parent]]: tim_core.txt
+[[Parent]]: tim.txt
 
 TIM allows to compute many of the measures using temporally 
 adaptive estimators. This means that a time-window is used
@@ -20,7 +20,7 @@ time-window must sum to a non-zero value. This sum-value need not
 be 1, because TIM divides the weighting values by the sum-value. 
 The weighting function is centered on the current time instant.
 
-The default weighting function in TIM is the dirac delta, which is
+The default weighting function in TIM is the Kronecker delta, which is
 1 for the samples at the current time instant, and (implicitly) 0 
 for other time instants. This results in an estimator which is
 very efficient to evaluate, but has high variance. To lower the
@@ -28,7 +28,7 @@ variance, one can average (low-pass filter) the output as a
 post-process. One should note that in this post-process the actual 
 time-window of samples from which the estimates are dependent on grows.
 
-The dirac delta weighting function combined with averaging has been 
+The Kronecker delta weighting function combined with averaging has been 
 studied before in the literature and is known to give good results. 
 In contrast, there is no research available for the wider weighting 
 functions yet. Thus we recommend that you use the default weighting 

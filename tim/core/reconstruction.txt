@@ -1,7 +1,7 @@
 Handling of degeneracies
 ========================
 
-[[Parent]]: tim_core.txt
+[[Parent]]: tim.txt
 
 Most of the estimators are based on computing the
 distances to the k:th nearest neighbors and using that

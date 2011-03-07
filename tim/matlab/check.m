@@ -16,7 +16,7 @@
 % 'timeWindowRadius'
 
 % Description: Checks a variable for validity
-% Documentation: tim_matlab_matlab.txt
+% Documentation: tim_matlab_impl.txt
 
 function check(X, checkName, checkParam)
 

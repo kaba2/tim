@@ -31,7 +31,7 @@
 % Type 'help tim' for more documentation.
 
 % Description: Entropy combination estimation
-% Documentation: tim_matlab_matlab.txt
+% Documentation: entropy_combination.txt
 
 function I = entropy_combination(signalSet, rangeSet, lagSet, k)
 

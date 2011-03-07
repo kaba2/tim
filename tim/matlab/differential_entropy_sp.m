@@ -12,7 +12,7 @@
 
 % Description: Differential entropy estimation
 % Detail: Stowell-Plumbley recursive partition estimator
-% Documentation: tim_matlab_matlab.txt
+% Documentation: differential_entropy_sp.txt
 
 function H = differential_entropy_sp(S)
 

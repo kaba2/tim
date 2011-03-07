@@ -1,5 +1,5 @@
 // Description: renyi_entropy_lps
-// Documentation: tim_matlab_functions.txt
+// DocumentationOf: renyi_entropy_lps.m
 
 #include "tim/matlab/tim_matlab.h"
 

@@ -3,24 +3,23 @@ Building TIM
 
 [[Parent]]: tim.txt
 
-This page describes how to build TIM, including TIM Core, 
-TIM Console, and TimCoreTest, but excluding TIM Matlab. This 
+This page describes how to build the TIM libraries. This 
 is only necessary if prebuilt binaries are not available for 
-your platform at the [main page][Main]. The TIM Matlab library 
-needs to be [built separately][Matlab], but to be able to do so,
-you need to first build TIM Core.
+your platform at the [main page][Main]. 
 TIM uses the [Premake][Premake] build-script generator to turn
 cross-platform building into a trivial task. Premake is a program, 
 contained in a single executable, which reads in a generic 
 build-script and outputs a tool-specific build-script. 
-
-[Matlab]: [[Ref]]: building_matlab.txt
+The TIM Matlab interface requires an [additional build step][Matlab], 
+since the final build must be done from Matlab. However, the first 
+step is to build the TIM libraries.
 
 __Note__: While the source code contains Visual Studio specific 
 build files, you should ignore them, and follow the build process 
 described here.
 
 [Main]: [[Ref]]: tim.txt
+[Matlab]: [[Ref]]: building_matlab.txt
 
 Build process
 -------------
@@ -39,25 +38,42 @@ Premake can be downloaded from [here][DownloadPremake]. You might want
 to make it so that it can be invoked from any location, or alternatively 
 just copy it to the TIM root directory.
 
-### 3. Set the external library directories
+### 3. Modify the Premake build file
 
-In the TIM root directory, open the file `premake4.lua`, and modify
-the directories to correspond to the locations you installed the 
-external libraries in step 1.
-
-	-- The directory of the Boost library's source code.
-	-- The includes are of the form 'boost/static_assert.hpp'.
-	boostIncludeDir = "../boost_1_45_0"
-
-	-- The directory of the SDL library's header files.
-	-- The includes are of the form 'SDL.h'.
-	sdlIncludeDir = "../SDL-1.2.14/include"
-	sdlLibraryDir = "../SDL-1.2.14/lib"
+In the TIM root directory, open the file `premake4.lua`, and
+scroll down to the section `Paths`. It will look something like 
+this:
 
 	-- The directory of the Pastel library's source code.
 	-- The includes are of the form 'pastel/sys/array.h'
 	pastelIncludeDir = "../pastel"
-	pastelLibraryDir = "../pastel/lib"
+	pastelLibraryDir = "../pastel/build/vs2008/lib"
+
+	-- The directory of the Boost library's source code.
+	-- The includes are of the form 'boost/static_assert.hpp'.
+	boostIncludeDir = "../external/boost_1_45_0"
+
+	-- The directory of the SDL library's header files.
+	-- The includes are of the form 'SDL.h'.
+	sdlIncludeDir = "../external/SDL-1.2.14/include"
+	sdlLibraryDir = "../external/SDL-1.2.14/lib"
+
+	-- The directory of the Matlab header files.
+	-- The includes are of the form 'mex.h'.
+	matlabIncludeDir = "C:/Program Files/MATLAB/R2008a/extern/include"
+
+Modify the directories to correspond to the locations you installed 
+the external libraries in step 1. Now scroll up to the 
+`Main build switches` section. It will look something like this:
+
+	-- Whether to build the libraries.
+	buildLibraries = true
+
+	-- Whether to build the tests.
+	buildTests = false
+	
+Here you may want to eliminate the SDL dependence by not building 
+the tests.
 
 ### 4. Generate tool-specific build-scripts using Premake. 
 

@@ -72,4 +72,4 @@
 % for it is 1.
 
 % Description: TIM Matlab help
-% Documentation: tim_matlab_matlab.txt
+% Documentation: tim_matlab_help.txt

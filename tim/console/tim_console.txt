@@ -37,10 +37,7 @@ To obtain TIM Console, see the [main page][Main].
 Quick-start: Example script file
 --------------------------------
 
-For the theoretical background, visit the [documentation for TIM Core][TIM-Core].
-
-[TIM-Core]: [[Ref]]: tim_core.txt
-
+Here is an example script file in TIM Console:
 
 	% This is a row-comment.
 	// This is a row-comment too.
