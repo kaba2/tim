@@ -21,7 +21,7 @@
 
 % Description: Differential entropy estimation
 % Detail: Nilsson-Kleijn manifold nearest neighbor estimator
-% Documentation: tim_matlab_matlab.txt
+% Documentation: differential_entropy_nk.txt
 
 function [H, d] = differential_entropy_nk(S)
 

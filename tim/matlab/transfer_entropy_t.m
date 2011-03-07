@@ -11,7 +11,7 @@
 % Type 'help tim' for more documentation.
 
 % Description: Temporal transfer entropy estimation
-% Documentation: tim_matlab_matlab.txt
+% Documentation: transfer_entropy.txt
 
 function I = transfer_entropy_t(X, Y, W, ...
     timeWindowRadius, xLag, yLag, wLag, k, filter)

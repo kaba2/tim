@@ -156,32 +156,8 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Matlab files"
+			Name="Delay embedding"
 			>
-			<File
-				RelativePath=".\build_tim.m"
-				>
-			</File>
-			<File
-				RelativePath=".\build_tim_debug.m"
-				>
-			</File>
-			<File
-				RelativePath=".\build_tim_debug_options.txt"
-				>
-			</File>
-			<File
-				RelativePath=".\build_tim_options.txt"
-				>
-			</File>
-			<File
-				RelativePath=".\check.m"
-				>
-			</File>
-			<File
-				RelativePath=".\compute_lagarray.m"
-				>
-			</File>
 			<File
 				RelativePath=".\delay_embed.m"
 				>
@@ -190,52 +166,16 @@
 				RelativePath=".\delay_embed_future.m"
 				>
 			</File>
+		</Filter>
+		<Filter
+			Name="Others"
+			>
 			<File
-				RelativePath=".\differential_entropy_kl.m"
+				RelativePath=".\check.m"
 				>
 			</File>
 			<File
-				RelativePath=".\differential_entropy_kl_t.m"
-				>
-			</File>
-			<File
-				RelativePath=".\differential_entropy_nk.m"
-				>
-			</File>
-			<File
-				RelativePath=".\differential_entropy_sp.m"
-				>
-			</File>
-			<File
-				RelativePath=".\divergence_wkv.m"
-				>
-			</File>
-			<File
-				RelativePath=".\entropy_combination.m"
-				>
-			</File>
-			<File
-				RelativePath=".\entropy_combination_t.m"
-				>
-			</File>
-			<File
-				RelativePath=".\mutual_information.m"
-				>
-			</File>
-			<File
-				RelativePath=".\mutual_information_naive.m"
-				>
-			</File>
-			<File
-				RelativePath=".\mutual_information_p.m"
-				>
-			</File>
-			<File
-				RelativePath=".\mutual_information_pt.m"
-				>
-			</File>
-			<File
-				RelativePath=".\mutual_information_t.m"
+				RelativePath=".\compute_lagarray.m"
 				>
 			</File>
 			<File
@@ -247,123 +187,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\renyi_entropy_lps.m"
-				>
-			</File>
-			<File
-				RelativePath=".\renyi_entropy_lps_t.m"
-				>
-			</File>
-			<File
 				RelativePath=".\test_all.m"
-				>
-			</File>
-			<File
-				RelativePath=".\tim.m"
-				>
-			</File>
-			<File
-				RelativePath=".\tim_matlab_matlab.txt"
-				>
-			</File>
-			<File
-				RelativePath=".\transfer_entropy.m"
-				>
-			</File>
-			<File
-				RelativePath=".\transfer_entropy_p.m"
-				>
-			</File>
-			<File
-				RelativePath=".\transfer_entropy_pt.m"
-				>
-			</File>
-			<File
-				RelativePath=".\transfer_entropy_t.m"
-				>
-			</File>
-			<File
-				RelativePath=".\tsallis_entropy_lps.m"
-				>
-			</File>
-			<File
-				RelativePath=".\tsallis_entropy_lps_t.m"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Mex files"
-			>
-			<File
-				RelativePath=".\matlab_differential_entropy_kl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\matlab_differential_entropy_kl_t.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\matlab_differential_entropy_nk.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\matlab_differential_entropy_sp.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\matlab_divergence_wkv.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\matlab_entropy_combination.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\matlab_entropy_combination_t.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\matlab_mutual_information_naive.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\matlab_renyi_entropy_lps.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\matlab_renyi_entropy_lps_t.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\matlab_tsallis_entropy_lps.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\matlab_tsallis_entropy_lps_t.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\tim_matlab.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\tim_matlab.h"
-				>
-			</File>
-			<File
-				RelativePath=".\tim_matlab_cpp.txt"
-				>
-			</File>
-			<File
-				RelativePath=".\tim_matlab_functions.txt"
-				>
-			</File>
-			<File
-				RelativePath=".\tim_mex.h"
-				>
-			</File>
-			<File
-				RelativePath=".\tim_mex.hpp"
 				>
 			</File>
 		</Filter>
@@ -419,12 +243,228 @@
 				</File>
 			</Filter>
 		</Filter>
+		<Filter
+			Name="Estimators"
+			>
+			<Filter
+				Name="Entropy"
+				>
+				<Filter
+					Name="Differential entropy"
+					>
+					<File
+						RelativePath=".\differential_entropy_kl.m"
+						>
+					</File>
+					<File
+						RelativePath=".\differential_entropy_kl_t.m"
+						>
+					</File>
+					<File
+						RelativePath=".\differential_entropy_nk.m"
+						>
+					</File>
+					<File
+						RelativePath=".\differential_entropy_sp.m"
+						>
+					</File>
+					<File
+						RelativePath=".\matlab_differential_entropy_kl.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\matlab_differential_entropy_kl_t.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\matlab_differential_entropy_nk.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\matlab_differential_entropy_sp.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Renyi entropy"
+					>
+					<File
+						RelativePath=".\matlab_renyi_entropy_lps.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\matlab_renyi_entropy_lps_t.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\renyi_entropy_lps.m"
+						>
+					</File>
+					<File
+						RelativePath=".\renyi_entropy_lps_t.m"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Tsallis entropy"
+					>
+					<File
+						RelativePath=".\matlab_tsallis_entropy_lps.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\matlab_tsallis_entropy_lps_t.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\tsallis_entropy_lps.m"
+						>
+					</File>
+					<File
+						RelativePath=".\tsallis_entropy_lps_t.m"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="Entropy combination"
+				>
+				<File
+					RelativePath=".\entropy_combination.m"
+					>
+				</File>
+				<File
+					RelativePath=".\entropy_combination_t.m"
+					>
+				</File>
+				<File
+					RelativePath=".\matlab_entropy_combination.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\matlab_entropy_combination_t.cpp"
+					>
+				</File>
+				<Filter
+					Name="Mutual information"
+					>
+					<File
+						RelativePath=".\matlab_mutual_information_naive.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\mutual_information.m"
+						>
+					</File>
+					<File
+						RelativePath=".\mutual_information_naive.m"
+						>
+					</File>
+					<File
+						RelativePath=".\mutual_information_p.m"
+						>
+					</File>
+					<File
+						RelativePath=".\mutual_information_pt.m"
+						>
+					</File>
+					<File
+						RelativePath=".\mutual_information_t.m"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Transfer entropy"
+					>
+					<File
+						RelativePath=".\transfer_entropy.m"
+						>
+					</File>
+					<File
+						RelativePath=".\transfer_entropy_p.m"
+						>
+					</File>
+					<File
+						RelativePath=".\transfer_entropy_pt.m"
+						>
+					</File>
+					<File
+						RelativePath=".\transfer_entropy_t.m"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="Divergence"
+				>
+				<File
+					RelativePath=".\divergence_wkv.m"
+					>
+				</File>
+				<File
+					RelativePath=".\matlab_divergence_wkv.cpp"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="Build files"
+			>
+			<File
+				RelativePath=".\build_tim.m"
+				>
+			</File>
+			<File
+				RelativePath=".\build_tim_debug.m"
+				>
+			</File>
+			<File
+				RelativePath=".\build_tim_debug_options.txt"
+				>
+			</File>
+			<File
+				RelativePath=".\build_tim_options.txt"
+				>
+			</File>
+			<File
+				RelativePath=".\tim_matlab.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\tim_matlab.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Help"
+			>
+			<File
+				RelativePath=".\tim.m"
+				>
+			</File>
+			<File
+				RelativePath=".\tim_matlab_help.txt"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Implementation"
+			>
+			<File
+				RelativePath=".\tim_mex.h"
+				>
+			</File>
+			<File
+				RelativePath=".\tim_mex.hpp"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\tim_matlab.txt"
 			>
 		</File>
 		<File
-			RelativePath=".\tim_matlab_help.txt"
+			RelativePath=".\tim_matlab_impl.txt"
 			>
 		</File>
 	</Files>

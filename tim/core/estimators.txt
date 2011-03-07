@@ -1,7 +1,7 @@
 Estimators
 ==========
 
-[[Parent]]: tim_core.txt
+[[Parent]]: tim.txt
 
 This page introduces the estimators that have been implemented in TIM.
 TIM can optionally carry out many of these estimations so that they 
@@ -29,7 +29,7 @@ Implemented estimators
  * Transfer entropy
  * Partial transfer entropy
 
-### Divergence
+### Divergence estimators
 
  *  Wang-Kulkarni-Verdu estimator for Kullback-Leilber divergence
 

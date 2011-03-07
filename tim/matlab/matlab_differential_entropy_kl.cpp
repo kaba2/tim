@@ -1,5 +1,5 @@
 // Description: differential_entropy_kl
-// Documentation: tim_matlab_functions.txt
+// DocumentationOf: differential_entropy_kl.m
 
 #include "tim/matlab/tim_matlab.h"
 

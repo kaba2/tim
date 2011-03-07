@@ -18,7 +18,7 @@
 % contains M lags corresponding to LAGSET(i).
 
 % Description: Computes a lag-array from a lag set
-% Documentation: tim_matlab_matlab.txt
+% Documentation: tim_matlab_impl.txt
 
 function L = compute_lagarray(lagSet)
 

@@ -536,118 +536,18 @@
 			</Filter>
 		</Filter>
 		<Filter
-			Name="Signal"
+			Name="Building"
 			>
 			<File
-				RelativePath=".\signal.cpp"
+				RelativePath="..\..\building.txt"
 				>
 			</File>
 			<File
-				RelativePath=".\signal.h"
+				RelativePath="..\..\building_matlab.txt"
 				>
 			</File>
 			<File
-				RelativePath=".\signal.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\signal.txt"
-				>
-			</File>
-			<File
-				RelativePath=".\signal_generate.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\signal_generate.h"
-				>
-			</File>
-			<File
-				RelativePath=".\signal_merge.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\signal_merge.h"
-				>
-			</File>
-			<File
-				RelativePath=".\signal_merge.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\signal_properties.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\signal_properties.h"
-				>
-			</File>
-			<File
-				RelativePath=".\signal_properties.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\signal_split.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\signal_split.h"
-				>
-			</File>
-			<File
-				RelativePath=".\signal_split.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\signal_tools.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\signal_tools.h"
-				>
-			</File>
-			<File
-				RelativePath=".\signal_tools.hpp"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="SignalPointSet"
-			>
-			<File
-				RelativePath=".\signalpointset.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\signalpointset.h"
-				>
-			</File>
-			<File
-				RelativePath=".\signalpointset.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\signalpointset.txt"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Basics"
-			>
-			<File
-				RelativePath=".\basics.txt"
-				>
-			</File>
-			<File
-				RelativePath=".\mytypes.h"
-				>
-			</File>
-			<File
-				RelativePath=".\tim_library.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\tim_library.h"
+				RelativePath="..\..\premake4.lua"
 				>
 			</File>
 		</Filter>
@@ -672,6 +572,126 @@
 			</File>
 		</Filter>
 		<Filter
+			Name="Implementation"
+			>
+			<Filter
+				Name="Basics"
+				>
+				<File
+					RelativePath=".\basics.txt"
+					>
+				</File>
+				<File
+					RelativePath=".\mytypes.h"
+					>
+				</File>
+				<File
+					RelativePath=".\tim_library.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\tim_library.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Signal"
+				>
+				<File
+					RelativePath=".\signal.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\signal.h"
+					>
+				</File>
+				<File
+					RelativePath=".\signal.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\signal.txt"
+					>
+				</File>
+				<File
+					RelativePath=".\signal_generate.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\signal_generate.h"
+					>
+				</File>
+				<File
+					RelativePath=".\signal_merge.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\signal_merge.h"
+					>
+				</File>
+				<File
+					RelativePath=".\signal_merge.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\signal_properties.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\signal_properties.h"
+					>
+				</File>
+				<File
+					RelativePath=".\signal_properties.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\signal_split.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\signal_split.h"
+					>
+				</File>
+				<File
+					RelativePath=".\signal_split.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\signal_tools.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\signal_tools.h"
+					>
+				</File>
+				<File
+					RelativePath=".\signal_tools.hpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="SignalPointSet"
+				>
+				<File
+					RelativePath=".\signalpointset.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\signalpointset.h"
+					>
+				</File>
+				<File
+					RelativePath=".\signalpointset.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\signalpointset.txt"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
 			Name="Reconstruction"
 			>
 			<File
@@ -688,23 +708,7 @@
 			</File>
 		</Filter>
 		<File
-			RelativePath="..\..\building.txt"
-			>
-		</File>
-		<File
-			RelativePath="..\..\building_matlab.txt"
-			>
-		</File>
-		<File
 			RelativePath="..\..\dependencies.txt"
-			>
-		</File>
-		<File
-			RelativePath=".\implementation.txt"
-			>
-		</File>
-		<File
-			RelativePath="..\..\premake4.lua"
 			>
 		</File>
 		<File

@@ -7,7 +7,10 @@ The functions in TIM Matlab are highly similar. Therefore
 writing separate documentation for each function would be
 redundant and present maintenance issues. To avoid this, we 
 have instead decided to factor those similarities into this 
-generic documentation.
+generic documentation. In Matlab, this text is available by
+typing:
+
+	>> help tim
 
 Signals and trials
 ------------------

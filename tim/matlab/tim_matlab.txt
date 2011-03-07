@@ -9,12 +9,10 @@ together with a mex file implemented in C++.
 The Matlab implementation consists mostly of redirection
 functions that check the parameters at the Matlab's side,
 and forward the calls to the C++ implementation via the 
-tim_matlab mex file. 
+`tim_matlab` mex file. 
 The C++ implementation mostly consists of interpreting the 
 data via correct data abstractions so that they can be 
 forwarded to the actual computation functions of TIM Core. 
-As a user of TIM Matlab, you only need to know about the 
-Matlab implementation.
 
 Download
 --------

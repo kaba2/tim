@@ -1,4 +1,4 @@
-% Description: TIM Matlab mex building
-% Documentation: tim_matlab_matlab.txt
+% Description: TIM Matlab interface build script
+% Documentation: building_matlab.txt
 
 mex @build_tim_options.txt

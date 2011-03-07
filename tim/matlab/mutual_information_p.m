@@ -10,7 +10,7 @@
 % Type 'help tim' for more documentation.
 
 % Description: Partial mutual information estimation
-% Documentation: tim_matlab_matlab.txt
+% Documentation: mutual_information.txt
 
 function I = mutual_information_p(...
     X, Y, Z, xLag, yLag, zLag, k)

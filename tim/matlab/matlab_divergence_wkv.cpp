@@ -1,5 +1,5 @@
 // Description: divergence_wkv
-// Documentation: tim_matlab_functions.txt
+// DocumentationOf: divergence_wkv.m
 
 #include "tim/matlab/tim_matlab.h"
 

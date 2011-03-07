@@ -23,7 +23,7 @@
 
 % Description: Tsallis entropy estimation
 % Detail: Leonenko-Pronzato-Savani nearest neighbor estimator
-% Documentation: tim_matlab_matlab.txt
+% Documentation: tsallis_entropy_lps.txt
 
 function H = tsallis_entropy_lps(S, q, kSuggestion)
 

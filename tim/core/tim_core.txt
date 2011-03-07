@@ -4,4 +4,9 @@ TIM Core
 [[Parent]]: tim.txt
 
 _TIM Core_ is the part of TIM which actually computes the estimates.
+The central abstractions in TIM Core are modeled by the classes
+`Signal` and `SignalPointSet`. The `Signal` class models a time series
+representing it as a matrix of values and allowing it to be
+manipulated correspondingly. The `SignalPointSet` class in turn models a
+reinterpretation of a time series as a semi-dynamic set of points.
 

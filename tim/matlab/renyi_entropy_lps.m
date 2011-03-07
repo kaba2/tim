@@ -25,7 +25,7 @@
 
 % Description: Renyi entropy estimation
 % Detail: Leonenko-Pronzato-Savani nearest neighbor estimator
-% Documentation: tim_matlab_matlab.txt
+% Documentation: renyi_entropy_lps.txt
 
 function H = renyi_entropy_lps(S, q, kSuggestion)
 

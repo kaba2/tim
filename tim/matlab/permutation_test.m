@@ -27,7 +27,7 @@
 % See also: permute_pset
 
 % Description: Permutation test to determine significance threshold
-% Documentation: tim_matlab_matlab.txt
+% Documentation: tim_matlab_impl.txt
 % Author: German Gomez-Herrero
 
 function y = permutation_test(pset, pindex, ifunc, alpha)

@@ -1,5 +1,5 @@
 // Description: Functions to ease interfacing with Matlab
-// Documentation: tim_matlab_cpp.txt
+// Documentation: tim_matlab_impl.txt
 
 #ifndef TIM_TIM_MEX_H
 #define TIM_TIM_MEX_H

@@ -1,5 +1,5 @@
 // Description: entropy_combination
-// Documentation: tim_matlab_functions.txt
+// DocumentationOf: entropy_combination.m
 
 #include "tim/matlab/tim_matlab.h"
 

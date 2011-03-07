@@ -1,5 +1,0 @@
-Callable tim_matlab() functions
-===============================
-
-[[Parent]]: tim_matlab_cpp.txt
-

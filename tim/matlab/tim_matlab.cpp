@@ -1,4 +1,15 @@
-// Documentation: tim_matlab_cpp.txt
+// DocumentationOf: tim_matlab.h
+
+/*
+This file is used as the sole file to build against the
+TIM libraries. The idea is to minimize the amount of the
+build work done on the Matlab side when building TIM
+Matlab interface.
+
+It is necessary for this file to refer to things in
+other translation units. This causes the translation
+units to self-register themselves to PastelMatlab.
+*/
 
 #define FORCE_LINKING(name) \
 	void force_linking_##name(); \

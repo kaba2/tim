@@ -1,3 +1,5 @@
+// Description: Properties of signals
+
 #ifndef TIM_SIGNAL_PROPERTIES_H
 #define TIM_SIGNAL_PROPERTIES_H
 

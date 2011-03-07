@@ -12,7 +12,7 @@
 
 % Description: Kullback-Leibler divergence estimation
 % Detail: Wang-Kulkarni-Verdu nearest neighbor estimator
-% Documentation: tim_matlab_matlab.txt
+% Documentation: divergence_wkv.txt
 
 function D = divergence_wkv(X, Y)
 

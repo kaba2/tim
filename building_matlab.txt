@@ -6,7 +6,7 @@ Building TIM Matlab
 This page describes how to build TIM Matlab. This is only
 necessary if prebuilt binaries are not available for your platform 
 at the [main page][Main]. To be able to build TIM Matlab, you
-need to first [build TIM Core][Core].
+need to first [build the TIM libraries][Core].
 
 [Core]: [[Ref]]: building.txt
 [Main]: [[Ref]]: tim.txt

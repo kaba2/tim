@@ -1,7 +1,0 @@
-TIM Matlab - Matlab implementation
-==================================
-
-[[Parent]]: tim_matlab.txt
-
-This page gathers the Matlab implementation of TIM Matlab
-to a single place. 

@@ -1,5 +1,5 @@
 // Description: tsallis_entropy_lps_t
-// Documentation: tim_matlab_functions.txt
+// DocumentationOf: tsallis_entropy_lps_t.m
 
 #include "tim/matlab/tim_matlab.h"
 

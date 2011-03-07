@@ -1,5 +1,5 @@
 // Description: mutual_information_naive
-// Documentation: tim_matlab_functions.txt
+// DocumentationOf: mutual_information_naive.m
 
 #include "tim/matlab/tim_matlab.h"
 

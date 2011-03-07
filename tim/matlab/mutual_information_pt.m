@@ -12,7 +12,7 @@
 % Type 'help tim' for more documentation.
 
 % Description: Temporal partial mutual information estimation
-% Documentation: tim_matlab_matlab.txt
+% Documentation: mutual_information.txt
 
 function I = mutual_information_pt(...
     X, Y, Z, timeWindowRadius, xLag, yLag, zLag, k, filter)
