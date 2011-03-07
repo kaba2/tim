@@ -5,10 +5,21 @@
 #ifndef TIM_ASTVISITOR_H
 #define TIM_ASTVISITOR_H
 
-#include "tim/console/ast.h"
-
 namespace Tim
 {
+
+	class Program_AstNode;
+	class Statement_AstNode;
+	class Expression_AstNode;
+	class Declaration_AstNode;
+	class Print_AstNode;
+	class Identifier_AstNode;
+	class Integer_AstNode;
+	class Real_AstNode;
+	class String_AstNode;
+	class CellArray_AstNode;
+	class RealArray_AstNode;
+	class FunctionCall_AstNode;
 
 	class AstVisitor
 	{

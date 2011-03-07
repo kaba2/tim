@@ -1,4 +1,5 @@
 #include "tim/console/printer_astvisitor.h"
+#include "tim/console/ast.h"
 
 namespace Tim
 {
