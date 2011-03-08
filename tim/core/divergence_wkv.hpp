@@ -5,6 +5,7 @@
 #include "tim/core/signalpointset.h"
 
 #include <pastel/geometry/search_nearest_one_pointkdtree.h>
+#include <pastel/geometry/dont_acceptpoint.h>
 
 namespace Tim
 {
@@ -52,20 +53,26 @@ namespace Tim
 		{
 			// Find out the nearest neighbor in X for a point in X.
 
-			const Vector<real> queryPoint(ofDimension(xDimension), 
-				withAliasing((real*)(*(xPointSet->begin() + i))->point()));
+			const Point_ConstIterator query = 
+				*(xPointSet->begin() + i);
 
 			const real xxDistance2 = 
-				searchNearestOne(xPointSet->kdTree(), queryPoint).key();
+				searchNearestOne(xPointSet->kdTree(), query, 
+				infinity<real>(), 0, 
+				Dont_AcceptPoint<Point_ConstIterator>(query)).key();
 			
-			if (xxDistance2 > 0)
+			if (xxDistance2 > 0 && xxDistance2 < infinity<real>())
 			{		
 				// Find out the nearest neighbor in Y for a point in X.
+
+				const Vector<real> queryPoint(
+					ofDimension(xDimension), 
+					withAliasing((real*)(query)->point()));
 
 				const real xyDistance2 = 
 					searchNearestOne(yPointSet->kdTree(), queryPoint).key();
 				
-				if (xyDistance2 > 0)
+				if (xyDistance2 > 0 && xyDistance2 < infinity<real>())
 				{
 					estimate += std::log(xyDistance2 / xxDistance2);
 					++acceptedSamples;

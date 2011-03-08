@@ -235,11 +235,21 @@ namespace Tim
 //#pragma omp parallel for reduction(+ : signalEstimate, weightSum)
 				for (integer j = 0;j < windowSamples;++j)
 				{
-					const integer k = countSet[j];
+					// The k approximates _not_ the number of points 
+					// in the neighborhood, but the index of the farthest
+					// neighbor in the neighborhood. 
+					const integer k = countSet[j] - 1;
 
-					// A neighbor count of zero can happen when the distance
-					// to the k:th neighbor is zero because of using an
-					// open search ball. These points are ignored.
+					// Note: k = 0 is possible: This happens when then reference 
+					// point is the only point in the projection.
+
+					// Note: k = -1 is possible: a range count of zero 
+					// can happen when the distance to the k:th neighbor is 
+					// zero because of using an open search ball. 
+									
+					// These singular cases must be taken into account and
+					// gracefully ignored, as is done here.
+
 					if (k > 0)
 					{
 						const real weight = copyFilter[j + filterOffset];
