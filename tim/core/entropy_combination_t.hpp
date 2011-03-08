@@ -8,7 +8,7 @@
 
 #include <pastel/geometry/pointkdtree.h>
 #include <pastel/geometry/search_all_neighbors_pointkdtree.h>
-#include <pastel/geometry/count_all_range_pointkdtree.h>
+#include <pastel/geometry/count_all_neighbors_pointkdtree.h>
 #include <pastel/geometry/distance_point_point.h>
 
 #include <pastel/math/normbijections.h>
@@ -211,14 +211,16 @@ namespace Tim
 
 				// Note: the maximum norm bijection values coincide 
 				// with the norm values, so no need to convert.
-				countAllRange(
+				countAllNeighbors(
 					pointSet[i]->kdTree(),
 					range(
 					pointSet[i]->begin() + tLocalFilterBegin * trials, 
 					pointSet[i]->begin() + tLocalFilterEnd * trials),
 					range(distanceArray.begin(), windowSamples),
-					countSet.begin());
-				
+					countSet.begin(),
+					8,
+					normBijection);
+
 				real signalEstimate = 0;
 				real weightSum = 0;
 				const integer filterOffset = tFilterOffset * trials;
@@ -235,15 +237,9 @@ namespace Tim
 //#pragma omp parallel for reduction(+ : signalEstimate, weightSum)
 				for (integer j = 0;j < windowSamples;++j)
 				{
-					// The k approximates _not_ the number of points 
-					// in the neighborhood, but the index of the farthest
-					// neighbor in the neighborhood. 
-					const integer k = countSet[j] - 1;
+					const integer k = countSet[j];
 
-					// Note: k = 0 is possible: This happens when then reference 
-					// point is the only point in the projection.
-
-					// Note: k = -1 is possible: a range count of zero 
+					// Note: k = 0 is possible: a range count of zero 
 					// can happen when the distance to the k:th neighbor is 
 					// zero because of using an open search ball. 
 									

@@ -8,7 +8,7 @@
 
 #include <pastel/geometry/pointkdtree.h>
 #include <pastel/geometry/search_all_neighbors_pointkdtree.h>
-#include <pastel/geometry/count_all_range_pointkdtree.h>
+#include <pastel/geometry/count_all_neighbors_pointkdtree.h>
 #include <pastel/geometry/distance_point_point.h>
 
 #include <pastel/math/normbijections.h>
@@ -128,11 +128,13 @@ namespace Tim
 		{
 			// Note: the maximum norm bijection values coincide 
 			// with the norm values, so no need to convert.
-			countAllRange(
+			countAllNeighbors(
 				pointSet[i]->kdTree(),
 				range(pointSet[i]->begin(), pointSet[i]->end()),
 				range(distanceArray.begin(), estimateSamples),
-				countSet.begin());
+				countSet.begin(),
+				8,
+				normBijection);
 			
 			integer acceptedSamples = 0;
 			real signalEstimate = 0;
