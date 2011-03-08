@@ -6,7 +6,7 @@
 
 #include <pastel/sys/vector_tools.h>
 #include <pastel/sys/math_functions.h>
-#include <pastel/sys/stdext_copy_n.h>
+#include <pastel/sys/copy_n.h>
 
 #include <algorithm>
 
@@ -139,7 +139,7 @@ namespace Tim
 		while(iter != iterEnd)
 		{
 			const SignalPtr& signal = *iter;
-			StdExt::copy_n(
+			copy_n(
 				signal->pointBegin(), samples,
 				std::back_inserter(pointSet));
 			

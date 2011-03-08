@@ -312,7 +312,7 @@ namespace
 	void testTemporal()
 	{
 		//SignalPtr signal(new Signal(10, 1));
-		//StdExt::copy_n(countingIterator(0), 10, signal->data().begin());
+		//copy_n(countingIterator(0), 10, signal->data().begin());
 		SignalPtr signal = generateGaussian(10, 1);
 		real filter[] = {0.25, 0.5, 1, 0.5, 0.25};
 		const SignalPtr temporalMi = temporalMutualInformation(

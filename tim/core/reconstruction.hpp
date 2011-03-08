@@ -4,7 +4,7 @@
 #include "tim/core/reconstruction.h"
 #include "tim/core/mytypes.h"
 
-#include <pastel/sys/stdext_isnan.h>
+#include <pastel/sys/isnan.h>
 
 #include <algorithm>
 
@@ -29,7 +29,7 @@ namespace Tim
 			real value = *iter;
 			if (nanRegion)
 			{
-				if (StdExt::isNan(value))
+				if (isNan(value))
 				{
 					++nanRegionSize;
 				}
@@ -41,7 +41,7 @@ namespace Tim
 			}
 			else
 			{
-				if (StdExt::isNan(value))
+				if (isNan(value))
 				{
 					nanRegionSize = 1;
 					nanBegin = iter;
@@ -56,11 +56,11 @@ namespace Tim
 			if (fill)
 			{
 				real endValue = value;
-				if (StdExt::isNan(startValue))
+				if (isNan(startValue))
 				{
 					startValue = endValue;
 				}
-				if (StdExt::isNan(endValue))
+				if (isNan(endValue))
 				{
 					endValue = startValue;
 				}
@@ -85,7 +85,7 @@ namespace Tim
 			++iter;
 		}
 
-		if (nanRegion && !StdExt::isNan(startValue))
+		if (nanRegion && !isNan(startValue))
 		{
 			std::fill(nanBegin, iterEnd, startValue);
 		}

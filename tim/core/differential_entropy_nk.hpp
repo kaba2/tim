@@ -4,7 +4,7 @@
 #include "tim/core/differential_entropy_nk.h"
 #include "tim/core/signal_tools.h"
 
-#include <pastel/sys/stdext_algorithm.h>
+#include <pastel/sys/sequence_algorithms.h>
 #include <pastel/sys/array_pointpolicy.h>
 
 #include <pastel/math/matrix_tools.h>
@@ -55,7 +55,7 @@ namespace Tim
 		while(iter != iterEnd)
 		{
 			const SignalPtr& signal = *iter;
-			StdExt::copy_n(
+			copy_n(
 				signal->pointBegin(), samples,
 				std::back_inserter(pointSet));
 			
@@ -88,7 +88,7 @@ namespace Tim
 			// Select a random subset.
 
 			const integer subsetSize = codebookSize[m];
-			StdExt::subset(
+			subset(
 				pointSet.begin(), pointSet.end(),
 				subsetSize);
 
