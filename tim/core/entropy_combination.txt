@@ -3,9 +3,6 @@ Entropy combinations
 
 [[Parent]]: estimators.txt
 
-Theory
-------
-
 Let ''X = (X_1, ..., X_m)'' be a random variable.
 An _entropy combination_ is defined by
 
@@ -14,9 +11,7 @@ An _entropy combination_ is defined by
 where ''H'' is the differential entropy and 
 ''\forall i in [1, p]: L_i sub [1, m]'' and ''s_i in {-1, 1}'' such that 
 
-''sum_{i = 1}^p s_i chi_{L_i} = chi_{[1, m]}''
-
-where ''chi_S'' is the characteristic function of a set ''S''. 
+''sum_{i = 1}^p s_i |L_i| = 0''
 
 The estimator used for computing entropy combinations is a 
 generalization of the ideas used by Alexander Kraskov in his 
