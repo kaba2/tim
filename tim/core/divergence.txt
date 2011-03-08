@@ -3,9 +3,6 @@ Divergence
 
 [[Parent]]: estimators.txt
 
-Theory
-------
-
 Let ''p, q: RR^n -> RR'' be probability density functions in ''RR^n''.
 The _Kullback-Leibler divergence_ between ''p'' and ''q'' is defined by:
 

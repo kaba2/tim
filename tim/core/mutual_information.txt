@@ -3,11 +3,7 @@ Mutual information
 
 [[Parent]]: entropy_combination.txt
 
-Theory
-------
-
-Let ''X'' and ''Y'' be random variables. 
-_Mutual information_ is defined by:
+The _mutual information_ between random variables ''X'' and ''Y'' is defined by:
 
 ''I(X, Y) = H(X) + H(Y) - H(X, Y)''
 

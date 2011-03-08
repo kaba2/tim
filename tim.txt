@@ -48,39 +48,45 @@ Package installed for the prebuilt Windows-version TIM Matlab to work._
 
 ### Prebuilt binaries for TIM Matlab
 
-[TIM Matlab 1.1.0 beta for 32-bit Windows][TIM-Matlab-1.1.0-Beta-Win32]
+[TIM Matlab 1.1.0 (Windows 32-bit)][TIM-Matlab-1.1.0-Win32]
 
-[TIM Matlab 1.1.0 beta for 64-bit Windows][TIM-Matlab-1.1.0-Beta-Win64]
+[TIM Matlab 1.1.0 (Windows 64-bit)][TIM-Matlab-1.1.0-Win64]
 
-[TIM Matlab 1.1.0 beta for 32-bit Linux][TIM-Matlab-1.1.0-Beta-Linux32]
+[TIM Matlab 1.1.0 (Linux 32-bit)][TIM-Matlab-1.1.0-Linux32]
 
-[TIM Matlab 1.1.0 beta for 64-bit Linux][TIM-Matlab-1.1.0-Beta-Linux64]
+[TIM Matlab 1.1.0 (Linux 64-bit)][TIM-Matlab-1.1.0-Linux64]
 
-[TIM-Matlab-1.1.0-Beta-Win32]: ../files/tim-matlab-1.1.0-beta-win32.zip
-[TIM-Matlab-1.1.0-Beta-Win64]: ../files/tim-matlab-1.1.0-beta-win64.zip
-[TIM-Matlab-1.1.0-Beta-Linux32]: ../files/tim-matlab-1.1.0-beta-linux32.zip
-[TIM-Matlab-1.1.0-Beta-Linux64]: ../files/tim-matlab-1.1.0-beta-linux64.zip
+[TIM Matlab 1.1.0 (Mac 32-bit)][TIM-Matlab-1.1.0-Mac32]
+
+[TIM Matlab 1.1.0 (Mac 64-bit)][TIM-Matlab-1.1.0-Mac64]
+
+[TIM-Matlab-1.1.0-Win32]: ../files/tim-matlab-1.1.0-win32.zip
+[TIM-Matlab-1.1.0-Win64]: ../files/tim-matlab-1.1.0-win64.zip
+[TIM-Matlab-1.1.0-Linux32]: ../files/tim-matlab-1.1.0-linux32.zip
+[TIM-Matlab-1.1.0-Linux64]: ../files/tim-matlab-1.1.0-linux64.zip
+[TIM-Matlab-1.1.0-Mac32]: ../files/tim-matlab-1.1.0-mac32.zip
+[TIM-Matlab-1.1.0-Mac64]: ../files/tim-matlab-1.1.0-mac64.zip
 
 ### Prebuilt binaries for TIM Console
 
-[TIM Console 1.1.0 beta for 32-bit Windows][TIM-Console-1.1.0-Beta-Win32]
+[TIM Console 1.1.0 (Windows 32-bit)][TIM-Console-1.1.0-Win32]
 
-[TIM Console 1.1.0 beta for 64-bit Windows][TIM-Console-1.1.0-Beta-Win64]
+[TIM Console 1.1.0 (Windows 64-bit)][TIM-Console-1.1.0-Win64]
 
-[TIM Console 1.1.0 beta for 32-bit Linux][TIM-Console-1.1.0-Beta-Linux32]
+[TIM Console 1.1.0 (Linux 32-bit)][TIM-Console-1.1.0-Linux32]
 
-[TIM Console 1.1.0 beta for 64-bit Linux][TIM-Console-1.1.0-Beta-Linux64]
+[TIM Console 1.1.0 (Linux 64-bit)][TIM-Console-1.1.0-Linux64]
 
-[TIM-Console-1.1.0-Beta-Win32]: ../../files/tim-console-1.1.0-beta-win32.zip
-[TIM-Console-1.1.0-Beta-Win64]: ../../files/tim-console-1.1.0-beta-win64.zip
-[TIM-Console-1.1.0-Beta-Linux32]: ../../files/tim-console-1.1.0-beta-linux32.zip
-[TIM-Console-1.1.0-Beta-Linux64]: ../../files/tim-console-1.1.0-beta-linux64.zip
+[TIM Console 1.1.0 (Mac 32-bit)][TIM-Console-1.1.0-Mac32]
 
-### Source code
+[TIM Console 1.1.0 (Mac 64-bit)][TIM-Console-1.1.0-Mac64]
 
-[Download TIM Source 1.1.0 beta][TIM-Source-1.1.0-Beta]
-
-[TIM-Source-1.1.0-Beta]: ./files/tim-1.1.0-beta.zip
+[TIM-Console-1.1.0-Win32]: ../../files/tim-console-1.1.0-win32.zip
+[TIM-Console-1.1.0-Win64]: ../../files/tim-console-1.1.0-win64.zip
+[TIM-Console-1.1.0-Linux32]: ../../files/tim-console-1.1.0-linux32.zip
+[TIM-Console-1.1.0-Linux64]: ../../files/tim-console-1.1.0-linux64.zip
+[TIM-Console-1.1.0-Mac32]: ../../files/tim-console-1.1.0-mac32.zip
+[TIM-Console-1.1.0-Mac64]: ../../files/tim-console-1.1.0-mac64.zip
 
 Source-code
 -----------
@@ -92,11 +98,11 @@ actually building software that depends on it. This is because we can't guarante
 interfaces, i.e., we continue development of TIM and in this process can make 
 breaking changes to interfaces.
 
-[Download TIM Source 1.1.0 Beta][TIM-Source-1.1.0-Beta]
+[Download TIM Source 1.1.0][TIM-Source-1.1.0]
 
 To obtain previous versions, see the [release history][ReleaseHistory]
 
-[TIM-Source-1.1.0-Beta]: ./files/tim-1.1.0-beta.zip
+[TIM-Source-1.1.0]: ./files/tim-1.1.0.zip
 [ReleaseHistory]: [[Ref]]: release_history.txt
 
 Note on web-browsers
@@ -117,13 +123,13 @@ Acknowledgements
 ----------------
 
 The version 1.0 of TIM was programmed under funding from the EU project 
-[GABA][GABA] (FP6-2005-NEST-Path 043309). TIM Console and the update from 
-version 1.0 to 1.1 beta were programmed under funding from the 
+[GABA][GABA] (FP6-2005-NEST-Path 043309). TIM Console and most of the update 
+from version 1.0 to 1.1 were programmed under funding from the 
 [Finnish Foundation for Technology Promotion][TES].
 
 [German Gomez Herrero][German] is the driving force behind the idea of 
 creating TIM, having created a similar library in Matlab himself. German
-provided substantial amount of beta testing, feedback, and guidance 
+provided substantial amount of testing, feedback, and guidance 
 during the development. He has also written the tutorials in this
 documentation.
 
