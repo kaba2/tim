@@ -110,8 +110,8 @@
 #include "tim/console/errorlog.h"
 #include "tim/console/functions.h"
 
-#include <pastel/sys/stdext_isnan.h>
-#include <pastel/sys/stdext_copy_n.h>
+#include <pastel/sys/isnan.h>
+#include <pastel/sys/copy_n.h>
 #include <pastel/sys/string_algorithms.h>
 
 #include <boost/any.hpp>
@@ -1682,7 +1682,7 @@ yyreduce:
 			RealSet* realSet = realSetSet->front();
 			while(nans < realSet->size())
 			{
-				if (!StdExt::isNan((*realSet)[nans]))
+				if (!isNan((*realSet)[nans]))
 				{
 					break;
 				}

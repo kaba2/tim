@@ -16,7 +16,7 @@
 #include <pastel/sys/constantiterator.h>
 #include <pastel/sys/iterator_range.h>
 #include <pastel/sys/eps.h>
-#include <pastel/sys/stdext_copy_n.h>
+#include <pastel/sys/copy_n.h>
 
 #include <numeric>
 #include <iterator>

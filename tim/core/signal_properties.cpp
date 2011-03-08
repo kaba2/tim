@@ -1,6 +1,6 @@
 #include "tim/core/signal_properties.h"
 
-#include <pastel/sys/stdext_isnan.h>
+#include <pastel/sys/isnan.h>
 
 namespace Tim
 {
@@ -16,7 +16,7 @@ namespace Tim
 		integer i = 0;
 		while(i < samples)
 		{
-			if (!StdExt::isNan(data(i, 0)))
+			if (!isNan(data(i, 0)))
 			{
 				break;
 			}

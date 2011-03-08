@@ -305,7 +305,7 @@ namespace Tim
 					for (integer j = 0;j < samples;++j)
 					{
 						const integer offset = dot(stride, Vector<integer, 4>(j, 0, x, y));
-						if (!StdExt::isNan(data[offset]))
+						if (!isNan(data[offset]))
 						{
 							break;
 						}
