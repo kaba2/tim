@@ -10,7 +10,7 @@
 #include <tim/core/transfer_entropy.h>
 #include <tim/core/partial_transfer_entropy.h>
 #include <tim/core/divergence_wkv.h>
-#include <tim/core/embed.h>
+#include <tim/core/delay_embed.h>
 
 #include <pastel/sys/string_algorithms.h>
 

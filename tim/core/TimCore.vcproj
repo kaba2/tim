@@ -607,19 +607,19 @@
 			Name="Delay embedding"
 			>
 			<File
-				RelativePath=".\embed.cpp"
+				RelativePath=".\delay_embed.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\embed.h"
+				RelativePath=".\delay_embed.h"
 				>
 			</File>
 			<File
-				RelativePath=".\embed.hpp"
+				RelativePath=".\delay_embed.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\embed.txt"
+				RelativePath=".\delay_embed.txt"
 				>
 			</File>
 		</Filter>

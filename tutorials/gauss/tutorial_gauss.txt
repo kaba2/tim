@@ -70,7 +70,7 @@ coupling dynamics. Before anything else, we have to reconstruct the
 state-space of these scalar time-series, which can be done using delay
 embedding:
 
-[delayembed]: delay_embed.htm
+[delayembed]: delay_delay_embed.htm
 
 	dim = 1, tau = 1;
 	Sx = delay_embed(data(1, :), dim, tau);

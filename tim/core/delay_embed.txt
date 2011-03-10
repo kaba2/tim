@@ -3,14 +3,7 @@ Delay embedding
 
 [[Parent]]: user_documentation.txt
 
-Theory
-------
-
-Let ''S : ZZ -> RR^n'' be an ''n''-dimensional signal.
-
-### Delay-embedding
-
-A _delay-embedding_ of ''S'' is a signal 
+The _delay-embedding_ of a signal ''S : ZZ -> RR^n'' is a signal 
 ''R : ZZ -> RR^(kn)'' such that 
 
 ''R(t) = (
@@ -30,8 +23,6 @@ where
 A specific delay-embedding can be identified with the 
 pair ''(Delta t, k)''.
 
-### Future of a signal
-
 The _future_ of the signal ''S'' under a given 
 delay-embedding ''(Delta t, k)'' is given by
 the signal ''Q : ZZ -> RR^n'' such that
@@ -41,17 +32,16 @@ the signal ''Q : ZZ -> RR^n'' such that
 Practice
 --------
 
-You might notice that we do not allow for embedding shift,
-i.e. translation of the signal before delay-embedding.
-This is deliberate, since this way the time instant zero
-keeps associated to the first element of the embedded signal.
-The time shifting is done in the estimators via the lag 
+In the delay embedding, we do not allow for an embedding shift, i.e. 
+translation of the signal before delay-embedding. This retains the time 
+instant zero associated with the first element of the embedded signal.
+A possible time shifting is done in the estimators via the lag 
 parameters.
 
 In practice the signals are only defined on a bounded support. 
-In TIM the signals are extended to the whole domain by padding them
-with NaNs. The result is that there are NaNs in the beginning of 
-each delay-embedded signal. For example, in TIM Matlab:
+The signals are extended to the whole domain by padding them
+with NaNs. This results in NaNs in the beginning of each delay-embedded 
+signal. For example, in TIM Matlab:
 
 	>> A = delay_embed([1, 2, 3, 4], 3, 1);
 	
