@@ -3,6 +3,10 @@ Wang-Kulkarni-Verdu estimator
 
 [[Parent]]: divergence.txt
 
+The _Wang-Kulkarni-Verdu_ divergence estimator is a 
+non-parametric estimator based on k:th nearest neighbors of sample 
+sets.
+
 References
 ----------
 

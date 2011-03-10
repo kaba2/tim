@@ -8,7 +8,7 @@ The _mutual information_ between random variables ''X'' and ''Y'' is defined by:
 ''I(X, Y) = H(X) + H(Y) - H(X, Y)''
 
 where ''H'' is the differential entropy. Mutual information measures 
-the amount of information shared by ''X'' and ''Y''. It's importance 
+the amount of information shared by ''X'' and ''Y''. Its importance 
 lies in the fact that 
 
 ''I(X, Y) = 0 <=>'' ''X'' and ''Y'' are independent.

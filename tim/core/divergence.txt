@@ -3,7 +3,11 @@ Divergence
 
 [[Parent]]: estimators.txt
 
-The _Kullback-Leibler divergence_ between two probability density functions
-''p, q: RR^n -> RR'' is defined by:
+The _Kullback-Leibler divergence_ between two random 
+variables ''X'' and ''Y'' is defined by
 
-''D(p|q) = int_{R^n} p(x) text(log)((p(x)) / (q(x))) dx''
+''D(X, Y) = int_{R^d} f(x) text(log)((f(x)) / (g(x))) dx,''
+
+where ''f, g: RR^d -> RR'' are the probability density functions 
+of ''X'' and ''Y'', respectively. In TIM, the Kullback-Leibler
+divergence is abbreviated a _divergence_. 
