@@ -3,10 +3,10 @@ Building TIM Matlab
 
 [[Parent]]: tim.txt
 
-This page describes how to build TIM Matlab. This is only
+This page describes how to build the TIM Matlab interface. This is only
 necessary if prebuilt binaries are not available for your platform 
-at the [main page][Main]. To be able to build TIM Matlab, you
-need to first [build the TIM libraries][Core].
+at the [main page][Main]. To be able to build the TIM Matlab interface, 
+you need to first [build the TIM libraries][Core].
 
 [Core]: [[Ref]]: building.txt
 [Main]: [[Ref]]: tim.txt
@@ -23,49 +23,77 @@ to an external compiler, such as Visual Studio or gcc.
 
 ### 1. Select a compiler
 
-To be able to build TIM Matlab on your compiler, the used Matlab version 
-must support the compiler. For example, support for Visual Studio 2010 
-was added in Matlab 2010b. To select the compiler Matlab uses, type
+To select the compiler Matlab uses, type
 
 	mex -setup
 	
-on the Matlab command line, and follow the instructions. The compiler 
-you select must be the same you used to build TIM Core. 
+on the Matlab command line, and follow the instructions. 
+A compiler can be used to build the TIM Matlab interface if
+ 
+ * The compiler is supported by Matlab, meaning also that the
+   compiler has been used to build the Matlab external interface
+   libraries (i.e. it is not ok to change the used gcc version 
+   manually). The main point here is that the used C++ standard 
+   libraries must match across all libraries.
+ 
+ * The same compiler is used to build the TIM Core and TIM Matlab 
+ libraries.
+ 
+ * The architectures of the libraries match: 
+ 32-bit libraries against 32-bit libraries,
+ and 64-bit libraries against 64-bit libraries.
+ 
+The current list of supported compilers for Matlab 2010b can be 
+found [from here][MatlabSupported]. There is a similar list for
+the previous versions.
+Note: since OpenMP was introduced in gcc 4.2, and the supported
+compiler for Mac OS X is only of version 4.0, it is not currently 
+possible to build TIM in Mac OS X with OpenMP enabled.
+
+[MatlabSupported]: http://www.mathworks.com/support/compilers/R2010b/index.html
 
 ### 2. Set the external library directories
 
-In `tim/matlab` directory, open the file `build_options.txt`,
+In `tim/matlab` directory, open the file `build_tim.m`,
 which will read something like this:
 
-	tim_matlab.cpp
-	-D_HAS_ITERATOR_DEBUGGING=0 
-	-DPASTEL_ENABLE_OMP
-	-I'../../../pastel' 
-	-I'../../../tim'
-	-I'../../../../external/boost_1_45_0'
-	-L'../../../pastel/build/vs2008/lib'
-	-L'../../../tim/build/vs2008/lib'
-	-lPastelSys
-	-lPastelMatlab
-	-lPastelMath
-	-lPastelGeometry
-	-lTimCore
-	-lTimMatlab
+    mex tim_matlab.cpp ...
+		-D_HAS_ITERATOR_DEBUGGING=0 ...
+		-DPASTEL_ENABLE_OMP ...
+		-I'../../../pastel' ... 
+		-I'../../../tim' ...
+		-I'../../../../external/boost_1_45_0' ...
+		-L'../../../pastel/build/vs2008/lib' ...
+		-L'../../../tim/build/vs2008/lib' ...
+		-lPastelSys ...
+		-lPastelMatlab ...
+		-lPastelMath ...
+		-lPastelGeometry ...
+		-lTimCore ...
+		-lTimMatlab
 	
 Replace the directories to reflect the locations of the libraries.
 The `I` is for an include directory, while `L` is for a library
-directory. For debug mode, there is a similar option file
-`build_options_debug.txt`.
+directory. There are similarly named build files for debug and 
+develop modes.
 
-### 3. Choose configuration and build
+### 3. Add the OpenMP flag to compiler flags
+
+To enable OpenMP, the OpenMP flag must be added to the compiler flags.
+Unfortunately Matlab does not have a compiler-independent option for this.
+Therefore, to enable OpenMP, you must manually modify the Matlab options 
+file for your compiler. Consult the Matlab documentation on how to do this. 
+On gcc the flag is `-fopenmp`, while for Visual Studio the flag is `/openmp`.
+
+### 4. Choose configuration and build
 
 To build TIM Matlab in release mode, type in Matlab command line:
 
 	>> build_tim
-	
-To build TIM Matlab in debug mode, type in Matlab command line:
 
-	>> build_tim_debug
+Alternatively, you can build the TIM Matlab interface in debug or 
+develop mode by running the script `build_tim_debug.m` or 
+`build_tim_develop.m`, respectively.
 
 Output files
 ------------

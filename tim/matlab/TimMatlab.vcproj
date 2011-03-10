@@ -367,11 +367,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\build_tim_debug_options.txt"
-				>
-			</File>
-			<File
-				RelativePath=".\build_tim_options.txt"
+				RelativePath=".\build_tim_develop.m"
 				>
 			</File>
 			<File
