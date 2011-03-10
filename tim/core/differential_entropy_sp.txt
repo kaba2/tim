@@ -3,7 +3,7 @@ Stowell-Plumbley estimator
 
 [[Parent]]: differential_entropy.txt
 
-The Stowell-Plumbley differential entropy estimator 
+The _Stowell-Plumbley_ differential entropy estimator 
 is a non-parametric estimator based on approximating 
 the underlying probability density function by a cover 
 of disjoint axis-aligned boxes with uniform densities.

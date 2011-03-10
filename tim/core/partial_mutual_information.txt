@@ -3,17 +3,16 @@ Partial mutual information
 
 [[Parent]]: entropy_combination.txt
 
-Theory
-------
-
-Let ''X'', ''Y'', and ''Z'' be random variables.
-_Partial mutual information_ is defined by:
+The _partial mutual information_ between random variables
+''X'', ''Y'', and ''Z'' is defined by
 
 ''I(X, Y ; Z) = H(X, Z) + H(Z, Y) - H(Z) - H(X, Z, Y)''
 
-where ''H'' denotes differential entropy.
+where ''H'' denotes the Shannon differential entropy.
 It measures the amount of information shared by ''X'' and ''Y''
 while discounting the possibility that ''Z'' drives both ''X'' and ''Y''.
+If ''Z'' is independent of both ''X'' and ''Y'', then partial mutual
+information degenerates to mutual information.
 
 References
 ----------

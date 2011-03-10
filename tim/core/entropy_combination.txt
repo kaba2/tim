@@ -5,11 +5,11 @@ Entropy combinations
 
 An _entropy combination_ of a random variable ''X'' is defined by
 
-''C(X) = sum_{k = 1}^p c_k H(X_{L_k})''
+''C(X) = sum_{k = 1}^m c_k H(X_{L_k})''
 
 where 
 
- * ''X = (X_1, ..., X_m) in RR^d'',
+ * ''X = (x_1, ..., x_d) in RR^d'',
  * ''H'' is the [differential entropy][DiffEntropy],
  * ''\forall k in [1, p]: L_k sub [1, m] sub ZZ'',
  * ''X_L = [x_{l_1}, ..., x_{l_{|L|}}]'',
@@ -17,6 +17,11 @@ where
  * ''sum_{k = 1}^m c_k |L_k| = 0''.
 
 [DiffEntropy]: [[Ref]]: differential_entropy.txt
+
+It can be shown that the last condition is a necessary and
+sufficient condition for a discrete entropy combination to
+converge to a continuous entropy combination under a shrinking 
+tiling of ''RR^d''. 
 
 Practice
 --------

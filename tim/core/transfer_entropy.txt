@@ -3,17 +3,14 @@ Transfer entropy
 
 [[Parent]]: entropy_combination.txt
 
-Theory
-------
-
-Let ''X'', ''Y'', and ''w'' be random variables.
-_Transfer entropy_ is defined by:
+The _transfer entropy_ between the random variables 
+''X'', ''Y'', and ''w'' is defined by
 
 ''T(w, X, Y) = H(w, X) + H(X, Y) - H(X) - H(w, X, Y)''
 
-where ''H'' is the differential entropy and ''w'' is the future 
-of ''X''. It measures the amount of directed information flow 
-from ''X'' to ''Y''.
+where ''H'' is the Shannon differential entropy and ''w'' is 
+the future of ''X''. It measures the amount of directed 
+information flow from ''X'' to ''Y''.
 
 References
 ----------
