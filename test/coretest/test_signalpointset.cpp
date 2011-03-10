@@ -2,7 +2,7 @@
 
 #include "tim/core/signalpointset.h"
 #include "tim/core/signal_tools.h"
-#include "tim/core/embed.h"
+#include "tim/core/delay_embed.h"
 
 #include <pastel/sys/views.h>
 #include <pastel/sys/random.h>

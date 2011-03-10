@@ -10,7 +10,7 @@
 % DT is the embedding delay.
 
 % Description: Delay-embedding
-% Documentation: embed.txt
+% Documentation: delay_embed.txt
 
 function Y = delay_embed(X, k, dt)
 

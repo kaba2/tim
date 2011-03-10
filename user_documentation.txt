@@ -3,4 +3,4 @@ User documentation
 
 [[Parent]]: tim.txt
 
-This section contains documentation aimed for the user of TIM.
+This section contains documentation aimed for the user.

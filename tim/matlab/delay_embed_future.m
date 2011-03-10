@@ -12,7 +12,7 @@
 % DT is the embedding delay.
 
 % Description: Future of a delay-embedded signal
-% Documentation: embed.txt
+% Documentation: delay_embed.txt
 
 function Y = delay_embed_future(X, k, dt)
 

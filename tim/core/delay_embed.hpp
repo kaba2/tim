@@ -1,7 +1,7 @@
-#ifndef TIM_EMBED_HPP
-#define TIM_EMBED_HPP
+#ifndef TIM_DELAY_EMBED_HPP
+#define TIM_DELAY_EMBED_HPP
 
-#include "tim/core/embed.h"
+#include "tim/core/delay_embed.h"
 
 namespace Tim
 {

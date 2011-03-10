@@ -1,4 +1,4 @@
-#include "tim/core/embed.h"
+#include "tim/core/delay_embed.h"
 #include "tim/core/signal_tools.h"
 
 namespace Tim

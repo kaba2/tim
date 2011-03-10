@@ -3,7 +3,7 @@
 #include "tim/core/mutual_information.h"
 #include "tim/core/partial_transfer_entropy.h"
 #include "tim/core/signal_tools.h"
-#include "tim/core/embed.h"
+#include "tim/core/delay_embed.h"
 
 #include <pastel/gfx/draw.h>
 #include <pastel/gfx/pcx.h>

@@ -36,7 +36,7 @@ The function definitions are given in the following form:
 		t0 = 0 : integer,
 		dt = 1 : integer) : signal
 		
-See [[Link: embed.txt]].
+See [[Link: delay_embed.txt]].
 
 ### Import functions
 

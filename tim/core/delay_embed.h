@@ -1,7 +1,7 @@
 // Description: Delay embedding
 
-#ifndef TIM_EMBED_H
-#define TIM_EMBED_H
+#ifndef TIM_DELAY_EMBED_H
+#define TIM_DELAY_EMBED_H
 
 #include "tim/core/signal.h"
 
@@ -121,6 +121,6 @@ namespace Tim
 
 }
 
-#include "tim/core/embed.hpp"
+#include "tim/core/delay_embed.hpp"
 
 #endif
