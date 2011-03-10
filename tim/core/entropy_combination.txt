@@ -3,38 +3,28 @@ Entropy combinations
 
 [[Parent]]: estimators.txt
 
-Let ''X = (X_1, ..., X_m)'' be a random variable.
-An _entropy combination_ is defined by
+An _entropy combination_ of a random variable ''X'' is defined by
 
-''C(X_{L_1}, ..., X_{L_p}) = [sum_{i = 1}^p s_i H(X_{L_i})] - H(X)''
+''C(X) = sum_{k = 1}^p c_k H(X_{L_k})''
 
-where ''H'' is the differential entropy and 
-''\forall i in [1, p]: L_i sub [1, m]'' and ''s_i in {-1, 1}'' such that 
+where 
 
-''sum_{i = 1}^p s_i |L_i| = 0''
+ * ''X = (X_1, ..., X_m) in RR^d'',
+ * ''H'' is the [differential entropy][DiffEntropy],
+ * ''\forall k in [1, p]: L_k sub [1, m] sub ZZ'',
+ * ''X_L = [x_{l_1}, ..., x_{l_{|L|}}]'',
+ * ''c in RR^m'', and
+ * ''sum_{k = 1}^m c_k |L_k| = 0''.
 
-The estimator used for computing entropy combinations is a 
-generalization of the ideas used by Alexander Kraskov in his 
-thesis to develop a mutual information estimator (see references).
+[DiffEntropy]: [[Ref]]: differential_entropy.txt
 
 Practice
 --------
 
 The implementation of the entropy combination estimator requires
-additionally that each ''L_i'' is an interval. This allows to save
+additionally that each ''L_k'' is an interval. This allows to save
 memory by allowing the memory for the joint signal to be
 shared with the marginal signals. It is easily seen that mutual
 information, partial mutual information, transfer entropy,
 and partial transfer entropy can all be arranged to have this property.
 
-References
-----------
-
-[Estimation of Entropy combinations (PDF)][Entropy-Combination]
-
-[Entropy-Combination]: ../../files/estimation-of-entropy-combinations.pdf
-
-See also
---------
-
-[[Link]]: differential_entropy.txt
