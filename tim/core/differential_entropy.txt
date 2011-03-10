@@ -3,16 +3,17 @@ Shannon differential entropy
 
 [[Parent]]: entropy.txt
 
-Let ''X'' be a random variable in ''RR^n'' distributed according to 
-the probability density function ''mu : RR^n -> RR''. 
-The _differential entropy_ of ''X'' is defined by:
+The _differential entropy_ of a continuous random variable ''X'' is defined by
 
-''H(X) = -int_{RR^n} mu(x) log(mu(x)) dx''
+''H(X) = -int_{RR^d} f(x) log(f(x)) dx,''
+
+where ''f : RR^d -> RR'' is the probability density function of ''X''. 
 
 Entropy vs differential entropy
 -------------------------------
 
-There is no generalization of Shannon entropy to continuous variables.
+There is no generalization of Shannon entropy to continuous variables,
+since differential entropy [is not an entropy combination][EntropyCombination].
 Therefore, while the definition of differential entropy looks similar 
 to the definition of discrete entropy, it does not generalize its 
 properties. The role of differential entropy is two-fold. First, it is 
@@ -23,13 +24,15 @@ information, it is equivalent to minimize differential entropies,
 which can be a bit more efficient. This makes the estimation of
 differential entropy by itself useful.
 
-### Differential entropy on embedded manifolds
+[EntropyCombination]: [[Ref]]: entropy_combination.txt
+
+### Differential entropy on differentiable manifolds
 
 The definition of differential entropy can be generalized by assuming that
-''X'' is distributed on a ''d''-dimensional differentiable manifold ''M'' 
-in ''RR^n'', ''0 <= d <= n'', with a probability density function ''mu : M -> RR''.
+''X'' is distributed on an ''m''-dimensional differentiable manifold ''M'' 
+in ''RR^d'', ''0 <= m <= d'', with a probability density function ''f : M -> RR''.
 Then differential entropy is defined by:
 
-''H(X) = -int_{M} mu(x) log(mu(x)) dx''
+''H(X) = -int_{M} f(x) log(f(x)) dx''
 
 TIM implements estimators for both of these definitions.

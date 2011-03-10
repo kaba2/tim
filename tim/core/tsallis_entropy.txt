@@ -3,7 +3,11 @@ Tsallis entropy
 
 [[Parent]]: entropy.txt
 
-Assume ''X'' is a random variable in ''RR^n'' distributed according to the probability 
-density function ''mu : RR^n -> RR''. The _Tsallis entropy_ of ''X'' is defined by:
+The _Tsallis entropy_ of a continuous random variable ''X'' is defined by
 
-''H_q(X) = (1 / (q - 1))(1 - int_{RR^n} mu^q(x) dx)''
+''H_q(X) = (1 / (q - 1))(1 - int_{RR^n} f^q(x) dx)''
+
+where ''f : RR^n -> RR'' is the probability density function of ''X'',
+and ''q in RR''. As ''q'' approaches 1, the Tsallis entropy approaches
+the Shannon differential entropy. This limit can be made part of the
+definition to make Tsallis entropy continuous on ''q''.

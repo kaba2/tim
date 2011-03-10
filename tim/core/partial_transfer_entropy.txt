@@ -3,17 +3,16 @@ Partial transfer entropy
 
 [[Parent]]: entropy_combination.txt
 
-Theory
-------
-
-Let ''X'', ''Y'', ''Z'', and ''w'' be random variables.
-_Partial transfer entropy_ is defined by:
+The _partial transfer entropy_ between the random variables 
+''X'', ''Y'', ''Z'', and ''w'' is defined by:
 
 ''T(w, X, Y ; Z) = H(w, X, Z) + H(X, Z, Y) - H(X, Z) - H(w, X, Z, Y)''
 
-where ''H'' is the differential entropy and ''w'' is the future of ''X''. 
-It measures the amount of directed information flow from ''X'' to ''Y'' 
+where ''H'' is the differential entropy and ''w'' is the [future][DelayEmbed] 
+of ''X''. It measures the amount of directed information flow from ''X'' to ''Y'' 
 while discounting the possibility that ''Z'' drives both ''X'' and ''Y''.
+
+[DelayEmbed]: [[Ref]]: delay_embed.txt
 
 See also
 --------
