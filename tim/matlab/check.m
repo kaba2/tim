@@ -53,8 +53,8 @@ if strcmp(checkName, 'outputs')
 end
 
 if strcmp(checkName, 'filter')
-	if ~isa(X, 'double')
-		error('FILTER must be a real array');
+	if ~isnumeric(X)
+		error('FILTER must be a numeric array.');
 	end
 
 	if mod(numel(X), 2) == 0
@@ -81,10 +81,6 @@ if strcmp(checkName, 'signalSet')
 	dimension = size(X{1}, 1);
 
 	for i = 1 : signals
-		if ~isa(X{i}, 'double')
-			error('Some signal is not of type double.');
-		end
-
 		if size(X{i}, 1) ~= dimension
 			error(['The dimensions of the trials do not match.']);
 		end
