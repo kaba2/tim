@@ -5,8 +5,10 @@ Release history
 
 This section summarizes the release history of TIM.
 
-Versioning
-----------
+Conventions
+-----------
+
+### Versioning
 
 The versioning of TIM is given in the form x.y.z, where x, y, and z 
 are integers. The x increments only for major changes, the y increments 
@@ -16,14 +18,21 @@ incremented, both y and z are zeroed. The x, y, and z need not consist
 of a single digit, and, for example, 1.12.0 is a much later version 
 than 1.1.3.
 
+### Previous versions
+
+It is possible to visit the webpages of a 
+previous version by visiting the address
+
+	http://www.tut.fi/tim/tim-x.y.z
+	
+where x.y.z is a version number. That webpage then works as
+it did on the time release, and can be used to obtain the
+older software.
+
 TIM 1.1.0
 ---------
 
-[Download TIM Source 1.1.0][TIM-Source-1.1.0]
-
-[TIM-Source-1.1.0]: ./files/tim-1.1.0.zip
-
-Release date xx.3.2011.
+Release date 11.3.2011.
 
 #### TIM Core
 
@@ -52,8 +61,8 @@ Release date xx.3.2011.
  * Added trial permutation and permutation test.
  * Packed all functionality into a single mex 
  file instead of multiple ones.
- * Improved robustness by using the PastelMatlab
- library.
+ * Removed the restriction of specific input types 
+ in the mex file (e.g. that arrays must be double). 
  
 #### TIM Console
 
@@ -90,10 +99,6 @@ Release date xx.3.2011.
 
 TIM 1.0.0
 ---------
-
-[Download TIM Source 1.0.2][TIM-Source-1.0.2]
-
-[TIM-Source-1.0.2]: ./files/tim-1.0.2.zip
 
 Release date 13.1.2010.
 
