@@ -371,6 +371,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\build_tim_release-without-openmp.m"
+				>
+			</File>
+			<File
 				RelativePath=".\tim_matlab.cpp"
 				>
 			</File>
