@@ -9,19 +9,6 @@
 namespace Tim
 {
 
-	TIM SignalPtr nanToLagged(const SignalPtr& signal)
-	{
-		const integer nans = nanSamples(signal);
-
-		// The following correctly skips rows, because
-		// data is stored in row-major order.
-		const SignalPtr lagged = SignalPtr(
-			new Signal(signal->samples() - nans, signal->dimension(), 
-			nans, &*signal->data().rowBegin(nans)));
-
-		return lagged;
-	}
-
 	TIM std::ostream& operator<<(
 		std::ostream& stream, const Signal& signal)
 	{

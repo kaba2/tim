@@ -12,9 +12,6 @@
 namespace Tim
 {
 
-	//! Counts the number of samples from the start which begin with a NaN.
-	TIM integer nanSamples(const SignalPtr& signal);
-
 	//! Returns the largest time interval on which all signals are defined.
 	template <typename SignalPtr_Iterator, typename Integer_Iterator>
 	Integer2 sharedTimeInterval(

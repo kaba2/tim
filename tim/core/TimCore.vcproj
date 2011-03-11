@@ -670,10 +670,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\signal_properties.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\signal_properties.h"
 					>
 				</File>
