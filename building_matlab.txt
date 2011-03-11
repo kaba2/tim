@@ -74,8 +74,8 @@ which will read something like this:
 	
 Replace the directories to reflect the locations of the libraries.
 The `I` is for an include directory, while `L` is for a library
-directory. There are similarly named build files for debug and 
-develop modes.
+directory. There are similarly named build files for debug, 
+develop, and release-without-openmp modes.
 
 ### 3. Add the OpenMP flag to compiler flags
 
@@ -91,9 +91,8 @@ To build TIM Matlab in release mode, type in Matlab command line:
 
 	>> build_tim
 
-Alternatively, you can build the TIM Matlab interface in debug or 
-develop mode by running the script `build_tim_debug.m` or 
-`build_tim_develop.m`, respectively.
+Alternatively, you can build the TIM Matlab interface in other
+modes by running the script with the desired configuration.
 
 Output files
 ------------
