@@ -32,17 +32,17 @@ namespace Tim
 
 			enum
 			{
-				signalIndex,
-				kIndex,
-				dtIndex
+				SignalIndex,
+				K,
+				Dt
 			};
 
 			const SignalPtr signal = 
-				boost::any_cast<SignalPtr>(argSet[signalIndex]);
+				boost::any_cast<SignalPtr>(argSet[SignalIndex]);
 			const integer k = 
-				boost::any_cast<integer>(argSet[kIndex]);
+				boost::any_cast<integer>(argSet[K]);
 			const integer dt = 
-				boost::any_cast<integer>(argSet[dtIndex]);
+				boost::any_cast<integer>(argSet[Dt]);
 
 			// Check parameters.
 
@@ -72,18 +72,26 @@ namespace Tim
 
 			enum
 			{
-				signalIndex,
-				dtIndex
+				SignalIndex,
+				K,
+				Dt
 			};
 
 			const SignalPtr signal = 
-				boost::any_cast<SignalPtr>(argSet[signalIndex]);
+				boost::any_cast<SignalPtr>(argSet[SignalIndex]);
+			const integer k = 
+				boost::any_cast<integer>(argSet[K]);
 			const integer dt = 
-				boost::any_cast<integer>(argSet[dtIndex]);
+				boost::any_cast<integer>(argSet[Dt]);
 
 			// Check parameters.
 
 			bool error = false;
+			if (k <= 0)
+			{
+				reportError("'k' must be positive.");
+				error = true;
+			}
 			if (dt <= 0)
 			{
 				reportError("'dt' must be positive.");
@@ -104,29 +112,29 @@ namespace Tim
 
 			enum
 			{
-				fileNameIndex,
-				samplesIndex,
-				dimensionIndex,
-				trialsIndex,
-				seriesIndex,
-				separatorSetIndex,
-				orderIndex
+				FileName,
+				Samples,
+				Dimension,
+				Trials,
+				Series,
+				SeparatorSet,
+				Order
 			};
 
 			const std::string fileName = 
-				boost::any_cast<std::string>(argSet[fileNameIndex]);
+				boost::any_cast<std::string>(argSet[FileName]);
 			integer samples = 
-				boost::any_cast<integer>(argSet[samplesIndex]);
+				boost::any_cast<integer>(argSet[Samples]);
 			const integer dimension = 
-				boost::any_cast<integer>(argSet[dimensionIndex]);
+				boost::any_cast<integer>(argSet[Dimension]);
 			const integer trials = 
-				boost::any_cast<integer>(argSet[trialsIndex]);
+				boost::any_cast<integer>(argSet[Trials]);
 			const integer series = 
-				boost::any_cast<integer>(argSet[seriesIndex]);
+				boost::any_cast<integer>(argSet[Series]);
 			const std::string separatorSet = 
-				boost::any_cast<std::string>(argSet[separatorSetIndex]);
+				boost::any_cast<std::string>(argSet[SeparatorSet]);
 			const SignalPtr order = 
-				boost::any_cast<SignalPtr>(argSet[orderIndex]);
+				boost::any_cast<SignalPtr>(argSet[Order]);
 
 			// Check parameters.
 
@@ -1500,6 +1508,8 @@ namespace Tim
 				{
 					// signal
 					boost::any(SignalPtr()),
+					// k
+					boost::any(integer(1)),
 					// dt
 					boost::any(integer(1))
 				};
@@ -1509,7 +1519,7 @@ namespace Tim
 					"delay_embed_future", 
 					FunctionInfo(
 						delay_embed_future, 
-						range(parameterSet), 1)));
+						range(parameterSet), 2)));
 			}
 
 			// read_csv
