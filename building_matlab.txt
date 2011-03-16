@@ -46,9 +46,14 @@ A compiler can be used to build the TIM Matlab interface if
 The current list of supported compilers for Matlab 2010b can be 
 found [from here][MatlabSupported]. There is a similar list for
 the previous versions.
-Note: since OpenMP was introduced in gcc 4.2, and the supported
+
+__Note__: since OpenMP was introduced in gcc 4.2, and the supported
 compiler for Mac OS X is only of version 4.0, it is not currently 
 possible to build TIM in Mac OS X with OpenMP enabled.
+
+__Note__: Matlab 32-bit is required to build 32-bit mex files, and
+Matlab 64-bit is required to build 64-bit mex files. In particular, it 
+is not possible to do 32-bit builds from Matlab 64-bit.
 
 [MatlabSupported]: http://www.mathworks.com/support/compilers/R2010b/index.html
 
@@ -65,25 +70,30 @@ which will read something like this:
 		-I'../../../../external/boost_1_45_0' ...
 		-L'../../../pastel/build/vs2008/lib' ...
 		-L'../../../tim/build/vs2008/lib' ...
-		-lPastelSys ...
-		-lPastelMatlab ...
-		-lPastelMath ...
-		-lPastelGeometry ...
+		-lTimMatlab ...
 		-lTimCore ...
-		-lTimMatlab
+		-lPastelGeometry ...
+		-lPastelMath ...
+		-lPastelMatlab ...
+		-lPastelSys
 	
 Replace the directories to reflect the locations of the libraries.
 The `I` is for an include directory, while `L` is for a library
 directory. There are similarly named build files for debug, 
 develop, and release-without-openmp modes.
 
-### 3. Add the OpenMP flag to compiler flags
+### 3. Add the OpenMP support
 
-To enable OpenMP, the OpenMP flag must be added to the compiler flags.
-Unfortunately Matlab does not have a compiler-independent option for this.
-Therefore, to enable OpenMP, you must manually modify the Matlab options 
-file for your compiler. Consult the Matlab documentation on how to do this. 
+To enable OpenMP (support for multiple cores), do the following:
+
+* Add the OpenMP flag to the compiler flags.
+Since Matlab does not have a compiler-independent option for this,
+you must manually modify the Matlab options file for your compiler. 
+Consult the Matlab documentation on how to do this. 
 On gcc the flag is `-fopenmp`, while for Visual Studio the flag is `/openmp`.
+
+* On Linux, add the `-lgomp` option in `build_tim.m` to include the OpenMP 
+library.
 
 ### 4. Choose configuration and build
 
