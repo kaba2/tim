@@ -222,6 +222,9 @@ solution "Tim"
 		
 	-- GCC specific build options.
 	configuration "gmake"
+		-- Needed on 64-bit platforms to be able
+		-- to link static libraries to shared libraries.
+		buildoptions { "-fPIC" }
 		-- Enables some additional warnings.
 		buildoptions { "-Wall" }
 		-- Disable some warnings.
