@@ -550,6 +550,14 @@
 				RelativePath="..\..\premake4.lua"
 				>
 			</File>
+			<File
+				RelativePath="..\..\tim_license.txt"
+				>
+			</File>
+			<File
+				RelativePath="..\..\tim_license_matlab.txt"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Tutorials"
