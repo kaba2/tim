@@ -52,62 +52,22 @@ namespace Tim
 		integer k,
 		integer dt = 1);
 
-	//! Time shift to produce the future of a delay-embedded signal.
-	/*!
-	Preconditions:
-	k > 0
-	dt >= 1
-
-	k:
-	Embedding factor.
-
-	dt:
-	Embedding delay.
-
-	Assume a signal x : R -> R^n was embedded to a signal X : R -> R^(kn)
-	using the function 'delayEmbed' with an embedding factor k. 
-	Then the future of x is defined as the last R^n component of the 
-	otherwise same embedding but with an embedding factor (k + 1).
-
-	The future of x can be obtained simply by shifting x by
-	a proper 'tDelta' amount of samples: 
-
-	xFuture[t] = x[t + tDelta]
-	
-	This function computes 'tDelta' from the parameters that were used 
-	for the delay embedding.
-	*/
-
-	TIM integer delayEmbedFutureShift(
-		integer k, 
-		integer dt = 1);
-
 	//! Returns the future of a signal under a given delay-embedding.
 	/*!
 	Preconditions:
-	k > 0
-	t0 >= 0
 	dt >= 1
-
-	k:
-	Embedding factor.
 
 	dt:
 	Embedding delay.
 	*/
 	TIM SignalPtr delayEmbedFuture(
 		const SignalPtr& signal,
-		integer k,
 		integer dt = 1);
 
 	//! Computes the futures of signals under a given delay-embedding.
 	/*!
 	Preconditions:
-	k > 0
 	dt >= 1
-
-	k:
-	Embedding factor.
 
 	dt:
 	Embedding delay.
@@ -116,7 +76,6 @@ namespace Tim
 	void delayEmbedFuture(
 		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
 		const OutputIterator& outputBegin,
-		integer k,
 		integer dt = 1);
 
 }

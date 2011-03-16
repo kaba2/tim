@@ -45,10 +45,8 @@ namespace Tim
 
 	TIM SignalPtr delayEmbedFuture(
 		const SignalPtr& signal,
-		integer k,
 		integer dt)
 	{
-		ENSURE_OP(k, >, 0);
 		ENSURE_OP(dt, >=, 1);
 
 		const integer dimension =
@@ -56,15 +54,12 @@ namespace Tim
 		const integer samples = 
 			signal->samples();
 
-		const integer futureShift = 
-			delayEmbedFutureShift(k, dt);
-
 		const integer embedSamples = 
-			std::max(samples - futureShift, 0);
+			std::max(samples - dt, 0);
 
 		const SignalPtr embedSignal = SignalPtr(
 			new Signal(embedSamples, dimension,
-			signal->t(), &*signal->data().rowBegin(futureShift)));
+			signal->t(), &*signal->data().rowBegin(dt)));
 
 		/*
 		if (embedSamples > 0)
@@ -80,16 +75,6 @@ namespace Tim
 		*/
 
 		return embedSignal;
-	}
-
-	TIM integer delayEmbedFutureShift(
-		integer k, 
-		integer dt)
-	{
-		PENSURE_OP(k, >, 0);
-		PENSURE_OP(dt, >=, 1);
-
-		return dt;
 	}
 
 }

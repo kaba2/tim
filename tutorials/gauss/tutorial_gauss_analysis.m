@@ -56,7 +56,7 @@ estimator_smooth = @(x, lag) filter((1/FILTER_ORDER)*ones(1,FILTER_ORDER),1, ...
     estimator(x, lag),[],2);
 
 % Information transfer in the direction 2<-1
-W = delay_embed_future(S2, DIM, STEP);
+W = delay_embed_future(S2, STEP);
 pte21 = estimator_smooth([S2;S1;S3;W],LAG21);
 
 % Significance threshold for flow 2<-1
@@ -64,31 +64,31 @@ pte21sig = permutation_test([S2;S1;S3;W], [1 2 1 1], ...
     @(x) estimator_smooth(x, LAG21), ALPHA);
 
 %  1<-2
-W = delay_embed_future(S1, DIM, STEP);
+W = delay_embed_future(S1, STEP);
 pte12 = estimator_smooth([S1;S2;S3;W],0);
 pte12sig = permutation_test([S2;S1;S3;W], [1 2 1 1], ...
     @(x) estimator_smooth(x, 0), ALPHA);
 
 % 3<-2
-W = delay_embed_future(S3, DIM, STEP);
+W = delay_embed_future(S3, STEP);
 pte32 = estimator_smooth([S3;S2;S1;W],LAG32);
 pte32sig = permutation_test([S3;S2;S1;W], [1 2 1 1], ...
     @(x) estimator_smooth(x, LAG32), ALPHA);
 
 % 2<-3
-W = delay_embed_future(S2, DIM, STEP);
+W = delay_embed_future(S2, STEP);
 pte23 = estimator_smooth([S2;S3;S1;W],0);
 pte23sig = permutation_test([S2;S3;S1;W], [1 2 1 1], ...
     @(x) estimator_smooth(x, 0), ALPHA);
 
 % 1<-3
-W = delay_embed_future(S1, DIM, STEP);
+W = delay_embed_future(S1, STEP);
 pte13 = estimator_smooth([S1;S3;S2;W],0);
 pte13sig = permutation_test([S1;S3;S2;W], [1 2 1 1], ...
     @(x) estimator_smooth(x, 0), ALPHA);
 
 % 3<-1
-W = delay_embed_future(S3, DIM, STEP);
+W = delay_embed_future(S3, STEP);
 pte31 = estimator_smooth([S3;S1;S2;W],LAG31);
 pte31sig = permutation_test([S3;S1;S2;W], [1 2 1 1], ...
     @(x) estimator_smooth(x, LAG31), ALPHA);

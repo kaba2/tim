@@ -27,13 +27,10 @@ The function definitions are given in the following form:
 	delay_embed(
 		input : signal,
 		k : integer,
-		t0 = 0 : integer,
 		dt = 1 : integer) : signal
 		
 	delay_embed_future(
 		input : signal,
-		k : integer,
-		t0 = 0 : integer,
 		dt = 1 : integer) : signal
 		
 See [[Link: delay_embed.txt]].
