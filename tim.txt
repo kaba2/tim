@@ -63,8 +63,8 @@ OpenMP support needs at least gcc 4.2, while the newest Matlab version 2010b onl
 supports gcc 4.0 under Mac OS X. This means that on multi-core computers
 the prebuilt TIM is much slower on Mac OS X compared to Linux or Windows.
 
-[TIM-Matlab-1.1.0]: ../files/tim-matlab-1.1.0.zip
-[TIM-Console-1.1.0]: ../files/tim-console-1.1.0.zip
+[TIM-Matlab-1.1.0]: ./files/tim-matlab-1.1.0.zip
+[TIM-Console-1.1.0]: ./files/tim-console-1.1.0.zip
 
 Source-code
 -----------
