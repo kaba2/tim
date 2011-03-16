@@ -31,10 +31,8 @@ namespace Tim
 	void delayEmbedFuture(
 		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
 		const OutputIterator& outputBegin,
-		integer k,
 		integer dt)
 	{
-		ENSURE_OP(k, >, 0);
 		ENSURE_OP(dt, >=, 1);
 
 		SignalPtr_Iterator signalIter = signalSet.begin();
@@ -42,7 +40,7 @@ namespace Tim
 		OutputIterator outputIter = outputBegin;
 		while(signalIter != signalEnd)
 		{
-			*outputIter = Tim::delayEmbedFuture(*signalIter, k, dt);
+			*outputIter = Tim::delayEmbedFuture(*signalIter, dt);
 			++outputIter;
 			++signalIter;
 		}

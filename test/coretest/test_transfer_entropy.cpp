@@ -155,7 +155,7 @@ namespace
 
 		delayEmbedFuture(
 			range(signalSet.rowBegin(0), signalSet.rowEnd(0)),
-			std::back_inserter(futureSet), 1);
+			std::back_inserter(futureSet));
 
 		const SignalPtr estimate = temporalPartialTransferEntropy(
 			range(signalSet.rowBegin(0), signalSet.rowEnd(0)),

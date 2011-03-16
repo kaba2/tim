@@ -73,25 +73,17 @@ namespace Tim
 			enum
 			{
 				signalIndex,
-				kIndex,
 				dtIndex
 			};
 
 			const SignalPtr signal = 
 				boost::any_cast<SignalPtr>(argSet[signalIndex]);
-			const integer k = 
-				boost::any_cast<integer>(argSet[kIndex]);
 			const integer dt = 
 				boost::any_cast<integer>(argSet[dtIndex]);
 
 			// Check parameters.
 
 			bool error = false;
-			if (k <= 0)
-			{
-				reportError("'k' must be positive.");
-				error = true;
-			}
 			if (dt <= 0)
 			{
 				reportError("'dt' must be positive.");
@@ -103,7 +95,7 @@ namespace Tim
 				throw FunctionCall_Exception();
 			}
 
-			return boost::any(delayEmbedFuture(signal, k, dt));
+			return boost::any(delayEmbedFuture(signal, dt));
 		}
 
 		boost::any read_csv(const AnySet& argSet, integer passedArgs)
@@ -1508,8 +1500,6 @@ namespace Tim
 				{
 					// signal
 					boost::any(SignalPtr()),
-					// k
-					boost::any(integer(1)),
 					// dt
 					boost::any(integer(1))
 				};
@@ -1519,7 +1509,7 @@ namespace Tim
 					"delay_embed_future", 
 					FunctionInfo(
 						delay_embed_future, 
-						range(parameterSet), 2)));
+						range(parameterSet), 1)));
 			}
 
 			// read_csv

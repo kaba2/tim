@@ -38,7 +38,7 @@ estimator_smooth = @(x) filter((1/FILTER_ORDER)*ones(1,FILTER_ORDER),1, ...
 % Assess information flow in the direction  2 <- 1
 Ssink = delay_embed(pset(2,:), DIM_SINK, STEP);
 Ssource = delay_embed(pset(1,:), DIM_SOURCE, STEP);
-W = delay_embed_future(Ssink, DIM_FUTURE, STEP);
+W = delay_embed_future(Ssink, STEP);
 te21 = estimator_smooth([Ssink;Ssource;W]);
 
 % Significance threshold for flow 2 <- 1
@@ -48,7 +48,7 @@ te21sig = permutation_test([Ssink; Ssource;W], [1 2 1], ...
 % Assess information flow in the direction  1 <- 2
 Ssink = delay_embed(pset(1,:), DIM_SINK, STEP);
 Ssource = delay_embed(pset(2,:), DIM_SOURCE, STEP);
-W = delay_embed_future(Ssink, DIM_FUTURE, STEP);
+W = delay_embed_future(Ssink, STEP);
 te12 = estimator_smooth([Ssink;Ssource;W]);
 
 % Significance threshold for flow 1 <- 2
