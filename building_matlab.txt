@@ -82,7 +82,7 @@ The `I` is for an include directory, while `L` is for a library
 directory. There are similarly named build files for debug, 
 develop, and release-without-openmp modes.
 
-### 3. Add the OpenMP support
+### 3. Add some flags and libraries
 
 To enable OpenMP (support for multiple cores), do the following:
 
@@ -94,6 +94,10 @@ On gcc the flag is `-fopenmp`, while for Visual Studio the flag is `/openmp`.
 
 * On Linux, add the `-lgomp` option in `build_tim.m` to include the OpenMP 
 library.
+
+On the 64-bit Linux, if you want to build the 32-bit version (requires 
+Matlab 32-bit), add the `-m32` compiler flag in the g++ flags of the 
+`glnx86` section in the options file.
 
 ### 4. Choose configuration and build
 
