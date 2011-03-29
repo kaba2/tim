@@ -32,7 +32,7 @@ older software.
 TIM 1.1.0
 ---------
 
-Release date 11.3.2011.
+Release date 17.3.2011.
 
 #### TIM Core
 

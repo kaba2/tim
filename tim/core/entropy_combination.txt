@@ -11,7 +11,7 @@ where
 
  * ''X = (x_1, ..., x_d) in RR^d'',
  * ''H'' is the [differential entropy][DiffEntropy],
- * ''\forall k in [1, p]: L_k sub [1, m] sub ZZ'',
+ * ''\forall k in [1, p]: L_k sub [1, d] sub ZZ'',
  * ''X_L = [x_{l_1}, ..., x_{l_{|L|}}]'',
  * ''c in RR^m'', and
  * ''sum_{k = 1}^m c_k |L_k| = 0''.
