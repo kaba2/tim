@@ -1,7 +1,8 @@
 % ENTROPY_COMBINATION
 % An entropy combination estimate from samples.
 %
-% I = entropy_combination(signalSet, rangeSet, lagSet, k)
+% I = entropy_combination(signalSet, rangeSet)
+% I = entropy_combination(signalSet, rangeSet, 'key', value, ...)
 %
 % where
 %
@@ -16,13 +17,18 @@
 % the factor by which the differential entropy is multiplied before
 % summing to the end-result.
 %
-% LAGSET is an arbitrary-dimensional cell-array whose linearization 
-% contains p arrays of lags to apply to each signal. Each array of lags
+% Optional input arguments in 'key'-value pairs:
+%
+% LAGSET ('lagSet') is an arbitrary-dimensional cell-array whose linearization 
+% contains p arrays of lags to apply to each signal. Each array of lags 
 % is either a scalar, or has L elements, where L is the maximum number of 
-% elements among the arrays in LAGSET. An array of lags is handled by its
-% linearization. If an array of lags is a scalar, it is extended to an
+% elements among the arrays in LAGSET. An array of lags is handled by its 
+% linearization. If an array of lags is a scalar, it is extended to an 
 % array with L elements with the scalar as its elements.
 % Default: a (p x 1) cell-array of scalar zeros.
+%
+% K ('k') is an integer which denotes the number of nearest neighbors to be 
+% used by the estimator.
 %
 % I is a real (L x 1)-matrix of computed entropy combinations, where L is 
 % the number of specified lags. The I(i) corresponds to the entropy
@@ -33,24 +39,31 @@
 % Description: Entropy combination estimation
 % Documentation: entropy_combination.txt
 
-function I = entropy_combination(signalSet, rangeSet, lagSet, k)
+function I = entropy_combination(signalSet, rangeSet, varargin)
 
-check(nargin, 'inputs', 2 : 4);
-check(nargout, 'outputs', 0 : 1);
+pkgname = regexpi(mfilename('fullpath'), ['+(TIM_.*)' filesep mfilename], ...
+    'tokens', 'once');
+import([pkgname{1} '.tim_matlab']);
+import([pkgname{1} '.concept_check']);
+import([pkgname{1} '.process_options']);
+import([pkgname{1} '.compute_lagarray']);
 
-if nargin < 3
-	lagSet = num2cell(zeros(size(signalSet, 1), 1));
-end
+concept_check(nargin, 'inputs', 2);
+concept_check(nargout, 'outputs', 0 : 1);
 
-if nargin < 4
-    k = 1;
-end
+keySet = {'lagSet', 'k'};
+
+% Default optional input arguments
+lagSet = num2cell(zeros(size(signalSet, 1), 1));
+k = 1;
+
+eval(process_options(keySet, varargin));
 
 signals = size(signalSet, 1);
 marginals = size(rangeSet, 1);
 
 for i = 1 : signals
-    check(signalSet(i, :), 'signalSet');
+    concept_check(signalSet(i, :), 'signalSet')
 end
 
 if marginals == 0

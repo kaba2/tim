@@ -31,8 +31,8 @@
 function H = renyi_entropy_lps_t(...
     S, timeWindowRadius, q, kSuggestion, filter)
 
-check(nargin, 'inputs', 2 : 5);
-check(nargout, 'outputs', 0 : 1);
+concept_check(nargin, 'inputs', 2 : 5);
+concept_check(nargout, 'outputs', 0 : 1);
 
 if nargin < 3
     q = 2;
@@ -50,8 +50,8 @@ if isnumeric(S)
     S = {S};
 end
 
-check(S, 'signalSet');
-check(timeWindowRadius, 'timeWindowRadius');
+concept_check(S, 'signalSet');
+concept_check(timeWindowRadius, 'timeWindowRadius');
 
 if size(q, 1) ~= 1 || ...
    size(q, 2) ~= 1
@@ -71,7 +71,7 @@ if kSuggestion < 0
     error('KSUGGESTION must be non-negative.');
 end
 
-check(filter, 'filter');
+concept_check(filter, 'filter');
 
 H = tim_matlab('renyi_entropy_lps_t', ...
     S, timeWindowRadius, q, kSuggestion, filter);

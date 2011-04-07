@@ -15,8 +15,8 @@
 function I = mutual_information_p(...
     X, Y, Z, xLag, yLag, zLag, k)
 
-check(nargin, 'inputs', [3, 6, 7]);
-check(nargout, 'outputs', 0 : 1);
+concept_check(nargin, 'inputs', [3, 6, 7]);
+concept_check(nargout, 'outputs', 0 : 1);
 
 if nargin < 4
     xLag = 0;

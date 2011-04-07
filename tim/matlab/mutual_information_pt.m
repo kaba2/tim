@@ -17,8 +17,8 @@
 function I = mutual_information_pt(...
     X, Y, Z, timeWindowRadius, xLag, yLag, zLag, k, filter)
 
-check(nargin, 'inputs', [4, 7, 8, 9]);
-check(nargout, 'outputs', 0 : 1);
+concept_check(nargin, 'inputs', [4, 7, 8, 9]);
+concept_check(nargout, 'outputs', 0 : 1);
 
 if nargin < 5
     xLag = 0;

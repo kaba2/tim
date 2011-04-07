@@ -16,8 +16,8 @@
 function I = transfer_entropy_p(X, Y, Z, W, ...
     xLag, yLag, zLag, wLag, k)
 
-check(nargin, 'inputs', [4, 8, 9]);
-check(nargout, 'outputs', 0 : 1);
+concept_check(nargin, 'inputs', [4, 8, 9]);
+concept_check(nargout, 'outputs', 0 : 1);
 
 if nargin < 5
     xLag = 0;

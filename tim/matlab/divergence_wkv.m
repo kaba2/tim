@@ -16,8 +16,13 @@
 
 function D = divergence_wkv(X, Y)
 
-check(nargin, 'inputs', 2);
-check(nargout, 'outputs', 0 : 1);
+pkgname = regexpi(mfilename('fullpath'), ['+(TIM_.*)' filesep mfilename], ...
+    'tokens', 'once');
+import([pkgname{1} '.tim_matlab']);
+import([pkgname{1} '.concept_check']);
+
+concept_check(nargin, 'inputs', 2);
+concept_check(nargout, 'outputs', 0 : 1);
 
 if isnumeric(X)
     X = {X};
@@ -27,8 +32,8 @@ if isnumeric(Y)
     Y = {Y};
 end
 
-check(X, 'signalSet');
-check(Y, 'signalSet');
+concept_check(X, 'signalSet');
+concept_check(Y, 'signalSet');
 
 if numel(X) ~= numel(Y)
 	error('The number of trials in X and Y do not match.');
