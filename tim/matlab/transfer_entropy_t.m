@@ -16,8 +16,8 @@
 function I = transfer_entropy_t(X, Y, W, ...
     timeWindowRadius, xLag, yLag, wLag, k, filter)
 
-check(nargin, 'inputs', [4, 7, 8, 9]);
-check(nargout, 'outputs', 0 : 1);
+concept_check(nargin, 'inputs', [4, 7, 8, 9]);
+concept_check(nargout, 'outputs', 0 : 1);
 
 if nargin < 5
     xLag = 0;

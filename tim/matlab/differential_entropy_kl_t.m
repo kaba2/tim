@@ -18,8 +18,8 @@
 function H = differential_entropy_kl_t(...
     S, timeWindowRadius, k, filter)
 
-check(nargin, 'inputs', 2 : 4);
-check(nargout, 'outputs', 0 : 1);
+concept_check(nargin, 'inputs', 2 : 4);
+concept_check(nargout, 'outputs', 0 : 1);
 
 if nargin < 3
     k = 1;
@@ -33,10 +33,10 @@ if isnumeric(S)
     S = {S};
 end
 
-check(S, 'signalSet');
-check(timeWindowRadius, 'timeWindowRadius');
-check(k, 'k');
-check(filter, 'filter');
+concept_check(S, 'signalSet');
+concept_check(timeWindowRadius, 'timeWindowRadius');
+concept_check(k, 'k');
+concept_check(filter, 'filter');
 
 H = tim_matlab('differential_entropy_kl_t', ...
     S, timeWindowRadius, k, filter);

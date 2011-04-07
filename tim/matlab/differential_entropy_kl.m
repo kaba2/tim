@@ -16,8 +16,8 @@
 
 function H = differential_entropy_kl(S, k)
 
-check(nargin, 'inputs', 1 : 2);
-check(nargout, 'outputs', 0 : 1);
+concept_check(nargin, 'inputs', 1 : 2);
+concept_check(nargout, 'outputs', 0 : 1);
 
 if nargin < 2
     k = 1;
@@ -27,8 +27,8 @@ if isnumeric(S)
     S = {S};
 end
 
-check(S, 'signalSet');
-check(k, 'k');
+concept_check(S, 'signalSet');
+concept_check(k, 'k');
 
 H = tim_matlab('differential_entropy_kl', ...
 	S, k);

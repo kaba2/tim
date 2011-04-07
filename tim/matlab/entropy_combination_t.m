@@ -1,10 +1,10 @@
 % ENTROPY_COMBINATION_T
 % A temporal entropy combination estimate from samples.
 %
-% I = entropy_combination_t(signalSet, rangeSet, 
-%       timeWindowRadius, lagSet, k, filter)
+% I = entropy_combination_t(signalSet, rangeSet)
+% I = entropy_combination_t(signalSet, rangeSet, 'key', value, ...)
 %
-% where
+% where 
 %
 % SIGNALSET is a 2-dimensional (p x q) cell-array 
 % containing q trials of p signals.
@@ -17,41 +17,59 @@
 % the factor by which the differential entropy is multiplied before
 % summing to the end-result.
 %
-% LAGSET is an arbitrary-dimensional cell-array whose linearization 
-% contains p arrays of lags to apply to each signal. Each array of lags
-% is either a scalar, or has L elements, where L is the maximum number of 
-% elements among the arrays in LAGSET. An array of lags is handled by its
-% linearization. If an array of lags is a scalar, it is extended to an
-% array with L elements with the scalar as its elements.
+% Optional input arguments in 'key'-value pairs:
+%
+% TIMEWINDOWRADIUS ('timeWindowRadius') is an integer that determines the
+% temporal radius (in samples) around each point that will be used by the
+% estimator. Default: ceil(200/q)
+%
+% LAGSET ('lagSet') is an arbitrary-dimensional cell-array whose 
+% linearization contains p arrays of lags to apply to each signal. Each 
+% array of lags is either a scalar, or has L elements, where L is the 
+% maximum number of elements among the arrays in LAGSET. An array of lags
+% is handled by its linearization. If an array of lags is a scalar, it is
+% extended to an array with L elements with the scalar as its elements.
 % Default: a (p x 1) cell-array of scalar zeros.
+%
+% K ('k') is an integer which denotes the number of nearest neighbors to be
+% used by the estimator.
+%
+% FILTER ('filter') is an arbitrary-dimensional real-array, whose
+% linearization contains temporal weighting coefficients. 
+% Default: 1 (i.e. no temporal weighting is performed)
 %
 % Type 'help tim' for more documentation.
 
 % Description: Temporal entropy combination estimation
 % Documentation: entropy_combination.txt
 
-function I = entropy_combination_t(signalSet, rangeSet, ...
-    timeWindowRadius, lagSet, k, filter)
+function I = entropy_combination_t(signalSet, rangeSet, varargin)
 
-check(nargin, 'inputs', 3 : 6);
-check(nargout, 'outputs', 0 : 1);
+pkgname = regexpi(mfilename('fullpath'), ['+(TIM_.*)' filesep mfilename], ...
+    'tokens', 'once');
+import([pkgname{1} '.tim_matlab']);
+import([pkgname{1} '.concept_check']);
+import([pkgname{1} '.process_options']);
+import([pkgname{1} '.compute_lagarray']);
 
-if nargin < 4
-	lagSet = num2cell(zeros(size(signalSet, 1), 1));
-end
+concept_check(nargin, 'inputs', 2);
+concept_check(nargout, 'outputs', 0 : 1);
 
-if nargin < 5
-    k = 1;
-end
+keySet = {'timeWindowRadius', 'lagSet', 'k', 'filter'};
 
-if nargin < 6
-	filter = [1];
-end
+% Default values of the optional input arguments
+q = size(signalSet, 2);
+timeWindowRadius = ceil(200/q);
+lagSet = num2cell(zeros(size(signalSet, 1), 1));
+k = 1;
+filter = 1;
+
+eval(process_options(keySet, varargin));
 
 signals = size(signalSet, 1);
 
 for i = 1 : signals
-    check(signalSet(i, :), 'signalSet');
+    concept_check(signalSet(i, :), 'signalSet');
 end
 
 marginals = size(rangeSet, 1);
@@ -83,8 +101,8 @@ end
 
 lagArray = compute_lagarray(lagSet);
 
-check(k, 'k')
-check(filter, 'filter');
+concept_check(k, 'k')
+concept_check(filter, 'filter');
 
 lags = size(lagArray, 2);
 
