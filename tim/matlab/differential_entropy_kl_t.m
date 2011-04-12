@@ -12,6 +12,8 @@
 % TIMEWINDOWRADIUS is an integer which determines the temporal radius 
 % around each point that will be used by the estimator.
 %
+% H is the estimated temporal differential entropy.
+%
 % Optional input arguments in 'key'-value pairs:
 %
 % K ('k') is an integer which denotes the number of nearest neighbors 

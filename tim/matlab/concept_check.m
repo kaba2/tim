@@ -95,11 +95,7 @@ if strcmp(concept, 'outputs')
 end
 
 if strcmp(concept, 'filter'),
-    if ndims(X) > 1,
-        error('FILTER must be a vector.');
-    end
-    
-	if ~isnumeric(X), 
+	if ~isnumeric(X) 
 		error('FILTER must be a numeric array.');
     end
     

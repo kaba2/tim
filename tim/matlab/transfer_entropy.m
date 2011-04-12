@@ -22,7 +22,7 @@
 % Description: Transfer entropy estimation
 % Documentation: transfer_entropy.txt
 
-function I = transfer_entropy(X, Y, W)
+function I = transfer_entropy(X, Y, W, varargin)
 
 % Package initialization
 eval(package_init(mfilename('fullpath')));
@@ -62,5 +62,5 @@ end
 I = entropy_combination(...
     [W(:)'; X(:)'; Y(:)'], ...
     [1, 2, 1; 2, 3, 1; 2, 2, -1], ...
-    {wLag, xLag, yLag}, ...
-    k);
+    'lagSet', {wLag, xLag, yLag}, ...
+    'k', k);
