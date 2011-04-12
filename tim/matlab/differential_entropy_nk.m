@@ -25,10 +25,8 @@
 
 function [H, d] = differential_entropy_nk(S)
 
-pkgname = regexpi(mfilename('fullpath'), ['+(TIM_.*)' filesep mfilename], ...
-    'tokens', 'once');
-import([pkgname{1} '.tim_matlab']);
-import([pkgname{1} '.concept_check']);
+% Package initialization
+eval(package_init(mfilename('fullpath')));
 
 concept_check(nargin, 'inputs', 1);
 concept_check(nargout, 'outputs', 0 : 2);
@@ -36,7 +34,6 @@ concept_check(nargout, 'outputs', 0 : 2);
 if isnumeric(S)
     S = {S};
 end
-
 
 concept_check(S, 'signalSet');
 

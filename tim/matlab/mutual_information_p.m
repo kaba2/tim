@@ -1,11 +1,20 @@
 % MUTUAL_INFORMATION_P
 % A partial mutual information estimate from samples.
 %
-% I = mutual_information_p(X, Y, Z, xLag, yLag, zLag, k)
+% I = mutual_information_p(X, Y, Z)
+% I = mutual_information_p(X, Y, Z, 'key', value, ...)
 %
 % where
 %
 % X, Y, and Z are signal sets.
+%
+% I is the estimated partial mutual information.
+%
+% Optional input arguments in 'key'-value pairs:
+%
+% XLAG, YLAG, and ZLAG ('xLag', 'yLag', 'zLag') are integers which
+% denote the amount of lag to apply to signal X, Y, and Z, 
+% respectively. Default 0.
 %
 % Type 'help tim' for more documentation.
 
@@ -13,20 +22,20 @@
 % Documentation: mutual_information.txt
 
 function I = mutual_information_p(...
-    X, Y, Z, xLag, yLag, zLag, k)
+    X, Y, Z, varargin)
 
-concept_check(nargin, 'inputs', [3, 6, 7]);
+% Package initialization
+eval(package_init(mfilename('fullpath')));
+
+concept_check(nargin, 'inputs', 3);
 concept_check(nargout, 'outputs', 0 : 1);
 
-if nargin < 4
-    xLag = 0;
-    yLag = 0;
-    zLag = 0;
-end
-
-if nargin < 7
-    k = 1;
-end
+% Optional input arguments.
+k = 1;
+xLag = 0;
+yLag = 0;
+zLag = 0;
+eval(process_options({'k', 'xLag', 'yLag', 'zLag'}, varargin));
 
 if isnumeric(X)
     X = {X};

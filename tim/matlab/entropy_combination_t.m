@@ -17,11 +17,11 @@
 % the factor by which the differential entropy is multiplied before
 % summing to the end-result.
 %
-% Optional input arguments in 'key'-value pairs:
-%
-% TIMEWINDOWRADIUS ('timeWindowRadius') is an integer that determines the
+% TIMEWINDOWRADIUS is an integer which determines the
 % temporal radius (in samples) around each point that will be used by the
-% estimator. Default: ceil(200/q)
+% estimator.
+%
+% Optional input arguments in 'key'-value pairs:
 %
 % LAGSET ('lagSet') is an arbitrary-dimensional cell-array whose 
 % linearization contains p arrays of lags to apply to each signal. Each 
@@ -31,8 +31,8 @@
 % extended to an array with L elements with the scalar as its elements.
 % Default: a (p x 1) cell-array of scalar zeros.
 %
-% K ('k') is an integer which denotes the number of nearest neighbors to be
-% used by the estimator.
+% K ('k') is an integer which denotes the number of nearest neighbors to 
+% be used by the estimator.
 %
 % FILTER ('filter') is an arbitrary-dimensional real-array, whose
 % linearization contains temporal weighting coefficients. 
@@ -43,28 +43,20 @@
 % Description: Temporal entropy combination estimation
 % Documentation: entropy_combination.txt
 
-function I = entropy_combination_t(signalSet, rangeSet, varargin)
+function I = entropy_combination_t(...
+    signalSet, rangeSet, timeWindowRadius, varargin)
 
-pkgname = regexpi(mfilename('fullpath'), ['+(TIM_.*)' filesep mfilename], ...
-    'tokens', 'once');
-import([pkgname{1} '.tim_matlab']);
-import([pkgname{1} '.concept_check']);
-import([pkgname{1} '.process_options']);
-import([pkgname{1} '.compute_lagarray']);
+% Package initialization
+eval(package_init(mfilename('fullpath')));
 
-concept_check(nargin, 'inputs', 2);
+concept_check(nargin, 'inputs', 3);
 concept_check(nargout, 'outputs', 0 : 1);
 
-keySet = {'timeWindowRadius', 'lagSet', 'k', 'filter'};
-
-% Default values of the optional input arguments
-q = size(signalSet, 2);
-timeWindowRadius = ceil(200/q);
+% Optional input arguments.
 lagSet = num2cell(zeros(size(signalSet, 1), 1));
 k = 1;
 filter = 1;
-
-eval(process_options(keySet, varargin));
+eval(process_options({'lagSet', 'k', 'filter'}, varargin));
 
 signals = size(signalSet, 1);
 
