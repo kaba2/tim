@@ -54,7 +54,7 @@ mutual_information_t(A, A, 100, 'xLag', 0, 'yLag', 0, 'k', 2);
 mutual_information_t(A, A, 100, 'filter', 1);
 mutual_information_t(A, A, 100, 'filter', ones(1, 11));
 mutual_information_t(A, A, 100, 'filter', ones(1, 1001));
-mutual_information_t(A, A, 10000, 'zLag', 2, 'filter', 1);
+mutual_information_t(A, A, 10000, 'yLag', 2, 'filter', 1);
 
 mutual_information_p(A, A, A);
 mutual_information_p(A, A, A, 'xLag', 0, 'yLag', 0, 'zLag', 0);
@@ -76,7 +76,7 @@ transfer_entropy_t(A, A, A, 100, 'xLag', 0, 'yLag', 0, 'wLag', 0, 'k', 2);
 transfer_entropy_t(A, A, A, 100, 'filter', 1);
 transfer_entropy_t(A, A, A, 100, 'filter', ones(1, 11));
 transfer_entropy_t(A, A, A, 100, 'filter', ones(1, 1001));
-transfer_entropy_t(A, A, A, 10000, 'wLag', 2, 'filter', 1);
+transfer_entropy_t(A, A, A, 10000, 'yLag', 2, 'filter', 1);
 
 transfer_entropy_p(A, A, A, A);
 transfer_entropy_p(A, A, A, A, 'xLag', 0, 'yLag', 0, 'zLag', 0);
