@@ -16,10 +16,8 @@
 
 function H = differential_entropy_sp(S)
 
-pkgname = regexpi(mfilename('fullpath'), ['+(TIM_.*)' filesep mfilename], ...
-    'tokens', 'once');
-import([pkgname{1} '.tim_matlab']);
-import([pkgname{1} '.concept_check']);
+% Package initialization
+eval(package_init(mfilename('fullpath')));
 
 concept_check(nargin, 'inputs', 1);
 concept_check(nargout, 'outputs', 0 : 1);
@@ -31,7 +29,8 @@ end
 concept_check(S, 'signalSet');
 
 if (size(S{1}, 1) > 3)
-	warning('tim:inaccurate','This estimator has bad accuracy for dimensions > 3!');
+	warning('tim:inaccurate', ...
+        'This estimator is inaccurate for dimensions > 3!');
 end
 
 H = tim_matlab('differential_entropy_sp', S);

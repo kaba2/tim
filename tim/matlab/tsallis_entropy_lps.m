@@ -9,6 +9,8 @@
 %
 % S is a signal set.
 %
+% H is the estimated Tsallis entropy.
+%
 % Optional input arguments in 'key'-value pairs:
 %
 % Q ('q') is the power in the definition Renyi entropy.
@@ -32,23 +34,16 @@
 
 function H = tsallis_entropy_lps(S, varargin)
 
-pkgname = regexpi(mfilename('fullpath'), ['+(TIM_.*)' filesep mfilename], ...
-    'tokens', 'once');
-import([pkgname{1} '.tim_matlab']);
-import([pkgname{1} '.concept_check']);
-import([pkgname{1} '.process_options']);
+% Package initialization
+eval(package_init(mfilename('fullpath')));
 
-
-concept_check(nargin, 'inputs', 1 : 3);
+concept_check(nargin, 'inputs', 1);
 concept_check(nargout, 'outputs', 0 : 1);
 
-keySet = {'q', 'kSuggestion'};
-
-% Default values of the optional input arguments
+% Optional input arguments
 q = 2;
 kSuggestion = 0;
-
-eval(process_options(keySet, varargin));
+eval(process_options({'q', 'kSuggestion'}, varargin));
 
 if isnumeric(S)
     S = {S};

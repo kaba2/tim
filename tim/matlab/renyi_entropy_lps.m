@@ -9,8 +9,7 @@
 %
 % S is a signal set.
 %
-% Additional (optional) input arguments can be provided as 'key', value
-% pairs. Accepted ('key', VALUE) pairs are:
+% Optional input arguments in 'key'-value pairs:
 %
 % Q ('q') is the power in the definition Renyi entropy.
 % If Q = 1, differential_entropy_kl() is used to
@@ -33,22 +32,16 @@
 
 function H = renyi_entropy_lps(S, varargin)
 
-pkgname = regexpi(mfilename('fullpath'), ['+(TIM_.*)' filesep mfilename], ...
-    'tokens', 'once');
-import([pkgname{1} '.tim_matlab']);
-import([pkgname{1} '.concept_check']);
-import([pkgname{1} '.process_options']);
+% Package initialization
+eval(package_init(mfilename('fullpath')));
 
 concept_check(nargin, 'inputs', 1);
 concept_check(nargout, 'outputs', 0 : 1);
 
-keySet = {'q', 'kSuggestion'};
-
-% Default values of the optional input arguments
+% Optional input arguments.
 q = 2;
 kSuggestion = 0;
-
-eval(process_options(keySet, varargin));
+eval(process_options({'q', 'kSuggestion'}, varargin));
 
 if isnumeric(S)
     S = {S};

@@ -58,18 +58,23 @@
 % Description: Checks that a variable conforms to a given concept.
 % Documentation: tim_matlab_impl.txt
 
-function check(X, concept, parameter)
+function concept_check(X, concept, parameter)
 
 handled = 0;
 
 maxDimension = 32;
 
 if strcmp(concept, 'inputs')
-    if X < min(parameter(:))
-        error('Not enough input arguments.');
-    end
-    if mod(X - max(parameter(:)), 2)
-        error('The optional input arguments must be given in 'key'-value pairs.');
+    if isempty(find(parameter(:) == X, 1))
+        if X < parameter
+            error('Not enough input arguments.');
+        end
+        if X > parameter
+            if mod(X - parameter, 2) ~= 0
+                error(['The optional input arguments must be ', ...
+                    'given in key-value pairs.']);
+            end
+        end
     end
     
     handled = 1;

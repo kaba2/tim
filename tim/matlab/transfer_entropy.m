@@ -1,33 +1,41 @@
 % TRANSFER_ENTROPY 
 % A transfer entropy estimate from samples.
 %
-% I = transfer_entropy(X, Y, W, 
-%       xLag, yLag, wLag, k)
+% I = transfer_entropy(X, Y, W)
+% I = transfer_entropy(X, Y, W, 'key', value, ...)
 %
 % where
 %
 % X, Y, and W are signal sets.
+%
+% Optional input arguments in 'key'-value pairs:
+%
+% XLAG, YLAG, and WLAG ('xLag', 'yLag', 'wLag') are integers which
+% denote the amount of lag to apply to signal X, Y, and Z,
+% respectively. Default 0.
+%
+% K ('k') is an integer which denotes the number of nearest 
+% neighbors to be used by the estimator. Default 1.
 %
 % Type 'help tim' for more documentation.
 
 % Description: Transfer entropy estimation
 % Documentation: transfer_entropy.txt
 
-function I = transfer_entropy(X, Y, W, ...
-    xLag, yLag, wLag, k)
+function I = transfer_entropy(X, Y, W)
 
-concept_check(nargin, 'inputs', [3, 6, 7]);
+% Package initialization
+eval(package_init(mfilename('fullpath')));
+
+concept_check(nargin, 'inputs', 3);
 concept_check(nargout, 'outputs', 0 : 1);
 
-if nargin < 4
-    xLag = 0;
-    yLag = 0;
-    wLag = 0;
-end
-
-if nargin < 7
-    k = 1;
-end
+% Optional input arguments.
+xLag = 0;
+yLag = 0;
+wLag = 0;
+k = 1;
+eval(process_options({'k', 'xLag', 'yLag', 'wLag'}, varargin));
 
 if isnumeric(X)
     X = {X};

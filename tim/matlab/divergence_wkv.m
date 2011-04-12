@@ -16,10 +16,8 @@
 
 function D = divergence_wkv(X, Y)
 
-pkgname = regexpi(mfilename('fullpath'), ['+(TIM_.*)' filesep mfilename], ...
-    'tokens', 'once');
-import([pkgname{1} '.tim_matlab']);
-import([pkgname{1} '.concept_check']);
+% Package initialization
+eval(package_init(mfilename('fullpath')));
 
 concept_check(nargin, 'inputs', 2);
 concept_check(nargout, 'outputs', 0 : 1);

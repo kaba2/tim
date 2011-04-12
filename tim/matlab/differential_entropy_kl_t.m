@@ -2,12 +2,23 @@
 % A temporal differential entropy estimate from samples
 % using Kozachenko-Leonenko nearest neighbor estimator.
 %
-% H = differential_entropy_kl_t(
-%     S, timeWindowRadius, k, filter)
+% H = differential_entropy_kl_t(S, timeWindowRadius)
+% H = differential_entropy_kl_t(S, timeWindowRadius, 'key', value, ...)
 %
 % where
 %
 % S is a signal set.
+%
+% TIMEWINDOWRADIUS is an integer which determines the temporal radius 
+% around each point that will be used by the estimator.
+%
+% Optional input arguments in 'key'-value pairs:
+%
+% K ('k') is an integer which denotes the number of nearest neighbors 
+% to be used by the estimator. Default 1.
+%
+% FILTER ('filter') is a real array, which gives the temporal 
+% weighting coefficients. Default 1.
 %
 % Type 'help tim' for more documentation.
 
@@ -16,18 +27,18 @@
 % Documentation: differential_entropy_kl.txt
 
 function H = differential_entropy_kl_t(...
-    S, timeWindowRadius, k, filter)
+    S, timeWindowRadius, varargin)
 
-concept_check(nargin, 'inputs', 2 : 4);
+% Package initialization
+eval(package_init(mfilename('fullpath')));
+
+concept_check(nargin, 'inputs', 2);
 concept_check(nargout, 'outputs', 0 : 1);
 
-if nargin < 3
-    k = 1;
-end
-
-if nargin < 4
-    filter = [1];
-end
+% Optional input arguments
+k = 1;
+filter = 1;
+eval(process_options({'k', 'filter'}, varargin));
 
 if isnumeric(S)
     S = {S};

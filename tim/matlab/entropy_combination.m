@@ -17,22 +17,22 @@
 % the factor by which the differential entropy is multiplied before
 % summing to the end-result.
 %
-% Optional input arguments in 'key'-value pairs:
-%
-% LAGSET ('lagSet') is an arbitrary-dimensional cell-array whose linearization 
-% contains p arrays of lags to apply to each signal. Each array of lags 
-% is either a scalar, or has L elements, where L is the maximum number of 
-% elements among the arrays in LAGSET. An array of lags is handled by its 
-% linearization. If an array of lags is a scalar, it is extended to an 
-% array with L elements with the scalar as its elements.
-% Default: a (p x 1) cell-array of scalar zeros.
-%
-% K ('k') is an integer which denotes the number of nearest neighbors to be 
-% used by the estimator.
-%
 % I is a real (L x 1)-matrix of computed entropy combinations, where L is 
 % the number of specified lags. The I(i) corresponds to the entropy
 % combination estimate using the lag LAGSET{j}(i) for signal j.
+%
+% Optional input arguments in 'key'-value pairs:
+%
+% LAGSET ('lagSet') is an arbitrary-dimensional cell-array whose 
+% linearization contains p arrays of lags to apply to each signal. Each 
+% array of lags is either a scalar, or has L elements, where L is the 
+% maximum number of elements among the arrays in LAGSET. An array of lags
+% is handled by its linearization. If an array of lags is a scalar, it is 
+% extended to an array with L elements with the scalar as its elements.
+% Default: a (p x 1) cell-array of scalar zeros.
+%
+% K ('k') is an integer which denotes the number of nearest neighbors 
+% to be used by the estimator.
 %
 % Type 'help tim' for more documentation.
 
@@ -41,23 +41,18 @@
 
 function I = entropy_combination(signalSet, rangeSet, varargin)
 
-pkgname = regexpi(mfilename('fullpath'), ['+(TIM_.*)' filesep mfilename], ...
-    'tokens', 'once');
-import([pkgname{1} '.tim_matlab']);
-import([pkgname{1} '.concept_check']);
-import([pkgname{1} '.process_options']);
-import([pkgname{1} '.compute_lagarray']);
+% Package initialization
+eval(package_init(mfilename('fullpath')));
 
 concept_check(nargin, 'inputs', 2);
 concept_check(nargout, 'outputs', 0 : 1);
 
-keySet = {'lagSet', 'k'};
-
-% Default optional input arguments
-lagSet = num2cell(zeros(size(signalSet, 1), 1));
+% Optional input arguments.
 k = 1;
+lagSet = num2cell(zeros(size(signalSet, 1), 1));
+eval(process_options({'lagSet', 'k'}, varargin));
 
-eval(process_options(keySet, varargin));
+concept_check(k, 'k');
 
 signals = size(signalSet, 1);
 marginals = size(rangeSet, 1);
@@ -92,15 +87,6 @@ if numel(lagSet) ~= signals
 end
 
 lagArray = compute_lagarray(lagSet);
-
-if size(k, 1) ~= 1 || ...
-   size(k, 2) ~= 1
-    error('K must be a scalar integer.');
-end
-
-if k < 1
-    error('K must be at least 1.');
-end
 
 lags = size(lagArray, 2);
 I = zeros(lags, 1);
