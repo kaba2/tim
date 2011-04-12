@@ -73,4 +73,5 @@ end
 concept_check(filter, 'filter');
 
 H = tim_matlab('tsallis_entropy_lps_t', ...
-    S, timeWindowRadius, q, kSuggestion, filter);
+    S, timeWindowRadius, ...
+    q, kSuggestion, filter);

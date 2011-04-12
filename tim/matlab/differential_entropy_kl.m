@@ -9,6 +9,8 @@
 %
 % S is a signal set.
 %
+% H is the estimated differential entropy.
+%
 % Optional input arguments in 'key'-value pairs:
 %
 % K ('k') is an integer which denotes the number of nearest neighbors 

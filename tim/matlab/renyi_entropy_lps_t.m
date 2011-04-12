@@ -37,7 +37,7 @@
 % Detail: Leonenko-Pronzato-Savani nearest neighbor estimator
 % Documentation: renyi_entropy_lps.txt
 
-function H = renyi_entropy_lps_t(S, timeWindowRadius)
+function H = renyi_entropy_lps_t(S, timeWindowRadius, varargin)
 
 % Package initialization
 eval(package_init(mfilename('fullpath')));
