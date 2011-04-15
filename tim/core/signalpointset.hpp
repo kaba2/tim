@@ -5,7 +5,6 @@
 #include "tim/core/signal_tools.h"
 
 #include <pastel/sys/ensure.h>
-#include <pastel/sys/interleave.h>
 
 namespace Tim
 {
@@ -71,7 +70,7 @@ namespace Tim
 		// manner.
 
 		const integer signals = signalSet.size();
-		pointSet_.reserve(samples * signals);
+		pointSet_.resize(samples * signals);
 
 		SignalPtr_Iterator iter = signalSet.begin();
 		for (integer i = 0;i < signals;++i)
@@ -81,19 +80,11 @@ namespace Tim
 			{
 				const real* point = 
 					signal->pointBegin(dimensionBegin_)[t - signal->t()];
-				pointSet_.push_back(
-					kdTree_.insert(point));
+				pointSet_[t * signals + i] = kdTree_.insert(point);
 			}
 			
 			++iter;
 		}
-		// The signals are now listed one after each
-		// other. However, we want them to be interleaved
-		// in time. Do that.
-
-		interleave(
-			range(pointSet_.begin(), pointSet_.end()),
-			signals);
 
 		signals_ = signals;
 		samples_ = samples;
