@@ -1,34 +1,43 @@
 % TRANSFER_ENTROPY_P
 % A partial transfer entropy estimate from samples.
 %
-% I = transfer_entropy_p(X, Y, Z, W, 
-%       xLag, yLag, zLag, wLag, k)
+% I = transfer_entropy_p(X, Y, Z, W)
+% I = transfer_entropy_p(X, Y, Z, W, 'key', value, ...)
 %
 % where
 %
 % X, Y, Z, and W are signal sets.
+%
+% Optional input arguments in 'key'-value pairs:
+%
+% XLAG, YLAG, ZLAG, and WLAG ('xLag', 'yLag', 'zLag', 'wLag') 
+% are integers which denote the amount of lag to apply to signals 
+% X, Y, Z, and W, respectively. Default 0.
+%
+% K ('k') is an integer which denotes the number of nearest 
+% neighbors to be used by the estimator. Default 1.
 %
 % Type 'help tim' for more documentation.
 
 % Description: Partial transfer entropy estimation
 % Documentation: transfer_entropy.txt
 
-function I = transfer_entropy_p(X, Y, Z, W, ...
-    xLag, yLag, zLag, wLag, k)
+function I = transfer_entropy_p(X, Y, Z, W, varargin)
 
-check(nargin, 'inputs', [4, 8, 9]);
-check(nargout, 'outputs', 0 : 1);
+% Package initialization
+eval(package_init(mfilename('fullpath')));
 
-if nargin < 5
-    xLag = 0;
-    yLag = 0;
-    zLag = 0;
-    wLag = 0;
-end
+concept_check(nargin, 'inputs', 4);
+concept_check(nargout, 'outputs', 0 : 1);
 
-if nargin < 9
-    k = 1;
-end
+% Optional input arguments
+k = 1;
+xLag = 0;
+yLag = 0;
+zLag = 0;
+wLag = 0;
+eval(process_options(...
+    {'k', 'xLag', 'yLag', 'zLag', 'wLag'}, varargin));
 
 if isnumeric(X)
     X = {X};
@@ -60,5 +69,5 @@ end
 I = entropy_combination(...
     [W(:)'; X(:)'; Z(:)'; Y(:)'], ...
     [1, 3, 1; 2, 4, 1; 2, 3, -1], ...
-    {wLag, xLag, zLag, yLag}, ...
-    k);
+    'lagSet', {wLag, xLag, zLag, yLag}, ...
+    'k', k);

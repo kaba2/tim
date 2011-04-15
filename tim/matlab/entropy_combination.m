@@ -1,7 +1,8 @@
 % ENTROPY_COMBINATION
 % An entropy combination estimate from samples.
 %
-% I = entropy_combination(signalSet, rangeSet, lagSet, k)
+% I = entropy_combination(signalSet, rangeSet)
+% I = entropy_combination(signalSet, rangeSet, 'key', value, ...)
 %
 % where
 %
@@ -16,41 +17,48 @@
 % the factor by which the differential entropy is multiplied before
 % summing to the end-result.
 %
-% LAGSET is an arbitrary-dimensional cell-array whose linearization 
-% contains p arrays of lags to apply to each signal. Each array of lags
-% is either a scalar, or has L elements, where L is the maximum number of 
-% elements among the arrays in LAGSET. An array of lags is handled by its
-% linearization. If an array of lags is a scalar, it is extended to an
-% array with L elements with the scalar as its elements.
-% Default: a (p x 1) cell-array of scalar zeros.
-%
 % I is a real (L x 1)-matrix of computed entropy combinations, where L is 
 % the number of specified lags. The I(i) corresponds to the entropy
 % combination estimate using the lag LAGSET{j}(i) for signal j.
+%
+% Optional input arguments in 'key'-value pairs:
+%
+% LAGSET ('lagSet') is an arbitrary-dimensional cell-array whose 
+% linearization contains p arrays of lags to apply to each signal. Each 
+% array of lags is either a scalar, or has L elements, where L is the 
+% maximum number of elements among the arrays in LAGSET. An array of lags
+% is handled by its linearization. If an array of lags is a scalar, it is 
+% extended to an array with L elements with the scalar as its elements.
+% Default: a (p x 1) cell-array of scalar zeros.
+%
+% K ('k') is an integer which denotes the number of nearest neighbors 
+% to be used by the estimator.
 %
 % Type 'help tim' for more documentation.
 
 % Description: Entropy combination estimation
 % Documentation: entropy_combination.txt
 
-function I = entropy_combination(signalSet, rangeSet, lagSet, k)
+function I = entropy_combination(signalSet, rangeSet, varargin)
 
-check(nargin, 'inputs', 2 : 4);
-check(nargout, 'outputs', 0 : 1);
+% Package initialization
+eval(package_init(mfilename('fullpath')));
 
-if nargin < 3
-	lagSet = num2cell(zeros(size(signalSet, 1), 1));
-end
+concept_check(nargin, 'inputs', 2);
+concept_check(nargout, 'outputs', 0 : 1);
 
-if nargin < 4
-    k = 1;
-end
+% Optional input arguments.
+k = 1;
+lagSet = num2cell(zeros(size(signalSet, 1), 1));
+eval(process_options({'lagSet', 'k'}, varargin));
+
+concept_check(k, 'k');
 
 signals = size(signalSet, 1);
 marginals = size(rangeSet, 1);
 
 for i = 1 : signals
-    check(signalSet(i, :), 'signalSet');
+    concept_check(signalSet(i, :), 'signalSet')
 end
 
 if marginals == 0
@@ -79,15 +87,6 @@ if numel(lagSet) ~= signals
 end
 
 lagArray = compute_lagarray(lagSet);
-
-if size(k, 1) ~= 1 || ...
-   size(k, 2) ~= 1
-    error('K must be a scalar integer.');
-end
-
-if k < 1
-    error('K must be at least 1.');
-end
 
 lags = size(lagArray, 2);
 I = zeros(lags, 1);

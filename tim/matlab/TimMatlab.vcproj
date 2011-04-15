@@ -171,11 +171,11 @@
 			Name="Others"
 			>
 			<File
-				RelativePath=".\check.m"
+				RelativePath=".\compute_lagarray.m"
 				>
 			</File>
 			<File
-				RelativePath=".\compute_lagarray.m"
+				RelativePath=".\concept_check.m"
 				>
 			</File>
 			<File
@@ -187,7 +187,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\process_options.m"
+				>
+			</File>
+			<File
 				RelativePath=".\test_all.m"
+				>
+			</File>
+			<File
+				RelativePath=".\test_stuff.m"
 				>
 			</File>
 		</Filter>
