@@ -29,6 +29,23 @@ where x.y.z is a version number. That webpage then works as
 it did on the time release, and can be used to obtain the
 older software.
 
+TIM 1.1.1
+---------
+
+Release date xx.x.2011.
+
+#### TIM Core
+
+ * Fixed a critical bug in entropy combination estimators,
+ when the number of trials > 1, introduced in TIM 1.1.0.
+ 
+#### Other stuff
+
+ * Created Sourceforge pages for development, bug reports, 
+ mailing lists, and general discussions.
+ * Source built over [Pastel][] 1.2. 
+ * Documentation built over [Remark][] 1.3.
+
 TIM 1.1.0
 ---------
 
