@@ -5,10 +5,10 @@ TIM
 
 [Back]: http://kaba.hilvi.org
 
-_TIM_ is a cross-platform C++ library for efficient estimation of 
-information-theoretic measures from continuous-valued time-series' 
-in arbitrary dimensions. It has a Matlab interface as well as a 
-console interface.
+_TIM_ is a cross-platform open-source C++ library for efficient 
+estimation of information-theoretic measures from continuous-valued 
+time-series' in arbitrary dimensions. It has a Matlab interface as 
+well as a console interface.
 
 Features
 --------
@@ -44,13 +44,13 @@ for various platforms. The prebuilds have been done for
 Windows, Linux, and Mac OS X, all in both 32-bit and 64-bit 
 modes. For easy transition between platforms, we have packed
 all of these builds in the same package. To obtain previous 
-versions, see the [release history][ReleaseHistory]
+versions, see the [release history][ReleaseHistory].
 
 [ReleaseHistory]: [[Ref]]: release_history.txt
 
-[Download TIM Matlab 1.1.0][TIM-Matlab-1.1.0]
+[Download TIM Matlab 1.1.1][TIM-Matlab]
 
-[Download TIM Console 1.1.0][TIM-Console-1.1.0]
+[Download TIM Console 1.1.1][TIM-Console]
 
 __Note__: For Windows, you need to have the 
 [Visual C++ 2008 SP1 Redistributable Package][VisualRedist] 
@@ -63,8 +63,13 @@ OpenMP support needs at least gcc 4.2, while the newest Matlab version 2010b onl
 supports gcc 4.0 under Mac OS X. This means that on multi-core computers
 the prebuilt TIM is much slower on Mac OS X compared to Linux or Windows.
 
-[TIM-Matlab-1.1.0]: ./files/tim-matlab-1.1.0.zip
-[TIM-Console-1.1.0]: ./files/tim-console-1.1.0.zip
+[TIM-Matlab]: ./files/tim-matlab-1.1.1.zip
+[TIM-Console]: ./files/tim-console-1.1.1.zip
+
+__Important__: The version 1.1.0, released 17.3.2011, includes a critical bug
+which makes TIM give completely erroneous results for multi-trial estimates.
+Please replace that version with the current bug-fixed version. We apologize
+for any problems this may have caused.
 
 Source-code
 -----------
@@ -76,12 +81,32 @@ actually building software that depends on it. This is because we can't guarante
 interfaces, i.e., we continue development of TIM and in this process can make 
 breaking changes to interfaces.
 
-[Download TIM Source 1.1.0][TIM-Source-1.1.0]
+[Download TIM Source 1.1.1][TIM-Source]
 
 To obtain previous versions, see the [release history][ReleaseHistory]
 
-[TIM-Source-1.1.0]: ./files/tim-1.1.0.zip
+[TIM-Source]: ./files/tim-1.1.1.zip
 [ReleaseHistory]: [[Ref]]: release_history.txt
+
+Support
+-------
+
+We offer several ways to keep in touch with the development of TIM.
+Most of these features are available through the 
+[TIM development pages in Sourceforge][TIM-dev]. From there, 
+you can
+
+ * Report bugs.
+ * Suggest new features.
+ * Ask for general help in a forum.
+ * Join mailing lists (for news etc).
+ * Join the development.
+
+We encourage you to use these ways of interaction, rather than 
+private e-mails, because this way the discussions benefit other
+people too.
+
+[TIM-dev]: https://sourceforge.net/projects/timcode/
 
 Note on web-browsers
 --------------------
