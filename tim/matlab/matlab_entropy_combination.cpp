@@ -36,22 +36,14 @@ namespace
 
 		Array<SignalPtr> signalSet;
 		getSignalArray(inputSet[SignalSet], signalSet);
-		printf("%d x %d signal-set.", signalSet.width(), signalSet.height());
 
 		std::vector<integer> lagSet;
 		getScalars(inputSet[LagSet], std::back_inserter(lagSet));
-		log() << "Lags: ";
-		for (integer i = 0;i < lagSet.size();++i)
-		{
-			log() << lagSet[i] << ", ";
-		}
-		log() << logNewLine;
 
 		RealArrayPtr rangeArray =
 			asArray<real>(inputSet[RangeSet]);
 
 		const integer marginals = rangeArray->height();
-		log() << marginals << " marginals." << logNewLine;
 
 		std::vector<Integer3> rangeSet;
 		rangeSet.reserve(marginals);
@@ -69,8 +61,6 @@ namespace
 					(*rangeArray)(0, i) - 1,
 					(*rangeArray)(1, i),
 					(*rangeArray)(2, i)));
-					
-				printf("%d %d %d ", rangeSet.back()[0], rangeSet.back()[1], rangeSet.back()[2]);
 			}
 		}
 
