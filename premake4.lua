@@ -97,7 +97,23 @@ solution "Tim"
 	}
 
 	location(outputDirectory)
-	targetdir(outputDirectory .. "/lib")
+
+	includeDirectorySet = 
+	{
+		"./",
+		boostIncludeDir,
+		sdlIncludeDir,
+		pastelIncludeDir,
+		matlabIncludeDir
+	}
+	
+	libraryDirectorySet =
+	{
+		sdlLibraryDir
+	}
+	
+	includedirs(includeDirectorySet)
+	libdirs(libraryDirectorySet)
 
 	configurations 
 	{
@@ -122,8 +138,8 @@ solution "Tim"
 	}
 	
 	configuration "debug"
-		-- Debug libraries are suffixed with 'd'.
-		targetsuffix "_d"
+		targetdir(outputDirectory .. "/lib/debug")
+		libdirs(pastelLibraryDir .. "/debug")
 		-- Enable debug information.
 		flags {"Symbols"}
 		-- Enable ASSERTs and PENSUREs.
@@ -134,8 +150,8 @@ solution "Tim"
 		}
 		
 	configuration "develop"
-		-- Developer libraries are suffixed with 'v'.
-		targetsuffix "_v"
+		targetdir(outputDirectory .. "/lib/develop")
+		libdirs(pastelLibraryDir .. "/develop")
 		-- Enable optimizations.
 		flags {"Optimize"}
 		-- Enable ASSERTs and PENSUREs.
@@ -145,28 +161,20 @@ solution "Tim"
 			"PASTEL_ENABLE_PENSURES",
 		}
 
-	configuration "release*"
-		-- Release libraries do not have a suffix.
+	configuration "release"
+		targetdir(outputDirectory .. "/lib/release")
+		libdirs(pastelLibraryDir .. "/release")
+		-- Enable optimizations.
+		flags {"Optimize"}
+
+	configuration "release_without_openmp"
+		targetdir(outputDirectory .. "/lib/release_without_openmp")
+		libdirs(pastelLibraryDir .. "/release_without_openmp")
 		-- Enable optimizations.
 		flags {"Optimize"}
 
 	-- Determine the SDL library name.	
 	sdlLibrary = "SDL"
-	
-	includeDirectorySet = 
-	{
-		"./",
-		boostIncludeDir,
-		sdlIncludeDir,
-		pastelIncludeDir,
-		matlabIncludeDir
-	}
-	
-	libraryDirectorySet =
-	{
-		sdlLibraryDir,
-		pastelLibraryDir
-	}
 	
 	fileSet = 
 	{
@@ -284,8 +292,6 @@ solution "Tim"
 	then
 		project "TimCore"
 			kind(libKind)
-			includedirs(includeDirectorySet)
-			libdirs(libraryDirectorySet)
 			files(addPrefix("tim/core/", fileSet))
 	end
 
@@ -293,8 +299,6 @@ solution "Tim"
 	then	
 		project "TimMatlab"
 			kind(libKind)
-			includedirs(includeDirectorySet)
-			libdirs(libraryDirectorySet)
 			files(addPrefix("tim/matlab/", fileSet))
 	end
 
@@ -302,8 +306,6 @@ solution "Tim"
 	then
 		project "TimConsole"
 			kind("ConsoleApp")
-			includedirs(includeDirectorySet)
-			libdirs(libraryDirectorySet)
 			files(addPrefix("tim/console/", fileSet))
 			links
 			{
@@ -318,8 +320,6 @@ solution "Tim"
 	then
 		project "TimCoreTest"
 			kind("ConsoleApp")
-			includedirs(includeDirectorySet)
-			libdirs(libraryDirectorySet)
 			files(addPrefix("test/coretest/", fileSet))
 			links
 			{
