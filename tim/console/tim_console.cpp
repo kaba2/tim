@@ -10,6 +10,7 @@
 #include "tim/console/errorlog.h"
 
 #include "pastel/sys/logging.h"
+#include "pastel/sys/string_algorithms.h"
 
 using namespace Tim;
 using namespace Pastel;
