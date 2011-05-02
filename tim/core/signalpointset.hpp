@@ -80,7 +80,7 @@ namespace Tim
 			{
 				const real* point = 
 					signal->pointBegin(dimensionBegin_)[t - signal->t()];
-				pointSet_[t * signals + i] = kdTree_.insert(point);
+				pointSet_[(t - signal->t()) * signals + i] = kdTree_.insert(point);
 			}
 			
 			++iter;
