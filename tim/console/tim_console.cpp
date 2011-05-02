@@ -9,10 +9,16 @@
 #include "tim/console/printer_astvisitor.h"
 #include "tim/console/errorlog.h"
 
+#include "pastel/sys/logging.h"
+
 using namespace Tim;
+using namespace Pastel;
 
 int main(int argc, char **argv)
 {
+	log().addLogger(
+		LoggerPtr(new Stream_Logger(&std::cout)));
+
 	// Parse and construct an Abstract Syntax Tree.
 
 	//std::cout << "Parsing..." << std::endl;
