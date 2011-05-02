@@ -2,22 +2,29 @@
 % A Tsallis entropy estimate from samples
 % using Leonenko-Pronzato-Savani nearest neighbor estimator.
 %
-% H = tsallis_entropy_lps(S, q, kSuggestion)
+% H = tsallis_entropy_lps(S)
+% H = tsallis_entropy_lps(S, 'key', value, ...)
 %
 % where
 %
 % S is a signal set.
 %
-% Q is the power in the definition Tsallis entropy.
-% In case Q = 1, differential_entropy_kl() is used to
-% compute the result instead. Default 2.
+% H is the estimated Tsallis entropy.
 %
-% KSUGGESTION is a suggestion for the k:th nearest neighbor 
-% that should be used for estimation. The k can't
+% Optional input arguments in 'key'-value pairs:
+%
+% Q ('q') is the power in the definition Renyi entropy.
+% If Q = 1, differential_entropy_kl() is used to
+% compute the result instead. 
+% If Q < 1, there are huge errors in the estimation.
+% Default: 2.
+%
+% KSUGGESTION ('kSuggestion') is a suggestion for the k:th nearest
+% neighbor that should be used for estimation. The k can't
 % be freely set because the estimation algorithm is only defined
 % for k > q - 1. Value zero means an accurate (q-dependent) default 
 % is used. For accurate results one should choose 
-% kSuggestion >= 2 * ceil(q) - 1. Default 0.
+% kSuggestion >= 2 * ceil(q) - 1. Default: 0.
 %
 % Type 'help tim' for more documentation.
 
@@ -25,24 +32,24 @@
 % Detail: Leonenko-Pronzato-Savani nearest neighbor estimator
 % Documentation: tsallis_entropy_lps.txt
 
-function H = tsallis_entropy_lps(S, q, kSuggestion)
+function H = tsallis_entropy_lps(S, varargin)
 
-check(nargin, 'inputs', 1 : 3);
-check(nargout, 'outputs', 0 : 1);
+% Package initialization
+eval(package_init(mfilename('fullpath')));
 
-if nargin < 2
-	q = 2;
-end
+concept_check(nargin, 'inputs', 1);
+concept_check(nargout, 'outputs', 0 : 1);
 
-if nargin < 3
-    kSuggestion = 0;
-end
+% Optional input arguments
+q = 2;
+kSuggestion = 0;
+eval(process_options({'q', 'kSuggestion'}, varargin));
 
 if isnumeric(S)
     S = {S};
 end
 
-check(S, 'signalSet');
+concept_check(S, 'signalSet');
 
 if size(q, 1) ~= 1 || ...
    size(q, 2) ~= 1
