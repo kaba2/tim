@@ -40,17 +40,27 @@ namespace
 		std::vector<integer> lagSet;
 		getScalars(inputSet[LagSet], std::back_inserter(lagSet));
 
-		const integer marginals = mxGetM(inputSet[RangeSet]);
-		//printf("%d marginals", marginals);
+		RealArrayPtr rangeArray =
+			asArray<real>(inputSet[RangeSet]);
+
+		const integer marginals = rangeArray->height();
+
 		std::vector<Integer3> rangeSet;
 		rangeSet.reserve(marginals);
 		{
-			real* rawData = mxGetPr(inputSet[RangeSet]);
 			for (integer i = 0;i < marginals;++i)
 			{
-				rangeSet.push_back(Integer3(*rawData - 1, *(rawData + marginals), *(rawData + 2 * marginals)));
-				//printf("%d %d %d ", rangeSet.back()[0], rangeSet.back()[1], rangeSet.back()[2]);
-				++rawData;
+				// FIX: Real weights should not be rounded to integers.
+
+				// On Matlab's side, the range is given in the form [a, b].
+				// This is the same as the range [a, b + 1[. However,
+				// since Matlab indices are 1-based, this finally comes out
+				// as [a - 1, b[.
+				rangeSet.push_back(
+					Integer3(
+					(*rangeArray)(0, i) - 1,
+					(*rangeArray)(1, i),
+					(*rangeArray)(2, i)));
 			}
 		}
 
