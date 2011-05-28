@@ -51,7 +51,7 @@ clear data;
 
 % Function handle to an information transfer estimator
 estimator = @(x, lag) transfer_entropy_pt(x(1,:), x(2,:), x(3,:), x(4,:), ...
-    WINDOW_RADIUS, 0, lag, 0, 0, K);
+    WINDOW_RADIUS, 'yLag', lag, 'k', K);
 estimator_smooth = @(x, lag) filter((1/FILTER_ORDER)*ones(1,FILTER_ORDER),1, ...
     estimator(x, lag),[],2);
 
