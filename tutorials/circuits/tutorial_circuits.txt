@@ -20,7 +20,7 @@ through [this other tutorial][tutorial-gauss].
 Tutorial files
 ---------------
 
-Here we provide the Matlab scripts that are used in this tutorial. 
+Here are the Matlab scripts that are used in this tutorial. 
 
 [Download tutorial files][tutorial_circuits_files]
 
@@ -39,8 +39,8 @@ place it in the same folder as the tutorial scripts:
 
 [tutorial_circuits_dataset]: files/tutorial-circuits-data.zip
 
-Data generation
----------------
+Problem statement
+-----------------
 
 The data consists of real experimental measurements from two nonlinear
 Mackey-Glass circuits unidirectionally coupled through their voltage variables.
@@ -51,6 +51,9 @@ external CPU. The voltage measurements obtained from each circuit consisted of
 182 trials, each with 1000 data samples. The goal of our analysis is to
 discover the unidirectional information flow from master towards slave using only
 the available voltage measurements, without any further a priori information.
+
+Data generation
+---------------
 
 If you have access to the internet you can load the data into Matlab by
 simply running:
@@ -67,10 +70,60 @@ rows of this cell array correspond to the time-series obtained from each of
 the two electronic circuits while the columns contain independent repetitions
 of those time-series.
 
+Results
+-------
+
+We will start by showing you what results you should obtain after a successful
+analysis. The transfer entropy values corresponding to the flow from the master 
+towards the slave circuit are shown in the figure below:
+
+[[Gallery]]:
+	images/tutorial-circuits-fig21.png
+	- Information flow from the master circuit towards the slave circuit. 
+
+The	waveform in the lower part of the figure depicts TE values at lag = 20 
+sampling instants. The following figure shows in dark red the pairs
+(lag, time instant) where the estimated TE value reached significance
+(p < 0.05) and in blue those where it did not reach significance:
+
+[[Gallery]]:
+	images/tutorial-circuits-fig21sig.png
+	- Significance for transfer entropy from the master circuit towards the slave circuit. 
+
+The waveform in the lower part of the figure above depicts TE significance
+thresholds at lag = 20 sampling instants. Clearly, the two figures above lead
+us to the conclusion that the master system is exerting a major effect on the
+dynamics of the slave circuit, with a coupling lag of roughly 20 sampling
+instants. Moreover, the coupling dynamics seem to follow a strongly periodic
+pattern with a period of roughly 100 data samples.
+
+We should now repeat the steps in the previous section to assess also
+information flow from the slave circuit towards the master. The result
+would be the following two figures:
+
+[[Gallery]]:
+	images/tutorial-circuits-fig12.png
+	- Information flow from the slave circuit towards the master circuit. 
+	images/tutorial-circuits-fig12sig.png
+	- Significance for transfer entropy from the slave circuit towards the master circuit. 
+
+which correctly indicate that there is not any significant flow of information
+from slave to master at any lag.
+
+For convenience, you can generate the four figures above by just running
+the following commands:
+
+	>> pset = generate_pset                       % load the dataset
+	>> results = tutorial_circuits_analysis(pset) % performs the TE analysis
+	>> tutorial_circuits_figures(results)         % generates the figures
+
+However, the best way of learning this tutorial is that you try to re-generate
+these figures without using the provided function `tutorial_circuits_analysis`.
+
 Measuring information transfer
 ------------------------------
 
-We will start our analysis by asessing information flow from the first circuit
+We will start our analysis by assessing information flow from the first circuit
 (the master) towards the second (the slave). In the following, we will refer to
 the master time-series as the _source_ of the information flow and we will refer
 to the slave time-series as the _sink_ of the information flow.
@@ -80,10 +133,6 @@ to the slave time-series as the _sink_ of the information flow.
 Before anything else, we have to reconstruct the [state-space][state-space-www]
 of these scalar time-series of voltage measurements. This can be done using 
 [delay embedding][takens-theorem-www]:
-
-[state-space-www]: http://en.wikipedia.org/wiki/Phase_space
-[takens-theorem-www]: http://en.wikipedia.org/wiki/Takens%27_theorem
-
 
 	>> dim = 1, tau = 1;
 	>> Ssink = delay_embed(pset(1, :), dim, tau);
@@ -97,6 +146,8 @@ approach to delay embedding is to take `tau = 1`, `dim = 1` and successively
 embed in higher dimensions until the results of the analysis are consistent.
 
 [kantzbook]: http://books.google.fi/books?id=RfQjAG2pKMUC&lpg=PP1&hl=en&pg=PP1#v=onepage&q=&f=false
+[state-space-www]: http://en.wikipedia.org/wiki/Phase_space
+[takens-theorem-www]: http://en.wikipedia.org/wiki/Takens%27_theorem
 
 ### Lambda functions
 
@@ -160,56 +211,6 @@ that, in the surrogates, the time-series `Ssource` will be always out-of-trial
 [[FileLink: permutation_test.m]] and [[FileLink: permute_pset.m]]
 for further explanations. 
   
-Results
--------
-
-The TE values corresponding to the flow from the master towards the slave
-circuit are shown in the figure below:
-
-[[Gallery]]:
-	images/tutorial-circuits-fig21.png
-	- Information flow from the master circuit towards the slave circuit. 
-
-The	waveform in the lower part of the figure depicts TE values at lag = 20 
-sampling instants. The following figure shows in dark red the pairs
-(lag, time instant) where the estimated TE value reached significance
-(p < 0.05) and in blue those where it did not reach significance:
-
-[[Gallery]]:
-	images/tutorial-circuits-fig21sig.png
-	- Significance for transfer entropy from the master circuit towards the slave circuit. 
-
-The waveform in the lower part of the figure above depicts TE significance
-thresholds at lag = 20 sampling instants. Clearly, the two figures above lead
-us to the conclusion that the master system is exerting a major effect on the
-dynamics of the slave circuit, with a coupling lag of roughly 20 sampling
-instants. Moreover, the coupling dynamics seem to follow a strongly periodic
-pattern with a period of roughly 100 data samples.
-
-We should now repeat the steps in the previous section to assess also
-information flow from the slave circuit towards the master. The result
-would be the following two figures:
-
-[[Gallery]]:
-	images/tutorial-circuits-fig12.png
-	- Information flow from the slave circuit towards the master circuit. 
-	images/tutorial-circuits-fig12sig.png
-	- Significance for transfer entropy from the slave circuit towards the master circuit. 
-
-which correctly indicate that there is not any significant flow of information
-from slave to master at any lag.
-
-For convenience, you can generate the four figures above by just running
-the following commands:
-
-	>> pset = generate_pset                       % load the dataset
-	>> results = tutorial_circuits_analysis(pset) % performs the TE analysis
-	>> tutorial_circuits_figures(results)         % generates the figures
-
-However, the best way of learning this tutorial is that you try to re-generate
-these figures without using the provided function `tutorial_circuits_analysis`.
-
-	
 Credits
 -------
 
