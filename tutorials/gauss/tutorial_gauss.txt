@@ -3,16 +3,17 @@ Tutorial: Assessing coupling dynamics
 
 [[Parent]]: tutorials.txt
 
-In this tutorial we will characterize coupling dynamics between several
-scalar time-series using the function [[FileLink: transfer_entropy_pt.m]], 
-which is included in [TIM Matlab interface][tim-matlab]. 
+In this tutorial we will characterize temporal coupling dynamics 
+between several scalar time-series using the function 
+[[FileLink: transfer_entropy_pt.m]], which is included in 
+[TIM Matlab interface][tim-matlab]. 
 
 [tim-matlab]: [[Ref: tim_matlab.txt]]
 
 Tutorial files
 ---------------
 
-Here we provide the Matlab scripts that are used in this tutorial. 
+Here are the Matlab scripts that are used in this tutorial. 
 
 [Download tutorial files][tutorial-gauss-files]
 
@@ -28,8 +29,8 @@ purpose of this tutorial is to teach you how to perform the connectivity
 analysis yourself. That is why we will ignore function 
 [[FileLink: tutorial_gauss_analysis.m]] until the end of this tutorial.
 
-Data generation
----------------
+Problem statement
+-----------------
 
 We consider the following non-linearly coupled Gaussian processes with a 
 time-varying coupling factor:
@@ -52,25 +53,63 @@ factors:
 
 ''\kappa_{zy}[n]={(\cos(0.004\pi n), for 750 <= n <=1250),(0,otherwise):}''
 
+The problem is to reveal the temporal coupling between the time series 
+x, y, and z.
+
+Data generation
+---------------
+
 The following function generates these time-series:
 
 	data = tutorial_gauss_data();
 
 This loads a cell-array `data` of dimensions 3 x 50. The rows of this 
 cell array correspond to the x, y, and z time-series and the columns 
-contain different random repetitions. 
+contain different random repetitions.
+
+Results
+-------
+
+In order to perform a complete connectivity analysis, you should repeat
+the coupling analysis for all possible link directions (x against y, 
+y against x, y against z, etc.). You should try to do this yourself, to 
+be sure that you learned how to do it. However, we have implemented the 
+whole analysis in function [[FileLink: tutorial_gauss_analysis.m]] so, 
+if you are feeling lazy, simply run:
+
+	tutorial_gauss_analysis; 
+
+This command will save the whole analysis results into a file called
+`tutorial_gauss_analysis.mat`. Then, to generate some nice figures you can
+run:
+
+	tutorial_gauss_figures;  
+
+As a result you should obtain the following figures:
+
+[[Gallery]]:
+	images/tutorial.gauss.fig21.png
+	- Information flow from time-series x towards time-series y.
+	images/tutorial.gauss.fig12.png
+	- Information flow from time-series y towards time-series x.
+	images/tutorial.gauss.fig32.png
+	- Information flow from time-series y towards time-series z.
+	images/tutorial.gauss.fig23.png
+	- Information flow from time-series z towards time-series y.
+	images/tutorial.gauss.fig31.png
+	- Information flow from time-series x towards time-series z.
+	images/tutorial.gauss.fig13.png
+	- Information flow from time-series z towards time-series x.
 
 State-space reconstruction
 ------------------------------
 
 Let us assume that we have measured ''x^{(r)}[n]'', ''y^{(r)}[n]'' and 
 ''z^{(r)}[n]'' and that we want to infer the underlying connectivity 
-pattern and the corresponding 
-coupling dynamics. Before anything else, we have to reconstruct the
-state-space of these scalar time-series, which can be done using delay
-embedding:
-
-[delayembed]: delay_delay_embed.htm
+pattern and the corresponding coupling dynamics. Before anything else, 
+we have to reconstruct the state-space of these scalar time-series, which 
+can be done using [delay embedding][delay_embed] 
+(motivated by the Taken's delay embedding theorem):
 
 	dim = 1, tau = 1;
 	Sx = delay_embed(data(1, :), dim, tau);
@@ -87,27 +126,32 @@ and state-space reconstruction, we recommend you [this book][kantzbook]
 by [Holger Kantz][kantz] and [Thomas Shreiber][schreiber], two well-known 
 experts in the field. In our case, the default choice of `tau = 1` and 
 `dim = 1` will produce satisfactory results, as we will see later.
+Of course, this embedding does not change the data in any way.
+However, that no higher-dimensional embedding is needed is specific for
+this tutorial problem, and does not hold for problems in general. Choosing 
+a right delay-embedding is necessary for a successful analysis; 
+that is why we have included it here explicitly.
 
+[delay_embed]: [[Ref]]: delay_embed.txt
 [embeddingbookchapter]: http://www.worldscibooks.com/etextbook/5722/5722_chap1.pdf
 [kantz]:  http://www.mpipks-dresden.mpg.de/~kantz/
 [schreiber]: http://www.mpipks-dresden.mpg.de/~schreibe/ 
 [kantzbook]: http://books.google.fi/books?id=RfQjAG2pKMUC&lpg=PP1&hl=en&pg=PP1#v=onepage&q=&f=false
 
-
 Measuring information transfer
 ------------------------------
 
 In this section we will perform the actual coupling analysis between
-the state-spaces that were generated in the previous section.
+the delay-embedded signals that were generated in the previous section.
 
 ### Lambda functions
 
-For convenience, we shall define a lambda function (or `function_handle` 
+For convenience, we shall define a lambda function (or a `function_handle` 
 in Matlab's terminology) as follows:
 
 	estimator = @(x, lag) transfer_entropy_pt(...
 		x(1,:), x(2,:), x(3,:), x(4,:), ...
-		5, 0, lag, 0, 0, 20); 	
+		5, 'yLag', lag, 'k', 20); 	
 
 This lambda function bundles together the chosen information measure 
 [[FileLink: transfer_entropy_pt.m]] with its associated input parameters 
@@ -208,42 +252,6 @@ that, in the surrogates, the time-series `Sx` will be always out-of-trial
 [[FileLink: permutation_test.m]] and [[FileLink: permute_pset.m]]
 for further explanations. 
   
-Results
--------
-
-In order to perform a complete connectivity analysis, you should repeat
-all the coupling analysis for all possible link directions. You
-should try to do this yourself, to be sure that you learned how to do it.
-However, we have implemented the whole analysis in function 
-[[FileLink: tutorial_gauss_analysis.m]] so, if you are feeling lazy, you
-can just run:
-
-	tutorial_gauss_analysis; 
-
-This command will save the whole analysis results into a file called
-`tutorial_gauss_analysis.mat`. Then, to generate some nice figures you can
-just run:
-
-	tutorial_gauss_figures;  
-
-which should produce these figures:
-
-[[Gallery]]:
-	images/tutorial.gauss.fig21.png
-	- Information flow from time-series x towards time-series y.
-	images/tutorial.gauss.fig12.png
-	- Information flow from time-series y towards time-series x.
-	images/tutorial.gauss.fig32.png
-	- Information flow from time-series y towards time-series z.
-	images/tutorial.gauss.fig23.png
-	- Information flow from time-series z towards time-series y.
-	images/tutorial.gauss.fig31.png
-	- Information flow from time-series x towards time-series z.
-	images/tutorial.gauss.fig13.png
-	- Information flow from time-series z towards time-series x.
-
-
-	
 Credits
 -------
 
