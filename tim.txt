@@ -10,10 +10,13 @@ estimation of information-theoretic measures from continuous-valued
 time-series' in arbitrary dimensions. It has a Matlab interface as 
 well as a console interface.
 
+Please use the link <http://www.tut.fi/tim> to refer to this page,
+for redirection to the latest version.
+
 __Important__: The version 1.1.0, released 17.3.2011, included a critical bug
 which made TIM give completely erroneous results for multi-trial estimates.
-Please replace that version with the current version. We apologize for any 
-problems this may have caused.
+Please replace that version with the current version. Apologies for any 
+problems this has caused.
 
 Features
 --------
