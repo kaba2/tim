@@ -40,9 +40,6 @@ end
 if nargin < 1 || isempty(results),
     s = load([IN_FILE '.mat']);
     results = s.results;
-elseif ischar(data),
-    s = load(data);
-    results = s.results;
 end
 
 if web_flag && ~exist('export_fig','file'),
