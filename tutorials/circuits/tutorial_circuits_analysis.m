@@ -31,7 +31,7 @@ ALPHA = 0.05;         % significance level
 
 % Function handle to the transfer entropy estimator
 estimator = @(x) transfer_entropy_t(x(1,:), x(2,:), x(3,:), ...
-    WINDOW_RADIUS, 0, LAGS, 0, K);
+    WINDOW_RADIUS, 'yLag', LAGS, 'k', K);
 estimator_smooth = @(x) filter((1/FILTER_ORDER)*ones(1,FILTER_ORDER),1, ...
     estimator(x),[],2);
 
