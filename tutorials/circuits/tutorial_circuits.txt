@@ -52,8 +52,8 @@ external CPU. The voltage measurements obtained from each circuit consisted of
 discover the unidirectional information flow from master towards slave using only
 the available voltage measurements, without any further a priori information.
 
-Data generation
----------------
+Loading the data
+----------------
 
 If you have access to the internet you can load the data into Matlab by
 simply running:

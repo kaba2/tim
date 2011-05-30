@@ -70,12 +70,10 @@ contain different random repetitions.
 Results
 -------
 
-In order to perform a complete connectivity analysis, you should repeat
-the coupling analysis for all possible link directions (x against y, 
-y against x, y against z, etc.). You should try to do this yourself, to 
-be sure that you learned how to do it. However, we have implemented the 
-whole analysis in function [[FileLink: tutorial_gauss_analysis.m]] so, 
-if you are feeling lazy, simply run:
+We will begin by showing what results to except from the analysis.
+We have implemented the whole analysis in function 
+[[FileLink: tutorial_gauss_analysis.m]] 
+so, if you are feeling lazy, simply run:
 
 	tutorial_gauss_analysis; 
 
@@ -85,7 +83,7 @@ run:
 
 	tutorial_gauss_figures;  
 
-As a result you should obtain the following figures:
+As a result you will obtain the following figures:
 
 [[Gallery]]:
 	images/tutorial.gauss.fig21.png
@@ -251,6 +249,10 @@ that, in the surrogates, the time-series `Sx` will be always out-of-trial
 (i.e. uncoupled) in respect to `Sy`, `Sz` and `W`. See the help of 
 [[FileLink: permutation_test.m]] and [[FileLink: permute_pset.m]]
 for further explanations. 
+
+In order to perform a complete connectivity analysis, you should repeat
+the coupling analysis for all possible link directions (x against y, 
+y against x, y against z, etc.). 
   
 Credits
 -------
