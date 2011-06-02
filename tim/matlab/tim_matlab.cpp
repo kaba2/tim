@@ -28,5 +28,7 @@ FORCE_LINKING(entropy_combination_t);
 FORCE_LINKING(mutual_information_naive);
 FORCE_LINKING(renyi_entropy_lps);
 FORCE_LINKING(renyi_entropy_lps_t);
+FORCE_LINKING(set_number_of_threads);
+FORCE_LINKING(number_of_processors);
 FORCE_LINKING(tsallis_entropy_lps);
 FORCE_LINKING(tsallis_entropy_lps_t);

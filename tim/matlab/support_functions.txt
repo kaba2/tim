@@ -1,0 +1,9 @@
+Support functions
+=================
+
+[[Parent]]: tim_matlab.txt
+
+The _support functions_ of TIM Matlab control the global 
+properties of computation, such as the number of threads
+in parallel computation.
+
