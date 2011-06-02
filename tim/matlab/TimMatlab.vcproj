@@ -179,6 +179,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\matlab_set_threads.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\permutation_test.m"
 				>
 			</File>
@@ -188,6 +192,10 @@
 			</File>
 			<File
 				RelativePath=".\process_options.m"
+				>
+			</File>
+			<File
+				RelativePath=".\set_threads.m"
 				>
 			</File>
 			<File
