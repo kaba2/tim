@@ -1,5 +1,5 @@
 % NUMBER_OF_PROCESSORS
-% Returns the number of processors in the machine
+% Returns the number of processors in the machine.
 %
 % processors = number_of_processors()
 %

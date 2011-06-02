@@ -171,39 +171,23 @@
 			Name="Others"
 			>
 			<File
-				RelativePath=".\compute_lagarray.m"
+				RelativePath=".\matlab_number_of_processors.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\concept_check.m"
+				RelativePath=".\matlab_set_number_of_threads.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\matlab_set_threads.cpp"
+				RelativePath=".\number_of_processors.m"
 				>
 			</File>
 			<File
-				RelativePath=".\permutation_test.m"
+				RelativePath=".\set_number_of_threads.m"
 				>
 			</File>
 			<File
-				RelativePath=".\permute_pset.m"
-				>
-			</File>
-			<File
-				RelativePath=".\process_options.m"
-				>
-			</File>
-			<File
-				RelativePath=".\set_threads.m"
-				>
-			</File>
-			<File
-				RelativePath=".\test_all.m"
-				>
-			</File>
-			<File
-				RelativePath=".\test_stuff.m"
+				RelativePath=".\support_functions.txt"
 				>
 			</File>
 		</Filter>
@@ -415,6 +399,30 @@
 			Name="Implementation"
 			>
 			<File
+				RelativePath=".\compute_lagarray.m"
+				>
+			</File>
+			<File
+				RelativePath=".\concept_check.m"
+				>
+			</File>
+			<File
+				RelativePath=".\permutation_test.m"
+				>
+			</File>
+			<File
+				RelativePath=".\permute_pset.m"
+				>
+			</File>
+			<File
+				RelativePath=".\process_options.m"
+				>
+			</File>
+			<File
+				RelativePath=".\tim_matlab_impl.txt"
+				>
+			</File>
+			<File
 				RelativePath=".\tim_mex.h"
 				>
 			</File>
@@ -424,11 +432,15 @@
 			</File>
 		</Filter>
 		<File
-			RelativePath=".\tim_matlab.txt"
+			RelativePath=".\test_all.m"
 			>
 		</File>
 		<File
-			RelativePath=".\tim_matlab_impl.txt"
+			RelativePath=".\test_stuff.m"
+			>
+		</File>
+		<File
+			RelativePath=".\tim_matlab.txt"
 			>
 		</File>
 	</Files>
