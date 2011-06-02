@@ -19,6 +19,6 @@ function processors = number_of_processors()
 eval(package_init(mfilename('fullpath')));
 
 concept_check(nargin, 'inputs', 0);
-concept_check(nargout, 'outputs', 1);
+concept_check(nargout, 'outputs', 0 : 1);
 
 processors = tim_matlab('number_of_processors');
