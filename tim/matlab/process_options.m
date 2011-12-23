@@ -42,7 +42,7 @@ while i < arguments
             'Optional input arguments must be given in key-value pairs.');
     end
     
-    [~, loc] = ismember(key, keySet);
+    [ignore, loc] = ismember(key, keySet);
     
     if loc > 0 
         % The option is supported.
