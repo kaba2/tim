@@ -612,26 +612,6 @@
 			</Filter>
 		</Filter>
 		<Filter
-			Name="Delay embedding"
-			>
-			<File
-				RelativePath=".\delay_embed.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\delay_embed.h"
-				>
-			</File>
-			<File
-				RelativePath=".\delay_embed.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\delay_embed.txt"
-				>
-			</File>
-		</Filter>
-		<Filter
 			Name="Implementation"
 			>
 			<File
@@ -766,6 +746,42 @@
 				RelativePath=".\reconstruction.txt"
 				>
 			</File>
+		</Filter>
+		<Filter
+			Name="State space"
+			>
+			<File
+				RelativePath=".\state_space.txt"
+				>
+			</File>
+			<Filter
+				Name="False nearest neighbors"
+				>
+				<File
+					RelativePath=".\false_nearest.txt"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Delay embedding"
+				>
+				<File
+					RelativePath=".\delay_embed.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\delay_embed.h"
+					>
+				</File>
+				<File
+					RelativePath=".\delay_embed.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\delay_embed.txt"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<File
 			RelativePath="..\..\dependencies.txt"
