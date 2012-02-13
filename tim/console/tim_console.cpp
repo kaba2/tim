@@ -17,8 +17,9 @@ using namespace Pastel;
 
 int main(int argc, char **argv)
 {
-	log().addLogger(
-		LoggerPtr(new Stream_Logger(&std::cout)));
+	Stream_Logger streamLogger(&std::cout);
+
+	log().addLogger(&streamLogger);
 
 	// Parse and construct an Abstract Syntax Tree.
 

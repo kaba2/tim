@@ -34,6 +34,9 @@
 % K ('k') is an integer which denotes the number of nearest neighbors 
 % to be used by the estimator.
 %
+% ESTIMATOR ('estimator') is a string which denotes the local 
+% estimator to use in estimation.
+%
 % Type 'help tim' for more documentation.
 
 % Description: Entropy combination estimation
@@ -50,7 +53,8 @@ concept_check(nargout, 'outputs', 0 : 1);
 % Optional input arguments.
 k = 1;
 lagSet = num2cell(zeros(size(signalSet, 1), 1));
-eval(process_options({'lagSet', 'k'}, varargin));
+estimator = 'digamma';
+eval(process_options({'lagSet', 'k', 'estimator'}, varargin));
 
 concept_check(k, 'k');
 
@@ -59,6 +63,12 @@ marginals = size(rangeSet, 1);
 
 for i = 1 : signals
     concept_check(signalSet(i, :), 'signalSet')
+end
+
+if ~strcmp(estimator, 'log') && ...
+   ~strcmp(estimator, 'digamma') && ...
+   ~strcmp(estimator, 'digamma_density')
+    error('ESTIMATOR must be one of log, digamma, or digamma_density.');
 end
 
 if marginals == 0
@@ -95,5 +105,6 @@ for i = 1 : lags
     I(i) = tim_matlab(...
         'entropy_combination', ...
         signalSet, rangeSet, ...
-        lagArray(:, i), k);
+        lagArray(:, i), k, ...
+        estimator);
 end

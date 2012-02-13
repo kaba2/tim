@@ -17,6 +17,9 @@
 % K ('k') is an integer which denotes the number of nearest 
 % neighbors to be used by the estimator. Default 1.
 %
+% ESTIMATOR ('estimator') is a string which denotes the local 
+% estimator to use in estimation.
+%
 % Type 'help tim' for more documentation.
 
 % Description: Partial transfer entropy estimation
@@ -37,7 +40,8 @@ yLag = 0;
 zLag = 0;
 wLag = 0;
 eval(process_options(...
-    {'k', 'xLag', 'yLag', 'zLag', 'wLag'}, varargin));
+    {'k', 'xLag', 'yLag', 'zLag', 'wLag', 'estimator'}, ...
+    varargin));
 
 if isnumeric(X)
     X = {X};

@@ -40,11 +40,6 @@ namespace Tim
 		// properties of the entropy estimation 
 		// algorithms based on k-nearest neighbors.
 
-		// This is done to avoid parallelization
-		// issues with iterator range caching.
-
-		signalSet.updateCache();
-
 		SignalPointSet pointSet(signalSet);
 
 		const integer trials = signalSet.size();

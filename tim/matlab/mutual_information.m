@@ -14,10 +14,13 @@
 %
 % XLAG and YLAG ('xLag', 'yLag') are integers which
 % denote the amount of lag to apply to signal X and Y, 
-% respectively. Default 0.
+% respectively.
 %
 % K ('k') is an integer which denotes the number of nearest 
-% neighbors to be used by the estimator. Default 1.
+% neighbors to be used by the estimator.
+%
+% ESTIMATOR ('estimator') is a string which denotes the local 
+% estimator to use in estimation.
 %
 % Type 'help tim' for more documentation.
 
@@ -44,7 +47,10 @@ end
 k = 1;
 xLag = 0;
 yLag = 0;
-eval(process_options({'k', 'xLag', 'yLag'}, varargin));
+estimator = 'log_density';
+eval(process_options(...
+    {'k', 'xLag', 'yLag', 'estimator'}, ...
+    varargin));
 
 if ~iscell(X) || ~iscell(Y)
     error('X or Y is not a cell-array.');
@@ -60,4 +66,5 @@ I = entropy_combination(...
     [X(:)'; Y(:)'], ...
     [1, 1, 1; 2, 2, 1], ...
     'lagSet', {xLag, yLag}, ...
-    'k', k);
+    'k', k, ...
+    'estimator', estimator);

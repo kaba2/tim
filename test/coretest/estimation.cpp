@@ -14,8 +14,11 @@ void estimation();
 
 int estimationMain()
 {
-	log().addLogger(LoggerPtr(new Stream_Logger(&std::cout)));
-	log().addLogger(LoggerPtr(new File_Logger("log.txt")));
+	Stream_Logger streamLogger(&std::cout);
+	File_Logger fileLogger("log.txt");
+
+	log().addLogger(&streamLogger);
+	log().addLogger(&fileLogger);
 
 	setInvariantFailureAction(
 		InvariantFailureAction::Throw);

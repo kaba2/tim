@@ -16,6 +16,9 @@
 % denote the amount of lag to apply to signal X, Y, and Z, 
 % respectively. Default 0.
 %
+% ESTIMATOR ('estimator') is a string which denotes the local 
+% estimator to use in estimation.
+%
 % Type 'help tim' for more documentation.
 
 % Description: Partial mutual information estimation
@@ -35,7 +38,10 @@ k = 1;
 xLag = 0;
 yLag = 0;
 zLag = 0;
-eval(process_options({'k', 'xLag', 'yLag', 'zLag'}, varargin));
+estimator = 'log_density';
+eval(process_options(...
+    {'k', 'xLag', 'yLag', 'zLag', 'estimator'}, ...
+    varargin));
 
 if isnumeric(X)
     X = {X};
@@ -63,4 +69,5 @@ I = entropy_combination(...
     [X(:)'; Z(:)'; Y(:)'], ...
     [1, 2, 1; 2, 3, 1; 2, 2, -1], ...
     'lagSet', {xLag, zLag, yLag}, ...
-    'k', k);
+    'k', k, ...
+    'estimator', estimator);

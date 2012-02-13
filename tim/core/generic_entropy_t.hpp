@@ -45,11 +45,6 @@ namespace Tim
 			return SignalPtr(new Signal(0, 1));
 		}
 
-		// This is done to avoid parallelization
-		// issues with iterator range caching.
-
-		signalSet.updateCache();
-
 		const Integer2 sharedTime = sharedTimeInterval(signalSet);
 		const integer estimateBegin = sharedTime[0];
 		const integer estimateEnd = sharedTime[1];
