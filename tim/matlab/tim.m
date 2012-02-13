@@ -64,6 +64,18 @@
 % In addition, the coefficients must sum to a non-zero value.
 % Default [1].
 %
+% Local estimators
+% ----------------
+%
+% The choices for the local estimator parameter 'estimator' in the entropy 
+% combination estimators are:
+%
+%     'digamma' - Kraskov-style expectation-of-log estimator
+%     'log' - Kraskov-style log-of-expectation estimator
+%     'log_density' - Log-of-expectation estimator with density estimation
+%
+% The default is 'log_density'.
+%
 % Other parameters
 % ----------------
 %

@@ -22,6 +22,7 @@ namespace
 			RangeSet,
 			LagSet,
 			KNearest,
+			Estimator,
 			Inputs
 		};
 
@@ -65,13 +66,37 @@ namespace
 		}
 
 		const integer kNearest = asScalar<integer>(inputSet[KNearest]);
+		const std::string estimator = asString(inputSet[Estimator]);
 
 		real* outResult = createScalar<real>(outputSet[Estimate]);
-		*outResult = entropyCombination(
-			signalSet,
-			range(rangeSet.begin(), rangeSet.end()),
-			range(lagSet.begin(), lagSet.end()),
-			kNearest);
+
+		if (estimator == "log")
+		{
+			*outResult = entropyCombination(
+				signalSet,
+				range(rangeSet.begin(), rangeSet.end()),
+				range(lagSet.begin(), lagSet.end()),
+				kNearest,
+				Log_LocalEstimator());
+		}
+		else if (estimator == "digamma")
+		{
+			*outResult = entropyCombination(
+				signalSet,
+				range(rangeSet.begin(), rangeSet.end()),
+				range(lagSet.begin(), lagSet.end()),
+				kNearest,
+				Digamma_LocalEstimator());
+		}
+		else if (estimator == "digamma_density")
+		{
+			*outResult = entropyCombination(
+				signalSet,
+				range(rangeSet.begin(), rangeSet.end()),
+				range(lagSet.begin(), lagSet.end()),
+				kNearest,
+				DigammaDensity_LocalEstimator());
+		}
 	}
 
 	void addFunction()

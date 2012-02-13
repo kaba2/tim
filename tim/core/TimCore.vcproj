@@ -165,129 +165,165 @@
 			<Filter
 				Name="Entropy combination"
 				>
-				<File
-					RelativePath=".\entropy_combination.h"
-					>
-				</File>
-				<File
-					RelativePath=".\entropy_combination.hpp"
-					>
-				</File>
-				<File
-					RelativePath=".\entropy_combination.txt"
-					>
-				</File>
-				<File
-					RelativePath=".\entropy_combination_t.h"
-					>
-				</File>
-				<File
-					RelativePath=".\entropy_combination_t.hpp"
-					>
-				</File>
 				<Filter
-					Name="Mutual information"
+					Name="Generic algorithm"
 					>
 					<File
-						RelativePath=".\mutual_information.h"
+						RelativePath=".\entropy_combination.h"
 						>
 					</File>
 					<File
-						RelativePath=".\mutual_information.txt"
+						RelativePath=".\entropy_combination.hpp"
 						>
 					</File>
 					<File
-						RelativePath=".\mutual_information_analytic.cpp"
+						RelativePath=".\entropy_combination.txt"
 						>
 					</File>
 					<File
-						RelativePath=".\mutual_information_analytic.h"
+						RelativePath=".\entropy_combination_t.h"
 						>
 					</File>
 					<File
-						RelativePath=".\mutual_information_ec.cpp"
+						RelativePath=".\entropy_combination_t.hpp"
 						>
 					</File>
-					<File
-						RelativePath=".\mutual_information_ec.h"
+					<Filter
+						Name="Local estimators"
 						>
-					</File>
-					<File
-						RelativePath=".\mutual_information_ec.hpp"
-						>
-					</File>
-					<File
-						RelativePath=".\mutual_information_naive.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\mutual_information_naive.h"
-						>
-					</File>
-					<File
-						RelativePath=".\mutual_information_naive.hpp"
-						>
-					</File>
+						<File
+							RelativePath=".\digamma_localestimator.h"
+							>
+						</File>
+						<File
+							RelativePath=".\digammadensity_localestimator.h"
+							>
+						</File>
+						<File
+							RelativePath=".\localestimator_concept.h"
+							>
+						</File>
+						<File
+							RelativePath=".\localestimators.h"
+							>
+						</File>
+						<File
+							RelativePath=".\localestimators.txt"
+							>
+						</File>
+						<File
+							RelativePath=".\log_localestimator.h"
+							>
+						</File>
+					</Filter>
 				</Filter>
 				<Filter
-					Name="Partial mutual information"
+					Name="Concrete algorithms"
 					>
-					<File
-						RelativePath=".\partial_mutual_information.cpp"
+					<Filter
+						Name="Mutual information"
 						>
-					</File>
-					<File
-						RelativePath=".\partial_mutual_information.h"
+						<File
+							RelativePath=".\mutual_information.h"
+							>
+						</File>
+						<File
+							RelativePath=".\mutual_information.txt"
+							>
+						</File>
+						<File
+							RelativePath=".\mutual_information_analytic.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\mutual_information_analytic.h"
+							>
+						</File>
+						<File
+							RelativePath=".\mutual_information_ec.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\mutual_information_ec.h"
+							>
+						</File>
+						<File
+							RelativePath=".\mutual_information_ec.hpp"
+							>
+						</File>
+						<File
+							RelativePath=".\mutual_information_naive.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\mutual_information_naive.h"
+							>
+						</File>
+						<File
+							RelativePath=".\mutual_information_naive.hpp"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="Partial mutual information"
 						>
-					</File>
-					<File
-						RelativePath=".\partial_mutual_information.hpp"
+						<File
+							RelativePath=".\partial_mutual_information.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\partial_mutual_information.h"
+							>
+						</File>
+						<File
+							RelativePath=".\partial_mutual_information.hpp"
+							>
+						</File>
+						<File
+							RelativePath=".\partial_mutual_information.txt"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="Partial transfer entropy"
 						>
-					</File>
-					<File
-						RelativePath=".\partial_mutual_information.txt"
+						<File
+							RelativePath=".\partial_transfer_entropy.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\partial_transfer_entropy.h"
+							>
+						</File>
+						<File
+							RelativePath=".\partial_transfer_entropy.hpp"
+							>
+						</File>
+						<File
+							RelativePath=".\partial_transfer_entropy.txt"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="Transfer entropy"
 						>
-					</File>
-				</Filter>
-				<Filter
-					Name="Transfer entropy"
-					>
-					<File
-						RelativePath=".\transfer_entropy.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\transfer_entropy.h"
-						>
-					</File>
-					<File
-						RelativePath=".\transfer_entropy.hpp"
-						>
-					</File>
-					<File
-						RelativePath=".\transfer_entropy.txt"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="Partial transfer entropy"
-					>
-					<File
-						RelativePath=".\partial_transfer_entropy.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\partial_transfer_entropy.h"
-						>
-					</File>
-					<File
-						RelativePath=".\partial_transfer_entropy.hpp"
-						>
-					</File>
-					<File
-						RelativePath=".\partial_transfer_entropy.txt"
-						>
-					</File>
+						<File
+							RelativePath=".\transfer_entropy.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\transfer_entropy.h"
+							>
+						</File>
+						<File
+							RelativePath=".\transfer_entropy.hpp"
+							>
+						</File>
+						<File
+							RelativePath=".\transfer_entropy.txt"
+							>
+						</File>
+					</Filter>
 				</Filter>
 			</Filter>
 			<Filter

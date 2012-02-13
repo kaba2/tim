@@ -88,7 +88,7 @@ namespace Tim
 			// Select a random subset.
 
 			const integer subsetSize = codebookSize[m];
-			subset(
+			randomSubset(
 				pointSet.begin(), pointSet.end(),
 				subsetSize);
 

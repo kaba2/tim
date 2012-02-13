@@ -44,7 +44,8 @@ yLag = 0;
 k = 1;
 filter = 1;
 eval(process_options(...
-    {'k', 'xLag', 'yLag', 'filter'}, varargin));
+    {'k', 'xLag', 'yLag', 'filter'}, ...
+    varargin));
 
 if isnumeric(X)
     X = {X};

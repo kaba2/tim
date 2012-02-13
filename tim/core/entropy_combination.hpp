@@ -28,16 +28,19 @@ namespace Tim
 
 	template <
 		typename Integer3_Iterator,
-		typename Integer_Iterator>
+		typename Integer_Iterator,
+		typename LocalEstimator>
 	real entropyCombination(
 		const Array<SignalPtr>& signalSet,
 		const ForwardIterator_Range<Integer3_Iterator>& rangeSet,
 		const ForwardIterator_Range<Integer_Iterator>& lagSet,
-		integer kNearest)
+		integer kNearest,
+		const LocalEstimator& localEstimator)
 	{
 		ENSURE_OP(kNearest, >, 0);
 		ENSURE_OP(lagSet.size(), ==, signalSet.height());
 
+		typedef typename LocalEstimator::Instance Estimator;
 		typedef typename SignalPointSet::Point_ConstIterator
 			Point_ConstIterator;
 
@@ -73,7 +76,7 @@ namespace Tim
 			offsetSet.push_back(offsetSet[i - 1] + signalSet(0, i - 1)->dimension());
 		}
 
-		const integer estimateSamples = samples * trials;
+		const integer n = samples * trials;
 		const integer marginals = rangeSet.size();
 
 		// Construct point sets
@@ -105,7 +108,7 @@ namespace Tim
 
 		// Start estimation.
 
-		Array<real> distanceArray(1, estimateSamples);
+		Array<real> distanceArray(1, n);
 
 		searchAllNeighbors(
 			jointPointSet.kdTree(),
@@ -114,16 +117,18 @@ namespace Tim
 			kNearest, 
 			(Array<Point_ConstIterator>*)0,
 			&distanceArray,
-			constantRange(infinity<real>(), estimateSamples),
+			constantRange(infinity<real>(), n),
 			0,
 			normBijection);
 
 		const real signalWeightSum = 
 			std::accumulate(weightSet.begin(), weightSet.end(), (real)0);
 
-		std::vector<integer> countSet(estimateSamples, 0);
+		Estimator estimator(kNearest, n);
 
-		real estimate = 0;
+		std::vector<integer> countSet(n, 0);
+
+		real estimate = estimator.localJointEstimate();
 		for (integer i = 0;i < marginals;++i)
 		{
 			// Note: the maximum norm bijection values coincide 
@@ -131,7 +136,7 @@ namespace Tim
 			countAllNeighbors(
 				pointSet[i]->kdTree(),
 				range(pointSet[i]->begin(), pointSet[i]->end()),
-				range(distanceArray.begin(), estimateSamples),
+				range(distanceArray.begin(), n),
 				countSet.begin(),
 				8,
 				normBijection);
@@ -139,7 +144,7 @@ namespace Tim
 			integer acceptedSamples = 0;
 			real signalEstimate = 0;
 #pragma omp parallel for reduction(+ : signalEstimate, acceptedSamples)
-			for (integer j = 0;j < estimateSamples;++j)
+			for (integer j = 0;j < n;++j)
 			{
 				const integer k = countSet[j];
 				// A neighbor count of zero can happen when the distance
@@ -147,7 +152,7 @@ namespace Tim
 				// open search ball. These points are ignored.
 				if (k > 0)
 				{
-					signalEstimate += digamma<real>(k);
+					signalEstimate += estimator.localMarginalEstimate(k);
 					++acceptedSamples;
 				}
 			}
@@ -158,11 +163,23 @@ namespace Tim
 
 			estimate -= signalEstimate * weightSet[i];
 		}
-		
-		estimate += digamma<real>(kNearest);
-		estimate += (signalWeightSum - 1) * digamma<real>(estimateSamples);
 
 		return estimate;
+	}
+
+	template <
+		typename Integer3_Iterator,
+		typename Integer_Iterator>
+	real entropyCombination(
+		const Array<SignalPtr>& signalSet,
+		const ForwardIterator_Range<Integer3_Iterator>& rangeSet,
+		const ForwardIterator_Range<Integer_Iterator>& lagSet,
+		integer kNearest)
+	{
+		return Tim::entropyCombination(
+			signalSet, rangeSet,
+			lagSet, kNearest,
+			Log_LocalEstimator());
 	}
 
 	template <
@@ -179,5 +196,6 @@ namespace Tim
 	}
 
 }
+
 
 #endif

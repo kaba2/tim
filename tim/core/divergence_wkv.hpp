@@ -28,9 +28,6 @@ namespace Tim
 			return 0;
 		}
 
-		xSignalSet.updateCache();
-		ySignalSet.updateCache();
-
 		const integer xDimension = xSignalSet.front()->dimension();
 		const integer yDimension = ySignalSet.front()->dimension();
 

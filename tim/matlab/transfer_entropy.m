@@ -17,6 +17,9 @@
 % K ('k') is an integer which denotes the number of nearest 
 % neighbors to be used by the estimator. Default 1.
 %
+% ESTIMATOR ('estimator') is a string which denotes the local 
+% estimator to use in estimation.
+%
 % Type 'help tim' for more documentation.
 
 % Description: Transfer entropy estimation
@@ -35,7 +38,10 @@ xLag = 0;
 yLag = 0;
 wLag = 0;
 k = 1;
-eval(process_options({'k', 'xLag', 'yLag', 'wLag'}, varargin));
+estimator = 'log_density';
+eval(process_options(...
+    {'k', 'xLag', 'yLag', 'wLag', 'estimator'}, ...
+    varargin));
 
 if isnumeric(X)
     X = {X};
@@ -63,4 +69,5 @@ I = entropy_combination(...
     [W(:)'; X(:)'; Y(:)'], ...
     [1, 2, 1; 2, 3, 1; 2, 2, -1], ...
     'lagSet', {wLag, xLag, yLag}, ...
-    'k', k);
+    'k', k, ...
+    'estimator', estimator);

@@ -53,8 +53,6 @@ namespace Tim
 			return SignalPtr(new Signal(0, 1));
 		}
 
-		rangeSet.updateCache();
-
 		// Check that the trials of signals have the 
 		// same dimension.
 

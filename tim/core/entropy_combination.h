@@ -5,6 +5,7 @@
 
 #include "tim/core/mytypes.h"
 #include "tim/core/signal.h"
+#include "tim/core/localestimators.h"
 
 #include <pastel/sys/iterator_range.h>
 #include <pastel/sys/array.h>
@@ -39,8 +40,37 @@ namespace Tim
 	The k:th nearest neighbor that is used to
 	estimate entropy combination.
 
+	estimator:
+	The local estimator to use in the algorithm.
+	See localestimators.txt.
+
 	Returns:
 	An estimate of the entropy combination of the signals.
+	*/
+
+	template <
+		typename Integer3_Iterator,
+		typename Integer_Iterator,
+		typename LocalEstimator>
+	real entropyCombination(
+		const Array<SignalPtr>& signalSet,
+		const ForwardIterator_Range<Integer3_Iterator>& rangeSet,
+		const ForwardIterator_Range<Integer_Iterator>& lagSet,
+		integer kNearest,
+		const LocalEstimator& localEstimator);
+
+	//! Computes an entropy combination of signals.
+	/*!
+	This is a convenience function that calls:
+
+	entropyCombination(
+		signalSet,
+		rangeSet,
+		constantRange(0, signalSet.height()),
+		kNearest,
+		Log_LocalEstimator());
+
+	See the documentation for that function.
 	*/
 
 	template <
