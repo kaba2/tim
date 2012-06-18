@@ -13,6 +13,7 @@
 #include <pastel/math/normbijections.h>
 
 #include <boost/iterator/reverse_iterator.hpp>
+#include <boost/bind.hpp>
 
 namespace Tim
 {

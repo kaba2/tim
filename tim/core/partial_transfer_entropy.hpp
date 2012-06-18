@@ -55,7 +55,7 @@ namespace Tim
 			std::vector<SignalPtr> jointSignalSet;
 			jointSignalSet.reserve(trials);
 
-			Array<SignalPtr> signalSet(trials, 4);
+			Array<SignalPtr> signalSet(Vector2i(trials, 4));
 			std::copy(wSignalSet.begin(), wSignalSet.end(), signalSet.rowBegin(0));
 			std::copy(xSignalSet.begin(), xSignalSet.end(), signalSet.rowBegin(1));
 			std::copy(zSignalSet.begin(), zSignalSet.end(), signalSet.rowBegin(2));

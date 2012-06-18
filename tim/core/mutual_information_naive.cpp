@@ -55,7 +55,7 @@ namespace Tim
 
 		const integer n = signal->dimension();
 
-		Array<real> result(n, n);
+		Array<real> result(Vector2i(n, n));
 
 		VectorD minBound = min(signal->data());
 		VectorD maxBound = max(signal->data());
@@ -72,7 +72,7 @@ namespace Tim
 		maxBound += binExtent / 2;
 		binExtent = (maxBound - minBound) / bins;
 
-		Array<real> marginalHistogram(bins, n);
+		Array<real> marginalHistogram(Vector2i(bins, n));
 
 		for (integer i = 0;i < n;++i)
 		{
@@ -84,7 +84,7 @@ namespace Tim
 				marginalHistogram.rowBegin(i));
 		}
 
-		Array<real> jointHistogram(bins, bins);
+		Array<real> jointHistogram(Vector2i(bins, bins));
 
 		for (integer i = 0;i < n;++i)
 		{

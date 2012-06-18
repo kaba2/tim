@@ -163,7 +163,7 @@
 				>
 			</File>
 			<Filter
-				Name="Entropy combination"
+				Name="Entropy combinations"
 				>
 				<Filter
 					Name="Generic algorithm"
@@ -569,6 +569,10 @@
 						</File>
 					</Filter>
 				</Filter>
+			</Filter>
+			<Filter
+				Name="Distance covariance"
+				>
 			</Filter>
 		</Filter>
 		<Filter

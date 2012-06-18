@@ -165,7 +165,7 @@ namespace Tim
 			signalWeightSum += range[2];
 		}
 
-		Array<real> distanceArray(1, maxLocalFilterWidth * trials, infinity<real>());
+		Array<real> distanceArray(Vector2i(1, maxLocalFilterWidth * trials), infinity<real>());
 		
 		std::vector<integer> countSet(maxLocalFilterWidth * trials, 0);
 

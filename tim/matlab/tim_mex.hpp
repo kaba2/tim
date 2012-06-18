@@ -94,7 +94,7 @@ namespace Tim
 		const integer signals = mxGetM(signalSetArray);
 		const integer trials = mxGetN(signalSetArray);
 		
-		signalSet.setExtent(trials, signals);
+		signalSet.setExtent(Vector2i(trials, signals));
 
 		for (integer y = 0;y < signals;++y)
 		{

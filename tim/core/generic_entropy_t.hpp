@@ -89,7 +89,7 @@ namespace Tim
 		// This is a bit wasteful in memory, but I don't
 		// know how else this could be done.
 
-		Array<real> distanceArray(1, maxLocalFilterWidth * trials);
+		Array<real> distanceArray(Vector2i(1, maxLocalFilterWidth * trials));
 
 		SignalPointSet pointSet(signalSet);
 

@@ -41,7 +41,7 @@ namespace
 
 		//const real covDet = determinant(covariance);
 
-		Array<real> pdf(xBins, yBins, 0);
+		Array<real> pdf(Vector2i(xBins, yBins), 0);
 
 		for (integer y = 0;y < yBins;++y)
 		{
@@ -91,7 +91,7 @@ namespace
 			std::max(center.x() + 1, xBins - center.x()),
 			std::max(center.y() + 1, yBins - center.y()));
 
-		Array<real> integ(maxSteps, maxSteps, 0);
+		Array<real> integ(Vector2i(maxSteps, maxSteps), 0);
 
 		real integral = 0;
 		for (integer y = 0;y < maxSteps;++y)
