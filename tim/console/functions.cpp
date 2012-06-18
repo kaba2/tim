@@ -295,7 +295,7 @@ namespace Tim
 				stride[i] = accu;
 			}
 
-			CellPtr cellArray(new Cell(trials, series));
+			CellPtr cellArray(new Cell(Vector2i(trials, series)));
 
 			for (integer y = 0;y < series;++y)
 			{

@@ -1,53 +1,59 @@
-#ifndef TIM_GENERIC_ENTROPY_HPP
-#define TIM_GENERIC_ENTROPY_HPP
+// TIM 1.2.0
+// Kalle Rutanen
+// http://kaba.hilvi.org
+// Copyright (c) 2009 - 2011
+//
+// This library is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published 
+// by the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public License
+// along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-#include "tim/core/generic_entropy.h"
-#include "tim/core/signal_tools.h"
-#include "tim/core/signalpointset.h"
-#include "tim/core/reconstruction.h"
+#ifndef TIM_EMBEDDING_FACTOR_HPP
+#define TIM_EMBEDDING_FACTOR_HPP
 
-#include <pastel/sys/constantiterator.h>
-#include <pastel/sys/countingiterator.h>
-#include <pastel/sys/iterator_range.h>
-
-#include <pastel/geometry/search_all_neighbors_pointkdtree.h>
-
-#include <algorithm>
-#include <numeric>
+#include "tim/core/embedding_factor_fn.h"
 
 namespace Tim
 {
 
-	template <
-		typename SignalPtr_Iterator,
-		typename EntropyAlgorithm>
-	real genericEntropy(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
-		const EntropyAlgorithm& entropyAlgorithm,
-		integer kNearest)
+	template <typename SignalPtr_Iterator>
+	integer embeddingFactorFn(
+		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet)
 	{
-		ENSURE_OP(kNearest, >, 0);
-
 		typedef typename SignalPointSet::Point_ConstIterator
 			Point_ConstIterator;
 
 		if (signalSet.empty())
 		{
-			return nan<real>();
+			return 1;
 		}
 
 		// This function encapsulates the common
 		// properties of the entropy estimation 
 		// algorithms based on k-nearest neighbors.
 
-		SignalPointSet pointSet(signalSet);
+		// This is done to avoid parallelization
+		// issues with iterator range caching.
+
+		signalSet.updateCache();
+
+		SignalPointSet pointSet(
+			signalSet, );
 
 		const integer trials = signalSet.size();
 		const integer samples = pointSet.samples();
 		const integer dimension = signalSet.front()->dimension();
 		const integer estimateSamples = samples * trials;
 
-		Array<real> distanceArray(Vector2i(1, estimateSamples));
+		Array<real> distanceArray(1, estimateSamples);
 
 		// Find the distance to the k:th nearest neighbor for all points.
 
@@ -95,6 +101,7 @@ namespace Tim
 
 		return estimate;
 	}
+
 
 }
 

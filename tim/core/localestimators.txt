@@ -1,0 +1,18 @@
+Local estimators
+================
+
+[[Parent]]: entropy_combination.txt
+
+The _local estimators_ are used to specify the local estimation 
+procedure used in the generic entropy combination estimation
+algorithm. When basing the estimation on k-nearest neighbors,
+it is possible to estimate the probability mass in the k-nearest
+neighbor ball by either the log-of-expectation or the 
+expectation-of-log. In addition, in the marginal spaces one can 
+opt for the same k-nearest-neighbor estimation again (which is 
+based on slightly faulty assumptions) or use density estimation 
+instead (which has better assumptions). Given the different choices, 
+it is sensible to abstract out this local part of the estimation,
+so that we can easily compare the resulting estimators.
+
+

@@ -108,7 +108,7 @@ namespace Tim
 
 		// Start estimation.
 
-		Array<real> distanceArray(1, n);
+		Array<real> distanceArray(Vector2i(1, n));
 
 		searchAllNeighbors(
 			jointPointSet.kdTree(),

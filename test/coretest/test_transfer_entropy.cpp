@@ -77,7 +77,7 @@ namespace
 		const integer trials = 5;
 		const integer yxShift = 5;
 		const integer zyShift = 10;
-		signalSet.setExtent(trials, 3);
+		signalSet.setExtent(Vector2i(trials, 3));
 
 		for (integer i = 0;i < trials;++i)
 		{
@@ -140,7 +140,7 @@ namespace
 			const SignalPtr miLag = SignalPtr(
 				new Signal(xzMiSet.size(), 1));
 
-			Array<Color> image(xzMiSet.size(), 100);
+			Array<Color> image(Vector2i(xzMiSet.size(), 100));
 			
 			std::copy(
 				xzMiSet.begin(),
@@ -165,7 +165,7 @@ namespace
 			5,
 			0, 10, 0, 0);
 
-		Array<Color> image(estimate->samples(), 100);
+		Array<Color> image(Vector2i(estimate->samples(), 100));
 
 		drawSignal(estimate, arrayView(image));
 		savePcx(image, "test_mte_coupling.pcx");

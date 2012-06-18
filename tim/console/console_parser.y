@@ -342,7 +342,7 @@ cell_array
 		
 		// Copy the data to a string array.
 		
-		Array<std::string>* cellContent = new Array<std::string>(width, height);
+		Array<std::string>* cellContent = new Array<std::string>(Vector2i(width, height));
 		
 		for (integer y = 0;y < height;++y)
 		{

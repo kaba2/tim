@@ -33,6 +33,6 @@ namespace Tim
 
 }
 
-#include "tim/console/console_parser.tab.h"
+#include "tim/console/bison_console_parser.hpp"
 
 #endif

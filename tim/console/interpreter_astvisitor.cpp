@@ -158,7 +158,7 @@ namespace Tim
 			const integer height = identifierArray.height();
 
 			bool errorsFound = false;			
-			CellPtr cellArray(new Cell(width, height));
+			CellPtr cellArray(new Cell(Vector2i(width, height)));
 			for (integer y = 0;y < height;++y)
 			{
 				for (integer x = 0;x < width;++x)
