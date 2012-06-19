@@ -13,6 +13,11 @@
 #include <pastel/math/maximum_normbijection.h>
 #include <pastel/geometry/splitrule_pointkdtree.h>
 
+
+#if (defined _WIN32 || defined _WIN64)
+#	pragma detect_mismatch("TIM_VERSION", "1.3")
+#endif
+
 namespace Tim
 {
 
