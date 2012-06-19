@@ -1,4 +1,4 @@
-TIM 1.2.0
+TIM 1.3.0
 =========
 
 [Back to Homepage of Kalle Rutanen][Back]
@@ -53,9 +53,9 @@ versions, see the [release history][ReleaseHistory].
 
 [ReleaseHistory]: [[Ref]]: release_history.txt
 
-[Download TIM Matlab 1.2.0][TIM-Matlab]
+[Download TIM Matlab 1.3.0][TIM-Matlab]
 
-[Download TIM Console 1.2.0][TIM-Console]
+[Download TIM Console 1.3.0][TIM-Console]
 
 __Note__: For Windows, you need to have the 
 [Visual C++ 2008 SP1 Redistributable Package][VisualRedist] 
@@ -68,8 +68,8 @@ do not have a convenient access to such machine. However, it is
 possible to build TIM for Mac OS X (although OpenMP can not be 
 supported).
 
-[TIM-Matlab]: ./files/tim-matlab-1.2.0.zip
-[TIM-Console]: ./files/tim-console-1.2.0.zip
+[TIM-Matlab]: ./files/tim-matlab-1.3.0.zip
+[TIM-Console]: ./files/tim-console-1.3.0.zip
 
 Source-code
 -----------
@@ -81,11 +81,11 @@ actually building software that depends on it. This is because we can't guarante
 interfaces, i.e., we continue development of TIM and in this process can make 
 breaking changes to interfaces.
 
-[Download TIM Source 1.2.0][TIM-Source]
+[Download TIM Source 1.3.0][TIM-Source]
 
 To obtain previous versions, see the [release history][ReleaseHistory]
 
-[TIM-Source]: ./files/tim-1.2.0.zip
+[TIM-Source]: ./files/tim-1.3.0.zip
 [ReleaseHistory]: [[Ref]]: release_history.txt
 
 Support
