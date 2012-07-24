@@ -8,8 +8,6 @@
 
 #include <pastel/math/matrix.h>
 
-#include <pastel/sys/smallset.h>
-
 namespace Tim
 {
 

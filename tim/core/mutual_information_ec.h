@@ -8,7 +8,6 @@
 #include <pastel/math/matrix.h>
 #include <pastel/math/cholesky_decomposition.h>
 
-#include <pastel/sys/smallset.h>
 #include <pastel/sys/iterator_range.h>
 
 namespace Tim

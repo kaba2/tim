@@ -6,8 +6,6 @@
 #include "tim/core/mytypes.h"
 #include "tim/core/signal.h"
 
-#include <pastel/sys/smallset.h>
-
 namespace Tim
 {
 
@@ -23,6 +21,9 @@ namespace Tim
 
 	//! Creates aliases for marginal signals.
 	/*!
+	Preconditions:
+	partition[x] < partition[x + 1]
+
 	The partition of the joint signal is given
 	by the 'partition' set. Assume that 'jointSignal'
 	is of dimension 4 and 'partition' contains the 
@@ -33,7 +34,7 @@ namespace Tim
 	template <typename SignalPtr_OutputIterator>
 	void split(
 		const SignalPtr& jointSignal,
-		const SmallSet<integer>& partition,
+		const std::vector<integer>& partition,
 		SignalPtr_OutputIterator signalSet);
 
 	//! Creates an alias for a marginal signal.

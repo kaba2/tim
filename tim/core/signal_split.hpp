@@ -13,11 +13,11 @@ namespace Tim
 	{
 		const integer dimension = jointSignal->dimension();
 
-		SmallSet<integer> partition;
+		std::vector<integer> partition;
 		partition.reserve(dimension + 1);
 		for (integer i = 0;i <= dimension;++i)
 		{
-			partition.insert(i);
+			partition.push_back(i);
 		}
 
 		Tim::split(jointSignal, partition, signalSet);
@@ -26,7 +26,7 @@ namespace Tim
 	template <typename SignalPtr_OutputIterator>
 	void split(
 		const SignalPtr& jointSignal,
-		const SmallSet<integer>& partition,
+		const std::vector<integer>& partition,
 		SignalPtr_OutputIterator signalSet)
 	{
 		ENSURE_OP(partition.size(), >=, 2);
@@ -35,6 +35,8 @@ namespace Tim
 
 		for (integer x = 0;x < signals;++x)
 		{
+			PENSURE_OP(partition[x], <, partition[x + 1]);
+
 			const integer marginalDimension = 
 				partition[x + 1] - partition[x];
 

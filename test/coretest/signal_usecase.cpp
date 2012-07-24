@@ -60,10 +60,10 @@ namespace
 		// subsignals to be splitted. Here the subsignals
 		// will cover dimensions [0, 1[ and [1, 3[:
 
-		SmallSet<integer> partition;
-		partition.insert(0);
-		partition.insert(1);
-		partition.insert(3);
+		std::vector<integer> partition;
+		partition.push_back(0);
+		partition.push_back(1);
+		partition.push_back(3);
 		split(xy, partition, std::back_inserter(splitSet));
 	}
 
