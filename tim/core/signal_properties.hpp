@@ -11,8 +11,8 @@ namespace Tim
 
 	template <typename SignalPtr_Iterator, typename Integer_Iterator>
 	Integer2 sharedTimeInterval(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
-		const ForwardIterator_Range<Integer_Iterator>& lagSet)
+		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
+		const boost::iterator_range<Integer_Iterator>& lagSet)
 	{
 		// In the following we think of having signals
 		// embedded on the time axis, delayed with the given
@@ -73,7 +73,7 @@ namespace Tim
 
 	template <typename SignalPtr_Iterator>
 	Integer2 sharedTimeInterval(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet)
+		const boost::iterator_range<SignalPtr_Iterator>& signalSet)
 	{
 		return sharedTimeInterval(
 			signalSet,
@@ -82,7 +82,7 @@ namespace Tim
 
 	template <typename SignalPtr_Iterator>
 	integer minSamples(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet)
+		const boost::iterator_range<SignalPtr_Iterator>& signalSet)
 	{
 		if (signalSet.empty())
 		{
@@ -107,7 +107,7 @@ namespace Tim
 
 	template <typename SignalPtr_Iterator>
 	bool equalDimension(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet)
+		const boost::iterator_range<SignalPtr_Iterator>& signalSet)
 	{
 		if (signalSet.empty())
 		{
@@ -135,7 +135,7 @@ namespace Tim
 
 	template <typename SignalPtr_Iterator>
 	bool equalSamples(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet)
+		const boost::iterator_range<SignalPtr_Iterator>& signalSet)
 	{
 		if (signalSet.empty())
 		{

@@ -1,0 +1,515 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Estimators">
+      <UniqueIdentifier>{8da2ea25-f9ae-4fec-8cab-6a5cb263e3f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Estimators\Entropy combinations">
+      <UniqueIdentifier>{d30a7e70-9f87-426a-a619-9412efc6093b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Estimators\Entropy combinations\Generic algorithm">
+      <UniqueIdentifier>{a855cb8d-e6ae-4efd-b615-732baff63840}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Estimators\Entropy combinations\Generic algorithm\Local estimators">
+      <UniqueIdentifier>{414ac78d-55ed-4b36-a65b-32bb9d2530c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Estimators\Entropy combinations\Concrete algorithms">
+      <UniqueIdentifier>{dffb93df-1fac-4ae7-aca3-c138ed291301}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Estimators\Entropy combinations\Concrete algorithms\Mutual information">
+      <UniqueIdentifier>{e328ef2f-c349-4cb4-aafe-43c9696b3739}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Estimators\Entropy combinations\Concrete algorithms\Partial mutual information">
+      <UniqueIdentifier>{00045e37-30bf-4ab9-bfde-3ec038ef3f0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Estimators\Entropy combinations\Concrete algorithms\Partial transfer entropy">
+      <UniqueIdentifier>{c2c10012-5532-489d-8307-e9efcbf93c8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Estimators\Entropy combinations\Concrete algorithms\Transfer entropy">
+      <UniqueIdentifier>{a9d08b84-6b09-4419-aeaa-07a6a368a13f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Estimators\Divergence">
+      <UniqueIdentifier>{eb000a31-97c3-4347-bfe5-9a649e9cce14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Estimators\Divergence\Wang-Kulkarni-Verdu">
+      <UniqueIdentifier>{5179a058-d4c2-4703-aca5-c7dfc2b374a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Estimators\Entropy">
+      <UniqueIdentifier>{c1e9f023-ba74-4ac4-835a-4a6424b4934f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Estimators\Entropy\Renyi entropy">
+      <UniqueIdentifier>{86968469-4a91-4c54-9074-f83a4977a13d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Estimators\Entropy\Renyi entropy\Leonenko-Pronzato-Savani">
+      <UniqueIdentifier>{73234d2d-146d-4014-b3bb-48fecd88c248}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Estimators\Entropy\Renyi entropy\Analytic">
+      <UniqueIdentifier>{60a0cf5d-6627-4049-b33c-be64c3af832b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Estimators\Entropy\Differential entropy">
+      <UniqueIdentifier>{b71c9074-808a-4ebc-9725-b42963bb192e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Estimators\Entropy\Differential entropy\Kozachenko-Leonenko">
+      <UniqueIdentifier>{093f5313-9932-433e-8f86-f51c7b4a1065}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Estimators\Entropy\Differential entropy\Stowell-Plumbley">
+      <UniqueIdentifier>{00328cb7-7339-430f-bc46-8ee2362d50a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Estimators\Entropy\Differential entropy\Analytic">
+      <UniqueIdentifier>{feb28328-0ae4-48f6-b67b-ddd1bcb3506d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Estimators\Entropy\Differential entropy\Nilsson-Kleijn">
+      <UniqueIdentifier>{aefffcc9-13b2-48a2-b62b-4fbe52e201c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Estimators\Entropy\Generic entropy">
+      <UniqueIdentifier>{67e6b51d-a451-400c-bd18-988515a612c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Estimators\Entropy\Tsallis entropy">
+      <UniqueIdentifier>{b4188a9e-fe0e-4877-89b5-ce08b0a5dfa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Estimators\Entropy\Tsallis entropy\Analytic">
+      <UniqueIdentifier>{d5e69de5-6eb6-47c2-a1d6-ceb8e41ac619}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Estimators\Entropy\Tsallis entropy\Leonenko-Pronzato-Savani">
+      <UniqueIdentifier>{278e2d3b-482d-4e83-bf5d-c477b40b0df0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Estimators\Distance covariance">
+      <UniqueIdentifier>{039faf87-191a-4246-b299-79f8adc0e311}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Building">
+      <UniqueIdentifier>{baf15b51-66ee-42b4-87d6-3a2a15d15d6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tutorials">
+      <UniqueIdentifier>{35973bdf-dfbb-4e1b-a862-adbc4b6bbb54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tutorials\Circuits">
+      <UniqueIdentifier>{e7565b2f-42c4-471e-b115-a4577bcd147e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tutorials\Gauss">
+      <UniqueIdentifier>{c0ff958b-e2ef-4a61-931f-541178eb3b4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation">
+      <UniqueIdentifier>{a42b282a-262d-4f3d-9ef1-c2124acaf38b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\Signal">
+      <UniqueIdentifier>{b77cf1b2-3f05-4649-a67d-b6ab48eefcad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\SignalPointSet">
+      <UniqueIdentifier>{2329269a-d194-48f2-9acf-b4f0dca844f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\Basics">
+      <UniqueIdentifier>{2e6d3748-647f-4874-9a8f-dd014ea82dfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Reconstruction">
+      <UniqueIdentifier>{380b332f-af31-49ad-b7c6-af6c0f8a01e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="State space">
+      <UniqueIdentifier>{f4152539-1409-404e-a38f-3b559f05033c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="State space\False nearest neighbors">
+      <UniqueIdentifier>{ebb5db3c-cd37-4edd-a973-cc4a4ca748d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="State space\Delay embedding">
+      <UniqueIdentifier>{409ae785-23ee-498a-b475-ebdfb87cf400}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="estimators.txt">
+      <Filter>Estimators</Filter>
+    </None>
+    <None Include="entropy_combination.txt">
+      <Filter>Estimators\Entropy combinations\Generic algorithm</Filter>
+    </None>
+    <None Include="localestimators.txt">
+      <Filter>Estimators\Entropy combinations\Generic algorithm\Local estimators</Filter>
+    </None>
+    <None Include="mutual_information.txt">
+      <Filter>Estimators\Entropy combinations\Concrete algorithms\Mutual information</Filter>
+    </None>
+    <None Include="partial_mutual_information.txt">
+      <Filter>Estimators\Entropy combinations\Concrete algorithms\Partial mutual information</Filter>
+    </None>
+    <None Include="partial_transfer_entropy.txt">
+      <Filter>Estimators\Entropy combinations\Concrete algorithms\Partial transfer entropy</Filter>
+    </None>
+    <None Include="transfer_entropy.txt">
+      <Filter>Estimators\Entropy combinations\Concrete algorithms\Transfer entropy</Filter>
+    </None>
+    <None Include="divergence.txt">
+      <Filter>Estimators\Divergence</Filter>
+    </None>
+    <None Include="divergence_wkv.txt">
+      <Filter>Estimators\Divergence\Wang-Kulkarni-Verdu</Filter>
+    </None>
+    <None Include="entropy.txt">
+      <Filter>Estimators\Entropy</Filter>
+    </None>
+    <None Include="renyi_entropy.txt">
+      <Filter>Estimators\Entropy\Renyi entropy</Filter>
+    </None>
+    <None Include="renyi_entropy_lps.txt">
+      <Filter>Estimators\Entropy\Renyi entropy\Leonenko-Pronzato-Savani</Filter>
+    </None>
+    <None Include="renyi_entropy_analytic.txt">
+      <Filter>Estimators\Entropy\Renyi entropy\Analytic</Filter>
+    </None>
+    <None Include="differential_entropy.txt">
+      <Filter>Estimators\Entropy\Differential entropy</Filter>
+    </None>
+    <None Include="differential_entropy_kl.txt">
+      <Filter>Estimators\Entropy\Differential entropy\Kozachenko-Leonenko</Filter>
+    </None>
+    <None Include="differential_entropy_kl_details.txt">
+      <Filter>Estimators\Entropy\Differential entropy\Kozachenko-Leonenko</Filter>
+    </None>
+    <None Include="differential_entropy_sp.txt">
+      <Filter>Estimators\Entropy\Differential entropy\Stowell-Plumbley</Filter>
+    </None>
+    <None Include="differential_entropy_nk.txt">
+      <Filter>Estimators\Entropy\Differential entropy\Nilsson-Kleijn</Filter>
+    </None>
+    <None Include="generic_entropy.txt">
+      <Filter>Estimators\Entropy\Generic entropy</Filter>
+    </None>
+    <None Include="tsallis_entropy.txt">
+      <Filter>Estimators\Entropy\Tsallis entropy</Filter>
+    </None>
+    <None Include="tsallis_entropy_analytic.txt">
+      <Filter>Estimators\Entropy\Tsallis entropy\Analytic</Filter>
+    </None>
+    <None Include="tsallis_entropy_lps.txt">
+      <Filter>Estimators\Entropy\Tsallis entropy\Leonenko-Pronzato-Savani</Filter>
+    </None>
+    <None Include="..\..\building.txt">
+      <Filter>Building</Filter>
+    </None>
+    <None Include="..\..\building_matlab.txt">
+      <Filter>Building</Filter>
+    </None>
+    <None Include="..\..\premake4.lua">
+      <Filter>Building</Filter>
+    </None>
+    <None Include="..\..\tim_license.txt">
+      <Filter>Building</Filter>
+    </None>
+    <None Include="..\..\tim_license_matlab.txt">
+      <Filter>Building</Filter>
+    </None>
+    <None Include="..\..\tutorials\tutorials.txt">
+      <Filter>Tutorials</Filter>
+    </None>
+    <None Include="..\..\tutorials\circuits\generate_pset.m">
+      <Filter>Tutorials\Circuits</Filter>
+    </None>
+    <None Include="..\..\tutorials\circuits\tutorial_circuits.txt">
+      <Filter>Tutorials\Circuits</Filter>
+    </None>
+    <None Include="..\..\tutorials\circuits\tutorial_circuits_analysis.m">
+      <Filter>Tutorials\Circuits</Filter>
+    </None>
+    <None Include="..\..\tutorials\circuits\tutorial_circuits_figures.m">
+      <Filter>Tutorials\Circuits</Filter>
+    </None>
+    <None Include="..\..\tutorials\gauss\legend_shrink.m">
+      <Filter>Tutorials\Gauss</Filter>
+    </None>
+    <None Include="..\..\tutorials\gauss\tutorial_gauss.txt">
+      <Filter>Tutorials\Gauss</Filter>
+    </None>
+    <None Include="..\..\tutorials\gauss\tutorial_gauss_analysis.m">
+      <Filter>Tutorials\Gauss</Filter>
+    </None>
+    <None Include="..\..\tutorials\gauss\tutorial_gauss_data.m">
+      <Filter>Tutorials\Gauss</Filter>
+    </None>
+    <None Include="..\..\tutorials\gauss\tutorial_gauss_figures.m">
+      <Filter>Tutorials\Gauss</Filter>
+    </None>
+    <None Include="tim_core.txt">
+      <Filter>Implementation</Filter>
+    </None>
+    <None Include="signal.txt">
+      <Filter>Implementation\Signal</Filter>
+    </None>
+    <None Include="signalpointset.txt">
+      <Filter>Implementation\SignalPointSet</Filter>
+    </None>
+    <None Include="basics.txt">
+      <Filter>Implementation\Basics</Filter>
+    </None>
+    <None Include="reconstruction.txt">
+      <Filter>Reconstruction</Filter>
+    </None>
+    <None Include="state_space.txt">
+      <Filter>State space</Filter>
+    </None>
+    <None Include="false_nearest.txt">
+      <Filter>State space\False nearest neighbors</Filter>
+    </None>
+    <None Include="delay_embed.txt">
+      <Filter>State space\Delay embedding</Filter>
+    </None>
+    <None Include="..\..\dependencies.txt" />
+    <None Include="..\..\implementation.txt" />
+    <None Include="..\..\release_history.txt" />
+    <None Include="temporal_estimation.txt" />
+    <None Include="..\..\tim.txt" />
+    <None Include="..\..\user_documentation.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="entropy_combination.h">
+      <Filter>Estimators\Entropy combinations\Generic algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="entropy_combination.hpp">
+      <Filter>Estimators\Entropy combinations\Generic algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="entropy_combination_t.h">
+      <Filter>Estimators\Entropy combinations\Generic algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="entropy_combination_t.hpp">
+      <Filter>Estimators\Entropy combinations\Generic algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="digamma_localestimator.h">
+      <Filter>Estimators\Entropy combinations\Generic algorithm\Local estimators</Filter>
+    </ClInclude>
+    <ClInclude Include="digammadensity_localestimator.h">
+      <Filter>Estimators\Entropy combinations\Generic algorithm\Local estimators</Filter>
+    </ClInclude>
+    <ClInclude Include="localestimator_concept.h">
+      <Filter>Estimators\Entropy combinations\Generic algorithm\Local estimators</Filter>
+    </ClInclude>
+    <ClInclude Include="localestimators.h">
+      <Filter>Estimators\Entropy combinations\Generic algorithm\Local estimators</Filter>
+    </ClInclude>
+    <ClInclude Include="log_localestimator.h">
+      <Filter>Estimators\Entropy combinations\Generic algorithm\Local estimators</Filter>
+    </ClInclude>
+    <ClInclude Include="mutual_information.h">
+      <Filter>Estimators\Entropy combinations\Concrete algorithms\Mutual information</Filter>
+    </ClInclude>
+    <ClInclude Include="mutual_information_analytic.h">
+      <Filter>Estimators\Entropy combinations\Concrete algorithms\Mutual information</Filter>
+    </ClInclude>
+    <ClInclude Include="mutual_information_ec.h">
+      <Filter>Estimators\Entropy combinations\Concrete algorithms\Mutual information</Filter>
+    </ClInclude>
+    <ClInclude Include="mutual_information_ec.hpp">
+      <Filter>Estimators\Entropy combinations\Concrete algorithms\Mutual information</Filter>
+    </ClInclude>
+    <ClInclude Include="mutual_information_naive.h">
+      <Filter>Estimators\Entropy combinations\Concrete algorithms\Mutual information</Filter>
+    </ClInclude>
+    <ClInclude Include="mutual_information_naive.hpp">
+      <Filter>Estimators\Entropy combinations\Concrete algorithms\Mutual information</Filter>
+    </ClInclude>
+    <ClInclude Include="partial_mutual_information.h">
+      <Filter>Estimators\Entropy combinations\Concrete algorithms\Partial mutual information</Filter>
+    </ClInclude>
+    <ClInclude Include="partial_mutual_information.hpp">
+      <Filter>Estimators\Entropy combinations\Concrete algorithms\Partial mutual information</Filter>
+    </ClInclude>
+    <ClInclude Include="partial_transfer_entropy.h">
+      <Filter>Estimators\Entropy combinations\Concrete algorithms\Partial transfer entropy</Filter>
+    </ClInclude>
+    <ClInclude Include="partial_transfer_entropy.hpp">
+      <Filter>Estimators\Entropy combinations\Concrete algorithms\Partial transfer entropy</Filter>
+    </ClInclude>
+    <ClInclude Include="transfer_entropy.h">
+      <Filter>Estimators\Entropy combinations\Concrete algorithms\Transfer entropy</Filter>
+    </ClInclude>
+    <ClInclude Include="transfer_entropy.hpp">
+      <Filter>Estimators\Entropy combinations\Concrete algorithms\Transfer entropy</Filter>
+    </ClInclude>
+    <ClInclude Include="divergence_wkv.h">
+      <Filter>Estimators\Divergence\Wang-Kulkarni-Verdu</Filter>
+    </ClInclude>
+    <ClInclude Include="divergence_wkv.hpp">
+      <Filter>Estimators\Divergence\Wang-Kulkarni-Verdu</Filter>
+    </ClInclude>
+    <ClInclude Include="entropy.h">
+      <Filter>Estimators\Entropy</Filter>
+    </ClInclude>
+    <ClInclude Include="renyi_entropy.h">
+      <Filter>Estimators\Entropy\Renyi entropy</Filter>
+    </ClInclude>
+    <ClInclude Include="renyi_entropy_lps.h">
+      <Filter>Estimators\Entropy\Renyi entropy\Leonenko-Pronzato-Savani</Filter>
+    </ClInclude>
+    <ClInclude Include="renyi_entropy_lps.hpp">
+      <Filter>Estimators\Entropy\Renyi entropy\Leonenko-Pronzato-Savani</Filter>
+    </ClInclude>
+    <ClInclude Include="renyi_entropy_analytic.h">
+      <Filter>Estimators\Entropy\Renyi entropy\Analytic</Filter>
+    </ClInclude>
+    <ClInclude Include="differential_entropy.h">
+      <Filter>Estimators\Entropy\Differential entropy</Filter>
+    </ClInclude>
+    <ClInclude Include="differential_entropy_kl.h">
+      <Filter>Estimators\Entropy\Differential entropy\Kozachenko-Leonenko</Filter>
+    </ClInclude>
+    <ClInclude Include="differential_entropy_kl.hpp">
+      <Filter>Estimators\Entropy\Differential entropy\Kozachenko-Leonenko</Filter>
+    </ClInclude>
+    <ClInclude Include="differential_entropy_sp.h">
+      <Filter>Estimators\Entropy\Differential entropy\Stowell-Plumbley</Filter>
+    </ClInclude>
+    <ClInclude Include="differential_entropy_sp.hpp">
+      <Filter>Estimators\Entropy\Differential entropy\Stowell-Plumbley</Filter>
+    </ClInclude>
+    <ClInclude Include="differential_entropy_analytic.h">
+      <Filter>Estimators\Entropy\Differential entropy\Analytic</Filter>
+    </ClInclude>
+    <ClInclude Include="differential_entropy_nk.h">
+      <Filter>Estimators\Entropy\Differential entropy\Nilsson-Kleijn</Filter>
+    </ClInclude>
+    <ClInclude Include="differential_entropy_nk.hpp">
+      <Filter>Estimators\Entropy\Differential entropy\Nilsson-Kleijn</Filter>
+    </ClInclude>
+    <ClInclude Include="entropyalgorithm_concept.h">
+      <Filter>Estimators\Entropy\Generic entropy</Filter>
+    </ClInclude>
+    <ClInclude Include="generic_entropy.h">
+      <Filter>Estimators\Entropy\Generic entropy</Filter>
+    </ClInclude>
+    <ClInclude Include="generic_entropy.hpp">
+      <Filter>Estimators\Entropy\Generic entropy</Filter>
+    </ClInclude>
+    <ClInclude Include="generic_entropy_t.h">
+      <Filter>Estimators\Entropy\Generic entropy</Filter>
+    </ClInclude>
+    <ClInclude Include="generic_entropy_t.hpp">
+      <Filter>Estimators\Entropy\Generic entropy</Filter>
+    </ClInclude>
+    <ClInclude Include="tsallis_entropy.h">
+      <Filter>Estimators\Entropy\Tsallis entropy</Filter>
+    </ClInclude>
+    <ClInclude Include="tsallis_entropy_analytic.h">
+      <Filter>Estimators\Entropy\Tsallis entropy\Analytic</Filter>
+    </ClInclude>
+    <ClInclude Include="tsallis_entropy_lps.h">
+      <Filter>Estimators\Entropy\Tsallis entropy\Leonenko-Pronzato-Savani</Filter>
+    </ClInclude>
+    <ClInclude Include="tsallis_entropy_lps.hpp">
+      <Filter>Estimators\Entropy\Tsallis entropy\Leonenko-Pronzato-Savani</Filter>
+    </ClInclude>
+    <ClInclude Include="signal.h">
+      <Filter>Implementation\Signal</Filter>
+    </ClInclude>
+    <ClInclude Include="signal.hpp">
+      <Filter>Implementation\Signal</Filter>
+    </ClInclude>
+    <ClInclude Include="signal_generate.h">
+      <Filter>Implementation\Signal</Filter>
+    </ClInclude>
+    <ClInclude Include="signal_merge.h">
+      <Filter>Implementation\Signal</Filter>
+    </ClInclude>
+    <ClInclude Include="signal_merge.hpp">
+      <Filter>Implementation\Signal</Filter>
+    </ClInclude>
+    <ClInclude Include="signal_properties.h">
+      <Filter>Implementation\Signal</Filter>
+    </ClInclude>
+    <ClInclude Include="signal_properties.hpp">
+      <Filter>Implementation\Signal</Filter>
+    </ClInclude>
+    <ClInclude Include="signal_split.h">
+      <Filter>Implementation\Signal</Filter>
+    </ClInclude>
+    <ClInclude Include="signal_split.hpp">
+      <Filter>Implementation\Signal</Filter>
+    </ClInclude>
+    <ClInclude Include="signal_tools.h">
+      <Filter>Implementation\Signal</Filter>
+    </ClInclude>
+    <ClInclude Include="signalpointset.h">
+      <Filter>Implementation\SignalPointSet</Filter>
+    </ClInclude>
+    <ClInclude Include="signalpointset.hpp">
+      <Filter>Implementation\SignalPointSet</Filter>
+    </ClInclude>
+    <ClInclude Include="mytypes.h">
+      <Filter>Implementation\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="tim_library.h">
+      <Filter>Implementation\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="reconstruction.h">
+      <Filter>Reconstruction</Filter>
+    </ClInclude>
+    <ClInclude Include="reconstruction.hpp">
+      <Filter>Reconstruction</Filter>
+    </ClInclude>
+    <ClInclude Include="delay_embed.h">
+      <Filter>State space\Delay embedding</Filter>
+    </ClInclude>
+    <ClInclude Include="delay_embed.hpp">
+      <Filter>State space\Delay embedding</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="mutual_information_analytic.cpp">
+      <Filter>Estimators\Entropy combinations\Concrete algorithms\Mutual information</Filter>
+    </ClCompile>
+    <ClCompile Include="mutual_information_ec.cpp">
+      <Filter>Estimators\Entropy combinations\Concrete algorithms\Mutual information</Filter>
+    </ClCompile>
+    <ClCompile Include="mutual_information_naive.cpp">
+      <Filter>Estimators\Entropy combinations\Concrete algorithms\Mutual information</Filter>
+    </ClCompile>
+    <ClCompile Include="partial_mutual_information.cpp">
+      <Filter>Estimators\Entropy combinations\Concrete algorithms\Partial mutual information</Filter>
+    </ClCompile>
+    <ClCompile Include="partial_transfer_entropy.cpp">
+      <Filter>Estimators\Entropy combinations\Concrete algorithms\Partial transfer entropy</Filter>
+    </ClCompile>
+    <ClCompile Include="transfer_entropy.cpp">
+      <Filter>Estimators\Entropy combinations\Concrete algorithms\Transfer entropy</Filter>
+    </ClCompile>
+    <ClCompile Include="divergence_wkv.cpp">
+      <Filter>Estimators\Divergence\Wang-Kulkarni-Verdu</Filter>
+    </ClCompile>
+    <ClCompile Include="renyi_entropy_lps.cpp">
+      <Filter>Estimators\Entropy\Renyi entropy\Leonenko-Pronzato-Savani</Filter>
+    </ClCompile>
+    <ClCompile Include="renyi_entropy_analytic.cpp">
+      <Filter>Estimators\Entropy\Renyi entropy\Analytic</Filter>
+    </ClCompile>
+    <ClCompile Include="differential_entropy_kl.cpp">
+      <Filter>Estimators\Entropy\Differential entropy\Kozachenko-Leonenko</Filter>
+    </ClCompile>
+    <ClCompile Include="differential_entropy_analytic.cpp">
+      <Filter>Estimators\Entropy\Differential entropy\Analytic</Filter>
+    </ClCompile>
+    <ClCompile Include="tsallis_entropy_analytic.cpp">
+      <Filter>Estimators\Entropy\Tsallis entropy\Analytic</Filter>
+    </ClCompile>
+    <ClCompile Include="tsallis_entropy_lps.cpp">
+      <Filter>Estimators\Entropy\Tsallis entropy\Leonenko-Pronzato-Savani</Filter>
+    </ClCompile>
+    <ClCompile Include="signal.cpp">
+      <Filter>Implementation\Signal</Filter>
+    </ClCompile>
+    <ClCompile Include="signal_generate.cpp">
+      <Filter>Implementation\Signal</Filter>
+    </ClCompile>
+    <ClCompile Include="signal_merge.cpp">
+      <Filter>Implementation\Signal</Filter>
+    </ClCompile>
+    <ClCompile Include="signal_split.cpp">
+      <Filter>Implementation\Signal</Filter>
+    </ClCompile>
+    <ClCompile Include="signal_tools.cpp">
+      <Filter>Implementation\Signal</Filter>
+    </ClCompile>
+    <ClCompile Include="signalpointset.cpp">
+      <Filter>Implementation\SignalPointSet</Filter>
+    </ClCompile>
+    <ClCompile Include="tim_library.cpp">
+      <Filter>Implementation\Basics</Filter>
+    </ClCompile>
+    <ClCompile Include="delay_embed.cpp">
+      <Filter>State space\Delay embedding</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

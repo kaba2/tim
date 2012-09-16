@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Generated">
+      <UniqueIdentifier>{883af625-7d64-4b65-9492-31a71ad529d6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="errorlog.cpp" />
+    <ClCompile Include="functions.cpp" />
+    <ClCompile Include="interpreter_astvisitor.cpp" />
+    <ClCompile Include="printer_astvisitor.cpp" />
+    <ClCompile Include="tim_console.cpp" />
+    <ClCompile Include="lex_console_scanner.cpp">
+      <Filter>Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="bison_console_parser.cpp">
+      <Filter>Generated</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ast.h" />
+    <ClInclude Include="astvisitor.h" />
+    <ClInclude Include="console_parser.h" />
+    <ClInclude Include="console_scanner.h" />
+    <ClInclude Include="errorlog.h" />
+    <ClInclude Include="functions.h" />
+    <ClInclude Include="interpreter_astvisitor.h" />
+    <ClInclude Include="lex.console_.h" />
+    <ClInclude Include="printer_astvisitor.h" />
+    <ClInclude Include="bison_console_parser.hpp">
+      <Filter>Generated</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="demo_data.txt" />
+    <None Include="demo_input.txt" />
+    <None Include="functions.txt" />
+    <None Include="syntax_and_semantics.txt" />
+    <None Include="test_data.txt" />
+    <None Include="test_input.txt" />
+    <None Include="tim_console.txt" />
+    <None Include="tim_console_cpp.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="console_parser.y" />
+    <CustomBuild Include="console_scanner.l" />
+  </ItemGroup>
+</Project>

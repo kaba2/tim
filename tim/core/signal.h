@@ -9,8 +9,8 @@
 #include <pastel/math/matrix.h>
 
 #include <pastel/sys/countedptr.h>
-#include <pastel/sys/sparseiterator.h>
-#include <pastel/sys/countingiterator.h>
+#include <pastel/sys/sparse_iterator.h>
+#include <pastel/sys/counting_iterator.h>
 
 #include <vector>
 

@@ -119,7 +119,7 @@ namespace Tim
 
 	template <typename SignalPtr_Iterator>
 	real differentialEntropySp(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet)
+		const boost::iterator_range<SignalPtr_Iterator>& signalSet)
 	{
 		if (signalSet.empty())
 		{

@@ -5,7 +5,7 @@
 
 #include "tim/core/signal.h"
 
-#include <pastel/sys/iterator_range.h>
+#include <pastel/sys/range.h>
 
 #include <vector>
 
@@ -47,7 +47,7 @@ namespace Tim
 	*/
 	template <typename SignalPtr_Iterator, typename OutputIterator>
 	void delayEmbed(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
+		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
 		const OutputIterator& outputBegin,
 		integer k,
 		integer dt = 1);
@@ -74,7 +74,7 @@ namespace Tim
 	*/
 	template <typename SignalPtr_Iterator, typename OutputIterator>
 	void delayEmbedFuture(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
+		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
 		const OutputIterator& outputBegin,
 		integer dt = 1);
 

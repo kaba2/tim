@@ -5,7 +5,7 @@
 
 #include "tim/core/signal.h"
 
-#include <pastel/sys/iterator_range.h>
+#include <pastel/sys/range.h>
 
 namespace Tim
 {
@@ -47,13 +47,13 @@ namespace Tim
 		typename SignalPtr_W_Iterator,
 		typename Real_Filter_Iterator>
 	SignalPtr temporalTransferEntropy(
-		const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
-		const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet,
-		const ForwardIterator_Range<SignalPtr_W_Iterator>& wSignalSet,
+		const boost::iterator_range<SignalPtr_X_Iterator>& xSignalSet,
+		const boost::iterator_range<SignalPtr_Y_Iterator>& ySignalSet,
+		const boost::iterator_range<SignalPtr_W_Iterator>& wSignalSet,
 		integer timeWindowRadius,
 		integer xLag, integer yLag, integer wLag,
 		integer kNearest,
-		const ForwardIterator_Range<Real_Filter_Iterator>& filter);
+		const boost::iterator_range<Real_Filter_Iterator>& filter);
 
 	//! Computes temporal partial mutual information.
 	/*!
@@ -74,9 +74,9 @@ namespace Tim
 		typename SignalPtr_Y_Iterator,
 		typename SignalPtr_W_Iterator>
 	SignalPtr temporalTransferEntropy(
-		const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
-		const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet,
-		const ForwardIterator_Range<SignalPtr_W_Iterator>& wSignalSet,
+		const boost::iterator_range<SignalPtr_X_Iterator>& xSignalSet,
+		const boost::iterator_range<SignalPtr_Y_Iterator>& ySignalSet,
+		const boost::iterator_range<SignalPtr_W_Iterator>& wSignalSet,
 		integer timeWindowRadius,
 		integer xLag = 0, integer yLag = 0, integer wLag = 0,
 		integer kNearest = 1);
@@ -109,9 +109,9 @@ namespace Tim
 		typename SignalPtr_Y_Iterator,
 		typename SignalPtr_W_Iterator>
 	real transferEntropy(
-		const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
-		const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet,
-		const ForwardIterator_Range<SignalPtr_W_Iterator>& wSignalSet,
+		const boost::iterator_range<SignalPtr_X_Iterator>& xSignalSet,
+		const boost::iterator_range<SignalPtr_Y_Iterator>& ySignalSet,
+		const boost::iterator_range<SignalPtr_W_Iterator>& wSignalSet,
 		integer xLag = 0, integer yLag = 0, integer wLag = 0,
 		integer kNearest = 1);
 

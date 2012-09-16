@@ -7,8 +7,8 @@
 #include "tim/core/entropy_combination.h"
 #include "tim/core/entropy_combination_t.h"
 
-#include <pastel/sys/constantiterator.h>
-#include <pastel/sys/nulliterator.h>
+#include <pastel/sys/constant_iterator.h>
+#include <pastel/sys/null_iterator.h>
 
 namespace Tim
 {
@@ -23,15 +23,15 @@ namespace Tim
 			typename SignalPtr_W_Iterator,
 			typename Real_Filter_Iterator>
 		real partialTransferEntropy(
-			const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
-			const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet,
-			const ForwardIterator_Range<SignalPtr_Z_Iterator>& zSignalSet,
-			const ForwardIterator_Range<SignalPtr_W_Iterator>& wSignalSet,
+			const boost::iterator_range<SignalPtr_X_Iterator>& xSignalSet,
+			const boost::iterator_range<SignalPtr_Y_Iterator>& ySignalSet,
+			const boost::iterator_range<SignalPtr_Z_Iterator>& zSignalSet,
+			const boost::iterator_range<SignalPtr_W_Iterator>& wSignalSet,
 			integer timeWindowRadius,
 			SignalPtr* result,
 			integer xLag, integer yLag,	integer zLag, integer wLag,
 			integer kNearest,
-			const ForwardIterator_Range<Real_Filter_Iterator>& filter)
+			const boost::iterator_range<Real_Filter_Iterator>& filter)
 		{
 			ENSURE_OP(timeWindowRadius, >=, 0);
 			ENSURE_OP(kNearest, >, 0);
@@ -100,14 +100,14 @@ namespace Tim
 		typename SignalPtr_W_Iterator,
 		typename Real_Filter_Iterator>
 	SignalPtr temporalPartialTransferEntropy(
-		const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
-		const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet,
-		const ForwardIterator_Range<SignalPtr_Z_Iterator>& zSignalSet,
-		const ForwardIterator_Range<SignalPtr_W_Iterator>& wSignalSet,
+		const boost::iterator_range<SignalPtr_X_Iterator>& xSignalSet,
+		const boost::iterator_range<SignalPtr_Y_Iterator>& ySignalSet,
+		const boost::iterator_range<SignalPtr_Z_Iterator>& zSignalSet,
+		const boost::iterator_range<SignalPtr_W_Iterator>& wSignalSet,
 		integer timeWindowRadius,
 		integer xLag, integer yLag, integer zLag, integer wLag,
 		integer kNearest,
-		const ForwardIterator_Range<Real_Filter_Iterator>& filter)
+		const boost::iterator_range<Real_Filter_Iterator>& filter)
 	{
 		SignalPtr result;
 		Tim::Detail_PartialTransferEntropy::partialTransferEntropy(
@@ -126,10 +126,10 @@ namespace Tim
 		typename SignalPtr_Z_Iterator,
 		typename SignalPtr_W_Iterator>
 	SignalPtr temporalPartialTransferEntropy(
-		const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
-		const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet,
-		const ForwardIterator_Range<SignalPtr_Z_Iterator>& zSignalSet,
-		const ForwardIterator_Range<SignalPtr_W_Iterator>& wSignalSet,
+		const boost::iterator_range<SignalPtr_X_Iterator>& xSignalSet,
+		const boost::iterator_range<SignalPtr_Y_Iterator>& ySignalSet,
+		const boost::iterator_range<SignalPtr_Z_Iterator>& zSignalSet,
+		const boost::iterator_range<SignalPtr_W_Iterator>& wSignalSet,
 		integer timeWindowRadius,
 		integer xLag, integer yLag, integer zLag, integer wLag,
 		integer kNearest)
@@ -149,10 +149,10 @@ namespace Tim
 		typename SignalPtr_Z_Iterator,
 		typename SignalPtr_W_Iterator>
 	real partialTransferEntropy(
-		const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
-		const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet,
-		const ForwardIterator_Range<SignalPtr_Z_Iterator>& zSignalSet,
-		const ForwardIterator_Range<SignalPtr_W_Iterator>& wSignalSet,
+		const boost::iterator_range<SignalPtr_X_Iterator>& xSignalSet,
+		const boost::iterator_range<SignalPtr_Y_Iterator>& ySignalSet,
+		const boost::iterator_range<SignalPtr_Z_Iterator>& zSignalSet,
+		const boost::iterator_range<SignalPtr_W_Iterator>& wSignalSet,
 		integer xLag, integer yLag, integer zLag, integer wLag,
 		integer kNearest)
 	{

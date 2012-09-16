@@ -6,7 +6,7 @@
 
 #include "tim/core/signal.h"
 
-#include <pastel/sys/iterator_range.h>
+#include <pastel/sys/range.h>
 
 namespace Tim
 {
@@ -40,7 +40,7 @@ namespace Tim
 		typename SignalPtr_Iterator,
 		typename EntropyAlgorithm>
 	real genericEntropy(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
+		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
 		const EntropyAlgorithm& entropyAlgorithm,
 		integer kNearest = 1);
 

@@ -22,8 +22,8 @@ namespace
 		}
 
 		template <typename Real_Iterator, typename Real_Iterator2>
-		void testCase(const ForwardIterator_Range<Real_Iterator>& data,
-			const ForwardIterator_Range<Real_Iterator2>& correct)
+		void testCase(const boost::iterator_range<Real_Iterator>& data,
+			const boost::iterator_range<Real_Iterator2>& correct)
 		{
 			reconstruct(data);
 

@@ -7,14 +7,14 @@
 #include "tim/core/mytypes.h"
 #include "tim/core/signal.h"
 
-#include <pastel/sys/iterator_range.h>
+#include <pastel/sys/range.h>
 
 namespace Tim
 {
 
 	template <typename SignalPtr_Iterator>
 	real differentialEntropySp(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet);	
+		const boost::iterator_range<SignalPtr_Iterator>& signalSet);	
 
 }
 

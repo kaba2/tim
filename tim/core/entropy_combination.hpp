@@ -13,8 +13,8 @@
 
 #include <pastel/math/normbijections.h>
 
-#include <pastel/sys/constantiterator.h>
-#include <pastel/sys/iterator_range.h>
+#include <pastel/sys/constant_iterator.h>
+#include <pastel/sys/range.h>
 #include <pastel/sys/eps.h>
 #include <pastel/sys/copy_n.h>
 
@@ -32,8 +32,8 @@ namespace Tim
 		typename LocalEstimator>
 	real entropyCombination(
 		const Array<SignalPtr>& signalSet,
-		const ForwardIterator_Range<Integer3_Iterator>& rangeSet,
-		const ForwardIterator_Range<Integer_Iterator>& lagSet,
+		const boost::iterator_range<Integer3_Iterator>& rangeSet,
+		const boost::iterator_range<Integer_Iterator>& lagSet,
 		integer kNearest,
 		const LocalEstimator& localEstimator)
 	{
@@ -172,8 +172,8 @@ namespace Tim
 		typename Integer_Iterator>
 	real entropyCombination(
 		const Array<SignalPtr>& signalSet,
-		const ForwardIterator_Range<Integer3_Iterator>& rangeSet,
-		const ForwardIterator_Range<Integer_Iterator>& lagSet,
+		const boost::iterator_range<Integer3_Iterator>& rangeSet,
+		const boost::iterator_range<Integer_Iterator>& lagSet,
 		integer kNearest)
 	{
 		return Tim::entropyCombination(
@@ -187,7 +187,7 @@ namespace Tim
 		typename Real_OutputIterator>
 	real entropyCombination(
 		const Array<SignalPtr>& signalSet,
-		const ForwardIterator_Range<Integer3_Iterator>& rangeSet)
+		const boost::iterator_range<Integer3_Iterator>& rangeSet)
 	{
 		return Tim::entropyCombination(
 			signalSet,

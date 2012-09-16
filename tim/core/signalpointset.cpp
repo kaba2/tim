@@ -2,13 +2,13 @@
 #include "tim/core/signal_tools.h"
 
 #include <pastel/geometry/search_all_neighbors_pointkdtree.h>
-#include <pastel/geometry/slidingmidpoint_splitrule_pointkdtree.h>
+#include <pastel/geometry/slidingmidpoint_splitrule.h>
 #include <pastel/geometry/difference_alignedbox_alignedbox.h>
 #include <pastel/geometry/intersect_alignedbox_alignedbox.h>
 #include <pastel/geometry/overlaps_alignedbox_alignedbox.h>
 #include <pastel/geometry/contains_alignedbox_alignedbox.h>
 
-#include <pastel/sys/constantiterator.h>
+#include <pastel/sys/constant_iterator.h>
 
 #include <pastel/math/normbijections.h>
 

@@ -1,7 +1,5 @@
 #include "estimation.h"
 
-#include <pastel/device/devicesystem.h>
-
 #include <pastel/sys/logging.h>
 #include <pastel/sys/testreport.h>
 
@@ -23,12 +21,8 @@ int estimationMain()
 	setInvariantFailureAction(
 		InvariantFailureAction::Throw);
 
-	deviceSystem().initialize();
-
 	timTestList().console();
 	generateTestReport(timTestReport(), log());
-
-	deviceSystem().deInitialize();
 
 	return 0;
 }

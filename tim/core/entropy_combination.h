@@ -7,7 +7,7 @@
 #include "tim/core/signal.h"
 #include "tim/core/localestimators.h"
 
-#include <pastel/sys/iterator_range.h>
+#include <pastel/sys/range.h>
 #include <pastel/sys/array.h>
 
 namespace Tim
@@ -54,8 +54,8 @@ namespace Tim
 		typename LocalEstimator>
 	real entropyCombination(
 		const Array<SignalPtr>& signalSet,
-		const ForwardIterator_Range<Integer3_Iterator>& rangeSet,
-		const ForwardIterator_Range<Integer_Iterator>& lagSet,
+		const boost::iterator_range<Integer3_Iterator>& rangeSet,
+		const boost::iterator_range<Integer_Iterator>& lagSet,
 		integer kNearest,
 		const LocalEstimator& localEstimator);
 
@@ -78,8 +78,8 @@ namespace Tim
 		typename Integer_Iterator>
 	real entropyCombination(
 		const Array<SignalPtr>& signalSet,
-		const ForwardIterator_Range<Integer3_Iterator>& rangeSet,
-		const ForwardIterator_Range<Integer_Iterator>& lagSet,
+		const boost::iterator_range<Integer3_Iterator>& rangeSet,
+		const boost::iterator_range<Integer_Iterator>& lagSet,
 		integer kNearest = 1);
 
 	//! Computes an entropy combination of signals.
@@ -99,7 +99,7 @@ namespace Tim
 		typename Real_OutputIterator>
 	real entropyCombination(
 		const Array<SignalPtr>& signalSet,
-		const ForwardIterator_Range<Integer3_Iterator>& rangeSet);
+		const boost::iterator_range<Integer3_Iterator>& rangeSet);
 
 }
 

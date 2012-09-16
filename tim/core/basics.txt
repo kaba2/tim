@@ -33,7 +33,7 @@ an example function template declaration from TIM:
 		typename SignalPtr_Iterator, 
 		typename Real_OutputIterator>
 	integer temporalDifferentialEntropyKl(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
+		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
 		integer kNearest = 1);

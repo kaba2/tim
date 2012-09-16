@@ -4,13 +4,11 @@
 #include "tim/core/signal_tools.h"
 #include "tim/core/mutual_information.h"
 
-#include <pastel/math/matrix_tools.h>
-#include <pastel/math/cholesky_decomposition_tools.h>
+#include <pastel/math/matrix_algorithms.h>
+#include <pastel/math/cholesky_decomposition.h>
 
 #include <pastel/sys/string_algorithms.h>
 #include <pastel/sys/measuretable_tools.h>
-
-#include <pastel/device/timer.h>
 
 #include <iomanip>
 #include <numeric>
@@ -265,29 +263,29 @@ namespace
 				SignalPtr xSignal = split(jointSignal, 0, 1);
 				SignalPtr ySignal = split(jointSignal, 1, 2);
 
-				Timer timer;
+				//Timer timer;
 				
-				timer.setStart();
+				//timer.setStart();
 				const real mi = mutualInformation(
 					constantRange(xSignal),
 					constantRange(ySignal),
 					0, 0,
 					kNearest);
-				timer.store();
+				//timer.store();
 
 				measureTable(TimTime_Column, experiment).text() = 
-					realToString(timer.seconds(), 4);
+					realToString(/*timer.seconds()*/0, 4);
 				measureTable(TimMi_Column, experiment).text() = 
 					realToString(mi, 4);
 				
-				timer.setStart();
+				//timer.setStart();
 				Array<real> pairwiseMi = mutualInformationFromBinning(
 					jointSignal,
 					100);
-				timer.store();
+				//timer.store();
 
 				measureTable(ElTime_Column, experiment).text() = 
-					realToString(timer.seconds(), 4);
+					realToString(/*timer.seconds()*/0, 4);
 				measureTable(ElMi_Column, experiment).text() = 
 					realToString(pairwiseMi(1, 0), 4);
 
