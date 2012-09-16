@@ -3,13 +3,12 @@
 #include "tim/core/tsallis_entropy.h"
 #include "tim/core/signal_tools.h"
 
-#include <pastel/device/timer.h>
-
 #include <pastel/sys/random.h>
 #include <pastel/sys/string_algorithms.h>
 
-#include <pastel/math/cholesky_decomposition_tools.h>
-#include <pastel/math/matrix_tools.h>
+#include <pastel/math/cholesky_decomposition.h>
+#include <pastel/math/matrix_determinant.h>
+#include <pastel/math/random_matrix.h>
 
 using namespace Tim;
 
@@ -58,8 +57,8 @@ namespace
 
 	void testTsallisEntropy()
 	{
-		Timer timer;
-		timer.setStart();
+		//Timer timer;
+		//timer.setStart();
 
 		log() << "Computing Tsallis entropies using Leonenko-Pronzato-Savani estimator..." << logNewLine;
 		log() << "Relative errors to correct analytic results shown in brackets." << logNewLine;
@@ -121,8 +120,8 @@ namespace
 			q,
 			uniformTsallisEntropy(q, std::pow((real)2, (real)dimension)));
 
-		timer.store();
-		log() << "Finished in " << timer.seconds() << " seconds." << logNewLine;
+		//timer.store();
+		//log() << "Finished in " << timer.seconds() << " seconds." << logNewLine;
 	}
 
 	void testAdd()

@@ -6,7 +6,7 @@
 #include "tim/core/mytypes.h"
 #include "tim/core/signal.h"
 
-#include <pastel/sys/iterator_range.h>
+#include <pastel/sys/range.h>
 #include <pastel/sys/tuple.h>
 
 namespace Tim
@@ -15,8 +15,8 @@ namespace Tim
 	//! Returns the largest time interval on which all signals are defined.
 	template <typename SignalPtr_Iterator, typename Integer_Iterator>
 	Integer2 sharedTimeInterval(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
-		const ForwardIterator_Range<Integer_Iterator>& lagSet);
+		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
+		const boost::iterator_range<Integer_Iterator>& lagSet);
 
 	//! Returns the largest time interval on which all signals are defined.
 	/*!
@@ -28,22 +28,22 @@ namespace Tim
 	*/
 	template <typename SignalPtr_Iterator>
 	Integer2 sharedTimeInterval(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet);
+		const boost::iterator_range<SignalPtr_Iterator>& signalSet);
 
 	//! Returns the minimum number of samples among the signals.
 	template <typename SignalPtr_Iterator>
 	integer minSamples(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet);
+		const boost::iterator_range<SignalPtr_Iterator>& signalSet);
 
 	//! Returns true if all signals have the same dimension.
 	template <typename SignalPtr_Iterator>
 	bool equalDimension(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet);
+		const boost::iterator_range<SignalPtr_Iterator>& signalSet);
 
 	//! Returns true if all signals have the same number of samples.
 	template <typename SignalPtr_Iterator>
 	bool equalSamples(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet);
+		const boost::iterator_range<SignalPtr_Iterator>& signalSet);
 
 }
 

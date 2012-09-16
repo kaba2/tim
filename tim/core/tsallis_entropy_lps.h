@@ -6,7 +6,7 @@
 
 #include "tim/core/signal.h"
 
-#include <pastel/sys/iterator_range.h>
+#include <pastel/sys/range.h>
 
 namespace Tim
 {
@@ -69,11 +69,11 @@ namespace Tim
 		typename SignalPtr_Iterator, 
 		typename Real_Filter_Iterator>
 	SignalPtr temporalTsallisEntropyLps(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
+		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		real q,
 		integer kNearestSuggestion,
-		const ForwardIterator_Range<Real_Filter_Iterator>& filter);
+		const boost::iterator_range<Real_Filter_Iterator>& filter);
 
 	//! Computes temporal Tsallis entropy of a signal.
 	/*!
@@ -89,7 +89,7 @@ namespace Tim
 
 	template <typename SignalPtr_Iterator>
 	SignalPtr temporalTsallisEntropyLps(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
+		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		real q = 2,
 		integer kNearestSuggestion = 0);
@@ -133,7 +133,7 @@ namespace Tim
 
 	template <typename SignalPtr_Iterator>
 	real tsallisEntropyLps(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
+		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
 		real q = 2,
 		integer kNearestSuggestion = 0);
 

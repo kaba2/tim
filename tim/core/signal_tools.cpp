@@ -1,10 +1,10 @@
 #include "tim/core/signal_tools.h"
 
-#include <pastel/sys/constantiterator.h>
+#include <pastel/sys/constant_iterator.h>
 #include <pastel/sys/string_algorithms.h>
 
 #include <pastel/math/cholesky_decomposition.h>
-#include <pastel/math/matrix_tools.h>
+#include <pastel/math/matrix_inverse.h>
 
 namespace Tim
 {

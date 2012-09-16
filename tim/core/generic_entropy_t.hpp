@@ -6,9 +6,9 @@
 #include "tim/core/signalpointset.h"
 #include "tim/core/reconstruction.h"
 
-#include <pastel/sys/constantiterator.h>
-#include <pastel/sys/countingiterator.h>
-#include <pastel/sys/iterator_range.h>
+#include <pastel/sys/constant_iterator.h>
+#include <pastel/sys/counting_iterator.h>
+#include <pastel/sys/range.h>
 
 #include <pastel/geometry/search_all_neighbors_pointkdtree.h>
 
@@ -23,11 +23,11 @@ namespace Tim
 		typename EntropyAlgorithm,
 		typename Real_Filter_Iterator>
 	SignalPtr temporalGenericEntropy(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
+		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
 		const EntropyAlgorithm& entropyAlgorithm,
 		integer timeWindowRadius,
 		integer kNearest,
-		const ForwardIterator_Range<Real_Filter_Iterator>& filter)
+		const boost::iterator_range<Real_Filter_Iterator>& filter)
 	{
 		ENSURE_OP(timeWindowRadius, >=, 0);
 		ENSURE_OP(kNearest, >, 0);
@@ -186,7 +186,7 @@ namespace Tim
 		typename SignalPtr_Iterator, 
 		typename EntropyAlgorithm>
 	SignalPtr temporalGenericEntropy(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
+		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
 		const EntropyAlgorithm& entropyAlgorithm,
 		integer timeWindowRadius,
 		integer kNearest)

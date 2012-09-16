@@ -11,7 +11,7 @@
 
 #include <pastel/geometry/pointkdtree.h>
 #include <pastel/geometry/search_all_neighbors_pointkdtree.h>
-#include <pastel/geometry/slidingmidpoint_splitrule_pointkdtree.h>
+#include <pastel/geometry/slidingmidpoint_splitrule.h>
 
 #include <vector>
 
@@ -22,7 +22,7 @@ namespace Tim
 		typename SignalPtr_Iterator, 
 		typename NormBijection>
 	real differentialEntropyNk(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
+		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
 		const NormBijection& normBijection,
 		integer* outIntrinsicDimension)
 	{
@@ -72,7 +72,7 @@ namespace Tim
 
 		KdTree kdTree(pointPolicy);
 
-		kdTree.insert(
+		kdTree.insertRange(
 			range(pointSet.begin(), pointSet.end()));
 		kdTree.refine(SplitRule());
 
@@ -93,7 +93,7 @@ namespace Tim
 				subsetSize);
 
 			kdTree.erase();
-			kdTree.insert(
+			kdTree.insertRange(
 				range(pointSet.begin(), pointSet.begin() + subsetSize));
 			
 			// Find the distance to the nearest codebook point for

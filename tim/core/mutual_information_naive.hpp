@@ -11,7 +11,7 @@ namespace Tim
 		typename NormBijection,
 		typename Real_OutputIterator>
 	real mutualInformationFromEntropy(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
+		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		integer kNearest,
 		const NormBijection& normBijection,

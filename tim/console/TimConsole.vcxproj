@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{6B9859CB-0F99-432E-89A8-4FCD0A80E6BE}</ProjectGuid>
+    <RootNamespace>TimConsole</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Tim.Options.props" />
+    <Import Project="..\Tim-Release-Options.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Tim.Options.props" />
+    <Import Project="..\Tim-Release-Options.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Tim.Options.props" />
+    <Import Project="..\Tim-Debug-Options.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Tim.Options.props" />
+    <Import Project="..\Tim-Debug-Options.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>timcore.lib;pastelsys.lib;pastelmath.lib;pastelgeometry.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>timcore.lib;pastelsys.lib;pastelmath.lib;pastelgeometry.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>timcore.lib;pastelsys.lib;pastelmath.lib;pastelgeometry.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>timcore.lib;pastelsys.lib;pastelmath.lib;pastelgeometry.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="bison_console_parser.cpp" />
+    <ClCompile Include="errorlog.cpp" />
+    <ClCompile Include="functions.cpp" />
+    <ClCompile Include="interpreter_astvisitor.cpp" />
+    <ClCompile Include="lex_console_scanner.cpp" />
+    <ClCompile Include="printer_astvisitor.cpp" />
+    <ClCompile Include="tim_console.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ast.h" />
+    <ClInclude Include="astvisitor.h" />
+    <ClInclude Include="bison_console_parser.hpp" />
+    <ClInclude Include="console_parser.h" />
+    <ClInclude Include="console_scanner.h" />
+    <ClInclude Include="errorlog.h" />
+    <ClInclude Include="functions.h" />
+    <ClInclude Include="interpreter_astvisitor.h" />
+    <ClInclude Include="lex.console_.h" />
+    <ClInclude Include="printer_astvisitor.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="console_parser.y">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Generating Bison parser...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating Bison parser...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">bison -obison_console_parser.cpp console_parser.y</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">bison -obison_console_parser.cpp console_parser.y</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">bison_console_parser.cpp;bison_console_parser.hpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">bison_console_parser.cpp;bison_console_parser.hpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Generating Bison parser...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating Bison parser...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">bison -obison_console_parser.cpp console_parser.y</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">bison -obison_console_parser.cpp console_parser.y</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">bison_console_parser.cpp;bison_console_parser.hpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">bison_console_parser.cpp;bison_console_parser.hpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="console_scanner.l">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">flex -olex_console_scanner.cpp console_scanner.l</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">flex -olex_console_scanner.cpp console_scanner.l</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">lex_console_scanner.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">lex_console_scanner.cpp;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">flex -olex_console_scanner.cpp console_scanner.l</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">flex -olex_console_scanner.cpp console_scanner.l</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">lex_console_scanner.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">lex_console_scanner.cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Creating scanner...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Creating scanner...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Creating scanner...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Creating scanner...</Message>
+    </CustomBuild>
+    <None Include="demo_data.txt" />
+    <None Include="demo_input.txt" />
+    <None Include="functions.txt" />
+    <None Include="syntax_and_semantics.txt" />
+    <None Include="test_data.txt" />
+    <None Include="test_input.txt" />
+    <None Include="tim_console.txt" />
+    <None Include="tim_console_cpp.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\core\TimCore.vcxproj">
+      <Project>{e643edce-54d8-4dc0-8dbb-5b7121906d7b}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

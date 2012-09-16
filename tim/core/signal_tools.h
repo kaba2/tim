@@ -10,7 +10,7 @@
 
 #include <pastel/math/matrix.h>
 
-#include <pastel/sys/iterator_range.h>
+#include <pastel/sys/range.h>
 #include <pastel/sys/array.h>
 
 #include <iostream>
@@ -32,19 +32,8 @@ namespace Tim
 		const SignalPtr& signal,
 		const MatrixD& covariance);
 
-	template <typename SignalPtr_Iterator>
-	void constructPointSet(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
-		integer sampleBegin,
-		integer sampleEnd,
-		integer dimensionBegin,
-		integer dimensionEnd,
-		std::vector<const real*>& pointSet);
-
 }
 
 #include "tim/core/signal_generate.h"
-
-#include "tim/core/signal_tools.hpp"
 
 #endif

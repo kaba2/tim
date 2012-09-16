@@ -11,7 +11,7 @@
 #include <pastel/sys/vector_tools.h>
 
 #include <pastel/math/maximum_normbijection.h>
-#include <pastel/geometry/splitrule_pointkdtree.h>
+#include <pastel/geometry/splitrules.h>
 
 #if (defined _WIN32 || defined _WIN64)
 #	pragma detect_mismatch("TIM_VERSION", "1.3")
@@ -23,7 +23,7 @@ namespace Tim
 	using namespace Pastel;
 
 	typedef Maximum_NormBijection<real> Default_NormBijection;
-	typedef SlidingMidpoint_SplitRule_PointKdTree SplitRule;
+	typedef SlidingMidpoint_SplitRule SplitRule;
 
 }
 

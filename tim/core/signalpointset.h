@@ -11,7 +11,7 @@
 
 #include <pastel/sys/array_pointpolicy.h>
 #include <pastel/sys/countedptr.h>
-#include <pastel/sys/iterator_range.h>
+#include <pastel/sys/range.h>
 #include <pastel/sys/array.h>
 
 #include <vector>
@@ -44,7 +44,7 @@ namespace Tim
 		//! Constructs using the given ensemble of signals.
 		template <typename SignalPtr_Iterator>
 		explicit SignalPointSet(
-			const ForwardIterator_Range<SignalPtr_Iterator>& signalSet);
+			const boost::iterator_range<SignalPtr_Iterator>& signalSet);
 
 		//! Constructs using given subdimensions and initial time-window.
 		/*!
@@ -60,7 +60,7 @@ namespace Tim
 		*/
 		template <typename SignalPtr_Iterator>
 		SignalPointSet(
-			const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
+			const boost::iterator_range<SignalPtr_Iterator>& signalSet,
 			integer dimensionBegin,
 			integer dimensionEnd);
 
@@ -137,7 +137,7 @@ namespace Tim
 		*/
 		template <typename SignalPtr_Iterator>
 		void createPointSet(
-			const ForwardIterator_Range<SignalPtr_Iterator>& signalSet);
+			const boost::iterator_range<SignalPtr_Iterator>& signalSet);
 
 		void hide(
 			const AlignedBox<integer, 1>& range);

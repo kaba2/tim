@@ -3,14 +3,14 @@
 #ifndef TIM_RECONSTRUCTION_H
 #define TIM_RECONSTRUCTION_H
 
-#include "pastel/sys/iterator_range.h"
+#include "pastel/sys/range.h"
 
 namespace Tim
 {
 
 	template <typename Real_InputIterator>
 	void reconstruct(
-		const ForwardIterator_Range<Real_InputIterator>& data);
+		const boost::iterator_range<Real_InputIterator>& data);
 
 }
 

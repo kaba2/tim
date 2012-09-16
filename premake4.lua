@@ -4,16 +4,13 @@
 -- Available external libraries
 -- ============================
 
--- Whether you have Pastel 1.2 include files and binaries.
+-- Whether you have Pastel 1.3 include files and binaries.
 gotPastel = true
 
--- Whether you have Boost 1.45 include files.
+-- Whether you have Boost 1.49 include files.
 gotBoost = true
 
--- Whether you have SDL 1.2 include files and binaries.
-gotSdl = true
-
--- Whether you have Matlab (say, 2008a or never) include files.
+-- Whether you have Matlab (say, 2008a or newer) include files.
 gotMatlab = true
 
 -- Note: To succesfully _compile_ the libraries, 
@@ -39,7 +36,7 @@ buildTests = true
 -- Requirements
 basicRequirements = gotPastel and gotBoost
 libraryRequirements = basicRequirements and buildLibraries
-testRequirements = basicRequirements and buildTests and gotSdl
+testRequirements = basicRequirements and buildTests
 
 -- Whether to build the TIM Core library.
 buildTimCore = true and libraryRequirements
@@ -62,20 +59,15 @@ buildTimCoreTest = true and testRequirements
 -- The directory of the Pastel library's source code.
 -- The includes are of the form 'pastel/sys/array.h'
 pastelIncludeDir = "../pastel"
-pastelLibraryDir = "../pastel/build/vs2008/lib"
+pastelLibraryDir = "../pastel/build/vs2010/lib"
 
 -- The directory of the Boost library's source code.
 -- The includes are of the form 'boost/static_assert.hpp'.
-boostIncludeDir = "../external/boost_1_45_0"
-
--- The directory of the SDL library's header files.
--- The includes are of the form 'SDL.h'.
-sdlIncludeDir = "../external/SDL-1.2.14/include"
-sdlLibraryDir = "../external/SDL-1.2.14/lib"
+boostIncludeDir = "../external/boost_1_49_0"
 
 -- The directory of the Matlab header files.
 -- The includes are of the form 'mex.h'.
-matlabIncludeDir = "C:/Program Files/MATLAB/R2008a/extern/include"
+matlabIncludeDir = "C:/Program Files/MATLAB/R2011b/extern/include"
 
 -- No need to give a library path for Matlab:
 -- Mex files are built from within Matlab.
@@ -102,14 +94,12 @@ solution "Tim"
 	{
 		"./",
 		boostIncludeDir,
-		sdlIncludeDir,
 		pastelIncludeDir,
 		matlabIncludeDir
 	}
 	
 	libraryDirectorySet =
 	{
-		sdlLibraryDir
 	}
 	
 	includedirs(includeDirectorySet)
@@ -173,9 +163,6 @@ solution "Tim"
 		-- Enable optimizations.
 		flags {"Optimize"}
 
-	-- Determine the SDL library name.	
-	sdlLibrary = "SDL"
-	
 	fileSet = 
 	{
 		"*.cpp",
@@ -217,15 +204,8 @@ solution "Tim"
 		-- Disable Microsoft's Secure STL
 		defines
 		{
-			"_SECURE_SCL=0",
-			"_HAS_ITERATOR_DEBUGGING=0",
+			"_ITERATOR_DEBUG_LEVEL=0",
 			"PASTEL_VISUAL_STUDIO"
-		}
-		
-		-- Disable language extensions
-		buildoptions
-		{
-			"/Za"			
 		}
 		
 	-- GCC specific build options.
@@ -323,11 +303,8 @@ solution "Tim"
 			files(addPrefix("test/coretest/", fileSet))
 			links
 			{
-				"SDL",
-				"PastelDevice",
 				"PastelGfx",
 				"PastelGeometry",
-				"PastelDsp",
 				"PastelMath",
 				"PastelSys",
 				"TimCore"

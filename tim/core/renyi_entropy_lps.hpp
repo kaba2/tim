@@ -103,11 +103,11 @@ namespace Tim
 		typename SignalPtr_Iterator, 
 		typename Real_Filter_Iterator>
 	SignalPtr temporalRenyiEntropyLps(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
+		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		real q,
 		integer kNearestSuggestion,
-		const ForwardIterator_Range<Real_Filter_Iterator>& filter)
+		const boost::iterator_range<Real_Filter_Iterator>& filter)
 	{
 		ENSURE_OP(timeWindowRadius, >=, 0);
 		ENSURE_OP(q, >, 0);
@@ -155,7 +155,7 @@ namespace Tim
 
 	template <typename SignalPtr_Iterator>
 	SignalPtr temporalRenyiEntropyLps(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
+		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
 		integer timeWindowRadius,
 		real q,
 		integer kNearestSuggestion)
@@ -171,7 +171,7 @@ namespace Tim
 
 	template <typename SignalPtr_Iterator>
 	real renyiEntropyLps(
-		const ForwardIterator_Range<SignalPtr_Iterator>& signalSet,
+		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
 		real q,
 		integer kNearestSuggestion)
 	{

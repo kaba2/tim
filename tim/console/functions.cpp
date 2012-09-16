@@ -1451,7 +1451,7 @@ namespace Tim
 			template <typename Any_Iterator>
 			FunctionInfo(
 				Callback callback_, 
-				const ForwardIterator_Range<Any_Iterator>& parameterSet_,
+				const boost::iterator_range<Any_Iterator>& parameterSet_,
 				integer minArgs_)
 			: callback(callback_)
 			, parameterSet(parameterSet_.begin(), parameterSet_.end())

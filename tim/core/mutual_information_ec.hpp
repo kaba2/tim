@@ -7,8 +7,8 @@
 #include "tim/core/entropy_combination.h"
 #include "tim/core/entropy_combination_t.h"
 
-#include <pastel/sys/constantiterator.h>
-#include <pastel/sys/nulliterator.h>
+#include <pastel/sys/constant_iterator.h>
+#include <pastel/sys/null_iterator.h>
 
 namespace Tim
 {
@@ -21,13 +21,13 @@ namespace Tim
 			typename SignalPtr_Y_Iterator,
 			typename Real_Filter_Iterator>
 		real mutualInformation(
-			const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
-			const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet,
+			const boost::iterator_range<SignalPtr_X_Iterator>& xSignalSet,
+			const boost::iterator_range<SignalPtr_Y_Iterator>& ySignalSet,
 			integer timeWindowRadius,
 			SignalPtr* result,
 			integer xLag, integer yLag,
 			integer kNearest,
-			const ForwardIterator_Range<Real_Filter_Iterator>& filter)
+			const boost::iterator_range<Real_Filter_Iterator>& filter)
 		{
 			ENSURE_OP(timeWindowRadius, >=, 0);
 			ENSURE_OP(kNearest, >, 0);
@@ -90,12 +90,12 @@ namespace Tim
 		typename SignalPtr_Y_Iterator,
 		typename Real_Filter_Iterator>
 	SignalPtr temporalMutualInformation(
-		const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
-		const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet,
+		const boost::iterator_range<SignalPtr_X_Iterator>& xSignalSet,
+		const boost::iterator_range<SignalPtr_Y_Iterator>& ySignalSet,
 		integer timeWindowRadius,
 		integer xLag, integer yLag,
 		integer kNearest,
-		const ForwardIterator_Range<Real_Filter_Iterator>& filter)
+		const boost::iterator_range<Real_Filter_Iterator>& filter)
 	{
 		SignalPtr result;
 		Tim::Detail_MutualInformation::mutualInformation(
@@ -112,8 +112,8 @@ namespace Tim
 		typename SignalPtr_X_Iterator,
 		typename SignalPtr_Y_Iterator>
 	SignalPtr temporalMutualInformation(
-		const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
-		const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet,
+		const boost::iterator_range<SignalPtr_X_Iterator>& xSignalSet,
+		const boost::iterator_range<SignalPtr_Y_Iterator>& ySignalSet,
 		integer timeWindowRadius,
 		integer xLag, integer yLag,
 		integer kNearest)
@@ -130,8 +130,8 @@ namespace Tim
 		typename SignalPtr_X_Iterator,
 		typename SignalPtr_Y_Iterator>
 	real mutualInformation(
-		const ForwardIterator_Range<SignalPtr_X_Iterator>& xSignalSet,
-		const ForwardIterator_Range<SignalPtr_Y_Iterator>& ySignalSet,
+		const boost::iterator_range<SignalPtr_X_Iterator>& xSignalSet,
+		const boost::iterator_range<SignalPtr_Y_Iterator>& ySignalSet,
 		integer xLag, integer yLag,
 		integer kNearest)
 	{
