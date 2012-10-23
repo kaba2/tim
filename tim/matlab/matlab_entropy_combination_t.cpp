@@ -42,10 +42,10 @@ namespace
 		std::vector<integer> lagSet;
 		getScalars(inputSet[LagSet], std::back_inserter(lagSet));
 
-		RealArrayPtr rangeArray =
+		Array<real> rangeArray =
 			asArray<real>(inputSet[RangeSet]);
 
-		const integer marginals = rangeArray->height();
+		const integer marginals = rangeArray.height();
 
 		std::vector<Integer3> rangeSet;
 		rangeSet.reserve(marginals);
@@ -60,9 +60,9 @@ namespace
 				// as [a - 1, b[.
 				rangeSet.push_back(
 					Integer3(
-					(*rangeArray)(0, i) - 1,
-					(*rangeArray)(1, i),
-					(*rangeArray)(2, i)));
+					rangeArray(0, i) - 1,
+					rangeArray(1, i),
+					rangeArray(2, i)));
 			}
 		}
 
@@ -84,11 +84,11 @@ namespace
 		const integer skip = std::max(-estimate->t(), 0); 
 		const integer samples = std::max(nans + estimate->samples() - skip, 0);
 
-		RealArrayPtr result = createArray<real>(
+		Array<real> result = createArray<real>(
 			Vector2i(samples, 1), outputSet[Estimate]);
-		std::fill_n(result->begin(), nans, nan<real>());
+		std::fill_n(result.begin(), nans, nan<real>());
 		std::copy(estimate->data().begin() + skip, 
-			estimate->data().end(), result->begin() + nans);
+			estimate->data().end(), result.begin() + nans);
 	}
 
 	void addFunction()

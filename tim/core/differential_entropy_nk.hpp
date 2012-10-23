@@ -133,10 +133,10 @@ namespace Tim
 		// Solve for the intrinsic dimensionality and
 		// kappa.
 
-		MatrixD e(2, codebooks);
+		Matrix<real> e(2, codebooks);
 
-		e[0] = -alphaSet;
-		e[1] = 1;
+		e.column(0) = -alphaSet;
+		e.column(1) = 1;
 
 		const VectorD m = log(codebookSize);
 		VectorD theta(ofDimension(2));
@@ -157,7 +157,7 @@ namespace Tim
 			// which minimizes the cost function.
 			theta[1] = averageLogSize + i * averageAlpha;
 
-			const real cost = dot(m - theta * e);
+			const real cost = dot(m - e * theta);
 			if (cost < minCost)
 			{
 				d = i;

@@ -69,7 +69,7 @@ namespace Tim
 		// the signals share.
 
 		const Integer2 sharedTime = sharedTimeInterval(
-			range(signalSet.begin(), signalSet.end()),
+			range(signalSet.cbegin(), signalSet.cend()),
 			lagSet);
 
 		const integer estimateBegin = sharedTime[0];

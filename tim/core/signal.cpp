@@ -8,7 +8,7 @@ namespace Tim
 
 	Signal::Signal()
 		: name_()
-		, data_()
+		, data_(0, 0)
 		, t_(0)
 	{
 	}
@@ -48,12 +48,12 @@ namespace Tim
 		return data_.height();
 	}
 
-	MatrixD& Signal::data()
+	Matrix<real>& Signal::data()
 	{
 		return data_;
 	}
 
-	const MatrixD& Signal::data() const
+	const Matrix<real>& Signal::data() const
 	{
 		return data_;
 	}

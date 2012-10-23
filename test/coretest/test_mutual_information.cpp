@@ -78,7 +78,7 @@ namespace
 
 			for (integer i = 0;i < 10;++i)
 			{
-				MatrixD covariance(dimension, dimension);
+				Matrix<real> covariance(dimension, dimension);
 
 				const real r = (real)i / 10;
 
@@ -86,7 +86,7 @@ namespace
 					1, r,
 					r, 1;
 
-				const CholeskyDecompositionD cholesky(
+				const CholeskyDecomposition<real> cholesky(
 					covariance);
 
 				const real det = determinant(cholesky);
@@ -119,7 +119,7 @@ namespace
 			const integer dimension = 2;
 			for (integer i = 0;i < 10;++i)
 			{
-				MatrixD covariance(dimension, dimension);
+				Matrix<real> covariance(dimension, dimension);
 
 				const real cond = 10 - i;
 				const real det = 1 + i;
@@ -145,7 +145,7 @@ namespace
 					<< ", det = " << determinant(covariance) << logNewLine;
 				*/
 
-				const CholeskyDecompositionD cholesky(
+				const CholeskyDecomposition<real> cholesky(
 					covariance);
 
 				ENSURE(cholesky.succeeded());
@@ -168,7 +168,7 @@ namespace
 				//normalizeCovariance(jointSignal, covariance);
 
 				/*
-				MatrixD sampleCovariance;
+				Matrix<real> sampleCovariance;
 				computeCovariance(jointSignal, sampleCovariance);
 				std::cout << sampleCovariance << std::endl;
 				*/
@@ -234,7 +234,7 @@ namespace
 
 			for (integer j = 0;j < 5;++j)
 			{
-				MatrixD covariance(dimension, dimension);
+				Matrix<real> covariance(dimension, dimension);
 
 				const real r = (real)j / 5;
 
@@ -242,7 +242,7 @@ namespace
 					1, r,
 					r, 1;
 
-				const CholeskyDecompositionD cholesky(
+				const CholeskyDecomposition<real> cholesky(
 					covariance);
 
 				ENSURE(cholesky.succeeded());

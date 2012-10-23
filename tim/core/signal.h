@@ -4,13 +4,13 @@
 #ifndef TIM_SIGNAL_H
 #define TIM_SIGNAL_H
 
-#include "tim/core/mytypes.h"
-
 #include <pastel/math/matrix.h>
 
 #include <pastel/sys/countedptr.h>
 #include <pastel/sys/sparse_iterator.h>
 #include <pastel/sys/counting_iterator.h>
+
+#include "tim/core/mytypes.h"
 
 #include <vector>
 
@@ -76,13 +76,13 @@ namespace Tim
 		/*!
 		Each row contains one sample.
 		*/
-		MatrixD& data();
+		Matrix<real>& data();
 
 		//! Returns the samples in a matrix.
 		/*!
 		See the documentation for the non-const version.
 		*/
-		const MatrixD& data() const;
+		const Matrix<real>& data() const;
 
 		//! Sets the time position of the first sample.
 		void setT(integer t);
@@ -126,7 +126,7 @@ namespace Tim
 		of this matrix is the dimensionality. The number
 		of samples is given by the number of rows.
 		*/
-		MatrixD data_;
+		Matrix<real> data_;
 		
 		//! The time position of the first sample.
 		integer t_;

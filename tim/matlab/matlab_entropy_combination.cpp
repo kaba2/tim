@@ -41,10 +41,10 @@ namespace
 		std::vector<integer> lagSet;
 		getScalars(inputSet[LagSet], std::back_inserter(lagSet));
 
-		RealArrayPtr rangeArray =
+		Array<real> rangeArray =
 			asArray<real>(inputSet[RangeSet]);
 
-		const integer marginals = rangeArray->height();
+		const integer marginals = rangeArray.height();
 
 		std::vector<Integer3> rangeSet;
 		rangeSet.reserve(marginals);
@@ -59,9 +59,9 @@ namespace
 				// as [a - 1, b[.
 				rangeSet.push_back(
 					Integer3(
-					(*rangeArray)(0, i) - 1,
-					(*rangeArray)(1, i),
-					(*rangeArray)(2, i)));
+					rangeArray(0, i) - 1,
+					rangeArray(1, i),
+					rangeArray(2, i)));
 			}
 		}
 
@@ -74,8 +74,8 @@ namespace
 		{
 			*outResult = entropyCombination(
 				signalSet,
-				range(rangeSet.begin(), rangeSet.end()),
-				range(lagSet.begin(), lagSet.end()),
+				range(rangeSet.cbegin(), rangeSet.cend()),
+				range(lagSet.cbegin(), lagSet.cend()),
 				kNearest,
 				Log_LocalEstimator());
 		}
@@ -83,8 +83,8 @@ namespace
 		{
 			*outResult = entropyCombination(
 				signalSet,
-				range(rangeSet.begin(), rangeSet.end()),
-				range(lagSet.begin(), lagSet.end()),
+				range(rangeSet.cbegin(), rangeSet.cend()),
+				range(lagSet.cbegin(), lagSet.cend()),
 				kNearest,
 				Digamma_LocalEstimator());
 		}
@@ -92,8 +92,8 @@ namespace
 		{
 			*outResult = entropyCombination(
 				signalSet,
-				range(rangeSet.begin(), rangeSet.end()),
-				range(lagSet.begin(), lagSet.end()),
+				range(rangeSet.cbegin(), rangeSet.cend()),
+				range(lagSet.cbegin(), lagSet.cend()),
 				kNearest,
 				DigammaDensity_LocalEstimator());
 		}
