@@ -54,11 +54,11 @@ namespace
 		const integer skip = std::max(-estimate->t(), 0); 
 		const integer samples = std::max(nans + estimate->samples() - skip, 0);
 
-		RealArrayPtr result = createArray<real>(
+		Array<real> result = createArray<real>(
 			Vector2i(samples, 1), outputSet[Estimate]);
-		std::fill_n(result->begin(), nans, nan<real>());
+		std::fill_n(result.begin(), nans, nan<real>());
 		std::copy(estimate->data().begin() + skip, 
-			estimate->data().end(), result->begin() + nans);
+			estimate->data().end(), result.begin() + nans);
 	}
 
 	void addFunction()

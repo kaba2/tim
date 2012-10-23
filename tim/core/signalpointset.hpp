@@ -19,7 +19,7 @@ namespace Tim
 		, windowBegin_(0)
 		, windowEnd_(0)
 		, dimensionBegin_(0)
-		, dimension_(kdTree_.dimension())
+		, dimension_(kdTree_.n())
 		, timeBegin_(0)
 	{
 		ENSURE(!signalSet.empty());

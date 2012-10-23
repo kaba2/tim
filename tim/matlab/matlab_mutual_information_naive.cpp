@@ -37,11 +37,11 @@ namespace
 
 		const integer n = data->dimension();
 
-		RealArrayPtr result =
+		Array<real> result =
 			createArray<real>(Vector2i(n, n), 
 			outputSet[Estimate]);
 
-		*result = mutualInformationFromBinning(data, bins);
+		result = mutualInformationFromBinning(data, bins);
 	}
 
 	void addFunction()

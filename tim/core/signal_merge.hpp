@@ -104,8 +104,8 @@ namespace Tim
 		for (integer i = 0;i < trials;++i)
 		{
 			*result = merge(
-				range(ensembleSet.columnBegin(i),
-				ensembleSet.columnEnd(i)), lagSet);
+				range(ensembleSet.cColumnBegin(i),
+				ensembleSet.cColumnEnd(i)), lagSet);
 			++result;
 		}
 	}

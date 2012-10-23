@@ -53,7 +53,7 @@ namespace Tim
 	TIM SignalPtr generateCorrelatedGaussian(
 		integer samples,
 		integer dimension,
-		const CholeskyDecompositionD& covarianceCholesky);
+		const CholeskyDecomposition<real>& covarianceCholesky);
 
 	TIM SignalPtr generateGeneralizedGaussian(
 		integer samples,

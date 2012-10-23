@@ -77,13 +77,13 @@ namespace
 		{
 			for (integer i = 1;i <= 32;i *= 2)
 			{
-				MatrixD covariance(dimension, dimension);
+				Matrix<real> covariance(dimension, dimension);
 				const real det = (real)i;
 				const real cond = 1;
 				setRandomSymmetricPositiveDefinite(
 					det, cond, covariance);
 
-				const CholeskyDecompositionD cholesky(
+				const CholeskyDecomposition<real> cholesky(
 					covariance);
 
 				testRenyiEntropyCase(
@@ -96,13 +96,13 @@ namespace
 
 			for (integer i = 1;i <= 32;i *= 2)
 			{
-				MatrixD covariance(dimension, dimension);
+				Matrix<real> covariance(dimension, dimension);
 				const real det = 1;
 				const real cond = (real)i;
 				setRandomSymmetricPositiveDefinite(
 					det, cond, covariance);
 
-				const CholeskyDecompositionD cholesky(
+				const CholeskyDecomposition<real> cholesky(
 					covariance);
 
 				testRenyiEntropyCase(

@@ -78,7 +78,7 @@ namespace Tim
 
 	TIM void computeCovariance(
 		const SignalPtr& signal,
-		MatrixD& result)
+		Matrix<real>& result)
 	{
 		const integer dimension = signal->dimension();
 		const integer samples = signal->samples();
@@ -95,7 +95,7 @@ namespace Tim
 
 	TIM void normalizeCovariance(
 		const SignalPtr& signal,
-		const MatrixD& covariance)
+		const Matrix<real>& covariance)
 	{
 		// Let X be the signal matrix with
 		// each sample as a _column_.
@@ -130,7 +130,7 @@ namespace Tim
 		// =>
 		// A = Cholesky(C^-1)^T
 
-		const CholeskyDecompositionD invCholesky(
+		const CholeskyDecomposition<real> invCholesky(
 			inverse(covariance));
 		
 		// The samples are row vectors, so we

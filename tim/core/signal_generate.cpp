@@ -18,8 +18,8 @@ namespace Tim
 
 		SignalPtr signal = SignalPtr(new Signal(samples, dimension));
 
-		MatrixD::Iterator iter = signal->data().begin();
-		const MatrixD::Iterator iterEnd = signal->data().end();
+		Matrix<real>::Iterator iter = signal->data().begin();
+		const Matrix<real>::Iterator iterEnd = signal->data().end();
 
 		while(iter != iterEnd)
 		{
@@ -48,7 +48,7 @@ namespace Tim
 	TIM SignalPtr generateCorrelatedGaussian(
 		integer samples,
 		integer dimension,
-		const CholeskyDecompositionD& covarianceCholesky)
+		const CholeskyDecomposition<real>& covarianceCholesky)
 	{
 		ENSURE_OP(dimension, >, 0);
 		ENSURE_OP(samples, >=, 0);
@@ -106,9 +106,9 @@ namespace Tim
 		const real cyclesPerSample = 
 			(2 * constantPi<real>()) / couplingSamples;
 
-		MatrixD::Iterator xIter = xSignal->data().begin();
-		MatrixD::Iterator yIter = ySignal->data().begin();
-		MatrixD::Iterator zIter = zSignal->data().begin();
+		Matrix<real>::Iterator xIter = xSignal->data().begin();
+		Matrix<real>::Iterator yIter = ySignal->data().begin();
+		Matrix<real>::Iterator zIter = zSignal->data().begin();
 
 		for (integer i = 0;i < samples;++i)
 		{
