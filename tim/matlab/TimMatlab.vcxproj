@@ -176,6 +176,7 @@
     <None Include="tim_matlab_help.txt" />
     <None Include="tim_matlab_impl.txt" />
     <None Include="tim_matlab.txt" />
+    <None Include="tim_version.m" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="matlab_number_of_processors.cpp" />
