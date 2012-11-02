@@ -136,12 +136,6 @@
     <None Include="+tim\permute_pset.m">
       <Filter>Others</Filter>
     </None>
-    <None Include="+tim\delay_embed.m">
-      <Filter>Others</Filter>
-    </None>
-    <None Include="+tim\delay_embed_future.m">
-      <Filter>Others</Filter>
-    </None>
     <None Include="+tim\divergence_wkv.m">
       <Filter>Estimators\Divergence</Filter>
     </None>
@@ -159,6 +153,15 @@
     </None>
     <None Include="..\..\build_tim.m">
       <Filter>Build files</Filter>
+    </None>
+    <None Include="+tim\delay_embed.m">
+      <Filter>Delay embedding</Filter>
+    </None>
+    <None Include="+tim\delay_embed_future.m">
+      <Filter>Delay embedding</Filter>
+    </None>
+    <None Include="tim_version.m">
+      <Filter>Others</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
