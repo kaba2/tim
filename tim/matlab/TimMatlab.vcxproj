@@ -137,10 +137,6 @@
     <Lib />
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="+tim\build_tim.m" />
-    <None Include="+tim\build_tim_debug.m" />
-    <None Include="+tim\build_tim_develop.m" />
-    <None Include="+tim\build_tim_release_without_openmp.m" />
     <None Include="+tim\compute_lagarray.m" />
     <None Include="+tim\concept_check.m" />
     <None Include="+tim\delay_embed.m" />
@@ -174,6 +170,7 @@
     <None Include="+tim\transfer_entropy_t.m" />
     <None Include="+tim\tsallis_entropy_lps.m" />
     <None Include="+tim\tsallis_entropy_lps_t.m" />
+    <None Include="..\..\build_tim.m" />
     <None Include="support_functions.txt" />
     <None Include="divergence_wkv.m" />
     <None Include="tim_matlab_help.txt" />

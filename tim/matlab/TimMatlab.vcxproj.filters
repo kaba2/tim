@@ -58,18 +58,6 @@
       <Filter>Implementation</Filter>
     </None>
     <None Include="tim_matlab.txt" />
-    <None Include="+tim\build_tim.m">
-      <Filter>Build files</Filter>
-    </None>
-    <None Include="+tim\build_tim_debug.m">
-      <Filter>Build files</Filter>
-    </None>
-    <None Include="+tim\build_tim_develop.m">
-      <Filter>Build files</Filter>
-    </None>
-    <None Include="+tim\build_tim_release_without_openmp.m">
-      <Filter>Build files</Filter>
-    </None>
     <None Include="+tim\differential_entropy_kl.m">
       <Filter>Estimators\Divergence</Filter>
     </None>
@@ -168,6 +156,9 @@
     </None>
     <None Include="+tim\tim.m">
       <Filter>Help</Filter>
+    </None>
+    <None Include="..\..\build_tim.m">
+      <Filter>Build files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
