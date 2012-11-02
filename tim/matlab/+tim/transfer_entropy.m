@@ -27,8 +27,7 @@
 
 function I = transfer_entropy(X, Y, W, varargin)
 
-% Package initialization
-eval(package_init(mfilename('fullpath')));
+import([tim_package, '.*']);
 
 concept_check(nargin, 'inputs', 3);
 concept_check(nargout, 'outputs', 0 : 1);

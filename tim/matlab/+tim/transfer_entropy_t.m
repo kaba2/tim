@@ -33,8 +33,7 @@
 function I = transfer_entropy_t(...
     X, Y, W, timeWindowRadius, varargin)
 
-% Package initialization
-eval(package_init(mfilename('fullpath')));
+import([tim_package, '.*']);
 
 concept_check(nargin, 'inputs', 4);
 concept_check(nargout, 'outputs', 0 : 1);

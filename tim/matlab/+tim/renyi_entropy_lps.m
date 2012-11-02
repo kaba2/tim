@@ -1,15 +1,13 @@
-% TSALLIS_ENTROPY_LPS
-% A Tsallis entropy estimate from samples
+% RENYI_ENTROPY_LPS
+% A Renyi entropy estimate from samples
 % using Leonenko-Pronzato-Savani nearest neighbor estimator.
 %
-% H = tsallis_entropy_lps(S)
-% H = tsallis_entropy_lps(S, 'key', value, ...)
+% H = renyi_entropy_lps(S)
+% H = renyi_entropy_lps(S, 'key', value, ...)
 %
 % where
 %
 % S is a signal set.
-%
-% H is the estimated Tsallis entropy.
 %
 % Optional input arguments in 'key'-value pairs:
 %
@@ -28,19 +26,18 @@
 %
 % Type 'help tim' for more documentation.
 
-% Description: Tsallis entropy estimation
+% Description: Renyi entropy estimation
 % Detail: Leonenko-Pronzato-Savani nearest neighbor estimator
-% Documentation: tsallis_entropy_lps.txt
+% Documentation: renyi_entropy_lps.txt
 
-function H = tsallis_entropy_lps(S, varargin)
+function H = renyi_entropy_lps(S, varargin)
 
-% Package initialization
-eval(package_init(mfilename('fullpath')));
+import([tim_package, '.*']);
 
 concept_check(nargin, 'inputs', 1);
 concept_check(nargout, 'outputs', 0 : 1);
 
-% Optional input arguments
+% Optional input arguments.
 q = 2;
 kSuggestion = 0;
 eval(process_options({'q', 'kSuggestion'}, varargin));
@@ -69,5 +66,5 @@ if kSuggestion < 0
     error('KSUGGESTION must be non-negative.');
 end
 
-H = tim_matlab('tsallis_entropy_lps', ...
+H = tim_matlab('renyi_entropy_lps', ...
 	S, q, kSuggestion);

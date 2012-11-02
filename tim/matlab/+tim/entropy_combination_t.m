@@ -46,8 +46,7 @@
 function I = entropy_combination_t(...
     signalSet, rangeSet, timeWindowRadius, varargin)
 
-% Package initialization
-eval(package_init(mfilename('fullpath')));
+import([tim_package, '.*']);
 
 concept_check(nargin, 'inputs', 3);
 concept_check(nargout, 'outputs', 0 : 1);

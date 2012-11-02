@@ -45,120 +45,130 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="delay_embed.m">
-      <Filter>Delay embedding</Filter>
-    </None>
-    <None Include="delay_embed_future.m">
-      <Filter>Delay embedding</Filter>
-    </None>
-    <None Include="number_of_processors.m">
-      <Filter>Others</Filter>
-    </None>
-    <None Include="set_number_of_threads.m">
-      <Filter>Others</Filter>
-    </None>
     <None Include="support_functions.txt">
       <Filter>Others</Filter>
-    </None>
-    <None Include="differential_entropy_kl.m">
-      <Filter>Estimators\Entropy\Differential entropy</Filter>
-    </None>
-    <None Include="differential_entropy_kl_t.m">
-      <Filter>Estimators\Entropy\Differential entropy</Filter>
-    </None>
-    <None Include="differential_entropy_nk.m">
-      <Filter>Estimators\Entropy\Differential entropy</Filter>
-    </None>
-    <None Include="differential_entropy_sp.m">
-      <Filter>Estimators\Entropy\Differential entropy</Filter>
-    </None>
-    <None Include="renyi_entropy_lps.m">
-      <Filter>Estimators\Entropy\Renyi entropy</Filter>
-    </None>
-    <None Include="renyi_entropy_lps_t.m">
-      <Filter>Estimators\Entropy\Renyi entropy</Filter>
-    </None>
-    <None Include="tsallis_entropy_lps.m">
-      <Filter>Estimators\Entropy\Tsallis entropy</Filter>
-    </None>
-    <None Include="tsallis_entropy_lps_t.m">
-      <Filter>Estimators\Entropy\Tsallis entropy</Filter>
-    </None>
-    <None Include="entropy_combination.m">
-      <Filter>Estimators\Entropy combination</Filter>
-    </None>
-    <None Include="entropy_combination_t.m">
-      <Filter>Estimators\Entropy combination</Filter>
-    </None>
-    <None Include="mutual_information.m">
-      <Filter>Estimators\Entropy combination\Mutual information</Filter>
-    </None>
-    <None Include="mutual_information_naive.m">
-      <Filter>Estimators\Entropy combination\Mutual information</Filter>
-    </None>
-    <None Include="mutual_information_p.m">
-      <Filter>Estimators\Entropy combination\Mutual information</Filter>
-    </None>
-    <None Include="mutual_information_pt.m">
-      <Filter>Estimators\Entropy combination\Mutual information</Filter>
-    </None>
-    <None Include="mutual_information_t.m">
-      <Filter>Estimators\Entropy combination\Mutual information</Filter>
-    </None>
-    <None Include="transfer_entropy.m">
-      <Filter>Estimators\Entropy combination\Transfer entropy</Filter>
-    </None>
-    <None Include="transfer_entropy_p.m">
-      <Filter>Estimators\Entropy combination\Transfer entropy</Filter>
-    </None>
-    <None Include="transfer_entropy_pt.m">
-      <Filter>Estimators\Entropy combination\Transfer entropy</Filter>
-    </None>
-    <None Include="transfer_entropy_t.m">
-      <Filter>Estimators\Entropy combination\Transfer entropy</Filter>
     </None>
     <None Include="divergence_wkv.m">
       <Filter>Estimators\Divergence</Filter>
     </None>
-    <None Include="build_tim.m">
-      <Filter>Build files</Filter>
-    </None>
-    <None Include="build_tim_debug.m">
-      <Filter>Build files</Filter>
-    </None>
-    <None Include="build_tim_develop.m">
-      <Filter>Build files</Filter>
-    </None>
-    <None Include="build_tim_release_without_openmp.m">
-      <Filter>Build files</Filter>
-    </None>
-    <None Include="tim.m">
-      <Filter>Help</Filter>
-    </None>
     <None Include="tim_matlab_help.txt">
       <Filter>Help</Filter>
-    </None>
-    <None Include="compute_lagarray.m">
-      <Filter>Implementation</Filter>
-    </None>
-    <None Include="concept_check.m">
-      <Filter>Implementation</Filter>
-    </None>
-    <None Include="permutation_test.m">
-      <Filter>Implementation</Filter>
-    </None>
-    <None Include="permute_pset.m">
-      <Filter>Implementation</Filter>
-    </None>
-    <None Include="process_options.m">
-      <Filter>Implementation</Filter>
     </None>
     <None Include="tim_matlab_impl.txt">
       <Filter>Implementation</Filter>
     </None>
-    <None Include="test_all.m" />
-    <None Include="test_stuff.m" />
     <None Include="tim_matlab.txt" />
+    <None Include="+tim\build_tim.m">
+      <Filter>Build files</Filter>
+    </None>
+    <None Include="+tim\build_tim_debug.m">
+      <Filter>Build files</Filter>
+    </None>
+    <None Include="+tim\build_tim_develop.m">
+      <Filter>Build files</Filter>
+    </None>
+    <None Include="+tim\build_tim_release_without_openmp.m">
+      <Filter>Build files</Filter>
+    </None>
+    <None Include="+tim\differential_entropy_kl.m">
+      <Filter>Estimators\Divergence</Filter>
+    </None>
+    <None Include="+tim\differential_entropy_kl_t.m">
+      <Filter>Estimators\Divergence</Filter>
+    </None>
+    <None Include="+tim\differential_entropy_nk.m">
+      <Filter>Estimators\Divergence</Filter>
+    </None>
+    <None Include="+tim\differential_entropy_sp.m">
+      <Filter>Estimators\Divergence</Filter>
+    </None>
+    <None Include="+tim\mutual_information.m">
+      <Filter>Estimators\Entropy combination\Mutual information</Filter>
+    </None>
+    <None Include="+tim\mutual_information_naive.m">
+      <Filter>Estimators\Entropy combination\Mutual information</Filter>
+    </None>
+    <None Include="+tim\mutual_information_p.m">
+      <Filter>Estimators\Entropy combination\Mutual information</Filter>
+    </None>
+    <None Include="+tim\mutual_information_pt.m">
+      <Filter>Estimators\Entropy combination\Mutual information</Filter>
+    </None>
+    <None Include="+tim\mutual_information_t.m">
+      <Filter>Estimators\Entropy combination\Mutual information</Filter>
+    </None>
+    <None Include="+tim\transfer_entropy.m">
+      <Filter>Estimators\Entropy combination\Transfer entropy</Filter>
+    </None>
+    <None Include="+tim\transfer_entropy_p.m">
+      <Filter>Estimators\Entropy combination\Transfer entropy</Filter>
+    </None>
+    <None Include="+tim\transfer_entropy_pt.m">
+      <Filter>Estimators\Entropy combination\Transfer entropy</Filter>
+    </None>
+    <None Include="+tim\transfer_entropy_t.m">
+      <Filter>Estimators\Entropy combination\Transfer entropy</Filter>
+    </None>
+    <None Include="+tim\compute_lagarray.m">
+      <Filter>Implementation</Filter>
+    </None>
+    <None Include="+tim\concept_check.m">
+      <Filter>Implementation</Filter>
+    </None>
+    <None Include="+tim\set_number_of_threads.m">
+      <Filter>Others</Filter>
+    </None>
+    <None Include="+tim\number_of_processors.m">
+      <Filter>Others</Filter>
+    </None>
+    <None Include="+tim\tsallis_entropy_lps_t.m">
+      <Filter>Estimators\Entropy\Tsallis entropy</Filter>
+    </None>
+    <None Include="+tim\tsallis_entropy_lps.m">
+      <Filter>Estimators\Entropy\Tsallis entropy</Filter>
+    </None>
+    <None Include="+tim\permutation_test.m">
+      <Filter>Others</Filter>
+    </None>
+    <None Include="+tim\entropy_combination_t.m">
+      <Filter>Estimators\Entropy combination</Filter>
+    </None>
+    <None Include="+tim\entropy_combination.m">
+      <Filter>Estimators\Entropy combination</Filter>
+    </None>
+    <None Include="+tim\renyi_entropy_lps.m">
+      <Filter>Estimators\Entropy\Renyi entropy</Filter>
+    </None>
+    <None Include="+tim\renyi_entropy_lps_t.m">
+      <Filter>Estimators\Entropy\Renyi entropy</Filter>
+    </None>
+    <None Include="+tim\process_options.m">
+      <Filter>Implementation</Filter>
+    </None>
+    <None Include="+tim\permute_pset.m">
+      <Filter>Others</Filter>
+    </None>
+    <None Include="+tim\delay_embed.m">
+      <Filter>Others</Filter>
+    </None>
+    <None Include="+tim\delay_embed_future.m">
+      <Filter>Others</Filter>
+    </None>
+    <None Include="+tim\divergence_wkv.m">
+      <Filter>Estimators\Divergence</Filter>
+    </None>
+    <None Include="+tim\tim_package.m">
+      <Filter>Implementation</Filter>
+    </None>
+    <None Include="+tim\test_stuff.m">
+      <Filter>Others</Filter>
+    </None>
+    <None Include="+tim\test_all.m">
+      <Filter>Others</Filter>
+    </None>
+    <None Include="+tim\tim.m">
+      <Filter>Help</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="matlab_number_of_processors.cpp">

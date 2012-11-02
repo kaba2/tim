@@ -1,17 +1,12 @@
-% TRANSFER_ENTROPY_PT
-% A temporal partial transfer entropy estimate from samples.
+% TRANSFER_ENTROPY_P
+% A partial transfer entropy estimate from samples.
 %
-% I = transfer_entropy_pt(X, Y, Z, W, timeWindowRadius)
-% I = transfer_entropy_pt(X, Y, Z, W, timeWindowRadius, 'key', value, ...)
+% I = transfer_entropy_p(X, Y, Z, W)
+% I = transfer_entropy_p(X, Y, Z, W, 'key', value, ...)
 %
 % where
 %
 % X, Y, Z, and W are signal sets.
-%
-% TIMEWINDOWRADIUS is an odd positive integer, which denotes 
-% the radius of the temporal window.
-%
-% I is the estimated temporal partial transfer entropy.
 %
 % Optional input arguments in 'key'-value pairs:
 %
@@ -25,21 +20,16 @@
 % ESTIMATOR ('estimator') is a string which denotes the local 
 % estimator to use in estimation.
 %
-% FILTER ('filter') is a real array, which gives the temporal 
-% weighting coefficients. Default 1.
-%
 % Type 'help tim' for more documentation.
 
-% Description: Temporal partial transfer entropy estimation
+% Description: Partial transfer entropy estimation
 % Documentation: transfer_entropy.txt
 
-function I = transfer_entropy_pt(...
-    X, Y, Z, W, timeWindowRadius, varargin)
+function I = transfer_entropy_p(X, Y, Z, W, varargin)
 
-% Package initialization
-eval(package_init(mfilename('fullpath')));
+import([tim_package, '.*']);
 
-concept_check(nargin, 'inputs', 5);
+concept_check(nargin, 'inputs', 4);
 concept_check(nargout, 'outputs', 0 : 1);
 
 % Optional input arguments
@@ -48,9 +38,9 @@ xLag = 0;
 yLag = 0;
 zLag = 0;
 wLag = 0;
-filter = 1;
 eval(process_options(...
-    {'k', 'xLag', 'yLag', 'zLag', 'wLag', 'filter'}, varargin));
+    {'k', 'xLag', 'yLag', 'zLag', 'wLag', 'estimator'}, ...
+    varargin));
 
 if isnumeric(X)
     X = {X};
@@ -79,10 +69,8 @@ end
 
 % Pass parameter error checking to entropy_combination.
 
-I = entropy_combination_t(...
+I = entropy_combination(...
     [W(:)'; X(:)'; Z(:)'; Y(:)'], ...
     [1, 3, 1; 2, 4, 1; 2, 3, -1], ...
-    timeWindowRadius, ...
     'lagSet', {wLag, xLag, zLag, yLag}, ...
-    'k', k, ...
-    'filter', filter);
+    'k', k);

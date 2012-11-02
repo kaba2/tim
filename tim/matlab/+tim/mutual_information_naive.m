@@ -21,8 +21,7 @@
 
 function I = mutual_information_naive(S, varargin)
 
-% Package initialization
-eval(package_init(mfilename('fullpath')));
+import([tim_package, '.*']);
 
 % Optional input arguments.
 bins = 100;

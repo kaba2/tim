@@ -15,8 +15,7 @@
 
 function processors = number_of_processors()
 
-% Package initialization
-eval(package_init(mfilename('fullpath')));
+import([tim_package, '.*']);
 
 concept_check(nargin, 'inputs', 0);
 concept_check(nargout, 'outputs', 0 : 1);
