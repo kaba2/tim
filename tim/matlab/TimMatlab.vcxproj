@@ -164,6 +164,7 @@
     <None Include="+tim\test_stuff.m" />
     <None Include="+tim\tim.m" />
     <None Include="+tim\tim_package.m" />
+    <None Include="+tim\tim_version.m" />
     <None Include="+tim\transfer_entropy.m" />
     <None Include="+tim\transfer_entropy_p.m" />
     <None Include="+tim\transfer_entropy_pt.m" />
@@ -176,7 +177,6 @@
     <None Include="tim_matlab_help.txt" />
     <None Include="tim_matlab_impl.txt" />
     <None Include="tim_matlab.txt" />
-    <None Include="tim_version.m" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="matlab_number_of_processors.cpp" />

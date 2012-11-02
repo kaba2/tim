@@ -160,7 +160,7 @@
     <None Include="+tim\delay_embed_future.m">
       <Filter>Delay embedding</Filter>
     </None>
-    <None Include="tim_version.m">
+    <None Include="+tim\tim_version.m">
       <Filter>Others</Filter>
     </None>
   </ItemGroup>
