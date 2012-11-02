@@ -1,14 +1,17 @@
-% MUTUAL_INFORMATION_P
-% A partial mutual information estimate from samples.
+% MUTUAL_INFORMATION_PT
+% A temporal partial mutual information estimate from samples.
 %
-% I = mutual_information_p(X, Y, Z)
-% I = mutual_information_p(X, Y, Z, 'key', value, ...)
+% I = mutual_information_pt(X, Y, Z, timeWindowRadius)
+% I = mutual_information_pt(X, Y, Z, timeWindowRadius, 'key', value, ...)
 %
 % where
 %
 % X, Y, and Z are signal sets.
 %
-% I is the estimated partial mutual information.
+% TIMEWINDOWRADIUS is an integer which determines the temporal radius 
+% around each point that will be used by the estimator.
+%
+% I is the estimated temporal partial mutual information.
 %
 % Optional input arguments in 'key'-value pairs:
 %
@@ -16,31 +19,30 @@
 % denote the amount of lag to apply to signal X, Y, and Z, 
 % respectively. Default 0.
 %
-% ESTIMATOR ('estimator') is a string which denotes the local 
-% estimator to use in estimation.
+% FILTER ('filter') is an arbitrary-dimensional real-array, whose
+% linearization contains temporal weighting coefficients. 
+% Default: 1 (i.e. no temporal weighting is performed)
 %
 % Type 'help tim' for more documentation.
 
-% Description: Partial mutual information estimation
+% Description: Temporal partial mutual information estimation
 % Documentation: mutual_information.txt
 
-function I = mutual_information_p(...
-    X, Y, Z, varargin)
+function I = mutual_information_pt(X, Y, Z, timeWindowRadius, varargin)
 
-% Package initialization
-eval(package_init(mfilename('fullpath')));
+import([tim_package, '.*']);
 
-concept_check(nargin, 'inputs', 3);
+concept_check(nargin, 'inputs', 4);
 concept_check(nargout, 'outputs', 0 : 1);
 
 % Optional input arguments.
-k = 1;
 xLag = 0;
 yLag = 0;
 zLag = 0;
-estimator = 'log_density';
+k = 1;
+filter = 1;
 eval(process_options(...
-    {'k', 'xLag', 'yLag', 'zLag', 'estimator'}, ...
+    {'k', 'xLag', 'yLag', 'zLag', 'filter'}, ...
     varargin));
 
 if isnumeric(X)
@@ -65,9 +67,9 @@ end
 
 % Pass parameter error checking to entropy_combination.
 
-I = entropy_combination(...
+I = entropy_combination_t(...
     [X(:)'; Z(:)'; Y(:)'], ...
-    [1, 2, 1; 2, 3, 1; 2, 2, -1], ...
+    [1, 2, 1; 2, 3, 1; 2, 2, -1], timeWindowRadius, ...
     'lagSet', {xLag, zLag, yLag}, ...
     'k', k, ...
-    'estimator', estimator);
+    'filter', filter);

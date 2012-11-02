@@ -24,8 +24,7 @@
 
 function H = differential_entropy_kl(S, varargin)
 
-% Package initialization
-eval(package_init(mfilename('fullpath')));
+import([tim_package, '.*']);
 
 concept_check(nargin, 'inputs', 1);
 concept_check(nargout, 'outputs', 0 : 1);

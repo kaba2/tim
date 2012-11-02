@@ -15,8 +15,7 @@
 
 function set_number_of_threads(threads)
 
-% Package initialization
-eval(package_init(mfilename('fullpath')));
+import([tim_package, '.*']);
 
 concept_check(nargin, 'inputs', 1);
 
