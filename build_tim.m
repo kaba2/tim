@@ -39,7 +39,7 @@ timLibraryPath = ['build\vs2010\lib\', mode];
 pastelLibraryPath = ['..\pastel\build\vs2010\lib\', mode];
 
 inputPath = ['tim\matlab'];
-outputPath = ['tim\matlab\+tim'];
+outputPath = ['tim\+tim'];
 
 % Paths
 % -----

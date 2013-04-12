@@ -137,7 +137,7 @@ documentation.
 
 [GABA]: http://www.gaba-project.eu/
 [TES]: http://www.kolumbus.fi/tes/
-[German]: http://www.cs.tut.fi/~gomezher
+[German]: http://germangh.com 
 
 [[Comment]]:
 	The following is a javascript for Google Analytics by which we can

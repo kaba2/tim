@@ -112,6 +112,9 @@
     <Filter Include="State space\Delay embedding">
       <UniqueIdentifier>{409ae785-23ee-498a-b475-ebdfb87cf400}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Estimators\Synchronization likelihood">
+      <UniqueIdentifier>{13b61d97-a251-47bf-a512-cf699ae05626}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="estimators.txt">
@@ -446,6 +449,9 @@
     <ClInclude Include="delay_embed.hpp">
       <Filter>State space\Delay embedding</Filter>
     </ClInclude>
+    <ClInclude Include="synchronization_likelihood.h">
+      <Filter>Estimators\Synchronization likelihood</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mutual_information_analytic.cpp">
@@ -511,5 +517,13 @@
     <ClCompile Include="delay_embed.cpp">
       <Filter>State space\Delay embedding</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="synchronization_likelihood.txt">
+      <Filter>Estimators\Synchronization likelihood</Filter>
+    </Text>
+    <Text Include="synchronization_likelihood_notes.txt">
+      <Filter>Estimators\Synchronization likelihood</Filter>
+    </Text>
   </ItemGroup>
 </Project>
