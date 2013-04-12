@@ -46,7 +46,7 @@ end
 k = 1;
 xLag = 0;
 yLag = 0;
-estimator = 'log_density';
+estimator = 'digamma';
 eval(process_options(...
     {'k', 'xLag', 'yLag', 'estimator'}, ...
     varargin));

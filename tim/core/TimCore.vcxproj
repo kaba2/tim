@@ -209,6 +209,7 @@
     <ClInclude Include="partial_mutual_information.hpp" />
     <ClInclude Include="partial_transfer_entropy.h" />
     <ClInclude Include="partial_transfer_entropy.hpp" />
+    <ClInclude Include="synchronization_likelihood.h" />
     <ClInclude Include="transfer_entropy.h" />
     <ClInclude Include="transfer_entropy.hpp" />
     <ClInclude Include="divergence_wkv.h" />
@@ -276,6 +277,10 @@
     <ClCompile Include="signalpointset.cpp" />
     <ClCompile Include="tim_library.cpp" />
     <ClCompile Include="delay_embed.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="synchronization_likelihood.txt" />
+    <Text Include="synchronization_likelihood_notes.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
