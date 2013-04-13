@@ -1,3 +1,6 @@
+% Non-linear time series analysis
+% Exercise 3.1
+
 clear all;
 close all;
 
