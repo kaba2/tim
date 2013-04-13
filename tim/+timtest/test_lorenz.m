@@ -42,9 +42,15 @@ end
 % dependency starts to rise again, since a chaotic system usually
 % has cyclic-like properties. Overall, the dependency will lower,
 % since temporally distant samples have less and less dependency to
-% each other, because of the chaotic pseudo-randomness.
+% each other, because of the chaotic pseudo-randomness. This is
+% why one should choose the first minimum, rather than subsequent
+% minima.
 
-lagSet = floor(linspace(1, 200, 50));
+maxLag = 200;
+miLags = 100;
+
+lagSet = round(linspace(-maxLag, maxLag, miLags));
+
 miSet = tim.mutual_information(...
     pointSet(1, :), pointSet(1, :), ...
     'yLag', lagSet);
@@ -54,3 +60,18 @@ plot(int32(lagSet), miSet);
 title('Auto mutual information of the Lorenz X-coordinates');
 xlabel('Lag');
 ylabel('Mutual information');
+
+% Auto correlation is much worse in predicting a good embedding lag.
+% The problem is that auto correlation is only sensitive to linear
+% dependencies in the data.
+
+acSet = xcorr(...
+    pointSet(1, :), pointSet(1, :), ...
+    maxLag, 'unbiased');
+
+figure;
+plot(-maxLag : maxLag, acSet);
+title('Auto correlation of the Lorenz X-coordinates');
+xlabel('Lag');
+ylabel('Correlation');
+
