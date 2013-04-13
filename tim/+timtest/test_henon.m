@@ -1,7 +1,7 @@
 clear all;
 close all;
 
-pointSet = tim.henon();
+pointSet = tim.henon('n', 2000);
 
 % The first minimum of auto mutual information fails to
 % predict a good embedding lag for this data set.
