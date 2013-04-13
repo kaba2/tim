@@ -1,11 +1,51 @@
-function visualize_embedding(pointSet)
+% VISUALIZE_EMBEDDING
+% Visualizes a delay-embedding reconstruction.
+%
+% visualize_embedding(pointSet, 'key', value, ...)
+%
+% POINTSET is a real (d x n)-array where each column contains
+% a d-dimensional point.
+%
+% Optional arguments
+% ------------------
+%
+% TDELTA ('tDelta'): An integer specifying the embedding delay.
+% Default: First minimum of auto mutual information.
+% 
+% AXIS ('axis'): An integer specifying the coordinate axis to
+% use to reconstruct the signal by delay-embedding.
+% Default: 0
+%
+% If POINTSET is more than three-dimensional, then only
+% the first three dimensions are visualized for the point-set.
+% Delay-embeddings are visualized for 2D and 3D.
+
+function visualize_embedding(pointSet, varargin)
+
+% Optional input arguments.
+tDelta = {};
+axis = 1;
+eval(tim.process_options(...
+    {'tDelta', 'axis'}, ...
+    varargin));
+
+n = size(pointSet, 2);
+d = size(pointSet, 1);
+pointSize = 5;
+colorMap = cool(n);
 
 figure;
-plot3(pointSet(1, :), pointSet(2, :), pointSet(3, :));
+if d == 2
+    scatter(pointSet(1, :), pointSet(2, :), ...
+        pointSize, colorMap, 'o', 'filled');
+elseif d >= 3
+    scatter3(pointSet(1, :), pointSet(2, :), pointSet(3, :), ...
+        pointSize, colorMap, 'o', 'filled');
+end
 title('Original point-set')
 
 figure;
-plot(pointSet(1, :));
+plot(pointSet(axis, :));
 title('X-coordinates')
 
 % Find the embedding delay
@@ -26,10 +66,10 @@ title('X-coordinates')
 maxLag = 200;
 miLags = 100;
 
-miLagSet = round(linspace(0, maxLag, miLags));
+miLagSet = round(linspace(1, maxLag, miLags));
 
 miSet = tim.mutual_information(...
-    pointSet(1, :), pointSet(1, :), ...
+    pointSet(axis, :), pointSet(axis, :), ...
     'yLag', miLagSet);
 
 figure;
@@ -42,16 +82,20 @@ xlabel('Lag');
 ylabel('Mutual information');
 hold off;
 
+if iscell(tDelta)
+    tDelta = miLagSet(miPeakSet(1));
+end
+
 % Auto correlation is much worse in predicting a good embedding lag.
 % The problem is that auto correlation is only sensitive to linear
 % dependencies in the data.
 
 acSet = xcorr(...
-    pointSet(1, :), pointSet(1, :), ...
+    pointSet(axis, :), pointSet(axis, :), ...
     maxLag, 'unbiased');
-acSet = acSet((numel(acSet) - 1) / 2 + 1 : end);
+acSet = acSet((numel(acSet) - 1) / 2 + 2 : end);
 
-acLagSet = 0 : maxLag;
+acLagSet = 1 : maxLag;
 
 figure;
 plot(acLagSet, acSet);
@@ -66,23 +110,23 @@ hold off;
 % Create the delay-embeddings
 % ---------------------------
 
-bestLag = miLagSet(miPeakSet(1));
-
 % 2D delay-embedding.
-embeddedSet = tim.delay_embed(pointSet(1, :), 2, bestLag);
+embeddedSet = tim.delay_embed(pointSet(axis, :), 2, tDelta);
 
-lagText = ['(lag ', num2str(bestLag), ')'];
+lagText = ['(lag ', num2str(tDelta), ')'];
 
 figure;
-plot(embeddedSet(1, :), embeddedSet(2, :));
+scatter(embeddedSet(1, :), embeddedSet(2, :), ...
+    pointSize, colorMap, 'o', 'filled');
 title(['2D delay-embedding of the X-coordinates ', ...
     lagText]);
 
 % 3D delay-embedding.
-embeddedSet = tim.delay_embed(pointSet(1, :), 3, bestLag);
+embeddedSet = tim.delay_embed(pointSet(axis, :), 3, tDelta);
 
 figure;
-plot3(embeddedSet(1, :), embeddedSet(2, :), embeddedSet(3, :));
+scatter3(embeddedSet(1, :), embeddedSet(2, :), embeddedSet(3, :), ...
+    pointSize, colorMap, 'o', 'filled');
 title(['3D delay-embedding of the X-coordinates ', ...
     lagText]);
 
