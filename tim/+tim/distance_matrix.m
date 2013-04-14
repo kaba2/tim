@@ -10,6 +10,8 @@ eval(process_options({}, varargin));
 
 n = size(pointSet, 2);
 
+% The following computes
+% distanceMatrix2(i, j) = norm(pointSet(:, i) - pointSet(:, j))^2
 distanceMatrix2 = zeros(n, n);
 for i = 1 : n
     distanceMatrix2(i, (i + 1) : n) = ...
