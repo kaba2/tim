@@ -17,5 +17,5 @@ pointSet = tim.henon('n', 2000);
 % The auto mutual information goes to zero almost immediately; 
 % again I suspect this is a general property of an iterated function.
 
-timtest.visualize_embedding(pointSet, 'tDelta', 1);
+tim.embedding_plot(pointSet, 'tDelta', 1);
 
