@@ -6,5 +6,5 @@ close all;
 
 pointSet = tim.lorenz();
 
-timtest.visualize_embedding(pointSet);
+tim.embedding_plot(pointSet);
 
