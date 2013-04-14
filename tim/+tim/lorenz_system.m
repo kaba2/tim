@@ -36,7 +36,7 @@
 
 % Description: Generates the Lorenz point-set
 
-function pointSet = lorenz(varargin)
+function pointSet = lorenz_system(varargin)
 
 import([tim_package, '.*']);
 

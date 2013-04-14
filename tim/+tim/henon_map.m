@@ -31,7 +31,7 @@
 
 % Description: Generates the Lorenz point-set
 
-function pointSet = henon(varargin)
+function pointSet = henon_map(varargin)
 
 import([tim_package, '.*']);
 
