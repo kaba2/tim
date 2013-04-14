@@ -4,7 +4,7 @@
 clear all;
 close all;
 
-pointSet = tim.lorenz();
+pointSet = tim.lorenz_system();
 
 tim.embedding_plot(pointSet);
 
