@@ -16,9 +16,14 @@
 % B ('b') is a real number; a constant of the Lorenz system.
 % Default: 8 / 3
 %
-% TSET ('tSet') is a real-array, whose linearization contains 
-% the time-points on which to evaluate the Lorenz point-set.
-% Default: 0 : 0.01 : 100
+% TMAX ('tMax') is a real number which contains the maximum
+% time to which to cover.
+% Default: 100
+%
+% N ('n') is an integer specifying the number of points to return.
+% The points will be uniformly distributed in time on the 
+% interval [0, tMax].
+% Default: ceil(100 * tMax)
 %
 % P0 ('p0') is the initial point representing time zero.
 % Default: [1, 0, 0]
@@ -44,9 +49,10 @@ sigma = 10;
 r = 28;
 b = 8 / 3;
 p0 = [1, 0, 0];
-tSet = 0 : 0.01 : 100;
+tMax = 100;
+n = ceil(100 * tMax);
 eval(process_options(...
-    {'sigma', 'r', 'b', 'p0', 'tSet'}, ...
+    {'sigma', 'r', 'b', 'p0', 'tMax', 'n'}, ...
     varargin));
 
 f = @(t, p) [...
@@ -54,6 +60,7 @@ f = @(t, p) [...
     r * p(1) - p(2) - p(1) * p(3); ...
     -b * p(3) + p(1) * p(2)];
 
+tSet = linspace(0, tMax, n);
 [ignore, pointSet] = ode45(f, tSet, p0);
 
 pointSet = pointSet';
