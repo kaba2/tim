@@ -1,7 +1,7 @@
-% VISUALIZE_EMBEDDING
+% EMBEDDING_PLOT
 % Visualizes a delay-embedding reconstruction.
 %
-% visualize_embedding(pointSet, 'key', value, ...)
+% embedding_plot(pointSet, 'key', value, ...)
 %
 % POINTSET is a real (d x n)-array where each column contains
 % a d-dimensional point.
@@ -20,7 +20,7 @@
 % the first three dimensions are visualized for the point-set.
 % Delay-embeddings are visualized for 2D and 3D.
 
-function visualize_embedding(pointSet, varargin)
+function embedding_plot(pointSet, varargin)
 
 % Optional input arguments.
 tDelta = {};
@@ -31,21 +31,14 @@ eval(tim.process_options(...
 
 n = size(pointSet, 2);
 d = size(pointSet, 1);
-pointSize = 5;
 colorMap = cool(n);
 
 figure;
-if d == 2
-    scatter(pointSet(1, :), pointSet(2, :), ...
-        pointSize, colorMap, 'o', 'filled');
-elseif d >= 3
-    scatter3(pointSet(1, :), pointSet(2, :), pointSet(3, :), ...
-        pointSize, colorMap, 'o', 'filled');
-end
+tim.spatial_plot(pointSet);
 title('Original point-set')
 
 figure;
-plot(pointSet(axis, :));
+tim.spatial_plot(pointSet(axis, :));
 title('X-coordinates')
 
 % Find the embedding delay
