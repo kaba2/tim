@@ -1,3 +1,16 @@
+% TIM_PACKAGE
+% Matlab-package the calling m-file is contained in.
+%
+% tim_package()
+%
+% where
+%
+% PACKAGENAME is a string which gives the name of the 
+% package in which the calling m-file is contained in.
+
+% Description: Matlab-package the calling m-file is contained in.
+% Documentation: tim_matlab.txt
+
 function packageName = tim_package()
 
 % Find out the m-file of the calling function.
