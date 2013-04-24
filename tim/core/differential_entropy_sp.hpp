@@ -27,6 +27,7 @@ namespace Tim
 				, dimension_(dimension)
 				, minLevel_(minLevel)
 			{
+				unused(dimension_);
 			}
 
 			template <typename Iterator>
