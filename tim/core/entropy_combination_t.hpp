@@ -60,7 +60,7 @@ namespace Tim
 		for (integer i = 0;i < signals;++i)
 		{
 			PENSURE(equalDimension(
-				range(signalSet.rowBegin(i), signalSet.rowEnd(i))));
+				range(signalSet.cRowBegin(i), signalSet.cRowEnd(i))));
 		}
 
 		const integer trials = signalSet.width();

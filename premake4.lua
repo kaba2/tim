@@ -42,7 +42,7 @@ testRequirements = basicRequirements and buildTests
 buildTimCore = true and libraryRequirements
 
 -- Whether to build the TIM Console interface.
-buildTimConsole = true and libraryRequirements
+buildTimConsole = false and libraryRequirements
 
 -- Whether to build the TIM Matlab interface.
 buildTimMatlab = true and libraryRequirements and gotMatlab
@@ -59,15 +59,15 @@ buildTimCoreTest = true and testRequirements
 -- The directory of the Pastel library's source code.
 -- The includes are of the form 'pastel/sys/array.h'
 pastelIncludeDir = "../pastel"
-pastelLibraryDir = "../pastel/build/vs2010/lib"
+pastelLibraryDir = "../pastel/build/gmake/lib"
 
 -- The directory of the Boost library's source code.
 -- The includes are of the form 'boost/static_assert.hpp'.
-boostIncludeDir = "../external/boost_1_49_0"
+boostIncludeDir = "../boost_1_53_0"
 
 -- The directory of the Matlab header files.
 -- The includes are of the form 'mex.h'.
-matlabIncludeDir = "C:/Program Files/MATLAB/R2011b/extern/include"
+matlabIncludeDir = "/Applications/MATLAB_R2013a.app/extern/include"
 
 -- No need to give a library path for Matlab:
 -- Mex files are built from within Matlab.
@@ -157,9 +157,9 @@ solution "Tim"
 		-- Enable optimizations.
 		flags {"Optimize"}
 
-	configuration "release_without_openmp"
-		targetdir(outputDirectory .. "/lib/release_without_openmp")
-		libdirs(pastelLibraryDir .. "/release_without_openmp")
+	configuration "release-without-openmp"
+		targetdir(outputDirectory .. "/lib/release-without-openmp")
+		libdirs(pastelLibraryDir .. "/release-without-openmp")
 		-- Enable optimizations.
 		flags {"Optimize"}
 
@@ -215,6 +215,11 @@ solution "Tim"
 		buildoptions { "-fPIC" }
 		-- Enables some additional warnings.
 		buildoptions { "-Wall" }
+		-- Enables C++11 support.
+		buildoptions { "-std=c++11" }
+		-- Enables the Clang C++11 Standard Library.
+		buildoptions { "-stdlib=libc++" }
+		linkoptions { "-stdlib=libc++" }
 		-- Disable some warnings.
 		buildoptions 
 		{ 

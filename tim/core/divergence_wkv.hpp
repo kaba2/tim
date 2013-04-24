@@ -4,8 +4,8 @@
 #include "tim/core/divergence_wkv.h"
 #include "tim/core/signalpointset.h"
 
-#include <pastel/geometry/search_nearest_one_pointkdtree.h>
-#include <pastel/geometry/dont_acceptpoint.h>
+#include <pastel/geometry/search_nearest_pointkdtree.h>
+#include <pastel/sys/allexcept_indicator.h>
 
 namespace Tim
 {
@@ -54,9 +54,9 @@ namespace Tim
 				*(xPointSet->begin() + i);
 
 			const real xxDistance2 = 
-				searchNearestOne(xPointSet->kdTree(), query, 
-				infinity<real>(), 0, 
-				Dont_AcceptPoint<Point_ConstIterator>(query)).key();
+				searchNearest(xPointSet->kdTree(), query,
+					nullOutput(),
+					allExceptIndicator(query));
 			
 			if (xxDistance2 > 0 && xxDistance2 < infinity<real>())
 			{		
@@ -67,7 +67,7 @@ namespace Tim
 					withAliasing((real*)(query)->point()));
 
 				const real xyDistance2 = 
-					searchNearestOne(yPointSet->kdTree(), queryPoint).key();
+					searchNearest(yPointSet->kdTree(), queryPoint);
 				
 				if (xyDistance2 > 0 && xyDistance2 < infinity<real>())
 				{

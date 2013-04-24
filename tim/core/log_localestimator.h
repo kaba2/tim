@@ -21,7 +21,6 @@ namespace Tim
 				integer kNearest_,
 				integer n_)
 				: kNearest(kNearest_)
-				, n(n_)
 				, nLog(std::log((real)n_))
 			{
 			}
@@ -38,7 +37,6 @@ namespace Tim
 
 		private:
 			integer kNearest;
-			integer n;
 			real nLog;
 		};
 	};

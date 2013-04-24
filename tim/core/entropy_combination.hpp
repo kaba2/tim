@@ -121,8 +121,8 @@ namespace Tim
 			0,
 			normBijection);
 
-		const real signalWeightSum = 
-			std::accumulate(weightSet.begin(), weightSet.end(), (real)0);
+		//const real signalWeightSum = 
+		//	std::accumulate(weightSet.begin(), weightSet.end(), (real)0);
 
 		Estimator estimator(kNearest, n);
 
