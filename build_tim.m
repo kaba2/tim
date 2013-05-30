@@ -8,9 +8,8 @@
 % MODE is a string which specifies the configuration to use for building TIM. 
 % It must be one of 
 %     debug
-%     develop
-%     release (default)
-%     release-without-openmp
+%     release
+% Default: release
 
 % Description: Builds a Matlab mex-library for TIM.
 % Documentation: building.txt
@@ -21,10 +20,9 @@ if nargin < 1
     mode = 'release';
 end
 
-modeSet = {'debug', 'develop', 'release', 'release-without-openmp'};
+modeSet = {'debug', 'release'};
 if ~ismember(mode, modeSet)
-    error(['MODE must be one of debug, develop, release, ', ...
-        'or release-without-openmp.']);
+    error(['MODE must be either debug, or release.']);
 end
 
 disp(' ');
@@ -32,14 +30,14 @@ disp(['Building a mex file for TIM in ', mode, ' mode.']);
 disp(' ');
 
 timIncludePath = '.';
-pastelIncludePath = '..\pastel';
-boostIncludePath = '..\external\boost_1_51_0';
+pastelIncludePath = '../pastel';
+boostIncludePath = '../boost_1_53_0';
 
-timLibraryPath = ['build\vs2010\lib\', mode];
-pastelLibraryPath = ['..\pastel\build\vs2010\lib\', mode];
+timLibraryPath = ['lib/', mode];
+pastelLibraryPath = ['../pastel/lib/', mode];
 
-inputPath = ['tim\matlab'];
-outputPath = ['tim\+tim'];
+inputPath = ['tim/matlab'];
+outputPath = ['tim/+tim'];
 
 % Paths
 % -----
@@ -71,20 +69,12 @@ librarySet = { ...
 
 defineSet{end + 1} = '_ITERATOR_DEBUG_LEVEL=0';
 
-if strcmp(mode, 'release')
-    defineSet{end + 1} = 'PASTEL_ENABLE_OMP';
-end
-
-if strcmp(mode, 'develop') || strcmp(mode, 'debug')
-    defineSet{end + 1} = 'PASTEL_ENABLE_PENSURES';
-end
-
 % Form the build-command
 % ----------------------
 
 commandSet = {};
 commandSet{end + 1} = 'mex';
-commandSet{end + 1} = [' ', inputPath, '\tim_matlab.cpp'];
+commandSet{end + 1} = [' ', inputPath, '/tim_matlab.cpp'];
 
 % Add preprocessor definitions.
 for i = 1 : numel(defineSet)

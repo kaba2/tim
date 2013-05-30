@@ -17,7 +17,7 @@ namespace Tim
 
 		const integer embedDimension = k * n;
 		const integer embedLag = (k - 1) * dt;
-		const integer embedSamples = std::max(samples - embedLag, 0);
+		const integer embedSamples = std::max(samples - embedLag, (integer)0);
 
 		const SignalPtr embedSignal = SignalPtr(
 			new Signal(embedSamples, embedDimension, signal->t() + embedLag));
@@ -55,7 +55,7 @@ namespace Tim
 			signal->samples();
 
 		const integer embedSamples = 
-			std::max(samples - dt, 0);
+			std::max(samples - dt, (integer)0);
 
 		const SignalPtr embedSignal = SignalPtr(
 			new Signal(embedSamples, dimension,

@@ -29,16 +29,16 @@ eval(tim.process_options(...
     {'tDelta', 'axis'}, ...
     varargin));
 
-n = size(pointSet, 2);
-d = size(pointSet, 1);
+[d, n] = size(pointSet);
 colorMap = cool(n);
+pointSize = 5;
 
 figure;
-tim.spatial_plot(pointSet);
+tim.random_projection_plot(pointSet);
 title('Original point-set')
 
 figure;
-tim.spatial_plot(pointSet(axis, :));
+plot(pointSet(axis, :));
 title('X-coordinates')
 
 % Find the embedding delay
@@ -79,8 +79,8 @@ if iscell(tDelta)
     tDelta = miLagSet(miPeakSet(1));
 end
 
-% Auto correlation is much worse in predicting a good embedding lag.
-% The problem is that auto correlation is only sensitive to linear
+% Auto-correlation is much worse in predicting a good embedding lag.
+% The problem is that auto-correlation is only sensitive to linear
 % dependencies in the data.
 
 acSet = xcorr(...

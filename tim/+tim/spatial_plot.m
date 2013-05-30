@@ -19,7 +19,7 @@
 %
 % DRAW_POINTS ('draw_points'): A boolean specifying whether the
 % the trajectory should be drawn as colored points.
-% Default: true
+% Default: false
 %
 % DRAW_LINES ('draw_lines'): A boolean specifying whether the
 % the trajectory should be drawn as line segments.
@@ -31,7 +31,7 @@ function spatial_plot(pointSet, varargin)
 
 % Optional input arguments.
 subset = 1 : n;
-draw_points = true;
+draw_points = false;
 draw_lines = true;
 eval(tim.process_options(...
     {'subset', 'draw_points', 'draw_lines'}, ...

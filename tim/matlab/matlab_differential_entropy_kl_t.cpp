@@ -50,9 +50,9 @@ namespace
 			Default_NormBijection(),
 			range(filter.begin(), filter.end()));
 
-		const integer nans = std::max(estimate->t(), 0);
-		const integer skip = std::max(-estimate->t(), 0); 
-		const integer samples = std::max(nans + estimate->samples() - skip, 0);
+		const integer nans = std::max(estimate->t(), (integer)0);
+		const integer skip = std::max(-estimate->t(), (integer)0); 
+		const integer samples = std::max(nans + estimate->samples() - skip, (integer)0);
 
 		Array<real> result = createArray<real>(
 			Vector2i(samples, 1), outputSet[Estimate]);
