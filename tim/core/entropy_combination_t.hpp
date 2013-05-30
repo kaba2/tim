@@ -183,7 +183,7 @@ namespace Tim
 			const integer tLocalFilterBegin = std::max(t - filterRadius, tBegin) - tBegin;
 			const integer tLocalFilterEnd = std::min(t + filterRadius + 1, tEnd) - tBegin;
 			const integer tFilterDelta = tBegin - (t - filterRadius);
-			const integer tFilterOffset = std::max(tFilterDelta, 0);
+			const integer tFilterOffset = std::max(tFilterDelta, (integer)0);
 			const integer windowSamples = (tLocalFilterEnd - tLocalFilterBegin) * trials;
 			const real maxRelativeError = 0;
 
