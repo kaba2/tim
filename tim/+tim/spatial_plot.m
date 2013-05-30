@@ -16,6 +16,14 @@
 % to POINTSET. Only the points in this subset will be visualized.
 % Line segments will be drawn only between sub-sequent indices.
 % Default: 1 : n
+%
+% DRAW_POINTS ('draw_points'): A boolean specifying whether the
+% the trajectory should be drawn as colored points.
+% Default: true
+%
+% DRAW_LINES ('draw_lines'): A boolean specifying whether the
+% the trajectory should be drawn as line segments.
+% Default: true
 
 function spatial_plot(pointSet, varargin)
 
@@ -24,8 +32,10 @@ d = size(pointSet, 1);
 
 % Optional input arguments.
 subset = 1 : n;
+draw_points = true;
+draw_lines = true;
 eval(tim.process_options(...
-    {'subset'}, ...
+    {'subset', 'draw_points', 'draw_lines'}, ...
     varargin));
 
 pointSize = 5;
@@ -35,22 +45,33 @@ colorMap = colorMap(subset(:), :);
 m = numel(subset(:));
 
 if d == 1
-    plot(actualSet);
+    if draw_points
+        plot(actualSet);
+    end
 elseif d == 2
-    scatter(actualSet(1, :), actualSet(2, :), ...
-        pointSize, colorMap, 'o', 'filled');
+    if draw_lines
+        plot(actualSet(1, :), actualSet(2, :));
+    end
+    if draw_points
+        scatter(actualSet(1, :), actualSet(2, :), ...
+            pointSize, colorMap, 'o', 'filled');
+    end
 elseif d >= 3
     hold on;
-    for i = 1 : (m - 1)
-        if subset(i + 1) == subset(i) + 1
-            plot3(...
-                [actualSet(1, i); actualSet(1, i + 1)], ...
-                [actualSet(2, i); actualSet(2, i + 1)], ...
-                [actualSet(3, i); actualSet(3, i + 1)], 'b');
+    if draw_lines
+        for i = 1 : (m - 1)
+            if subset(i + 1) == subset(i) + 1
+                plot3(...
+                    [actualSet(1, i); actualSet(1, i + 1)], ...
+                    [actualSet(2, i); actualSet(2, i + 1)], ...
+                    [actualSet(3, i); actualSet(3, i + 1)], 'b');
+            end
         end
     end
-    scatter3(actualSet(1, :), actualSet(2, :), actualSet(3, :), ...
-        pointSize, colorMap, 'o', 'filled');
+    if draw_points
+        scatter3(actualSet(1, :), actualSet(2, :), actualSet(3, :), ...
+            pointSize, colorMap, 'o', 'filled');
+    end
     view(3);
     hold off;
 end
