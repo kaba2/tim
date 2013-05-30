@@ -27,8 +27,7 @@
 
 function spatial_plot(pointSet, varargin)
 
-n = size(pointSet, 2);
-d = size(pointSet, 1);
+[d, n] = size(pointSet);
 
 % Optional input arguments.
 subset = 1 : n;
@@ -46,16 +45,26 @@ m = numel(subset(:));
 
 if d == 1
     if draw_points
-        plot(actualSet);
+        scatter(actualSet, zeros(1, numel(subset)), ...
+            pointSize, colorMap, 'o','filled');
     end
 elseif d == 2
+    hold on;
     if draw_lines
-        plot(actualSet(1, :), actualSet(2, :));
+        for i = 1 : (m - 1)
+            if subset(i + 1) == subset(i) + 1
+                plot(...
+                    [actualSet(1, i); actualSet(1, i + 1)], ...
+                    [actualSet(2, i); actualSet(2, i + 1)], ...
+                    'b');
+            end
+        end
     end
     if draw_points
         scatter(actualSet(1, :), actualSet(2, :), ...
             pointSize, colorMap, 'o', 'filled');
     end
+    hold off;
 elseif d >= 3
     hold on;
     if draw_lines
