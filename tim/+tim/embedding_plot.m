@@ -20,6 +20,8 @@
 % the first three dimensions are visualized for the point-set.
 % Delay-embeddings are visualized for 2D and 3D.
 
+% Description: Visualizes a delay-embedding reconstruction
+
 function embedding_plot(pointSet, varargin)
 
 % Optional input arguments.

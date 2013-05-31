@@ -1,3 +1,6 @@
+% Description: Testing for poincare sections
+% DocumentationOf: poincare_section.m
+
 % Non-linear time series analysis
 % Exercise 3.3
 

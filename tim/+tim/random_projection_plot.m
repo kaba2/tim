@@ -24,6 +24,8 @@
 % to the spatial_plot() function (which draws the plots).
 % Default: {}
 
+% Description: Random-projection plot
+
 function random_projection_plot(pointSet, varargin)
 
 n = size(pointSet, 2);

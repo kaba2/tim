@@ -25,6 +25,8 @@
 % the trajectory should be drawn as line segments.
 % Default: true
 
+% Description: Visualizes a time-series
+
 function spatial_plot(pointSet, varargin)
 
 [d, n] = size(pointSet);

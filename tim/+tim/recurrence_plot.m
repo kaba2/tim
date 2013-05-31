@@ -1,3 +1,5 @@
+% Description: Recurrence plot
+
 function recurrence_plot(pointSet, varargin)
 
 import([tim_package, '.*']);

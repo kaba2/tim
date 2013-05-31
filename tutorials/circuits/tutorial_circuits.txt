@@ -15,7 +15,7 @@ with [TIM Matlab interface][tim-matlab].
 __Note:__ We recommend that you proceed with this tutorial only after reading
 through [this other tutorial][tutorial-gauss].
 
-[tutorial-gauss]: [[Ref: tutorial_gauss.txt]]
+[tutorial-gauss]: [[Ref]]: tutorial_gauss.txt
 
 Tutorial files
 ---------------
@@ -24,7 +24,7 @@ Here are the Matlab scripts that are used in this tutorial.
 
 [Download tutorial files][tutorial_circuits_files]
 
-[tutorial_circuits_files]: files/tutorial-circuits-1.2.0.zip
+[tutorial_circuits_files]: [[Ref]]: tutorial-circuits-1.2.0.zip
 
 Using the scripts above you can easily reproduce the final results of
 the tutorial. However, our purpose is to teach you how to write the analysis
@@ -37,7 +37,7 @@ place it in the same folder as the tutorial scripts:
 
 [Download tutorial dataset][tutorial_circuits_dataset]
 
-[tutorial_circuits_dataset]: files/tutorial-circuits-data.zip
+[tutorial_circuits_dataset]: [[Ref]]: tutorial-circuits-data.zip
 
 Problem statement
 -----------------
@@ -78,7 +78,7 @@ analysis. The transfer entropy values corresponding to the flow from the master
 towards the slave circuit are shown in the figure below:
 
 [[Gallery]]:
-	images/tutorial-circuits-fig21.png
+	tutorial-circuits-fig21.png
 	- Information flow from the master circuit towards the slave circuit. 
 
 The	waveform in the lower part of the figure depicts TE values at lag = 20 
@@ -87,7 +87,7 @@ sampling instants. The following figure shows in dark red the pairs
 (p < 0.05) and in blue those where it did not reach significance:
 
 [[Gallery]]:
-	images/tutorial-circuits-fig21sig.png
+	tutorial-circuits-fig21sig.png
 	- Significance for transfer entropy from the master circuit towards the slave circuit. 
 
 The waveform in the lower part of the figure above depicts TE significance
@@ -102,9 +102,9 @@ information flow from the slave circuit towards the master. The result
 would be the following two figures:
 
 [[Gallery]]:
-	images/tutorial-circuits-fig12.png
+	tutorial-circuits-fig12.png
 	- Information flow from the slave circuit towards the master circuit. 
-	images/tutorial-circuits-fig12sig.png
+	tutorial-circuits-fig12sig.png
 	- Significance for transfer entropy from the slave circuit towards the master circuit. 
 
 which correctly indicate that there is not any significant flow of information

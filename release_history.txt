@@ -4,14 +4,6 @@ Release history
 [[Parent]]: tim.txt
 
 This section summarizes the release history of TIM.
-To obtain a previous version of TIM, visit the original 
-webpages of a version by the links given below.
-
-Conventions
------------
-
-### Versioning
-
 The versioning of TIM is given in the form x.y.z, where x, y, and z 
 are integers. The x increments only for major changes, the y increments 
 for feature changes, and the z increments for bug fixes or documentation 
@@ -23,11 +15,33 @@ than 1.1.3.
 TIM 1.3.0
 ---------
 
-Release date xx.xx.20xx.
+Release date xx.xx.2013.
 
 [Original webpage][TIM-1.3.0]
 
-[TIM-1.3.0]: http://www.cs.tut.fi/~timhome/tim-1.3.0
+[TIM-1.3.0]: http://kaba.hilvi.org/tim-1.3.0
+
+### TIM Matlab
+
+ * Added Lorenz system generator.
+ * Added Henon map generator.
+ * Added random projection plots.
+ * Added spatial plots.
+ * Added embedding plots.
+ * Added recurrence plots.
+ * Added embedding plots.
+ * Added distance matrix computation.
+ * Added non-linear prediction.
+ * Added Poincare sections.
+
+### Other stuff
+
+ * Uploaded the source-code to BitBucket.
+ * Changed the license from LGPL to MIT.
+ * Source built over [Pastel 1.4](http://kaba.hilvi.org/pastel-1.4.0).
+ * Documentation built over [Remark 1.6](http://kaba.hilvi.org/remark-1.6.0).
+ * Changed from Premake to CMake for
+ cross-platform builds.
 
 TIM 1.2.0
 ---------
@@ -36,24 +50,24 @@ Release date 01.06.2011.
 
 [Original webpage][TIM-1.2.0]
 
-#### TIM Core
+[TIM-1.2.0]: http://www.cs.tut.fi/~timhome/tim-1.2.0
+
+### TIM Core
 
  * Fixed a critical bug in entropy combination estimators,
  when the number of trials > 1, introduced in TIM 1.1.0.
 
-#### TIM Matlab
+### TIM Matlab
 
  * Changed the parameter-passing of functions to use 
  optional arguments, rather than all-positional.
  
-#### Other stuff
+### Other stuff
 
  * Created Sourceforge pages for development, bug reports, 
  mailing lists, and general discussions.
- * Source built over [Pastel][] 1.2. 
- * Documentation built over [Remark][] 1.4.
-
-[TIM-1.2.0]: http://www.cs.tut.fi/~timhome/tim-1.2.0
+ * Source built over [Pastel 1.2](http://kaba.hilvi.org/pastel-1.2.0).
+ * Documentation built over [Remark 1.4](http://kaba.hilvi.org/remark-1.4.0).
 
 TIM 1.1.0
 ---------
@@ -63,7 +77,7 @@ a critical bug.
 
 Release date 17.3.2011.
 
-#### TIM Core
+### TIM Core
 
  * Added estimation of Renyi entropies.
  * Added estimation of Tsallis entropies.
@@ -81,7 +95,7 @@ Release date 17.3.2011.
  * Fixed a bug when computing entropy combinations
  with signals of unequal length.
 
-#### TIM Matlab
+### TIM Matlab
 
  * Real arrays are now interpreted as cell-arrays 
  containing a single trial in the estimators.
@@ -93,20 +107,20 @@ Release date 17.3.2011.
  * Removed the restriction of specific input types 
  in the mex file (e.g. that arrays must be double). 
  
-#### TIM Console
+### TIM Console
 
  * Added support for Not-A-Number (NaN) and 
  infinity (Inf) real values.
  * Fixed a bug which caused manually specified
  real-arrays to be rounded to integer values.
 
-#### TIM Matlab and TIM Console
+### TIM Matlab and TIM Console
 
  * Added delay-embedding.
  * Added support for generalized versions
  of temporal estimators.
  
-#### Breaking changes in TIM Matlab
+### Breaking changes in TIM Matlab
 
  * Removed the parameter to specify maximum relative 
  error in nearest neighbors searching because of too 
@@ -120,24 +134,22 @@ Release date 17.3.2011.
  estimators. This can accidentally get mixed with 'threads' 
  parameter of the previous version.
 
-#### Other stuff
+### Other stuff
 
  * Added a new tutorial: _Coping with unknown coupling delays_.
- * Source built over [Pastel][] 1.2. 
- * Documentation built over [Remark][] 1.3.
+ * Source built over [Pastel 1.2](http://kaba.hilvi.org/pastel-1.2.0). 
+ * Documentation built over [Remark 1.3](http://kaba.hilvi.org/remark-1.3.0).
 
 TIM 1.0.0
 ---------
 
 [Original webpage][TIM-1.0.2]
 
+[TIM-1.0.2]: http://www.cs.tut.fi/~timhome/tim-1.0.2
+
 Release date 13.1.2010.
 
  * Initial release.
- * Source built over [Pastel][] 1.0.
- * Documentation built over [Remark][] 1.0.
+ * Source built over [Pastel 1.0](http://kaba.hilvi.org/pastel-1.0.1).
+ * Documentation built over Remark 1.0.
 
-[Remark]: http://kaba.hilvi.org/remark
-[Pastel]: http://kaba.hilvi.org/pastel
-
-[TIM-1.0.2]: http://www.cs.tut.fi/~timhome/tim-1.0.2

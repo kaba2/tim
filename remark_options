@@ -24,3 +24,6 @@ license.htm
 -x *.mexmaci64
 -x remark_options
 -x *.asv
+-x *CMake*
+-x tim_license.txt
+-x tim_license_matlab.txt
