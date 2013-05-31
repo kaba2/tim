@@ -1,38 +1,44 @@
-TIM 1.3.0
-=========
+TIM
+===
+
+[[set tim_version]]: 1.3.0
 
 [Back to Homepage of Kalle Rutanen][Back]
 
 [Back]: http://kaba.hilvi.org
 
-_TIM_ is a cross-platform open-source C++ library for efficient 
-estimation of information-theoretic measures from continuous-valued 
-time-series' in arbitrary dimensions. It has a Matlab interface as 
-well as a console interface.
+_TIM_ is a cross-platform C++11 and Matlab library for efficient 
+non-linear time-series analysis. The version documented here 
+is [[tim_version]]. The latest version can always be found from 
+[here][TimHomepage].
 
-__Important__: The version 1.1.0, released 17.3.2011, included a critical bug
-which made TIM give completely erroneous results for multi-trial estimates.
-Please replace that version with the current version. Apologies for any 
-problems this has caused.
+[TimHomepage]: http://kaba.hilvi.org/tim
 
 Features
 --------
 
- * Estimation of [Shannon differential entropy][Shannon] 
- using various estimators.
- * Estimation of [Renyi entropies][Renyi].
- * Estimation of [Tsallis entropies][Tsallis].
- * Estimation of [entropy combinations][Combinations] including mutual 
- information, partial mutual information, transfer entropy, and partial 
- transfer entropy.
- * Estimation of [Kullback-Leibler divergence][Divergence].
- * [Temporal estimation][Temporal] using time-windowing.
- * Estimation from an ensemble of time-series' representing trials of 
- the same experiment.
- * Time-series' with arbitrary-dimensionality.
- * Multi-core parallel computation.
- * Three ways to use: as a C++ library, through TIM Matlab interface, or 
- through TIM Console interface.
+TIM can estimate
+
+ * [differential entropy][Shannon],
+ * [Renyi entropies][Renyi],
+ * [Tsallis entropies][Tsallis],
+ * [mutual information][MutualInformation], 
+ * [conditional mutual information][ConditionalMutualInformation], 
+ * [transfer entropy][TransferEntropy],
+ * [conditional transfer entropy][ConditionalTransferEntropy],
+ * [entropy combinations][Combinations],
+ * [Kullback-Leibler divergence][Divergence],
+ * using [temporal windowing][Temporal],
+ * using multi-variate data,
+ * using data from multiple trials, and
+ * using multiple cores.
+
+TIM can also do
+
+ * non-linear prediction, and
+ * non-linear noise removal,
+
+TIM can be used either as a pure C++ library, or through Matlab,
 
 [Shannon]: [[Ref]]: differential_entropy.txt
 [Renyi]: [[Ref]]: renyi_entropy.txt
@@ -40,86 +46,52 @@ Features
 [Combinations]: [[Ref]]: entropy_combination.txt
 [Divergence]: [[Ref]]: divergence.txt
 [Temporal]: [[Ref]]: temporal_estimation.txt
+[MutualInformation]: [[Ref]]: mutual_information.txt
+[ConditionalMutualInformation]: [[Ref]]: partial_mutual_information.txt
+[TransferEntropy]: [[Ref]]: transfer_entropy.txt
+[ConditionalTransferEntropy]: [[Ref]]: partial_transfer_entropy.txt
 
 Download
 --------
 
-Here you can download the latest version of TIM prebuilt
-for various platforms. The prebuilds have been done for 
-Windows and Linux, in both 32-bit and 64-bit modes. 
-For easy transition between platforms, we have packed
-all of these builds in the same package. To obtain previous 
-versions, see the [release history][ReleaseHistory].
+Here you can download the latest prebuilt TIM Matlab.
+The prebuilds include Mac OS X, Windows, and Linux, 
+in both 32-bit and 64-bit modes.
 
-[ReleaseHistory]: [[Ref]]: release_history.txt
-
-[Download TIM Matlab 1.3.0][TIM-Matlab]
-
-[Download TIM Console 1.3.0][TIM-Console]
+[Download TIM Matlab [[tim_version]]][TIM-Matlab]
 
 __Note__: For Windows, you need to have the 
-[Visual C++ 2008 SP1 Redistributable Package][VisualRedist] 
+[Visual C++ Redistributable for Visual Studio 2012 Update 2][VisualRedist] 
 installed for the prebuilt TIM to work.
 
-[VisualRedist]: http://www.microsoft.com/downloads/en/details.aspx?FamilyID=a5c84275-3b97-4ab7-a40d-3802b2af5fc2&displaylang=en
+For previous versions, see the [release history][ReleaseHistory].
 
-__Note__: Mac OS X builds are not provided for now, because we
-do not have a convenient access to such machine. However, it is
-possible to build TIM for Mac OS X (although OpenMP can not be 
-supported).
+[VisualRedist]: http://www.microsoft.com/en-us/download/details.aspx?id=30679
 
-[TIM-Matlab]: ./files/tim-matlab-1.3.0.zip
-[TIM-Console]: ./files/tim-console-1.3.0.zip
-
-Source-code
------------
-
-The source-code for TIM is licensed under the _GNU Lesser GPL_ license, which is 
-unrestrictive and non-viral. It should be emphasized that the intent of publishing 
-the source-code for TIM is purely for educational/research purposes, rather than for 
-actually building software that depends on it. This is because we can't guarantee stable 
-interfaces, i.e., we continue development of TIM and in this process can make 
-breaking changes to interfaces.
-
-[Download TIM Source 1.3.0][TIM-Source]
-
-To obtain previous versions, see the [release history][ReleaseHistory]
-
-[TIM-Source]: ./files/tim-1.3.0.zip
+[TIM-Matlab]: [[-+Ref]]: tim-matlab-[[tim_version]].zip
 [ReleaseHistory]: [[Ref]]: release_history.txt
 
-Support
--------
+Source code
+-----------
 
-We offer several ways to keep in touch with the development of TIM.
-Most of these features are available through the 
-[TIM development pages in Sourceforge][TIM-dev]. 
-From there, you can
+The source code for TIM is hosted on [BitBucket][] in a [Mercurial][] 
+repository. Assuming you have Mercurial installed, the repository can 
+be cloned from the command-line by
 
- * Report bugs.
- * Suggest new features.
- * Ask for general help in a forum.
- * Join mailing lists (for news etc).
+	hg clone https://bitbucket.org/kaba2/tim
 
-We encourage you to use these ways of interaction, rather than 
-private e-mails, because this way the discussions benefit other
-people too.
+A revision corresponding to a published version is tagged with the 
+version number. 
 
-[TIM-dev]: https://sourceforge.net/projects/timcode/
+[BitBucket]: http://bitbucket.org/kaba2/tim
+[Mercurial]: http://mercurial.selenic.com
 
-Note on web-browsers
---------------------
+Issue tracker
+-------------
 
-This documentation uses MathML to display inlined mathematics.
-Unfortunately not all browsers support MathML natively, including
-Internet Explorer. In this case you will not be able to see the 
-mathematical expressions correctly. While there is a plug-in 
-available (MathPlayer) for adding this capability to Internet Explorer, 
-in our tests this combination crashed the browser when viewing 
-these pages. According to Wikipedia, some major web-browsers that 
-currently display MathML natively include Mozilla Firefox, Opera, 
-and Camino. At this point we can't do anything else than to direct 
-you to use these browsers to view these pages.
+The issue tracker for TIM is hosted on Bitbucket in [here][TimBugs].
+
+[TimBugs]: https://bitbucket.org/kaba2/tim/issues
 
 Acknowledgements
 ----------------
@@ -129,8 +101,8 @@ The version 1.0 of TIM was programmed under funding from the EU project
 from version 1.0 to 1.1 were programmed under funding from the 
 [Finnish Foundation for Technology Promotion][TES].
 
-[German Gomez Herrero][German] is the driving force behind the idea of 
-creating TIM, having created a similar library in Matlab himself. German
+[Germán Gómez Herrero][German] is the driving force behind the idea of 
+creating TIM, having created a similar library in Matlab himself. Germán
 provided substantial amount of testing, feedback, and guidance 
 during the development. He has also written the tutorials in this
 documentation.

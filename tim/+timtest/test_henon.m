@@ -1,3 +1,6 @@
+% Description: Testing for Henon maps
+% DocumentationOf: henon_map.m
+
 % Non-linear time series analysis
 % Exercise 3.1
 

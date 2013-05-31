@@ -1,3 +1,6 @@
+% Description: Testing for recurrence plots
+% DocumentationOf: recurrence_plot.m
+
 clear all;
 close all;
 

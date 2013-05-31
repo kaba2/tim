@@ -3,26 +3,21 @@ Dependencies
 
 [[Parent]]: tim.txt
 
-TIM uses a few external libraries which must be installed in order 
-to compile and link TIM succesfully. These libraries are listed here.
-The version number that follows the library name is the one that the
-current version of TIM was used to develop against. This is useful to 
-know in case a later version breaks backward compatibility.
+This page lists the dependencies of TIM. The version number that 
+follows the library name is the one that the prebuilt TIM Matlab was 
+built against. This is useful to know in case a later version breaks 
+backward compatibility.
 
 External dependencies
 ---------------------
 
-### Pastel 1.2
-
-<http://kaba.hilvi.org/pastel>
+### [Pastel 1.4](http://kaba.hilvi.org/pastel-1.4.0)
 
 TIM refers to Pastel's include files in the form
 `pastel/sys/array.h`. Pastel is licensed under the
-GNU Lesser GPL license.
+MIT license.
 
-### Boost 1.45
-
-<http://www.boost.org/>
+### [Boost 1.53](http://www.boost.org)
 
 TIM refers to Boost's include files in the form
 `boost/operators.hpp`.
@@ -30,16 +25,7 @@ TIM only uses the template code found in Boost and
 thus requires no linking with object code.
 Boost is licensed under the Boost license.
 
-### SDL 1.2
+### [Remark 1.6](http://kaba.hilvi.org/remark-1.6.0)
 
-<http://www.libsdl.org/>
-
-TIM refers to SDL's include files in the form `SDL.h`. 
-SDL is licensed under the GNU Lesser GPL license.
-
-### Remark 1.3
-
-<http://kaba.hilvi.org/remark>
-
-The documentation for TIM is written in Remark. This library is
-not required to build TIM.
+The documentation for TIM is written in Remark. 
+This library is not required to build TIM.

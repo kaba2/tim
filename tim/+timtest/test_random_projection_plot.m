@@ -1,3 +1,6 @@
+% Description: Testing for random projection plots
+% DocumentationOf: random_projection_plot.m
+
 clear all;
 close all;
 

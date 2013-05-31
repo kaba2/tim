@@ -1,7 +1,7 @@
 Building TIM Matlab
 ===================
 
-[[Parent]]: tim.txt
+[[Parent]]: building.txt
 
 This page describes how to build the TIM Matlab interface. This is only
 necessary if prebuilt binaries are not available for your platform 

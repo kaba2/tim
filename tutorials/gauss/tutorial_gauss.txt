@@ -17,7 +17,7 @@ Here are the Matlab scripts that are used in this tutorial.
 
 [Download tutorial files][tutorial-gauss-files]
 
-[tutorial-gauss-files]: files/tutorial-gauss-1.3.0.zip
+[tutorial-gauss-files]: [[Ref]]: tutorial-gauss-1.3.0.zip
 
 We have implemented all the tutorial steps in just three
 Matlab functions: [[FileLink: tutorial_gauss_data.m]], 
@@ -86,17 +86,17 @@ run:
 As a result you will obtain the following figures:
 
 [[Gallery]]:
-	images/tutorial.gauss.fig21.png
+	tutorial.gauss.fig21.png
 	- Information flow from time-series x towards time-series y.
-	images/tutorial.gauss.fig12.png
+	tutorial.gauss.fig12.png
 	- Information flow from time-series y towards time-series x.
-	images/tutorial.gauss.fig32.png
+	tutorial.gauss.fig32.png
 	- Information flow from time-series y towards time-series z.
-	images/tutorial.gauss.fig23.png
+	tutorial.gauss.fig23.png
 	- Information flow from time-series z towards time-series y.
-	images/tutorial.gauss.fig31.png
+	tutorial.gauss.fig31.png
 	- Information flow from time-series x towards time-series z.
-	images/tutorial.gauss.fig13.png
+	tutorial.gauss.fig13.png
 	- Information flow from time-series z towards time-series x.
 
 State-space reconstruction
@@ -191,6 +191,7 @@ Determining this _significance threshold_ analytically is difficult so we
 take instead a brute-force approach. 
 
 ### Estimating the significance threshold
+
 We generate many _surrogate datasets_ that resemble the dynamics of the 
 original data but that, at the same time, are surely uncoupled. Say that 
 you generate 20 such surrogates and that you compute the PTE for each of 

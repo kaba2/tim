@@ -1,3 +1,6 @@
+% Description: Testing for Lorenz systems
+% Documenationof: lorenz_system.m
+
 % Non-linear time series analysis
 % Exercise 3.2
 
