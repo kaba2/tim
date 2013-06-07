@@ -72,7 +72,7 @@ concept_check(nargout, 'outputs', 0 : 1);
 
 % Optional input arguments
 algorithm = 'preserve_correlations';
-frequency_range = [0, 1];
+frequencyRange = [0, 1];
 k = 4;
 eval(process_options({...
 	'algorithm', ...
@@ -85,10 +85,8 @@ maxFrequency = frequencyRange(2);
 kNearest = k;
 
 if strcmp(algorithm, 'preserve_dynamics')
-	import pastelgeometry.PointKdTree;
-
 	% Create a kd-tree from the points in the input set.
-	kdTree = PointKdTree(d);
+	kdTree = pastelgeometry.PointKdTree(d);
 	idSet = kdTree.insert(inputSet);
 	kdTree.refine();
 
