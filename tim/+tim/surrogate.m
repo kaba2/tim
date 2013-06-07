@@ -50,7 +50,7 @@
 % Optional arguments for correlation-preserving algorithms
 % --------------------------------------------------------
 %
-% FREQUENCY_RANGE ('frequency_range') is a pair [a, b] of real numbers, 
+% FREQUENCY_RANGE ('frequencyRange') is a pair [a, b] of real numbers, 
 % which denotes the interval [a, b] of normalized frequencies whose 
 % phases to randomize. The normalized frequency 1 corresponds to half 
 % the sampling rate. It must hold that 0 <= a <= b <= 1. This allows
@@ -76,12 +76,12 @@ frequency_range = [0, 1];
 k = 4;
 eval(process_options({...
 	'algorithm', ...
-	'frequency_range', ...
+	'frequencyRange', ...
 	'k'}, varargin));
 
 [d, n] = size(inputSet);
-minFrequency = frequency_range(1);
-maxFrequency = frequency_range(2);
+minFrequency = frequencyRange(1);
+maxFrequency = frequencyRange(2);
 kNearest = k;
 
 if strcmp(algorithm, 'preserve_dynamics')

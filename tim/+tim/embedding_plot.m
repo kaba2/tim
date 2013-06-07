@@ -46,64 +46,16 @@ title('X-coordinates')
 % Find the embedding delay
 % ------------------------
 
-% A good embedding lag is given by the first minimum of the
-% auto mutual information. If the signal is sampled densely enough, 
-% temporally close samples are related simply because of continuity. 
-% Increasing the lag decreases the continuity-caused dependency
-% between delayed samples. On the other hand, at some point the
-% dependency starts to rise again, since a chaotic system usually
-% has cyclic-like properties. Overall, the dependency will lower,
-% since temporally distant samples have less and less dependency to
-% each other, because of the chaotic pseudo-randomness. This is
-% why one should choose the first minimum, rather than subsequent
-% minima.
-
-maxLag = 200;
-miLags = 100;
-
-miLagSet = round(linspace(1, maxLag, miLags));
-
-miSet = tim.mutual_information(...
-    pointSet(axis, :), pointSet(axis, :), ...
-    'yLag', miLagSet);
-
 figure;
-plot(miLagSet, miSet);
-hold on;
-[ignore, miPeakSet] = findpeaks(-miSet, 'npeaks', 1);
-plot(miLagSet(miPeakSet), miSet(miPeakSet), 'k^', 'markerfacecolor', 'r');
-title('Auto mutual information of the X-coordinates');
-xlabel('Lag');
-ylabel('Mutual information');
-hold off;
+tim.auto_mi_plot(pointSet(axis, :));
 
-if iscell(tDelta)
-    tDelta = miLagSet(miPeakSet(1));
-end
-
-% Auto-correlation is much worse in predicting a good embedding lag.
-% The problem is that auto-correlation is only sensitive to linear
-% dependencies in the data.
-
-acSet = xcorr(...
-    pointSet(axis, :), pointSet(axis, :), ...
-    maxLag, 'unbiased');
-acSet = acSet((numel(acSet) - 1) / 2 + 2 : end);
-
-acLagSet = 1 : maxLag;
-
-figure;
-plot(acLagSet, acSet);
-hold on;
-[ignore, acPeakSet] = findpeaks(-acSet, 'npeaks', 1);
-plot(acLagSet(acPeakSet), acSet(acPeakSet), 'k^', 'markerfacecolor', 'r');
-title('Auto correlation of the X-coordinates');
-xlabel('Lag');
-ylabel('Correlation');
-hold off;
+figure
+tim.auto_correlation_plot(pointSet(axis, :));
 
 % Create the delay-embeddings
 % ---------------------------
+
+tDelta = tim.embedding_delay(pointSet(axis, :));
 
 % 2D delay-embedding.
 embeddedSet = tim.delay_embed(pointSet(axis, :), 2, tDelta);
