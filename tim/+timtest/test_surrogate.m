@@ -1,16 +1,20 @@
 clear all;
 close all;
 
-n = 200;
+n = 201;
 filterOrder = 21;
 
 dataSet = randn(1, n);
+%windowSet = blackman(n)';
+%dataSet = windowSet .* dataSet;
+
 filterSet = fir1(filterOrder, 0.5);
 filteredSet = filter(filterSet, 1, dataSet);
 surrogateSet = tim.surrogate(filteredSet, ...
-	'frequency_range', [0.4, 1], ...
-	'algorithm', 'preserve_dynamics', ...
-	'k', 1);
+	'frequencyRange', [0, 1], ...
+	'algorithm', 'preserve_correlations');
+
+mean(abs(fft(filteredSet)) - abs(fft(surrogateSet)))
 
 figure;
 hold on;
@@ -19,7 +23,8 @@ plot(surrogateSet, 'r');
 hold off;
 
 figure;
-hold on;
-area(fftshift(abs(fft(filteredSet))));
-plot(fftshift(abs(fft(surrogateSet))), 'r');
+hold all;
+pwelch(filteredSet);
+pwelch(surrogateSet);
+axis([0, 1, -60, 0]);
 hold off;
