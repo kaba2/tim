@@ -37,7 +37,7 @@ xLag = 0;
 yLag = 0;
 wLag = 0;
 k = 1;
-estimator = 'log_density';
+estimator = 'digamma';
 eval(process_options(...
     {'k', 'xLag', 'yLag', 'wLag', 'estimator'}, ...
     varargin));

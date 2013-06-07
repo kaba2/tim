@@ -1,8 +1,14 @@
-% LORENZ
-% Generates the Lorenz point-set.
+% LORENZ_SYSTEM
+% Generates a Lorenz point-set.
 %
-% pointSet = lorenz();
-% pointSet = lorenz('key', value, ...);
+% pointSet = lorenz_system();
+% pointSet = lorenz_system('key', value, ...);
+%
+% Return values
+% -------------
+%
+% POINTSET is a real (3 x n)-matrix containing n 3-dimensional points 
+% as columns.
 %
 % Optional arguments
 % ------------------
@@ -26,6 +32,9 @@
 %
 % P0 ('p0') is the initial point representing time zero.
 % Default: [1, 0, 0]
+%
+% Additional information
+% ----------------------
 %
 % The Lorenz point-set is the solution of the Lorenz
 % ordinary differential equation
