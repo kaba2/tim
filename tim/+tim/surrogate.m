@@ -18,6 +18,38 @@
 % Optional arguments
 % ------------------
 %
+% ALGORITHM ('algorithm') is a string which specifies the algorithm to
+% use for generating the surrogate data set. Must be one of
+%
+% ### preserve_correlations
+%
+% Preserves the auto-correlations in a row and the 
+% cross-correlations between the rows. If INPUTSET is
+% a wide-sense stationary stochastic process, then so is
+% SURROGATESET. If INPUTSET is a gaussian process, then so
+% is SURROGATESET. This algorithm is described in
+% "Generating Surrogate Data for Time series with Several 
+% Simultaneously Measured Variables", Dean Prichard, James Theiler, 
+% Physical Review Letters, Volume 73, Number 7, 1994. 
+%
+% ### preserve_distribution_and_correlations
+%
+% This algorithm is described for the 1-dimensional case in
+% "Improved Surrogate Data for Nonlinearity Tests",
+% Thomas Schreiber, Andreas Schmitz, Physical Review Letters,
+% Volume 77, Number 4, 1996.
+%
+% ### preserve_dynamics
+%
+% Preserves the underlying dynamical system. The surrogate
+% data is generated according to the examples set by the
+% input set. It is assumed that the input data already resides
+% in a state space which represents the dynamical system well
+% (i.e. has been delay-embedded properly).
+%
+% Optional arguments for correlation-preserving algorithms
+% --------------------------------------------------------
+%
 % FREQUENCY_RANGE ('frequency_range') is a pair [a, b] of real numbers, 
 % which denotes the interval [a, b] of normalized frequencies whose 
 % phases to randomize. The normalized frequency 1 corresponds to half 
@@ -25,24 +57,11 @@
 % for truncated randomization, as described in xxx.
 % Default: [0, 1]
 %
-% ALGORITHM ('algorithm') is a string which specifies the algorithm to
-% use for generating the surrogate data set. Must be one of
+% Optional arguments for dynamics-preserving algorithms
+% -----------------------------------------------------
 %
-%       preserve_correlations: 
-%		Preserves the auto-correlations in a row and the 
-%		cross-correlations between the rows. If INPUTSET is
-%       a wide-sense stationary stochastic process, then so is
-%       SURROGATESET. If INPUTSET is a gaussian process, then so
-%       is SURROGATESET. This algorithm is described in
-% 		"Generating Surrogate Data for Time series with Several 
-%		Simultaneously Measured Variables", Dean Prichard, James Theiler, 
-%		Physical Review Letters, Volume 73, Number 7, 1994. 
-%
-%		preserve_distribution_and_correlations:
-%		This algorithm is described for the 1-dimensional case in
-%		"Improved Surrogate Data for Nonlinearity Tests",
-%		Thomas Schreiber, Andreas Schmitz, Physical Review Letters,
-%		Volume 77, Number 4, 1996.
+% K ('k') is a positive integer which specifies the
+% number of nearest neighbors to use for prediction.
 
 function surrogateSet = surrogate(inputSet, varargin)
 
@@ -54,13 +73,62 @@ concept_check(nargout, 'outputs', 0 : 1);
 % Optional input arguments
 algorithm = 'preserve_correlations';
 frequency_range = [0, 1];
+k = 4;
 eval(process_options({...
 	'algorithm', ...
-	'frequency_range'}, varargin));
+	'frequency_range', ...
+	'k'}, varargin));
 
 [d, n] = size(inputSet);
 minFrequency = frequency_range(1);
 maxFrequency = frequency_range(2);
+kNearest = k;
+
+if strcmp(algorithm, 'preserve_dynamics')
+	import pastelgeometry.PointKdTree;
+
+	% Create a kd-tree from the points in the input set.
+	kdTree = PointKdTree(d);
+	idSet = kdTree.insert(inputSet);
+	kdTree.refine();
+
+	% Hide the last point in the time-series.
+	% This is because it can not be used for prediction.
+	kdTree.hide(idSet(end));
+
+	% Pick a neighborhood of k points from the trajectory.
+	startSet = kdTree.search_nearest(...
+		kdTree.as_points(randi([1, n])), Inf, kNearest);
+
+	% Choose the starting point as a random convex combination
+	% of the points in the neighborhood.
+	factorSet = rand(kNearest, 1);
+	startPoint = kdTree.as_points(startSet) * (factorSet / sum(factorSet));
+
+	% Generate surrogate data using non-linear prediction.
+	currentPoint = startPoint;
+	for i = 1 : n
+		surrogateSet(:, i) = currentPoint;
+
+		% Pick a neighborhood of k points from the trajectory
+		% around the current point.
+		neighborSet = kdTree.search_nearest(...
+			currentPoint, Inf, kNearest);
+
+		% Evolve the neighborhood in time. This is always
+		% defined since we hided the last point in time.
+		neighborSet = neighborSet + 1;
+
+		% Choose the predicted point as a convex combination
+		% of the predicted neighborhood.
+		%factorSet = rand(kNearest, 1);
+		factorSet = ones(kNearest, 1);
+		currentPoint = kdTree.as_points(neighborSet) * ...
+			(factorSet / sum(factorSet));
+	end
+
+	clear kdTree;
+end
 
 if strcmp(algorithm, 'preserve_correlations')
 	% Let
