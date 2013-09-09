@@ -82,21 +82,34 @@ Modify the paths to correspond to your directory structure.
 
 ### Generate build-scripts using CMake
 
-Create a directory called `release` in TIM's root directory,
-and change to that directory.
+* In the TIM root directory, create the `release/` directory.
+* In the TIM `release/` directory, type `cmake-gui ..`
+* Press the `Configure` button.
+* Select the tool-set to generate build-scripts for from the menu.
+* Make sure the `Advanced` button is not checked.
+* Select the desired build options.
+* Press the `Configure` button again.
+* Press the `Generate` button.
 
-	mkdir release
-	cd release
+The build options are:
 
-In the `release`-directory, run
-	
-	cmake-gui ..
+BuildLibraries
+: Whether to build TIM's core libraries.
 
-This will open a graphical user-interface for the build-script
-generation. Make sure the `Advanced` button is not checked.
-Push `Configure`. Choose the type of the build-script to generate,
-and push `Done`. Push `Configure`. Push `Generate`. Close the 
-user-interface.
+BuildMatlab
+: Whether to build TIM's Matlab libraries.
+
+BuildTests
+: Whether to build TIM's test executables.
+
+Note: If you want to change the tool-set later, you need
+to remove the `CMakeCache.txt` file, and run these 
+instructions again. The purpose of this file is to remember 
+options so that they need not specified repeatedly.
+
+Note: You can follow similar instructions to create a debug build
+instead. The only difference is that you create a `debug/` directory,
+and choose `Debug` as the `CMAKE_BUILD_TYPE` in `cmake-gui`.  
 
 ### Build
 
