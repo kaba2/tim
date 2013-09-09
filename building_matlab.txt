@@ -3,25 +3,20 @@ Building TIM Matlab
 
 [[Parent]]: building.txt
 
-This page describes how to build the TIM Matlab interface. This is only
-necessary if prebuilt binaries are not available for your platform 
-at the [main page][Main]. To be able to build the TIM Matlab interface, 
-you need to first [build the TIM libraries][Core].
+This page describes how to build the TIM Matlab interface. 
 
-[Core]: [[Ref]]: building.txt
 [Main]: [[Ref]]: tim.txt
 
 Build process
 -------------
 
-Matlab uses special kinds of shared libraries to extend it. These
-are called _mex files_. The building process for such files must be 
-driven from Matlab, because this is the only way that the approriate
-libraries will get linked into the resulting mex library, no matter
-what the Matlab version. Matlab redirects the compilation and linking
-to an external compiler, such as Visual Studio or gcc. 
+### Build TIM libraries
 
-### 1. Select a compiler
+[Build the TIM libraries][Core].
+
+[Core]: [[Ref]]: building.txt
+
+### Select a compiler
 
 To select the compiler Matlab uses, type
 
@@ -43,72 +38,58 @@ A compiler can be used to build the TIM Matlab interface if
  32-bit libraries against 32-bit libraries,
  and 64-bit libraries against 64-bit libraries.
  
-The current list of supported compilers for Matlab 2010b can be 
+The current list of supported compilers for Matlab 2013b can be 
 found [from here][MatlabSupported]. There is a similar list for
 the previous versions.
-
-__Note__: since OpenMP was introduced in gcc 4.2, and the supported
-compiler for Mac OS X is only of version 4.0, it is not currently 
-possible to build TIM in Mac OS X with OpenMP enabled.
 
 __Note__: Matlab 32-bit is required to build 32-bit mex files, and
 Matlab 64-bit is required to build 64-bit mex files. In particular, it 
 is not possible to do 32-bit builds from Matlab 64-bit.
 
-[MatlabSupported]: http://www.mathworks.com/support/compilers/R2010b/index.html
+[MatlabSupported]: http://www.mathworks.com/support/compilers/R2013b/index.html
 
-### 2. Set the external library directories
+### Set the external library directories
 
 In `tim` root-directory, open the file `build_tim.m`,
 which will at some point read something like this:
 
-	timIncludePath = '.';
-	pastelIncludePath = '..\pastel';
-	boostIncludePath = '..\external\boost_1_51_0';
+	pastelIncludePath = '../pastel';
+	boostIncludePath = '../boost_1_53_0';
+	tbbIncludePath = '../tbb42/include';
 
-	timLibraryPath = ['build\vs2010\lib\', mode];
-	pastelLibraryPath = ['..\pastel\build\vs2010\lib\', mode];
+	timLibraryPath = ['lib/', mode];
+	pastelLibraryPath = ['../pastel/lib/', mode];
+	tbbLibraryPath = ['../tbb42/lib'];
 
-Replace the directories to reflect the locations of the libraries.
+Modify the paths to correspond to your directory structure.
 
-### 3. Add some flags and libraries
-
-To enable OpenMP (support for multiple cores), do the following:
-
-* Add the OpenMP flag to the compiler flags.
-Since Matlab does not have a compiler-independent option for this,
-you must manually modify the Matlab options file for your compiler. 
-Consult the Matlab documentation on how to do this. 
-On gcc the flag is `-fopenmp`, while for Visual Studio the flag is `/openmp`.
-
-* On Linux, add the `-lgomp` option in `build_tim.m` to include the OpenMP 
-library.
+### Add some flags
 
 On the 64-bit Linux, if you want to build the 32-bit version (requires 
 Matlab 32-bit), add the `-m32` compiler flag in the g++ flags of the 
 `glnx86` section in the options file.
 
-### 4. Choose configuration and build
+### Choose configuration and build
 
 To build TIM Matlab in release mode, type in Matlab command line:
 
-	>> build_tim
+	build_tim
 
 Alternatively, you can build the TIM Matlab interface in other
 modes by running the script with the desired configuration, e.g.
 
-	>> build_tim('debug')
+	build_tim('debug')
 
 You can get additional help by
 
-	>> help build_tim
+	help build_tim
 
 Output files
 ------------
 
 The only output file from this process is the `tim_matlab` mex file.
 The extension of this file depends on your operating system and whether
-your Matlab is 32-bit or 64-bit. They extensions are
+your Matlab is 32-bit or 64-bit. The extensions are
 
  * .mexglx for 32-bit Linux (or Mac), 
  * .mexa64 for 64-bit Linux (or Mac), 

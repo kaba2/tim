@@ -3,16 +3,7 @@ Building TIM
 
 [[Parent]]: tim.txt
 
-This page describes how to build the TIM libraries. This 
-is only necessary if prebuilt binaries are not available for 
-your platform at the [main page][Main]. 
-TIM uses the [Premake][Premake] build-script generator to turn
-cross-platform building into a trivial task. Premake is a program, 
-contained in a single executable, which reads in a generic 
-build-script and outputs a tool-specific build-script. 
-The TIM Matlab interface requires an [additional build step][Matlab], 
-since the final build must be done from Matlab. However, the first 
-step is to build the TIM libraries.
+This page describes how to build the TIM libraries. 
 
 __Note__: While the source code contains Visual Studio specific 
 build files, you should ignore them, and follow the build process 
@@ -26,133 +17,133 @@ Build process
 
 The steps to build TIM are as follows:
 
-### 1. Install external libraries
+### Install [Mercurial][]
+
+In Windows, you may want to use [TortoiseHg][], and in Mac Os X, [MacHg][].
+
+[MacHg]: http://jasonfharris.com/machg/
+[TortoiseHg]: http://tortoisehg.bitbucket.org/
+[Mercurial]: http://mercurial.selenic.com/
+
+### Install [CMake][]
+
+CMake can be downloaded from [here][DownloadCMake]. 
+
+[CMake]: http://www.cmake.org/
+[DownloadCMake]: http://www.cmake.org/cmake/resources/software.html
+
+### Install external libraries
 
 See the [dependencies][Dependencies] page.
 
 [Dependencies]: [[Ref]]: dependencies.txt
  
-### 2. Install Premake
+### Get TIM source code
 
-Premake can be downloaded from [here][DownloadPremake]. You might want 
-to make it so that it can be invoked from any location, or alternatively 
-just copy it to the TIM root directory.
+We demonstrate this on the command-line; you may as well use
+the GUIs above. In the command-line, in some proper directory, write
 
-### 3. Modify the Premake build file
+	hg clone https://bitbucket.org/kaba2/tim
+	
+The source code always reflects the current development; it is unstable. 
+To obtain the source code corresponding to version 1.3.0, say, write
 
-In the TIM root directory, open the file `premake4.lua`, and
+[[+Verbatim]]:
+	hg update -r 1.3.0
+
+The available tags can be obtained by
+
+	hg tags
+
+### Modify the CMake build file
+
+In the TIM root directory, open the file `CMakeLists.txt`, and
 scroll down to the section `Paths`. It will look something like 
 this:
 
-	-- The directory of the Pastel library's source code.
-	-- The includes are of the form 'pastel/sys/array.h'
-	pastelIncludeDir = "../pastel"
-	pastelLibraryDir = "../pastel/build/vs2008/lib"
+	# The directory of the Pastel library's source code.
+	# The includes are of the form 'pastel/sys/array.h'
+	set (PastelIncludeDirectory ../pastel)
+	set (PastelLibraryDirectory ../pastel/lib)
 
-	-- The directory of the Boost library's source code.
-	-- The includes are of the form 'boost/static_assert.hpp'.
-	boostIncludeDir = "../external/boost_1_45_0"
+	# The directory of the Boost library's source code.
+	# The includes are of the form 'boost/static_assert.hpp'.
+	set (BoostIncludeDirectory ../boost_1_53_0)
 
-	-- The directory of the SDL library's header files.
-	-- The includes are of the form 'SDL.h'.
-	sdlIncludeDir = "../external/SDL-1.2.14/include"
-	sdlLibraryDir = "../external/SDL-1.2.14/lib"
+	# The directory of the Threading Building Blocks library's 
+	# source code. The includes are of the form 'tbb/parallel_for.h'.
+	set (TbbIncludeDirectory ../tbb42/include)
 
-	-- The directory of the Matlab header files.
-	-- The includes are of the form 'mex.h'.
-	matlabIncludeDir = "C:/Program Files/MATLAB/R2008a/extern/include"
+	# The directory of the Matlab header files.
+	# The includes are of the form 'mex.h'.
+	set (MatlabIncludeDirectory /Applications/MATLAB_R2013a.app/extern/include)
 
-Modify the directories to correspond to the locations you installed 
-the external libraries in step 1. Now scroll up to the 
-`Main build switches` section. It will look something like this:
+Modify the paths to the correspond to your directory structure.
 
-	-- Whether to build the libraries.
-	buildLibraries = true
+### Generate build-scripts using CMake
 
-	-- Whether to build the tests.
-	buildTests = false
+Create a directory called `release` in TIM's root directory,
+and change to that directory.
+
+	mkdir release
+	cd release
+
+In the `release`-directory, run
 	
-Here you may want to eliminate the SDL dependence by not building 
-the tests.
+	cmake-gui ..
 
-### 4. Generate tool-specific build-scripts using Premake. 
+This will open a graphical user-interface for the build-script
+generation. Make sure the `Advanced` button is not checked.
+Push `Configure`. Choose the type of the build-script to generate,
+and push `Done`. Push `Configure`. Push `Generate`. Close the 
+user-interface.
 
-In the TIM root directory, type
+### Build
 
-	premake4 action
+When CMake has generated you the build-scripts, you probably already
+know how to proceed. Here are some specific examples.
 
-where `action` describes the tool-set you want to generate
-the build-scripts for (Visual Studio, gcc and makefiles, etc.). 
-To see the supported tool-sets, type
-
-	premake4 --help
-
-### 5. Choose configuration and build
-	
-Go to the generated directory `build/action/`, where `action`
-is the tool-set you chose in step 4, choose the desired configuration,
-and start the build.
-
-Configurations
---------------
-
-TIM comes with four different build configurations. These are:
-
- * debug
- * develop
- * release
- * release-without-openmp
-
-The `debug` configuration enables debugging information and turns on all
-ASSERTs and PENSUREs. All other configurations 
-disable debugging information. The `develop` version retains `ASSERT`s and 
-`PENSURE`s, while `release` and `release-without-openmp` removes them. The 
-`release-without-openmp` configuration is otherwise equivalent to `release` 
-configuration, but disables OpenMP (e.g. when your tool-set does not
-support it, as is the case with Express versions of Visual Studio). Only
-the `release` configuration enables OpenMP.
-
-Property / Config  | debug | develop | release | release-without-openmp
--------------------|-------|---------|---------|-----------------------
-ASSERT and PENSURE | x     | x       |         |
-OpenMP             |       |         | x       |
-Debug information  | x     |         |         |
-
-Building
---------
-
-When Premake has generated you the build-scripts, you probably already
-know how to proceed. However, here are some specific examples:
-
-### Visual Studio
+#### Visual Studio
 
 To build TIM using Visual Studio:
 
- * Open the solution file `Tim.sln`. 
+ * Open the solution file `Tim.sln` in Visual Studio.
  * Right click on the solution in Solution Explorer, and choose 
  Configuration Manager. 
  * Select the desired Active Solution Configuration.
  * Build solution.
 
-### Makefiles
+#### Makefiles
 
 To build TIM using makefiles, type 
 	
-	make config=configuration
+	make -j 4
 
-Where `configuration` is one of the configurations listed in the
-previous section. To obtain further information, type 
+in the `release` directory. The `j` option specifies that `make`
+should use 4 threads; this speeds the build with multi-core
+machines. Depending on the number of cores in your machine,
+you may want to increase or decrease this number.
 
-	make help 
+Configurations
+--------------
+
+TIM comes with two different build configurations. These are:
+
+ * debug
+ * release
+
+The `debug` configuration enables debugging information, turns on all
+`ASSERT`s and `PENSURE`s, and disables multi-threaded processing. The 
+`release` configuration enables optimizations and multi-threaded 
+processing. You may choose the debug configuration in the CMake
+GUI when generating the build-scripts. When using multi-configuration 
+tools, such as Visual Studio, the debug configuration is selected 
+inside the tool.
 
 Output files
 ------------
 
-The libraries and executables will be written to the `lib/`
-sub-directory of the `build/action/` directory. The intermediate
-files, such as object files, will be written to the `obj/`
-sub-directory of the `build/action` directory.
+The libraries and executables are written under the `lib/` directory. 
+The intermediate files are written under the `release/` directory.
 
-[Premake]: http://industriousone.com/premake
 
-[DownloadPremake]: http://industriousone.com/premake/download
