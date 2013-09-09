@@ -7,10 +7,60 @@ TIM
 
 [Back]: http://kaba.hilvi.org
 
-_TIM_ is a cross-platform C++11 and Matlab library for efficient 
+_TIM_ is a cross-platform C++ / Matlab library for efficient 
 non-linear time-series analysis. 
 
 [TimHomepage]: http://kaba.hilvi.org/tim
+
+Download
+--------
+
+Here you can download a prebuilt TIM Matlab. 
+
+[Download TIM Matlab [[tim_version]]][TIM-Matlab]
+
+The package contains prebuilds for Mac OS X, Windows, and Linux, in both 32-bit and 64-bit modes.
+
+__Note__: For Windows, you need to have the 
+[Visual C++ Redistributable for Visual Studio 2012 Update 2][VisualRedist] 
+installed for the prebuilt TIM to work.
+
+For previous versions, see the [release history][ReleaseHistory].
+
+[VisualRedist]: http://www.microsoft.com/en-us/download/details.aspx?id=30679
+
+[TIM-Matlab]: [[-+Ref]]: tim-matlab-[[tim_version]].zip
+[ReleaseHistory]: [[Ref]]: release_history.txt
+
+Source code
+-----------
+
+The source code for TIM is hosted on [BitBucket][] in a [Mercurial][] 
+repository. Assuming you have Mercurial installed, the repository can 
+be cloned from the command-line by
+
+	hg clone https://bitbucket.org/kaba2/tim
+
+The source code always reflects the current development; it is unstable. 
+To obtain the source code corresponding to this version, write
+
+[[+Verbatim]]:
+	hg update -r [[tim_version]]
+
+[BitBucket]: http://bitbucket.org/kaba2/tim
+[Mercurial]: http://mercurial.selenic.com
+
+License
+-------
+
+Pastel is licensed under the MIT license. 
+
+Issue tracker
+-------------
+
+The issue tracker for TIM is hosted on Bitbucket in [here][TimBugs].
+
+[TimBugs]: https://bitbucket.org/kaba2/tim/issues
 
 Features
 --------
@@ -48,51 +98,6 @@ TIM can be used either as a pure C++ library, or through Matlab,
 [ConditionalMutualInformation]: [[Ref]]: partial_mutual_information.txt
 [TransferEntropy]: [[Ref]]: transfer_entropy.txt
 [ConditionalTransferEntropy]: [[Ref]]: partial_transfer_entropy.txt
-
-Download
---------
-
-Here you can download the latest prebuilt TIM Matlab.
-The prebuilds include Mac OS X, Windows, and Linux, 
-in both 32-bit and 64-bit modes.
-
-[Download TIM Matlab [[tim_version]]][TIM-Matlab]
-
-__Note__: For Windows, you need to have the 
-[Visual C++ Redistributable for Visual Studio 2012 Update 2][VisualRedist] 
-installed for the prebuilt TIM to work.
-
-For previous versions, see the [release history][ReleaseHistory].
-
-[VisualRedist]: http://www.microsoft.com/en-us/download/details.aspx?id=30679
-
-[TIM-Matlab]: [[-+Ref]]: tim-matlab-[[tim_version]].zip
-[ReleaseHistory]: [[Ref]]: release_history.txt
-
-Source code
------------
-
-The source code for TIM is hosted on [BitBucket][] in a [Mercurial][] 
-repository. Assuming you have Mercurial installed, the repository can 
-be cloned from the command-line by
-
-	hg clone https://bitbucket.org/kaba2/tim
-
-The source code always reflects the current development; it is unstable. 
-To obtain the source code corresponding to this version, write
-
-[[+Verbatim]]:
-	hg update -r [[tim_version]]
-
-[BitBucket]: http://bitbucket.org/kaba2/tim
-[Mercurial]: http://mercurial.selenic.com
-
-Issue tracker
--------------
-
-The issue tracker for TIM is hosted on Bitbucket in [here][TimBugs].
-
-[TimBugs]: https://bitbucket.org/kaba2/tim/issues
 
 Acknowledgements
 ----------------
