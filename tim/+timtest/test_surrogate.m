@@ -10,9 +10,13 @@ dataSet = randn(1, n);
 
 filterSet = fir1(filterOrder, 0.5);
 filteredSet = filter(filterSet, 1, dataSet);
+
+%surrogateSet = tim.surrogate(filteredSet, ...
+%		'frequencyRange', [0, 1], ...
+%		'algorithm', 'preserve_correlations');
+
 surrogateSet = tim.surrogate(filteredSet, ...
-	'frequencyRange', [0, 1], ...
-	'algorithm', 'preserve_correlations');
+		'algorithm', 'preserve_dynamics');
 
 mean(abs(fft(filteredSet)) - abs(fft(surrogateSet)))
 
