@@ -78,7 +78,7 @@ this:
 	# The includes are of the form 'mex.h'.
 	set (MatlabIncludeDirectory /Applications/MATLAB_R2013a.app/extern/include)
 
-Modify the paths to the correspond to your directory structure.
+Modify the paths to correspond to your directory structure.
 
 ### Generate build-scripts using CMake
 
