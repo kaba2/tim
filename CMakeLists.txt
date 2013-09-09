@@ -21,6 +21,10 @@ set (PastelLibraryDirectory ../pastel/lib)
 # The includes are of the form 'boost/static_assert.hpp'.
 set (BoostIncludeDirectory ../boost_1_53_0)
 
+# The directory of the Threading Building Blocks library's 
+# source code. The includes are of the form 'tbb/parallel_for.h'.
+set (TbbIncludeDirectory ../tbb42/include)
+
 # The directory of the Matlab header files.
 # The includes are of the form 'mex.h'.
 set (MatlabIncludeDirectory /Applications/MATLAB_R2013a.app/extern/include)
@@ -40,6 +44,7 @@ set (MatlabIncludeDirectory /Applications/MATLAB_R2013a.app/extern/include)
 include_directories (.)
 include_directories (${PastelIncludeDirectory})
 include_directories (${BoostIncludeDirectory})
+include_directories (${TbbIncludeDirectory})
 include_directories (${MatlabIncludeDirectory})
 
 # CMake build options
