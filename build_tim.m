@@ -32,30 +32,37 @@ disp(' ');
 timIncludePath = '.';
 pastelIncludePath = '../pastel';
 boostIncludePath = '../boost_1_53_0';
+tbbIncludePath = '../tbb42/include';
 
 timLibraryPath = ['lib/', mode];
 pastelLibraryPath = ['../pastel/lib/', mode];
+tbbLibraryPath = ['../tbb42/lib'];
 
 inputPath = ['tim/matlab'];
 outputPath = ['tim/+tim'];
+
+tbbName = 'tbb';
+if strcmp(mode, 'debug')
+    tbbName = 'tbb_debug';
+end
 
 % Paths
 % -----
 
 defineSet = {};
-includePathSet = {};
-libraryPathSet = {};
-
-includePathSet{end + 1} = timIncludePath;
-includePathSet{end + 1} = pastelIncludePath;
-includePathSet{end + 1} = boostIncludePath;
-
-libraryPathSet{end + 1} = timLibraryPath;
-libraryPathSet{end + 1} = pastelLibraryPath;
+includePathSet = {...
+    timIncludePath, ...
+    pastelIncludePath, ...
+    boostIncludePath, ...
+    tbbIncludePath};
+libraryPathSet = {...
+    timLibraryPath, ...
+    pastelLibraryPath};
 
 % Libraries
 
 librarySet = { ...
+    tbbName, ...
 	'TimMatlab', ...
 	'TimCore', ...
 	'PastelGeometry', ...
