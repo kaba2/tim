@@ -8,9 +8,7 @@ TIM
 [Back]: http://kaba.hilvi.org
 
 _TIM_ is a cross-platform C++11 and Matlab library for efficient 
-non-linear time-series analysis. The version documented here 
-is [[tim_version]]. The latest version can always be found from 
-[here][TimHomepage].
+non-linear time-series analysis. 
 
 [TimHomepage]: http://kaba.hilvi.org/tim
 
@@ -80,8 +78,11 @@ be cloned from the command-line by
 
 	hg clone https://bitbucket.org/kaba2/tim
 
-A revision corresponding to a published version is tagged with the 
-version number. 
+The source code always reflects the current development; it is unstable. 
+To obtain the source code corresponding to this version, write
+
+[[+Verbatim]]:
+	hg update -r [[tim_version]]
 
 [BitBucket]: http://bitbucket.org/kaba2/tim
 [Mercurial]: http://mercurial.selenic.com
