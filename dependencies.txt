@@ -13,17 +13,28 @@ External dependencies
 
 ### [Pastel 1.4](http://kaba.hilvi.org/pastel-1.4.0)
 
+Pastel is licensed under the MIT license.
 TIM refers to Pastel's include files in the form
-`pastel/sys/array.h`. Pastel is licensed under the
-MIT license.
+`pastel/sys/array.h`. 
 
-### [Boost 1.53](http://www.boost.org)
+### [Boost 1.54](http://www.boost.org)
 
-TIM refers to Boost's include files in the form
-`boost/operators.hpp`.
+Boost is licensed under the Boost license. 
 TIM only uses the template code found in Boost and
 thus requires no linking with object code.
-Boost is licensed under the Boost license.
+TIM refers to Boost's include files in the form
+`boost/operators.hpp`.
+
+
+### Threading Building Blocks 4.2
+
+<https://www.threadingbuildingblocks.org/>
+
+Threading Building Blocks is licensed under the GPLv2 
+license, with the run-time exception. The latter specifically means that 
+Pastel need not be made GPLv2 although it uses code from the TBB. This is 
+similar to how the license of `libstdc++` works. Pastel refer's to Threading 
+Building Blocks's include files in the form `tbb/parallel_for.h`. 
 
 ### [Remark 1.6](http://kaba.hilvi.org/remark-1.6.0)
 
