@@ -21,6 +21,15 @@ Release date xx.xx.2013.
 
 [TIM-1.3.0]: http://kaba.hilvi.org/tim-1.3.0
 
+### General
+
+ * Uploaded the source-code to BitBucket.
+ * Changed the license from LGPL to MIT.
+ * Source built over [Pastel 1.4](http://kaba.hilvi.org/pastel-1.4.0).
+ * Documentation built over [Remark 1.6](http://kaba.hilvi.org/remark-1.6.0).
+ * Changed to use CMake (instead of Premake).
+ * Changed to use Threading Building Blocks (instead of OpenMP).
+
 ### TIM Matlab
 
  * Added Lorenz system generator.
@@ -33,15 +42,6 @@ Release date xx.xx.2013.
  * Added distance matrix computation.
  * Added non-linear prediction.
  * Added Poincare sections.
-
-### Other stuff
-
- * Uploaded the source-code to BitBucket.
- * Changed the license from LGPL to MIT.
- * Source built over [Pastel 1.4](http://kaba.hilvi.org/pastel-1.4.0).
- * Documentation built over [Remark 1.6](http://kaba.hilvi.org/remark-1.6.0).
- * Changed from Premake to CMake for
- cross-platform builds.
 
 TIM 1.2.0
 ---------
