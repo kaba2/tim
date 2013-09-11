@@ -53,7 +53,9 @@ To obtain the source code corresponding to this version, write
 License
 -------
 
-Pastel is licensed under the MIT license. 
+TIM is licensed under the [MIT license][MIT]. 
+
+[MIT]: http://opensource.org/licenses/mit-license.php
 
 Issue tracker
 -------------
