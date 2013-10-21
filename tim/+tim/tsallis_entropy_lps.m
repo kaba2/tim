@@ -48,25 +48,12 @@ if isnumeric(S)
     S = {S};
 end
 
-concept_check(S, 'signalSet');
-
-if size(q, 1) ~= 1 || ...
-   size(q, 2) ~= 1
-    error('Q must be a scalar.');
-end
-
-if size(kSuggestion, 1) ~= 1 || ...
-   size(kSuggestion, 2) ~= 1
-    error('KSUGGESTION must be a scalar integer.');
-end
-
-if q <= 0
-	error('Q must be positive');
-end
-
-if kSuggestion < 0
-    error('KSUGGESTION must be non-negative.');
-end
+pastelsys.concept_check(...
+	S, 'tim.signal_set', ...
+	q, 'real', ...
+	q, 'positive', ...
+	kSuggestion, 'integer', ...
+	kSuggestion, 'non_negative');
 
 H = tim_matlab('tsallis_entropy_lps', ...
 	S, q, kSuggestion);

@@ -5,7 +5,8 @@
 #include "tim/core/signalpointset.h"
 
 #include <pastel/geometry/search_nearest_pointkdtree.h>
-#include <pastel/sys/allexcept_indicator.h>
+#include <pastel/sys/predicate_indicator.h>
+#include <pastel/sys/notequalto.h>
 
 namespace Tim
 {
@@ -56,7 +57,7 @@ namespace Tim
 			const real xxDistance2 = 
 				searchNearest(xPointSet->kdTree(), query,
 					nullOutput(),
-					allExceptIndicator(query));
+					predicateIndicator(query, NotEqualTo()));
 			
 			if (xxDistance2 > 0 && xxDistance2 < infinity<real>())
 			{		

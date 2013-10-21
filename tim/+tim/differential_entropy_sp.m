@@ -25,7 +25,7 @@ if isnumeric(S)
     S = {S};
 end
 
-concept_check(S, 'signalSet');
+concept_check(S, 'tim.signal_set');
 
 if (size(S{1}, 1) > 3)
 	warning('tim:inaccurate', ...

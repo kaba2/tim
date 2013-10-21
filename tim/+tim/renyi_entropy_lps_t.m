@@ -54,28 +54,15 @@ if isnumeric(S)
     S = {S};
 end
 
-concept_check(S, 'signalSet');
-concept_check(timeWindowRadius, 'timeWindowRadius');
-
-if size(q, 1) ~= 1 || ...
-   size(q, 2) ~= 1
-    error('Q must be a scalar.');
-end
-
-if q <= 0
-	error('Q must be positive');
-end
-
-if size(kSuggestion, 1) ~= 1 || ...
-   size(kSuggestion, 2) ~= 1
-    error('KSUGGESTION must be a scalar integer.');
-end
-
-if kSuggestion < 0
-    error('KSUGGESTION must be non-negative.');
-end
-
-concept_check(filter, 'filter');
+pastelsys.concept_check(...
+	S, 'tim.signal_set', ...
+	timeWindowRadius, 'integer', ...
+	timeWindowRadius, 'non_negative', ...
+  kSuggestion, 'integer', ...
+  kSuggestion, 'non_negative', ...
+  q, 'real', ...
+  q, 'positive', ...
+  filter, 'tim.filter');
 
 H = tim_matlab('renyi_entropy_lps_t', ...
     S, timeWindowRadius, q, kSuggestion, filter);

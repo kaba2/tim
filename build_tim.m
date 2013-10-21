@@ -31,12 +31,12 @@ disp(' ');
 
 timIncludePath = '.';
 pastelIncludePath = '../pastel';
-boostIncludePath = '../boost_1_53_0';
+boostIncludePath = '../boost';
 tbbIncludePath = '../tbb42/include';
 
 timLibraryPath = ['lib/', mode];
 pastelLibraryPath = ['../pastel/lib/', mode];
-tbbLibraryPath = ['../tbb42/lib'];
+tbbLibraryPath = ['../tbb42/lib/intel64/vc11'];
 
 inputPath = ['tim/matlab'];
 outputPath = ['tim/+tim'];
@@ -57,7 +57,8 @@ includePathSet = {...
     tbbIncludePath};
 libraryPathSet = {...
     timLibraryPath, ...
-    pastelLibraryPath};
+    pastelLibraryPath, ...
+    tbbLibraryPath};
 
 % Libraries
 
