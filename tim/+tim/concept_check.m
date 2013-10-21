@@ -38,7 +38,7 @@
 % contains the weighting coefficients. Must have an odd
 % number of elements.
 %
-% SIGNALSET ('signalSet')
+% SIGNALSET ('tim.signal_set')
 %
 % An arbitrary-dimensional cell-array of signals.
 % The dimensions of the trials of a given signal
@@ -90,73 +90,6 @@ if strcmp(concept, 'outputs')
         end
         error(['The number of output arguments must be one of ', ...
             num2str(parameter(:)'), '.']);
-    end
-    handled = 1;
-end
-
-if strcmp(concept, 'filter'),
-	if ~isnumeric(X) 
-		error('FILTER must be a numeric array.');
-    end
-    
-	if mod(numel(X), 2) == 0
-		error('FILTER must have an odd number of elements.');
-	end	
-
-	if sum(X(:)) == 0
-		error('FILTER must not sum to 0');
-    end	
-    handled = 1;
-end
-
-if strcmp(concept, 'signalSet')
-	if ~iscell(X)
-		error('A signal-set is not a cell-array.');
-	end
-
-	signals = numel(X);
-
-	if signals == 0
-		error('Signal-set is empty.');
-	end
-
-	dimension = size(X{1}, 1);
-
-	for i = 1 : signals
-		if size(X{i}, 1) ~= dimension
-			error(['The dimensions of the trials do not match.']);
-		end
-
-		if size(X{i}, 1) > maxDimension
-			error(['Some signal has dimension greater than ', ...
-				int2str(maxDimension), '.']);
-		end
-    end
-    
-    handled = 1;
-end
-
-if strcmp(concept, 'k')
-	if size(X, 1) ~= 1 || ...
-	   size(X, 2) ~= 1
-		error('K must be a scalar integer.');
-	end
-
-	if X < 1
-		error('K must be at least 1.');
-    end
-    
-    handled = 1;
-end
-
-if strcmp(concept, 'timeWindowRadius')
-	if size(X, 1) ~= 1 || ...
-	   size(X, 2) ~= 1
-		error('TIMEWINDOWRADIUS must be a scalar integer.');
-	end
-
-	if X < 0
-		error('TIMEWINDOWRADIUS must be non-negative');
     end
     handled = 1;
 end

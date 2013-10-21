@@ -60,7 +60,7 @@ eval(process_options({'lagSet', 'k', 'filter'}, varargin));
 signals = size(signalSet, 1);
 
 for i = 1 : signals
-    concept_check(signalSet(i, :), 'signalSet');
+    pastelsys.concept_check(signalSet(i, :), 'tim.signal_set');
 end
 
 marginals = size(rangeSet, 1);
@@ -92,8 +92,10 @@ end
 
 lagArray = compute_lagarray(lagSet);
 
-concept_check(k, 'k')
-concept_check(filter, 'filter');
+pastelsys.concept_check(...
+    k, 'integer', ...
+    k, 'positive', ...
+    filter, 'tim.filter');
 
 lags = size(lagArray, 2);
 

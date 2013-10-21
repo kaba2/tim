@@ -31,7 +31,7 @@
 % extended to an array with L elements with the scalar as its elements.
 % Default: a (p x 1) cell-array of scalar zeros.
 %
-% K ('k') is an integer which denotes the number of nearest neighbors 
+% K ('k') is a positive integer which denotes the number of nearest neighbors 
 % to be used by the estimator.
 %
 % ESTIMATOR ('estimator') is a string which denotes the local 
@@ -55,13 +55,15 @@ lagSet = num2cell(zeros(size(signalSet, 1), 1));
 estimator = 'digamma';
 eval(process_options({'lagSet', 'k', 'estimator'}, varargin));
 
-concept_check(k, 'k');
+pastelsys.concept_check(...
+    k, 'integer', ...
+    k, 'positive');
 
 signals = size(signalSet, 1);
 marginals = size(rangeSet, 1);
 
 for i = 1 : signals
-    concept_check(signalSet(i, :), 'signalSet')
+    pastelsys.concept_check(signalSet(i, :), 'tim.signal_set')
 end
 
 if ~strcmp(estimator, 'log') && ...

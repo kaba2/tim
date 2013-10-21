@@ -19,7 +19,7 @@ set (PastelLibraryDirectory ../pastel/lib)
 
 # The directory of the Boost library's source code.
 # The includes are of the form 'boost/static_assert.hpp'.
-set (BoostIncludeDirectory ../boost_1_54_0)
+set (BoostIncludeDirectory ../boost)
 
 # The directory of the Threading Building Blocks library's 
 # source code. The includes are of the form 'tbb/parallel_for.h'.
@@ -27,7 +27,8 @@ set (TbbIncludeDirectory ../tbb42/include)
 
 # The directory of the Matlab header files.
 # The includes are of the form 'mex.h'.
-set (MatlabIncludeDirectory /Applications/MATLAB_R2013a.app/extern/include)
+#set (MatlabIncludeDirectory /Applications/MATLAB_R2013a.app/extern/include)
+set (MatlabIncludeDirectory "C:/Program Files/MATLAB/R2013a/extern/include")
 
 # Note: To succesfully _compile_ TIM's Matlab-libraries, 
 # you only need the header files for Matlab. 
@@ -208,7 +209,7 @@ endif()
 if (MSVC)
 	add_definitions (
 		# Disable Microsoft's Secure STL
-		_ITERATOR_DEBUG_LEVEL=0
+		/D_ITERATOR_DEBUG_LEVEL=0
 	)
 
 	# Disable some warnings.

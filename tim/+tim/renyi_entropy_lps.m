@@ -46,7 +46,7 @@ if isnumeric(S)
     S = {S};
 end
 
-concept_check(S, 'signalSet');
+pastelsys.concept_check(S, 'tim.signal_set');
 
 if size(q, 1) ~= 1 || ...
    size(q, 2) ~= 1

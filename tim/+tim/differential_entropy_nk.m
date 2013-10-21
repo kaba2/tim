@@ -34,7 +34,7 @@ if isnumeric(S)
     S = {S};
 end
 
-concept_check(S, 'signalSet');
+pastelsys.concept_check(S, 'tim.signal_set');
 
 [H, dOut] = tim_matlab(...
     'differential_entropy_nk', ...
