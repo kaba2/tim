@@ -8,6 +8,8 @@
 clear all;
 close all;
 
+import timtest.visualize
+
 % Uniform random
 % --------------
 

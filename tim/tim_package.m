@@ -21,7 +21,7 @@ callerPath = callStack(2).file;
 %callerPath = evalin('caller', 'mfilename(''fullpath'')')
 
 packageNameSet = regexpi(callerPath, ...
-    '\+(tim[^\\/]*)', 'tokens', 'once');
+    '\+([^\\/]*)', 'tokens', 'once');
 
 packageName = '';
 if ~isempty(packageNameSet)
