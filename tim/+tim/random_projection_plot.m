@@ -17,7 +17,7 @@
 % number of rows and plots(2) gives the number of columns in an
 % array of plots to produce. Each plot will be produced as a 
 % subplot of the same figure.
-% Default: [3, 3]
+% Default: [2, 2]
 %
 % SPATIAL_PLOT ('spatial_plot'): A cell-array of key-value pairs
 % which specifies the optional arguments that are to be passed on
@@ -32,7 +32,7 @@ n = size(pointSet, 2);
 
 % Optional input arguments.
 dimension = 2;
-plots = [3, 3];
+plots = [2, 2];
 spatial_plot = {};
 eval(tim.process_options(...
     {'dimension', 'plots', 'spatial_plot'}, ...
