@@ -13,25 +13,20 @@
 % neighbors to be used by the estimator. Greater number decreases bias,
 % but increases variance.
 %
-% N ('n') is the number of points to generate.
+% N ('n') is a non-negative integer which denotes the number 
+% of points to generate.
 %
-% D ('d') is the dimension of the points to generate.
+% D ('d') is a positive integer which denotes the dimension of 
+% the points to generate.
 %
-% M ('m') is the number of estimates to compute. The histogram
-% is formed from these estimates.
+% M ('m') is a non-negative integer which denotes the number of estimates 
+% to compute. The histogram is formed from these estimates.
 %
 % As a trial, we generate a point-set from a multi-variate normal 
 % distribution with identity covariance, and compute a differential 
 % entropy estimate via differential_entropy_kl. We will then accumulate 
-% many of such trials to numerically reveal the distribution of the 
+% many such trials to numerically reveal the distribution of the 
 % estimator for the chosen arguments.
-%
-% This function demonstrates numerically that the differential_entropy_kl 
-% estimator is biased. Further:
-%
-% 1) as d increases, the bias increases,
-% 2) as k increases, the bias increases,
-% 3) as k increases, the variance decreases.
 
 % Description: Draws the distribution of differential entropy estimates
 
@@ -43,6 +38,16 @@ d = 4;
 n = 1000;
 m = 1000;
 eval(tim.process_options({'k', 'd', 'n', 'm'}, varargin));
+
+pastelsys.concept_check(...
+    k, 'integer', ...
+    k, 'positive', ...
+    d, 'integer', ...
+    d, 'positive', ...
+    n, 'integer', ...
+    n, 'non_negative', ...
+    m, 'integer', ...
+    m, 'non_negative');
 
 % Accumulate the estimates for each trial.
 hSet = zeros(1, m);
