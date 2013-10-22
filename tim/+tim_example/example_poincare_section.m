@@ -10,4 +10,4 @@ close all;
 pointSet = tim.lorenz_system();
 
 sectionSet = tim.poincare_section(pointSet, 'direction', -1);
-timtest.visualize_embedding(sectionSet);
+tim_test.visualize_embedding(sectionSet);

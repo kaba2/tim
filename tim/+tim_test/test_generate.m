@@ -13,7 +13,7 @@ while true
     i = i + 1;
 end
 
-className = ['timtest.test_', testName];
+className = ['tim_test.test_', testName];
 classFileName = [testDirectory, '/test_', testName, '.m'];
 if exist(classFileName, 'file') ~= 2
     error(['Test file ', className, ' does not exist.']);
