@@ -6,6 +6,8 @@ close all;
 
 n = 1024;
 
+import timtest.visualize
+
 dataSet = randn(1, n);
 visualize(dataSet);
 
