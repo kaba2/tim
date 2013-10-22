@@ -9,9 +9,9 @@ wave = @sin;
 %wave = @sawtooth;
 
 dataSet = wave(10 * angleSet) + 0.5 * wave(5 * angleSet);
-visualize(dataSet);
+tim_example.visualize(dataSet);
 
 % Zero phases.
 modifiedDataSet = ifft(abs(fft(dataSet)));
-visualize(modifiedDataSet);
+tim_example.visualize(modifiedDataSet);
 

@@ -8,14 +8,12 @@
 clear all;
 close all;
 
-import timtest.visualize
-
 % Uniform random
 % --------------
 
 n = 4096;
 dataSet = 2 * rand(1, n) - 1;
-h = visualize(dataSet);
+h = tim_example.visualize(dataSet);
 fprintf('Uniform random\n');
 fprintf('Sample mean: %0.4f\n', mean(dataSet));
 fprintf('Sample standard deviation: %0.4f\n', std(dataSet));
@@ -38,7 +36,7 @@ for i = 1 : n
     dataSet(i) = 2 * (acos(-dataSet(i)) / pi) - 1;
 end
 
-visualize(dataSet);
+tim_example.visualize(dataSet);
 fprintf('Distorted Ulam map\n');
 fprintf('Sample mean: %0.4f\n', mean(dataSet));
 fprintf('Sample standard deviation: %0.4f\n', std(dataSet));

@@ -6,10 +6,8 @@ close all;
 
 n = 1024;
 
-import timtest.visualize
-
 dataSet = randn(1, n);
-visualize(dataSet);
+tim_example.visualize(dataSet);
 
 % Take a moving-average. This should cut down
 % on the high frequencies.
@@ -20,4 +18,4 @@ for i = 1 : n
         max(i - radius, 1) : min(i + radius, n)));
 end
 
-visualize(filteredSet);
+tim_example.visualize(filteredSet);
