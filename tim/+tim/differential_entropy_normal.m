@@ -10,8 +10,10 @@
 %
 % Optional input arguments in 'key'-value pairs:
 %
-% COVARIANCE ('covariance') is a real (DxD)-matrix, which
-% specifies the covariance matrix of the normal distribution.
+% DETCOV ('detCov') is a positive real number which specifies 
+% the determinant of the covariance matrix of the normal
+% distribution.
+% Default: 1.
 
 % Description: Differential entropy of a normal distribution
 % Documentation: differential_entropy.txt
@@ -29,8 +31,8 @@ pastelsys.concept_check(...
 	d, 'positive');
 
 % Optional input arguments
-covariance = eye(d, d);
-eval(process_options({'covariance'}, varargin));
+detCov = 1;
+eval(process_options({'detCov'}, varargin));
 
 C = log(2 * pi) + 1;
-H = 0.5 * (log(abs(det(covariance))) + d * C);
+H = 0.5 * (log(detCov) + d * C);
