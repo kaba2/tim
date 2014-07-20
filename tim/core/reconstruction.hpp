@@ -4,8 +4,6 @@
 #include "tim/core/reconstruction.h"
 #include "tim/core/mytypes.h"
 
-#include <pastel/sys/isnan.h>
-
 #include <algorithm>
 
 namespace Tim

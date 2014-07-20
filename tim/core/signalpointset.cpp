@@ -139,7 +139,7 @@ namespace Tim
 
 	VectorD SignalPointSet::point(const Point& point) const
 	{
-		return kdTree_.pointPolicy()(point);
+		return pointAsVector(point, kdTree_.locator());
 	}
 
 	// Private

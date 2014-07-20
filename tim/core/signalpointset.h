@@ -9,10 +9,10 @@
 
 #include <pastel/geometry/pointkdtree.h>
 
-#include <pastel/sys/array_pointpolicy.h>
 #include <pastel/sys/countedptr.h>
 #include <pastel/sys/range.h>
 #include <pastel/sys/array.h>
+#include <pastel/sys/pointer_locator.h>
 
 #include <vector>
 #include <deque>
@@ -31,7 +31,8 @@ namespace Tim
 	public:
 		// The Array_PointPolicy<real> represents points
 		// by a const real* to the beginning of point coordinate data.
-		typedef PointKdTree<real, Dynamic, Array_PointPolicy<real> > KdTree;
+		using Settings = PointKdTree_Settings<Pointer_Locator<real>>;
+		typedef PointKdTree<Settings> KdTree;
 		typedef KdTree::Point_ConstIterator Point_ConstIterator;
 		typedef KdTree::Point Point;
 
