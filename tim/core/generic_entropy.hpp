@@ -15,6 +15,9 @@
 #include <algorithm>
 #include <numeric>
 
+#include <tbb/parallel_reduce.h>
+#include <tbb/blocked_range.h>
+
 namespace Tim
 {
 
@@ -65,20 +68,48 @@ namespace Tim
 		// After we have found the distances, we simply evaluate
 		// the generic entropy estimator over all samples.
 
-		integer acceptedSamples = 0;
-		real estimate = 0;
-#pragma omp parallel for reduction(+ : estimate, acceptedSamples)
-		for (integer i = 0;i < estimateSamples;++i)
+		using Block = tbb::blocked_range<integer>;
+		using Pair = std::pair<real, integer>;
+		
+		auto compute = [&](
+			const Block& block,
+			const Pair& start)
 		{
-			// Points that are at identical positions do not
-			// provide any information. Such samples are
-			// not taken in the estimate.
-			if (distanceArray(i) > 0)
+			real estimate = start.first;
+			integer acceptedSamples = start.second;
+
+			for (integer i = block.begin();i < block.end();++i)
 			{
-				estimate += entropyAlgorithm.sumTerm(distanceArray(i));
-				++acceptedSamples;
+				// Points that are at identical positions do not
+				// provide any information. Such samples are
+				// not taken in the estimate.
+				if (distanceArray(i) > 0)
+				{
+					estimate += entropyAlgorithm.sumTerm(distanceArray(i));
+					++acceptedSamples;
+				}
 			}
-		}
+
+			return Pair(estimate, acceptedSamples);
+		};
+
+		auto reduce = [](const Pair& left, const Pair& right)
+		{
+			return Pair(
+				left.first + right.first, 
+				left.second + right.second);
+		};
+
+		real estimate = 0;
+		integer acceptedSamples = 0;
+
+		std::tie(estimate, acceptedSamples) = 
+			tbb::parallel_reduce(
+				Block(0, estimateSamples),
+				Pair(0, 0),
+				compute,
+				reduce);
+
 		if (acceptedSamples > 0)
 		{
 			estimate = entropyAlgorithm.finishEstimate(

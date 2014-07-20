@@ -20,8 +20,10 @@
 
 #include <numeric>
 #include <iterator>
-
 #include <vector>
+
+#include <tbb/parallel_reduce.h>
+#include <tbb/blocked_range.h>
 
 namespace Tim
 {
@@ -140,22 +142,50 @@ namespace Tim
 				countSet.begin(),
 				8,
 				normBijection);
+
+			using Block = tbb::blocked_range<integer>;
+			using Pair = std::pair<real, integer>;
 			
-			integer acceptedSamples = 0;
-			real signalEstimate = 0;
-#pragma omp parallel for reduction(+ : signalEstimate, acceptedSamples)
-			for (integer j = 0;j < n;++j)
+			auto compute = [&](
+				const Block& block,
+				const Pair& start)
 			{
-				const integer k = countSet[j];
-				// A neighbor count of zero can happen when the distance
-				// to the k:th neighbor is zero because of using an
-				// open search ball. These points are ignored.
-				if (k > 0)
+				real signalEstimate = start.first;
+				integer acceptedSamples = start.second;
+				for (integer j = block.begin();j < block.end();++j)
 				{
-					signalEstimate += estimator.localMarginalEstimate(k);
-					++acceptedSamples;
+					integer k = countSet[j];
+
+					// A neighbor count of zero can happen when the distance
+					// to the k:th neighbor is zero because of using an
+					// open search ball. These points are ignored.
+					if (k > 0)
+					{
+						signalEstimate += estimator.localMarginalEstimate(k);
+						++acceptedSamples;
+					}
 				}
-			}
+
+				return Pair(signalEstimate, acceptedSamples);
+			};
+			
+			auto reduce = [](const Pair& left, const Pair& right)
+			{
+				return Pair(
+					left.first + right.first, 
+					left.second + right.second);
+			};
+
+			real signalEstimate = 0;
+			integer acceptedSamples = 0;
+
+			std::tie(signalEstimate, acceptedSamples) = 
+				tbb::parallel_reduce(
+					Block(0, n),
+					Pair(0, 0),
+					compute,
+					reduce);
+
 			if (acceptedSamples > 0)
 			{
 				signalEstimate /= acceptedSamples;
