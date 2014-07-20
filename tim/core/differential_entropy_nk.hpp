@@ -15,6 +15,9 @@
 
 #include <vector>
 
+#include <tbb/parallel_reduce.h>
+#include <tbb/blocked_range.h>
+
 namespace Tim
 {
 
@@ -96,33 +99,60 @@ namespace Tim
 			kdTree.erase();
 			kdTree.insertRange(
 				range(pointSet.begin(), pointSet.begin() + subsetSize));
+
+			using Block = tbb::blocked_range<integer>;
+			using Pair = std::pair<real, integer>;
 			
+			auto compute = [&](
+				const Block& block,
+				const Pair& start)
+			{
+				real alpha = start.first;
+				integer acceptedSamples = start.second;
+				for (integer i = block.begin(); i < block.end(); ++i)
+				{
+					real distance =
+						searchNearest(
+						kdTree,
+						VectorD(ofDimension(dimension), withAliasing((real*)pointSet[i])),
+						nullOutput(),
+						allIndicator(),
+						normBijection);
+
+					// The logarithm of zero would give -infinity,
+					// so we must avoid that. We remove all such
+					// cases from the estimate.
+					if (distance > 0)
+					{
+						alpha += normBijection.toLnNorm(distance);
+						++acceptedSamples;
+					}
+				}
+
+				return Pair(alpha, acceptedSamples);
+			};
+
+			auto reduce = [](const Pair& left, const Pair& right)
+			{
+				return Pair(
+					left.first + right.first, 
+					left.second + right.second);
+			};
+
 			// Find the distance to the nearest codebook point for
 			// all points not in the codebook. Compute their
 			// average logarithm.
 
-			integer acceptedSamples = 0;
 			real alpha = 0;
-#pragma omp parallel for reduction(+ : alpha, acceptedSamples)
-			for (integer i = subsetSize;i < estimateSamples;++i)
-			{
-				const real distance =
-					searchNearest(
-					kdTree,
-					VectorD(ofDimension(dimension), withAliasing((real*)pointSet[i])),
-					nullOutput(),
-					allIndicator(),
-					normBijection);
+			integer acceptedSamples = 0;
 
-				// The logarithm of zero would give -infinity,
-				// so we must avoid that. We remove all such
-				// cases from the estimate.
-				if (distance > 0)
-				{
-					alpha += normBijection.toLnNorm(distance);
-					++acceptedSamples;
-				}
-			}
+			std::tie(alpha, acceptedSamples) = 
+				tbb::parallel_reduce(
+					Block(subsetSize, estimateSamples),
+					Pair(0, 0),
+					compute,
+					reduce);
+
 			if (acceptedSamples > 0)
 			{
 				alpha /= acceptedSamples;

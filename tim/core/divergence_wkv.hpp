@@ -8,6 +8,9 @@
 #include <pastel/sys/predicate_indicator.h>
 #include <pastel/sys/notequalto.h>
 
+#include <tbb/parallel_reduce.h>
+#include <tbb/blocked_range.h>
+
 namespace Tim
 {
 
@@ -44,39 +47,65 @@ namespace Tim
 		const integer xSamples = xPointSet->samples();
 		const integer ySamples = yPointSet->samples();
 
-		integer acceptedSamples = 0;
-		real estimate = 0;
-#pragma omp parallel for reduction(+ : estimate, acceptedSamples)
-		for (integer i = 0;i < xSamples;++i)
+		using Block = tbb::blocked_range<integer>;
+		using Pair = std::pair<real, integer>;
+
+		auto compute = [&](
+			const Block& block,
+			const Pair& start)
 		{
-			// Find out the nearest neighbor in X for a point in X.
+			real estimate = start.first;
+			integer acceptedSamples = start.second;
+			for (integer i = block.begin(); i < block.end(); ++i)
+			{
+				// Find out the nearest neighbor in X for a point in X.
 
-			const Point_ConstIterator query = 
-				*(xPointSet->begin() + i);
+				const Point_ConstIterator query =
+					*(xPointSet->begin() + i);
 
-			const real xxDistance2 = 
-				searchNearest(xPointSet->kdTree(), query,
+				const real xxDistance2 =
+					searchNearest(xPointSet->kdTree(), query,
 					nullOutput(),
 					predicateIndicator(query, NotEqualTo()));
-			
-			if (xxDistance2 > 0 && xxDistance2 < infinity<real>())
-			{		
-				// Find out the nearest neighbor in Y for a point in X.
 
-				const Vector<real> queryPoint(
-					ofDimension(xDimension), 
-					withAliasing((real*)(query)->point()));
-
-				const real xyDistance2 = 
-					searchNearest(yPointSet->kdTree(), queryPoint);
-				
-				if (xyDistance2 > 0 && xyDistance2 < infinity<real>())
+				if (xxDistance2 > 0 && xxDistance2 < infinity<real>())
 				{
-					estimate += std::log(xyDistance2 / xxDistance2);
-					++acceptedSamples;
+					// Find out the nearest neighbor in Y for a point in X.
+
+					const Vector<real> queryPoint(
+						ofDimension(xDimension),
+						withAliasing((real*)(query)->point()));
+
+					const real xyDistance2 =
+						searchNearest(yPointSet->kdTree(), queryPoint);
+
+					if (xyDistance2 > 0 && xyDistance2 < infinity<real>())
+					{
+						estimate += std::log(xyDistance2 / xxDistance2);
+						++acceptedSamples;
+					}
 				}
 			}
-		}
+
+			return Pair(estimate, acceptedSamples);
+		};
+
+		auto reduce = [](const Pair& left, const Pair& right)
+		{
+			return Pair(
+				left.first + right.first,
+				left.second + right.second);
+		};
+
+		real estimate = 0;
+		integer acceptedSamples = 0;
+
+		std::tie(estimate, acceptedSamples) =
+			tbb::parallel_reduce(
+			Block(0, xSamples),
+			Pair(0, 0),
+			compute,
+			reduce);
 
 		if (acceptedSamples > 0)
 		{
