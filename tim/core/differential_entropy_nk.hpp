@@ -64,13 +64,14 @@ namespace Tim
 
 		// Create a kd-tree.
 
-		typedef PointKdTree<real, Dynamic, Array_PointPolicy<real> > KdTree;
+		using Settings = PointKdTree_Settings<Pointer_Locator<real>>;
+		typedef PointKdTree<Settings> KdTree;
 		typedef KdTree::Point_ConstIterator Point_ConstIterator;
 		typedef KdTree::Point Point;
 
-		Array_PointPolicy<real> pointPolicy(dimension);
+		Pointer_Locator<real> locator(dimension);
 
-		KdTree kdTree(pointPolicy);
+		KdTree kdTree(locator);
 
 		kdTree.insertRange(
 			range(pointSet.begin(), pointSet.end()));
@@ -110,7 +111,7 @@ namespace Tim
 					kdTree,
 					VectorD(ofDimension(dimension), withAliasing((real*)pointSet[i])),
 					nullOutput(),
-					All_Indicator(),
+					allIndicator(),
 					normBijection);
 
 				// The logarithm of zero would give -infinity,

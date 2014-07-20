@@ -12,7 +12,7 @@ namespace Tim
 	template <typename SignalPtr_Iterator>
 	SignalPointSet::SignalPointSet(
 		const boost::iterator_range<SignalPtr_Iterator>& signalSet)
-		: kdTree_(Array_PointPolicy<real>(signalSet.empty() ? 0 : signalSet.front()->dimension()))
+		: kdTree_(Pointer_Locator<real>(signalSet.empty() ? 0 : signalSet.front()->dimension()))
 		, pointSet_()
 		, signals_(signalSet.size())
 		, samples_(0)
@@ -33,7 +33,7 @@ namespace Tim
 		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
 		integer dimensionBegin,
 		integer dimensionEnd)
-		: kdTree_(Array_PointPolicy<real>(dimensionEnd - dimensionBegin))
+		: kdTree_(Pointer_Locator<real>(dimensionEnd - dimensionBegin))
 		, pointSet_()
 		, signals_(signalSet.size())
 		, samples_(0)
