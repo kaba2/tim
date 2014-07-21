@@ -7,23 +7,22 @@
 #include "tim/core/reconstruction.h"
 
 #include <pastel/geometry/pointkdtree.h>
-#include <pastel/geometry/search_all_neighbors_pointkdtree.h>
-#include <pastel/geometry/count_all_neighbors_pointkdtree.h>
-#include <pastel/geometry/distance_point_point.h>
 
-#include <pastel/math/normbijections.h>
+#include <pastel/math/maximum_normbijection.h>
 
 #include <pastel/sys/constant_iterator.h>
 #include <pastel/sys/range.h>
 #include <pastel/sys/eps.h>
 #include <pastel/sys/copy_n.h>
+#include <pastel/sys/predicate_indicator.h>
 
 #include <numeric>
 #include <iterator>
 #include <vector>
 
-#include <tbb/parallel_reduce.h>
 #include <tbb/blocked_range.h>
+#include <tbb/parallel_for.h>
+#include <tbb/parallel_reduce.h>
 
 namespace Tim
 {
@@ -108,41 +107,37 @@ namespace Tim
 
 		Maximum_NormBijection<real> normBijection;
 
-		// Start estimation.
+		// Find the distances to the k:th nearest neighbors.
 
 		Array<real> distanceArray(Vector2i(1, n));
 
-		searchAllNeighbors(
-			jointPointSet.kdTree(),
-			range(jointPointSet.begin(), jointPointSet.end()),
-			kNearest - 1,
-			kNearest, 
-			(Array<Point_ConstIterator>*)0,
-			&distanceArray,
-			constantRange(infinity<real>(), n),
-			0,
-			normBijection);
+		using Block = tbb::blocked_range<integer>;
+
+		auto search = [&](const Block& block)
+		{
+			for (integer i = block.begin(); i < block.end(); ++i)
+			{
+				distanceArray(i) =
+					searchNearest(
+					jointPointSet.kdTree(),
+					*(jointPointSet.begin() + i),
+					nullOutput(),
+					predicateIndicator(*(jointPointSet.begin() + i), NotEqualTo()),
+					normBijection)
+					.kNearest(kNearest);
+			}
+		};
+
+		tbb::parallel_for(Block(0, n), search);
 
 		//const real signalWeightSum = 
 		//	std::accumulate(weightSet.begin(), weightSet.end(), (real)0);
 
 		Estimator estimator(kNearest, n);
 
-		std::vector<integer> countSet(n, 0);
-
 		real estimate = estimator.localJointEstimate();
 		for (integer i = 0;i < marginals;++i)
 		{
-			// Note: the maximum norm bijection values coincide 
-			// with the norm values, so no need to convert.
-			countAllNeighbors(
-				pointSet[i]->kdTree(),
-				range(pointSet[i]->begin(), pointSet[i]->end()),
-				range(distanceArray.begin(), n),
-				countSet.begin(),
-				8,
-				normBijection);
-
 			using Block = tbb::blocked_range<integer>;
 			using Pair = std::pair<real, integer>;
 			
@@ -154,7 +149,12 @@ namespace Tim
 				integer acceptedSamples = start.second;
 				for (integer j = block.begin();j < block.end();++j)
 				{
-					integer k = countSet[j];
+					integer k = countNearest(
+						pointSet[i]->kdTree(),
+						*(pointSet[i]->begin() + j),
+						allIndicator(),
+						normBijection)
+						.maxDistance(distanceArray(j));
 
 					// A neighbor count of zero can happen when the distance
 					// to the k:th neighbor is zero because of using an
