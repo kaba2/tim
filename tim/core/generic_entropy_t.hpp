@@ -127,11 +127,14 @@ namespace Tim
 
 			using Block = tbb::blocked_range<integer>;
 
+			integer searchBegin = tLocalFilterBegin * trials;
+			integer searchEnd = tLocalFilterEnd * trials;
+
 			auto search = [&](const Block& block)
 			{
 				for (integer i = block.begin(); i < block.end(); ++i)
 				{
-					distanceArray(i - block.begin()) =
+					distanceArray(i - searchBegin) =
 						searchNearest(
 						pointSet.kdTree(),
 						*(pointSet.begin() + i),
@@ -143,7 +146,7 @@ namespace Tim
 			};
 
 			tbb::parallel_for(
-				Block(tLocalFilterBegin * trials, tLocalFilterEnd * trials),
+				Block(searchBegin, searchEnd),
 				search);
 
 			// After we have found the distances, we simply evaluate
