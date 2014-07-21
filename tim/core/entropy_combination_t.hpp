@@ -7,16 +7,17 @@
 #include "tim/core/reconstruction.h"
 
 #include <pastel/geometry/pointkdtree.h>
-#include <pastel/geometry/search_all_neighbors_pointkdtree.h>
-#include <pastel/geometry/count_all_neighbors_pointkdtree.h>
-#include <pastel/geometry/distance_point_point.h>
 
-#include <pastel/math/normbijections.h>
+#include <pastel/math/maximum_normbijection.h>
 
 #include <pastel/sys/constant_iterator.h>
 #include <pastel/sys/range.h>
 #include <pastel/sys/eps.h>
 #include <pastel/sys/copy_n.h>
+#include <pastel/sys/predicate_indicator.h>
+
+#include <tbb/blocked_range.h>
+#include <tbb/parallel_for.h>
 
 #include <numeric>
 #include <iterator>
@@ -138,7 +139,6 @@ namespace Tim
 			}
 		}
 
-// Parallelization version 1
 #pragma omp parallel
 		{
 		// Compute SignalPointSets.
@@ -149,8 +149,7 @@ namespace Tim
 		std::vector<SignalPointSetPtr> pointSet(marginals);
 
 		real signalWeightSum = 0;
-// Parallelization version 2
-//#pragma omp parallel for reduction(+ : signalWeightSum)
+
 		for (integer i = 0;i < marginals;++i)
 		{
 			const Integer3& range = copyRangeSet[i];
@@ -167,9 +166,6 @@ namespace Tim
 
 		Array<real> distanceArray(Vector2i(1, maxLocalFilterWidth * trials), infinity<real>());
 		
-		std::vector<integer> countSet(maxLocalFilterWidth * trials, 0);
-
-// Parallelization version 1
 #pragma omp for reduction(+ : missingValues)
 		for (integer t = estimateBegin;t < estimateEnd;++t)
 		{
@@ -185,21 +181,31 @@ namespace Tim
 			const integer tFilterDelta = tBegin - (t - filterRadius);
 			const integer tFilterOffset = std::max(tFilterDelta, (integer)0);
 			const integer windowSamples = (tLocalFilterEnd - tLocalFilterBegin) * trials;
-			const real maxRelativeError = 0;
 
-			searchAllNeighbors(
-				jointPointSet->kdTree(),
-				range(
-				jointPointSet->begin() + tLocalFilterBegin * trials, 
-				jointPointSet->begin() + tLocalFilterEnd * trials),
-				kNearest - 1,
-				kNearest, 
-				(Array<Point_ConstIterator>*)0,
-				&distanceArray,
-				constantRange(infinity<real>(), windowSamples),
-				maxRelativeError,
-				normBijection);
-			
+			using Block = tbb::blocked_range<integer>;
+
+			integer searchBegin = tLocalFilterBegin * trials;
+			integer searchEnd = tLocalFilterEnd * trials;
+
+			auto search = [&](const Block& block)
+			{
+				for (integer i = block.begin(); i < block.end(); ++i)
+				{
+					distanceArray(i - searchBegin) =
+						searchNearest(
+						jointPointSet->kdTree(),
+						*(jointPointSet->begin() + i),
+						nullOutput(),
+						predicateIndicator(*(jointPointSet->begin() + i), NotEqualTo()),
+						normBijection)
+						.kNearest(kNearest);
+				}
+			};
+
+			tbb::parallel_for(
+				Block(searchBegin, searchEnd),
+				search);
+
 			real estimate = 0;
 			for (integer i = 0;i < marginals;++i)
 			{
@@ -207,35 +213,21 @@ namespace Tim
 					t - timeWindowRadius, 
 					t + timeWindowRadius + 1);
 
-				// Note: the maximum norm bijection values coincide 
-				// with the norm values, so no need to convert.
-				countAllNeighbors(
-					pointSet[i]->kdTree(),
-					range(
-					pointSet[i]->begin() + tLocalFilterBegin * trials, 
-					pointSet[i]->begin() + tLocalFilterEnd * trials),
-					range(distanceArray.begin(), windowSamples),
-					countSet.begin(),
-					8,
-					normBijection);
-
 				real signalEstimate = 0;
 				real weightSum = 0;
-				const integer filterOffset = tFilterOffset * trials;
-				/*
-				printf("Filter:\n");
-				for (integer j = 0;j < windowSamples;++j)
-				{
-					printf("%f ", copyFilter[j + filterOffset]);
-				}
-				printf("\n");
-				*/
+				integer filterOffset = tFilterOffset * trials;
 
-// Parallelization version 2
-//#pragma omp parallel for reduction(+ : signalEstimate, weightSum)
 				for (integer j = 0;j < windowSamples;++j)
 				{
-					const integer k = countSet[j];
+					Point_ConstIterator query =
+						*(pointSet[i]->begin() + searchBegin + j);
+
+					integer k = countNearest(
+						pointSet[i]->kdTree(),
+						query,
+						allIndicator(),
+						normBijection)
+						.maxDistance(distanceArray(j));
 
 					// Note: k = 0 is possible: a range count of zero 
 					// can happen when the distance to the k:th neighbor is 
@@ -246,7 +238,7 @@ namespace Tim
 
 					if (k > 0)
 					{
-						const real weight = copyFilter[j + filterOffset];
+						real weight = copyFilter[j + filterOffset];
 						signalEstimate += weight * digamma<real>(k);
 						weightSum += weight;
 					}
