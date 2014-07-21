@@ -10,7 +10,7 @@
 #include <pastel/sys/counting_iterator.h>
 #include <pastel/sys/range.h>
 
-#include <pastel/geometry/search_all_neighbors_pointkdtree.h>
+#include <pastel/geometry/pointkdtree.h>
 
 #include <tbb/blocked_range.h>
 #include <tbb/parallel_for.h>

@@ -9,8 +9,9 @@
 #include <pastel/sys/constant_iterator.h>
 #include <pastel/sys/counting_iterator.h>
 #include <pastel/sys/range.h>
+#include <pastel/sys/predicate_indicator.h>
 
-#include <pastel/geometry/search_all_neighbors_pointkdtree.h>
+#include <pastel/geometry/pointkdtree.h>
 
 #include <algorithm>
 #include <numeric>

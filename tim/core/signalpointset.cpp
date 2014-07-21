@@ -1,7 +1,6 @@
 #include "tim/core/signalpointset.h"
 #include "tim/core/signal_tools.h"
 
-#include <pastel/geometry/search_all_neighbors_pointkdtree.h>
 #include <pastel/geometry/slidingmidpoint_splitrule.h>
 #include <pastel/geometry/difference_alignedbox_alignedbox.h>
 #include <pastel/geometry/intersect_alignedbox_alignedbox.h>
