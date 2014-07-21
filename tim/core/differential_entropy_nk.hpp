@@ -10,7 +10,6 @@
 #include <pastel/math/matrix_tools.h>
 
 #include <pastel/geometry/pointkdtree.h>
-#include <pastel/geometry/search_all_neighbors_pointkdtree.h>
 #include <pastel/geometry/slidingmidpoint_splitrule.h>
 
 #include <vector>
