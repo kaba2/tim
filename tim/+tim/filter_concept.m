@@ -1,6 +1,6 @@
 function messageSet = filter_concept(data)
 
-messageSet = {}
+messageSet = {};
 
 if ~isnumeric(data) 
 	messageSet{end + 1} = 'must be a numeric array';
