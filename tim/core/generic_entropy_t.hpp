@@ -12,6 +12,9 @@
 
 #include <pastel/geometry/search_all_neighbors_pointkdtree.h>
 
+#include <tbb/blocked_range.h>
+#include <tbb/parallel_for.h>
+
 #include <algorithm>
 #include <numeric>
 
@@ -122,18 +125,26 @@ namespace Tim
 			// That is, the distance between subsequent samples of a
 			// specific signal are 'trials' samples away.
 
-			searchAllNeighbors(
-				pointSet.kdTree(),
-				range(
-				pointSet.begin() + tLocalFilterBegin * trials, 
-				pointSet.begin() + tLocalFilterEnd * trials),
-				kNearest - 1,
-				kNearest, 
-				(Array<Point_ConstIterator>*)0,
-				&distanceArray,
-				constantRange(infinity<real>(), windowSamples),
-				0,
-				entropyAlgorithm.normBijection());
+			using Block = tbb::blocked_range<integer>;
+
+			auto search = [&](const Block& block)
+			{
+				for (integer i = block.begin(); i < block.end(); ++i)
+				{
+					distanceArray(i - block.begin()) =
+						searchNearest(
+						pointSet.kdTree(),
+						*(pointSet.begin() + i),
+						nullOutput(),
+						predicateIndicator(*(pointSet.begin() + i), NotEqualTo()),
+						entropyAlgorithm.normBijection()).
+						kNearest(kNearest);
+				}
+			};
+
+			tbb::parallel_for(
+				Block(tLocalFilterBegin * trials, tLocalFilterEnd * trials),
+				search);
 
 			// After we have found the distances, we simply evaluate
 			// the generic entropy estimator over the samples of
