@@ -50,23 +50,14 @@ namespace Tim
 		const integer dimension = signalSet.front()->dimension();
 		const integer estimateSamples = samples * trials;
 
-		Array<real> distanceArray(Vector2i(1, estimateSamples));
-
-		// Find the distance to the k:th nearest neighbor for all points.
-
-		searchAllNeighbors(
-			pointSet.kdTree(),
-			range(pointSet.begin(), pointSet.end()),
-			kNearest - 1,
-			kNearest, 
-			(Array<Point_ConstIterator>*)0,
-			&distanceArray,
-			constantRange(infinity<real>(), estimateSamples),
-			0,
-			entropyAlgorithm.normBijection());
-
-		// After we have found the distances, we simply evaluate
-		// the generic entropy estimator over all samples.
+		// Store the point-iterators into an array
+		// for random-access for parallel_for.
+		std::vector<Point_ConstIterator> indexedPointSet;
+		indexedPointSet.reserve(pointSet.kdTree().points());
+		for (auto i = pointSet.kdTree().begin(); i != pointSet.kdTree().end(); ++i)
+		{
+			indexedPointSet.emplace_back(i);
+		}
 
 		using Block = tbb::blocked_range<integer>;
 		using Pair = std::pair<real, integer>;
@@ -80,12 +71,22 @@ namespace Tim
 
 			for (integer i = block.begin();i < block.end();++i)
 			{
+				// Find the distance to the k:th nearest neighbor.
+				real distance2 =
+					searchNearest(
+					pointSet.kdTree(),
+					indexedPointSet[i],
+					nullOutput(),
+					predicateIndicator(indexedPointSet[i], NotEqualTo()),
+					entropyAlgorithm.normBijection())
+					.kNearest(kNearest);
+
 				// Points that are at identical positions do not
 				// provide any information. Such samples are
 				// not taken in the estimate.
-				if (distanceArray(i) > 0)
+				if (distance2 > 0)
 				{
-					estimate += entropyAlgorithm.sumTerm(distanceArray(i));
+					estimate += entropyAlgorithm.sumTerm(distance2);
 					++acceptedSamples;
 				}
 			}
