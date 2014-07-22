@@ -12,10 +12,10 @@ namespace Tim
 {
 
 	template <
-		typename Signal_Iterator, 
+		typename SignalPtr_Range, 
 		typename NormBijection>
 	real differentialEntropyNk(
-		const boost::iterator_range<Signal_Iterator>& signalSet,
+		const SignalPtr_Range& signalSet,
 		const NormBijection& normBijection,
 		integer* outIntrinsicDimension = 0);
 

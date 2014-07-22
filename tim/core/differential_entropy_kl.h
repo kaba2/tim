@@ -37,11 +37,11 @@ namespace Tim
 	The norm to use.
 	*/
 	template <
-		typename Signal_Range, 
+		typename SignalPtr_Range, 
 		typename NormBijection = Default_NormBijection,
 		typename Real_Range = ConstantRange<real>>
 	Signal temporalDifferentialEntropyKl(
-		const Signal_Range& signalSet,
+		const SignalPtr_Range& signalSet,
 		integer timeWindowRadius,
 		integer kNearest = 1,
 		const NormBijection& normBijection = NormBijection(),
@@ -71,10 +71,10 @@ namespace Tim
 	there are no samples to estimate from.
 	*/
 	template <
-		typename Signal_Range, 
+		typename SignalPtr_Range, 
 		typename NormBijection = Default_NormBijection>
 	real differentialEntropyKl(
-		const Signal_Range& signalSet,
+		const SignalPtr_Range& signalSet,
 		integer kNearest = 1,
 		const NormBijection& normBijection = NormBijection());
 

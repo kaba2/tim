@@ -43,9 +43,9 @@ namespace Tim
 		// Using default destructor.
 
 		//! Constructs using the given ensemble of signals.
-		template <typename Signal_Iterator>
+		template <typename SignalPtr_Range>
 		explicit SignalPointSet(
-			const boost::iterator_range<Signal_Iterator>& signalSet);
+			const SignalPtr_Range& signalSet);
 
 		//! Constructs using given subdimensions and initial time-window.
 		/*!
@@ -59,9 +59,9 @@ namespace Tim
 		then initially all samples are contained in the time-window.
 		Otherwise no samples are initially contained in the time-window.
 		*/
-		template <typename Signal_Iterator>
+		template <typename SignalPtr_Range>
 		SignalPointSet(
-			const boost::iterator_range<Signal_Iterator>& signalSet,
+			const SignalPtr_Range& signalSet,
 			integer dimensionBegin,
 			integer dimensionEnd);
 
@@ -136,9 +136,9 @@ namespace Tim
 		Each point is a pointer to the beginning of its coordinate
 		data. These pointers are placed in 'pointSet_'.
 		*/
-		template <typename Signal_Iterator>
+		template <typename SignalPtr_Range>
 		void createPointSet(
-			const boost::iterator_range<Signal_Iterator>& signalSet);
+			const SignalPtr_Range& signalSet);
 
 		void hide(
 			const AlignedBox<integer, 1>& range);

@@ -43,7 +43,7 @@ namespace
 		getScalars(inputSet[FilterIndex], std::back_inserter(filter));
 
 		Signal estimate = temporalDifferentialEntropyKl(
-			range(xEnsemble.begin(), xEnsemble.end()), 
+			countingRange(xEnsemble.begin(), xEnsemble.end()), 
 			timeWindowRadius, 
 			kNearest,
 			Default_NormBijection(),

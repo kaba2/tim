@@ -90,14 +90,14 @@ namespace Tim
 		return signalSet;
 	}
 
-	inline void getSignalArray(
-		const mxArray* signalSetArray, 
-		Array<Signal>& signalSet)
+	inline Array<Signal> getSignalArray(
+		const mxArray* signalSetArray)
 	{
 		const integer signals = mxGetM(signalSetArray);
 		const integer trials = mxGetN(signalSetArray);
 		
-		signalSet.setExtent(Vector2i(trials, signals));
+		Array<Signal> signalSet(
+			Vector2i(trials, signals));
 
 		for (integer y = 0;y < signals;++y)
 		{
@@ -109,6 +109,8 @@ namespace Tim
 				signalSet(x, y) = asSignal(signal);
 			}
 		}
+
+		return signalSet;
 	}
 
 }

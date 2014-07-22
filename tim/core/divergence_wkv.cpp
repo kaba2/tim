@@ -1,5 +1,7 @@
 #include "tim/core/divergence_wkv.h"
 
+#include <pastel/sys/single_input.h>
+
 namespace Tim
 {
 
@@ -7,12 +9,9 @@ namespace Tim
 		const Signal& xSignal,
 		const Signal& ySignal)
 	{
-		const Signal xSignalSet[] = {xSignal};
-		const Signal ySignalSet[] = {ySignal};
-
 		return Tim::divergenceWkv(
-			range(xSignalSet),
-			range(ySignalSet));
+			range({ &xSignal }),
+			range({ &ySignal }));
 	}
 
 }

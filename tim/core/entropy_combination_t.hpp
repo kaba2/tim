@@ -70,7 +70,7 @@ namespace Tim
 		// the signals share.
 
 		const Integer2 sharedTime = sharedTimeInterval(
-			range(signalSet.cbegin(), signalSet.cend()),
+			countingRange(signalSet.cbegin(), signalSet.cend()),
 			lagSet);
 
 		const integer estimateBegin = sharedTime[0];
@@ -144,7 +144,7 @@ namespace Tim
 		// Compute SignalPointSets.
 
 		SignalPointSetPtr jointPointSet(new SignalPointSet(
-			range(jointSignalSet.begin(), jointSignalSet.end())));
+			countingRange(jointSignalSet.begin(), jointSignalSet.end())));
 
 		std::vector<SignalPointSetPtr> pointSet(marginals);
 
@@ -156,7 +156,7 @@ namespace Tim
 
 			const SignalPointSetPtr marginalPointSet(
 				new SignalPointSet(
-				Pastel::range(jointSignalSet.begin(), jointSignalSet.end()),
+				Pastel::countingRange(jointSignalSet.begin(), jointSignalSet.end()),
 				offsetSet[range[0]], offsetSet[range[1]]));
 
 			pointSet[i] = marginalPointSet;

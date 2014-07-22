@@ -15,11 +15,11 @@ namespace Tim
 {
 
 	template <
-		typename Signal_X_Iterator,
-		typename Signal_Y_Iterator>
+		typename X_SignalPtr_Range,
+		typename Y_SignalPtr_Range>
 	real divergenceWkv(
-		const boost::iterator_range<Signal_X_Iterator>& xSignalSet,
-		const boost::iterator_range<Signal_Y_Iterator>& ySignalSet)
+		const X_SignalPtr_Range& xSignalSet,
+		const Y_SignalPtr_Range& ySignalSet)
 	{
 		// "A Nearest-Neighbor Approach to Estimating
 		// Divergence between Continuous Random Vectors"
@@ -32,8 +32,8 @@ namespace Tim
 			return 0;
 		}
 
-		const integer xDimension = xSignalSet.front().dimension();
-		const integer yDimension = ySignalSet.front().dimension();
+		const integer xDimension = xSignalSet.front()->dimension();
+		const integer yDimension = ySignalSet.front()->dimension();
 
 		ENSURE_OP(xDimension, ==, yDimension);
 
@@ -44,8 +44,8 @@ namespace Tim
 		SignalPointSetPtr xPointSet(new SignalPointSet(xSignalSet));
 		SignalPointSetPtr yPointSet(new SignalPointSet(ySignalSet));
 
-		const integer xSamples = xPointSet->samples();
-		const integer ySamples = yPointSet->samples();
+		integer xSamples = xPointSet->samples();
+		integer ySamples = yPointSet->samples();
 
 		using Block = tbb::blocked_range<integer>;
 		using Pair = std::pair<real, integer>;

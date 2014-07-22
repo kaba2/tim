@@ -8,10 +8,10 @@ namespace Tim
 {
 
 	template <
-		typename Signal_Iterator,
+		typename SignalPtr_Range,
 		typename Integer_Iterator>
 	Signal merge(
-		const boost::iterator_range<Signal_Iterator>& signalSet,
+		const SignalPtr_Range& signalSet,
 		const boost::iterator_range<Integer_Iterator>& lagSet)
 	{
 		ENSURE_OP(signalSet.size(), ==, lagSet.size());
@@ -25,12 +25,12 @@ namespace Tim
 		// Compute joint dimension.
 
 		integer jointDimension = 0;
-		Signal_Iterator signalIter = signalSet.begin();
-		const Signal_Iterator signalIterEnd = signalSet.end();
+		auto signalIter = signalSet.begin();
+		auto signalIterEnd = signalSet.end();
 
 		while(signalIter != signalIterEnd)
 		{
-			const Signal signal = *signalIter;
+			const Signal& signal = **signalIter;
 			jointDimension += signal.dimension();
 
 			++signalIter;
@@ -61,7 +61,7 @@ namespace Tim
 		signalIter = signalSet.begin();
 		while(lagIter != lagIterEnd)
 		{
-			const Signal signal = *signalIter;
+			const Signal& signal = **signalIter;
 			const integer lagOffset = sharedTime[0] - (signal.t() + *lagIter);
 			const integer dimension = signal.dimension();
 
@@ -82,9 +82,9 @@ namespace Tim
 		return jointSignal;
 	}
 
-	template <typename Signal_Iterator>
+	template <typename SignalPtr_Range>
 	Signal merge(
-		const boost::iterator_range<Signal_Iterator>& signalSet)
+		const SignalPtr_Range& signalSet)
 	{
 		return Tim::merge(signalSet,
 			constantRange(0, signalSet.size()));
@@ -104,7 +104,7 @@ namespace Tim
 		for (integer i = 0;i < trials;++i)
 		{
 			*result = merge(
-				range(ensembleSet.cColumnBegin(i),
+				countingRange(ensembleSet.cColumnBegin(i),
 				ensembleSet.cColumnEnd(i)), lagSet);
 			++result;
 		}
@@ -120,21 +120,21 @@ namespace Tim
 	}
 
 	template <
-		typename Signal_X_Iterator,
-		typename Signal_Y_Iterator,
+		typename X_SignalPtr_Range,
+		typename Y_SignalPtr_Range,
 		typename Signal_OutputIterator>
 	void merge(
-		const boost::iterator_range<Signal_X_Iterator>& xSignalSet,
-		const boost::iterator_range<Signal_Y_Iterator>& ySignalSet,
+		const X_SignalPtr_Range& xSignalSet,
+		const Y_SignalPtr_Range& ySignalSet,
 		Signal_OutputIterator result,
 		integer xLag,
 		integer yLag)
 	{
 		ENSURE_OP(xSignalSet.size(), ==, ySignalSet.size());
 		
-		Signal_X_Iterator xIter = xSignalSet.begin();
-		const Signal_X_Iterator xIterEnd = xSignalSet.end();
-		Signal_Y_Iterator yIter = ySignalSet.begin();
+		auto xIter = xSignalSet.begin();
+		auto xIterEnd = xSignalSet.end();
+		auto yIter = ySignalSet.begin();
 
 		while(xIter != xIterEnd)
 		{

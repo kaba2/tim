@@ -35,7 +35,7 @@ namespace
 
 		real* outResult = createScalar<real>(outputSet[Estimate]);
 		*outResult = differentialEntropySp(
-			range(xEnsemble.begin(), xEnsemble.end()));
+			countingRange(xEnsemble.begin(), xEnsemble.end()));
 	}
 
 	void addFunction()

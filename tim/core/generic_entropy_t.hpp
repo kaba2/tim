@@ -22,11 +22,11 @@ namespace Tim
 {
 
 	template <
-		typename Signal_Iterator, 
+		typename SignalPtr_Range, 
 		typename EntropyAlgorithm,
 		typename Real_Filter_Iterator>
 	Signal temporalGenericEntropy(
-		const boost::iterator_range<Signal_Iterator>& signalSet,
+		const SignalPtr_Range& signalSet,
 		const EntropyAlgorithm& entropyAlgorithm,
 		integer timeWindowRadius,
 		integer kNearest,
@@ -54,7 +54,7 @@ namespace Tim
 		const integer samples = estimateEnd - estimateBegin;
 
 		const integer trials = signalSet.size();
-		const integer dimension = signalSet.front().dimension();
+		const integer dimension = signalSet.front()->dimension();
 		const integer totalSamples = samples * trials;
 
 		ENSURE_OP(kNearest, <, totalSamples);
@@ -197,10 +197,10 @@ namespace Tim
 	}
 
 	template <
-		typename Signal_Iterator, 
+		typename SignalPtr_Range, 
 		typename EntropyAlgorithm>
 	Signal temporalGenericEntropy(
-		const boost::iterator_range<Signal_Iterator>& signalSet,
+		const SignalPtr_Range& signalSet,
 		const EntropyAlgorithm& entropyAlgorithm,
 		integer timeWindowRadius,
 		integer kNearest)

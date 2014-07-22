@@ -29,8 +29,14 @@ namespace Tim
 		// Using default assignment.
 		// Using default destructor.
 
-		//! Construct a signal with 0 samples and 0 dimension.
+		//! Construct an empty signal.
 		Signal();
+
+		//! Copy-constructs from another signal.
+		Signal(const Signal& that);
+
+		//! Move-constructs from another signal.
+		Signal(Signal&& that);
 
 		//! Construct a zero signal.
 		/*!
@@ -56,11 +62,8 @@ namespace Tim
 		Signal(integer samples, integer dimension, 
 			integer t, real* dataToAlias);
 
-		//! Sets a name for the signal.
-		void setName(const std::string& name);
-
-		//! Returns the name of the signal.
-		const std::string& name() const;
+		//! Swaps two signals.
+		void swap(Signal& that);
 
 		//! Returns the dimension of the signal.
 		integer dimension() const;

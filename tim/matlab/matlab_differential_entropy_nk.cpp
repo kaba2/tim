@@ -40,7 +40,7 @@ namespace
 
 		const real entropy = 
 			differentialEntropyNk(
-			range(xEnsemble.begin(), xEnsemble.end()), 
+			countingRange(xEnsemble.begin(), xEnsemble.end()), 
 			Euclidean_NormBijection<real>(),
 			&intrinsicDimension);
 

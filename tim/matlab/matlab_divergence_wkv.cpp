@@ -37,8 +37,8 @@ namespace
 
 		real* outResult = createScalar<real>(outputSet[Estimate]);
 		*outResult = divergenceWkv(
-			range(xEnsemble.begin(), xEnsemble.end()), 
-			range(yEnsemble.begin(), yEnsemble.end()));
+			countingRange(xEnsemble.begin(), xEnsemble.end()), 
+			countingRange(yEnsemble.begin(), yEnsemble.end()));
 	}
 
 	void addFunction()

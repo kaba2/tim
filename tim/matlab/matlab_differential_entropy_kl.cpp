@@ -38,7 +38,7 @@ namespace
 
 		real* outResult = createScalar<real>(outputSet[Estimate]);
 		*outResult = differentialEntropyKl(
-			range(xEnsemble.begin(), xEnsemble.end()), 
+			countingRange(xEnsemble.begin(), xEnsemble.end()), 
 			kNearest);
 	}
 
