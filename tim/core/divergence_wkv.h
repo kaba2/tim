@@ -15,24 +15,21 @@ namespace Tim
 	//! Computes Kullback-Leibler divergence between signals.
 	/*!
 	xSignalSet:
-	An ensemble of signals representing trials
-	of the same experiment X.
+	A set of signals representing trials for X.
 
 	ySignalSet:
-	An ensemble of signals representing trials
-	of the same experiment Y.
+	A set of signals representing trials for X.
 
-	Returns:
+	returns:
 	The Kullback-Leibler divergence between the signals.
 	If the estimate is undefined, a NaN is returned.
 	*/
-
 	template <
-		typename Signal_X_Iterator,
-		typename Signal_Y_Iterator>
+		typename X_SignalPtr_Range,
+		typename Y_SignalPtr_Range>
 	real divergenceWkv(
-		const boost::iterator_range<Signal_X_Iterator>& xSignalSet,
-		const boost::iterator_range<Signal_Y_Iterator>& ySignalSet);
+		const X_SignalPtr_Range& xSignalSet,
+		const Y_SignalPtr_Range& ySignalSet);
 
 	//! Computes Kullback-Leibler divergence between signals.
 	/*!

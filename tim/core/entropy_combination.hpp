@@ -56,7 +56,8 @@ namespace Tim
 
 		std::vector<Signal> jointSignalSet;
 		jointSignalSet.reserve(trials);
-		merge(signalSet, std::back_inserter(jointSignalSet), lagSet);
+		merge(signalSet, 
+			std::back_inserter(jointSignalSet), lagSet);
 
 		const integer samples = jointSignalSet.front().samples();
 		if (samples == 0)
@@ -83,7 +84,7 @@ namespace Tim
 		// Construct point sets
 
 		SignalPointSet jointPointSet(
-			range(jointSignalSet.begin(), jointSignalSet.end()));
+			countingRange(jointSignalSet.begin(), jointSignalSet.end()));
 	
 		std::vector<integer> weightSet;
 		weightSet.reserve(marginals);
@@ -96,7 +97,7 @@ namespace Tim
 			const Integer3& range = *iter;
 			pointSet.push_back(
 				SignalPointSetPtr(new SignalPointSet(
-				Pastel::range(jointSignalSet.begin(), jointSignalSet.end()), 
+				Pastel::countingRange(jointSignalSet.begin(), jointSignalSet.end()), 
 				offsetSet[range[0]], offsetSet[range[1]])));
 			weightSet.push_back(range[2]);
 			++iter;

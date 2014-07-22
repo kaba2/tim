@@ -9,10 +9,10 @@
 namespace Tim
 {
 
-	template <typename Signal_Iterator>
+	template <typename SignalPtr_Range>
 	SignalPointSet::SignalPointSet(
-		const boost::iterator_range<Signal_Iterator>& signalSet)
-		: kdTree_(Pointer_Locator<real>(signalSet.empty() ? 0 : signalSet.front().dimension()))
+		const SignalPtr_Range& signalSet)
+		: kdTree_(Pointer_Locator<real>(signalSet.empty() ? 0 : signalSet.front()->dimension()))
 		, pointSet_()
 		, signals_(signalSet.size())
 		, samples_(0)
@@ -28,9 +28,9 @@ namespace Tim
 		createPointSet(signalSet);
 	}
 
-	template <typename Signal_Iterator>
+	template <typename SignalPtr_Range>
 	SignalPointSet::SignalPointSet(
-		const boost::iterator_range<Signal_Iterator>& signalSet,
+		const SignalPtr_Range& signalSet,
 		integer dimensionBegin,
 		integer dimensionEnd)
 		: kdTree_(Pointer_Locator<real>(dimensionEnd - dimensionBegin))
@@ -47,16 +47,16 @@ namespace Tim
 		PENSURE(equalDimension(signalSet));
 		ENSURE_OP(dimensionBegin, <=, dimensionEnd);
 		ENSURE_OP(dimensionBegin, >=, 0);
-		ENSURE_OP(dimensionEnd, <=, signalSet.front().dimension());
+		ENSURE_OP(dimensionEnd, <=, signalSet.front()->dimension());
 
 		createPointSet(signalSet);
 	}
 
 	// Private
 
-	template <typename Signal_Iterator>
+	template <typename SignalPtr_Range>
 	void SignalPointSet::createPointSet(
-		const boost::iterator_range<Signal_Iterator>& signalSet)
+		const SignalPtr_Range& signalSet)
 	{
 		// Find out the time interval on which
 		// all trials are defined.
@@ -72,10 +72,10 @@ namespace Tim
 		const integer signals = signalSet.size();
 		pointSet_.resize(samples * signals);
 
-		Signal_Iterator iter = signalSet.begin();
+		auto iter = signalSet.begin();
 		for (integer i = 0;i < signals;++i)
 		{
-			Signal signal = *iter;
+			const Signal& signal = **iter;
 			for (integer t = tBegin;t < tEnd;++t)
 			{
 				const real* point = 

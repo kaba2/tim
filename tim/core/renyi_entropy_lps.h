@@ -77,10 +77,10 @@ namespace Tim
 	*/
 
 	template <
-		typename Signal_Iterator, 
+		typename SignalPtr_Range, 
 		typename Real_Filter_Iterator>
 	Signal temporalRenyiEntropyLps(
-		const boost::iterator_range<Signal_Iterator>& signalSet,
+		const SignalPtr_Range& signalSet,
 		integer timeWindowRadius,
 		real q,
 		integer kNearestSuggestion,
@@ -98,9 +98,9 @@ namespace Tim
 	See the documentation for that function.
 	*/
 
-	template <typename Signal_Iterator>
+	template <typename SignalPtr_Range>
 	Signal temporalRenyiEntropyLps(
-		const boost::iterator_range<Signal_Iterator>& signalSet,
+		const SignalPtr_Range& signalSet,
 		integer timeWindowRadius,
 		real q = 2,
 		integer kNearestSuggestion = 0);
@@ -141,9 +141,9 @@ namespace Tim
 	there are no samples to estimate from.
 	*/
 
-	template <typename Signal_Iterator>
+	template <typename SignalPtr_Range>
 	real renyiEntropyLps(
-		const boost::iterator_range<Signal_Iterator>& signalSet,
+		const SignalPtr_Range& signalSet,
 		real q = 2,
 		integer kNearestSuggestion = 0);
 

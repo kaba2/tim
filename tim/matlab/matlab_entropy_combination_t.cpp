@@ -36,8 +36,7 @@ namespace
 		ENSURE_OP(inputs, ==, Inputs);
 		ENSURE_OP(outputs, ==, Outputs);
 
-		Array<Signal> signalSet;
-		getSignalArray(inputSet[SignalSet], signalSet);
+		Array<Signal> signalSet = getSignalArray(inputSet[SignalSet]);
 
 		std::vector<integer> lagSet;
 		getScalars(inputSet[LagSet], std::back_inserter(lagSet));

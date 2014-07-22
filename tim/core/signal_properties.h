@@ -13,9 +13,9 @@ namespace Tim
 {
 
 	//! Returns the largest time interval on which all signals are defined.
-	template <typename Signal_Iterator, typename Integer_Iterator>
+	template <typename SignalPtr_Range, typename Integer_Iterator>
 	Integer2 sharedTimeInterval(
-		const boost::iterator_range<Signal_Iterator>& signalSet,
+		const SignalPtr_Range& signalSet,
 		const boost::iterator_range<Integer_Iterator>& lagSet);
 
 	//! Returns the largest time interval on which all signals are defined.
@@ -26,24 +26,24 @@ namespace Tim
 		signalSet,
 		constantRange(0, signalSet.size()));
 	*/
-	template <typename Signal_Iterator>
+	template <typename SignalPtr_Range>
 	Integer2 sharedTimeInterval(
-		const boost::iterator_range<Signal_Iterator>& signalSet);
+		const SignalPtr_Range& signalSet);
 
 	//! Returns the minimum number of samples among the signals.
-	template <typename Signal_Iterator>
+	template <typename SignalPtr_Range>
 	integer minSamples(
-		const boost::iterator_range<Signal_Iterator>& signalSet);
+		const SignalPtr_Range& signalSet);
 
 	//! Returns true if all signals have the same dimension.
-	template <typename Signal_Iterator>
+	template <typename SignalPtr_Range>
 	bool equalDimension(
-		const boost::iterator_range<Signal_Iterator>& signalSet);
+		const SignalPtr_Range& signalSet);
 
 	//! Returns true if all signals have the same number of samples.
-	template <typename Signal_Iterator>
+	template <typename SignalPtr_Range>
 	bool equalSamples(
-		const boost::iterator_range<Signal_Iterator>& signalSet);
+		const SignalPtr_Range& signalSet);
 
 }
 

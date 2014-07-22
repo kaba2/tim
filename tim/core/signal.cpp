@@ -7,35 +7,42 @@ namespace Tim
 {
 
 	Signal::Signal()
-		: name_()
-		, data_(0, 0)
+		: data_(0, 0)
 		, t_(0)
 	{
 	}
 
-	Signal::Signal(integer samples, integer dimension, integer t)
-		: name_()
-		, data_(samples, dimension)
+	Signal::Signal(const Signal& that)
+	: data_(that.data_)
+	, t_(that.t_)
+	{
+	}
+
+	Signal::Signal(Signal&& that)
+	: Signal()
+	{
+		swap(that);
+	}
+
+	Signal::Signal(
+		integer samples, integer dimension, integer t)
+		: data_(samples, dimension)
 		, t_(t)
 	{
 	}
 
-	Signal::Signal(integer samples, integer dimension, 
+	Signal::Signal(
+		integer samples, integer dimension, 
 		integer t, real* dataToAlias)
-		: name_()
-		, data_(samples, dimension, withAliasing(dataToAlias))
+		: data_(samples, dimension, withAliasing(dataToAlias))
 		, t_(t)
 	{
 	}
 
-	void Signal::setName(const std::string& name)
+	void Signal::swap(Signal& that)
 	{
-		name_ = name;
-	}
-
-	const std::string& Signal::name() const
-	{
-		return name_;
+		data_.swap(that.data_);
+		std::swap(t_, that.t_);
 	}
 
 	integer Signal::dimension() const

@@ -13,10 +13,10 @@ namespace Tim
 
 	//! Merges a signal set into a higher-dimensional signal.
 	template <
-		typename Signal_Iterator,
+		typename SignalPtr_Range,
 		typename Integer_Iterator>
 	Signal merge(
-		const boost::iterator_range<Signal_Iterator>& signalSet,
+		const SignalPtr_Range& signalSet,
 		const boost::iterator_range<Integer_Iterator>& lagSet);
 
 	//! Merges a signal set into a higher-dimensional signal.
@@ -25,18 +25,18 @@ namespace Tim
 	merge(signalSet, constantRange(0, signalSet.size()));
 	See the documentation for that function.
 	*/
-	template <typename Signal_Iterator>
+	template <typename SignalPtr_Range>
 	Signal merge(
-		const boost::iterator_range<Signal_Iterator>& signalSet);
+		const SignalPtr_Range& signalSet);
 
 	//! Merges two signal sets pairwise into a new signal set.
 	template <
-		typename Signal_X_Iterator,
-		typename Signal_Y_Iterator,
+		typename X_Signal_Range,
+		typename Y_Signal_Range,
 		typename Signal_OutputIterator>
 	void merge(
-		const boost::iterator_range<Signal_X_Iterator>& xSignalSet,
-		const boost::iterator_range<Signal_Y_Iterator>& ySignalSet,
+		const X_Signal_Range& xSignalSet,
+		const Y_Signal_Range& ySignalSet,
 		Signal_OutputIterator result,
 		integer xLag = 0, integer yLag = 0);
 

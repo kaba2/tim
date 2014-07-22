@@ -45,7 +45,7 @@ namespace
 		getScalars(inputSet[FilterIndex], std::back_inserter(filter));
 
 		Signal estimate = temporalTsallisEntropyLps(
-			range(xEnsemble.begin(), xEnsemble.end()),
+			countingRange(xEnsemble.begin(), xEnsemble.end()),
 			timeWindowRadius, 
 			q,
 			kNearestSuggestion,

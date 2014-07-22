@@ -40,7 +40,7 @@ namespace
 
 		real* outResult = createScalar<real>(outputSet[Estimate]);
 		*outResult = tsallisEntropyLps(
-			range(xEnsemble.begin(), xEnsemble.end()), 
+			countingRange(xEnsemble.begin(), xEnsemble.end()),
 			q, kNearestSuggestion);
 	}
 

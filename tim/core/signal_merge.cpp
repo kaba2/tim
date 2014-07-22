@@ -9,12 +9,9 @@ namespace Tim
 		integer xLag,
 		integer yLag)
 	{
-		const Signal signalSet[2] = {xSignal, ySignal};
-		const integer lagSet[2] = {xLag, yLag};
-
 		return Tim::merge(
-			range(signalSet),
-			range(lagSet));
+			range({ &xSignal , &ySignal }),
+			range({ xLag, yLag }));
 	}
 
 }

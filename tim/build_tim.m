@@ -31,16 +31,16 @@ disp(['Building a mex file for TIM in ', mode, ' mode.']);
 disp(' ');
 
 timIncludePath = '.';
-pastelIncludePath = '../pastel';
-boostIncludePath = '../boost';
-tbbIncludePath = '../tbb42/include';
+pastelIncludePath = '../../pastel';
+boostIncludePath = '../../boost';
+tbbIncludePath = '../../tbb42/include';
 
-timLibraryPath = ['lib/', mode];
-pastelLibraryPath = ['../pastel/lib/', mode];
-tbbLibraryPath = ['../tbb42/lib/intel64/vc11'];
+timLibraryPath = ['../lib/', mode];
+pastelLibraryPath = ['../../pastel/lib/', mode];
+tbbLibraryPath = ['../../tbb42/lib/intel64/vc11'];
 
-inputPath = ['tim/matlab'];
-outputPath = ['tim/+tim'];
+inputPath = ['matlab'];
+outputPath = ['+tim'];
 
 tbbName = 'tbb';
 if strcmp(mode, 'debug')

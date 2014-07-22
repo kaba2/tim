@@ -26,9 +26,8 @@ namespace Tim
 		const mxArray* input);
 
 	//! Retrieves an array of signals.
-	void getSignalArray(
-		const mxArray* signalSetArray, 
-		Array<Signal>& signalSet);
+	Array<Signal> getSignalArray(
+		const mxArray* signalSetArray);
 	
 }
 

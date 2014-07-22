@@ -57,11 +57,11 @@ namespace Tim
 	};
 
 	template <
-		typename Signal_Range, 
+		typename SignalPtr_Range, 
 		typename NormBijection,
 		typename Real_Range>
 	Signal temporalDifferentialEntropyKl(
-		const Signal_Range& signalSet,
+		const SignalPtr_Range& signalSet,
 		integer timeWindowRadius,
 		integer kNearest,
 		const NormBijection& normBijection,
@@ -82,10 +82,10 @@ namespace Tim
 	}
 
 	template <
-		typename Signal_Range, 
+		typename SignalPtr_Range, 
 		typename NormBijection>
 	real differentialEntropyKl(
-		const Signal_Range& signalSet,
+		const SignalPtr_Range& signalSet,
 		integer kNearest,
 		const NormBijection& normBijection)
 	{
