@@ -9,10 +9,10 @@
 namespace Tim
 {
 
-	template <typename SignalPtr_Iterator>
+	template <typename Signal_Iterator>
 	SignalPointSet::SignalPointSet(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet)
-		: kdTree_(Pointer_Locator<real>(signalSet.empty() ? 0 : signalSet.front()->dimension()))
+		const boost::iterator_range<Signal_Iterator>& signalSet)
+		: kdTree_(Pointer_Locator<real>(signalSet.empty() ? 0 : signalSet.front().dimension()))
 		, pointSet_()
 		, signals_(signalSet.size())
 		, samples_(0)
@@ -28,9 +28,9 @@ namespace Tim
 		createPointSet(signalSet);
 	}
 
-	template <typename SignalPtr_Iterator>
+	template <typename Signal_Iterator>
 	SignalPointSet::SignalPointSet(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
+		const boost::iterator_range<Signal_Iterator>& signalSet,
 		integer dimensionBegin,
 		integer dimensionEnd)
 		: kdTree_(Pointer_Locator<real>(dimensionEnd - dimensionBegin))
@@ -47,16 +47,16 @@ namespace Tim
 		PENSURE(equalDimension(signalSet));
 		ENSURE_OP(dimensionBegin, <=, dimensionEnd);
 		ENSURE_OP(dimensionBegin, >=, 0);
-		ENSURE_OP(dimensionEnd, <=, signalSet.front()->dimension());
+		ENSURE_OP(dimensionEnd, <=, signalSet.front().dimension());
 
 		createPointSet(signalSet);
 	}
 
 	// Private
 
-	template <typename SignalPtr_Iterator>
+	template <typename Signal_Iterator>
 	void SignalPointSet::createPointSet(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet)
+		const boost::iterator_range<Signal_Iterator>& signalSet)
 	{
 		// Find out the time interval on which
 		// all trials are defined.
@@ -72,15 +72,15 @@ namespace Tim
 		const integer signals = signalSet.size();
 		pointSet_.resize(samples * signals);
 
-		SignalPtr_Iterator iter = signalSet.begin();
+		Signal_Iterator iter = signalSet.begin();
 		for (integer i = 0;i < signals;++i)
 		{
-			SignalPtr signal = *iter;
+			Signal signal = *iter;
 			for (integer t = tBegin;t < tEnd;++t)
 			{
 				const real* point = 
-					signal->pointBegin(dimensionBegin_)[t - signal->t()];
-				pointSet_[(t - signal->t()) * signals + i] = kdTree_.insert(point);
+					signal.pointBegin(dimensionBegin_)[t - signal.t()];
+				pointSet_[(t - signal.t()) * signals + i] = kdTree_.insert(point);
 			}
 			
 			++iter;

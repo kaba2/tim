@@ -7,11 +7,11 @@ namespace Tim
 {
 
 	template <
-		typename SignalPtr_Iterator,
+		typename Signal_Iterator,
 		typename NormBijection,
 		typename Real_OutputIterator>
 	real mutualInformationFromEntropy(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
+		const boost::iterator_range<Signal_Iterator>& signalSet,
 		integer timeWindowRadius,
 		integer kNearest,
 		const NormBijection& normBijection,
@@ -24,13 +24,13 @@ namespace Tim
 			return 0;
 		}
 
-		SignalPtr_Iterator iter = signalSet.begin();
-		SignalPtr_Iterator iterEnd = signalSet.end();
+		Signal_Iterator iter = signalSet.begin();
+		Signal_Iterator iterEnd = signalSet.end();
 
 		real estimate = 0;
 		while(iter != iterEnd)
 		{
-			const SignalPtr signal = *iter;
+			const Signal signal = *iter;
 
 			estimate += differentialEntropyKl(
 				signal,
@@ -40,7 +40,7 @@ namespace Tim
 			++iter;
 		}
 
-		const SignalPtr jointSignal = merge(signalSet);
+		const Signal jointSignal = merge(signalSet);
 		estimate -= differentialEntropyKl(
 			jointSignal,
 			kNearest,

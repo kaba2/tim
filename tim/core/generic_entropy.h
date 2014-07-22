@@ -11,11 +11,10 @@
 namespace Tim
 {
 
-	//! Computes generic entropy of a signal.
+	//! Generic entropy of a signal.
 	/*!
 	Preconditions:
 	kNearest > 0
-	signalSet contains SignalPtr's.
 
 	signalSet:
 	An ensemble of signals representing trials
@@ -37,10 +36,10 @@ namespace Tim
 	*/
 
 	template <
-		typename SignalPtr_Iterator,
+		typename Signal_Range,
 		typename EntropyAlgorithm>
 	real genericEntropy(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
+		const Signal_Range& signalSet,
 		const EntropyAlgorithm& entropyAlgorithm,
 		integer kNearest = 1);
 

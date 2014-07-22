@@ -24,12 +24,12 @@ namespace Tim
 
 	//! Computes the covariance of the signal samples.
 	TIM void computeCovariance(
-		const SignalPtr& signal,
+		const Signal& signal,
 		Matrix<real>& result);
 
 	//! Transforms the given signal to identity covariance.
 	TIM void normalizeCovariance(
-		const SignalPtr& signal,
+		Signal& signal,
 		const Matrix<real>& covariance);
 
 }

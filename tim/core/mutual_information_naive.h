@@ -45,7 +45,7 @@ namespace Tim
 	of the technique.
 	*/
 	TIM Array<real> mutualInformationFromBinning(
-		const SignalPtr& signal,
+		const Signal& signal,
 		integer bins);
 
 	//! Computes mutual information from entropies.
@@ -72,7 +72,7 @@ namespace Tim
 	*/
 	template <typename NormBijection>
 	real mutualInformationFromEntropy(
-		const std::vector<SignalPtr>& signalSet,
+		const std::vector<Signal>& signalSet,
 		integer kNearest,
 		const NormBijection& normBijection);
 

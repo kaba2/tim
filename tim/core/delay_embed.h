@@ -25,8 +25,8 @@ namespace Tim
 	Embedding delay.
 	*/
 
-	TIM SignalPtr delayEmbed(
-		const SignalPtr& signal,
+	TIM Signal delayEmbed(
+		const Signal& signal,
 		integer k,
 		integer dt = 1);
 
@@ -41,14 +41,13 @@ namespace Tim
 
 	dt:
 	Embedding delay.
-
-	SignalPtr_Iterator dereferences to a SignalPtr.
-	OutputIterator dereferences to a SignalPtr&.
 	*/
-	template <typename SignalPtr_Iterator, typename OutputIterator>
+	template <
+		typename Signal_Input, 
+		typename Signal_Output>
 	void delayEmbed(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
-		const OutputIterator& outputBegin,
+		Signal_Input inputSet,
+		Signal_Output output,
 		integer k,
 		integer dt = 1);
 
@@ -60,8 +59,8 @@ namespace Tim
 	dt:
 	Embedding delay.
 	*/
-	TIM SignalPtr delayEmbedFuture(
-		const SignalPtr& signal,
+	TIM Signal delayEmbedFuture(
+		const Signal& signal,
 		integer dt = 1);
 
 	//! Computes the futures of signals under a given delay-embedding.
@@ -72,10 +71,12 @@ namespace Tim
 	dt:
 	Embedding delay.
 	*/
-	template <typename SignalPtr_Iterator, typename OutputIterator>
+	template <
+		typename Signal_Input, 
+		typename Signal_Output>
 	void delayEmbedFuture(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
-		const OutputIterator& outputBegin,
+		Signal_Input inputSet,
+		Signal_Output output,
 		integer dt = 1);
 
 }

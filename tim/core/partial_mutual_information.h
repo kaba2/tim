@@ -42,14 +42,14 @@ namespace Tim
 	*/
 
 	template <
-		typename SignalPtr_X_Iterator,
-		typename SignalPtr_Y_Iterator,
-		typename SignalPtr_Z_Iterator,
+		typename Signal_X_Iterator,
+		typename Signal_Y_Iterator,
+		typename Signal_Z_Iterator,
 		typename Real_Filter_Iterator>
-	SignalPtr temporalPartialMutualInformation(
-		const boost::iterator_range<SignalPtr_X_Iterator>& xSignalSet,
-		const boost::iterator_range<SignalPtr_Y_Iterator>& ySignalSet,
-		const boost::iterator_range<SignalPtr_Z_Iterator>& zSignalSet,
+	Signal temporalPartialMutualInformation(
+		const boost::iterator_range<Signal_X_Iterator>& xSignalSet,
+		const boost::iterator_range<Signal_Y_Iterator>& ySignalSet,
+		const boost::iterator_range<Signal_Z_Iterator>& zSignalSet,
 		integer timeWindowRadius,
 		integer xLag, integer yLag, integer zLag,
 		integer kNearest,
@@ -72,13 +72,13 @@ namespace Tim
 	*/
 
 	template <
-		typename SignalPtr_X_Iterator,
-		typename SignalPtr_Y_Iterator,
-		typename SignalPtr_Z_Iterator>
-	SignalPtr temporalPartialMutualInformation(
-		const boost::iterator_range<SignalPtr_X_Iterator>& xSignalSet,
-		const boost::iterator_range<SignalPtr_Y_Iterator>& ySignalSet,
-		const boost::iterator_range<SignalPtr_Z_Iterator>& zSignalSet,
+		typename Signal_X_Iterator,
+		typename Signal_Y_Iterator,
+		typename Signal_Z_Iterator>
+	Signal temporalPartialMutualInformation(
+		const boost::iterator_range<Signal_X_Iterator>& xSignalSet,
+		const boost::iterator_range<Signal_Y_Iterator>& ySignalSet,
+		const boost::iterator_range<Signal_Z_Iterator>& zSignalSet,
 		integer timeWindowRadius,
 		integer xLag = 0, integer yLag = 0, integer zLag = 0,
 		integer kNearest = 1);
@@ -107,13 +107,13 @@ namespace Tim
 	*/
 
 	template <
-		typename SignalPtr_X_Iterator,
-		typename SignalPtr_Y_Iterator,
-		typename SignalPtr_Z_Iterator>
+		typename Signal_X_Iterator,
+		typename Signal_Y_Iterator,
+		typename Signal_Z_Iterator>
 	real partialMutualInformation(
-		const boost::iterator_range<SignalPtr_X_Iterator>& xSignalSet,
-		const boost::iterator_range<SignalPtr_Y_Iterator>& ySignalSet,
-		const boost::iterator_range<SignalPtr_Z_Iterator>& zSignalSet,
+		const boost::iterator_range<Signal_X_Iterator>& xSignalSet,
+		const boost::iterator_range<Signal_Y_Iterator>& ySignalSet,
+		const boost::iterator_range<Signal_Z_Iterator>& zSignalSet,
 		integer xLag = 0, integer yLag = 0, integer zLag = 0,
 		integer kNearest = 1);
 

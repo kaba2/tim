@@ -35,32 +35,31 @@ namespace
 		ENSURE_OP(inputs, ==, Inputs);
 		ENSURE_OP(outputs, ==, Outputs);
 
-		std::vector<SignalPtr> xEnsemble;
-		getSignals(inputSet[X], std::back_inserter(xEnsemble));
+		std::vector<Signal> xEnsemble = getSignals(inputSet[X]);
 
-		const integer timeWindowRadius = asScalar<integer>(inputSet[TimeWindowRadius]);
-		const real q = asScalar<real>(inputSet[Q]);
-		const integer kNearestSuggestion = asScalar<integer>(inputSet[KNearestSuggestion]);
+		integer timeWindowRadius = asScalar<integer>(inputSet[TimeWindowRadius]);
+		real q = asScalar<real>(inputSet[Q]);
+		integer kNearestSuggestion = asScalar<integer>(inputSet[KNearestSuggestion]);
 
 		std::vector<real> filter;
 		getScalars(inputSet[FilterIndex], std::back_inserter(filter));
 
-		const SignalPtr estimate = temporalTsallisEntropyLps(
+		Signal estimate = temporalTsallisEntropyLps(
 			range(xEnsemble.begin(), xEnsemble.end()),
 			timeWindowRadius, 
 			q,
 			kNearestSuggestion,
 			range(filter.begin(), filter.end()));
 
-		const integer nans = std::max(estimate->t(), (integer)0);
-		const integer skip = std::max(-estimate->t(), (integer)0); 
-		const integer samples = std::max(nans + estimate->samples() - skip, (integer)0);
+		integer nans = std::max(estimate.t(), (integer)0);
+		integer skip = std::max(-estimate.t(), (integer)0); 
+		integer samples = std::max(nans + estimate.samples() - skip, (integer)0);
 
 		Array<real> result = createArray<real>(
 			samples, 1, outputSet[Estimate]);
 		std::fill_n(result.begin(), nans, nan<real>());
-		std::copy(estimate->data().begin() + skip, 
-			estimate->data().end(), result.begin() + nans);
+		std::copy(estimate.data().begin() + skip, 
+			estimate.data().end(), result.begin() + nans);
 	}
 
 	void addFunction()

@@ -32,7 +32,7 @@ namespace Tim
 		typename Integer_Iterator,
 		typename LocalEstimator>
 	real entropyCombination(
-		const Array<SignalPtr>& signalSet,
+		const Array<Signal>& signalSet,
 		const boost::iterator_range<Integer3_Iterator>& rangeSet,
 		const boost::iterator_range<Integer_Iterator>& lagSet,
 		integer kNearest,
@@ -54,11 +54,11 @@ namespace Tim
 
 		const integer trials = signalSet.width();
 
-		std::vector<SignalPtr> jointSignalSet;
+		std::vector<Signal> jointSignalSet;
 		jointSignalSet.reserve(trials);
 		merge(signalSet, std::back_inserter(jointSignalSet), lagSet);
 
-		const integer samples = jointSignalSet.front()->samples();
+		const integer samples = jointSignalSet.front().samples();
 		if (samples == 0)
 		{
 			return 0;
@@ -74,7 +74,7 @@ namespace Tim
 		offsetSet.push_back(0);
 		for (integer i = 1;i < signals + 1;++i)
 		{
-			offsetSet.push_back(offsetSet[i - 1] + signalSet(0, i - 1)->dimension());
+			offsetSet.push_back(offsetSet[i - 1] + signalSet(0, i - 1).dimension());
 		}
 
 		const integer n = samples * trials;
@@ -201,7 +201,7 @@ namespace Tim
 		typename Integer3_Iterator,
 		typename Integer_Iterator>
 	real entropyCombination(
-		const Array<SignalPtr>& signalSet,
+		const Array<Signal>& signalSet,
 		const boost::iterator_range<Integer3_Iterator>& rangeSet,
 		const boost::iterator_range<Integer_Iterator>& lagSet,
 		integer kNearest)
@@ -216,7 +216,7 @@ namespace Tim
 		typename Integer3_Iterator,
 		typename Real_OutputIterator>
 	real entropyCombination(
-		const Array<SignalPtr>& signalSet,
+		const Array<Signal>& signalSet,
 		const boost::iterator_range<Integer3_Iterator>& rangeSet)
 	{
 		return Tim::entropyCombination(

@@ -4,23 +4,25 @@
 namespace Tim
 {
 
-	TIM SignalPtr delayEmbed(
-		const SignalPtr& signal,
+	TIM Signal delayEmbed(
+		const Signal& signal,
 		integer k,
 		integer dt)
 	{
 		ENSURE_OP(k, >, 0);
 		ENSURE_OP(dt, >=, 1);
 		
-		const integer n = signal->dimension();
-		const integer samples = signal->samples();
+		integer n = signal.dimension();
+		integer samples = signal.samples();
 
-		const integer embedDimension = k * n;
-		const integer embedLag = (k - 1) * dt;
-		const integer embedSamples = std::max(samples - embedLag, (integer)0);
+		integer embedDimension = k * n;
+		integer embedLag = (k - 1) * dt;
+		integer embedSamples = std::max(samples - embedLag, (integer)0);
 
-		const SignalPtr embedSignal = SignalPtr(
-			new Signal(embedSamples, embedDimension, signal->t() + embedLag));
+		Signal embedSignal(
+			embedSamples, 
+			embedDimension, 
+			signal.t() + embedLag);
 
 		integer sBegin = 0;
 		for (integer t = 0;t < embedSamples;++t)
@@ -30,9 +32,9 @@ namespace Tim
 			for (integer j = 0;j < k;++j)
 			{
 				std::copy(
-					signal->data().rowBegin(s),
-					signal->data().rowEnd(s),
-					embedSignal->data().rowBegin(t) + iBegin);
+					signal.data().cRowBegin(s),
+					signal.data().cRowEnd(s),
+					embedSignal.data().rowBegin(t) + iBegin);
 
 				s += dt;
 				iBegin += n;
@@ -43,23 +45,25 @@ namespace Tim
 		return embedSignal;
 	}
 
-	TIM SignalPtr delayEmbedFuture(
-		const SignalPtr& signal,
+	TIM Signal delayEmbedFuture(
+		const Signal& signal,
 		integer dt)
 	{
 		ENSURE_OP(dt, >=, 1);
 
-		const integer dimension =
-			signal->dimension();
-		const integer samples = 
-			signal->samples();
+		integer dimension =
+			signal.dimension();
+		integer samples = 
+			signal.samples();
 
-		const integer embedSamples = 
+		integer embedSamples = 
 			std::max(samples - dt, (integer)0);
 
-		const SignalPtr embedSignal = SignalPtr(
-			new Signal(embedSamples, dimension,
-			signal->t(), &*signal->data().rowBegin(dt)));
+		Signal embedSignal(
+			embedSamples, 
+			dimension,
+			signal.t(), 
+			&*removeConst(signal.data()).rowBegin(dt));
 
 		/*
 		if (embedSamples > 0)
@@ -68,9 +72,9 @@ namespace Tim
 			const integer endIndex = beginIndex + embedSamples * dimension;
 
 			std::copy(
-				signal->data().rawBegin() + beginIndex,
-				signal->data().rawBegin() + endIndex,
-				embedSignal->data().rawBegin());
+				signal.data().rawBegin() + beginIndex,
+				signal.data().rawBegin() + endIndex,
+				embedSignal.data().rawBegin());
 		}
 		*/
 

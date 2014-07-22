@@ -100,10 +100,10 @@ namespace Tim
 	// ----------------------
 
 	template <
-		typename SignalPtr_Iterator, 
+		typename Signal_Iterator, 
 		typename Real_Filter_Iterator>
-	SignalPtr temporalRenyiEntropyLps(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
+	Signal temporalRenyiEntropyLps(
+		const boost::iterator_range<Signal_Iterator>& signalSet,
 		integer timeWindowRadius,
 		real q,
 		integer kNearestSuggestion,
@@ -136,11 +136,11 @@ namespace Tim
 
 		if (signalSet.empty())
 		{
-			return SignalPtr(new Signal(0, 1));
+			return Signal(0, 1);
 		}
 
 		const integer kNearest = renyiDecideK(q, kNearestSuggestion);
-		const integer dimension = signalSet.front()->dimension();
+		const integer dimension = signalSet.front().dimension();
 		
 		const LpsRenyi_EntropyAlgorithm entropyAlgorithm(
 			dimension, kNearest, q);
@@ -153,9 +153,9 @@ namespace Tim
 			filter);
 	}
 
-	template <typename SignalPtr_Iterator>
-	SignalPtr temporalRenyiEntropyLps(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
+	template <typename Signal_Iterator>
+	Signal temporalRenyiEntropyLps(
+		const boost::iterator_range<Signal_Iterator>& signalSet,
 		integer timeWindowRadius,
 		real q,
 		integer kNearestSuggestion)
@@ -169,9 +169,9 @@ namespace Tim
 	// Renyi entropy
 	// -------------
 
-	template <typename SignalPtr_Iterator>
+	template <typename Signal_Iterator>
 	real renyiEntropyLps(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
+		const boost::iterator_range<Signal_Iterator>& signalSet,
 		real q,
 		integer kNearestSuggestion)
 	{
@@ -198,7 +198,7 @@ namespace Tim
 		}
 
 		const integer kNearest = renyiDecideK(q, kNearestSuggestion);
-		const integer dimension = signalSet.front()->dimension();
+		const integer dimension = signalSet.front().dimension();
 		
 		const LpsRenyi_EntropyAlgorithm entropyAlgorithm(
 			dimension, kNearest, q);

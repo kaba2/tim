@@ -13,15 +13,15 @@
 namespace Tim
 {
 
-	inline SignalPtr asSignal(const mxArray* signal)
+	inline Signal asSignal(const mxArray* signal)
 	{
 		// It is intentional to assign the width
 		// and height the wrong way. The reason
 		// is that Matlab uses column-major storage
 		// while we use row-major storage.
 
-		const integer samples = mxGetN(signal);
-		const integer dimension = mxGetM(signal);
+		integer samples = mxGetN(signal);
+		integer dimension = mxGetM(signal);
 		
 		/*!
 		The output signal aliases the input signal such that
@@ -49,47 +49,50 @@ namespace Tim
 			++nans;
 		}
 
-		SignalPtr result;
 		if (mxGetClassID(signal) == typeToMatlabClassId<real>())
 		{
 			// Since the types match, alias the data.
 			real* rawData = mxGetPr(signal);
-			result = SignalPtr(
-				new Signal(samples - nans, dimension, 
-				nans, rawData + nans * dimension));
+			return Signal(
+				samples - nans, 
+				dimension, 
+				nans, 
+				rawData + nans * dimension);
 		}
-		else
-		{
-			// The types do not match, so allocate new
-			// memory and convert the data to the correct type.
-			result = SignalPtr(
-				new Signal(samples - nans, dimension, nans));
-			getScalars(signal, result->data().begin(), nans * dimension);
-		}
+
+		// The types do not match, so allocate new
+		// memory and convert the data to the correct type.
+		Signal result(
+			samples - nans, 
+			dimension, 
+			nans);
+
+		getScalars(signal, result.data().begin(), nans * dimension);
 
 		return result;
 	}
 
-	template <typename SignalPtr_Iterator>
-	integer getSignals(const mxArray* input,
-					SignalPtr_Iterator output)
+	inline std::vector<Signal> getSignals(
+		const mxArray* input)
 	{
-		const integer trials = 
+		integer n = 
 			mxGetNumberOfElements(input);
 
-		for (integer i = 0;i < trials;++i)
+		std::vector<Signal> signalSet;
+		signalSet.reserve(n);
+
+		for (integer i = 0;i < n;++i)
 		{
 			const mxArray* signal = mxGetCell(input, i);
-			*output = asSignal(signal);
-			++output;
+			signalSet.push_back(asSignal(signal));
 		}
 
-		return trials;
+		return signalSet;
 	}
 
 	inline void getSignalArray(
 		const mxArray* signalSetArray, 
-		Array<SignalPtr>& signalSet)
+		Array<Signal>& signalSet)
 	{
 		const integer signals = mxGetM(signalSetArray);
 		const integer trials = mxGetN(signalSetArray);

@@ -43,11 +43,11 @@ namespace Tim
 	*/
 
 	template <
-		typename SignalPtr_Iterator, 
+		typename Signal_Iterator, 
 		typename EntropyAlgorithm,
 		typename Real_Filter_Iterator>
-	SignalPtr temporalGenericEntropy(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
+	Signal temporalGenericEntropy(
+		const boost::iterator_range<Signal_Iterator>& signalSet,
 		const EntropyAlgorithm& entropyAlgorithm,
 		integer timeWindowRadius,
 		integer kNearest,
@@ -69,10 +69,10 @@ namespace Tim
 	*/
 
 	template <
-		typename SignalPtr_Iterator, 
+		typename Signal_Iterator, 
 		typename EntropyAlgorithm>
-	SignalPtr temporalGenericEntropy(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
+	Signal temporalGenericEntropy(
+		const boost::iterator_range<Signal_Iterator>& signalSet,
 		const EntropyAlgorithm& entropyAlgorithm,
 		integer timeWindowRadius,
 		integer kNearest = 1);

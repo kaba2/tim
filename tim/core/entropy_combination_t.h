@@ -63,8 +63,8 @@ namespace Tim
 		typename Integer3_Iterator,
 		typename Integer_Iterator,
 		typename Real_Filter_Iterator>
-	SignalPtr temporalEntropyCombination(
-		const Array<SignalPtr>& signalSet,
+	Signal temporalEntropyCombination(
+		const Array<Signal>& signalSet,
 		const boost::iterator_range<Integer3_Iterator>& rangeSet,
 		integer timeWindowRadius,
 		const boost::iterator_range<Integer_Iterator>& lagSet,
@@ -89,8 +89,8 @@ namespace Tim
 	template <
 		typename Integer3_Iterator,
 		typename Integer_Iterator>
-	SignalPtr temporalEntropyCombination(
-		const Array<SignalPtr>& signalSet,
+	Signal temporalEntropyCombination(
+		const Array<Signal>& signalSet,
 		const boost::iterator_range<Integer3_Iterator>& rangeSet,
 		integer timeWindowRadius,
 		const boost::iterator_range<Integer_Iterator>& lagSet,
@@ -110,8 +110,8 @@ namespace Tim
 	*/
 
 	template <typename Integer3_Iterator>
-	SignalPtr temporalEntropyCombination(
-		const Array<SignalPtr>& signalSet,
+	Signal temporalEntropyCombination(
+		const Array<Signal>& signalSet,
 		const boost::iterator_range<Integer3_Iterator>& rangeSet,
 		integer timeWindowRadius);
 

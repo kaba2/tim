@@ -9,17 +9,17 @@
 namespace Tim
 {
 
-	TIM SignalPtr generateUniform(
+	TIM Signal generateUniform(
 		integer samples,
 		integer dimension)
 	{
 		ENSURE_OP(dimension, >, 0);
 		ENSURE_OP(samples, >=, 0);
 
-		SignalPtr signal = SignalPtr(new Signal(samples, dimension));
+		Signal signal = Signal(samples, dimension);
 
-		Matrix<real>::Iterator iter = signal->data().begin();
-		const Matrix<real>::Iterator iterEnd = signal->data().end();
+		Matrix<real>::Iterator iter = signal.data().begin();
+		const Matrix<real>::Iterator iterEnd = signal.data().end();
 
 		while(iter != iterEnd)
 		{
@@ -30,22 +30,22 @@ namespace Tim
 		return signal;
 	}
 
-	TIM SignalPtr generateGaussian(
+	TIM Signal generateGaussian(
 		integer samples,
 		integer dimension)
 	{
 		ENSURE_OP(dimension, >, 0);
 		ENSURE_OP(samples, >=, 0);
 
-		SignalPtr signal = SignalPtr(new Signal(samples, dimension));
+		Signal signal = Signal(samples, dimension);
 
-		std::generate(signal->data().begin(), signal->data().end(),
+		std::generate(signal.data().begin(), signal.data().end(),
 			boost::bind(randomGaussian<real>));
 
 		return signal;
 	}
 
-	TIM SignalPtr generateCorrelatedGaussian(
+	TIM Signal generateCorrelatedGaussian(
 		integer samples,
 		integer dimension,
 		const CholeskyDecomposition<real>& covarianceCholesky)
@@ -55,14 +55,14 @@ namespace Tim
 		ENSURE_OP(covarianceCholesky.lower().width(), ==, dimension);
 		ENSURE(covarianceCholesky.succeeded());
 
-		SignalPtr correlatedGaussian = generateGaussian(samples, dimension);
+		Signal correlatedGaussian = generateGaussian(samples, dimension);
 
-		correlatedGaussian->data() *= transpose(covarianceCholesky.lower());
+		correlatedGaussian.data() *= transpose(covarianceCholesky.lower());
 
 		return correlatedGaussian;
 	}
 
-	TIM SignalPtr generateGeneralizedGaussian(
+	TIM Signal generateGeneralizedGaussian(
 		integer samples,
 		integer dimension,
 		real shape,
@@ -71,9 +71,9 @@ namespace Tim
 		ENSURE_OP(dimension, >, 0);
 		ENSURE_OP(samples, >=, 0);
 
-		SignalPtr signal = SignalPtr(new Signal(samples, dimension));
+		Signal signal = Signal(samples, dimension);
 
-		std::generate(signal->data().begin(), signal->data().end(),
+		std::generate(signal.data().begin(), signal.data().end(),
 			boost::bind(randomGeneralizedGaussian<real>, shape, scale));
 
 		return signal;
@@ -83,17 +83,17 @@ namespace Tim
 		integer samples,
 		integer yxShift,
 		integer zyShift,
-		const SignalPtr& xSignal,
-		const SignalPtr& ySignal,
-		const SignalPtr& zSignal)
+		Signal& xSignal,
+		Signal& ySignal,
+		Signal& zSignal)
 	{
 		ENSURE_OP(samples, >=, 0);
 		ENSURE_OP(yxShift, >=, 0);
 		ENSURE_OP(zyShift, >=, 0);
 
-		xSignal->data().setSize(samples, 1);
-		ySignal->data().setSize(samples, 1);
-		zSignal->data().setSize(samples, 1);
+		xSignal.data().setSize(samples, 1);
+		ySignal.data().setSize(samples, 1);
+		zSignal.data().setSize(samples, 1);
 
 		if (samples == 0)
 		{
@@ -106,9 +106,9 @@ namespace Tim
 		const real cyclesPerSample = 
 			(2 * constantPi<real>()) / couplingSamples;
 
-		Matrix<real>::Iterator xIter = xSignal->data().begin();
-		Matrix<real>::Iterator yIter = ySignal->data().begin();
-		Matrix<real>::Iterator zIter = zSignal->data().begin();
+		Matrix<real>::Iterator xIter = xSignal.data().begin();
+		Matrix<real>::Iterator yIter = ySignal.data().begin();
+		Matrix<real>::Iterator zIter = zSignal.data().begin();
 
 		for (integer i = 0;i < samples;++i)
 		{

@@ -9,9 +9,9 @@
 namespace Tim
 {
 
-	template <typename SignalPtr_Iterator, typename Integer_Iterator>
+	template <typename Signal_Iterator, typename Integer_Iterator>
 	Integer2 sharedTimeInterval(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
+		const boost::iterator_range<Signal_Iterator>& signalSet,
 		const boost::iterator_range<Integer_Iterator>& lagSet)
 	{
 		// In the following we think of having signals
@@ -38,17 +38,17 @@ namespace Tim
 
 		Integer_Iterator lagIter = lagSet.begin();
 		const Integer_Iterator lagIterEnd = lagSet.end();
-		SignalPtr_Iterator signalIter = signalSet.begin();
+		Signal_Iterator signalIter = signalSet.begin();
 
-		integer tLeftMax = (*lagIter) + (*signalIter)->t();
-		integer tRightMin = tLeftMax + (*signalIter)->samples();
+		integer tLeftMax = (*lagIter) + (*signalIter).t();
+		integer tRightMin = tLeftMax + (*signalIter).samples();
 		++lagIter;
 		++signalIter;
 
 		while(lagIter != lagIterEnd)
 		{
-			const integer tLeft = *lagIter + (*signalIter)->t();
-			const integer tRight = tLeft + (*signalIter)->samples();
+			const integer tLeft = *lagIter + (*signalIter).t();
+			const integer tRight = tLeft + (*signalIter).samples();
 
 			if (tLeft > tLeftMax)
 			{
@@ -71,33 +71,33 @@ namespace Tim
 		return Integer2(tLeftMax, tRightMin);
 	}
 
-	template <typename SignalPtr_Iterator>
+	template <typename Signal_Iterator>
 	Integer2 sharedTimeInterval(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet)
+		const boost::iterator_range<Signal_Iterator>& signalSet)
 	{
 		return sharedTimeInterval(
 			signalSet,
 			constantRange(0, signalSet.size()));
 	}
 
-	template <typename SignalPtr_Iterator>
+	template <typename Signal_Iterator>
 	integer minSamples(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet)
+		const boost::iterator_range<Signal_Iterator>& signalSet)
 	{
 		if (signalSet.empty())
 		{
 			return 0;
 		}
 
-		SignalPtr_Iterator iter = signalSet.begin();
-		const SignalPtr_Iterator iterEnd = signalSet.end();
+		Signal_Iterator iter = signalSet.begin();
+		const Signal_Iterator iterEnd = signalSet.end();
 
-		integer samples = (*iter)->samples();
+		integer samples = (*iter).samples();
 		++iter;
 
 		while(iter != iterEnd)
 		{
-			samples = std::min(samples, (*iter)->samples());
+			samples = std::min(samples, (*iter).samples());
 
 			++iter;
 		}
@@ -105,24 +105,24 @@ namespace Tim
 		return samples;
 	}
 
-	template <typename SignalPtr_Iterator>
+	template <typename Signal_Iterator>
 	bool equalDimension(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet)
+		const boost::iterator_range<Signal_Iterator>& signalSet)
 	{
 		if (signalSet.empty())
 		{
 			return true;
 		}
 
-		SignalPtr_Iterator iter = signalSet.begin();
-		const SignalPtr_Iterator iterEnd = signalSet.end();
+		Signal_Iterator iter = signalSet.begin();
+		const Signal_Iterator iterEnd = signalSet.end();
 
-		integer dimension = signalSet.front()->dimension();
+		integer dimension = signalSet.front().dimension();
 		++iter;
 
 		while(iter != iterEnd)
 		{
-			if ((*iter)->dimension() != dimension)
+			if ((*iter).dimension() != dimension)
 			{
 				return false;
 			}
@@ -133,24 +133,24 @@ namespace Tim
 		return true;
 	}
 
-	template <typename SignalPtr_Iterator>
+	template <typename Signal_Iterator>
 	bool equalSamples(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet)
+		const boost::iterator_range<Signal_Iterator>& signalSet)
 	{
 		if (signalSet.empty())
 		{
 			return true;
 		}
 
-		SignalPtr_Iterator iter = signalSet.begin();
-		const SignalPtr_Iterator iterEnd = signalSet.end();
+		Signal_Iterator iter = signalSet.begin();
+		const Signal_Iterator iterEnd = signalSet.end();
 
-		integer samples = signalSet.front()->samples();
+		integer samples = signalSet.front().samples();
 		++iter;
 
 		while(iter != iterEnd)
 		{
-			if ((*iter)->samples() != samples)
+			if ((*iter).samples() != samples)
 			{
 				return false;
 			}

@@ -17,16 +17,16 @@ namespace Tim
 	{
 
 		template <
-			typename SignalPtr_X_Iterator,
-			typename SignalPtr_Y_Iterator,
-			typename SignalPtr_W_Iterator,
+			typename Signal_X_Iterator,
+			typename Signal_Y_Iterator,
+			typename Signal_W_Iterator,
 			typename Real_Filter_Iterator>
 		real transferEntropy(
-			const boost::iterator_range<SignalPtr_X_Iterator>& xSignalSet,
-			const boost::iterator_range<SignalPtr_Y_Iterator>& ySignalSet,
-			const boost::iterator_range<SignalPtr_W_Iterator>& wSignalSet,
+			const boost::iterator_range<Signal_X_Iterator>& xSignalSet,
+			const boost::iterator_range<Signal_Y_Iterator>& ySignalSet,
+			const boost::iterator_range<Signal_W_Iterator>& wSignalSet,
 			integer timeWindowRadius,
-			SignalPtr* result,
+			Signal* result,
 			integer xLag, integer yLag, integer wLag,
 			integer kNearest,
 			const boost::iterator_range<Real_Filter_Iterator>& filter)
@@ -49,10 +49,10 @@ namespace Tim
 			// Form the joint signal. Note the signals 
 			// are merged in wXY order.
 
-			std::vector<SignalPtr> jointSignalSet;
+			std::vector<Signal> jointSignalSet;
 			jointSignalSet.reserve(trials);
 
-			Array<SignalPtr> signalSet(Vector2i(trials, 3));
+			Array<Signal> signalSet(Vector2i(trials, 3));
 			std::copy(wSignalSet.begin(), wSignalSet.end(), signalSet.rowBegin(0));
 			std::copy(xSignalSet.begin(), xSignalSet.end(), signalSet.rowBegin(1));
 			std::copy(ySignalSet.begin(), ySignalSet.end(), signalSet.rowBegin(2));
@@ -90,20 +90,20 @@ namespace Tim
 	}
 
 	template <
-		typename SignalPtr_X_Iterator,
-		typename SignalPtr_Y_Iterator,
-		typename SignalPtr_W_Iterator,
+		typename Signal_X_Iterator,
+		typename Signal_Y_Iterator,
+		typename Signal_W_Iterator,
 		typename Real_Filter_Iterator>
-	SignalPtr temporalTransferEntropy(
-		const boost::iterator_range<SignalPtr_X_Iterator>& xSignalSet,
-		const boost::iterator_range<SignalPtr_Y_Iterator>& ySignalSet,
-		const boost::iterator_range<SignalPtr_W_Iterator>& wSignalSet,
+	Signal temporalTransferEntropy(
+		const boost::iterator_range<Signal_X_Iterator>& xSignalSet,
+		const boost::iterator_range<Signal_Y_Iterator>& ySignalSet,
+		const boost::iterator_range<Signal_W_Iterator>& wSignalSet,
 		integer timeWindowRadius,
 		integer xLag, integer yLag, integer wLag,
 		integer kNearest,
 		const boost::iterator_range<Real_Filter_Iterator>& filter)
 	{
-		SignalPtr result;
+		Signal result;
 		Tim::Detail_TransferEntropy::transferEntropy(
 			xSignalSet, ySignalSet, wSignalSet,
 			timeWindowRadius,
@@ -115,13 +115,13 @@ namespace Tim
 	}
 
 	template <
-		typename SignalPtr_X_Iterator,
-		typename SignalPtr_Y_Iterator,
-		typename SignalPtr_W_Iterator>
-	SignalPtr temporalTransferEntropy(
-		const boost::iterator_range<SignalPtr_X_Iterator>& xSignalSet,
-		const boost::iterator_range<SignalPtr_Y_Iterator>& ySignalSet,
-		const boost::iterator_range<SignalPtr_W_Iterator>& wSignalSet,
+		typename Signal_X_Iterator,
+		typename Signal_Y_Iterator,
+		typename Signal_W_Iterator>
+	Signal temporalTransferEntropy(
+		const boost::iterator_range<Signal_X_Iterator>& xSignalSet,
+		const boost::iterator_range<Signal_Y_Iterator>& ySignalSet,
+		const boost::iterator_range<Signal_W_Iterator>& wSignalSet,
 		integer timeWindowRadius,
 		integer xLag, integer yLag, integer wLag,
 		integer kNearest)
@@ -135,13 +135,13 @@ namespace Tim
 	}
 
 	template <
-		typename SignalPtr_X_Iterator,
-		typename SignalPtr_Y_Iterator,
-		typename SignalPtr_W_Iterator>
+		typename Signal_X_Iterator,
+		typename Signal_Y_Iterator,
+		typename Signal_W_Iterator>
 	real transferEntropy(
-		const boost::iterator_range<SignalPtr_X_Iterator>& xSignalSet,
-		const boost::iterator_range<SignalPtr_Y_Iterator>& ySignalSet,
-		const boost::iterator_range<SignalPtr_W_Iterator>& wSignalSet,
+		const boost::iterator_range<Signal_X_Iterator>& xSignalSet,
+		const boost::iterator_range<Signal_Y_Iterator>& ySignalSet,
+		const boost::iterator_range<Signal_W_Iterator>& wSignalSet,
 		integer xLag, integer yLag, integer wLag,
 		integer kNearest)
 	{

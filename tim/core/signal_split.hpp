@@ -6,12 +6,12 @@
 namespace Tim
 {
 
-	template <typename SignalPtr_OutputIterator>
+	template <typename Signal_OutputIterator>
 	void split(
-		const SignalPtr& jointSignal,
-		SignalPtr_OutputIterator signalSet)
+		const Signal& jointSignal,
+		Signal_OutputIterator signalSet)
 	{
-		const integer dimension = jointSignal->dimension();
+		const integer dimension = jointSignal.dimension();
 
 		std::vector<integer> partition;
 		partition.reserve(dimension + 1);
@@ -23,11 +23,11 @@ namespace Tim
 		Tim::split(jointSignal, partition, signalSet);
 	}
 
-	template <typename SignalPtr_OutputIterator>
+	template <typename Signal_OutputIterator>
 	void split(
-		const SignalPtr& jointSignal,
+		const Signal& jointSignal,
 		const std::vector<integer>& partition,
-		SignalPtr_OutputIterator signalSet)
+		Signal_OutputIterator signalSet)
 	{
 		ENSURE_OP(partition.size(), >=, 2);
 

@@ -32,10 +32,10 @@ namespace
 		ENSURE_OP(inputs, ==, Inputs);
 		ENSURE_OP(outputs, ==, Outputs);
 
-		const SignalPtr data = asSignal(inputSet[X]);
+		const Signal data = asSignal(inputSet[X]);
 		const integer bins = asScalar<integer>(inputSet[Bins]);
 
-		const integer n = data->dimension();
+		const integer n = data.dimension();
 
 		Array<real> result =
 			createArray<real>(Vector2i(n, n), 

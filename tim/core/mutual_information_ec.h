@@ -44,12 +44,12 @@ namespace Tim
 	*/
 
 	template <
-		typename SignalPtr_X_Iterator,
-		typename SignalPtr_Y_Iterator,
+		typename Signal_X_Iterator,
+		typename Signal_Y_Iterator,
 		typename Real_Filter_Iterator>
-	SignalPtr temporalMutualInformation(
-		const boost::iterator_range<SignalPtr_X_Iterator>& xSignalSet,
-		const boost::iterator_range<SignalPtr_Y_Iterator>& ySignalSet,
+	Signal temporalMutualInformation(
+		const boost::iterator_range<Signal_X_Iterator>& xSignalSet,
+		const boost::iterator_range<Signal_Y_Iterator>& ySignalSet,
 		integer timeWindowRadius,
 		integer xLag, integer yLag,
 		integer kNearest,
@@ -72,11 +72,11 @@ namespace Tim
 	*/
 
 	template <
-		typename SignalPtr_X_Iterator,
-		typename SignalPtr_Y_Iterator>
-	SignalPtr temporalMutualInformation(
-		const boost::iterator_range<SignalPtr_X_Iterator>& xSignalSet,
-		const boost::iterator_range<SignalPtr_Y_Iterator>& ySignalSet,
+		typename Signal_X_Iterator,
+		typename Signal_Y_Iterator>
+	Signal temporalMutualInformation(
+		const boost::iterator_range<Signal_X_Iterator>& xSignalSet,
+		const boost::iterator_range<Signal_Y_Iterator>& ySignalSet,
 		integer timeWindowRadius,
 		integer xLag = 0, integer yLag = 0,
 		integer kNearest = 1);
@@ -104,11 +104,11 @@ namespace Tim
 	*/
 
 	template <
-		typename SignalPtr_X_Iterator,
-		typename SignalPtr_Y_Iterator>
+		typename Signal_X_Iterator,
+		typename Signal_Y_Iterator>
 	real mutualInformation(
-		const boost::iterator_range<SignalPtr_X_Iterator>& xSignalSet,
-		const boost::iterator_range<SignalPtr_Y_Iterator>& ySignalSet,
+		const boost::iterator_range<Signal_X_Iterator>& xSignalSet,
+		const boost::iterator_range<Signal_Y_Iterator>& ySignalSet,
 		integer xLag = 0, integer yLag = 0,
 		integer kNearest = 1);
 

@@ -22,11 +22,11 @@ namespace Tim
 {
 
 	template <
-		typename SignalPtr_Iterator, 
+		typename Signal_Iterator, 
 		typename EntropyAlgorithm,
 		typename Real_Filter_Iterator>
-	SignalPtr temporalGenericEntropy(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
+	Signal temporalGenericEntropy(
+		const boost::iterator_range<Signal_Iterator>& signalSet,
 		const EntropyAlgorithm& entropyAlgorithm,
 		integer timeWindowRadius,
 		integer kNearest,
@@ -45,7 +45,7 @@ namespace Tim
 
 		if (signalSet.empty())
 		{
-			return SignalPtr(new Signal(0, 1));
+			return Signal(0, 1);
 		}
 
 		const Integer2 sharedTime = sharedTimeInterval(signalSet);
@@ -54,7 +54,7 @@ namespace Tim
 		const integer samples = estimateEnd - estimateBegin;
 
 		const integer trials = signalSet.size();
-		const integer dimension = signalSet.front()->dimension();
+		const integer dimension = signalSet.front().dimension();
 		const integer totalSamples = samples * trials;
 
 		ENSURE_OP(kNearest, <, totalSamples);
@@ -81,7 +81,7 @@ namespace Tim
 			}
 		}
 
-		SignalPtr result(new Signal(samples, 1, estimateBegin));
+		Signal result(samples, 1, estimateBegin);
 		integer missingValues = 0;
 
 #pragma omp parallel
@@ -170,7 +170,7 @@ namespace Tim
 			}
 			if (weightSum != 0)
 			{
-				result->data()(t - estimateBegin) = 
+				result.data()(t - estimateBegin) = 
 					entropyAlgorithm.finishEstimate(
 					estimate / weightSum, dimension, 
 					kNearest, tWidth * trials);
@@ -182,7 +182,7 @@ namespace Tim
 				// marked with a NaN. We will later attempt
 				// to reconstruct these values.
 
-				result->data()(t - estimateBegin) = nan<real>();
+				result.data()(t - estimateBegin) = nan<real>();
 				++missingValues;
 			}
 		}
@@ -191,16 +191,16 @@ namespace Tim
 		// Reconstruct the NaN's.
 
 		reconstruct(
-			range(result->data().begin(), result->data().end()));
+			range(result.data().begin(), result.data().end()));
 
 		return result;
 	}
 
 	template <
-		typename SignalPtr_Iterator, 
+		typename Signal_Iterator, 
 		typename EntropyAlgorithm>
-	SignalPtr temporalGenericEntropy(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
+	Signal temporalGenericEntropy(
+		const boost::iterator_range<Signal_Iterator>& signalSet,
 		const EntropyAlgorithm& entropyAlgorithm,
 		integer timeWindowRadius,
 		integer kNearest)

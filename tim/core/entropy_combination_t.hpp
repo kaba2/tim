@@ -32,8 +32,8 @@ namespace Tim
 		typename Integer3_Iterator,
 		typename Integer_Iterator,
 		typename Real_Filter_Iterator>
-	SignalPtr temporalEntropyCombination(
-		const Array<SignalPtr>& signalSet,
+	Signal temporalEntropyCombination(
+		const Array<Signal>& signalSet,
 		const boost::iterator_range<Integer3_Iterator>& rangeSet,
 		integer timeWindowRadius,
 		const boost::iterator_range<Integer_Iterator>& lagSet,
@@ -51,7 +51,7 @@ namespace Tim
 		if (signalSet.empty() || rangeSet.empty() || filter.empty())
 		{
 			// There's nothing to do.
-			return SignalPtr(new Signal(0, 1));
+			return Signal(0, 1);
 		}
 
 		// Check that the trials of signals have the 
@@ -81,12 +81,12 @@ namespace Tim
 		{
 			// The signals do not share any time interval:
 			// return an empty signal.
-			return SignalPtr(new Signal(0, 1));
+			return Signal(0, 1);
 		}
 		
 		// Construct the joint signal.
 
-		std::vector<SignalPtr> jointSignalSet;
+		std::vector<Signal> jointSignalSet;
 		jointSignalSet.reserve(trials);
 		merge(signalSet, std::back_inserter(jointSignalSet), lagSet);
 
@@ -100,7 +100,7 @@ namespace Tim
 		offsetSet.push_back(0);
 		for (integer i = 1;i < signals + 1;++i)
 		{
-			const integer marginalDimension = signalSet(0, i - 1)->dimension();
+			const integer marginalDimension = signalSet(0, i - 1).dimension();
 			offsetSet.push_back(offsetSet[i - 1] + marginalDimension);
 		}
 
@@ -112,7 +112,7 @@ namespace Tim
 
 		// This is where the estimates are stored at.
 		
-		SignalPtr result(new Signal(estimates, 1, estimateBegin));
+		Signal result(estimates, 1, estimateBegin);
 		
 		const std::vector<Integer3> copyRangeSet(
 			rangeSet.begin(), rangeSet.end());
@@ -266,14 +266,14 @@ namespace Tim
 			estimate += digamma<real>(kNearest);
 			estimate += (signalWeightSum - 1) * digamma<real>(estimateSamples);
 
-			result->data()(t - estimateBegin) = estimate;
+			result.data()(t - estimateBegin) = estimate;
 		}
 		}
 
 		// Reconstruct the NaN's in the estimates.
 
 		reconstruct(
-			range(result->data().begin(), estimates));
+			range(result.data().begin(), estimates));
 
 		return result;
 	}
@@ -281,8 +281,8 @@ namespace Tim
 	template <
 		typename Integer3_Iterator,
 		typename Integer_Iterator>
-	SignalPtr temporalEntropyCombination(
-		const Array<SignalPtr>& signalSet,
+	Signal temporalEntropyCombination(
+		const Array<Signal>& signalSet,
 		const boost::iterator_range<Integer3_Iterator>& rangeSet,
 		integer timeWindowRadius,
 		const boost::iterator_range<Integer_Iterator>& lagSet,
@@ -298,8 +298,8 @@ namespace Tim
 	}
 
 	template <typename Integer3_Iterator>
-	SignalPtr temporalEntropyCombination(
-		const Array<SignalPtr>& signalSet,
+	Signal temporalEntropyCombination(
+		const Array<Signal>& signalSet,
 		const boost::iterator_range<Integer3_Iterator>& rangeSet,
 		integer timeWindowRadius)
 	{

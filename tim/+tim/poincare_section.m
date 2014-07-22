@@ -28,6 +28,7 @@
 %  0: All intersections.
 % +1: Only those intersections which agree with the normal.
 % -1: Only those intersections which do not agree with the normal.
+% Default: 1
 %
 % More
 % ----
@@ -66,7 +67,7 @@ concept_check(nargout, 'outputs', 0 : 1);
 % Optional input arguments.
 normal = [1; 0; 0];
 position = [0; 0; 0];
-direction = 0;
+direction = 1;
 eval(process_options(...
     {'normal', 'position', 'direction'}, ...
     varargin));

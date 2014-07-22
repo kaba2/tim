@@ -118,9 +118,9 @@ namespace Tim
 
 	}
 
-	template <typename SignalPtr_Iterator>
+	template <typename Signal_Iterator>
 	real differentialEntropySp(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet)
+		const boost::iterator_range<Signal_Iterator>& signalSet)
 	{
 		if (signalSet.empty())
 		{
@@ -135,13 +135,13 @@ namespace Tim
 
 		std::vector<const real*> pointSet;
 		pointSet.reserve(n);
-		SignalPtr_Iterator iter = signalSet.begin();
-		const SignalPtr_Iterator iterEnd = signalSet.end();
+		Signal_Iterator iter = signalSet.begin();
+		const Signal_Iterator iterEnd = signalSet.end();
 		while(iter != iterEnd)
 		{
-			const SignalPtr& signal = *iter;
+			const Signal& signal = *iter;
 			copy_n(
-				signal->pointBegin(), samples,
+				signal.pointBegin(), samples,
 				std::back_inserter(pointSet));
 			
 			++iter;
@@ -149,7 +149,7 @@ namespace Tim
 		
 		// Compute bounds.
 
-		const integer dimension = signalSet.front()->dimension();
+		const integer dimension = signalSet.front().dimension();
 		VectorD min(ofDimension(dimension), infinity<real>());
 		VectorD max(ofDimension(dimension), -infinity<real>());
 		for (integer i = 0;i < n;++i)

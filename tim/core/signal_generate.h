@@ -17,7 +17,7 @@ namespace Tim
 	size >= 0
 	*/
 
-	TIM SignalPtr generateUniform(
+	TIM Signal generateUniform(
 		integer samples,
 		integer dimension);
 
@@ -28,7 +28,7 @@ namespace Tim
 	samples >= 0
 	*/
 
-	TIM SignalPtr generateGaussian(
+	TIM Signal generateGaussian(
 		integer samples,
 		integer dimension);
 
@@ -50,12 +50,12 @@ namespace Tim
 	correlation matrix being identity).
 	*/
 
-	TIM SignalPtr generateCorrelatedGaussian(
+	TIM Signal generateCorrelatedGaussian(
 		integer samples,
 		integer dimension,
 		const CholeskyDecomposition<real>& covarianceCholesky);
 
-	TIM SignalPtr generateGeneralizedGaussian(
+	TIM Signal generateGeneralizedGaussian(
 		integer samples,
 		integer dimension,
 		real shape,
@@ -82,9 +82,9 @@ namespace Tim
 		integer samples,
 		integer yxShift,
 		integer zyShift,
-		const SignalPtr& xSignal,
-		const SignalPtr& ySignal,
-		const SignalPtr& zSignal);
+		Signal& xSignal,
+		Signal& ySignal,
+		Signal& zSignal);
 
 }
 

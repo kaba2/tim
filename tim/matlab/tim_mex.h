@@ -9,29 +9,26 @@
 
 #include <pastel/matlab/matlab_argument.h>
 
+#include <vector>
+
 namespace Tim
 {
 
 	//! Retrieves a reference to a signal.
-	SignalPtr asSignal(const mxArray* signal);
+	Signal asSignal(const mxArray* signal);
 
 	//! Retrieves the signals in a cell-array.
 	/*!
-	Returns:
-	The number of signals in the array.
-
 	Note: The signals are reported in Matlab's 
 	linearized order.
 	*/
-	template <typename SignalPtr_Iterator>
-	integer getSignals(
-		const mxArray* input,
-		SignalPtr_Iterator output);
+	std::vector<Signal> getSignals(
+		const mxArray* input);
 
 	//! Retrieves an array of signals.
 	void getSignalArray(
 		const mxArray* signalSetArray, 
-		Array<SignalPtr>& signalSet);
+		Array<Signal>& signalSet);
 	
 }
 
