@@ -77,7 +77,10 @@ endif()
 set (TimLibraryType STATIC)
 
 # The source files to include in the build.
-set (TimSourceGlobSet *.cpp *.h *.hpp)
+set (TimSourceGlobSet *.cpp *.h *.hpp *.txt)
+
+# The documentation files of the project.
+set (TimDocumentationGlobSet *.txt)
 
 # Set a default build type if none was specified.
 # This only applies to single-configuration tool-sets,
