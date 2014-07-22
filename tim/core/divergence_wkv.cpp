@@ -4,11 +4,11 @@ namespace Tim
 {
 
 	TIM real divergenceWkv(
-		const SignalPtr& xSignal,
-		const SignalPtr& ySignal)
+		const Signal& xSignal,
+		const Signal& ySignal)
 	{
-		const SignalPtr xSignalSet[] = {xSignal};
-		const SignalPtr ySignalSet[] = {ySignal};
+		const Signal xSignalSet[] = {xSignal};
+		const Signal ySignalSet[] = {ySignal};
 
 		return Tim::divergenceWkv(
 			range(xSignalSet),

@@ -12,9 +12,9 @@
 namespace Tim
 {
 
-	template <typename SignalPtr_Iterator>
+	template <typename Signal_Iterator>
 	real differentialEntropySp(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet);	
+		const boost::iterator_range<Signal_Iterator>& signalSet);	
 
 }
 

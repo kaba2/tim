@@ -32,11 +32,8 @@ namespace
 		ENSURE_OP(inputs, ==, Inputs);
 		ENSURE_OP(outputs, ==, Outputs);
 
-		std::vector<SignalPtr> xEnsemble;
-		getSignals(inputSet[X], std::back_inserter(xEnsemble));
-
-		std::vector<SignalPtr> yEnsemble;
-		getSignals(inputSet[Y], std::back_inserter(yEnsemble));
+		std::vector<Signal> xEnsemble = getSignals(inputSet[X]);
+		std::vector<Signal> yEnsemble = getSignals(inputSet[Y]);
 
 		real* outResult = createScalar<real>(outputSet[Estimate]);
 		*outResult = divergenceWkv(

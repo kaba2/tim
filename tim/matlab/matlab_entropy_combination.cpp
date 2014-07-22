@@ -35,7 +35,7 @@ namespace
 		ENSURE_OP(inputs, ==, Inputs);
 		ENSURE_OP(outputs, ==, Outputs);
 
-		Array<SignalPtr> signalSet;
+		Array<Signal> signalSet;
 		getSignalArray(inputSet[SignalSet], signalSet);
 
 		std::vector<integer> lagSet;

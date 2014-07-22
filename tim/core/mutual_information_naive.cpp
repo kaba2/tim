@@ -34,7 +34,7 @@ namespace Tim
 	}
 
 	TIM Array<real> mutualInformationFromBinning(
-		const SignalPtr& signal,
+		const Signal& signal,
 		integer bins)
 	{
 		ENSURE_OP(bins, >, 0);
@@ -53,12 +53,12 @@ namespace Tim
 		5) Compute mutual information for the piecewise-constant distributions.
 		*/
 
-		const integer n = signal->dimension();
+		const integer n = signal.dimension();
 
 		Array<real> result(Vector2i(n, n));
 
-		VectorD minBound = min(signal->data());
-		VectorD maxBound = max(signal->data());
+		VectorD minBound = min(signal.data());
+		VectorD maxBound = max(signal.data());
 		VectorD binExtent = (maxBound - minBound) / bins;
 		
 		// Extend the bin support by a half bin
@@ -77,7 +77,7 @@ namespace Tim
 		for (integer i = 0;i < n;++i)
 		{
 			computeHistogram(
-				range(signal->data().columnBegin(i), signal->data().columnEnd(i)),
+				range(signal.data().cColumnBegin(i), signal.data().cColumnEnd(i)),
 				minBound[i],
 				maxBound[i],
 				bins,
@@ -91,12 +91,12 @@ namespace Tim
 			for (integer j = i + 1;j < n;++j)
 			{
 				computeJointHistogram(
-					signal->data().columnBegin(i),
-					signal->data().columnEnd(i),
+					signal.data().cColumnBegin(i),
+					signal.data().cColumnEnd(i),
 					minBound[i],
 					maxBound[i],
-					signal->data().columnBegin(j),
-					signal->data().columnEnd(j),
+					signal.data().cColumnBegin(j),
+					signal.data().cColumnEnd(j),
 					minBound[j],
 					maxBound[j],
 					arrayView(jointHistogram));

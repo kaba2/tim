@@ -14,10 +14,10 @@ namespace Tim
 	See the more specialized
 	'split' function for more information.
 	*/
-	template <typename SignalPtr_OutputIterator>
+	template <typename Signal_OutputIterator>
 	void split(
-		const SignalPtr& jointSignal,
-		SignalPtr_OutputIterator signalSet);
+		const Signal& jointSignal,
+		Signal_OutputIterator signalSet);
 
 	//! Creates aliases for marginal signals.
 	/*!
@@ -31,11 +31,11 @@ namespace Tim
 	are split with the dimension subranges
 	[0, 2[, [2, 3[, [3, 4[.
 	*/
-	template <typename SignalPtr_OutputIterator>
+	template <typename Signal_OutputIterator>
 	void split(
-		const SignalPtr& jointSignal,
+		const Signal& jointSignal,
 		const std::vector<integer>& partition,
-		SignalPtr_OutputIterator signalSet);
+		Signal_OutputIterator signalSet);
 
 	//! Creates an alias for a marginal signal.
 	/*
@@ -46,8 +46,8 @@ namespace Tim
 	with P and thus changes in either are reflected in
 	the other.
 	*/
-	TIM SignalPtr split(
-		const SignalPtr& signal,
+	TIM Signal split(
+		const Signal& signal,
 		integer dimensionBegin,
 		integer dimensionEnd);
 

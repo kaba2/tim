@@ -3,13 +3,13 @@
 namespace Tim
 {
 
-	TIM SignalPtr merge(
-		const SignalPtr& xSignal,
-		const SignalPtr& ySignal,
+	TIM Signal merge(
+		const Signal& xSignal,
+		const Signal& ySignal,
 		integer xLag,
 		integer yLag)
 	{
-		const SignalPtr signalSet[2] = {xSignal, ySignal};
+		const Signal signalSet[2] = {xSignal, ySignal};
 		const integer lagSet[2] = {xLag, yLag};
 
 		return Tim::merge(

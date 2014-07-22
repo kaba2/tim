@@ -99,10 +99,10 @@ namespace Tim
 	// ----------------------
 
 	template <
-		typename SignalPtr_Iterator, 
+		typename Signal_Iterator, 
 		typename Real_Filter_Iterator>
-	SignalPtr temporalTsallisEntropyLps(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
+	Signal temporalTsallisEntropyLps(
+		const boost::iterator_range<Signal_Iterator>& signalSet,
 		integer timeWindowRadius,
 		real q,
 		integer kNearestSuggestion,
@@ -115,7 +115,7 @@ namespace Tim
 
 		if (signalSet.empty())
 		{
-			return SignalPtr(new Signal(0, 1));
+			return Signal(0, 1);
 		}
 
 		if (q == 1)
@@ -139,7 +139,7 @@ namespace Tim
 		}
 
 		const integer kNearest = tsallisDecideK(q, kNearestSuggestion);
-		const integer dimension = signalSet.front()->dimension();
+		const integer dimension = signalSet.front().dimension();
 		
 		const LpsTsallis_EntropyAlgorithm entropyAlgorithm(
 			dimension, kNearest, q);
@@ -152,9 +152,9 @@ namespace Tim
 			filter);
 	}
 
-	template <typename SignalPtr_Iterator>
-	SignalPtr temporalTsallisEntropyLps(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
+	template <typename Signal_Iterator>
+	Signal temporalTsallisEntropyLps(
+		const boost::iterator_range<Signal_Iterator>& signalSet,
 		integer timeWindowRadius,
 		real q,
 		integer kNearestSuggestion)
@@ -168,9 +168,9 @@ namespace Tim
 	// Tsallis entropy
 	// -------------
 
-	template <typename SignalPtr_Iterator>
+	template <typename Signal_Iterator>
 	real tsallisEntropyLps(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
+		const boost::iterator_range<Signal_Iterator>& signalSet,
 		real q,
 		integer kNearestSuggestion)
 	{
@@ -202,7 +202,7 @@ namespace Tim
 		}
 
 		const integer kNearest = tsallisDecideK(q, kNearestSuggestion);
-		const integer dimension = signalSet.front()->dimension();
+		const integer dimension = signalSet.front().dimension();
 		
 		const LpsTsallis_EntropyAlgorithm entropyAlgorithm(
 			dimension, kNearest, q);

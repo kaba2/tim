@@ -33,8 +33,7 @@ namespace
 		ENSURE_OP(inputs, ==, Inputs);
 		ENSURE_OP(outputs, ==, Outputs);
 
-		std::vector<SignalPtr> xEnsemble;
-		getSignals(inputSet[X], std::back_inserter(xEnsemble));
+		std::vector<Signal> xEnsemble = getSignals(inputSet[X]);
 
 		const real q = asScalar<real>(inputSet[Q]);
 		const integer kNearestSuggestion = asScalar<integer>(inputSet[KNearestSuggestion]);

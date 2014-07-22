@@ -42,6 +42,8 @@
 %     x' = sigma(y - x)
 %     y' = rx - y - xz
 %     z' = -bz + xy.
+%
+% subject to p0 = [x(0), y(0), z(0)].
 
 % Description: Generates the Lorenz point-set
 

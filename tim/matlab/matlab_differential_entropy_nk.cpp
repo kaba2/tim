@@ -34,8 +34,7 @@ namespace
 		ENSURE_OP(inputs, ==, Inputs);
 		ENSURE_OP(outputs, <=, Outputs);
 
-		std::vector<SignalPtr> xEnsemble;
-		getSignals(inputSet[X], std::back_inserter(xEnsemble));
+		std::vector<Signal> xEnsemble = getSignals(inputSet[X]);
 
 		integer intrinsicDimension = 0;
 

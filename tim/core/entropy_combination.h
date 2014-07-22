@@ -53,7 +53,7 @@ namespace Tim
 		typename Integer_Iterator,
 		typename LocalEstimator>
 	real entropyCombination(
-		const Array<SignalPtr>& signalSet,
+		const Array<Signal>& signalSet,
 		const boost::iterator_range<Integer3_Iterator>& rangeSet,
 		const boost::iterator_range<Integer_Iterator>& lagSet,
 		integer kNearest,
@@ -77,7 +77,7 @@ namespace Tim
 		typename Integer3_Iterator,
 		typename Integer_Iterator>
 	real entropyCombination(
-		const Array<SignalPtr>& signalSet,
+		const Array<Signal>& signalSet,
 		const boost::iterator_range<Integer3_Iterator>& rangeSet,
 		const boost::iterator_range<Integer_Iterator>& lagSet,
 		integer kNearest = 1);
@@ -98,7 +98,7 @@ namespace Tim
 		typename Integer3_Iterator,
 		typename Real_OutputIterator>
 	real entropyCombination(
-		const Array<SignalPtr>& signalSet,
+		const Array<Signal>& signalSet,
 		const boost::iterator_range<Integer3_Iterator>& rangeSet);
 
 }

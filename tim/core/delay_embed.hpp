@@ -6,43 +6,39 @@
 namespace Tim
 {
 
-	template <typename SignalPtr_Iterator, typename OutputIterator>
+	template <
+		typename Signal_Input, 
+		typename Signal_Output>
 	void delayEmbed(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
-		const OutputIterator& outputBegin,
+		Signal_Input inputSet,
+		Signal_Output output,
 		integer k,
 		integer dt)
 	{
 		ENSURE_OP(k, >, 0);
 		ENSURE_OP(dt, >=, 1);
 
-		SignalPtr_Iterator signalIter = signalSet.begin();
-		const SignalPtr_Iterator signalEnd = signalSet.end();
-		OutputIterator outputIter = outputBegin;
-		while(signalIter != signalEnd)
+		while(!inputSet.empty())
 		{
-			*outputIter = delayEmbed(*signalIter, k, dt);
-			++outputIter;
-			++signalIter;
+			output(delayEmbed(inputSet.get(), k, dt));
+			inputSet.pop();
 		}
 	}
 
-	template <typename SignalPtr_Iterator, typename OutputIterator>
+	template <
+		typename Signal_Input, 
+		typename Signal_Output>
 	void delayEmbedFuture(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
-		const OutputIterator& outputBegin,
+		Signal_Input inputSet,
+		Signal_Output output,
 		integer dt)
 	{
 		ENSURE_OP(dt, >=, 1);
 
-		SignalPtr_Iterator signalIter = signalSet.begin();
-		const SignalPtr_Iterator signalEnd = signalSet.end();
-		OutputIterator outputIter = outputBegin;
-		while(signalIter != signalEnd)
+		while(!inputSet.empty())
 		{
-			*outputIter = Tim::delayEmbedFuture(*signalIter, dt);
-			++outputIter;
-			++signalIter;
+			output(Tim::delayEmbedFuture(inputSet.get(), dt));
+			inputSet.pop();
 		}
 	}
 

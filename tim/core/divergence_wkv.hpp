@@ -15,11 +15,11 @@ namespace Tim
 {
 
 	template <
-		typename SignalPtr_X_Iterator,
-		typename SignalPtr_Y_Iterator>
+		typename Signal_X_Iterator,
+		typename Signal_Y_Iterator>
 	real divergenceWkv(
-		const boost::iterator_range<SignalPtr_X_Iterator>& xSignalSet,
-		const boost::iterator_range<SignalPtr_Y_Iterator>& ySignalSet)
+		const boost::iterator_range<Signal_X_Iterator>& xSignalSet,
+		const boost::iterator_range<Signal_Y_Iterator>& ySignalSet)
 	{
 		// "A Nearest-Neighbor Approach to Estimating
 		// Divergence between Continuous Random Vectors"
@@ -32,8 +32,8 @@ namespace Tim
 			return 0;
 		}
 
-		const integer xDimension = xSignalSet.front()->dimension();
-		const integer yDimension = ySignalSet.front()->dimension();
+		const integer xDimension = xSignalSet.front().dimension();
+		const integer yDimension = ySignalSet.front().dimension();
 
 		ENSURE_OP(xDimension, ==, yDimension);
 

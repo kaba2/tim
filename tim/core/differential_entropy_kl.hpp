@@ -8,14 +8,14 @@
 namespace Tim
 {
 
-	template <typename Used_NormBijection>
+	template <typename NormBijection_>
 	class KlDifferential_EntropyAlgorithm
 	{
 	public:
 		// This algorithm computes the Kozachenko-Leonenko
 		// estimator for differential entropy.
 
-		typedef Used_NormBijection NormBijection;
+		using NormBijection = NormBijection_;
 
 		KlDifferential_EntropyAlgorithm()
 			: normBijection_()
@@ -56,24 +56,21 @@ namespace Tim
 		NormBijection normBijection_;
 	};
 
-	// Temporal differential entropy
-	// -----------------------------
-
 	template <
-		typename SignalPtr_Iterator, 
+		typename Signal_Range, 
 		typename NormBijection,
-		typename Real_Filter_Iterator>
-	SignalPtr temporalDifferentialEntropyKl(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
+		typename Real_Range>
+	Signal temporalDifferentialEntropyKl(
+		const Signal_Range& signalSet,
 		integer timeWindowRadius,
 		integer kNearest,
 		const NormBijection& normBijection,
-		const boost::iterator_range<Real_Filter_Iterator>& filter)
+		const Real_Range& filter)
 	{
 		ENSURE_OP(timeWindowRadius, >=, 0);
 		ENSURE_OP(kNearest, >, 0);
 
-		const KlDifferential_EntropyAlgorithm<NormBijection>
+		KlDifferential_EntropyAlgorithm<NormBijection>
 			entropyAlgorithm(normBijection);
 
 		return temporalGenericEntropy(
@@ -85,63 +82,22 @@ namespace Tim
 	}
 
 	template <
-		typename SignalPtr_Iterator, 
-		typename NormBijection>
-	SignalPtr temporalDifferentialEntropyKl(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
-		integer timeWindowRadius,
-		integer kNearest,
-		const NormBijection& normBijection)
-	{
-		return Tim::temporalDifferentialEntropyKl(
-			signalSet,
-			timeWindowRadius,
-			kNearest,
-			normBijection,
-			constantRange((real)1, 1));
-	}
-
-	template <typename SignalPtr_Iterator>
-	SignalPtr temporalDifferentialEntropyKl(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
-		integer timeWindowRadius,
-		integer kNearest)
-	{
-		return Tim::temporalDifferentialEntropyKl(
-			signalSet,
-			timeWindowRadius,
-			kNearest,
-			Default_NormBijection());
-	}
-
-	template <
-		typename SignalPtr_Iterator, 
+		typename Signal_Range, 
 		typename NormBijection>
 	real differentialEntropyKl(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
+		const Signal_Range& signalSet,
 		integer kNearest,
 		const NormBijection& normBijection)
 	{
 		ENSURE_OP(kNearest, >, 0);
 
-		const KlDifferential_EntropyAlgorithm<NormBijection>
+		KlDifferential_EntropyAlgorithm<NormBijection>
 			entropyAlgorithm(normBijection);
 
 		return genericEntropy(
 			signalSet,
 			entropyAlgorithm,
 			kNearest);
-	}
-
-	template <typename SignalPtr_Iterator>
-	real differentialEntropyKl(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
-		integer kNearest)
-	{
-		return Tim::differentialEntropyKl(
-			signalSet,
-			kNearest,
-			Default_NormBijection());
 	}
 
 }

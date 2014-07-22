@@ -1,12 +1,10 @@
-// Description: Signal class
-// Detail: Models a time series
+// Description: Time series
 
 #ifndef TIM_SIGNAL_H
 #define TIM_SIGNAL_H
 
 #include <pastel/math/matrix.h>
 
-#include <pastel/sys/countedptr.h>
 #include <pastel/sys/sparse_iterator.h>
 #include <pastel/sys/counting_iterator.h>
 
@@ -17,10 +15,8 @@
 namespace Tim
 {
 
-	//! A time series.
-
+	//! Time series
 	class TIM Signal
-		: public ReferenceCounted
 	{
 	private:
 		typedef SparseIterator<CountingIterator<real*> > 
@@ -131,8 +127,6 @@ namespace Tim
 		//! The time position of the first sample.
 		integer t_;
 	};
-
-	typedef CountedPtr<Signal> SignalPtr;
 
 }
 

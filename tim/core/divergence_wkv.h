@@ -28,11 +28,11 @@ namespace Tim
 	*/
 
 	template <
-		typename SignalPtr_X_Iterator,
-		typename SignalPtr_Y_Iterator>
+		typename Signal_X_Iterator,
+		typename Signal_Y_Iterator>
 	real divergenceWkv(
-		const boost::iterator_range<SignalPtr_X_Iterator>& xSignalSet,
-		const boost::iterator_range<SignalPtr_Y_Iterator>& ySignalSet);
+		const boost::iterator_range<Signal_X_Iterator>& xSignalSet,
+		const boost::iterator_range<Signal_Y_Iterator>& ySignalSet);
 
 	//! Computes Kullback-Leibler divergence between signals.
 	/*!
@@ -42,8 +42,8 @@ namespace Tim
 	See the documentation for that function.
 	*/
 	TIM real divergenceWkv(
-		const SignalPtr& xSignal,
-		const SignalPtr& ySignal);
+		const Signal& xSignal,
+		const Signal& ySignal);
 
 }
 

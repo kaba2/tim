@@ -77,24 +77,24 @@ namespace Tim
 	}
 
 	TIM void computeCovariance(
-		const SignalPtr& signal,
+		const Signal& signal,
 		Matrix<real>& result)
 	{
-		const integer dimension = signal->dimension();
-		const integer samples = signal->samples();
+		const integer dimension = signal.dimension();
+		const integer samples = signal.samples();
 
 		result.setSize(dimension, dimension);
 		result.set(0);
 
-		const VectorD mean = sum(signal->data()) / samples;
+		const VectorD mean = sum(signal.data()) / samples;
 
-		result = (signal->data() - outerProduct(mean, VectorConstant<real, Dynamic>(1, samples))) * 
-			transpose(signal->data() - outerProduct(mean, VectorConstant<real, Dynamic>(1, samples)));
+		result = (signal.data() - outerProduct(mean, VectorConstant<real, Dynamic>(1, samples))) * 
+			transpose(signal.data() - outerProduct(mean, VectorConstant<real, Dynamic>(1, samples)));
 		result /= samples;
 	}
 
 	TIM void normalizeCovariance(
-		const SignalPtr& signal,
+		Signal& signal,
 		const Matrix<real>& covariance)
 	{
 		// Let X be the signal matrix with
@@ -136,7 +136,7 @@ namespace Tim
 		// The samples are row vectors, so we
 		// multiply with the transpose from the right.
 
-		signal->data() *= invCholesky.lower();
+		signal.data() *= invCholesky.lower();
 	}		
 
 }

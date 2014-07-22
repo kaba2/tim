@@ -21,10 +21,10 @@ namespace Tim
 {
 
 	template <
-		typename SignalPtr_Iterator, 
+		typename Signal_Iterator, 
 		typename NormBijection>
 	real differentialEntropyNk(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
+		const boost::iterator_range<Signal_Iterator>& signalSet,
 		const NormBijection& normBijection,
 		integer* outIntrinsicDimension)
 	{
@@ -32,7 +32,7 @@ namespace Tim
 
 		const integer trials = signalSet.size();
 		const integer samples = minSamples(signalSet);
-		const integer dimension = signalSet.front()->dimension();
+		const integer dimension = signalSet.front().dimension();
 		const integer estimateSamples = samples * trials;
 
 		// Generate codebook sizes.
@@ -52,13 +52,13 @@ namespace Tim
 
 		std::vector<const real*> pointSet;
 		pointSet.reserve(estimateSamples);
-		SignalPtr_Iterator iter = signalSet.begin();
-		const SignalPtr_Iterator iterEnd = signalSet.end();
+		Signal_Iterator iter = signalSet.begin();
+		const Signal_Iterator iterEnd = signalSet.end();
 		while(iter != iterEnd)
 		{
-			const SignalPtr& signal = *iter;
+			const Signal& signal = *iter;
 			copy_n(
-				signal->pointBegin(), samples,
+				signal.pointBegin(), samples,
 				std::back_inserter(pointSet));
 			
 			++iter;

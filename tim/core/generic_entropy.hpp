@@ -23,10 +23,10 @@ namespace Tim
 {
 
 	template <
-		typename SignalPtr_Iterator,
+		typename Signal_Range,
 		typename EntropyAlgorithm>
 	real genericEntropy(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
+		const Signal_Range& signalSet,
 		const EntropyAlgorithm& entropyAlgorithm,
 		integer kNearest)
 	{
@@ -48,7 +48,7 @@ namespace Tim
 
 		const integer trials = signalSet.size();
 		const integer samples = pointSet.samples();
-		const integer dimension = signalSet.front()->dimension();
+		const integer dimension = signalSet.front().dimension();
 		const integer estimateSamples = samples * trials;
 
 		// Store the point-iterators into an array

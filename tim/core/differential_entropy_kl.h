@@ -7,14 +7,14 @@
 #include "tim/core/signal.h"
 
 #include <pastel/sys/range.h>
+#include <pastel/sys/constant_iterator.h>
+
+#include <pastel/math/normbijection_concept.h>
 
 namespace Tim
 {
 
-	// Temporal differential entropy
-	// -----------------------------
-
-	//! Computes temporal differential entropy of a signal.
+	//! Temporal differential entropy of a signal.
 	/*!
 	Preconditions:
 	timeWindowRadius >= 0
@@ -34,66 +34,24 @@ namespace Tim
 	estimate differential entropy.
 
 	normBijection:
-	A measure of distance to use. See 
-	'pastel/math/normbijection.txt'	for documentation.
+	The norm to use.
 	*/
-
 	template <
-		typename SignalPtr_Iterator, 
-		typename NormBijection,
-		typename Real_Filter_Iterator>
-	SignalPtr temporalDifferentialEntropyKl(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
+		typename Signal_Range, 
+		typename NormBijection = Default_NormBijection,
+		typename Real_Range = ConstantRange<real>>
+	Signal temporalDifferentialEntropyKl(
+		const Signal_Range& signalSet,
 		integer timeWindowRadius,
-		integer kNearest,
-		const NormBijection& normBijection,
-		const boost::iterator_range<Real_Filter_Iterator>& filter);
+		integer kNearest = 1,
+		const NormBijection& normBijection = NormBijection(),
+		const Real_Range& filter = constantRange((real)1, 1));
 
-	//! Computes temporal differential entropy of a signal.
-	/*!
-	This is a convenience function that calls:
-
-	temporalDifferentialEntropyKl(
-		signalSet, timeWindowRadius,
-		kNearest, Default_NormBijection());
-
-	See the documentation for that function.
-	*/
-
-	template <
-		typename SignalPtr_Iterator, 
-		typename NormBijection>
-	SignalPtr temporalDifferentialEntropyKl(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
-		integer timeWindowRadius,
-		integer kNearest,
-		const NormBijection& normBijection);
-
-	//! Computes temporal differential entropy of a signal.
-	/*!
-	This is a convenience function that calls:
-
-	temporalDifferentialEntropyKl(
-		signalSet, timeWindowRadius,
-		kNearest, Default_NormBijection());
-
-	See the documentation for that function.
-	*/
-
-	template <typename SignalPtr_Iterator>
-	SignalPtr temporalDifferentialEntropyKl(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
-		integer timeWindowRadius,
-		integer kNearest = 1);
-
-	// Differential entropy
-	// --------------------
-
-	//! Computes differential entropy of a signal.
+	//! Differential entropy of a signal.
 	/*!
 	Preconditions:
 	kNearest > 0
-	signalSet contains SignalPtr's.
+	signalSet contains Signal's.
 
 	signalSet:
 	An ensemble of signals representing trials
@@ -104,8 +62,7 @@ namespace Tim
 	estimate differential entropy.
 
 	normBijection:
-	A measure of distance to use. See 
-	'pastel/math/normbijection.txt'	for documentation.
+	The norm to use.
 
 	Returns:
 	A differential entropy estimate if successful,
@@ -113,30 +70,13 @@ namespace Tim
 	if all points are at the same position or
 	there are no samples to estimate from.
 	*/
-
 	template <
-		typename SignalPtr_Iterator, 
-		typename NormBijection>
+		typename Signal_Range, 
+		typename NormBijection = Default_NormBijection>
 	real differentialEntropyKl(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
-		integer kNearest,
-		const NormBijection& normBijection);
-
-	//! Computes differential entropy of a signal.
-	/*!
-	This is a convenience function that calls:
-
-	differentialEntropyKl(
-		signalSet, kNearest, 
-		Default_NormBijection());
-
-	See the documentation for that function.
-	*/
-
-	template <typename SignalPtr_Iterator>
-	real differentialEntropyKl(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
-		integer kNearest = 1);
+		const Signal_Range& signalSet,
+		integer kNearest = 1,
+		const NormBijection& normBijection = NormBijection());
 
 }
 

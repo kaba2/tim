@@ -66,10 +66,10 @@ namespace Tim
 	*/
 
 	template <
-		typename SignalPtr_Iterator, 
+		typename Signal_Iterator, 
 		typename Real_Filter_Iterator>
-	SignalPtr temporalTsallisEntropyLps(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
+	Signal temporalTsallisEntropyLps(
+		const boost::iterator_range<Signal_Iterator>& signalSet,
 		integer timeWindowRadius,
 		real q,
 		integer kNearestSuggestion,
@@ -87,9 +87,9 @@ namespace Tim
 	See the documentation for that function.
 	*/
 
-	template <typename SignalPtr_Iterator>
-	SignalPtr temporalTsallisEntropyLps(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
+	template <typename Signal_Iterator>
+	Signal temporalTsallisEntropyLps(
+		const boost::iterator_range<Signal_Iterator>& signalSet,
 		integer timeWindowRadius,
 		real q = 2,
 		integer kNearestSuggestion = 0);
@@ -100,7 +100,7 @@ namespace Tim
 	//! Computes Tsallis entropy of a signal.
 	/*!
 	Preconditions:
-	signalSet contains SignalPtr's.
+	signalSet contains Signal's.
 	q > 0
 	kNearestSuggestion >= 0
 
@@ -131,9 +131,9 @@ namespace Tim
 	there are no samples to estimate from.
 	*/
 
-	template <typename SignalPtr_Iterator>
+	template <typename Signal_Iterator>
 	real tsallisEntropyLps(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
+		const boost::iterator_range<Signal_Iterator>& signalSet,
 		real q = 2,
 		integer kNearestSuggestion = 0);
 
