@@ -3,40 +3,37 @@ Dependencies
 
 [[Parent]]: tim.txt
 
-This page lists the dependencies of TIM. The version number that 
-follows the library name is the one that the prebuilt TIM Matlab was 
-built against. This is useful to know in case a later version breaks 
-backward compatibility.
+This page lists the dependencies of TIM. The version number that follows the library name is the one that the prebuilt TIM Matlab was built against. This is useful to know in case a later version breaks backward compatibility.
 
 External dependencies
 ---------------------
 
-### [Pastel 1.4](http://kaba.hilvi.org/pastel-1.4.0)
+### Pastel 1.4
 
-Pastel is licensed under the MIT license.
-TIM refers to Pastel's include files in the form
-`pastel/sys/array.h`. 
+<http://kaba.hilvi.org/pastel-1.4.0>
 
-### [Boost 1.54](http://www.boost.org)
+Pastel is licensed under the MIT license. TIM refers to Pastel's include files in the form `pastel/sys/array.h`.
 
-Boost is licensed under the Boost license. 
-TIM only uses the template code found in Boost and
-thus requires no linking with object code.
-TIM refers to Boost's include files in the form
-`boost/operators.hpp`.
+### Boost 1.54
 
+<http://www.boost.org>
+
+Boost is licensed under the Boost license. TIM only uses the template code found in Boost and thus requires no linking with object code. TIM refers to Boost's include files in the form `boost/operators.hpp`.
 
 ### Threading Building Blocks 4.2
 
 <https://www.threadingbuildingblocks.org/>
 
-Threading Building Blocks is licensed under the GPLv2 
-license, with the run-time exception. The latter specifically means that 
-Pastel need not be made GPLv2 although it uses code from the TBB. This is 
-similar to how the license of `libstdc++` works. Pastel refer's to Threading 
-Building Blocks's include files in the form `tbb/parallel_for.h`. 
+Threading Building Blocks is licensed under the GPLv2 license, with the run-time exception. The latter specifically means that Pastel need not be made GPLv2 although it uses code from the TBB. This is similar to how the license of `libstdc++` works. Pastel refer's to Threading Building Blocks's include files in the form `tbb/parallel_for.h`.
 
-### [Remark 1.6](http://kaba.hilvi.org/remark-1.6.0)
+### Remark 1.6
 
-The documentation for TIM is written in Remark. 
-This library is not required to build TIM.
+<http://kaba.hilvi.org/remark-1.6.0>
+
+The documentation for TIM is written in Remark. This library is not required to build TIM.
+
+### CMake 3.0
+
+<http://www.cmake.org>
+
+The build-system is written in CMake. CMake takes in a generic description of the build-process and generates the build-files for a specific platform, such as Visual Studio projects, makefiles, or Xcode projects. This library is required to build Pastel. It is not required to use the build libraries.
