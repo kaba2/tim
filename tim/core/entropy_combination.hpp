@@ -91,16 +91,14 @@ namespace Tim
 		weightSet.reserve(marginals);
 
 		Integer3_Iterator iter = rangeSet.begin();
-		std::vector<SignalPointSetPtr> pointSet;
+		std::vector<SignalPointSet> pointSet;
 		pointSet.reserve(marginals);
 		for (integer i = 0;i < marginals;++i)
 		{
-
 			const Integer3& range = *iter;
-			pointSet.push_back(
-				SignalPointSetPtr(new SignalPointSet(
+			pointSet.emplace_back(
 				Pastel::countingRange(jointSignalSet.begin(), jointSignalSet.end()), 
-				offsetSet[range[0]], offsetSet[range[1]])));
+				offsetSet[range[0]], offsetSet[range[1]]);
 			weightSet.push_back(range[2]);
 			++iter;
 		}
@@ -153,8 +151,8 @@ namespace Tim
 				for (integer j = block.begin();j < block.end();++j)
 				{
 					integer k = countNearest(
-						pointSet[i]->kdTree(),
-						*(pointSet[i]->begin() + j),
+						pointSet[i].kdTree(),
+						*(pointSet[i].begin() + j),
 						allIndicator(),
 						normBijection)
 						.maxDistance(distanceArray(j));

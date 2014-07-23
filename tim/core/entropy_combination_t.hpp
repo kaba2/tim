@@ -145,10 +145,10 @@ namespace Tim
 		{
 		// Compute SignalPointSets.
 
-		SignalPointSetPtr jointPointSet(new SignalPointSet(
-			countingRange(jointSignalSet.begin(), jointSignalSet.end())));
+		SignalPointSet jointPointSet(
+			countingRange(jointSignalSet.begin(), jointSignalSet.end()));
 
-		std::vector<SignalPointSetPtr> pointSet(marginals);
+		std::vector<SignalPointSet> pointSet(marginals);
 
 		real signalWeightSum = 0;
 
@@ -156,12 +156,11 @@ namespace Tim
 		{
 			const Integer3& range = copyRangeSet[i];
 
-			SignalPointSetPtr marginalPointSet(
-				new SignalPointSet(
+			SignalPointSet marginalPointSet(
 				Pastel::countingRange(jointSignalSet.begin(), jointSignalSet.end()),
-				offsetSet[range[0]], offsetSet[range[1]]));
+				offsetSet[range[0]], offsetSet[range[1]]);
 
-			pointSet[i] = marginalPointSet;
+			pointSet[i] = std::move(marginalPointSet);
 				
 			signalWeightSum += range[2];
 		}
@@ -172,12 +171,12 @@ namespace Tim
 #pragma omp for reduction(+ : missingValues)
 		for (integer t = estimateBegin;t < estimateEnd;++t)
 		{
-			jointPointSet->setTimeWindow(
+			jointPointSet.setTimeWindow(
 				t - timeWindowRadius, 
 				t + timeWindowRadius + 1);
 			
-			integer tBegin = jointPointSet->windowBegin();
-			integer tEnd = jointPointSet->windowEnd();
+			integer tBegin = jointPointSet.windowBegin();
+			integer tEnd = jointPointSet.windowEnd();
 			integer tWidth = tEnd - tBegin;
 			integer tLocalFilterBegin = std::max(t - filterRadius, tBegin) - tBegin;
 			integer tLocalFilterEnd = std::min(t + filterRadius + 1, tEnd) - tBegin;
@@ -197,10 +196,10 @@ namespace Tim
 				{
 					distanceArray(i - searchBegin) =
 						searchNearest(
-						jointPointSet->kdTree(),
-						*(jointPointSet->begin() + i),
+						jointPointSet.kdTree(),
+						*(jointPointSet.begin() + i),
 						nullOutput(),
-						predicateIndicator(*(jointPointSet->begin() + i), NotEqualTo()),
+						predicateIndicator(*(jointPointSet.begin() + i), NotEqualTo()),
 						normBijection)
 						.kNearest(kNearest);
 				}
@@ -213,7 +212,7 @@ namespace Tim
 			real estimate = 0;
 			for (integer i = 0;i < marginals;++i)
 			{
-				pointSet[i]->setTimeWindow(
+				pointSet[i].setTimeWindow(
 					t - timeWindowRadius, 
 					t + timeWindowRadius + 1);
 
@@ -224,10 +223,10 @@ namespace Tim
 				for (integer j = 0;j < windowSamples;++j)
 				{
 					Point_ConstIterator query =
-						*(pointSet[i]->begin() + searchBegin + j);
+						*(pointSet[i].begin() + searchBegin + j);
 
 					integer k = countNearest(
-						pointSet[i]->kdTree(),
+						pointSet[i].kdTree(),
 						query,
 						allIndicator(),
 						normBijection)
