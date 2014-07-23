@@ -30,10 +30,10 @@ an example function template declaration from TIM:
 
 [[CppCode]]:
 	template <
-		typename SignalPtr_Iterator, 
+		typename SignalPtr_Range, 
 		typename Real_OutputIterator>
 	integer temporalDifferentialEntropyKl(
-		const boost::iterator_range<SignalPtr_Iterator>& signalSet,
+		const SignalPtr_Range& signalSet,
 		integer timeWindowRadius,
 		Real_OutputIterator result,
 		integer kNearest = 1);
