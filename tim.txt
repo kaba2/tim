@@ -15,8 +15,6 @@ non-linear time-series analysis.
 Download
 --------
 
-Here you can download a prebuilt TIM Matlab. 
-
 [Download TIM Matlab [[tim_version]]][TIM-Matlab]
 
 The package contains prebuilds for Mac OS X, Windows, and Linux, in both 32-bit and 64-bit modes.
@@ -100,24 +98,6 @@ TIM can be used either as a pure C++ library, or through Matlab,
 [ConditionalMutualInformation]: [[Ref]]: partial_mutual_information.txt
 [TransferEntropy]: [[Ref]]: transfer_entropy.txt
 [ConditionalTransferEntropy]: [[Ref]]: partial_transfer_entropy.txt
-
-Acknowledgements
-----------------
-
-The version 1.0 of TIM was programmed under funding from the EU project 
-[GABA][GABA] (FP6-2005-NEST-Path 043309). TIM Console and most of the update 
-from version 1.0 to 1.1 were programmed under funding from the 
-[Finnish Foundation for Technology Promotion][TES].
-
-[Germán Gómez Herrero][German] is the driving force behind the idea of 
-creating TIM, having created a similar library in Matlab himself. Germán
-provided substantial amount of testing, feedback, and guidance 
-during the development. He has also written the tutorials in this
-documentation.
-
-[GABA]: http://www.gaba-project.eu/
-[TES]: http://www.kolumbus.fi/tes/
-[German]: http://germangh.com 
 
 [[Comment]]:
 	The following is a javascript for Google Analytics by which we can

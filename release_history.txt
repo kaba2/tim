@@ -44,6 +44,12 @@ Release date xx.xx.2014.
  * Added non-linear prediction.
  * Added Poincare sections.
 
+### Acknowledgements
+
+This version was programmed under funding from the [Finnish National Doctoral Programme in Mathematics and its Applications][Gsmaa]. 
+
+[Gsmaa]: https://wiki.helsinki.fi/display/gsmaa/Main
+
 TIM 1.2.0
 ---------
 
@@ -140,6 +146,12 @@ Release date 17.3.2011.
  * Source built over [Pastel 1.2](http://kaba.hilvi.org/pastel-1.2.0). 
  * Documentation built over [Remark 1.3](http://kaba.hilvi.org/remark-1.3.0).
 
+### Acknowledgements
+
+TIM Console and most of the update from version 1.0 to 1.1 were programmed under funding from the [Finnish Foundation for Technology Promotion][TES].
+
+[TES]: http://www.kolumbus.fi/tes/
+
 TIM 1.0.0
 ---------
 
@@ -149,7 +161,18 @@ TIM 1.0.0
 
 Release date 13.1.2010.
 
+### General
+
  * Initial release.
  * Source built over [Pastel 1.0](http://kaba.hilvi.org/pastel-1.0.1).
  * Documentation built over Remark 1.0.
+
+### Acknowledgements
+
+The version 1.0 of TIM was programmed under funding from the EU project [GABA][GABA] (FP6-2005-NEST-Path 043309). 
+
+[Germán Gómez Herrero][German] is the driving force behind the idea of creating TIM, having created a similar library in Matlab himself. Germán provided substantial amount of testing, feedback, and guidance during the development. He has also written the tutorials in this documentation.
+
+[GABA]: http://www.gaba-project.eu/
+[German]: http://germangh.com 
 
