@@ -53,13 +53,13 @@ is not possible to do 32-bit builds from Matlab 64-bit.
 In `tim` root-directory, open the file `build_tim.m`,
 which will at some point read something like this:
 
-	pastelIncludePath = '../pastel';
-	boostIncludePath = '../boost_1_53_0';
-	tbbIncludePath = '../tbb42/include';
+	pastelIncludePath = '../../pastel';
+	boostIncludePath = '../../boost_1_53_0';
+	tbbIncludePath = '../../tbb42/include';
 
-	timLibraryPath = ['lib/', mode];
-	pastelLibraryPath = ['../pastel/lib/', mode];
-	tbbLibraryPath = ['../tbb42/lib'];
+	timLibraryPath = ['../lib/', mode];
+	pastelLibraryPath = ['../../pastel/lib/', mode];
+	tbbLibraryPath = ['../../tbb42/lib'];
 
 Modify the paths to correspond to your directory structure.
 
