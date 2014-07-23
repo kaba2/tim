@@ -10,13 +10,12 @@ classdef test_differential_entropy_kl < matlab.unittest.TestCase
             n = 10000;
             pointSet = randn(d, n);
 
-            h = tim.differential_entropy_kl(...
+            de = tim.differential_entropy_kl(...
                 pointSet, 'k', k);
 
             correct = tim.differential_entropy_normal(d);
-            relativeError = abs(h - correct) / correct;
-            testCase.verifyTrue(relativeError < 0.02);
-        end
-                
+            testCase.verifyEqual(de, correct, 'RelTol', 0.03);
+        end                
     end
+    
 end
