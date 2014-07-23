@@ -9,7 +9,6 @@
 
 #include <pastel/geometry/pointkdtree.h>
 
-#include <pastel/sys/countedptr.h>
 #include <pastel/sys/range.h>
 #include <pastel/sys/array.h>
 #include <pastel/sys/pointer_locator.h>
@@ -21,12 +20,7 @@ namespace Tim
 {
 
 	//! SignalPointSet class
-	/*!
-	Models a semi-dynamic point set. It is reference counted
-	using the CountedPtr smart pointer from the Pastel library.
-	*/
 	class TIM SignalPointSet
-		: public ReferenceCounted
 	{
 	public:
 		// The Array_PointPolicy<real> represents points
@@ -40,12 +34,16 @@ namespace Tim
 		typedef PointSet::const_iterator Point_ConstIterator_Iterator;
 
 	public:
-		// Using default destructor.
+		SignalPointSet() = default;
 
 		//! Constructs using the given ensemble of signals.
 		template <typename SignalPtr_Range>
 		explicit SignalPointSet(
 			const SignalPtr_Range& signalSet);
+
+		SignalPointSet(const SignalPointSet& that) = delete;
+
+		SignalPointSet(SignalPointSet&& that);
 
 		//! Constructs using given subdimensions and initial time-window.
 		/*!
@@ -72,7 +70,7 @@ namespace Tim
 		void swap(SignalPointSet& that);
 
 		//! Copies the contents of another SignalPointSet.
-		SignalPointSet& operator=(const SignalPointSet& that);
+		SignalPointSet& operator=(SignalPointSet that);
 
 		//! Set the time-window.
 		/*!
@@ -128,9 +126,6 @@ namespace Tim
 		VectorD point(const Point& object) const;
 
 	private:
-		// Prohibited, for now.
-		SignalPointSet(const SignalPointSet& that);
-
 		// Extracts points from the given ensemble of signals.
 		/*
 		Each point is a pointer to the beginning of its coordinate
@@ -195,8 +190,6 @@ namespace Tim
 		integer dimension_;
 		integer timeBegin_;
 	};
-
-	typedef CountedPtr<SignalPointSet> SignalPointSetPtr;
 
 }
 

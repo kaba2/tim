@@ -17,9 +17,10 @@
 namespace Tim
 {
 
-	SignalPointSet::SignalPointSet(const SignalPointSet& that)
+	SignalPointSet::SignalPointSet(SignalPointSet&& that)
+	: SignalPointSet()
 	{
-		ENSURE(false);
+		swap(that);
 	}
 
 	void SignalPointSet::swap(SignalPointSet& that)
@@ -35,11 +36,9 @@ namespace Tim
 		std::swap(timeBegin_, that.timeBegin_);
 	}
 
-	SignalPointSet& SignalPointSet::operator=(
-		const SignalPointSet& that)
+	SignalPointSet& SignalPointSet::operator=(SignalPointSet that)
 	{
-		SignalPointSet copy(that);
-		swap(copy);
+		swap(that);
 		return *this;
 	}
 

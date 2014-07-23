@@ -41,11 +41,11 @@ namespace Tim
 
 		// Construct point-sets.
 
-		SignalPointSetPtr xPointSet(new SignalPointSet(xSignalSet));
-		SignalPointSetPtr yPointSet(new SignalPointSet(ySignalSet));
+		SignalPointSet xPointSet(xSignalSet);
+		SignalPointSet yPointSet(ySignalSet);
 
-		integer xSamples = xPointSet->samples();
-		integer ySamples = yPointSet->samples();
+		integer xSamples = xPointSet.samples();
+		integer ySamples = yPointSet.samples();
 
 		using Block = tbb::blocked_range<integer>;
 		using Pair = std::pair<real, integer>;
@@ -63,10 +63,10 @@ namespace Tim
 
 				Point_ConstIterator query =
 
-					*(xPointSet->begin() + i);
+					*(xPointSet.begin() + i);
 
 				real xxDistance2 =
-					searchNearest(xPointSet->kdTree(), query,
+					searchNearest(xPointSet.kdTree(), query,
 					nullOutput(),
 					predicateIndicator(query, NotEqualTo()));
 
@@ -81,7 +81,7 @@ namespace Tim
 						withAliasing((real*)(query)->point()));
 
 					real xyDistance2 =
-						searchNearest(yPointSet->kdTree(), queryPoint);
+						searchNearest(yPointSet.kdTree(), queryPoint);
 
 
 					if (xyDistance2 > 0 && xyDistance2 < infinity<real>())
