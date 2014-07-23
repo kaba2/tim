@@ -43,7 +43,7 @@ namespace
 		Array<real> rangeArray =
 			asArray<real>(inputSet[RangeSet]);
 
-		const integer marginals = rangeArray.height();
+		integer marginals = rangeArray.height();
 
 		std::vector<Integer3> rangeSet;
 		rangeSet.reserve(marginals);
@@ -64,8 +64,9 @@ namespace
 			}
 		}
 
-		const integer kNearest = asScalar<integer>(inputSet[KNearest]);
-		const std::string estimator = asString(inputSet[Estimator]);
+		integer kNearest = asScalar<integer>(inputSet[KNearest]);
+		std::string estimator = asString(inputSet[Estimator]);
+
 
 		real* outResult = createScalar<real>(outputSet[Estimate]);
 

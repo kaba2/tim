@@ -45,7 +45,7 @@ namespace Tim
 				return 0;
 			}
 
-			const integer trials = xSignalSet.size();
+			integer trials = xSignalSet.size();
 
 			// Note the signals are listed in XZY order.
 
@@ -54,7 +54,7 @@ namespace Tim
 			std::copy(zSignalSet.begin(), zSignalSet.end(), signalSet.rowBegin(1));
 			std::copy(ySignalSet.begin(), ySignalSet.end(), signalSet.rowBegin(2));
 
-			const integer lagSet[] = {xLag, zLag, yLag};
+			integer lagSet[] = {xLag, zLag, yLag};
 
 			// Describe the marginal signals.
 
@@ -67,6 +67,7 @@ namespace Tim
 
 			if (result)
 			{
+
 				*result = temporalEntropyCombination(
 					signalSet,
 					range(rangeSet),

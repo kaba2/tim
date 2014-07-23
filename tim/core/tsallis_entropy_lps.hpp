@@ -73,15 +73,17 @@ namespace Tim
 			// Finally, Tsallis entropy estimator (for q != 1) is given by:
 			// H_q(X) = (1 - I) / (q - 1)
 			
-			const real F = 
+			real F = 
 				std::pow(
+
 				(estimateSamples - 1) * 
 				std::exp(normBijection_.lnVolumeUnitSphere(dimension)), 1 - q_) *
 				gammaRatio_;
 
 			const real I = F * estimate;
 
-			const real tsallisEntropy = 
+			real tsallisEntropy = 
+
 				(1 - I) * finalFactor_;
 
 			return tsallisEntropy;
@@ -138,10 +140,10 @@ namespace Tim
 				kNearest);
 		}
 
-		const integer kNearest = tsallisDecideK(q, kNearestSuggestion);
-		const integer dimension = signalSet.front()->dimension();
+		integer kNearest = tsallisDecideK(q, kNearestSuggestion);
+		integer dimension = signalSet.front()->dimension();
 		
-		const LpsTsallis_EntropyAlgorithm entropyAlgorithm(
+		LpsTsallis_EntropyAlgorithm entropyAlgorithm(
 			dimension, kNearest, q);
 
 		return temporalGenericEntropy(
@@ -154,6 +156,7 @@ namespace Tim
 
 	template <typename SignalPtr_Range>
 	Signal temporalTsallisEntropyLps(
+
 		const SignalPtr_Range& signalSet,
 		integer timeWindowRadius,
 		real q,
@@ -201,10 +204,10 @@ namespace Tim
 				kNearest);
 		}
 
-		const integer kNearest = tsallisDecideK(q, kNearestSuggestion);
-		const integer dimension = signalSet.front()->dimension();
+		integer kNearest = tsallisDecideK(q, kNearestSuggestion);
+		integer dimension = signalSet.front()->dimension();
 		
-		const LpsTsallis_EntropyAlgorithm entropyAlgorithm(
+		LpsTsallis_EntropyAlgorithm entropyAlgorithm(
 			dimension, kNearest, q);
 
 		return genericEntropy(

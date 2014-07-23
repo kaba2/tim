@@ -30,20 +30,22 @@ namespace Tim
 	{
 		//const integer kNearest = 1;
 
-		const integer trials = signalSet.size();
-		const integer samples = minSamples(signalSet);
-		const integer dimension = signalSet.front()->dimension();
+		integer trials = signalSet.size();
+		integer samples = minSamples(signalSet);
+		integer dimension = signalSet.front()->dimension();
+
 		const integer estimateSamples = samples * trials;
 
 		// Generate codebook sizes.
 
-		const integer codebooks = dimension + 2;
+		integer codebooks = dimension + 2;
 		VectorD codebookSize(ofDimension(codebooks));
 		for (integer i = 0;i < codebooks;++i)
 		{
 			// At least 10% of the samples must be in the
 			// codebook, and at least 10% of the samples
 			// must be outside the codebook.
+
 			const real u = ((real)i / (codebooks - 1)) * 0.8 + 0.1;
 			codebookSize[i] = (integer)(estimateSamples * u);
 		}
@@ -90,7 +92,7 @@ namespace Tim
 		{
 			// Select a random subset.
 
-			const integer subsetSize = codebookSize[m];
+			integer subsetSize = codebookSize[m];
 			randomSubset(
 				pointSet.begin(), pointSet.end(),
 				subsetSize);
@@ -102,6 +104,7 @@ namespace Tim
 			using Block = tbb::blocked_range<integer>;
 			using Pair = std::pair<real, integer>;
 			
+
 			auto compute = [&](
 				const Block& block,
 				const Pair& start)
@@ -167,11 +170,11 @@ namespace Tim
 		e.column(0) = -alphaSet;
 		e.column(1) = 1;
 
-		const VectorD m = log(codebookSize);
+		VectorD m = log(codebookSize);
 		VectorD theta(ofDimension(2));
 
-		const real averageLogSize = sum(m) / codebooks;
-		const real averageAlpha = sum(alphaSet) / codebooks;
+		real averageLogSize = sum(m) / codebooks;
+		real averageAlpha = sum(alphaSet) / codebooks;
 
 		// Find the integer dimensionality d that minimizes 
 		// the cost function.
@@ -184,6 +187,7 @@ namespace Tim
 			
 			// Given a dimension i, this is the kappa
 			// which minimizes the cost function.
+
 			theta[1] = averageLogSize + i * averageAlpha;
 
 			const real cost = dot(m - e * theta);

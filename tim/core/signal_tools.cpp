@@ -12,8 +12,8 @@ namespace Tim
 	TIM std::ostream& operator<<(
 		std::ostream& stream, const Signal& signal)
 	{
-		const integer dimension = signal.dimension();
-		const integer samples = signal.samples();
+		integer dimension = signal.dimension();
+		integer samples = signal.samples();
 
 		if (samples == 0 || dimension == 0)
 		{
@@ -53,6 +53,7 @@ namespace Tim
 			std::cout << "]";
 		}
 
+
 		/*
 		stream << "[";
 		for (integer i = 0;i < dimension;++i)
@@ -80,13 +81,14 @@ namespace Tim
 		const Signal& signal,
 		Matrix<real>& result)
 	{
-		const integer dimension = signal.dimension();
-		const integer samples = signal.samples();
+		integer dimension = signal.dimension();
+		integer samples = signal.samples();
 
 		result.setSize(dimension, dimension);
 		result.set(0);
 
-		const VectorD mean = sum(signal.data()) / samples;
+		VectorD mean = sum(signal.data()) / samples;
+
 
 		result = (signal.data() - outerProduct(mean, VectorConstant<real, Dynamic>(1, samples))) * 
 			transpose(signal.data() - outerProduct(mean, VectorConstant<real, Dynamic>(1, samples)));
@@ -130,11 +132,12 @@ namespace Tim
 		// =>
 		// A = Cholesky(C^-1)^T
 
-		const CholeskyDecomposition<real> invCholesky(
+		CholeskyDecomposition<real> invCholesky(
 			inverse(covariance));
 		
 		// The samples are row vectors, so we
 		// multiply with the transpose from the right.
+
 
 		signal.data() *= invCholesky.lower();
 	}		

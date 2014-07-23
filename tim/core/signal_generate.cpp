@@ -19,10 +19,11 @@ namespace Tim
 		Signal signal = Signal(samples, dimension);
 
 		Matrix<real>::Iterator iter = signal.data().begin();
-		const Matrix<real>::Iterator iterEnd = signal.data().end();
+		Matrix<real>::Iterator iterEnd = signal.data().end();
 
 		while(iter != iterEnd)
 		{
+
 			*iter = 2 * random<real>() - 1;
 			++iter;
 		}
@@ -100,10 +101,12 @@ namespace Tim
 			return;
 		}
 
-		const integer couplingStart = samples / 3;
+		integer couplingStart = samples / 3;
+
 		const integer couplingEnd = (samples * 2) / 3;
-		const integer couplingSamples = couplingEnd - couplingStart;
-		const real cyclesPerSample = 
+		integer couplingSamples = couplingEnd - couplingStart;
+		real cyclesPerSample = 
+
 			(2 * constantPi<real>()) / couplingSamples;
 
 		Matrix<real>::Iterator xIter = xSignal.data().begin();

@@ -43,7 +43,7 @@ namespace Tim
 
 			// Copy the signals in an array.
 
-			const integer trials = xSignalSet.size();
+			integer trials = xSignalSet.size();
 
 			Array<Signal> signalSet(Vector2i(trials, 2));
 			std::copy(xSignalSet.begin(), xSignalSet.end(),
@@ -53,18 +53,19 @@ namespace Tim
 
 			// Describe the marginal signals.
 
-			const Integer3 rangeSet[] = 
+			Integer3 rangeSet[] = 
 			{
 				Integer3(0, 1, 1),
 				Integer3(1, 2, 1)
 			};
 
-			const integer lagSet[] = {xLag, yLag};
+			integer lagSet[] = {xLag, yLag};
 
 			// Compute entropy combination.
 
 			if (result)
 			{
+
 				*result = temporalEntropyCombination(
 					signalSet, 
 					range(rangeSet),

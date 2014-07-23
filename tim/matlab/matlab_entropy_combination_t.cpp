@@ -44,7 +44,7 @@ namespace
 		Array<real> rangeArray =
 			asArray<real>(inputSet[RangeSet]);
 
-		const integer marginals = rangeArray.height();
+		integer marginals = rangeArray.height();
 
 		std::vector<Integer3> rangeSet;
 		rangeSet.reserve(marginals);

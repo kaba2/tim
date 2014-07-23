@@ -32,8 +32,8 @@ namespace Tim
 			return 0;
 		}
 
-		const integer xDimension = xSignalSet.front()->dimension();
-		const integer yDimension = ySignalSet.front()->dimension();
+		integer xDimension = xSignalSet.front()->dimension();
+		integer yDimension = ySignalSet.front()->dimension();
 
 		ENSURE_OP(xDimension, ==, yDimension);
 
@@ -50,6 +50,7 @@ namespace Tim
 		using Block = tbb::blocked_range<integer>;
 		using Pair = std::pair<real, integer>;
 
+
 		auto compute = [&](
 			const Block& block,
 			const Pair& start)
@@ -60,24 +61,28 @@ namespace Tim
 			{
 				// Find out the nearest neighbor in X for a point in X.
 
-				const Point_ConstIterator query =
+				Point_ConstIterator query =
+
 					*(xPointSet->begin() + i);
 
-				const real xxDistance2 =
+				real xxDistance2 =
 					searchNearest(xPointSet->kdTree(), query,
 					nullOutput(),
 					predicateIndicator(query, NotEqualTo()));
+
 
 				if (xxDistance2 > 0 && xxDistance2 < infinity<real>())
 				{
 					// Find out the nearest neighbor in Y for a point in X.
 
-					const Vector<real> queryPoint(
+					Vector<real> queryPoint(
 						ofDimension(xDimension),
+
 						withAliasing((real*)(query)->point()));
 
-					const real xyDistance2 =
+					real xyDistance2 =
 						searchNearest(yPointSet->kdTree(), queryPoint);
+
 
 					if (xyDistance2 > 0 && xyDistance2 < infinity<real>())
 					{
