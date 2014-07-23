@@ -59,7 +59,8 @@ namespace Tim
 		// The point of this derivation is to evaluate lnGamma 
 		// instead of gamma for better numerical behaviour.
 
-		const real invShape = 1 / shape;
+		real invShape = 1 / shape;
+
 
 		return dimension * (invShape + std::log(2 * scale * invShape) +
 			lnGamma<real>(invShape));

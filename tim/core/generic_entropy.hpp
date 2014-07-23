@@ -46,9 +46,10 @@ namespace Tim
 
 		SignalPointSet pointSet(signalSet);
 
-		const integer trials = signalSet.size();
-		const integer samples = pointSet.samples();
-		const integer dimension = signalSet.front()->dimension();
+		integer trials = signalSet.size();
+		integer samples = pointSet.samples();
+		integer dimension = signalSet.front()->dimension();
+
 		const integer estimateSamples = samples * trials;
 
 		// Store the point-iterators into an array

@@ -21,9 +21,10 @@ namespace Tim
 		Real_InputIterator nanBegin = data.begin();
 
 		Real_InputIterator iter = data.begin();
-		const Real_InputIterator iterEnd = data.end();
+		Real_InputIterator iterEnd = data.end();
 		while(iter != iterEnd)
 		{
+
 			real value = *iter;
 			if (nanRegion)
 			{
@@ -63,7 +64,7 @@ namespace Tim
 					endValue = startValue;
 				}
 
-				const real valueAdd = 
+				real valueAdd = 
 					(endValue - startValue) / (nanRegionSize + 1);
 
 				Real_InputIterator nanIter = nanBegin;
@@ -72,6 +73,7 @@ namespace Tim
 				while(nanIter != iter)
 				{
 					midValue += valueAdd;
+
 					*nanIter = midValue;
 					++nanIter;
 				}

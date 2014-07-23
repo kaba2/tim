@@ -37,8 +37,9 @@ namespace Tim
 		// [tLeftMax, tRightMin[.
 
 		Integer_Iterator lagIter = lagSet.begin();
-		const Integer_Iterator lagIterEnd = lagSet.end();
+		Integer_Iterator lagIterEnd = lagSet.end();
 		auto signalIter = signalSet.begin();
+
 
 		integer tLeftMax = (*lagIter) + (*signalIter)->t();
 		integer tRightMin = tLeftMax + (*signalIter)->samples();

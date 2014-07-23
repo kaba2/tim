@@ -93,8 +93,8 @@ namespace Tim
 	inline Array<Signal> getSignalArray(
 		const mxArray* signalSetArray)
 	{
-		const integer signals = mxGetM(signalSetArray);
-		const integer trials = mxGetN(signalSetArray);
+		integer signals = mxGetM(signalSetArray);
+		integer trials = mxGetN(signalSetArray);
 		
 		Array<Signal> signalSet(
 			Vector2i(trials, signals));
@@ -103,6 +103,7 @@ namespace Tim
 		{
 			for (integer x = 0;x < trials;++x)
 			{
+
 				const mxArray* signal = 
 					mxGetCell(signalSetArray, signals * x + y);
 

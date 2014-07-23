@@ -52,20 +52,20 @@ namespace Tim
 
 		// Construct the joint signal.
 
-		const integer trials = signalSet.width();
+		integer trials = signalSet.width();
 
 		std::vector<Signal> jointSignalSet;
 		jointSignalSet.reserve(trials);
 		merge(signalSet, 
 			std::back_inserter(jointSignalSet), lagSet);
 
-		const integer samples = jointSignalSet.front().samples();
+		integer samples = jointSignalSet.front().samples();
 		if (samples == 0)
 		{
 			return 0;
 		}
 
-		const integer signals = signalSet.height();
+		integer signals = signalSet.height();
 
 		// Find out the dimension ranges of the marginal
 		// signals.
@@ -78,8 +78,9 @@ namespace Tim
 			offsetSet.push_back(offsetSet[i - 1] + signalSet(0, i - 1).dimension());
 		}
 
+
 		const integer n = samples * trials;
-		const integer marginals = rangeSet.size();
+		integer marginals = rangeSet.size();
 
 		// Construct point sets
 
@@ -94,6 +95,7 @@ namespace Tim
 		pointSet.reserve(marginals);
 		for (integer i = 0;i < marginals;++i)
 		{
+
 			const Integer3& range = *iter;
 			pointSet.push_back(
 				SignalPointSetPtr(new SignalPointSet(

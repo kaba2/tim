@@ -61,15 +61,16 @@ namespace Tim
 		// Find out the time interval on which
 		// all trials are defined.
 
-		const Integer2 sharedTime = sharedTimeInterval(signalSet);
-		const integer tBegin = sharedTime[0];
-		const integer tEnd = sharedTime[1];
-		const integer samples = tEnd - tBegin;
+		Integer2 sharedTime = sharedTimeInterval(signalSet);
+		integer tBegin = sharedTime[0];
+		integer tEnd = sharedTime[1];
+		integer samples = tEnd - tBegin;
 
 		// Store points in an interleaved
 		// manner.
 
-		const integer signals = signalSet.size();
+		integer signals = signalSet.size();
+
 		pointSet_.resize(samples * signals);
 
 		auto iter = signalSet.begin();

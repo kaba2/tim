@@ -33,9 +33,9 @@ namespace
 		ENSURE_OP(outputs, ==, Outputs);
 
 		const Signal& data = asSignal(inputSet[X]);
-		const integer bins = asScalar<integer>(inputSet[Bins]);
+		integer bins = asScalar<integer>(inputSet[Bins]);
 
-		const integer n = data.dimension();
+		integer n = data.dimension();
 
 		Array<real> result =
 			createArray<real>(Vector2i(n, n), 

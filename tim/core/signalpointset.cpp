@@ -48,9 +48,9 @@ namespace Tim
 	{
 		ENSURE_OP(newWindowBegin, <=, newWindowEnd);
 
-		const AlignedBox<integer, 1> sampleWindow(
+		AlignedBox<integer, 1> sampleWindow(
 			timeBegin_, timeBegin_ + samples_);
-		const AlignedBox<integer, 1> window(
+		AlignedBox<integer, 1> window(
 			windowBegin_, windowEnd_);
 		AlignedBox<integer, 1> newWindow(
 			newWindowBegin, newWindowEnd);
@@ -74,6 +74,7 @@ namespace Tim
 			{			
 				// Hide those points which are not in the new window.
 				difference(window, newWindow, 
+
 					boost::bind(&SignalPointSet::hide, this, _1));
 			}
 

@@ -49,12 +49,13 @@ namespace Tim
 					return 0;
 				}
 
-				const integer n = end - begin;
-				const Iterator medianIter = begin + n / 2;
-				const integer d = maxIndex(max - min);
+				integer n = end - begin;
+				Iterator medianIter = begin + n / 2;
+				integer d = maxIndex(max - min);
 
 				Compare compare(d);
 				std::nth_element(begin, medianIter, end, compare);
+
 
 				const real median = (*medianIter)[d];
 				
@@ -64,7 +65,8 @@ namespace Tim
 				
 				if (n <= 3 || (level >= minLevel_ && std::abs(z) >= 1.96))
 				{
-					const real p = (real)n / samples_;
+					real p = (real)n / samples_;
+
 
 					return p * std::log(product(max - min) / p);
 				}
@@ -127,8 +129,9 @@ namespace Tim
 			return 0;
 		}
 
-		const integer signals = signalSet.size();
-		const integer samples = minSamples(signalSet);
+		integer signals = signalSet.size();
+		integer samples = minSamples(signalSet);
+
 		const integer n = samples * signals;
 
 		// Gather the point set.
@@ -149,15 +152,16 @@ namespace Tim
 		
 		// Compute bounds.
 
-		const integer dimension = signalSet.front()->dimension();
+		integer dimension = signalSet.front()->dimension();
 		VectorD min(ofDimension(dimension), infinity<real>());
 		VectorD max(ofDimension(dimension), -infinity<real>());
 		for (integer i = 0;i < n;++i)
 		{
+
 			const real* point = pointSet[i];
 			for (integer d = 0;d < dimension;++d)
 			{
-				const real position = point[d];
+				real position = point[d];
 				if (position < min[d])
 				{
 					min[d] = position;
@@ -171,8 +175,8 @@ namespace Tim
 
 		// Compute differential entropy.
 
-		const integer minLevel = std::ceil(log2<real>(n) / 2);
-		const Detail_DifferentialEntropySp::Computation
+		integer minLevel = std::ceil(log2<real>(n) / 2);
+		Detail_DifferentialEntropySp::Computation
 			computation(n, dimension, minLevel);
 
 		return computation.work(

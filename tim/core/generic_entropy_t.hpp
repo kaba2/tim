@@ -48,13 +48,14 @@ namespace Tim
 			return Signal(0, 1);
 		}
 
-		const Integer2 sharedTime = sharedTimeInterval(signalSet);
-		const integer estimateBegin = sharedTime[0];
-		const integer estimateEnd = sharedTime[1];
-		const integer samples = estimateEnd - estimateBegin;
+		Integer2 sharedTime = sharedTimeInterval(signalSet);
+		integer estimateBegin = sharedTime[0];
+		integer estimateEnd = sharedTime[1];
+		integer samples = estimateEnd - estimateBegin;
 
-		const integer trials = signalSet.size();
-		const integer dimension = signalSet.front()->dimension();
+		integer trials = signalSet.size();
+		integer dimension = signalSet.front()->dimension();
+
 		const integer totalSamples = samples * trials;
 
 		ENSURE_OP(kNearest, <, totalSamples);
@@ -62,20 +63,22 @@ namespace Tim
 		// Copy the filter and replicate
 		// the values to each trial.
 
-		const integer filterWidth = filter.size();
-		const integer filterRadius = filterWidth / 2;
-		const integer maxLocalFilterWidth = 
+		integer filterWidth = filter.size();
+		integer filterRadius = filterWidth / 2;
+		integer maxLocalFilterWidth = 
 			std::min(filterWidth, samples);
 
 		std::vector<real> copyFilter;
+
 		copyFilter.reserve(filterWidth * trials);
 
 		{
 			Real_Filter_Iterator iter = filter.begin();
-			const Real_Filter_Iterator iterEnd = filter.end();
+			Real_Filter_Iterator iterEnd = filter.end();
 			while(iter != iterEnd)
 			{
 				std::fill_n(
+
 					std::back_inserter(copyFilter), trials, *iter);
 				++iter;
 			}
@@ -105,13 +108,14 @@ namespace Tim
 				t - timeWindowRadius, 
 				t + timeWindowRadius + 1);
 
-			const integer tBegin = pointSet.windowBegin();
-			const integer tEnd = pointSet.windowEnd();
-			const integer tWidth = tEnd - tBegin;
-			const integer tLocalFilterBegin = std::max(t - filterRadius, tBegin) - tBegin;
-			const integer tLocalFilterEnd = std::min(t + filterRadius + 1, tEnd) - tBegin;
-			const integer tFilterDelta = tBegin - (t - filterRadius);
-			const integer tFilterOffset = std::max(tFilterDelta, (integer)0);
+			integer tBegin = pointSet.windowBegin();
+			integer tEnd = pointSet.windowEnd();
+			integer tWidth = tEnd - tBegin;
+			integer tLocalFilterBegin = std::max(t - filterRadius, tBegin) - tBegin;
+			integer tLocalFilterEnd = std::min(t + filterRadius + 1, tEnd) - tBegin;
+			integer tFilterDelta = tBegin - (t - filterRadius);
+			integer tFilterOffset = std::max(tFilterDelta, (integer)0);
+
 			const integer windowSamples = (tLocalFilterEnd - tLocalFilterBegin) * trials;
 			
 			// For each point at the current time instant in all
@@ -163,7 +167,8 @@ namespace Tim
 				// not taken in the estimate.
 				if (distanceArray(i) > 0)
 				{
-					const real weight = copyFilter[i + filterOffset];
+					real weight = copyFilter[i + filterOffset];
+
 					estimate += weight * entropyAlgorithm.sumTerm(distanceArray(i));
 					weightSum += weight;
 				}

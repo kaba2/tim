@@ -12,8 +12,8 @@ namespace Tim
 		ENSURE_OP(dimensionBegin, >=, 0);
 		ENSURE_OP(dimensionEnd, <=, signal.dimension());
 
-		const integer dimension = dimensionEnd - dimensionBegin;
-		const integer samples = signal.samples();
+		integer dimension = dimensionEnd - dimensionBegin;
+		integer samples = signal.samples();
 
 		Signal splitSignal(signal.samples(), dimension);
 

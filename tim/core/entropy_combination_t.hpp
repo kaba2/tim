@@ -57,25 +57,25 @@ namespace Tim
 		// Check that the trials of signals have the 
 		// same dimension.
 
-		const integer signals = signalSet.height();
+		integer signals = signalSet.height();
 		for (integer i = 0;i < signals;++i)
 		{
 			PENSURE(equalDimension(
 				range(signalSet.cRowBegin(i), signalSet.cRowEnd(i))));
 		}
 
-		const integer trials = signalSet.width();
+		integer trials = signalSet.width();
 
 		// Find out the shared time interval that
 		// the signals share.
 
-		const Integer2 sharedTime = sharedTimeInterval(
+		Integer2 sharedTime = sharedTimeInterval(
 			countingRange(signalSet.cbegin(), signalSet.cend()),
 			lagSet);
 
-		const integer estimateBegin = sharedTime[0];
-		const integer estimateEnd = sharedTime[1];
-		const integer estimates = estimateEnd - estimateBegin;
+		integer estimateBegin = sharedTime[0];
+		integer estimateEnd = sharedTime[1];
+		integer estimates = estimateEnd - estimateBegin;
 
 		if (estimates == 0)
 		{
@@ -90,7 +90,7 @@ namespace Tim
 		jointSignalSet.reserve(trials);
 		merge(signalSet, std::back_inserter(jointSignalSet), lagSet);
 
-		const integer marginals = rangeSet.size();
+		integer marginals = rangeSet.size();
 
 		// Find out the dimension ranges of the marginal
 		// signals.
@@ -100,7 +100,7 @@ namespace Tim
 		offsetSet.push_back(0);
 		for (integer i = 1;i < signals + 1;++i)
 		{
-			const integer marginalDimension = signalSet(0, i - 1).dimension();
+			integer marginalDimension = signalSet(0, i - 1).dimension();
 			offsetSet.push_back(offsetSet[i - 1] + marginalDimension);
 		}
 
@@ -114,26 +114,28 @@ namespace Tim
 		
 		Signal result(estimates, 1, estimateBegin);
 		
-		const std::vector<Integer3> copyRangeSet(
+		std::vector<Integer3> copyRangeSet(
 			rangeSet.begin(), rangeSet.end());
 
 		// Copy the filter and replicate
 		// the values to each trial.
 
-		const integer filterWidth = filter.size();
-		const integer filterRadius = filterWidth / 2;
-		const integer maxLocalFilterWidth = 
+		integer filterWidth = filter.size();
+		integer filterRadius = filterWidth / 2;
+		integer maxLocalFilterWidth = 
 			std::min(filterWidth, estimates);
 
 		std::vector<real> copyFilter;
+
 		copyFilter.reserve(filterWidth * trials);
 
 		{
 			Real_Filter_Iterator iter = filter.begin();
-			const Real_Filter_Iterator iterEnd = filter.end();
+			Real_Filter_Iterator iterEnd = filter.end();
 			while(iter != iterEnd)
 			{
 				std::fill_n(
+
 					std::back_inserter(copyFilter), trials, *iter);
 				++iter;
 			}
@@ -154,7 +156,7 @@ namespace Tim
 		{
 			const Integer3& range = copyRangeSet[i];
 
-			const SignalPointSetPtr marginalPointSet(
+			SignalPointSetPtr marginalPointSet(
 				new SignalPointSet(
 				Pastel::countingRange(jointSignalSet.begin(), jointSignalSet.end()),
 				offsetSet[range[0]], offsetSet[range[1]]));
@@ -163,6 +165,7 @@ namespace Tim
 				
 			signalWeightSum += range[2];
 		}
+
 
 		Array<real> distanceArray(Vector2i(1, maxLocalFilterWidth * trials), infinity<real>());
 		
@@ -173,13 +176,14 @@ namespace Tim
 				t - timeWindowRadius, 
 				t + timeWindowRadius + 1);
 			
-			const integer tBegin = jointPointSet->windowBegin();
-			const integer tEnd = jointPointSet->windowEnd();
-			const integer tWidth = tEnd - tBegin;
-			const integer tLocalFilterBegin = std::max(t - filterRadius, tBegin) - tBegin;
-			const integer tLocalFilterEnd = std::min(t + filterRadius + 1, tEnd) - tBegin;
-			const integer tFilterDelta = tBegin - (t - filterRadius);
-			const integer tFilterOffset = std::max(tFilterDelta, (integer)0);
+			integer tBegin = jointPointSet->windowBegin();
+			integer tEnd = jointPointSet->windowEnd();
+			integer tWidth = tEnd - tBegin;
+			integer tLocalFilterBegin = std::max(t - filterRadius, tBegin) - tBegin;
+			integer tLocalFilterEnd = std::min(t + filterRadius + 1, tEnd) - tBegin;
+			integer tFilterDelta = tBegin - (t - filterRadius);
+			integer tFilterOffset = std::max(tFilterDelta, (integer)0);
+
 			const integer windowSamples = (tLocalFilterEnd - tLocalFilterBegin) * trials;
 
 			using Block = tbb::blocked_range<integer>;

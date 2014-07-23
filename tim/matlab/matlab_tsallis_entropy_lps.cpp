@@ -35,8 +35,9 @@ namespace
 
 		std::vector<Signal> xEnsemble = getSignals(inputSet[X]);
 
-		const real q = asScalar<real>(inputSet[Q]);
-		const integer kNearestSuggestion = asScalar<integer>(inputSet[KNearestSuggestion]);
+		real q = asScalar<real>(inputSet[Q]);
+		integer kNearestSuggestion = asScalar<integer>(inputSet[KNearestSuggestion]);
+
 
 		real* outResult = createScalar<real>(outputSet[Estimate]);
 		*outResult = tsallisEntropyLps(

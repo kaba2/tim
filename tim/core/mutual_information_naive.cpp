@@ -53,7 +53,7 @@ namespace Tim
 		5) Compute mutual information for the piecewise-constant distributions.
 		*/
 
-		const integer n = signal.dimension();
+		integer n = signal.dimension();
 
 		Array<real> result(Vector2i(n, n));
 
@@ -101,12 +101,13 @@ namespace Tim
 					maxBound[j],
 					arrayView(jointHistogram));
 
+
 				const real binVolume = binExtent[i] * binExtent[j];
 
 				real mi = 0;
 				for (integer y = 0;y < bins;++y)
 				{
-					const real yMass = marginalHistogram(y, j);
+					real yMass = marginalHistogram(y, j);
 
 					if (yMass > 0)
 					{
@@ -117,8 +118,9 @@ namespace Tim
 							// This way we hope to avoid possible cancellation
 							// problems.
 
-							const real xMass = marginalHistogram(x, i);
-							const real xyMass = jointHistogram(x, y);
+							real xMass = marginalHistogram(x, i);
+							real xyMass = jointHistogram(x, y);
+
 							if (xMass > 0 && xyMass > 0)
 							{
 								mi += xyMass * std::log(xyMass / (xMass * yMass)) * binVolume;

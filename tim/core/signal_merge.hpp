@@ -36,9 +36,9 @@ namespace Tim
 			++signalIter;
 		}
 
-		const Integer2 sharedTime = 
+		Integer2 sharedTime = 
 			sharedTimeInterval(signalSet, lagSet);
-		const integer samples = sharedTime[1] - sharedTime[0];
+		integer samples = sharedTime[1] - sharedTime[0];
 
 		// Allocate the joint signal.
 
@@ -56,14 +56,15 @@ namespace Tim
 		integer dimensionOffset = 0;
 
 		Integer_Iterator lagIter = lagSet.begin();
-		const Integer_Iterator lagIterEnd = lagSet.end();
+		Integer_Iterator lagIterEnd = lagSet.end();
 
 		signalIter = signalSet.begin();
 		while(lagIter != lagIterEnd)
 		{
+
 			const Signal& signal = **signalIter;
 			const integer lagOffset = sharedTime[0] - (signal.t() + *lagIter);
-			const integer dimension = signal.dimension();
+			integer dimension = signal.dimension();
 
 			for (integer i = 0;i < samples;++i)
 			{
@@ -84,6 +85,7 @@ namespace Tim
 
 	template <typename SignalPtr_Range>
 	Signal merge(
+
 		const SignalPtr_Range& signalSet)
 	{
 		return Tim::merge(signalSet,
@@ -100,9 +102,10 @@ namespace Tim
 	{
 		ENSURE_OP(lagSet.size(), ==, ensembleSet.height());
 
-		const integer trials = ensembleSet.width();
+		integer trials = ensembleSet.width();
 		for (integer i = 0;i < trials;++i)
 		{
+
 			*result = merge(
 				countingRange(ensembleSet.cColumnBegin(i),
 				ensembleSet.cColumnEnd(i)), lagSet);

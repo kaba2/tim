@@ -34,7 +34,8 @@ namespace
 
 		std::vector<Signal> xEnsemble = getSignals(inputSet[X]);
 
-		const integer kNearest = asScalar<integer>(inputSet[KNearest]);
+		integer kNearest = asScalar<integer>(inputSet[KNearest]);
+
 
 		real* outResult = createScalar<real>(outputSet[Estimate]);
 		*outResult = differentialEntropyKl(

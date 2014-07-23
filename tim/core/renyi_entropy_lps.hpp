@@ -82,7 +82,8 @@ namespace Tim
 				normBijection_.lnVolumeUnitSphere(dimension)) +
 				lnGammaDifference_;
 			
-			const real renyiEntropy = 
+			real renyiEntropy = 
+
 				finalFactor_ * (F + std::log(estimate));
 
 			return renyiEntropy;
@@ -139,10 +140,10 @@ namespace Tim
 			return Signal(0, 1);
 		}
 
-		const integer kNearest = renyiDecideK(q, kNearestSuggestion);
-		const integer dimension = signalSet.front()->dimension();
+		integer kNearest = renyiDecideK(q, kNearestSuggestion);
+		integer dimension = signalSet.front()->dimension();
 		
-		const LpsRenyi_EntropyAlgorithm entropyAlgorithm(
+		LpsRenyi_EntropyAlgorithm entropyAlgorithm(
 			dimension, kNearest, q);
 
 		return temporalGenericEntropy(
@@ -155,6 +156,7 @@ namespace Tim
 
 	template <typename SignalPtr_Range>
 	Signal temporalRenyiEntropyLps(
+
 		const SignalPtr_Range& signalSet,
 		integer timeWindowRadius,
 		real q,
@@ -197,10 +199,10 @@ namespace Tim
 				kNearest);
 		}
 
-		const integer kNearest = renyiDecideK(q, kNearestSuggestion);
-		const integer dimension = signalSet.front()->dimension();
+		integer kNearest = renyiDecideK(q, kNearestSuggestion);
+		integer dimension = signalSet.front()->dimension();
 		
-		const LpsRenyi_EntropyAlgorithm entropyAlgorithm(
+		LpsRenyi_EntropyAlgorithm entropyAlgorithm(
 			dimension, kNearest, q);
 
 		return genericEntropy(

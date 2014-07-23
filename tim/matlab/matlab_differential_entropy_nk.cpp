@@ -38,10 +38,11 @@ namespace
 
 		integer intrinsicDimension = 0;
 
-		const real entropy = 
+		real entropy = 
 			differentialEntropyNk(
 			countingRange(xEnsemble.begin(), xEnsemble.end()), 
 			Euclidean_NormBijection<real>(),
+
 			&intrinsicDimension);
 
 		if (outputs > 0)

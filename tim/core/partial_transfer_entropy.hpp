@@ -47,7 +47,7 @@ namespace Tim
 				return 0;
 			}
 
-			const integer trials = xSignalSet.size();
+			integer trials = xSignalSet.size();
 
 			// Form the joint signal. Note the signals 
 			// are merged in wXZY order.
@@ -74,6 +74,7 @@ namespace Tim
 
 			if (result)
 			{
+
 				*result = temporalEntropyCombination(
 					signalSet,
 					range(rangeSet),
