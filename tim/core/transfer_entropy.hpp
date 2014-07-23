@@ -17,14 +17,14 @@ namespace Tim
 	{
 
 		template <
-			typename Signal_X_Iterator,
-			typename Signal_Y_Iterator,
-			typename Signal_W_Iterator,
+			typename X_Signal_Range,
+			typename Y_Signal_Range,
+			typename W_Signal_Range,
 			typename Real_Filter_Iterator>
 		real transferEntropy(
-			const boost::iterator_range<Signal_X_Iterator>& xSignalSet,
-			const boost::iterator_range<Signal_Y_Iterator>& ySignalSet,
-			const boost::iterator_range<Signal_W_Iterator>& wSignalSet,
+			const X_Signal_Range& xSignalSet,
+			const Y_Signal_Range& ySignalSet,
+			const W_Signal_Range& wSignalSet,
 			integer timeWindowRadius,
 			Signal* result,
 			integer xLag, integer yLag, integer wLag,
@@ -90,14 +90,14 @@ namespace Tim
 	}
 
 	template <
-		typename Signal_X_Iterator,
-		typename Signal_Y_Iterator,
-		typename Signal_W_Iterator,
+		typename X_Signal_Range,
+		typename Y_Signal_Range,
+		typename W_Signal_Range,
 		typename Real_Filter_Iterator>
 	Signal temporalTransferEntropy(
-		const boost::iterator_range<Signal_X_Iterator>& xSignalSet,
-		const boost::iterator_range<Signal_Y_Iterator>& ySignalSet,
-		const boost::iterator_range<Signal_W_Iterator>& wSignalSet,
+		const X_Signal_Range& xSignalSet,
+		const Y_Signal_Range& ySignalSet,
+		const W_Signal_Range& wSignalSet,
 		integer timeWindowRadius,
 		integer xLag, integer yLag, integer wLag,
 		integer kNearest,
@@ -115,13 +115,13 @@ namespace Tim
 	}
 
 	template <
-		typename Signal_X_Iterator,
-		typename Signal_Y_Iterator,
-		typename Signal_W_Iterator>
+		typename X_Signal_Range,
+		typename Y_Signal_Range,
+		typename W_Signal_Range>
 	Signal temporalTransferEntropy(
-		const boost::iterator_range<Signal_X_Iterator>& xSignalSet,
-		const boost::iterator_range<Signal_Y_Iterator>& ySignalSet,
-		const boost::iterator_range<Signal_W_Iterator>& wSignalSet,
+		const X_Signal_Range& xSignalSet,
+		const Y_Signal_Range& ySignalSet,
+		const W_Signal_Range& wSignalSet,
 		integer timeWindowRadius,
 		integer xLag, integer yLag, integer wLag,
 		integer kNearest)
@@ -135,13 +135,13 @@ namespace Tim
 	}
 
 	template <
-		typename Signal_X_Iterator,
-		typename Signal_Y_Iterator,
-		typename Signal_W_Iterator>
+		typename X_Signal_Range,
+		typename Y_Signal_Range,
+		typename W_Signal_Range>
 	real transferEntropy(
-		const boost::iterator_range<Signal_X_Iterator>& xSignalSet,
-		const boost::iterator_range<Signal_Y_Iterator>& ySignalSet,
-		const boost::iterator_range<Signal_W_Iterator>& wSignalSet,
+		const X_Signal_Range& xSignalSet,
+		const Y_Signal_Range& ySignalSet,
+		const W_Signal_Range& wSignalSet,
 		integer xLag, integer yLag, integer wLag,
 		integer kNearest)
 	{

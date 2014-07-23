@@ -17,14 +17,14 @@ namespace Tim
 	{
 
 		template <
-			typename Signal_X_Iterator,
-			typename Signal_Y_Iterator,
-			typename Signal_Z_Iterator,
+			typename X_Signal_Range,
+			typename Y_Signal_Range,
+			typename Z_Signal_Range,
 			typename Real_Filter_Iterator>
 		real partialMutualInformation(
-			const boost::iterator_range<Signal_X_Iterator>& xSignalSet,
-			const boost::iterator_range<Signal_Y_Iterator>& ySignalSet,
-			const boost::iterator_range<Signal_Z_Iterator>& zSignalSet,
+			const X_Signal_Range& xSignalSet,
+			const Y_Signal_Range& ySignalSet,
+			const Z_Signal_Range& zSignalSet,
 			integer timeWindowRadius,
 			Signal* result,
 			integer xLag, integer yLag, integer zLag,
@@ -87,14 +87,14 @@ namespace Tim
 	}
 
 	template <
-		typename Signal_X_Iterator,
-		typename Signal_Y_Iterator,
-		typename Signal_Z_Iterator,
+		typename X_Signal_Range,
+		typename Y_Signal_Range,
+		typename Z_Signal_Range,
 		typename Real_Filter_Iterator>
 	Signal temporalPartialMutualInformation(
-		const boost::iterator_range<Signal_X_Iterator>& xSignalSet,
-		const boost::iterator_range<Signal_Y_Iterator>& ySignalSet,
-		const boost::iterator_range<Signal_Z_Iterator>& zSignalSet,
+		const X_Signal_Range& xSignalSet,
+		const Y_Signal_Range& ySignalSet,
+		const Z_Signal_Range& zSignalSet,
 		integer timeWindowRadius,
 		integer xLag, integer yLag, integer zLag,
 		integer kNearest,
@@ -112,13 +112,13 @@ namespace Tim
 	}
 
 	template <
-		typename Signal_X_Iterator,
-		typename Signal_Y_Iterator,
-		typename Signal_Z_Iterator>
+		typename X_Signal_Range,
+		typename Y_Signal_Range,
+		typename Z_Signal_Range>
 	Signal temporalPartialMutualInformation(
-		const boost::iterator_range<Signal_X_Iterator>& xSignalSet,
-		const boost::iterator_range<Signal_Y_Iterator>& ySignalSet,
-		const boost::iterator_range<Signal_Z_Iterator>& zSignalSet,
+		const X_Signal_Range& xSignalSet,
+		const Y_Signal_Range& ySignalSet,
+		const Z_Signal_Range& zSignalSet,
 		integer timeWindowRadius,
 		integer xLag, integer yLag, integer zLag,
 		integer kNearest)
@@ -132,13 +132,13 @@ namespace Tim
 	}
 
 	template <
-		typename Signal_X_Iterator,
-		typename Signal_Y_Iterator,
-		typename Signal_Z_Iterator>
+		typename X_Signal_Range,
+		typename Y_Signal_Range,
+		typename Z_Signal_Range>
 	real partialMutualInformation(
-		const boost::iterator_range<Signal_X_Iterator>& xSignalSet,
-		const boost::iterator_range<Signal_Y_Iterator>& ySignalSet,
-		const boost::iterator_range<Signal_Z_Iterator>& zSignalSet,
+		const X_Signal_Range& xSignalSet,
+		const Y_Signal_Range& ySignalSet,
+		const Z_Signal_Range& zSignalSet,
 		integer xLag, integer yLag, integer zLag,
 		integer kNearest)
 	{
