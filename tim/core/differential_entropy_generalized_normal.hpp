@@ -9,7 +9,7 @@ namespace Tim
 {
 
 	template <typename Real>
-	Real generalizedGaussianDifferentialEntropy(
+	Real generalizedNormalDifferentialEntropy(
 		integer dimension, 
 		const PASTEL_NO_DEDUCTION(Real)& shape, 
 		const PASTEL_NO_DEDUCTION(Real)& scale)
