@@ -41,7 +41,7 @@ namespace
 			asScalar<real>(inputSet[Scale]);
 
 		real* entropy = createScalar<real>(outputSet[Entropy]);
-		*entropy = generalizedNormalDifferentialEntropy<real>(dimension, shape, scale);
+		*entropy = differentialEntropyGeneralizedNormal<real>(dimension, shape, scale);
 	}
 
 	void addFunction()

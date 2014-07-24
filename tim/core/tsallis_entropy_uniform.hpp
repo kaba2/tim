@@ -16,7 +16,7 @@ namespace Tim
 
 		if (q == 1)
 		{
-			return uniformDifferentialEntropy<Real>(supportVolume);
+			return differentialEntropyUniform<Real>(supportVolume);
 		}
 
 		// I = 1 / m(S)^(q - 1)

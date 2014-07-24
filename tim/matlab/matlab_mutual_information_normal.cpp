@@ -40,7 +40,7 @@ namespace
 		real* mutualInformation = 
 			createScalar<real>(outputSet[MutualInformation]);
 		*mutualInformation = 
-			normalMutualInformation<real>(productDetCov, jointDetCov);
+			mutualInformationNormal<real>(productDetCov, jointDetCov);
 	}
 
 	void addFunction()

@@ -19,7 +19,7 @@ namespace Tim
 
 	q:
 	The power in the definition of Renyi entropy.
-	If q = 1, normalDifferentialEntropy() is returned
+	If q = 1, differentialEntropyNormal() is returned
 	instead.
 
 	dimension:

@@ -35,7 +35,7 @@ namespace
 			asScalar<real>(inputSet[SupportVolume]);
 
 		real* entropy = createScalar<real>(outputSet[Entropy]);
-		*entropy = uniformDifferentialEntropy<real>(supportVolume);
+		*entropy = differentialEntropyUniform<real>(supportVolume);
 	}
 
 	void addFunction()

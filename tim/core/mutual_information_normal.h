@@ -26,7 +26,7 @@ namespace Tim
 	|cov(X)|
 	*/
 	template <typename Real>
-	Real normalMutualInformation(
+	Real mutualInformationNormal(
 		const PASTEL_NO_DEDUCTION(Real)& marginalCovarianceDeterminantProduct,
 		const PASTEL_NO_DEDUCTION(Real)& jointCovarianceDeterminant);
 

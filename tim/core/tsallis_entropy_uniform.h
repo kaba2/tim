@@ -18,7 +18,7 @@ namespace Tim
 
 	q:
 	The power in the definition of Tsallis entropy.
-	If q == 1, uniformDifferentialEntropy() is
+	If q == 1, differentialEntropyUniform() is
 	returned instead.
 
 	supportVolume:

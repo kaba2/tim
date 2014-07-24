@@ -23,7 +23,7 @@ namespace Tim
 	The determinant of the covariance matrix of the distribution.
 	*/
 	template <typename Real>
-	Real normalDifferentialEntropy(
+	Real differentialEntropyNormal(
 		integer dimension, 
 		const PASTEL_NO_DEDUCTION(Real)& covarianceDeterminant);
 
