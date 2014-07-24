@@ -1,47 +1,36 @@
 % MUTUAL_INFORMATION_NORMAL
-% Mutual information between normal distributions.
+% Mutual information between marginals of a normal distribution.
 %
-% I = mutual_information_normal(xDetCov, yDetCov, xyDetCov, ...
+% I = mutual_information_normal(productDetCov, jointDetCov, ...
 %                               'key', value, ...)
 %
-% XDETCOV is a positive real number which specifies the determinant
-% of the covariance matrix of the random variable X. 
+% PRODUCTDETCOV is a positive real number which specifies the 
+% product of the determinants of the covariance matrices of the 
+% normally distributed random variables X_i, where i in [1, p]. 
 %
-% YDETCOV is a positive real number which specifies the determinant
-% of the covariance matrix of the random variable Y.
+% JOINTDETCOV is a positive real number which specifies the determinant
+% of the covariance matrix of the normally distributed random variable 
+% X = (X_1, ..., X_p).
 %
-% XYDETCOV is a positive real number which specifies the determinant
-% of the covariance matrix of the random variable (X, Y).
+% When p > 2, the mutual information computed here is called 
+% total correlation. The most common case is to have p = 2.
 
-% Description: Mutual information between normal distributions.
+% Description: Mutual information between marginals of a normal distribution.
 % Documentation: mutual_information.txt
 
 function I = mutual_information_normal(...
-    xDetCov, yDetCov, xyDetCov, varargin)
+    productDetCov, jointDetCov, varargin)
 
 import([tim_package, '.*']);
 
+concept_check(nargin, 'inputs', 2);
+concept_check(nargout, 'outputs', 0 : 1);
+
 pastelsys.concept_check(...
-	xDetCov, 'real', ...
-	xDetCov, 'positive', ...
-	yDetCov, 'real', ...
-	yDetCov, 'positive', ...
-	xyDetCov, 'real', ...
-	xyDetCov, 'positive')
+	productDetCov, 'real', ...
+	productDetCov, 'positive', ...
+	jointDetCov, 'real', ...
+	jointDetCov, 'positive');
 
-% Optional input arguments
-eval(process_options({}, varargin));
-
-% This is the mutual information evaluated by differential
-% entropies:
-%
-%    I(X, Y) = H(X) + H(Y) - H(X, Y)
-%
-% See differential_entropy_normal.m for the analytical formula
-% for the differential entropy of the normal distribution.
-% As a check, if the covariance matrix of (X, Y) is block-diagonal,
-% with cov((X, Y)) = diag(cov(X), cov(Y)), that is, X and Y are
-% independent, then det(cov((X, Y))) = det(cov(X)) det(cov(Y)), and
-% the mutual information is zero.
-
-I = 0.5 * (log(xDetCov) + log(yDetCov) - log(xyDetCov));
+I = tim_matlab('mutual_information_normal', ...
+	productDetCov, jointDetCov);

@@ -1,13 +1,17 @@
-#include "tim/core/mutual_information_analytic.h"
+#ifndef TIM_MUTUAL_INFORMATION_NORMAL_HPP
+#define TIM_MUTUAL_INFORMATION_NORMAL_HPP
+
+#include "tim/core/mutual_information_normal.h"
 
 #include <cmath>
 
 namespace Tim
 {
 
-	TIM real correlatedGaussianMutualInformation(
-		real marginalCovarianceDeterminantProduct,
-		real jointCovarianceDeterminant)
+	template <typename Real>
+	Real normalMutualInformation(
+		const PASTEL_NO_DEDUCTION(Real)& marginalCovarianceDeterminantProduct,
+		const PASTEL_NO_DEDUCTION(Real)& jointCovarianceDeterminant)
 	{
 		/*
 		The differential entropy of a multivariate gaussian
@@ -27,9 +31,11 @@ namespace Tim
 		= 0.5 log((|C_1| * ... * |C_m|) / |C|)
 		*/
 		
-		return 0.5 * std::log(std::abs(
+		return (Real)0.5 * std::log(
 			marginalCovarianceDeterminantProduct /
-			jointCovarianceDeterminant));
+			jointCovarianceDeterminant);
 	}
 
 }
+
+#endif
