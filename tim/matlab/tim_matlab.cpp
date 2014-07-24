@@ -29,6 +29,7 @@ FORCE_LINKING(divergence_wkv);
 FORCE_LINKING(entropy_combination);
 FORCE_LINKING(entropy_combination_t);
 FORCE_LINKING(mutual_information_naive);
+FORCE_LINKING(mutual_information_normal);
 FORCE_LINKING(renyi_entropy_lps);
 FORCE_LINKING(renyi_entropy_lps_t);
 FORCE_LINKING(tsallis_entropy_lps);

@@ -37,8 +37,10 @@ namespace
 		real covarianceDeterminant = 
 			asScalar<real>(inputSet[CovarianceDeterminant]);
 
-		real* entropy = createScalar<real>(outputSet[Entropy]);
-		*entropy = normalDifferentialEntropy<real>(dimension, covarianceDeterminant);
+		real* entropy = 
+			createScalar<real>(outputSet[Entropy]);
+		*entropy = 
+			normalDifferentialEntropy<real>(dimension, covarianceDeterminant);
 	}
 
 	void addFunction()
