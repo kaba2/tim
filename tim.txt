@@ -62,43 +62,6 @@ The issue tracker for TIM is hosted on Bitbucket in [here][TimBugs].
 
 [TimBugs]: https://bitbucket.org/kaba2/tim/issues
 
-Features
---------
-
-TIM can estimate
-
- * [differential entropy][Shannon],
- * [Renyi entropies][Renyi],
- * [Tsallis entropies][Tsallis],
- * [mutual information][MutualInformation], 
- * [conditional mutual information][ConditionalMutualInformation], 
- * [transfer entropy][TransferEntropy],
- * [conditional transfer entropy][ConditionalTransferEntropy],
- * [entropy combinations][Combinations],
- * [Kullback-Leibler divergence][Divergence],
- * using [temporal windowing][Temporal],
- * using multi-variate data,
- * using data from multiple trials, and
- * using multiple cores.
-
-TIM can also do
-
- * non-linear prediction, and
- * non-linear noise removal,
-
-TIM can be used either as a pure C++ library, or through Matlab,
-
-[Shannon]: [[Ref]]: differential_entropy.txt
-[Renyi]: [[Ref]]: renyi_entropy.txt
-[Tsallis]: [[Ref]]: tsallis_entropy.txt
-[Combinations]: [[Ref]]: entropy_combination.txt
-[Divergence]: [[Ref]]: divergence.txt
-[Temporal]: [[Ref]]: temporal_estimation.txt
-[MutualInformation]: [[Ref]]: mutual_information.txt
-[ConditionalMutualInformation]: [[Ref]]: partial_mutual_information.txt
-[TransferEntropy]: [[Ref]]: transfer_entropy.txt
-[ConditionalTransferEntropy]: [[Ref]]: partial_transfer_entropy.txt
-
 [[Comment]]:
 	The following is a javascript for Google Analytics by which we can
 	monitor the visitor statistics of the TIM homepage.

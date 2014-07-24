@@ -1,7 +1,7 @@
 Tsallis entropy
 ===============
 
-[[Parent]]: entropy.txt
+[[Parent]]: estimators.txt
 
 The _Tsallis entropy_ of a continuous random variable ''X'' is defined by
 

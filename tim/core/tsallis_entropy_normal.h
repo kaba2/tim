@@ -1,4 +1,5 @@
 // Description: Tsallis entropy of a normal distribution
+// Documentation: tsallis_entropy_analytic.txt
 
 #ifndef TIM_TSALLIS_ENTROPY_NORMAL_H
 #define TIM_TSALLIS_ENTROPY_NORMAL_H

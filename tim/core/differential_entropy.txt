@@ -1,7 +1,7 @@
-Shannon differential entropy
-============================
+Differential entropy
+====================
 
-[[Parent]]: entropy.txt
+[[Parent]]: estimators.txt
 
 The _differential entropy_ of a continuous random variable ''X'' is defined by
 

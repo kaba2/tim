@@ -1,4 +1,5 @@
 // Description: Renyi entropy of a uniform distribution
+// Documentation: renyi_entropy_analytic.txt
 
 #ifndef TIM_RENYI_ENTROPY_UNIFORM_H
 #define TIM_RENYI_ENTROPY_UNIFORM_H

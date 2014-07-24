@@ -3,37 +3,4 @@ Estimators
 
 [[Parent]]: user_documentation.txt
 
-This page introduces the estimators that have been implemented in TIM.
-TIM can optionally carry out many of these estimations so that they 
-are adaptive to time (via time-windowing). TIM can also efficiently 
-take advantage of data from multiple trials of the same experiment.
-Note that the estimators work with continuous variables. No support
-for discrete variables is available.
-
-Implemented estimators
-----------------------
-
-### Entropy estimators
-
- * Kozachenko-Leonenko estimator for Shannon differential entropy
- * Nilsson-Kleijn estimator for Shannon differential entropy
- on embedded differentiable manifolds
- * Stowell-Plumbley estimator for Shannon differential entropy
- * Leonenko-Pronzato-Savani estimator for Renyi entropies
- * Leonenko-Pronzato-Savani estimator for Tsallis entropies
-
-### Entropy combination estimators
-
- * Mutual information
- * Partial mutual information
- * Transfer entropy
- * Partial transfer entropy
-
-### Divergence estimators
-
- *  Wang-Kulkarni-Verdu estimator for Kullback-Leilber divergence
-
-
-
-
-
+This page introduces the estimators that have been implemented in TIM. TIM can optionally carry out many of these estimations so that they are adaptive in time (via time-windowing). TIM can also efficiently take advantage of data from multiple trials of the same experiment. Note that the estimators work with continuous variables. No support for discrete variables is available.

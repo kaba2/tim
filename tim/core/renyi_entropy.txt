@@ -1,7 +1,7 @@
 Renyi entropy
 =============
 
-[[Parent]]: entropy.txt
+[[Parent]]: estimators.txt
 
 The _Renyi entropy_ of a continuous random variable ''X'' is defined by
 
