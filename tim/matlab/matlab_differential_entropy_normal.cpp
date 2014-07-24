@@ -1,4 +1,4 @@
-// Description: Differential_entropy of a normal distribution
+// Description: Differential entropy of a normal distribution
 // DocumentationOf: differential_entropy_normal.m
 
 #include "tim/matlab/tim_matlab.h"

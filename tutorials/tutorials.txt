@@ -1,6 +1,6 @@
 Tutorials
 =========
 
-[[Parent]]: user_documentation.txt
+[[Parent]]: tim.txt
 
 This section contains tutorials on TIM.

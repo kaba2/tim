@@ -1,4 +1,5 @@
 // Description: Analytical solutions for Renyi entropies
+// Documentation: renyi_entropy_analytic.txt
 
 #ifndef TIM_RENYI_ENTROPY_NORMAL_H
 #define TIM_RENYI_ENTROPY_NORMAL_H

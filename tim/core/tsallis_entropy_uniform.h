@@ -1,4 +1,5 @@
 // Description: Tsallis entropy of a uniform distribution
+// Documentation: tsallis_entropy_analytic.txt
 
 #ifndef TIM_TSALLIS_ENTROPY_UNIFORM_H
 #define TIM_TSALLIS_ENTROPY_UNIFORM_H

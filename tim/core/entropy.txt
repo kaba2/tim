@@ -1,8 +1,0 @@
-Entropy
-=======
-
-[[Parent]]: estimators.txt
-
-There are many kinds of entropies useful in different kinds
-of situations. TIM implements estimators for Shannon 
-differential entropy, Renyi entropies, and Tsallis entropies.
