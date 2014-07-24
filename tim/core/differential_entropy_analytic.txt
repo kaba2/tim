@@ -1,0 +1,6 @@
+Analytic solutions to differential entropy
+==========================================
+
+[[Parent]]: differential_entropy.txt
+
+This section contains analytic solutions to differential entropies of distributions.

@@ -1,59 +1,9 @@
-// Description: Analytical solutions for Tsallis entropies
+// Description: An aggregate file for analytic Tsallis entropies.
 
 #ifndef TIM_TSALLIS_ENTROPY_ANALYTIC_H
 #define TIM_TSALLIS_ENTROPY_ANALYTIC_H
 
-#include "tim/core/mytypes.h"
-
-namespace Tim
-{
-
-	//! Tsallis entropy of a gaussian distribution.
-	/*!
-	Preconditions:
-	dimension > 0
-	covarianceDeterminant >= 0
-
-	q:
-	The power in the definition of Renyi entropy.
-	If q = 1, gaussianDifferentialEntropy() is returned
-	instead.
-
-	dimension:
-	The dimension of the distribution.
-
-	covarianceDeterminant:
-	Determinant of the covariance matrix of the distribution.
-
-	Returns:
-	The Tsallis entropy of the gaussian distribution.
-	*/
-	TIM real gaussianTsallisEntropy(
-		real q,
-		integer dimension,
-		real covarianceDeterminant);
-
-	//! Tsallis entropy of a uniform distribution.
-	/*!
-	Preconditions:
-	supportVolume >= 0
-
-	q:
-	The power in the definition of Tsallis entropy.
-	If q == 1, uniformDifferentialEntropy() is
-	returned instead.
-
-	supportVolume:
-	The measure m of the support of the probability density
-	function p: m({x in R^n: p(x) != 0})
-
-	Returns:
-	The Tsallis entropy of the uniform distribution.
-	*/
-	TIM real uniformTsallisEntropy(
-		real q,
-		real supportVolume);
-
-}
+#include "tim/core/tsallis_entropy_normal.h"
+#include "tim/core/tsallis_entropy_uniform.h"
 
 #endif
