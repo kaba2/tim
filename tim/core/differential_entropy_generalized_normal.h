@@ -8,7 +8,7 @@
 namespace Tim
 {
 
-	//! Differential entropy of a generalized gaussian distribution.
+	//! Differential entropy of a generalized normal distribution.
 	/*!
 	Preconditions:
 	dimension > 0
@@ -25,7 +25,7 @@ namespace Tim
 	The scale parameter of the distribution.
 	*/
 	template <typename Real>
-	Real generalizedGaussianDifferentialEntropy(
+	Real generalizedNormalDifferentialEntropy(
 		integer dimension, 
 		const PASTEL_NO_DEDUCTION(Real)& shape, 
 		const PASTEL_NO_DEDUCTION(Real)& scale);

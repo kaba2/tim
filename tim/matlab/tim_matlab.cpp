@@ -21,7 +21,9 @@ units to self-register themselves to PastelMatlab.
 FORCE_LINKING(differential_entropy_kl);
 FORCE_LINKING(differential_entropy_kl_t);
 FORCE_LINKING(differential_entropy_nk);
+FORCE_LINKING(differential_entropy_generalized_normal);
 FORCE_LINKING(differential_entropy_normal);
+FORCE_LINKING(differential_entropy_uniform);
 FORCE_LINKING(differential_entropy_sp);
 FORCE_LINKING(divergence_wkv);
 FORCE_LINKING(entropy_combination);
