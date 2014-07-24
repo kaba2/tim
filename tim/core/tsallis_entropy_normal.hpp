@@ -19,7 +19,7 @@ namespace Tim
 
 		if (q == 1)
 		{
-			return normalDifferentialEntropy<Real>(
+			return differentialEntropyNormal<Real>(
 				dimension,
 				covarianceDeterminant);
 		}

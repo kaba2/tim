@@ -20,7 +20,7 @@ namespace Tim
 	function p: m({x in R^n: p(x) != 0})
 	*/
 	template <typename Real>
-	Real uniformDifferentialEntropy(
+	Real differentialEntropyUniform(
 		const PASTEL_NO_DEDUCTION(Real)& supportVolume);
 
 }

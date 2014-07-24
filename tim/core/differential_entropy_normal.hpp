@@ -9,7 +9,7 @@ namespace Tim
 {
 
 	template <typename Real>
-	Real normalDifferentialEntropy(
+	Real differentialEntropyNormal(
 		integer dimension, 
 		const PASTEL_NO_DEDUCTION(Real)& covarianceDeterminant)
 	{

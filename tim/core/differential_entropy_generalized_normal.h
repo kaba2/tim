@@ -25,7 +25,7 @@ namespace Tim
 	The scale parameter of the distribution.
 	*/
 	template <typename Real>
-	Real generalizedNormalDifferentialEntropy(
+	Real differentialEntropyGeneralizedNormal(
 		integer dimension, 
 		const PASTEL_NO_DEDUCTION(Real)& shape, 
 		const PASTEL_NO_DEDUCTION(Real)& scale);
