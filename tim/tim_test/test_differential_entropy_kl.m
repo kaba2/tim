@@ -1,3 +1,6 @@
+% Description: Testing for differential_entropy_kl
+% DocumentationOf: differential_entropy_kl.m
+
 classdef test_differential_entropy_kl < matlab.unittest.TestCase
     
     properties (TestParameter)
