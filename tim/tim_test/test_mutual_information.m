@@ -1,3 +1,6 @@
+% Description: Testing for mutual_information
+% DocumentationOf: mutual_information.m
+
 classdef test_mutual_information < matlab.unittest.TestCase
     
     properties (TestParameter)

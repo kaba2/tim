@@ -30,7 +30,7 @@ disp(' ');
 disp(['Building a mex file for TIM in ', mode, ' mode.']);
 disp(' ');
 
-timIncludePath = '.';
+timIncludePath = '..';
 pastelIncludePath = '../../pastel';
 boostIncludePath = '../../boost';
 tbbIncludePath = '../../tbb42/include';
