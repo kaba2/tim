@@ -19,7 +19,7 @@
 % Default: 1000
 %
 % COV ('cov') is a positive-definite (D x D) real matrix which
-% denotes the covaríance matrix of the random variable (X, Y).
+% denotes the covariance matrix of the random variable (X, Y).
 % The D also determines the dimension of the random variable (X, Y).
 % Default: eye(4, 4)
 %
@@ -86,7 +86,10 @@ yCov = cov((dx + 1) : end, (dx + 1) : end);
 % Compute the correct mutual information; the
 % case for the multi-variate normal distribution can be
 % solved analytically.
-hCorrect = tim.mutual_information_normal(det(xCov), det(yCov), det(cov));
+hCorrect = tim.mutual_information_normal(det(xCov) * det(yCov), det(cov));
+
+xMin = hCorrect - 0.25;
+xMax = hCorrect + 0.25;
 
 % Draw a histogram of the estimates.
 hist(hSet, 100);
@@ -108,4 +111,5 @@ xlabel(['mutual information -estimate', ...
     ', deviation = ', num2str(hDeviation)]);
 ylabel('Samples');
 legend('Samples', 'Sample mean', 'Correct value');
+axis([xMin, xMax, yLimits(1), yLimits(2)]);
 hold off;
