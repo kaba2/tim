@@ -1,5 +1,5 @@
-% DRAW_DIFFERENTIAL_ENTROPY_KL
-% Draws the distribution of differential_entropy_kl -estimates.
+% DRAW_DIFFERENTIAL_ENTROPY_KL_DISTRIBUTION
+% Distribution of differential_entropy_kl -estimates.
 %
 % draw_differential_entropy_kl('key', value, ...)
 %
@@ -19,6 +19,7 @@
 %
 % COV ('cov') is a (DxD) positive-definite real matrix which specifies the
 % covariance matrix of the point-set.
+% Default: eye(d, d)
 %
 % M ('m') is a non-negative integer which denotes the number of estimates 
 % to compute. The histogram is formed from these estimates.
@@ -39,8 +40,12 @@ k = 1;
 d = 4;
 n = 1000;
 m = 1000;
-cov = eye(d, d);
+cov = {};
 eval(tim.process_options({'k', 'd', 'n', 'm', 'cov'}, varargin));
+
+if iscell(cov)
+    cov = eye(d, d);
+end
 
 pastelsys.concept_check(...
     k, 'integer', ...
@@ -52,14 +57,12 @@ pastelsys.concept_check(...
     m, 'integer', ...
     m, 'non_negative');
 
-R = chol(cov);
-
 % Accumulate the estimates for each trial.
 hSet = zeros(1, m);
 for i = 1 : m
     % Generate a point-set randomly from the multi-variate
     % normal distribution.
-	A = R * randn(d, n);
+	A = tim.random_normal(d, n, 'cov', cov);
     % Compute the differential entropy estimate.
 	hSet(i) = tim.differential_entropy_kl(A, 'k', k);
 end
@@ -74,6 +77,9 @@ hDeviation = std(hSet);
 % case for the multi-variate normal distribution can be
 % solved analytically.
 hCorrect = tim.differential_entropy_normal(d, 'detCov', det(cov));
+
+xMin = hCorrect - 0.25;
+xMax = hCorrect + 0.25;
 
 % Draw a histogram of the estimates.
 hist(hSet, 100);
@@ -95,4 +101,5 @@ xlabel(['KL differential entropy -estimate', ...
     ', deviation = ', num2str(hDeviation)]);
 ylabel('Samples');
 legend('Samples', 'Sample mean', 'Correct value');
+axis([xMin, xMax, yLimits(1), yLimits(2)]);
 hold off;

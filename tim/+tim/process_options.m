@@ -52,8 +52,7 @@ while i < arguments
         end
     else
         % This option is not supported.
-        warning('MISC:process_options:unknownOption', ...
-            [key, ' is not a supported option. Ignoring it.']);
+        error([key, ' is not a name of an optional argument.']);
     end
     
     i = i + 2;
