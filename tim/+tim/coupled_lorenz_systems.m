@@ -31,7 +31,7 @@
 % Default: ceil(100 * tMax)
 %
 % P0 ('p0') is the initial point representing time zero.
-% Default: [1, 0, 0, 1, 0, 0]
+% Default: [0, 1, 0, 0, 1, 0]
 %
 % ALPHA ('alpha') is a real number which specifies how strongly
 % the second Lorenz system drives the first one.
@@ -68,7 +68,7 @@ concept_check(nargout, 'outputs', 0 : 2);
 sigma = 10;
 r = 28;
 b = 8 / 3;
-p0 = [1, 0, 0, 1, 0, 0];
+p0 = [0, 1, 0, 0, 1, 0];
 tMax = 40;
 n = ceil(100 * tMax);
 alpha = 0;

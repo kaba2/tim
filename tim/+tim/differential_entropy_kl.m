@@ -11,7 +11,8 @@
 %
 % H is the estimated differential entropy.
 %
-% Optional input arguments in 'key'-value pairs:
+% Optional arguments
+% ------------------
 %
 % K ('k') is an integer which denotes the number of nearest neighbors 
 % to be used by the estimator.

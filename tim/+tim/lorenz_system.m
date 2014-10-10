@@ -31,7 +31,7 @@
 % Default: ceil(100 * tMax)
 %
 % P0 ('p0') is the initial point representing time zero.
-% Default: [1, 0, 0]
+% Default: [0, 1, 0]
 %
 % Additional information
 % ----------------------
@@ -44,6 +44,14 @@
 %     z' = -bz + xy.
 %
 % subject to p0 = [x(0), y(0), z(0)].
+%
+% Reference
+% ---------
+%
+% Deterministic non-periodic flow,
+% Edward N. Lorenz,
+% Journal of the Atmospheric Sciences,
+% Volume 20, 1963.
 
 % Description: Generates the Lorenz point-set
 
@@ -58,7 +66,7 @@ concept_check(nargout, 'outputs', 0 : 1);
 sigma = 10;
 r = 28;
 b = 8 / 3;
-p0 = [1, 0, 0];
+p0 = [0, 1, 0];
 tMax = 40;
 n = ceil(100 * tMax);
 eval(process_options(...
