@@ -37,6 +37,10 @@ pastelsys.concept_check(...
 cov = eye(d, d);
 eval(process_options({'cov'}, varargin));
 
+if (size(cov) ~= [d, d])
+    error('COV must be a real (d x d)-matrix.');
+end
+
 pastelsys.concept_check(...
 	cov, 'real_matrix', ...
 	cov, 'square_matrix');

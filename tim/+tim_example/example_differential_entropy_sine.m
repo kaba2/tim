@@ -1,3 +1,11 @@
+% EXAMPLE_DIFFERENTIAL_ENTROPY_SINE
+%
+% Discontinuities in the probability density function break the 
+% assumptions of the SP and KL estimators. As a result, they 
+% perform badly. This example demonstrates this aspect by computing
+% the differential entropy of Y = sin(2 * pi * X), where 
+% X ~ Uniform(0, 1).
+
 clear all;
 close all;
 
@@ -29,23 +37,20 @@ disp(' ');
 disp('Differential entropy of sin(2 * pi * X), when X ~ Uniform(0, 1)');
 disp([int2str(n), ' samples']);
 
-% The analytic differential entropy of Y is
-% log2(pi) - 1.
-analyticDe = log2(pi) - 1;
+analyticDe = tim.differential_entropy_sine();
 disp(' ');
-disp(['Analytic: ', num2str(analyticDe)]);
+disp(['differential_entropy_sine: ', num2str(analyticDe)]);
 
 klDe = tim.differential_entropy_kl(ySet);
-disp(['Kozachenko-Leonenko estimator: ', num2str(klDe)]);
+disp(['differential_entropy_kl (k = 1): ', num2str(klDe)]);
+
+klDe = tim.differential_entropy_kl(ySet, 'k', 100);
+disp(['differential_entropy_kl (k = 100): ', num2str(klDe)]);
 
 spDe = tim.differential_entropy_sp(ySet);
-disp(['Stowell-Plumbley estimator: ', num2str(spDe)]);
+disp(['differential_entropy_sp: ', num2str(spDe)]);
 
 pmfSet = pdfSet / sum(pdfSet);
 binningDe = -sum(pdfSet .* log2(pdfSet)) * (2 / (numel(edgeSet) - 1));
 disp(['Binning estimator: ', num2str(binningDe)]);
 
-disp(' ');
-disp(['Lesson: discontinuities in the probability density ', ...
-    'break the assumptions of the SP and KL estimators, and ', ...
-    'they perform badly.']);
