@@ -49,8 +49,7 @@ namespace Tim
 
 		using Block = tbb::blocked_range<integer>;
 		using Pair = std::pair<real, integer>;
-
-
+		
 		auto compute = [&](
 			const Block& block,
 			const Pair& start)
@@ -62,7 +61,6 @@ namespace Tim
 				// Find out the nearest neighbor in X for a point in X.
 
 				Point_ConstIterator query =
-
 					*(xPointSet.begin() + i);
 
 				real xxDistance2 =
@@ -77,7 +75,6 @@ namespace Tim
 
 					Vector<real> queryPoint(
 						ofDimension(xDimension),
-
 						withAliasing((real*)(query)->point()));
 
 					real xyDistance2 =

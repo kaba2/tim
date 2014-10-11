@@ -9,6 +9,9 @@
 % S is a real (m x n)-matrix that contains n samples of an
 % m-dimensional signal.
 %
+% I is a real (m x m)-matrix where I(i, j) contains a mutual information
+% estimate between S(:, i) and S(:, j).
+%
 % Optional input arguments in 'key'-value pairs:
 %
 % BINS ('bins') is an integer that determines the number of 
@@ -30,13 +33,9 @@ eval(process_options({'bins'}, varargin));
 concept_check(nargin, 'inputs', 1);
 concept_check(nargout, 'outputs', 0 : 1);
 
-if ~isa(S, 'double')
-    error('S must be of type double.');
-end
+pastelsys.concept_check(...
+    S, 'real_matrix', ...
+    bins, 'integer', ...
+    bins, 'positive');
 
-if size(bins, 1) ~= 1 || ...
-   size(bins, 2) ~= 1
-    error('BINS must be a scalar integer.');
-end
-
-I = tim_matlab('mutual_information_naive',  S, bins);
+I = tim_matlab('mutual_information_naive', S, bins);
