@@ -26,7 +26,7 @@ namespace Tim
 	*/
 	template <typename Real>
 	Real uniformRenyiEntropy(
-		const PASTEL_NO_DEDUCTION(Real)& supportVolume);
+		const NoDeduction<Real>& supportVolume);
 
 }
 

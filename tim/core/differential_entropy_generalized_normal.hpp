@@ -11,8 +11,8 @@ namespace Tim
 	template <typename Real>
 	Real differentialEntropyGeneralizedNormal(
 		integer dimension, 
-		const PASTEL_NO_DEDUCTION(Real)& shape, 
-		const PASTEL_NO_DEDUCTION(Real)& scale)
+		const NoDeduction<Real>& shape, 
+		const NoDeduction<Real>& scale)
 	{
 		PENSURE_OP(dimension, >, 0);
 		PENSURE_OP(shape, >, 0);

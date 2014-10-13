@@ -11,9 +11,9 @@ namespace Tim
 
 	template <typename Real>
 	Real gaussianRenyiEntropy(
-		const PASTEL_NO_DEDUCTION(Real)& q,
+		const NoDeduction<Real>& q,
 		integer dimension,
-		const PASTEL_NO_DEDUCTION(Real)& covarianceDeterminant)
+		const NoDeduction<Real>& covarianceDeterminant)
 	{
 		PENSURE_OP(q, >, 0);
 		PENSURE_OP(dimension, >, 0);
