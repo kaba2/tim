@@ -10,8 +10,8 @@ namespace Tim
 
 	template <typename Real>
 	Real mutualInformationNormal(
-		const PASTEL_NO_DEDUCTION(Real)& marginalCovarianceDeterminantProduct,
-		const PASTEL_NO_DEDUCTION(Real)& jointCovarianceDeterminant)
+		const NoDeduction<Real>& marginalCovarianceDeterminantProduct,
+		const NoDeduction<Real>& jointCovarianceDeterminant)
 	{
 		/*
 		The differential entropy of a multivariate gaussian

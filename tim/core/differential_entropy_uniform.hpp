@@ -10,7 +10,7 @@ namespace Tim
 
 	template <typename Real>
 	Real differentialEntropyUniform(
-		const PASTEL_NO_DEDUCTION(Real)& supportVolume)
+		const NoDeduction<Real>& supportVolume)
 	{
 		PENSURE_OP(supportVolume, >, 0);
 

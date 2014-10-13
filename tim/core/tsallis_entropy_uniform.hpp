@@ -9,8 +9,8 @@ namespace Tim
 
 	template <typename Real>
 	Real uniformTsallisEntropy(
-		const PASTEL_NO_DEDUCTION(Real)& q,
-		const PASTEL_NO_DEDUCTION(Real)& supportVolume)
+		const NoDeduction<Real>& q,
+		const NoDeduction<Real>& supportVolume)
 	{
 		PENSURE_OP(supportVolume, >, 0);
 

@@ -30,9 +30,9 @@ namespace Tim
 	*/
 	template <typename Real>
 	Real normalTsallisEntropy(
-		const PASTEL_NO_DEDUCTION(Real)& q,
+		const NoDeduction<Real>& q,
 		integer dimension,
-		const PASTEL_NO_DEDUCTION(Real)& covarianceDeterminant);
+		const NoDeduction<Real>& covarianceDeterminant);
 
 }
 

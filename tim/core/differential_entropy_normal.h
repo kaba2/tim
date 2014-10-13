@@ -25,7 +25,7 @@ namespace Tim
 	template <typename Real>
 	Real differentialEntropyNormal(
 		integer dimension, 
-		const PASTEL_NO_DEDUCTION(Real)& covarianceDeterminant);
+		const NoDeduction<Real>& covarianceDeterminant);
 
 }
 
