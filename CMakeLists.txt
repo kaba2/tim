@@ -9,6 +9,9 @@ cmake_policy(SET CMP0015 NEW)
 
 project (Tim)
 
+# Find out whether the generator is 32-bit or 64-bit.
+math(EXPR GENERATOR_BITS "8*${CMAKE_SIZEOF_VOID_P}")
+
 # Paths
 # -----
 
@@ -16,28 +19,27 @@ project (Tim)
 # build environment. If a library is not used, the path
 # is ignored.
 
-# The directory of the Pastel library's source code.
-# The includes are of the form 'pastel/sys/array.h'
-set (PastelIncludeDirectory ../pastel)
-set (PastelLibraryDirectory ../pastel/lib)
+# The directory of Pastel.
+set (PastelDirectory ../pastel)
 
-# The directory of the Boost library's source code.
-# The includes are of the form 'boost/static_assert.hpp'.
-set (BoostIncludeDirectory ../boost_1_56_0)
+# The directory of Boost.
+set (BoostDirectory "../boost_1_56_0")
 
-# The directory of the Threading Building Blocks library's 
-# source code. The includes are of the form 'tbb/parallel_for.h'.
-set (TbbIncludeDirectory ../tbb42/include)
+# The directory of Threading Building Blocks. 
+set (TbbDirectory "../tbb42")
 
-# The directory of the Threading Building Blocks library's 
-# dynamic libraries.
-#set (TbbLibraryDirectory ../tbb42/lib/libc++)
-set (TbbLibraryDirectory ../tbb42/lib)
-
-# The directory of the Matlab header files.
-# The includes are of the form 'mex.h'.
-set (MatlabIncludeDirectory "C:/Program Files/MATLAB/R2013a/extern/include")
-#set (MatlabIncludeDirectory /Applications/MATLAB_R2013a.app/extern/include)
+# The directory of Matlab.
+if (WIN32)
+	if (${GENERATOR_BITS} EQUAL 32)
+		set (MatlabDirectory "C:/Program Files (x86)/MATLAB/R2013b")
+	elseif()
+		set (MatlabDirectory "C:/Program Files/MATLAB/R2013b")
+	endif()
+elseif(APPLE)
+	set (MatlabDirectory "/Applications/MATLAB_R2013a.app")
+elseif(UNIX)
+	set (MatlabDirectory "/usr/local/matlab/r2013a")
+endif()
 
 # Note: To successfully _compile_ TIM's Matlab-libraries, 
 # you only need the header files for Matlab. 
@@ -49,6 +51,29 @@ set (MatlabIncludeDirectory "C:/Program Files/MATLAB/R2013a/extern/include")
 
 # No need to give a library path for Matlab:
 # Mex files are built from within Matlab.
+
+# Compute some additional directories.
+
+set (PastelIncludeDirectory ${PastelDirectory})
+set (PastelLibraryDirectory ${PastelDirectory}/lib/${GENERATOR_BITS})
+
+set (BoostIncludeDirectory ${BoostDirectory})
+
+set (TbbIncludeDirectory ${TbbDirectory}/include)
+
+if (WIN32)
+	if (${GENERATOR_BITS} EQUAL 32)
+		set (TbbLibraryDirectory ${TbbDirectory}/lib/ia32/vc11)
+	else()
+		set (TbbLibraryDirectory ${TbbDirectory}/lib/intel64/vc11)
+	endif()
+elseif (APPLE)
+	set (TbbLibraryDirectory ${TbbDirectory}/lib/libc++)
+elseif(UNIX)
+	set (TbbLibraryDirectory ${TbbDirectory}/lib)
+endif()
+
+set (MatlabIncludeDirectory ${MatlabDirectory}/extern/include)
 
 # For TIM, the includes are of the form 'tim/core/signal.h'.
 include_directories (.)
@@ -116,15 +141,15 @@ string (TOLOWER "${CMAKE_BUILD_TYPE}" LOWER_CMAKE_BUILD_TYPE)
 
 # The directory to place the static libraries.
 set (CMAKE_ARCHIVE_OUTPUT_DIRECTORY 
-	${CMAKE_SOURCE_DIR}/lib/${LOWER_CMAKE_BUILD_TYPE})
+	${CMAKE_SOURCE_DIR}/lib/${GENERATOR_BITS}/${LOWER_CMAKE_BUILD_TYPE})
 
 # The directory to place the shared libraries.
 set (CMAKE_LIBRARY_OUTPUT_DIRECTORY 
-	${CMAKE_SOURCE_DIR}/lib/${LOWER_CMAKE_BUILD_TYPE})
+	${CMAKE_SOURCE_DIR}/lib/${GENERATOR_BITS}/${LOWER_CMAKE_BUILD_TYPE})
 
 # The directory to place the built executables.
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY 
-	${CMAKE_SOURCE_DIR}/bin/${LOWER_CMAKE_BUILD_TYPE})
+	${CMAKE_SOURCE_DIR}/bin/${GENERATOR_BITS}/${LOWER_CMAKE_BUILD_TYPE})
 
 # This is for the multi-configuration build-scripts
 # (such as Visual Studio or XCode).
@@ -132,11 +157,11 @@ foreach (OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
     string (TOUPPER ${OUTPUTCONFIG} UPPER_OUTPUTCONFIG)
     string (TOLOWER ${OUTPUTCONFIG} LOWER_OUTPUTCONFIG)
     set (CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${UPPER_OUTPUTCONFIG} 
-    	${CMAKE_SOURCE_DIR}/lib/${LOWER_OUTPUTCONFIG})
+    	${CMAKE_SOURCE_DIR}/lib/${GENERATOR_BITS}/${LOWER_OUTPUTCONFIG})
     set (CMAKE_LIBRARY_OUTPUT_DIRECTORY_${UPPER_OUTPUTCONFIG} 
-    	${CMAKE_SOURCE_DIR}/lib/${LOWER_OUTPUTCONFIG})
+    	${CMAKE_SOURCE_DIR}/lib/${GENERATOR_BITS}/${LOWER_OUTPUTCONFIG})
     set (CMAKE_RUNTIME_OUTPUT_DIRECTORY_${UPPER_OUTPUTCONFIG} 
-    	${CMAKE_SOURCE_DIR}/bin/${LOWER_OUTPUTCONFIG})
+    	${CMAKE_SOURCE_DIR}/bin/${GENERATOR_BITS}/${LOWER_OUTPUTCONFIG})
 endforeach()
 
 # TIM's global definitions
