@@ -6,6 +6,7 @@
 
 #include <pastel/sys/sequence_algorithms.h>
 #include <pastel/sys/array_pointpolicy.h>
+#include <pastel/sys/pointer_locator.h>
 
 #include <pastel/math/matrix_tools.h>
 

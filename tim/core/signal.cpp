@@ -45,6 +45,12 @@ namespace Tim
 		std::swap(t_, that.t_);
 	}
 
+	Signal& Signal::operator=(Signal that)
+	{
+		swap(that);
+		return *this;
+	}
+
 	integer Signal::dimension() const
 	{
 		return data_.width();
