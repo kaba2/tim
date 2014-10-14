@@ -25,10 +25,6 @@ namespace Tim
 			Point_ConstIterator;
 
 	public:
-		// Using default copy constructor.
-		// Using default assignment.
-		// Using default destructor.
-
 		//! Construct an empty signal.
 		Signal();
 
@@ -64,6 +60,9 @@ namespace Tim
 
 		//! Swaps two signals.
 		void swap(Signal& that);
+
+		//! Assigns from another signal.
+		Signal& operator=(Signal that);
 
 		//! Returns the dimension of the signal.
 		integer dimension() const;
