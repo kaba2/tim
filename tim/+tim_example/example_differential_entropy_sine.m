@@ -30,8 +30,10 @@ hold on;
 % Draw analytic probability density
 h = ezplot(f);
 set(h, 'color', 'red');
-hold off;
+axis([-1, 1, 0, 2]);
 xlabel('Y = sin(2 * pi * X), X ~ U(0, 1)');
+title('Probability density function of Y');
+hold off;
 
 disp(' ');
 disp('Differential entropy of sin(2 * pi * X), when X ~ Uniform(0, 1)');
