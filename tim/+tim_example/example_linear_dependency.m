@@ -71,24 +71,24 @@ disp('MI = tim.mutual_information');
 
 rhoXy = corr(xSet', ySet', 'type', 'Pearson');
 rhoXz = corr(xSet', zSet', 'type', 'Pearson');
-disp(' ');
-disp(['rho(X, Y) = ', num2str(rhoXy)]);
-disp(['rho(X, Z) = ', num2str(rhoXz)]);
 
 rankXy = corr(xSet', ySet', 'type', 'Spearman');
 rankXz = corr(xSet', zSet', 'type', 'Spearman');
-disp(' ');
-disp(['rank(X, Y) = ', num2str(rankXy)]);
-disp(['rank(X, Z) = ', num2str(rankXz)]);
 
 tauXy = corr(xSet', ySet', 'type', 'Kendall');
 tauXz = corr(xSet', zSet', 'type', 'Kendall');
-disp(' ');
-disp(['tau(X, Y) = ', num2str(tauXy)]);
-disp(['tau(X, Z) = ', num2str(tauXz)]);
 
 miXy = tim.mutual_information(xSet, ySet);
 miXz = tim.mutual_information(xSet, zSet);
+
 disp(' ');
+disp(['rho(X, Y) = ', num2str(rhoXy)]);
+disp(['rank(X, Y) = ', num2str(rankXy)]);
+disp(['tau(X, Y) = ', num2str(tauXy)]);
 disp(['MI(X, Y) = ', num2str(miXy)]);
+
+disp(' ');
+disp(['rho(X, Z) = ', num2str(rhoXz)]);
+disp(['rank(X, Z) = ', num2str(rankXz)]);
+disp(['tau(X, Z) = ', num2str(tauXz)]);
 disp(['MI(X, Z) = ', num2str(miXz)]);
