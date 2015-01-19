@@ -1,6 +1,6 @@
 #include "tim/core/mutual_information_naive.h"
 
-#include <pastel/math/matrix_tools.h>
+#include <pastel/math/matrix/matrix_tools.h>
 
 #include <pastel/sys/histogram.h>
 

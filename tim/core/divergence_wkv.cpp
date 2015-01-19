@@ -1,6 +1,6 @@
 #include "tim/core/divergence_wkv.h"
 
-#include <pastel/sys/single_input.h>
+#include <pastel/sys/input/single_input.h>
 
 namespace Tim
 {

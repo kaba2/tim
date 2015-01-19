@@ -1,15 +1,15 @@
 #include "tim/core/signalpointset.h"
 #include "tim/core/signal_tools.h"
 
-#include <pastel/geometry/slidingmidpoint_splitrule.h>
-#include <pastel/geometry/difference_alignedbox_alignedbox.h>
-#include <pastel/geometry/intersect_alignedbox_alignedbox.h>
-#include <pastel/geometry/overlaps_alignedbox_alignedbox.h>
-#include <pastel/geometry/contains_alignedbox_alignedbox.h>
+#include <pastel/geometry/splitrule/slidingmidpoint_splitrule.h>
+#include <pastel/geometry/difference/difference_alignedbox_alignedbox.h>
+#include <pastel/geometry/intersect/intersect_alignedbox_alignedbox.h>
+#include <pastel/geometry/overlap/overlaps_alignedbox_alignedbox.h>
+#include <pastel/geometry/containment/contains_alignedbox_alignedbox.h>
 
-#include <pastel/sys/constant_iterator.h>
+#include <pastel/sys/iterator/constant_iterator.h>
 
-#include <pastel/math/normbijections.h>
+#include <pastel/math/normbijection/normbijections.h>
 
 #include <boost/iterator/reverse_iterator.hpp>
 #include <boost/bind.hpp>

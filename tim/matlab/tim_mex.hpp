@@ -7,7 +7,7 @@
 #include "tim/core/signal_tools.h"
 
 #include <pastel/sys/ensure.h>
-#include <pastel/sys/copy_n.h>
+#include <pastel/sys/sequence/copy_n.h>
 #include <pastel/matlab/matlab_argument.h>
 
 namespace Tim

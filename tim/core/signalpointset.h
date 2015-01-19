@@ -7,11 +7,11 @@
 #include "tim/core/mytypes.h"
 #include "tim/core/signal.h"
 
-#include <pastel/geometry/pointkdtree.h>
+#include <pastel/geometry/pointkdtree/pointkdtree.h>
 
 #include <pastel/sys/range.h>
-#include <pastel/sys/array.h>
-#include <pastel/sys/pointer_locator.h>
+#include <pastel/sys/array/array.h>
+#include <pastel/sys/locator/pointer_locator.h>
 
 #include <vector>
 #include <deque>

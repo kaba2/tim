@@ -5,7 +5,7 @@
 
 #include "tim/core/differential_entropy_nk.h"
 
-#include <pastel/math/euclidean_normbijection.h>
+#include <pastel/math/normbijection/euclidean_normbijection.h>
 
 void force_linking_differential_entropy_nk() {};
 

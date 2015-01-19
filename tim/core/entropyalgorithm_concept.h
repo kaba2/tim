@@ -6,7 +6,7 @@
 
 #include "tim/core/mytypes.h"
 
-#include "pastel/math/normbijection_concept.h"
+#include "pastel/math/normbijection/normbijection_concept.h"
 
 namespace Tim
 {

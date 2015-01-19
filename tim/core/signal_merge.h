@@ -6,7 +6,7 @@
 #include "tim/core/signal.h"
 
 #include <pastel/sys/range.h>
-#include <pastel/sys/array.h>
+#include <pastel/sys/array/array.h>
 
 namespace Tim
 {

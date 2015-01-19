@@ -6,12 +6,12 @@
 #include "tim/core/signalpointset.h"
 #include "tim/core/reconstruction.h"
 
-#include <pastel/sys/constant_iterator.h>
-#include <pastel/sys/counting_iterator.h>
+#include <pastel/sys/iterator/constant_iterator.h>
+#include <pastel/sys/iterator/counting_iterator.h>
 #include <pastel/sys/range.h>
-#include <pastel/sys/predicate_indicator.h>
+#include <pastel/sys/indicator/predicate_indicator.h>
 
-#include <pastel/geometry/pointkdtree.h>
+#include <pastel/geometry/pointkdtree/pointkdtree.h>
 
 #include <algorithm>
 #include <numeric>

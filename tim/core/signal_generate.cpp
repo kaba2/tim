@@ -1,6 +1,6 @@
 #include "tim/core/signal_generate.h"
 
-#include <pastel/math/matrix_tools.h>
+#include <pastel/math/matrix/matrix_tools.h>
 
 #include <pastel/sys/random.h>
 

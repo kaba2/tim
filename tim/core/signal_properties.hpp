@@ -118,12 +118,12 @@ namespace Tim
 		auto iter = signalSet.begin();
 		auto iterEnd = signalSet.end();
 
-		integer dimension = signalSet.front().dimension();
+		integer dimension = signalSet.front()->dimension();
 		++iter;
 
 		while(iter != iterEnd)
 		{
-			if ((*iter).dimension() != dimension)
+			if ((*iter)->dimension() != dimension)
 			{
 				return false;
 			}
