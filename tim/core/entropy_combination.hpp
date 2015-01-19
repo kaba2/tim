@@ -6,15 +6,15 @@
 #include "tim/core/signalpointset.h"
 #include "tim/core/reconstruction.h"
 
-#include <pastel/geometry/pointkdtree.h>
+#include <pastel/geometry/pointkdtree/pointkdtree.h>
 
-#include <pastel/math/maximum_normbijection.h>
+#include <pastel/math/normbijection/maximum_normbijection.h>
 
-#include <pastel/sys/constant_iterator.h>
+#include <pastel/sys/iterator/constant_iterator.h>
 #include <pastel/sys/range.h>
-#include <pastel/sys/eps.h>
-#include <pastel/sys/copy_n.h>
-#include <pastel/sys/predicate_indicator.h>
+#include <pastel/sys/math/eps.h>
+#include <pastel/sys/sequence/copy_n.h>
+#include <pastel/sys/indicator/predicate_indicator.h>
 
 #include <numeric>
 #include <iterator>

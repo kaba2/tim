@@ -7,9 +7,9 @@
 #include "tim/core/signal.h"
 
 #include <pastel/sys/range.h>
-#include <pastel/sys/constant_iterator.h>
+#include <pastel/sys/iterator/constant_iterator.h>
 
-#include <pastel/math/normbijection_concept.h>
+#include <pastel/math/normbijection/normbijection_concept.h>
 
 namespace Tim
 {

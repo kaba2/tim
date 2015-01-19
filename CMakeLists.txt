@@ -23,10 +23,10 @@ math(EXPR GENERATOR_BITS "8*${CMAKE_SIZEOF_VOID_P}")
 set (PastelDirectory ../pastel)
 
 # The directory of Boost.
-set (BoostDirectory "../boost_1_56_0")
+set (BoostDirectory "../boost_1_57_0")
 
 # The directory of Threading Building Blocks. 
-set (TbbDirectory "../tbb42")
+set (TbbDirectory "../tbb43")
 
 # The directory of Matlab.
 if (WIN32)
@@ -94,7 +94,7 @@ option (BuildTests "Build TIM's tests." ON)
 # Force to use an out-of-source build
 # -----------------------------------
 
-if ("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
+if (${PROJECT_SOURCE_DIR} STREQUAL ${PROJECT_BINARY_DIR})
 	message (SEND_ERROR 
    		"TIM does not allow in-source builds (e.g. 'cmake .'); you should do an "
    		"out-of-source build instead (e.g. 'cmake ..' in 'release/' directory). "
@@ -175,8 +175,8 @@ set (CMAKE_CXX_FLAGS_DEBUG
 # Clang and g++
 # -------------
 
-if (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") OR 
-	("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")) 
+if ((${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU") OR 
+	(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")) 
 	add_definitions (
 		# Enables C++14 compiler support.
 		-std=c++1y 
@@ -213,7 +213,7 @@ endif()
 # g++
 # ---
 
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") 
+if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU") 
 	# Disable some warnings.
 	add_definitions (
 		# Unused but set variable.
@@ -226,7 +226,7 @@ endif()
 # Clang
 # -----
 
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang") 
+if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang") 
 	add_definitions (
 		# Enables C++14 library support.
 		-stdlib=libc++

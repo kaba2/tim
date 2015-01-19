@@ -1,7 +1,7 @@
 #include "tim/core/signal.h"
 
-#include <pastel/sys/subview.h>
-#include <pastel/sys/view_tools.h>
+#include <pastel/sys/view/subview.h>
+#include <pastel/sys/view/view_tools.h>
 
 namespace Tim
 {

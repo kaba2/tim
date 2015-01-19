@@ -4,9 +4,9 @@
 #include "tim/core/divergence_wkv.h"
 #include "tim/core/signalpointset.h"
 
-#include <pastel/geometry/pointkdtree_search_nearest.h>
-#include <pastel/sys/predicate_indicator.h>
-#include <pastel/sys/notequalto.h>
+#include <pastel/geometry/pointkdtree/pointkdtree_search_nearest.h>
+#include <pastel/sys/indicator/predicate_indicator.h>
+#include <pastel/sys/predicate/notequalto.h>
 
 #include <tbb/parallel_reduce.h>
 #include <tbb/blocked_range.h>

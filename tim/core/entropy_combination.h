@@ -8,7 +8,7 @@
 #include "tim/core/localestimators.h"
 
 #include <pastel/sys/range.h>
-#include <pastel/sys/array.h>
+#include <pastel/sys/array/array.h>
 
 namespace Tim
 {

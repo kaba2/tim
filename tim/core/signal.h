@@ -3,10 +3,10 @@
 #ifndef TIM_SIGNAL_H
 #define TIM_SIGNAL_H
 
-#include <pastel/math/matrix.h>
+#include <pastel/math/matrix/matrix.h>
 
-#include <pastel/sys/sparse_iterator.h>
-#include <pastel/sys/counting_iterator.h>
+#include <pastel/sys/iterator/sparse_iterator.h>
+#include <pastel/sys/iterator/counting_iterator.h>
 
 #include "tim/core/mytypes.h"
 

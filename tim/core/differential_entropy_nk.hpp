@@ -4,14 +4,14 @@
 #include "tim/core/differential_entropy_nk.h"
 #include "tim/core/signal_tools.h"
 
-#include <pastel/sys/sequence_algorithms.h>
+#include <pastel/sys/sequence/sequence_algorithms.h>
 #include <pastel/sys/array_pointpolicy.h>
-#include <pastel/sys/pointer_locator.h>
+#include <pastel/sys/locator/pointer_locator.h>
 
-#include <pastel/math/matrix_tools.h>
+#include <pastel/math/matrix/matrix_tools.h>
 
-#include <pastel/geometry/pointkdtree.h>
-#include <pastel/geometry/slidingmidpoint_splitrule.h>
+#include <pastel/geometry/pointkdtree/pointkdtree.h>
+#include <pastel/geometry/splitrule/slidingmidpoint_splitrule.h>
 
 #include <vector>
 

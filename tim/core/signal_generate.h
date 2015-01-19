@@ -5,7 +5,7 @@
 
 #include "tim/core/signal.h"
 
-#include <pastel/math/cholesky_decomposition.h>
+#include <pastel/math/matrix/cholesky_decomposition.h>
 
 namespace Tim
 {

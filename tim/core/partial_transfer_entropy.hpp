@@ -7,8 +7,8 @@
 #include "tim/core/entropy_combination.h"
 #include "tim/core/entropy_combination_t.h"
 
-#include <pastel/sys/constant_iterator.h>
-#include <pastel/sys/null_iterator.h>
+#include <pastel/sys/iterator/constant_iterator.h>
+#include <pastel/sys/iterator/null_iterator.h>
 
 namespace Tim
 {

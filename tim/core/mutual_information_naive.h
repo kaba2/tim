@@ -6,7 +6,7 @@
 
 #include "tim/core/signal.h"
 
-#include <pastel/math/matrix.h>
+#include <pastel/math/matrix/matrix.h>
 
 namespace Tim
 {
@@ -63,7 +63,7 @@ namespace Tim
 
 	normBijection:
 	The norm to use to do the estimations.
-	See 'pastel/math/normbijections.h'.
+	See 'pastel/math/normbijection/normbijections.h'.
 
 	This technique is not recommended because it tends
 	to give large errors in estimation. The intent of

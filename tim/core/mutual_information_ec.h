@@ -5,8 +5,8 @@
 
 #include "tim/core/signal.h"
 
-#include <pastel/math/matrix.h>
-#include <pastel/math/cholesky_decomposition.h>
+#include <pastel/math/matrix/matrix.h>
+#include <pastel/math/matrix/cholesky_decomposition.h>
 
 #include <pastel/sys/range.h>
 

@@ -8,10 +8,10 @@
 #include "tim/core/signal_split.h"
 #include "tim/core/signal_properties.h"
 
-#include <pastel/math/matrix.h>
+#include <pastel/math/matrix/matrix.h>
 
 #include <pastel/sys/range.h>
-#include <pastel/sys/array.h>
+#include <pastel/sys/array/array.h>
 
 #include <iostream>
 

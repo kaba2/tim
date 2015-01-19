@@ -6,7 +6,7 @@
 #include "tim/core/generic_entropy_t.h"
 #include "tim/core/differential_entropy_kl.h"
 
-#include "pastel/math/euclidean_normbijection.h"
+#include "pastel/math/normbijection/euclidean_normbijection.h"
 
 namespace Tim
 {

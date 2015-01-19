@@ -8,9 +8,9 @@
 #include "tim/core/tim_library.h"
 
 #include <pastel/sys/mytypes.h>
-#include <pastel/sys/vector_tools.h>
+#include <pastel/sys/vector/vector_tools.h>
 
-#include <pastel/math/maximum_normbijection.h>
+#include <pastel/math/normbijection/maximum_normbijection.h>
 #include <pastel/geometry/splitrules.h>
 
 #if (defined _WIN32 || defined _WIN64)
