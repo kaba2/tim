@@ -48,14 +48,14 @@ namespace
 		if (outputs > 0)
 		{
 			real* outEntropy =
-				createScalar<real>(outputSet[Estimate]);
+				matlabCreateScalar<real>(outputSet[Estimate]);
 			*outEntropy = entropy;
 		}
 
 		if (outputs > 1)
 		{
 			integer* outIntrinsicDimension =
-				createScalar<integer>(outputSet[IntrinsicDimension]);
+				matlabCreateScalar<integer>(outputSet[IntrinsicDimension]);
 			*outIntrinsicDimension = intrinsicDimension;
 		}
 	}

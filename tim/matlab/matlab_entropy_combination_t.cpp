@@ -39,10 +39,10 @@ namespace
 		Array<Signal> signalSet = getSignalArray(inputSet[SignalSet]);
 
 		std::vector<integer> lagSet;
-		getScalars(inputSet[LagSet], std::back_inserter(lagSet));
+		matlabGetScalars(inputSet[LagSet], std::back_inserter(lagSet));
 
 		Array<real> rangeArray =
-			asArray<real>(inputSet[RangeSet]);
+			matlabAsArray<real>(inputSet[RangeSet]);
 
 		integer marginals = rangeArray.height();
 
@@ -65,11 +65,11 @@ namespace
 			}
 		}
 
-		integer timeWindowRadius = asScalar<integer>(inputSet[TimeWindowRadius]);
-		integer kNearest = asScalar<integer>(inputSet[KNearest]);
+		integer timeWindowRadius = matlabAsScalar<integer>(inputSet[TimeWindowRadius]);
+		integer kNearest = matlabAsScalar<integer>(inputSet[KNearest]);
 
 		std::vector<real> filter;
-		getScalars(inputSet[FilterIndex], std::back_inserter(filter));
+		matlabGetScalars(inputSet[FilterIndex], std::back_inserter(filter));
 
 		Signal estimate = temporalEntropyCombination(
 			signalSet,
@@ -83,7 +83,7 @@ namespace
 		integer skip = std::max(-estimate.t(), (integer)0); 
 		integer samples = std::max(nans + estimate.samples() - skip, (integer)0);
 
-		Array<real> result = createArray<real>(
+		Array<real> result = matlabCreateArray<real>(
 			Vector2i(samples, 1), outputSet[Estimate]);
 		std::fill_n(result.begin(), nans, nan<real>());
 		std::copy(estimate.data().begin() + skip, 

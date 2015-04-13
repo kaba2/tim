@@ -37,12 +37,12 @@ namespace
 
 		std::vector<Signal> xEnsemble = getSignals(inputSet[X]);
 
-		integer timeWindowRadius = asScalar<integer>(inputSet[TimeWindowRadius]);
-		real q = asScalar<real>(inputSet[Q]);
-		integer kNearestSuggestion = asScalar<integer>(inputSet[KNearestSuggestion]);
+		integer timeWindowRadius = matlabAsScalar<integer>(inputSet[TimeWindowRadius]);
+		real q = matlabAsScalar<real>(inputSet[Q]);
+		integer kNearestSuggestion = matlabAsScalar<integer>(inputSet[KNearestSuggestion]);
 
 		std::vector<real> filter;
-		getScalars(inputSet[FilterIndex], std::back_inserter(filter));
+		matlabGetScalars(inputSet[FilterIndex], std::back_inserter(filter));
 
 		Signal estimate = temporalRenyiEntropyLps(
 			countingRange(xEnsemble.begin(), xEnsemble.end()),
@@ -55,7 +55,7 @@ namespace
 		integer skip = std::max(-estimate.t(), (integer)0); 
 		integer samples = std::max(nans + estimate.samples() - skip, (integer)0);
 
-		Array<real> result = createArray<real>(samples, 1, 
+		Array<real> result = matlabCreateArray<real>(samples, 1, 
 			outputSet[Estimate]);
 		std::fill_n(result.begin(), nans, nan<real>());
 		std::copy(estimate.data().begin() + skip, 

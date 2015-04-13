@@ -42,7 +42,7 @@ namespace Tim
 		integer nans = 0;
 		while(nans < samples)
 		{
-			if (!isNan(asScalar<real>(signal, nans * dimension)))
+			if (!isNan(matlabAsScalar<real>(signal, nans * dimension)))
 			{
 				break;
 			}
@@ -67,7 +67,7 @@ namespace Tim
 			dimension, 
 			nans);
 
-		getScalars(signal, result.data().begin(), nans * dimension);
+		matlabGetScalars(signal, result.data().begin(), nans * dimension);
 
 		return result;
 	}

@@ -35,7 +35,7 @@ namespace
 		std::vector<Signal> xEnsemble = getSignals(inputSet[X]);
 		std::vector<Signal> yEnsemble = getSignals(inputSet[Y]);
 
-		real* outResult = createScalar<real>(outputSet[Estimate]);
+		real* outResult = matlabCreateScalar<real>(outputSet[Estimate]);
 		*outResult = divergenceWkv(
 			countingRange(xEnsemble.begin(), xEnsemble.end()), 
 			countingRange(yEnsemble.begin(), yEnsemble.end()));

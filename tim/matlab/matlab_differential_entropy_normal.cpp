@@ -33,12 +33,12 @@ namespace
 		ENSURE_OP(outputs, ==, Outputs);
 
 		integer dimension = 
-			asScalar<integer>(inputSet[Dimension]);
+			matlabAsScalar<integer>(inputSet[Dimension]);
 		real covarianceDeterminant = 
-			asScalar<real>(inputSet[CovarianceDeterminant]);
+			matlabAsScalar<real>(inputSet[CovarianceDeterminant]);
 
 		real* entropy = 
-			createScalar<real>(outputSet[Entropy]);
+			matlabCreateScalar<real>(outputSet[Entropy]);
 		*entropy = 
 			differentialEntropyNormal<real>(dimension, covarianceDeterminant);
 	}

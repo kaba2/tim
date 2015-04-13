@@ -5,7 +5,6 @@
 #include "tim/core/signal_tools.h"
 
 #include <pastel/sys/sequence/sequence_algorithms.h>
-#include <pastel/sys/array_pointpolicy.h>
 #include <pastel/sys/locator/pointer_locator.h>
 
 #include <pastel/math/matrix/matrix_tools.h>
