@@ -33,7 +33,7 @@ namespace
 
 		std::vector<Signal> xEnsemble = getSignals(inputSet[X]);
 
-		real* outResult = createScalar<real>(outputSet[Estimate]);
+		real* outResult = matlabCreateScalar<real>(outputSet[Estimate]);
 		*outResult = differentialEntropySp(
 			countingRange(xEnsemble.begin(), xEnsemble.end()));
 	}

@@ -38,10 +38,10 @@ namespace
 		Array<Signal> signalSet = getSignalArray(inputSet[SignalSet]);
 
 		std::vector<integer> lagSet;
-		getScalars(inputSet[LagSet], std::back_inserter(lagSet));
+		matlabGetScalars(inputSet[LagSet], std::back_inserter(lagSet));
 
 		Array<real> rangeArray =
-			asArray<real>(inputSet[RangeSet]);
+			matlabAsArray<real>(inputSet[RangeSet]);
 
 		integer marginals = rangeArray.height();
 
@@ -64,11 +64,11 @@ namespace
 			}
 		}
 
-		integer kNearest = asScalar<integer>(inputSet[KNearest]);
-		std::string estimator = asString(inputSet[Estimator]);
+		integer kNearest = matlabAsScalar<integer>(inputSet[KNearest]);
+		std::string estimator = matlabAsString(inputSet[Estimator]);
 
 
-		real* outResult = createScalar<real>(outputSet[Estimate]);
+		real* outResult = matlabCreateScalar<real>(outputSet[Estimate]);
 
 		if (estimator == "log")
 		{

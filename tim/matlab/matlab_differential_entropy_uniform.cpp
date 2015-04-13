@@ -32,9 +32,9 @@ namespace
 		ENSURE_OP(outputs, ==, Outputs);
 
 		real supportVolume = 
-			asScalar<real>(inputSet[SupportVolume]);
+			matlabAsScalar<real>(inputSet[SupportVolume]);
 
-		real* entropy = createScalar<real>(outputSet[Entropy]);
+		real* entropy = matlabCreateScalar<real>(outputSet[Entropy]);
 		*entropy = differentialEntropyUniform<real>(supportVolume);
 	}
 

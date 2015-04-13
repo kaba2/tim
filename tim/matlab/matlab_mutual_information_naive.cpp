@@ -33,12 +33,12 @@ namespace
 		ENSURE_OP(outputs, ==, Outputs);
 
 		const Signal& data = asSignal(inputSet[X]);
-		integer bins = asScalar<integer>(inputSet[Bins]);
+		integer bins = matlabAsScalar<integer>(inputSet[Bins]);
 
 		integer n = data.dimension();
 
 		Array<real> result =
-			createArray<real>(Vector2i(n, n), 
+			matlabCreateArray<real>(Vector2i(n, n), 
 			outputSet[Estimate]);
 
 		result = mutualInformationFromBinning(data, bins);

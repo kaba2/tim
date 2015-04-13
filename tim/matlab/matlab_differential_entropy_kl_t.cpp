@@ -36,11 +36,11 @@ namespace
 
 		std::vector<Signal> xEnsemble = getSignals(inputSet[X]);
 
-		integer timeWindowRadius = asScalar<integer>(inputSet[TimeWindowRadius]);
-		integer kNearest = asScalar<integer>(inputSet[KNearest]);
+		integer timeWindowRadius = matlabAsScalar<integer>(inputSet[TimeWindowRadius]);
+		integer kNearest = matlabAsScalar<integer>(inputSet[KNearest]);
 
 		std::vector<real> filter;
-		getScalars(inputSet[FilterIndex], std::back_inserter(filter));
+		matlabGetScalars(inputSet[FilterIndex], std::back_inserter(filter));
 
 		Signal estimate = temporalDifferentialEntropyKl(
 			countingRange(xEnsemble.begin(), xEnsemble.end()), 
@@ -53,7 +53,7 @@ namespace
 		integer skip = std::max(-estimate.t(), (integer)0); 
 		integer samples = std::max(nans + estimate.samples() - skip, (integer)0);
 
-		Array<real> result = createArray<real>(
+		Array<real> result = matlabCreateArray<real>(
 			Vector2i(samples, 1), outputSet[Estimate]);
 		std::fill_n(result.begin(), nans, nan<real>());
 		std::copy(estimate.data().begin() + skip, 

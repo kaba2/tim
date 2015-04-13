@@ -34,10 +34,10 @@ namespace
 
 		std::vector<Signal> xEnsemble = getSignals(inputSet[X]);
 
-		integer kNearest = asScalar<integer>(inputSet[KNearest]);
+		integer kNearest = matlabAsScalar<integer>(inputSet[KNearest]);
 
 
-		real* outResult = createScalar<real>(outputSet[Estimate]);
+		real* outResult = matlabCreateScalar<real>(outputSet[Estimate]);
 		*outResult = differentialEntropyKl(
 			countingRange(xEnsemble.begin(), xEnsemble.end()), 
 			kNearest);

@@ -35,11 +35,11 @@ namespace
 
 		std::vector<Signal> xEnsemble = getSignals(inputSet[X]);
 
-		real q = asScalar<real>(inputSet[Q]);
-		integer kNearestSuggestion = asScalar<integer>(inputSet[KNearestSuggestion]);
+		real q = matlabAsScalar<real>(inputSet[Q]);
+		integer kNearestSuggestion = matlabAsScalar<integer>(inputSet[KNearestSuggestion]);
 
 
-		real* outResult = createScalar<real>(outputSet[Estimate]);
+		real* outResult = matlabCreateScalar<real>(outputSet[Estimate]);
 		*outResult = renyiEntropyLps(
 			countingRange(xEnsemble.begin(), xEnsemble.end()),
 			q, kNearestSuggestion);

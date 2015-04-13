@@ -33,12 +33,12 @@ namespace
 		ENSURE_OP(outputs, ==, Outputs);
 
 		real productDetCov =
-			asScalar<real>(inputSet[ProductOfCovarianceDeterminants]);
+			matlabAsScalar<real>(inputSet[ProductOfCovarianceDeterminants]);
 		real jointDetCov = 
-			asScalar<real>(inputSet[JointCovarianceDeterminant]);
+			matlabAsScalar<real>(inputSet[JointCovarianceDeterminant]);
 
 		real* mutualInformation = 
-			createScalar<real>(outputSet[MutualInformation]);
+			matlabCreateScalar<real>(outputSet[MutualInformation]);
 		*mutualInformation = 
 			mutualInformationNormal<real>(productDetCov, jointDetCov);
 	}

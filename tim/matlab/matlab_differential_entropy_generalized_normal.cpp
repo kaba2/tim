@@ -34,13 +34,13 @@ namespace
 		ENSURE_OP(outputs, ==, Outputs);
 
 		integer dimension =
-			asScalar<integer>(inputSet[Dimension]);
+			matlabAsScalar<integer>(inputSet[Dimension]);
 		real shape = 
-			asScalar<real>(inputSet[Shape]);
+			matlabAsScalar<real>(inputSet[Shape]);
 		real scale = 
-			asScalar<real>(inputSet[Scale]);
+			matlabAsScalar<real>(inputSet[Scale]);
 
-		real* entropy = createScalar<real>(outputSet[Entropy]);
+		real* entropy = matlabCreateScalar<real>(outputSet[Entropy]);
 		*entropy = differentialEntropyGeneralizedNormal<real>(dimension, shape, scale);
 	}
 

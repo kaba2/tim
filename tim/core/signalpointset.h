@@ -23,8 +23,6 @@ namespace Tim
 	class TIM SignalPointSet
 	{
 	public:
-		// The Array_PointPolicy<real> represents points
-		// by a const real* to the beginning of point coordinate data.
 		using Settings = PointKdTree_Settings<Pointer_Locator<real>>;
 		typedef PointKdTree<Settings> KdTree;
 		typedef KdTree::Point_ConstIterator Point_ConstIterator;
