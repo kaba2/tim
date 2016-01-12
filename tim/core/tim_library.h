@@ -4,16 +4,18 @@
 #ifndef TIM_TIM_LIBRARY_H
 #define TIM_TIM_LIBRARY_H
 
-#include <pastel/sys/environment.h>
+//#include <pastel/sys/environment.h>
+//
+//#ifdef _USRDLL
+//#	ifdef TIM_EXPORTS
+//#		define TIM PASTEL_DLLEXPORT
+//#	else
+//#		define TIM PASTEL_DLLIMPORT
+//#	endif
+//#else
+//#	define TIM
+//#endif
 
-#ifdef _USRDLL
-#	ifdef TIM_EXPORTS
-#		define TIM PASTEL_DLLEXPORT
-#	else
-#		define TIM PASTEL_DLLIMPORT
-#	endif
-#else
-#	define TIM
-#endif
+#define TIM
 
 #endif

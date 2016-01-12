@@ -1,9 +1,9 @@
 #ifndef TIM_ESTIMATION_H
 #define TIM_ESTIMATION_H
 
-#include <pastel/sys/testrunner.h>
+#include <pastel/sys/testing/testrunner.h>
 #include <pastel/sys/callfunction.h>
-#include <pastel/sys/testsuite.h>
+#include <pastel/sys/testing/testsuite.h>
 
 #include "tim/core/mytypes.h"
 

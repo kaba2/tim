@@ -55,7 +55,7 @@ namespace
 
 		Array<real> result = matlabCreateArray<real>(
 			Vector2i(samples, 1), outputSet[Estimate]);
-		std::fill_n(result.begin(), nans, nan<real>());
+		std::fill_n(result.begin(), nans, (real)Nan());
 		std::copy(estimate.data().begin() + skip, 
 			estimate.data().end(), result.begin() + nans);
 	}

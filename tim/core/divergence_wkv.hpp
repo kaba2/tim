@@ -4,7 +4,7 @@
 #include "tim/core/divergence_wkv.h"
 #include "tim/core/signalpointset.h"
 
-#include <pastel/geometry/pointkdtree/pointkdtree_search_nearest.h>
+#include <pastel/geometry/search_nearest_kdtree.h>
 #include <pastel/sys/indicator/predicate_indicator.h>
 #include <pastel/sys/predicate/notequalto.h>
 
@@ -63,24 +63,24 @@ namespace Tim
 				Point_ConstIterator query =
 					*(xPointSet.begin() + i);
 
-				real xxDistance2 =
-					searchNearest(xPointSet.kdTree(), query,
-					nullOutput(),
-					predicateIndicator(query, NotEqualTo()));
+				Vector<real> queryPoint(
+					ofDimension(xDimension),
+					withAliasing((real*)(query->point())));
 
+				real xxDistance2 =
+					searchNearest(
+						xPointSet.kdTree(), 
+						queryPoint,
+						PASTEL_TAG(accept), predicateIndicator(query, NotEqualTo())
+					).first;
 
 				if (xxDistance2 > 0 && xxDistance2 < infinity<real>())
 				{
 					// Find out the nearest neighbor in Y for a point in X.
 
-					Vector<real> queryPoint(
-						ofDimension(xDimension),
-						withAliasing((real*)(query)->point()));
-
 					real xyDistance2 =
-						searchNearest(yPointSet.kdTree(), queryPoint);
-
-
+						searchNearest(yPointSet.kdTree(), queryPoint).first;
+					
 					if (xyDistance2 > 0 && xyDistance2 < infinity<real>())
 					{
 						estimate += std::log(xyDistance2 / xxDistance2);
@@ -121,7 +121,7 @@ namespace Tim
 		}
 		else
 		{
-			estimate = nan<real>();
+			estimate = (real)Nan();
 		}
 
 		return estimate;

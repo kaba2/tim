@@ -11,6 +11,7 @@
 #include <pastel/sys/range.h>
 
 #include <pastel/geometry/pointkdtree/pointkdtree.h>
+#include <pastel/geometry/search_nearest_kdtree.h>
 
 #include <tbb/blocked_range.h>
 #include <tbb/parallel_for.h>
@@ -138,14 +139,20 @@ namespace Tim
 			{
 				for (integer i = block.begin(); i < block.end(); ++i)
 				{
+					auto query = *(pointSet.begin() + i);
+
+					Vector<real> queryPoint(
+						ofDimension(pointSet.dimension()),
+						withAliasing((real*)(query->point())));
+
 					distanceArray(i - searchBegin) =
 						searchNearest(
-						pointSet.kdTree(),
-						*(pointSet.begin() + i),
-						nullOutput(),
-						predicateIndicator(*(pointSet.begin() + i), NotEqualTo()),
-						entropyAlgorithm.normBijection()).
-						kNearest(kNearest);
+							pointSet.kdTree(),
+							queryPoint,
+							PASTEL_TAG(accept), predicateIndicator(query, NotEqualTo()),
+							PASTEL_TAG(normBijection), entropyAlgorithm.normBijection(),
+							PASTEL_TAG(kNearest), kNearest
+						).first;
 				}
 			};
 
@@ -187,7 +194,7 @@ namespace Tim
 				// marked with a NaN. We will later attempt
 				// to reconstruct these values.
 
-				result.data()(t - estimateBegin) = nan<real>();
+				result.data()(t - estimateBegin) = (real)Nan();
 				++missingValues;
 			}
 		}

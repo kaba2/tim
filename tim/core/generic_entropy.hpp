@@ -12,6 +12,7 @@
 #include <pastel/sys/indicator/predicate_indicator.h>
 
 #include <pastel/geometry/pointkdtree/pointkdtree.h>
+#include <pastel/geometry/search_nearest_kdtree.h>
 
 #include <algorithm>
 #include <numeric>
@@ -37,7 +38,7 @@ namespace Tim
 
 		if (signalSet.empty())
 		{
-			return nan<real>();
+			return (real)Nan();
 		}
 
 		// This function encapsulates the common
@@ -73,15 +74,21 @@ namespace Tim
 
 			for (integer i = block.begin();i < block.end();++i)
 			{
+				auto query = indexedPointSet[i];
+
+				Vector<real> queryPoint(
+					ofDimension(pointSet.dimension()),
+					withAliasing((real*)(query->point())));
+
 				// Find the distance to the k:th nearest neighbor.
 				real distance2 =
 					searchNearest(
-					pointSet.kdTree(),
-					indexedPointSet[i],
-					nullOutput(),
-					predicateIndicator(indexedPointSet[i], NotEqualTo()),
-					entropyAlgorithm.normBijection())
-					.kNearest(kNearest);
+						pointSet.kdTree(),
+						queryPoint,
+						PASTEL_TAG(accept), predicateIndicator(query, NotEqualTo()),
+						PASTEL_TAG(normBijection), entropyAlgorithm.normBijection(),
+						PASTEL_TAG(kNearest), kNearest
+					).first;
 
 				// Points that are at identical positions do not
 				// provide any information. Such samples are
@@ -124,7 +131,7 @@ namespace Tim
 			// If all distances were zero, we can't say
 			// anything about generic entropy. This is
 			// marked with a NaN.
-			estimate = nan<real>();
+			estimate = (real)Nan();
 		}
 
 		return estimate;

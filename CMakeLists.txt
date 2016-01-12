@@ -3,308 +3,81 @@
 
 cmake_minimum_required (VERSION 2.8)
 
-# Interpret relative paths w.r.t. the source directory in
-# in link_directories().
-cmake_policy(SET CMP0015 NEW)
-
 project (Tim)
-
-# Find out whether the generator is 32-bit or 64-bit.
-math(EXPR GENERATOR_BITS "8*${CMAKE_SIZEOF_VOID_P}")
-
-# Paths
-# -----
-
-# Change the following directories to reflect your own
-# build environment. If a library is not used, the path
-# is ignored.
-
-# The directory of Pastel.
-set (PastelDirectory ../pastel)
-
-# The directory of Boost.
-set (BoostDirectory "../boost_1_57_0")
-
-# The directory of Threading Building Blocks. 
-set (TbbDirectory "../tbb43")
-
-# The directory of Matlab.
-if (WIN32)
-	if (${GENERATOR_BITS} EQUAL 32)
-		set (MatlabDirectory "C:/Program Files (x86)/MATLAB/R2013b")
-	else()
-		set (MatlabDirectory "C:/Program Files/MATLAB/R2013b")
-	endif()
-else (APPLE)
-	set (MatlabDirectory "/Applications/MATLAB_R2013a.app")
-else (UNIX)
-	set (MatlabDirectory "/usr/local/matlab/r2013a")
-endif()
-
-# Note: To successfully _compile_ TIM's Matlab-libraries, 
-# you only need the header files for Matlab. 
-# This allows you to try the compilation
-# even if you do not have the external library
-# binaries. It is only in the _linking_ phase of 
-# executables and shared libraries (i.e. tests and 
-# examples) where the binaries are needed .
-
-# No need to give a library path for Matlab:
-# Mex files are built from within Matlab.
-
-# Compute some additional directories.
-
-set (PastelIncludeDirectory ${PastelDirectory})
-set (PastelLibraryDirectory ${PastelDirectory}/lib/${GENERATOR_BITS})
-
-set (BoostIncludeDirectory ${BoostDirectory})
-
-set (TbbIncludeDirectory ${TbbDirectory}/include)
-
-if (WIN32)
-	if (${GENERATOR_BITS} EQUAL 32)
-		set (TbbLibraryDirectory ${TbbDirectory}/lib/ia32/vc11)
-	else()
-		set (TbbLibraryDirectory ${TbbDirectory}/lib/intel64/vc11)
-	endif()
-else (APPLE)
-	set (TbbLibraryDirectory ${TbbDirectory}/lib/libc++)
-else (UNIX)
-	set (TbbLibraryDirectory ${TbbDirectory}/lib)
-endif()
-
-set (MatlabIncludeDirectory ${MatlabDirectory}/extern/include)
-
-# For TIM, the includes are of the form 'tim/core/signal.h'.
-include_directories (.)
-include_directories (${PastelIncludeDirectory})
-include_directories (${BoostIncludeDirectory})
-include_directories (${TbbIncludeDirectory})
-include_directories (${MatlabIncludeDirectory})
-
-link_directories (${TbbLibraryDirectory})
 
 # CMake build options
 # -------------------
 
-option (BuildLibraries "Build TIM's main libraries." ON)
-option (BuildMatlab "Build TIM's Matlab-libraries." ON)
-option (BuildTests "Build TIM's tests." ON)
+option (BuildLibraries "Build Tim's main libraries." ON)
+option (BuildMatlab "Build Tim's Matlab-libraries." ON)
+option (BuildTests "Build Tim's tests." ON)
 
-# Force to use an out-of-source build
-# -----------------------------------
+# ECMake
+# ------
 
-if (${PROJECT_SOURCE_DIR} STREQUAL ${PROJECT_BINARY_DIR})
-	message (SEND_ERROR 
-   		"TIM does not allow in-source builds (e.g. 'cmake .'); you should do an "
-   		"out-of-source build instead (e.g. 'cmake ..' in 'release/' directory). "
-   		"This call produced the file 'CMakeCache.txt' and the 'CMakeFiles' directory "
-   		"in the TIM's source directory. You must remove them for the out-of-source "
-   		" build to work; otherwise CMake attempts an in-source build again."
-	)
+# Directory for CMake to search for CMake-included() files.
+set (CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
-   return()
+# Initialize ECMake.
+include ("ecmake")
+
+# Setup compilers.
+include ("SetupCompilers")
+
+# Configure external libraries
+# ----------------------------
+
+# Manual override for external library paths.
+include ("Paths")
+
+find_package("Pastel_")
+include_directories (${PastelIncludeDirectory})
+
+find_package("Boost_")
+include_directories (${BoostIncludeDirectory})
+
+find_package("Armadillo_")
+include_directories (${ArmadilloIncludeDirectory})
+
+find_package("Tbb_")
+include_directories (${TbbIncludeDirectory})
+
+find_package("Blas_")
+find_package("Lapack_")
+
+if (BuildMatlab)
+	find_package("Matlab_")
+	include_directories (${MatlabIncludeDirectory})
 endif()
 
-# Global variables for the build-script
-# -------------------------------------
+# Copy files
+# ----------
 
-# The libraries are built static.
-set (TimLibraryType STATIC)
+if (WIN32)
+	# Copy dll-libraries aside executables for
+	# Windows to find them, when running an
+	# executable.
 
-# The source files to include in the build.
+	set (DllPathSet 
+		"${BlasDllPath}"
+		"${LapackDllPath}")
+
+	foreach (DllPath ${DllPathSet})
+		EcCopyAsideExecutables("${DllPath}")
+	endforeach()
+endif()
+
+# Source file globs
+# -----------------
+
+# The source files to include in a C++ project.
 set (TimSourceGlobSet *.cpp *.h *.hpp *.txt)
+
+# The source files to include in a Matlab project.
+set (TimMatlabSourceGlobSet *.m *.m.cmake)
 
 # The documentation files of the project.
 set (TimDocumentationGlobSet *.txt)
-
-# The Threading Building Blocks dynamic library is 
-# linked to every executable.
-set (ExecutableLibrarySet tbb)
-
-# Set a default build type if none was specified.
-# This only applies to single-configuration tool-sets,
-# such as Unix Makefiles.
-if (NOT CMAKE_BUILD_TYPE AND 
-	NOT CMAKE_CONFIGURATION_TYPES)
-	message(STATUS 
-		"Setting build type to 'Release' as none was specified.")
-	set(CMAKE_BUILD_TYPE Release CACHE STRING 
-		"Choose the type of build." FORCE)
-	# Set the possible values of build types for cmake-gui.
-	set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS 
- 		"Debug" 
-  		"Release")
-endif()
-
-string (TOLOWER "${CMAKE_BUILD_TYPE}" LOWER_CMAKE_BUILD_TYPE)
-
-# The directory to place the static libraries.
-set (CMAKE_ARCHIVE_OUTPUT_DIRECTORY 
-	${CMAKE_SOURCE_DIR}/lib/${GENERATOR_BITS}/${LOWER_CMAKE_BUILD_TYPE})
-
-# The directory to place the shared libraries.
-set (CMAKE_LIBRARY_OUTPUT_DIRECTORY 
-	${CMAKE_SOURCE_DIR}/lib/${GENERATOR_BITS}/${LOWER_CMAKE_BUILD_TYPE})
-
-# The directory to place the built executables.
-set (CMAKE_RUNTIME_OUTPUT_DIRECTORY 
-	${CMAKE_SOURCE_DIR}/bin/${GENERATOR_BITS}/${LOWER_CMAKE_BUILD_TYPE})
-
-# This is for the multi-configuration build-scripts
-# (such as Visual Studio or XCode).
-foreach (OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
-    string (TOUPPER ${OUTPUTCONFIG} UPPER_OUTPUTCONFIG)
-    string (TOLOWER ${OUTPUTCONFIG} LOWER_OUTPUTCONFIG)
-    set (CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${UPPER_OUTPUTCONFIG} 
-    	${CMAKE_SOURCE_DIR}/lib/${GENERATOR_BITS}/${LOWER_OUTPUTCONFIG})
-    set (CMAKE_LIBRARY_OUTPUT_DIRECTORY_${UPPER_OUTPUTCONFIG} 
-    	${CMAKE_SOURCE_DIR}/lib/${GENERATOR_BITS}/${LOWER_OUTPUTCONFIG})
-    set (CMAKE_RUNTIME_OUTPUT_DIRECTORY_${UPPER_OUTPUTCONFIG} 
-    	${CMAKE_SOURCE_DIR}/bin/${GENERATOR_BITS}/${LOWER_OUTPUTCONFIG})
-endforeach()
-
-# TIM's global definitions
-# ---------------------------
-
-# Debug-mode definitions.
-set (CMAKE_CXX_FLAGS_DEBUG 
-	"${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG -D_DEBUG"
-)
-
-# Clang and g++
-# -------------
-
-if ((${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU") OR 
-	(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")) 
-	add_definitions (
-		# Enables C++14 compiler support.
-		-std=c++1y 
-		# Enables some additional warnings.
-		-Wall 
-		# Enables position-independent code.
-		# This is needed to build the Matlab 
-		# libraries.
-		-fPIC
-	)
-
-	# Disable some warnings.
-	add_definitions (
-		# Pragma warnings caused by OpenMP support not being enabled.
-		-Wno-unknown-pragmas
-		# Comparison between an unsigned and a signed integer.
-		-Wno-sign-compare
-		# Conversion between an unsigned and a signed integer.
-		-Wno-sign-conversion
-		# Unused variables.
-		-Wno-unused-variable
-		# Unused values.
-		-Wno-unused-value
-		# Unused functions.
-		-Wno-unused-function
-		# Breaking strict aliasing rules.
-		-Wno-strict-aliasing
-		# Compiler warns that it optimizes code based on the 
-		# assumption that signed integer overflows do not occur.
-		-Wno-strict-overflow
-	)
-endif()
-
-# g++
-# ---
-
-if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU") 
-	# Disable some warnings.
-	add_definitions (
-		# Unused but set variable.
-		-Wno-unused-but-set-variable
-		# Unused local typedef
-		-Wno-unused-local-typedefs
-	)
-endif()
-
-# Clang
-# -----
-
-if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang") 
-	add_definitions (
-		# Enables C++14 library support.
-		-stdlib=libc++
-		# Not sure why.
-		-arch x86_64
-	)
-
-	# Enables C++11 linker support.
-	set (CMAKE_EXE_LINKER_FLAGS 
-		"${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++")
-	set (CMAKE_SHARED_LINKER_FLAGS 
-		"${CMAKE_SHARED_LINKER_FLAGS} -stdlib=libc++")
-
-	# Disable some warnings.
-	add_definitions (
-		# Compiler warns 'that >= 0' is always true for an 
-		# unsigned integer.
-		-Wno-tautological-compare
-	)
-endif()
-
-# Visual Studio
-# -------------
-
-if (MSVC)
-	# Do not add ZERO_CHECK project into the Visual Studio solution.
-	# From VS2008 to VS2013, the ZERO_CHECK project is always out
-	# of date, which causes the Visual Studio to ask at every build
-	# whether ZERO_CHECK should be built, although nothing was changed.
-	# The purpose of the ZERO_CHECK project is to check whether there
-	# are changes to the CMake files themselves, and to regenerate the
-	# project files if so. But even then the projects are regenerated
-	# during the build, and they need to be reloaded, and that is not 
-	# very smooth. It is better to suppress this feature and to 
-	# regenerate the project files manually whenever the CMake files
-	# are changed.
-	set(CMAKE_SUPPRESS_REGENERATION TRUE)
-
-	add_definitions (
-		# Disable Microsoft's Secure STL
-		/D_ITERATOR_DEBUG_LEVEL=0
-		# Use multiple processes for compiling.
-		/MP
-	)
-
-	# Disable some warnings.
-	add_definitions (
-		# "'expression' : signed/unsigned mismatch"
-		/wd4018 
-   		# unary minus operator applied to unsigned type, result still unsigned
-   		/wd4146
-		# "qualifier applied to function type has no meaning; ignored"
-		/wd4180
-		# "nonstandard extension used : formal parameter 'identifier' was previously defined as a type"
-		/wd4224
-		# "'argument' : conversion from 'type1' to 'type2', possible loss of data."
-		/wd4244
-		# "'identifier' : class 'type' needs to have dll-interface to be used by clients of class 'type2'"
-		/wd4251 
-		# "'var' : conversion from 'size_t' to 'type', possible loss of data"
-		/wd4267
-		# "'identifier' : truncation from 'type1' to 'type2'"
-		/wd4305
-		# "'operation' : conversion from 'type1' to 'type2' of greater size"
-		/wd4312
-		# "new behavior: elements of array 'array' will be default initialized"
-		/wd4351
-		# 'type' : base-class 'type2' is already a base-class of 'type3'
-		/wd4584
-		# "'type' : forcing value to bool 'true' or 'false' (performance warning)"
-		/wd4800 
-		# "'operation' : unsafe use of type 'bool' in operation"
-   		/wd4804
-		# "'function': was declared deprecated" (referring to STL functions)
-		/wd4996
-	)
-
-endif()
 
 # Recurse to sub-projects
 # -----------------------
@@ -313,5 +86,13 @@ add_subdirectory (tim)
 
 if (BuildTests)
 	#add_subdirectory (test)
+endif()
+
+if (BuildMatlab)
+	#add_subdirectory (matlab)
+endif()
+
+if (BuildExamples)
+	#add_subdirectory (example)
 endif()
 

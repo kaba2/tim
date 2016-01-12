@@ -11,6 +11,7 @@
 
 #include <pastel/geometry/pointkdtree/pointkdtree.h>
 #include <pastel/geometry/splitrule/slidingmidpoint_splitrule.h>
+#include <pastel/geometry/search_nearest_kdtree.h>
 
 #include <vector>
 
@@ -77,8 +78,8 @@ namespace Tim
 
 		KdTree kdTree(locator);
 
-		kdTree.insertRange(
-			range(pointSet.begin(), pointSet.end()));
+		kdTree.insertSet(
+			rangeSet(pointSet.begin(), pointSet.end()));
 		kdTree.refine(SplitRule());
 
 		// For each m, compute average log-distance alpha_m to the nearest 
@@ -98,8 +99,8 @@ namespace Tim
 				subsetSize);
 
 			kdTree.erase();
-			kdTree.insertRange(
-				range(pointSet.begin(), pointSet.begin() + subsetSize));
+			kdTree.insertSet(
+				rangeSet(pointSet.begin(), pointSet.begin() + subsetSize));
 
 			using Block = tbb::blocked_range<integer>;
 			using Pair = std::pair<real, integer>;
@@ -115,11 +116,10 @@ namespace Tim
 				{
 					real distance =
 						searchNearest(
-						kdTree,
-						VectorD(ofDimension(dimension), withAliasing((real*)pointSet[i])),
-						nullOutput(),
-						allIndicator(),
-						normBijection);
+							kdTree,
+							VectorD(ofDimension(dimension), withAliasing((real*)pointSet[i])),
+							PASTEL_TAG(normBijection), normBijection
+						).first;
 
 					// The logarithm of zero would give -infinity,
 					// so we must avoid that. We remove all such
