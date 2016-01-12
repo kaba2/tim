@@ -72,7 +72,7 @@ disp(['Building a mex file for ', ...
 disp(' ');
 
 inputDirectory = ['${TimDirectory}/tim/', libraryName, 'matlab'];
-outputDirectory = ['+tim', libraryName];
+outputDirectory = '+tim'
 
 % Directories
 % -----------

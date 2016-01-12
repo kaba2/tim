@@ -114,10 +114,14 @@ namespace Tim
 				integer acceptedSamples = start.second;
 				for (integer i = block.begin(); i < block.end(); ++i)
 				{
+					VectorD queryPoint(
+						ofDimension(dimension), 
+						withAliasing((real*)pointSet[i]))
+
 					real distance =
 						searchNearest(
 							kdTree,
-							VectorD(ofDimension(dimension), withAliasing((real*)pointSet[i])),
+							queryPoint,
 							PASTEL_TAG(normBijection), normBijection
 						).first;
 
