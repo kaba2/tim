@@ -89,7 +89,7 @@ if (BuildTests)
 endif()
 
 if (BuildMatlab)
-	#add_subdirectory (matlab)
+	add_subdirectory (matlab)
 endif()
 
 if (BuildExamples)
