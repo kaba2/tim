@@ -1,5 +1,5 @@
 syntax: glob
-*.asv
+*.map
 *.sbr
 *.bsc
 *.user
@@ -26,12 +26,12 @@ syntax: glob
 log.txt
 *.o
 *.d
-*.cmake
 *.make
 *CMakeFiles*
-release/*
-debug/*
-docs/*
+bin*
+lib*
+build*
+docs*
 CMakeCache.txt
 Makefile
 *.a
@@ -41,5 +41,3 @@ Makefile
 *.mexw64
 *.vcxproj*
 *.sln
-.mat
-
