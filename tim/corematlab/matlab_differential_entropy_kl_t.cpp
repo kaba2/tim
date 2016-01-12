@@ -1,7 +1,7 @@
 // Description: differential_entropy_kl_t
 // DocumentationOf: differential_entropy_kl_t.m
 
-#include "tim/matlab/tim_matlab.h"
+#include "tim/corematlab/tim_matlab.h"
 
 #include "tim/core/differential_entropy_kl.h"
 

@@ -9,16 +9,16 @@
 
 if (WIN32)
 	# Pastel path
-	set (PastelDirectory "C:/code/pastel")
+	set (PastelDirectory "${CMAKE_SOURCE_DIR}/../pastel")
 
 	# Boost path
-	set (BoostDirectory "C:/code/boost_1_59_0")
+	set (BoostDirectory "${CMAKE_SOURCE_DIR}/../boost_1_59_0")
 
 	# Armadillo path
-	set (ArmadilloDirectory "C:/code/armadillo-5.200.1")
+	set (ArmadilloDirectory "${CMAKE_SOURCE_DIR}/../armadillo-5.200.1")
 
 	# Threading Building Blocks paths
-	set (TbbDirectory "C:/code/tbb-4.4")
+	set (TbbDirectory "${CMAKE_SOURCE_DIR}/../tbb-4.4")
 
 	# Blas library path
 	set (BlasLibraryPath 
@@ -45,7 +45,7 @@ endif()
 
 if (UNIX)
 	# Pastel path
-	set (PastelDirectory "~/code/pastel")
+	set (PastelDirectory "${CMAKE_SOURCE_DIR}/../pastel")
 
 	# Boost path
 	set (BoostDirectory "")

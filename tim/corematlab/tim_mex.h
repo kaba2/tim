@@ -31,6 +31,6 @@ namespace Tim
 	
 }
 
-#include "tim/matlab/tim_mex.hpp"
+#include "tim/corematlab/tim_mex.hpp"
 
 #endif

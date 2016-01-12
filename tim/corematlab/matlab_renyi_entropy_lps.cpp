@@ -1,7 +1,7 @@
 // Description: renyi_entropy_lps
 // DocumentationOf: renyi_entropy_lps.m
 
-#include "tim/matlab/tim_matlab.h"
+#include "tim/corematlab/tim_matlab.h"
 
 #include "tim/core/renyi_entropy_lps.h"
 

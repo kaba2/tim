@@ -26,7 +26,7 @@
 string (TOLOWER "${CMAKE_BUILD_TYPE}" LOWER_CMAKE_BUILD_TYPE)
 
 set (PastelIncludeDirectory "${PastelDirectory}")
-set (PastelLibraryDirectory "${PastelDirectory}/lib/${ToolSet}/${LOWER_CMAKE_BUILD_TYPE}")
+set (PastelLibraryDirectory "${PastelDirectory}/lib/${ToolSet}")
 
 EcCheckPathExists("Pastel (include)" "${PastelIncludeDirectory}")
 EcCheckPathExists("Pastel (library)" "${PastelLibraryDirectory}")

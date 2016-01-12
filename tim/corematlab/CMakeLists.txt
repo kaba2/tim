@@ -1,4 +1,4 @@
-project (TimMatlab)
+project (TimCoreMatlab)
 
 file (GLOB SourceSet ${TimSourceGlobSet})
 source_group (Code FILES ${SourceSet})
@@ -6,10 +6,10 @@ source_group (Code FILES ${SourceSet})
 file (GLOB DocumentationSet ${TimDocumentationGlobSet})
 source_group (Documentation FILES ${DocumentationSet})
 
-add_library (timmatlab ${TimLibraryType} ${SourceSet})
+add_library (timcorematlab ${TimLibraryType} ${SourceSet})
 
 target_link_libraries (
-	timmatlab
+	timcorematlab
 	timcore
 	${PastelLibraryDirectory}/pastelsys 
 	${PastelLibraryDirectory}/pastelmath

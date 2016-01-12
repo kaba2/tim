@@ -1,7 +1,7 @@
 // Description: mutual_information_naive
 // DocumentationOf: mutual_information_naive.m
 
-#include "tim/matlab/tim_matlab.h"
+#include "tim/corematlab/tim_matlab.h"
 
 #include "tim/core/mutual_information_naive.h"
 

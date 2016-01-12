@@ -1,7 +1,7 @@
 // Description: Mutual information between marginals of a normal distribution
 // DocumentationOf: mutual_information_normal.m
 
-#include "tim/matlab/tim_matlab.h"
+#include "tim/corematlab/tim_matlab.h"
 
 #include "tim/core/mutual_information_normal.h"
 

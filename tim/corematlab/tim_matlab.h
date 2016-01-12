@@ -4,7 +4,7 @@
 #ifndef TIM_TIM_MATLAB_H
 #define TIM_TIM_MATLAB_H
 
-#include "tim/matlab/tim_mex.h"
+#include "tim/corematlab/tim_mex.h"
 
 #include <pastel/matlab/pastelmatlab.h>
 

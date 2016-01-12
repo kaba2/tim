@@ -1,7 +1,7 @@
 // Description: tsallis_entropy_lps_t
 // DocumentationOf: tsallis_entropy_lps_t.m
 
-#include "tim/matlab/tim_matlab.h"
+#include "tim/corematlab/tim_matlab.h"
 
 #include "tim/core/tsallis_entropy_lps.h"
 
