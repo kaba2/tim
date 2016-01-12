@@ -37,7 +37,7 @@ namespace
 		void testReconstruction()
 		{
 			{
-				real data[] = {1, nan<real>(), nan<real>(), nan<real>(), 5};
+				real data[] = {1, (real)Nan(), (real)Nan(), (real)Nan(), 5};
 				const real correct[] = {1, 2, 3, 4, 5};
 
 				testCase(range(data), 
@@ -45,7 +45,7 @@ namespace
 			}
 		
 			{
-				real data[] = {1, nan<real>(), nan<real>(), nan<real>(), nan<real>()};
+				real data[] = {1, (real)Nan(), (real)Nan(), (real)Nan(), (real)Nan()};
 				const real correct[] = {1, 1, 1, 1, 1};
 
 				testCase(range(data), 
@@ -53,7 +53,7 @@ namespace
 			}
 
 			{
-				real data[] = {nan<real>(), nan<real>(), nan<real>(), nan<real>(), 5};
+				real data[] = {(real)Nan(), (real)Nan(), (real)Nan(), (real)Nan(), 5};
 				const real correct[] = {5, 5, 5, 5, 5};
 
 				testCase(range(data), 
@@ -61,7 +61,7 @@ namespace
 			}
 
 			{
-				real data[] = {nan<real>(), nan<real>(), 3, 4, nan<real>()};
+				real data[] = {(real)Nan(), (real)Nan(), 3, 4, (real)Nan()};
 				const real correct[] = {3, 3, 3, 4, 4};
 
 				testCase(range(data), 
@@ -69,7 +69,7 @@ namespace
 			}
 
 			{
-				real data[] = {1, nan<real>(), 3, nan<real>(), 5};
+				real data[] = {1, (real)Nan(), 3, (real)Nan(), 5};
 				const real correct[] = {1, 2, 3, 4, 5};
 
 				testCase(range(data), 
@@ -77,7 +77,7 @@ namespace
 			}
 
 			{
-				real data[] = {nan<real>(), nan<real>(), 3, nan<real>(), nan<real>()};
+				real data[] = {(real)Nan(), (real)Nan(), 3, (real)Nan(), (real)Nan()};
 				const real correct[] = {3, 3, 3, 3, 3};
 
 				testCase(range(data), 
@@ -85,7 +85,7 @@ namespace
 			}
 
 			{
-				real data[] = {nan<real>(), nan<real>(), 3, 4, 5};
+				real data[] = {(real)Nan(), (real)Nan(), 3, 4, 5};
 				const real correct[] = {3, 3, 3, 4, 5};
 
 				testCase(range(data), 
@@ -93,7 +93,7 @@ namespace
 			}
 
 			{
-				real data[] = {1, 2, 3, nan<real>(), nan<real>()};
+				real data[] = {1, 2, 3, (real)Nan(), (real)Nan()};
 				const real correct[] = {1, 2, 3, 3, 3};
 
 				testCase(range(data), 

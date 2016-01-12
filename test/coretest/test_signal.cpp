@@ -3,9 +3,9 @@
 #include "tim/core/signal_tools.h"
 #include "tim/core/delay_embed.h"
 
-#include <pastel/sys/views.h>
+#include <pastel/sys/view.h>
 #include <pastel/sys/random.h>
-#include <pastel/sys/string_algorithms.h>
+#include <pastel/sys/string/string_algorithms.h>
 
 using namespace Tim;
 

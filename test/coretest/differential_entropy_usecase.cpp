@@ -1,9 +1,9 @@
 #include "tim/core/differential_entropy.h"
 #include "tim/core/signal_tools.h"
 
-#include <pastel/sys/null_iterator.h>
+#include <pastel/sys/iterator/null_iterator.h>
 
-#include <pastel/math/normbijections.h>
+#include <pastel/math/normbijection.h>
 
 using namespace Tim;
 

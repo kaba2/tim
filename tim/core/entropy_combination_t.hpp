@@ -7,6 +7,7 @@
 #include "tim/core/reconstruction.h"
 
 #include <pastel/geometry/pointkdtree/pointkdtree.h>
+#include <pastel/geometry/search_nearest_kdtree.h>
 
 #include <pastel/math/normbijection/maximum_normbijection.h>
 
@@ -195,14 +196,20 @@ namespace Tim
 			{
 				for (integer i = block.begin(); i < block.end(); ++i)
 				{
+					auto query = *(jointPointSet.begin() + i);
+
+					Vector<real> queryPoint(
+						ofDimension(jointPointSet.dimension()),
+						withAliasing((real*)(query->point())));
+
 					distanceArray(i - searchBegin) =
 						searchNearest(
-						jointPointSet.kdTree(),
-						*(jointPointSet.begin() + i),
-						nullOutput(),
-						predicateIndicator(*(jointPointSet.begin() + i), NotEqualTo()),
-						normBijection)
-						.kNearest(kNearest);
+							jointPointSet.kdTree(),
+							queryPoint,
+							PASTEL_TAG(accept), predicateIndicator(query, NotEqualTo()),
+							PASTEL_TAG(normBijection), normBijection,
+							PASTEL_TAG(kNearest), kNearest
+						).first;
 				}
 			};
 
@@ -226,12 +233,18 @@ namespace Tim
 					Point_ConstIterator query =
 						*(pointSet[i].begin() + searchBegin + j);
 
-					integer k = countNearest(
+					Vector<real> queryPoint(
+						ofDimension(pointSet[i].dimension()),
+						withAliasing((real*)(query->point())));
+
+					integer k = 0;
+					searchNearest(
 						pointSet[i].kdTree(),
-						query,
-						allIndicator(),
-						normBijection)
-						.maxDistance(distanceArray(j));
+						queryPoint,
+						PASTEL_TAG(report), [&](auto, auto) {++k;},
+						PASTEL_TAG(normBijection), normBijection,
+						PASTEL_TAG(maxDistance2), distanceArray(j)
+					);
 
 					// Note: k = 0 is possible: a range count of zero 
 					// can happen when the distance to the k:th neighbor is 
@@ -257,7 +270,7 @@ namespace Tim
 					// The estimate is undefined, mark
 					// it with NaN. This value will
 					// probably be reconstructed later.
-					estimate = nan<real>();
+					estimate = (real)Nan();
 					++missingValues;
 					
 					// Skip to the next time instant.

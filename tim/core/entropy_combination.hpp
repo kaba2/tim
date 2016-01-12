@@ -7,6 +7,7 @@
 #include "tim/core/reconstruction.h"
 
 #include <pastel/geometry/pointkdtree/pointkdtree.h>
+#include <pastel/geometry/search_nearest_kdtree.h>
 
 #include <pastel/math/normbijection/maximum_normbijection.h>
 
@@ -118,14 +119,20 @@ namespace Tim
 		{
 			for (integer i = block.begin(); i < block.end(); ++i)
 			{
+				auto query = *(jointPointSet.begin() + i);
+
+				Vector<real> queryPoint(
+					ofDimension(jointPointSet.dimension()),
+					withAliasing((real*)(query->point())));
+
 				distanceArray(i) =
 					searchNearest(
-					jointPointSet.kdTree(),
-					*(jointPointSet.begin() + i),
-					nullOutput(),
-					predicateIndicator(*(jointPointSet.begin() + i), NotEqualTo()),
-					normBijection)
-					.kNearest(kNearest);
+						jointPointSet.kdTree(),
+						queryPoint,
+						PASTEL_TAG(accept), predicateIndicator(query, NotEqualTo()),
+						PASTEL_TAG(normBijection), normBijection,
+						PASTEL_TAG(kNearest), kNearest
+					).first;
 			}
 		};
 
@@ -148,14 +155,22 @@ namespace Tim
 			{
 				real signalEstimate = start.first;
 				integer acceptedSamples = start.second;
-				for (integer j = block.begin();j < block.end();++j)
+				for (integer j = block.begin();j < block.end();++j) 
 				{
-					integer k = countNearest(
+					auto query = *(pointSet[i].begin() + j);
+
+					Vector<real> queryPoint(
+						ofDimension(pointSet[i].dimension()),
+						withAliasing((real*)(query->point())));
+
+					integer k = 0;
+					searchNearest(
 						pointSet[i].kdTree(),
-						*(pointSet[i].begin() + j),
-						allIndicator(),
-						normBijection)
-						.maxDistance(distanceArray(j));
+						queryPoint,
+						PASTEL_TAG(report), [&](auto, auto) {++k;},
+						PASTEL_TAG(normBijection), normBijection,
+						PASTEL_TAG(maxDistance2), distanceArray(j)
+					);
 
 					// A neighbor count of zero can happen when the distance
 					// to the k:th neighbor is zero because of using an

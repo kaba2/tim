@@ -7,7 +7,7 @@
 #include <pastel/math/matrix_algorithms.h>
 #include <pastel/math/cholesky_decomposition.h>
 
-#include <pastel/sys/string_algorithms.h>
+#include <pastel/sys/string/string_algorithms.h>
 #include <pastel/sys/measuretable_tools.h>
 
 #include <iomanip>

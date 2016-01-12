@@ -4,7 +4,7 @@
 #include "tim/core/signal_tools.h"
 
 #include <pastel/sys/random.h>
-#include <pastel/sys/string_algorithms.h>
+#include <pastel/sys/string/string_algorithms.h>
 
 #include <pastel/math/cholesky_decomposition.h>
 #include <pastel/math/matrix_determinant.h>

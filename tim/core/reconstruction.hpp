@@ -13,7 +13,7 @@ namespace Tim
 	void reconstruct(
 		const boost::iterator_range<Real_InputIterator>& data)
 	{
-		real startValue = nan<real>();
+		real startValue = (real)Nan();
 
 		bool fill = false;
 		bool nanRegion = false;

@@ -1,7 +1,7 @@
 #include "estimation.h"
 
 #include <pastel/sys/logging.h>
-#include <pastel/sys/testreport.h>
+#include <pastel/sys/testing/testreport.h>
 
 #include <iostream>
 
@@ -17,9 +17,6 @@ int estimationMain()
 
 	log().addLogger(&streamLogger);
 	log().addLogger(&fileLogger);
-
-	setInvariantFailureAction(
-		InvariantFailureAction::Throw);
 
 	timTestList().console();
 	generateTestReport(timTestReport(), log());

@@ -4,6 +4,8 @@
 #include "tim/core/signal_properties.h"
 #include "tim/core/mytypes.h"
 
+#include "pastel/sys/iterator/constant_iterator.h"
+
 #include <algorithm>
 
 namespace Tim
