@@ -1,3 +1,3 @@
 project (CoreTest)
 
-EcAddLibrary (executable coretest ${TimSourceGlobSet})
+EcAddLibrary (executable coretest "${TimSourceGlobSet}")
