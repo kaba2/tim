@@ -115,8 +115,8 @@ namespace Tim
 				for (integer i = block.begin(); i < block.end(); ++i)
 				{
 					VectorD queryPoint(
-						ofDimension(dimension), 
-						withAliasing((real*)pointSet[i]))
+						ofDimension(dimension),
+						withAliasing((real*)pointSet[i]));
 
 					real distance =
 						searchNearest(
