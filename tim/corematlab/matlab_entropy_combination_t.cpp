@@ -1,7 +1,7 @@
 // Description: entropy_combination_t
 // DocumentationOf: entropy_combination_t.m
 
-#include "tim/matlab/tim_matlab.h"
+#include "tim/corematlab/tim_matlab.h"
 
 #include "tim/core/entropy_combination_t.h"
 

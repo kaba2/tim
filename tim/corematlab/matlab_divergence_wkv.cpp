@@ -1,7 +1,7 @@
 // Description: divergence_wkv
 // DocumentationOf: divergence_wkv.m
 
-#include "tim/matlab/tim_matlab.h"
+#include "tim/corematlab/tim_matlab.h"
 
 #include "tim/core/divergence_wkv.h"
 

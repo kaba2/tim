@@ -1,7 +1,7 @@
 // Description: Differential entropy of a uniform distribution
 // DocumentationOf: differential_entropy_uniform.m
 
-#include "tim/matlab/tim_matlab.h"
+#include "tim/corematlab/tim_matlab.h"
 
 #include "tim/core/differential_entropy_uniform.h"
 

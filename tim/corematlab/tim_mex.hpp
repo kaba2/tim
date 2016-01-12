@@ -1,7 +1,7 @@
 #ifndef TIM_TIM_MEX_HPP
 #define TIM_TIM_MEX_HPP
 
-#include "tim/matlab/tim_mex.h"
+#include "tim/corematlab/tim_mex.h"
 
 #include "tim/core/signal.h"
 #include "tim/core/signal_tools.h"
