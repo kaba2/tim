@@ -4,5 +4,5 @@ if (BuildLibraries)
 endif()
 
 if (BuildMatlab)
-	add_subdirectory ("matlab")
+	add_subdirectory ("corematlab")
 endif()
