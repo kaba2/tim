@@ -167,6 +167,7 @@ namespace Tim
 					searchNearest(
 						pointSet[i].kdTree(),
 						queryPoint,
+						PASTEL_TAG(kNearest), (integer)Infinity(),
 						PASTEL_TAG(report), [&](auto, auto) {++k;},
 						PASTEL_TAG(normBijection), normBijection,
 						PASTEL_TAG(maxDistance2), distanceArray(j)
