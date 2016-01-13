@@ -169,7 +169,7 @@ namespace Tim
 		// Solve for the intrinsic dimensionality and
 		// kappa.
 
-		Matrix<real> e(2, codebooks);
+		Matrix<real> e(codebooks, 2);
 
 		e.column(0) = -alphaSet;
 		e.column(1) = 1;
@@ -183,7 +183,7 @@ namespace Tim
 		// Find the integer dimensionality d that minimizes 
 		// the cost function.
 
-		real minCost = infinity<real>();
+		real minCost = Infinity();
 		integer d = 0;
 		for (integer i = 0;i <= dimension;++i)
 		{
@@ -216,7 +216,7 @@ namespace Tim
 		}
 		else
 		{
-			entropy = -infinity<real>();
+			entropy = -Infinity();
 		}
 
 		if (outIntrinsicDimension)
