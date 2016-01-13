@@ -150,20 +150,19 @@ namespace Tim
 		SignalPointSet jointPointSet(
 			countingRange(jointSignalSet.begin(), jointSignalSet.end()));
 
-		std::vector<SignalPointSet> pointSet(marginals);
+		std::vector<SignalPointSet> pointSet;
+		pointSet.reserve(marginals);
 
 		real signalWeightSum = 0;
 
 		for (integer i = 0;i < marginals;++i)
 		{
 			const Integer3& range = copyRangeSet[i];
-
-			SignalPointSet marginalPointSet(
+			
+			pointSet.emplace_back(
 				Pastel::countingRange(jointSignalSet.begin(), jointSignalSet.end()),
 				offsetSet[range[0]], offsetSet[range[1]]);
 
-			pointSet[i] = std::move(marginalPointSet);
-				
 			signalWeightSum += range[2];
 		}
 
