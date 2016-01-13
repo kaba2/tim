@@ -22,9 +22,6 @@
 % K ('k') is an integer which denotes the number of nearest 
 % neighbors to be used by the estimator. Default 1.
 %
-% ESTIMATOR ('estimator') is a string which denotes the local 
-% estimator to use in estimation.
-%
 % FILTER ('filter') is a real array, which gives the temporal 
 % weighting coefficients. Default 1.
 %

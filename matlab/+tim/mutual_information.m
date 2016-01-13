@@ -19,9 +19,6 @@
 % K ('k') is an integer which denotes the number of nearest 
 % neighbors to be used by the estimator.
 %
-% ESTIMATOR ('estimator') is a string which denotes the local 
-% estimator to use in estimation.
-%
 % Type 'help tim' for more documentation.
 
 % Description: Mutual information estimation
@@ -46,9 +43,8 @@ end
 k = 1;
 xLag = 0;
 yLag = 0;
-estimator = 'digamma';
 eval(process_options(...
-    {'k', 'xLag', 'yLag', 'estimator'}, ...
+    {'k', 'xLag', 'yLag'}, ...
     varargin));
 
 if ~iscell(X) || ~iscell(Y)
@@ -65,5 +61,4 @@ I = entropy_combination(...
     [X(:)'; Y(:)'], ...
     [1, 1, 1; 2, 2, 1], ...
     'lagSet', {xLag, yLag}, ...
-    'k', k, ...
-    'estimator', estimator);
+    'k', k);
