@@ -6,7 +6,6 @@
 
 #include <pastel/geometry/search_nearest_kdtree.h>
 #include <pastel/sys/indicator/predicate_indicator.h>
-#include <pastel/sys/predicate/notequalto.h>
 
 #include <tbb/parallel_reduce.h>
 #include <tbb/blocked_range.h>
