@@ -28,7 +28,7 @@ set (TbbIncludeDirectory "${TbbDirectory}/include")
 set (TbbLibraryName "tbb")
 
 if (WIN32)
-	if (${GENERATOR_BITS} EQUAL 32)
+	if ("${GENERATOR_BITS}" EQUAL 32)
 		set (TbbLibraryPath 
 			"${TbbDirectory}/lib/ia32/vc12/${TbbLibraryName}.lib")
 	else()
@@ -40,7 +40,7 @@ elseif (APPLE)
 		"${TbbDirectory}/local/lib/lib${TbbLibraryName}.dylib")
 else()
 	set (TbbLibraryPath 
-		"${TbbDirectory}/lib/lib${TbbLibraryName}.so")
+		"${TbbDirectory}/libx86_64-linux-gnu/lib${TbbLibraryName}.so")
 endif()
 
 get_filename_component (TbbLibraryFilename "${TbbLibraryPath}" NAME)

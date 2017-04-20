@@ -3,6 +3,8 @@
 # Interpret relative paths w.r.t. the source directory in
 # in link_directories().
 cmake_policy(SET CMP0015 NEW)
+# Only interpret if() arguments as variables or keywords when unquoted.
+cmake_policy(SET CMP0054 NEW)
 
 # Turn on solution folders.
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -226,7 +228,7 @@ macro (EcAddMatlabLibrary SourceGlobSet)
 
 		get_filename_component(FileExtension ${FilePath} EXT)
 
-		if (${FileExtension} MATCHES "template.(.+)$")
+		if ("${FileExtension}" MATCHES "template.(.+)$")
 			string (REGEX REPLACE "(.+).template.(.+)$" "\\1.\\2" OutputFilePath ${OutputFilePath})
 		else()
 			set (Options COPYONLY)

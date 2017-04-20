@@ -11,7 +11,8 @@
 
 #include <pastel/geometry/pointkdtree/pointkdtree.h>
 #include <pastel/geometry/splitrule/slidingmidpoint_splitrule.h>
-#include <pastel/geometry/search_nearest_kdtree.h>
+#include <pastel/geometry/search_nearest.h>
+#include <pastel/geometry/nearestset/kdtree_nearestset.h>
 
 #include <vector>
 
@@ -120,7 +121,7 @@ namespace Tim
 
 					real distance =
 						searchNearest(
-							kdTree,
+							kdTreeNearestSet(kdTree),
 							queryPoint,
 							PASTEL_TAG(normBijection), normBijection
 						).first;
