@@ -7,7 +7,8 @@
 #include "tim/core/reconstruction.h"
 
 #include <pastel/geometry/pointkdtree/pointkdtree.h>
-#include <pastel/geometry/search_nearest_kdtree.h>
+#include <pastel/geometry/search_nearest.h>
+#include <pastel/geometry/nearestset/kdtree_nearestset.h>
 
 #include <pastel/math/normbijection/maximum_normbijection.h>
 
@@ -127,7 +128,7 @@ namespace Tim
 
 				distanceArray(i) =
 					searchNearest(
-						jointPointSet.kdTree(),
+						kdTreeNearestSet(jointPointSet.kdTree()),
 						queryPoint,
 						PASTEL_TAG(accept), predicateIndicator(query, NotEqualTo()),
 						PASTEL_TAG(normBijection), normBijection,
@@ -165,7 +166,7 @@ namespace Tim
 
 					integer k = 0;
 					searchNearest(
-						pointSet[i].kdTree(),
+						kdTreeNearestSet(pointSet[i].kdTree()),
 						queryPoint,
 						PASTEL_TAG(kNearest), (integer)Infinity(),
 						PASTEL_TAG(report), [&](auto, auto) {++k;},

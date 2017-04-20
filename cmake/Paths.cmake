@@ -8,17 +8,21 @@
 # be specified manually. 
 
 if (WIN32)
+	# Ranges-v3 path
+	set (RangesDirectory "${ProjectDirectory}/../ranges-v3")
+
 	# Pastel path
-	set (PastelDirectory "${CMAKE_SOURCE_DIR}/../pastel")
+	set (PastelDirectory "${ProjectDirectory}/../pastel")
+	set (Pastel_DIR "${PastelDirectory}/cmake")
 
 	# Boost path
-	set (BoostDirectory "${CMAKE_SOURCE_DIR}/../boost_1_59_0")
+	set (BoostDirectory "${ProjectDirectory}/../boost_1_63_0")
 
 	# Armadillo path
-	set (ArmadilloDirectory "${CMAKE_SOURCE_DIR}/../armadillo-5.200.1")
+	set (ArmadilloDirectory "${ProjectDirectory}/../armadillo-7.700.0")
 
 	# Threading Building Blocks paths
-	set (TbbDirectory "${CMAKE_SOURCE_DIR}/../tbb-4.4")
+	set (TbbDirectory "${ProjectDirectory}/../tbb2017_20161128oss")
 
 	# Blas library path
 	set (BlasLibraryPath 
@@ -29,10 +33,10 @@ if (WIN32)
 		"${ProjectDirectory}/external/${GENERATOR_BITS}/lapack_win${GENERATOR_BITS}_MT.lib")
 
 	# Matlab paths
-	if (${GENERATOR_BITS} EQUAL 32)
-		set (MatlabDirectory "C:/Program Files (x86)/MATLAB/R2015a")
+	if ("${GENERATOR_BITS}" EQUAL 32)
+		set (MatlabDirectory "C:/Program Files (x86)/MATLAB/R2016a")
 	else()
-		set (MatlabDirectory "C:/Program Files/MATLAB/R2015a")
+		set (MatlabDirectory "C:/Program Files/MATLAB/R2016a")
 	endif()
 endif()
 
@@ -44,8 +48,11 @@ endif()
 # manually.
 
 if (UNIX)
+	# Ranges-v3 path
+	set (RangesDirectory "${ProjectDirectory}/../ranges-v3")
+
 	# Pastel path
-	set (PastelDirectory "${CMAKE_SOURCE_DIR}/../pastel")
+	set (PastelDirectory "${ProjectDirectory}/../pastel")
 
 	# Boost path
 	set (BoostDirectory "")

@@ -30,6 +30,9 @@ include ("SetupCompilers")
 # Manual override for external library paths.
 include ("Paths")
 
+find_package("Ranges_")
+include_directories (${RangesIncludeDirectory})
+
 find_package("Pastel_")
 include_directories (${PastelIncludeDirectory})
 

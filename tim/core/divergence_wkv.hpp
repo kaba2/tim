@@ -4,7 +4,9 @@
 #include "tim/core/divergence_wkv.h"
 #include "tim/core/signalpointset.h"
 
-#include <pastel/geometry/search_nearest_kdtree.h>
+#include <pastel/geometry/search_nearest.h>
+#include <pastel/geometry/nearestset/kdtree_nearestset.h>
+
 #include <pastel/sys/indicator/predicate_indicator.h>
 
 #include <tbb/parallel_reduce.h>
@@ -68,7 +70,7 @@ namespace Tim
 
 				real xxDistance2 =
 					searchNearest(
-						xPointSet.kdTree(), 
+						kdTreeNearestSet(xPointSet.kdTree()), 
 						queryPoint,
 						PASTEL_TAG(accept), predicateIndicator(query, NotEqualTo())
 					).first;
@@ -78,7 +80,8 @@ namespace Tim
 					// Find out the nearest neighbor in Y for a point in X.
 
 					real xyDistance2 =
-						searchNearest(yPointSet.kdTree(), queryPoint).first;
+						searchNearest(kdTreeNearestSet(yPointSet.kdTree()), 
+							queryPoint).first;
 					
 					if (xyDistance2 > 0 && xyDistance2 < infinity<real>())
 					{

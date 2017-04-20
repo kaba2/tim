@@ -11,7 +11,8 @@
 #include <pastel/sys/range.h>
 
 #include <pastel/geometry/pointkdtree/pointkdtree.h>
-#include <pastel/geometry/search_nearest_kdtree.h>
+#include <pastel/geometry/search_nearest.h>
+#include <pastel/geometry/nearestset/kdtree_nearestset.h>
 
 #include <tbb/blocked_range.h>
 #include <tbb/parallel_for.h>
@@ -147,7 +148,7 @@ namespace Tim
 
 					distanceArray(i - searchBegin) =
 						searchNearest(
-							pointSet.kdTree(),
+							kdTreeNearestSet(pointSet.kdTree()),
 							queryPoint,
 							PASTEL_TAG(accept), predicateIndicator(query, NotEqualTo()),
 							PASTEL_TAG(normBijection), entropyAlgorithm.normBijection(),

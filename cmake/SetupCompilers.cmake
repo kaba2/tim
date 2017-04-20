@@ -21,8 +21,8 @@ endif()
 # Clang and g++
 # -------------
 
-if ((${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU") OR 
-	(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")) 
+if ((CMAKE_CXX_COMPILER_ID STREQUAL "GNU") OR 
+	(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")) 
 	add_definitions (
 		# Enables C++14 compiler support.
 		-std=c++1y 
@@ -62,7 +62,7 @@ endif()
 # g++
 # ---
 
-if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU") 
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU") 
 	# Disable some warnings.
 	add_definitions (
 		# Unused but set variable.
@@ -76,7 +76,7 @@ endif()
 # Clang
 # -----
 
-if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang") 
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang") 
 	add_definitions (
 		# Enables C++14 library support.
 		-stdlib=libc++
@@ -178,8 +178,8 @@ if (MSVC)
 
 endif()
 
-if (${CMAKE_GENERATOR} STREQUAL "NMake Makefiles" OR
-	${CMAKE_GENERATOR} STREQUAL "NMake Makefiles JOM")
+if (CMAKE_GENERATOR STREQUAL "NMake Makefiles" OR
+	CMAKE_GENERATOR STREQUAL "NMake Makefiles JOM")
 	add_definitions (
 		# Enable exceptions (for some reason they are not 
 		# enabled for NMake Makefiles).

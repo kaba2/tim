@@ -12,7 +12,8 @@
 #include <pastel/sys/indicator/predicate_indicator.h>
 
 #include <pastel/geometry/pointkdtree/pointkdtree.h>
-#include <pastel/geometry/search_nearest_kdtree.h>
+#include <pastel/geometry/search_nearest.h>
+#include <pastel/geometry/nearestset/kdtree_nearestset.h>
 
 #include <algorithm>
 #include <numeric>
@@ -83,7 +84,7 @@ namespace Tim
 				// Find the distance to the k:th nearest neighbor.
 				real distance2 =
 					searchNearest(
-						pointSet.kdTree(),
+						kdTreeNearestSet(pointSet.kdTree()),
 						queryPoint,
 						PASTEL_TAG(accept), predicateIndicator(query, NotEqualTo()),
 						PASTEL_TAG(normBijection), entropyAlgorithm.normBijection(),
