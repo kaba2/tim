@@ -59,7 +59,7 @@ signals = size(signalSet, 1);
 marginals = size(rangeSet, 1);
 
 for i = 1 : signals
-    pastelsys.concept_check(signalSet(i, :), 'tim.signal_set')
+    pastelsys.concept_check(signalSet(i, :), tim_package('signal_set'));
 end
 
 if marginals == 0
