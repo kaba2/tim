@@ -29,8 +29,8 @@ if isnumeric(Y)
     Y = {Y};
 end
 
-pastelsys.concept_check(X, 'tim.signal_set');
-pastelsys.concept_check(Y, 'tim.signal_set');
+pastelsys.concept_check(X, tim_package('signal_set'));
+pastelsys.concept_check(Y, tim_package('signal_set'));
 
 if numel(X) ~= numel(Y)
 	error('The number of trials in X and Y do not match.');

@@ -26,7 +26,7 @@ if isnumeric(S)
 end
 
 pastelsys.concept_check(...
-    S, 'tim.signal_set');
+    S, tim_package('signal_set'));
 
 if (size(S{1}, 1) > 3)
 	warning('tim:inaccurate', ...
