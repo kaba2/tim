@@ -38,7 +38,7 @@
 % contains the weighting coefficients. Must have an odd
 % number of elements.
 %
-% SIGNALSET ('tim.signal_set')
+% SIGNALSET (tim_package('signal_set'))
 %
 % An arbitrary-dimensional cell-array of signals.
 % The dimensions of the trials of a given signal
