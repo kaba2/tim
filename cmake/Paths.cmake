@@ -16,7 +16,7 @@ if (WIN32)
 	set (Pastel_DIR "${PastelDirectory}/cmake")
 
 	# Boost path
-	set (BoostDirectory "${ProjectDirectory}/../boost_1_63_0")
+	set (BoostDirectory "${ProjectDirectory}/../boost_1_64_0")
 
 	# Armadillo path
 	set (ArmadilloDirectory "${ProjectDirectory}/../armadillo-7.700.0")
