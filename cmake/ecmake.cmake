@@ -1,13 +1,20 @@
 # Description: ECMake
 
-# Interpret relative paths w.r.t. the source directory in
-# in link_directories().
-cmake_policy(SET CMP0015 NEW)
-# Only interpret if() arguments as variables or keywords when unquoted.
-cmake_policy(SET CMP0054 NEW)
-
 # Turn on solution folders.
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
+# Set a default build type if none was specified
+# ----------------------------------------------
+
+if (NOT CMAKE_BUILD_TYPE)
+	message(STATUS "Setting build type to 'Release' as none was specified.")
+	set(CMAKE_BUILD_TYPE Release)
+endif()
+
+if (CMAKE_CONFIGURATION_TYPES)
+	# Restrict multi-configuration generators to the current build-type.
+	set (CMAKE_CONFIGURATION_TYPES ${CMAKE_BUILD_TYPE})
+endif()
 
 option (BuildMatlabMex
 	"Make libraries usable for Matlab mex (force release-mode C and C++ standard libraries)." 
@@ -22,15 +29,17 @@ math(EXPR GENERATOR_BITS "8*${CMAKE_SIZEOF_VOID_P}")
 # Find out the compiler-id in lower-case.
 # For example: msvc, gnu, clang
 string (TOLOWER ${CMAKE_CXX_COMPILER_ID} CompilerId)
+string (TOLOWER "${CMAKE_BUILD_TYPE}" LOWER_CMAKE_BUILD_TYPE)
 
 # We use a tool-set id to separate the outputs of 
 # different compilers to different directories.
-# The tool-set id consists of a compiler-id and
-# the bitness of the generator. For example:
-# msvc64: Visual Studio, 64 bits
-# gnu32: GCC, 32 bits,
-# clang64: Clang, 64 bits
-set (ToolSet ${CompilerId}${GENERATOR_BITS})
+# The tool-set id consists of a compiler-id,
+# the bitness of the generator, and the build-type. 
+# For example:
+# msvc64-release: Visual Studio, 64 bits, release
+# gnu32-debug: GCC, 32 bits, debug
+# clang64-debug: Clang, 64 bits, debug
+set (ToolSet "${CompilerId}${GENERATOR_BITS}-${LOWER_CMAKE_BUILD_TYPE}")
 
 # Force to use an out-of-source build
 # -----------------------------------
@@ -46,23 +55,6 @@ if ("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
 	)
 
    return()
-endif()
-
-# Set a default build type if none was specified
-# ----------------------------------------------
-
-# This only applies to single-configuration tool-sets,
-# such as Unix Makefiles.
-if (NOT CMAKE_BUILD_TYPE AND 
-	NOT CMAKE_CONFIGURATION_TYPES)
-	message(STATUS 
-		"Setting build type to 'Release' as none was specified.")
-	set(CMAKE_BUILD_TYPE Release CACHE STRING 
-		"Choose the type of build." FORCE)
-	# Set the possible values of build types for cmake-gui.
-	set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS 
- 		"Debug" 
-  		"Release")
 endif()
 
 # Define output directories
@@ -85,16 +77,14 @@ include_directories (${ProjectIncludeDirectory})
 # Set output directories
 # ----------------------
 
-string (TOLOWER "${CMAKE_BUILD_TYPE}" LOWER_CMAKE_BUILD_TYPE)
+# The directory to place the static libraries (e.g. lib/msvc64-release).
+set (CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${ProjectLibraryDirectory})
 
-# The directory to place the static libraries (e.g. lib/msvc64/release).
-set (CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${ProjectLibraryDirectory}/${LOWER_CMAKE_BUILD_TYPE}")
+# The directory to place the shared libraries (e.g. lib/msvc64-release).
+set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${ProjectLibraryDirectory})
 
-# The directory to place the shared libraries (e.g. lib/msvc64/release).
-set (CMAKE_LIBRARY_OUTPUT_DIRECTORY "${ProjectLibraryDirectory}/${LOWER_CMAKE_BUILD_TYPE}")
-
-# The directory to place the built executables (e.g. bin/msvc64/release).
-set (CMAKE_RUNTIME_OUTPUT_DIRECTORY "${ProjectExecutableDirectory}/${LOWER_CMAKE_BUILD_TYPE}")
+# The directory to place the built executables (e.g. bin/msvc64-release).
+set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${ProjectExecutableDirectory})
 
 # This is for the multi-configuration build-scripts
 # (such as Visual Studio and XCode).
@@ -102,15 +92,15 @@ foreach (OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
     string (TOUPPER ${OUTPUTCONFIG} UPPER_OUTPUTCONFIG)
     string (TOLOWER ${OUTPUTCONFIG} LOWER_OUTPUTCONFIG)
 
-	# The library output directory is of the form "lib/msvc64/release".
+	# The library output directory is of the form "lib/msvc64-release".
     set (CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${UPPER_OUTPUTCONFIG} 
-    	"${ProjectLibraryDirectory}/${LOWER_OUTPUTCONFIG}")
+    	"${ProjectLibraryDirectory}")
     set (CMAKE_LIBRARY_OUTPUT_DIRECTORY_${UPPER_OUTPUTCONFIG} 
-    	"${ProjectLibraryDirectory}/${LOWER_OUTPUTCONFIG}")
+    	"${ProjectLibraryDirectory}")
 
-	# The executable output directory is of the form "bin/msvc64/release".
+	# The executable output directory is of the form "bin/msvc64-release".
     set (CMAKE_RUNTIME_OUTPUT_DIRECTORY_${UPPER_OUTPUTCONFIG} 
-    	"${ProjectExecutableDirectory}/${LOWER_OUTPUTCONFIG}")
+    	"${ProjectExecutableDirectory}")
 endforeach()
 
 # Set some options
@@ -156,13 +146,10 @@ macro (EcCopyAsideExecutables FilePath)
 		# This is a multi-configuration generator,
 		# such as Visual Studio or XCode.
 		foreach (OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
-		    string (TOUPPER ${OUTPUTCONFIG} UPPER_OUTPUTCONFIG)
-		    string (TOLOWER ${OUTPUTCONFIG} LOWER_OUTPUTCONFIG)
-
 	    	# Copy the file to where the executables are,
 	    	# for each configuration.
 			file (COPY "${FilePath}" 
-				DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY_${UPPER_OUTPUTCONFIG}}")
+				DESTINATION "${ProjectExecutableDirectory}")
 		endforeach()
 	else()
 		# This is a single-configuration generator,
@@ -170,12 +157,42 @@ macro (EcCopyAsideExecutables FilePath)
 
 		# Copy the file to where the executables are.
 		file (COPY "${FilePath}" 
-			DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+			DESTINATION "${ProjectExecutableDirectory}")
 	endif()
 
 	# Copy the file to where the Matlab interface is.
 	file (COPY "${FilePath}" 
-		DESTINATION "${ProjectMatlabDirectory}")
+		DESTINATION "${ProjectExecutableDirectory}/matlab")
+endmacro()
+
+# Creates source-groups for files based on the physical directory tree.
+macro (EcCreateSourceGroups SourceSet)
+foreach (FilePath ${SourceSet})
+	# message (STATUS ${FilePath})
+
+	# Get the path to the source file, relative to the current directory.
+	file (RELATIVE_PATH FileRelativePath ${CMAKE_CURRENT_LIST_DIR} ${FilePath})
+
+	# Append / to the beginning, so that the regex-replacement
+	# works also in the current directory.
+	set (FileRelativePath "/${FileRelativePath}")
+
+	# Get the directory-part of the path.
+	# I could not find a way for specifying a non-capturing group, 
+	# so I opted to append the / to the beginning, and then do
+	# the following.
+	string (REGEX REPLACE "(.*/)[^/]*$" "\\1" DirectoryRelativePath ${FileRelativePath})
+
+	# Replace / with \.
+	string (REPLACE "/" "\\" SourceGroupName ${DirectoryRelativePath})
+
+	# message (STATUS ${FileRelativePath})
+	# message (STATUS ${DirectoryRelativePath})
+	# message (STATUS ${SourceGroupName})
+
+	# Create a source group.
+	source_group(${SourceGroupName} FILES ${FilePath})
+endforeach()
 endmacro()
 
 # Adds a library, or an executable, and creates source-groups based on 
@@ -183,36 +200,14 @@ endmacro()
 macro (EcAddLibrary Type LibraryName SourceGlobSet)
 	file (GLOB_RECURSE SourceSet ${SourceGlobSet})
 
-	foreach (FilePath ${SourceSet})
-		# Get the path to the source file, relative to the current directory.
-	    file (RELATIVE_PATH FileRelativePath ${CMAKE_CURRENT_LIST_DIR} ${FilePath})
-
-	    # Append / to the beginning, so that the regex-replacement
-	    # works also in the current directory.
-	    set (FileRelativePath "/${FileRelativePath}")
-
-	    # Get the directory-part of the path.
-	    # I could not find a way for specifying a non-capturing group, 
-	    # so I opted to append the / to the beginning, and then do
-	    # the following.
-	    string (REGEX REPLACE "(.*/)[^/]*$" "\\1" DirectoryRelativePath ${FileRelativePath})
-
-	    # Replace / with \.
-	    string (REPLACE "/" "\\" SourceGroupName ${DirectoryRelativePath})
-
-	    #message (STATUS ${FileRelativePath})
-	    #message (STATUS ${DirectoryRelativePath})
-	    #message (STATUS ${SourceGroupName})
-
-	    # Create a source group.
-	    source_group(${SourceGroupName} FILES ${FilePath})
-	endforeach()
+	EcCreateSourceGroups("${SourceSet}")
 
 	#message (STATUS "${LibraryName} is ${Type}" )
 
 	if ("${Type}" STREQUAL "library")
-		add_library (${LibraryName} STATIC ${SourceSet})
-	else ("${Type}" STREQUAL "executable")
+		add_library(${LibraryName} ${SourceSet})
+		add_library(${LibraryName}::${LibraryName} ALIAS ${LibraryName})
+	elseif ("${Type}" STREQUAL "executable")
 		add_executable (${LibraryName} ${SourceSet})
 	else ()
 		message (FATAL_ERROR "Unknown library type ${Type}.")
@@ -220,6 +215,18 @@ macro (EcAddLibrary Type LibraryName SourceGlobSet)
 endmacro()
 
 # Configures a Pastel Matlab library.
+#
+# Copies each file 'path/name.ext' in the library 
+# into 'bin/matlab/path/name.ext'. When the
+# file-name is of the form 'path/name.template.ext', 
+# where ext is the file-name extension, the
+# CMake macros in the file are substituted,
+# and the file is renamed to 'path/name.ext'
+# before copying.
+#
+# SourceGlobSet:
+# A set of file-globs which determine the
+# files to be included in the library.
 macro (EcAddMatlabLibrary SourceGlobSet)
 	file (GLOB_RECURSE SourceSet RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${SourceGlobSet})
 	foreach(FilePath ${SourceSet})
@@ -228,7 +235,7 @@ macro (EcAddMatlabLibrary SourceGlobSet)
 
 		get_filename_component(FileExtension ${FilePath} EXT)
 
-		if ("${FileExtension}" MATCHES "template.(.+)$")
+		if (${FileExtension} MATCHES "template.(.+)$")
 			string (REGEX REPLACE "(.+).template.(.+)$" "\\1.\\2" OutputFilePath ${OutputFilePath})
 		else()
 			set (Options COPYONLY)

@@ -23,21 +23,39 @@ endif()
 
 if ((CMAKE_CXX_COMPILER_ID STREQUAL "GNU") OR 
 	(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")) 
-	add_definitions (
-		# Enables C++14 compiler support.
-		-std=c++1y 
-		# Enables some additional warnings.
-		-Wall 
-		# Enables position-independent code.
-		# This is needed to build the Matlab 
-		# libraries.
-		#-fPIC
-		# Stop build after one error.
- 		-Wfatal-errors
-	)
+
+	if (NOT CMAKE_CXX_SIMULATE_ID STREQUAL "MSVC")
+		add_definitions (
+			# Enables C++20 compiler support.
+			-std=c++20
+			# Enables position-independent code.
+			# This is needed to build the Matlab 
+			# libraries.
+			-fPIC
+			# Enables some additional warnings.
+			-Wall 
+			# Stop build after one error.
+			-Wfatal-errors
+			# Under Linux, Armadillo has to use
+			# long-long for BLAS, to not conflict
+			# with Matlab; otherwise there will
+			# be a segmentation fault.
+			-DARMA_BLAS_LONG_LONG
+		)
+	endif()
 
 	# Disable some warnings.
 	add_definitions (
+		# Eigen does bitwise operations between different enums
+		-Wno-deprecated-anon-enum-enum-conversion
+		# Eigen forward-declares inline functions with.
+		-Wno-undefined-inline
+		# Assigning objects to themselves is useful in testing.
+		-Wno-self-assign-overloaded
+		-Wno-self-move
+		# volatile-qualified parameter type 'const volatile long long' is deprecated
+		# These errors come from the TBB library.
+		-Wno-deprecated-volatile
 		-Wno-parentheses
 		# Pragma warnings caused by OpenMP support not being enabled.
 		-Wno-unknown-pragmas
@@ -56,6 +74,8 @@ if ((CMAKE_CXX_COMPILER_ID STREQUAL "GNU") OR
 		# Compiler warns that it optimizes code based on the 
 		# assumption that signed integer overflows do not occur.
 		-Wno-strict-overflow
+		# Compiler warns about code that is marked as deprecated.
+		-Wno-deprecated-declarations
 	)
 endif()
 
@@ -77,18 +97,18 @@ endif()
 # -----
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang") 
-	add_definitions (
-		# Enables C++14 library support.
-		-stdlib=libc++
-		# Not sure why.
-		-arch x86_64
-	)
 
-	# Enables C++11 linker support.
-	set (CMAKE_EXE_LINKER_FLAGS 
-		"${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++")
-	set (CMAKE_SHARED_LINKER_FLAGS 
-		"${CMAKE_SHARED_LINKER_FLAGS} -stdlib=libc++")
+	if (NOT (CMAKE_CXX_SIMULATE_ID STREQUAL "MSVC"))
+		add_definitions (
+			# Not sure why.
+			-arch x86_64
+			)
+	endif()
+
+	add_definitions (
+		# For the Visual Studio Clang/C2
+		-Qunused-arguments
+	)
 
 	# Disable some warnings.
 	add_definitions (
@@ -98,6 +118,10 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 		# Absolute value function on unsigned types.
 		-Wno-absolute-value
 		-Wno-unsupported-friend
+		-Wno-unused-local-typedef
+		-Wno-unused-variable
+		# For conceptArg()
+		-Wno-undefined-internal
 	)
 endif()
 
@@ -121,15 +145,26 @@ if (MSVC)
 
 	add_definitions (
 		# Disable Microsoft's Secure STL.
-		/D_ITERATOR_DEBUG_LEVEL=0
+		# /D_ITERATOR_DEBUG_LEVEL=0
 		# Use multiple processes for compiling.
 		/MP
 		# Enable exceptions.
 		/EHsc
+		# Use C++20 features.
+		/std:c++latest
+		/permissive-
+		# Boost uses std::unary_function etc which are removed from C++17.
+		# Bring them back.
+		/D_HAS_AUTO_PTR_ETC=1
+		# Disable language extensions
+		# Arma does not work with this flag (maybe a compiler bug in VS2017?)
+		#/permissive-
 	)
 
 	# Disable some warnings.
 	add_definitions (
+		# '<<': result of 32-bit shift implicitly converted to 64 bits (was 64-bit shift intended?)
+		/wd4334
 		# 'expression' : signed/unsigned mismatch
 		/wd4018
 		# 'variable' : unreferenced formal parameter
@@ -166,6 +201,8 @@ if (MSVC)
 		/wd4458
 		# declaration of 'type' hides global declaration
 		/wd4459
+		# decorated name length exceeded, name was truncated
+		/wd4503		
 		# 'type' : base-class 'type2' is already a base-class of 'type3'
 		/wd4584
 		# "'type' : forcing value to bool 'true' or 'false' (performance warning)"
@@ -178,8 +215,8 @@ if (MSVC)
 
 endif()
 
-if (CMAKE_GENERATOR STREQUAL "NMake Makefiles" OR
-	CMAKE_GENERATOR STREQUAL "NMake Makefiles JOM")
+if ((CMAKE_GENERATOR STREQUAL "NMake Makefiles") OR
+	(CMAKE_GENERATOR STREQUAL "NMake Makefiles JOM"))
 	add_definitions (
 		# Enable exceptions (for some reason they are not 
 		# enabled for NMake Makefiles).

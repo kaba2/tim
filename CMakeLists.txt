@@ -1,7 +1,16 @@
 # Description: Main CMake build file for the TIM library
 # Documentation: building.txt
 
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required (VERSION 3.18)
+
+if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+  set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+      CACHE STRING "")
+endif()
+
+if(DEFINED ENV{VCPKG_DEFAULT_TRIPLET} AND NOT DEFINED VCPKG_TARGET_TRIPLET)
+  set(VCPKG_TARGET_TRIPLET "$ENV{VCPKG_DEFAULT_TRIPLET}" CACHE STRING "")
+endif()
 
 project (Tim)
 
@@ -15,7 +24,6 @@ option (BuildTests "Build Tim's tests." ON)
 # ECMake
 # ------
 
-# Directory for CMake to search for CMake-included() files.
 set (CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 # Initialize ECMake.
@@ -24,51 +32,81 @@ include ("ecmake")
 # Setup compilers.
 include ("SetupCompilers")
 
+message(STATUS 
+	"Current compiler is ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
+
+add_definitions(
+	-DPASTEL_ENABLE_ASSERTS
+)
+
 # Configure external libraries
 # ----------------------------
 
-# Manual override for external library paths.
-include ("Paths")
+# Directory for CMake to search for CMake-included() files.
+set (CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
-find_package("Ranges_")
-include_directories (${RangesIncludeDirectory})
+set (PastelDirectory "${ProjectDirectory}/../pastel")
+set (Pastel_DIR "${PastelDirectory}/cmake")
 
-find_package("Pastel_")
+find_package(Pastel CONFIG REQUIRED)
 include_directories (${PastelIncludeDirectory})
+link_directories (${PastelLibraryDirectory})
 
-find_package("Boost_")
-include_directories (${BoostIncludeDirectory})
+find_package(range-v3 CONFIG REQUIRED)
+include_directories (range-v3)
+add_definitions(-DRANGES_NO_STD_FORWARD_DECLARATIONS)
+get_target_property(RangesIncludeDirectory range-v3 INTERFACE_INCLUDE_DIRECTORIES)
 
-find_package("Armadillo_")
-include_directories (${ArmadilloIncludeDirectory})
+find_package(Boost REQUIRED)
+include_directories(${Boost_INCLUDE_DIRS})
+link_libraries(${Boost_LIBRARIES})
 
-find_package("Tbb_")
-include_directories (${TbbIncludeDirectory})
+add_definitions(
+	-DBOOST_BIND_GLOBAL_PLACEHOLDERS
+)
 
-find_package("Blas_")
-find_package("Lapack_")
+find_package(Eigen3 3.3 REQUIRED NO_MODULE)
+include_directories(${EIGEN3_INCLUDE_DIRS})
+link_libraries(Eigen3::Eigen)
+
+add_definitions (
+	# std::result_of was removed in C++20.
+	-DEIGEN_HAS_STD_RESULT_OF=0
+)
+
+find_package(TBB CONFIG REQUIRED)
+include_directories(TBB::tbb)
+link_libraries(TBB::tbb)
+get_target_property(TbbIncludeDirectory TBB::tbb INTERFACE_INCLUDE_DIRECTORIES)
+get_target_property(TbbLibraryDirectory TBB::tbb IMPORTED_LOCATION_RELEASE)
+get_filename_component(TbbLibraryDirectory ${TbbLibraryDirectory} DIRECTORY)
 
 if (BuildMatlab)
-	find_package("Matlab_")
+	set (MatlabDirectoryWindows "C:/Program Files/Polyspace/R2020a")
+	set (MatlabDirectoryMac "/Applications/MATLAB_R2020a.app")
+	set (MatlabDirectoryLinux "/mnt/c/Program Files/Polyspace/R2020a")
+
+	if (WIN32)
+		set (MatlabDirectory ${MatlabDirectoryWindows})
+	elseif(UNIX)
+		if (APPLE)
+			set (MatlabDirectory ${MatlabDirectoryMac})
+		else()
+			set (MatlabDirectory ${MatlabDirectoryLinux})
+		endif()
+	endif()
+
+	set (MatlabIncludeDirectory "${MatlabDirectory}/extern/include")
+
+	EcCheckPathExists("Matlab (include)" "${MatlabIncludeDirectory}")
+
 	include_directories (${MatlabIncludeDirectory})
 endif()
 
-# Copy files
-# ----------
-
-if (WIN32)
-	# Copy dll-libraries aside executables for
-	# Windows to find them, when running an
-	# executable.
-
-	set (DllPathSet 
-		"${BlasDllPath}"
-		"${LapackDllPath}")
-
-	foreach (DllPath ${DllPathSet})
-		EcCopyAsideExecutables("${DllPath}")
-	endforeach()
-endif()
+message(STATUS "Range-v3: ${RangesIncludeDirectory}")
+message(STATUS "Boost: ${Boost_INCLUDE_DIRS} ${Boost_LIBRARIES}")
+message(STATUS "Eigen: ${EIGEN3_INCLUDE_DIRS}")
+message(STATUS "TBB: ${TbbIncludeDirectory} ${TbbLibraryDirectory}")
 
 # Source file globs
 # -----------------
