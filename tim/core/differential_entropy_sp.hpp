@@ -31,7 +31,7 @@ namespace Tim
 			}
 
 			template <typename Iterator>
-			real work(
+			dreal work(
 				const Iterator& begin,
 				const Iterator& end,
 				const VectorD& min,
@@ -57,15 +57,15 @@ namespace Tim
 				std::nth_element(begin, medianIter, end, compare);
 
 
-				const real median = (*medianIter)[d];
+				const dreal median = (*medianIter)[d];
 				
-				const real z = 2 * std::sqrt((real)n) * 
+				const dreal z = 2 * std::sqrt((dreal)n) * 
 					(median - linear(min[d], max[d], 0.5)) /
 					(max[d] - min[d]);
 				
 				if (n <= 3 || (level >= minLevel_ && std::abs(z) >= 1.96))
 				{
-					real p = (real)n / samples_;
+					dreal p = (dreal)n / samples_;
 
 
 					return p * std::log(product(max - min) / p);
@@ -93,8 +93,8 @@ namespace Tim
 				}
 
 				bool operator()(
-					const real* left,
-					const real* right) const
+					const dreal* left,
+					const dreal* right) const
 				{
 					if (left[dimension_] < right[dimension_])
 					{
@@ -120,31 +120,31 @@ namespace Tim
 
 	}
 
-	template <typename SignalPtr_Range>
-	real differentialEntropySp(
-		const SignalPtr_Range& signalSet)
+	template <ranges::forward_range Signal_Range>
+	dreal differentialEntropySp(
+		Signal_Range&& signalSet)
 	{
-		if (signalSet.empty())
+		if (ranges::empty(signalSet))
 		{
 			return 0;
 		}
 
-		integer signals = signalSet.size();
+		integer signals = ranges::size(signalSet);
 		integer samples = minSamples(signalSet);
 
 		const integer n = samples * signals;
 
 		// Gather the point set.
 
-		std::vector<const real*> pointSet;
+		std::vector<const dreal*> pointSet;
 		pointSet.reserve(n);
 		auto iter = signalSet.begin();
 		auto iterEnd = signalSet.end();
 		while(iter != iterEnd)
 		{
-			const Signal& signal = **iter;
-			copy_n(
-				signal.pointBegin(), samples,
+			const Signal& signal = *iter;
+			std::copy_n(
+				std::begin(signal.pointRange()), samples,
 				std::back_inserter(pointSet));
 			
 			++iter;
@@ -152,16 +152,16 @@ namespace Tim
 		
 		// Compute bounds.
 
-		integer dimension = signalSet.front()->dimension();
-		VectorD min(ofDimension(dimension), infinity<real>());
-		VectorD max(ofDimension(dimension), -infinity<real>());
+		integer dimension = std::begin(signalSet)->dimension();
+		VectorD min(ofDimension(dimension), infinity<dreal>());
+		VectorD max(ofDimension(dimension), -infinity<dreal>());
 		for (integer i = 0;i < n;++i)
 		{
 
-			const real* point = pointSet[i];
+			const dreal* point = pointSet[i];
 			for (integer d = 0;d < dimension;++d)
 			{
-				real position = point[d];
+				dreal position = point[d];
 				if (position < min[d])
 				{
 					min[d] = position;
@@ -175,7 +175,7 @@ namespace Tim
 
 		// Compute differential entropy.
 
-		integer minLevel = std::ceil(log2<real>(n) / 2);
+		integer minLevel = std::ceil(log2<dreal>(n) / 2);
 		Detail_DifferentialEntropySp::Computation
 			computation(n, dimension, minLevel);
 

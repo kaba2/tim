@@ -34,21 +34,22 @@ namespace
 		ENSURE_OP(inputs, ==, Inputs);
 		ENSURE_OP(outputs, <=, Outputs);
 
-		std::vector<Signal> xEnsemble = getSignals(inputSet[X]);
+		std::vector<MatlabMatrix<dreal>> xMatrices = matlabAsMatrixRange<dreal>(inputSet[X]) | ranges::to_vector;
+		std::vector<Signal> xSignals = matlabMatricesAsSignals(xMatrices) | ranges::to_vector;
 
 		integer intrinsicDimension = 0;
 
-		real entropy = 
+		dreal entropy = 
 			differentialEntropyNk(
-			countingRange(xEnsemble.begin(), xEnsemble.end()), 
-			Euclidean_NormBijection<real>(),
+			xSignals, 
+			Euclidean_Norm<dreal>(),
 
 			&intrinsicDimension);
 
 		if (outputs > 0)
 		{
-			real* outEntropy =
-				matlabCreateScalar<real>(outputSet[Estimate]);
+			dreal* outEntropy =
+				matlabCreateScalar<dreal>(outputSet[Estimate]);
 			*outEntropy = entropy;
 		}
 

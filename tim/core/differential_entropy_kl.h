@@ -5,11 +5,65 @@
 #define TIM_DIFFERENTIAL_ENTROPY_KL_H
 
 #include "tim/core/signal.h"
+#include "tim/core/generic_entropy.h"
+#include "tim/core/generic_entropy_t.h"
 
 #include <pastel/sys/range.h>
-#include <pastel/sys/iterator/constant_iterator.h>
 
 #include <pastel/math/normbijection/normbijection_concept.h>
+
+namespace Tim
+{
+
+	template <typename Norm_>
+	class KlDifferential_EntropyAlgorithm
+	{
+	public:
+		// This algorithm computes the Kozachenko-Leonenko
+		// estimator for differential entropy.
+
+		using Norm = Norm_;
+
+		KlDifferential_EntropyAlgorithm()
+			: norm_()
+		{
+		}
+		
+		explicit KlDifferential_EntropyAlgorithm(
+			const Norm& norm)
+			: norm_(norm)
+		{
+		}
+
+		const Norm& norm() const
+		{
+			return norm_;
+		}
+		
+		dreal sumTerm(Distance_Concept auto distance) const
+		{
+			return std::log((dreal)distance);
+		}
+
+		dreal finishEstimate(
+			dreal estimate, 
+			integer dimension, 
+			integer kNearest, 
+			integer estimateSamples) const
+		{
+			estimate *= (dreal)dimension;
+			estimate -= digamma<dreal>(kNearest);
+			estimate += digamma<dreal>(estimateSamples);
+			estimate += lnVolumeUnitSphere(norm_, dimension);
+			
+			return estimate;
+		}
+
+	private:
+		Norm norm_;
+	};
+
+}
 
 namespace Tim
 {
@@ -33,19 +87,33 @@ namespace Tim
 	The k:th nearest neighbor that is used to
 	estimate differential entropy.
 
-	normBijection:
+	norm:
 	The norm to use.
 	*/
 	template <
-		typename SignalPtr_Range, 
-		typename NormBijection = Default_NormBijection,
-		typename Real_Range = ConstantRange<real>>
-	Signal temporalDifferentialEntropyKl(
-		const SignalPtr_Range& signalSet,
+		ranges::forward_range Signal_Range, 
+		typename Norm = Default_Norm,
+		typename Real_Range = decltype(constantRange((dreal)1, 1))>
+	SignalData temporalDifferentialEntropyKl(
+		const Signal_Range& signalSet,
 		integer timeWindowRadius,
 		integer kNearest = 1,
-		const NormBijection& normBijection = NormBijection(),
-		const Real_Range& filter = constantRange((real)1, 1));
+		const Norm& norm = Norm(),
+		const Real_Range& filter = constantRange((dreal)1, 1))
+	{
+		ENSURE_OP(timeWindowRadius, >=, 0);
+		ENSURE_OP(kNearest, >, 0);
+
+		KlDifferential_EntropyAlgorithm<Norm>
+			entropyAlgorithm(norm);
+
+		return temporalGenericEntropy(
+			signalSet,
+			entropyAlgorithm,
+			timeWindowRadius,
+			kNearest,
+			filter);
+	}
 
 	//! Differential entropy of a signal.
 	/*!
@@ -61,7 +129,7 @@ namespace Tim
 	The k:th nearest neighbor that is used to
 	estimate differential entropy.
 
-	normBijection:
+	norm:
 	The norm to use.
 
 	Returns:
@@ -71,15 +139,24 @@ namespace Tim
 	there are no samples to estimate from.
 	*/
 	template <
-		typename SignalPtr_Range, 
-		typename NormBijection = Default_NormBijection>
-	real differentialEntropyKl(
-		const SignalPtr_Range& signalSet,
+		ranges::forward_range Signal_Range, 
+		typename Norm = Default_Norm>
+	dreal differentialEntropyKl(
+		const Signal_Range& signalSet,
 		integer kNearest = 1,
-		const NormBijection& normBijection = NormBijection());
+		const Norm& norm = Norm())
+	{
+		ENSURE_OP(kNearest, >, 0);
+
+		KlDifferential_EntropyAlgorithm<Norm>
+			entropyAlgorithm(norm);
+
+		return genericEntropy(
+			signalSet,
+			entropyAlgorithm,
+			kNearest);
+	}
 
 }
-
-#include "tim/core/differential_entropy_kl.hpp"
 
 #endif

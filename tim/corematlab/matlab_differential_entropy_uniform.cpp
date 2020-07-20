@@ -31,11 +31,11 @@ namespace
 		ENSURE_OP(inputs, ==, Inputs);
 		ENSURE_OP(outputs, ==, Outputs);
 
-		real supportVolume = 
-			matlabAsScalar<real>(inputSet[SupportVolume]);
+		dreal supportVolume = 
+			matlabAsScalar<dreal>(inputSet[SupportVolume]);
 
-		real* entropy = matlabCreateScalar<real>(outputSet[Entropy]);
-		*entropy = differentialEntropyUniform<real>(supportVolume);
+		dreal* entropy = matlabCreateScalar<dreal>(outputSet[Entropy]);
+		*entropy = differentialEntropyUniform<dreal>(supportVolume);
 	}
 
 	void addFunction()

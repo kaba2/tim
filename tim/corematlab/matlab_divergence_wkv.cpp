@@ -32,13 +32,16 @@ namespace
 		ENSURE_OP(inputs, ==, Inputs);
 		ENSURE_OP(outputs, ==, Outputs);
 
-		std::vector<Signal> xEnsemble = getSignals(inputSet[X]);
-		std::vector<Signal> yEnsemble = getSignals(inputSet[Y]);
+		std::vector<MatlabMatrix<dreal>> xMatrices = matlabAsMatrixRange<dreal>(inputSet[X]) | ranges::to_vector;
+		std::vector<Signal> xSignals = matlabMatricesAsSignals(xMatrices) | ranges::to_vector;
 
-		real* outResult = matlabCreateScalar<real>(outputSet[Estimate]);
+		std::vector<MatlabMatrix<dreal>> yMatrices = matlabAsMatrixRange<dreal>(inputSet[Y]) | ranges::to_vector;
+		std::vector<Signal> ySignals = matlabMatricesAsSignals(yMatrices) | ranges::to_vector;
+
+		dreal* outResult = matlabCreateScalar<dreal>(outputSet[Estimate]);
 		*outResult = divergenceWkv(
-			countingRange(xEnsemble.begin(), xEnsemble.end()), 
-			countingRange(yEnsemble.begin(), yEnsemble.end()));
+			xSignals, 
+			ySignals);
 	}
 
 	void addFunction()

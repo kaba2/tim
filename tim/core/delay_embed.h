@@ -25,10 +25,46 @@ namespace Tim
 	Embedding delay.
 	*/
 
-	TIM Signal delayEmbed(
+	inline TIM SignalData delayEmbed(
 		const Signal& signal,
 		integer k,
-		integer dt = 1);
+		integer dt = 1)
+	{
+		ENSURE_OP(k, >, 0);
+		ENSURE_OP(dt, >=, 1);
+
+		integer n = signal.dimension();
+		integer samples = signal.samples();
+
+		integer embedDimension = k * n;
+		integer embedLag = (k - 1) * dt;
+		integer embedSamples = std::max(samples - embedLag, (integer)0);
+
+		SignalData embedSignal(
+			embedSamples, 
+			embedDimension, 
+			signal.t() + embedLag);
+
+		integer sBegin = 0;
+		for (integer t = 0;t < embedSamples;++t)
+		{
+			integer iBegin = 0;
+			integer s = sBegin;
+			for (integer j = 0;j < k;++j)
+			{
+				ranges::copy(
+					signal.data().rowRange(s),
+					embedSignal.data().rowRange(t) | ranges::drop(iBegin));
+
+				s += dt;
+				iBegin += n;
+			}
+			++sBegin;
+		}
+
+		return embedSignal;
+	}
+
 
 	//! Performs delay embedding for a set of signals.
 	/*!
@@ -49,7 +85,17 @@ namespace Tim
 		Signal_Input inputSet,
 		Signal_Output output,
 		integer k,
-		integer dt = 1);
+		integer dt = 1)
+	{
+		ENSURE_OP(k, >, 0);
+		ENSURE_OP(dt, >=, 1);
+
+		while(!inputSet.empty())
+		{
+			output(delayEmbed(inputSet.get(), k, dt));
+			inputSet.pop();
+		}
+	}
 
 	//! Returns the future of a signal under a given delay-embedding.
 	/*!
@@ -59,9 +105,12 @@ namespace Tim
 	dt:
 	Embedding delay.
 	*/
-	TIM Signal delayEmbedFuture(
+	inline TIM Signal delayEmbedFuture(
 		const Signal& signal,
-		integer dt = 1);
+		integer dt = 1)
+	{
+		return Signal(signal.data().slicey(dt), signal.t());
+	}
 
 	//! Computes the futures of signals under a given delay-embedding.
 	/*!
@@ -77,10 +126,17 @@ namespace Tim
 	void delayEmbedFuture(
 		Signal_Input inputSet,
 		Signal_Output output,
-		integer dt = 1);
+		integer dt = 1)
+	{
+		ENSURE_OP(dt, >=, 1);
+
+		while(!inputSet.empty())
+		{
+			output(Tim::delayEmbedFuture(inputSet.get(), dt));
+			inputSet.pop();
+		}
+	}
 
 }
-
-#include "tim/core/delay_embed.hpp"
 
 #endif

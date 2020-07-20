@@ -36,15 +36,14 @@ namespace
 		ENSURE_OP(inputs, ==, Inputs);
 		ENSURE_OP(outputs, ==, Outputs);
 
-		Array<Signal> signalSet = getSignalArray(inputSet[SignalSet]);
+		Array<MatlabMatrix<dreal>> signalSet = matlabAsMatrixArray<dreal>(inputSet[SignalSet]);
+		MatlabMatrix<integer> lagSet = matlabAsMatrix<integer>(inputSet[LagSet], true);
+		integer timeWindowRadius = matlabAsScalar<integer>(inputSet[TimeWindowRadius]);
+		integer kNearest = matlabAsScalar<integer>(inputSet[KNearest]);
+		MatlabMatrix<dreal> filter = matlabAsMatrix<dreal>(inputSet[FilterIndex], true);
+		MatlabMatrix<dreal> rangeArray = matlabAsMatrix<dreal>(inputSet[RangeSet], true);
 
-		std::vector<integer> lagSet;
-		matlabGetScalars(inputSet[LagSet], std::back_inserter(lagSet));
-
-		Array<real> rangeArray =
-			matlabAsArray<real>(inputSet[RangeSet]);
-
-		integer marginals = rangeArray.height();
+		integer marginals = rangeArray.rows();
 
 		std::vector<Integer3> rangeSet;
 		rangeSet.reserve(marginals);
@@ -59,35 +58,29 @@ namespace
 				// as [a - 1, b[.
 				rangeSet.push_back(
 					Integer3(
-					rangeArray(0, i) - 1,
-					rangeArray(1, i),
-					rangeArray(2, i)));
+					rangeArray.view()(i, 0) - 1,
+					rangeArray.view()(i, 1),
+					rangeArray.view()(i, 2)));
 			}
 		}
 
-		integer timeWindowRadius = matlabAsScalar<integer>(inputSet[TimeWindowRadius]);
-		integer kNearest = matlabAsScalar<integer>(inputSet[KNearest]);
-
-		std::vector<real> filter;
-		matlabGetScalars(inputSet[FilterIndex], std::back_inserter(filter));
-
 		Signal estimate = temporalEntropyCombination(
-			signalSet,
-			range(rangeSet.begin(), rangeSet.end()),
+			asSignalArray(signalSet),
+			rangeSet,
 			timeWindowRadius,
-			range(lagSet.begin(), lagSet.end()),
+			lagSet.view().span(),
 			kNearest,
-			range(filter.begin(), filter.end()));
+			filter.view().span());
 
 		integer nans = std::max(estimate.t(), (integer)0);
 		integer skip = std::max(-estimate.t(), (integer)0); 
 		integer samples = std::max(nans + estimate.samples() - skip, (integer)0);
 
-		Array<real> result = matlabCreateArray<real>(
-			Vector2i(samples, 1), outputSet[Estimate]);
-		std::fill_n(result.begin(), nans, (real)Nan());
-		std::copy(estimate.data().begin() + skip, 
-			estimate.data().end(), result.begin() + nans);
+		MatrixView<dreal> result = matlabCreateMatrix<dreal>(1, samples, outputSet[Estimate]);
+		ranges::fill(result.slicex(0, nans).range(), (dreal)Nan());
+		ranges::copy(
+			estimate.data().slicex(skip).range(), 
+			std::begin(result.slicex(nans).range()));
 	}
 
 	void addFunction()

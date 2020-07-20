@@ -6,6 +6,9 @@
 #include "tim/core/signal.h"
 
 #include <pastel/math/matrix/cholesky_decomposition.h>
+#include <pastel/math/matrix/matrix.h>
+
+#include <pastel/sys/random.h>
 
 namespace Tim
 {
@@ -16,10 +19,10 @@ namespace Tim
 	dimension > 0
 	size >= 0
 	*/
-
-	TIM Signal generateUniform(
-		integer samples,
-		integer dimension);
+	inline TIM void generateUniform(Signal signal)
+	{
+		ranges::generate(signal.data().range(), [](){return 2 * random<dreal>() - 1;});
+	}
 
 	//! Generates standard gaussian random variables in R^n.
 	/*!
@@ -27,10 +30,10 @@ namespace Tim
 	dimension > 0
 	samples >= 0
 	*/
-
-	TIM Signal generateGaussian(
-		integer samples,
-		integer dimension);
+	inline TIM void generateGaussian(Signal signal)
+	{
+		ranges::generate(signal.data().range(), [](){return randomGaussian<dreal>();});
+	}
 
 	//! Generates correlated gaussian random variables in R^n.
 	/*!
@@ -49,17 +52,27 @@ namespace Tim
 	generateGaussian() (resulting in the 
 	correlation matrix being identity).
 	*/
+	inline TIM void generateCorrelatedGaussian(
+		Signal signal,
+		const CholeskyDecompositionInplace<dreal>& covarianceCholesky)
+	{
+		ENSURE_OP(covarianceCholesky.lower().cols(), ==, signal.dimension());
+		ENSURE(covarianceCholesky.succeeded());
 
-	TIM Signal generateCorrelatedGaussian(
-		integer samples,
-		integer dimension,
-		const CholeskyDecomposition<real>& covarianceCholesky);
+		generateGaussian(signal);
 
-	TIM Signal generateGeneralizedGaussian(
-		integer samples,
-		integer dimension,
-		real shape,
-		real scale);
+		asMatrix(signal.data()) *= asMatrix(covarianceCholesky.lower().transpose());
+	}
+
+	inline TIM void generateGeneralizedGaussian(
+		Signal signal, 
+		dreal shape,
+		dreal scale)
+	{
+		for (auto& x : signal.data().range()) {
+			x = randomGeneralizedGaussian<dreal>(shape, scale);
+		}
+	}
 
 	//! Generates a signal with time-varying coupling.
 	/*!
@@ -78,13 +91,88 @@ namespace Tim
 	to temporal changes in coupling (e.g. partial 
 	transfer entropy) should give similar coupling curves.	
 	*/
-	TIM void generateTimeVaryingCoupling(
+	inline TIM void generateTimeVaryingCoupling(
 		integer samples,
 		integer yxShift,
 		integer zyShift,
 		Signal& xSignal,
 		Signal& ySignal,
-		Signal& zSignal);
+		Signal& zSignal)
+	{
+		ENSURE_OP(samples, >=, 0);
+		ENSURE_OP(yxShift, >=, 0);
+		ENSURE_OP(zyShift, >=, 0);
+
+		ENSURE_OP(xSignal.samples(), ==, ySignal.samples());
+		ENSURE_OP(xSignal.samples(), ==, zSignal.samples());
+		ENSURE_OP(xSignal.dimension(), ==, 1);
+		ENSURE_OP(ySignal.dimension(), ==, 1);
+		ENSURE_OP(zSignal.dimension(), ==, 1);
+
+		if (xSignal.samples() == 0)
+		{
+			return;
+		}
+
+		integer couplingStart = samples / 3;
+
+		const integer couplingEnd = (samples * 2) / 3;
+		integer couplingSamples = couplingEnd - couplingStart;
+		dreal cyclesPerSample = 
+
+			(2 * constantPi<dreal>()) / couplingSamples;
+
+		auto xi = std::begin(xSignal.data().range());
+		auto yi = std::begin(ySignal.data().range());
+		auto zi = std::begin(zSignal.data().range());
+
+		for (integer i = 0;i < samples;++i)
+		{
+			dreal couplingYx = 0;
+			dreal couplingZy = 0;
+			if (i >= couplingStart && i < couplingEnd)
+			{
+				const dreal t = cyclesPerSample * (i - couplingStart);
+				couplingYx = std::sin(t);
+				couplingZy = std::cos(t);
+			}
+
+			dreal xPrevious = 0;
+			dreal yPrevious = 0;
+			dreal zPrevious = 0;
+			if (i >= 1)
+			{
+				xPrevious = *(xi - 1);
+				yPrevious = *(yi - 1);
+				zPrevious = *(zi - 1);
+			}
+			
+			dreal xHistory = 0;
+			if (i >= yxShift)
+			{
+				xHistory = *(xi - yxShift);
+			}
+
+			dreal yHistory = 0;
+			if (i >= zyShift)
+			{
+				yHistory = *(yi - zyShift);
+			}
+
+			*xi = 0.4 * xPrevious + 
+				randomGaussian<dreal>();
+			*yi = 0.5 * yPrevious + 
+				couplingYx * std::sin(xHistory) + 
+				randomGaussian<dreal>();
+			*zi = 0.5 * zPrevious + 
+				couplingZy * std::sin(yHistory) + 
+				randomGaussian<dreal>();
+
+			++xi;
+			++yi;
+			++zi;
+		}
+	}
 
 }
 

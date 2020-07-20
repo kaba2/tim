@@ -9,12 +9,12 @@
 namespace Tim
 {
 
-	template <typename SignalPtr_Range>
+	template <ranges::forward_range Signal_Range>
 	SignalPointSet::SignalPointSet(
-		const SignalPtr_Range& signalSet)
-		: kdTree_(Pointer_Locator<real>(signalSet.empty() ? 0 : signalSet.front()->dimension()))
+		const Signal_Range& signalSet)
+		: kdTree_(Pointer_Locator<dreal>(ranges::empty(signalSet) ? 0 : std::begin(signalSet)->dimension()))
 		, pointSet_()
-		, signals_(signalSet.size())
+		, signals_(ranges::size(signalSet))
 		, samples_(0)
 		, windowBegin_(0)
 		, windowEnd_(0)
@@ -22,20 +22,20 @@ namespace Tim
 		, dimension_(kdTree_.n())
 		, timeBegin_(0)
 	{
-		ENSURE(!signalSet.empty());
+		ENSURE(!ranges::empty(signalSet));
 		PENSURE(equalDimension(signalSet));
 
 		createPointSet(signalSet);
 	}
 
-	template <typename SignalPtr_Range>
+	template <ranges::forward_range Signal_Range>
 	SignalPointSet::SignalPointSet(
-		const SignalPtr_Range& signalSet,
+		const Signal_Range& signalSet,
 		integer dimensionBegin,
 		integer dimensionEnd)
-		: kdTree_(Pointer_Locator<real>(dimensionEnd - dimensionBegin))
+		: kdTree_(Pointer_Locator<dreal>(dimensionEnd - dimensionBegin))
 		, pointSet_()
-		, signals_(signalSet.size())
+		, signals_(ranges::size(signalSet))
 		, samples_(0)
 		, windowBegin_(0)
 		, windowEnd_(0)
@@ -43,20 +43,20 @@ namespace Tim
 		, dimension_(dimensionEnd - dimensionBegin)
 		, timeBegin_(0)
 	{
-		ENSURE(!signalSet.empty());
+		ENSURE(!ranges::empty(signalSet));
 		PENSURE(equalDimension(signalSet));
 		ENSURE_OP(dimensionBegin, <=, dimensionEnd);
 		ENSURE_OP(dimensionBegin, >=, 0);
-		ENSURE_OP(dimensionEnd, <=, signalSet.front()->dimension());
+		ENSURE_OP(dimensionEnd, <=, std::begin(signalSet)->dimension());
 
 		createPointSet(signalSet);
 	}
 
 	// Private
 
-	template <typename SignalPtr_Range>
+	template <ranges::forward_range Signal_Range>
 	void SignalPointSet::createPointSet(
-		const SignalPtr_Range& signalSet)
+		const Signal_Range& signalSet)
 	{
 		// Find out the time interval on which
 		// all trials are defined.
@@ -69,18 +69,18 @@ namespace Tim
 		// Store points in an interleaved
 		// manner.
 
-		integer signals = signalSet.size();
+		integer signals = ranges::size(signalSet);
 
 		pointSet_.resize(samples * signals);
 
 		auto iter = signalSet.begin();
 		for (integer i = 0;i < signals;++i)
 		{
-			const Signal& signal = **iter;
+			const Signal& signal = *iter;
 			for (integer t = tBegin;t < tEnd;++t)
 			{
-				const real* point = 
-					signal.pointBegin(dimensionBegin_)[t - signal.t()];
+				const dreal* point = 
+					std::begin(signal.pointRange(dimensionBegin_))[t - signal.t()];
 				pointSet_[(t - signal.t()) * signals + i] = kdTree_.insert(point);
 			}
 			

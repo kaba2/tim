@@ -7,8 +7,6 @@
 #include <pastel/geometry/overlap/overlaps_alignedbox_alignedbox.h>
 #include <pastel/geometry/containment/contains_alignedbox_alignedbox.h>
 
-#include <pastel/sys/iterator/constant_iterator.h>
-
 #include <pastel/math/normbijection/normbijections.h>
 
 #include <boost/iterator/reverse_iterator.hpp>

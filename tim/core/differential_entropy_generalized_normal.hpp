@@ -39,7 +39,7 @@ namespace Tim
 		return dimension * (
 			inverse(shape) + 
 			std::log(2 * scale * invShape) +
-			lnGamma<real>(invShape));
+			lnGamma<dreal>(invShape));
 	}
 
 }

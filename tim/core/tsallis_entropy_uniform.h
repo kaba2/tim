@@ -5,6 +5,7 @@
 #define TIM_TSALLIS_ENTROPY_UNIFORM_H
 
 #include "tim/core/mytypes.h"
+#include "tim/core/differential_entropy_uniform.h"
 
 #include <pastel/sys/real/real_concept.h>
 
@@ -28,7 +29,23 @@ namespace Tim
 	template <typename Real>
 	Real uniformTsallisEntropy(
 		const NoDeduction<Real>& q,
-		const NoDeduction<Real>& supportVolume);
+		const NoDeduction<Real>& supportVolume)
+	{
+		PENSURE_OP(supportVolume, >, 0);
+
+		if (q == 1)
+		{
+			return differentialEntropyUniform<Real>(supportVolume);
+		}
+
+		// I = 1 / m(S)^(q - 1)
+
+		Real I = inverse(std::pow(supportVolume, q - 1));
+
+		// H_q(X) = (1 - I) / (q - 1)
+
+		return (1 - I) / (q - 1);
+	}
 
 }
 

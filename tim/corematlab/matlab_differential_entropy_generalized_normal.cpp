@@ -35,13 +35,13 @@ namespace
 
 		integer dimension =
 			matlabAsScalar<integer>(inputSet[Dimension]);
-		real shape = 
-			matlabAsScalar<real>(inputSet[Shape]);
-		real scale = 
-			matlabAsScalar<real>(inputSet[Scale]);
+		dreal shape = 
+			matlabAsScalar<dreal>(inputSet[Shape]);
+		dreal scale = 
+			matlabAsScalar<dreal>(inputSet[Scale]);
 
-		real* entropy = matlabCreateScalar<real>(outputSet[Entropy]);
-		*entropy = differentialEntropyGeneralizedNormal<real>(dimension, shape, scale);
+		dreal* entropy = matlabCreateScalar<dreal>(outputSet[Entropy]);
+		*entropy = differentialEntropyGeneralizedNormal<dreal>(dimension, shape, scale);
 	}
 
 	void addFunction()

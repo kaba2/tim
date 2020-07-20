@@ -22,28 +22,28 @@ namespace Tim
 				integer n_)
 				: kNearest(kNearest_)
 				, n(n_)
-				, jointEstimate(digamma<real>(kNearest_) - digamma<real>(n_))
-				, baseEstimate(jointEstimate - std::log((real)kNearest_))
+				, jointEstimate(digamma<dreal>(kNearest_) - digamma<dreal>(n_))
+				, baseEstimate(jointEstimate - std::log((dreal)kNearest_))
 			{
 			}
 
-			real localJointEstimate() const
+			dreal localJointEstimate() const
 			{
 				return jointEstimate;
 			}
 
-			real localMarginalEstimate(integer k) const
+			dreal localMarginalEstimate(integer k) const
 			{
-				//return baseEstimate + std::log((real)k);
+				//return baseEstimate + std::log((dreal)k);
 				return jointEstimate + std::log(
-					1 + ((real)(k - kNearest) / n) * std::exp(-jointEstimate));
+					1 + ((dreal)(k - kNearest) / n) * std::exp(-jointEstimate));
 			}
 	
 		private:
 			integer kNearest;
 			integer n;
-			real jointEstimate;
-			real baseEstimate;
+			dreal jointEstimate;
+			dreal baseEstimate;
 		};
 	};
 

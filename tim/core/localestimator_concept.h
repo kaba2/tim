@@ -35,7 +35,7 @@ namespace Tim
 				estimate contributed by the probability mass 
 				in the k-nearest neighbor ball.
 				*/
-				real localJointEstimate() const;
+				dreal localJointEstimate() const;
 
 				//! Computes the local marginal estimate.
 				/*!
@@ -47,7 +47,7 @@ namespace Tim
 				the k-nearest neighbor ball contains kMarginal
 				number of points.
 				*/
-				real localMarginalEstimate(integer kMarginal) const;
+				dreal localMarginalEstimate(integer kMarginal) const;
 			};
 		};
 

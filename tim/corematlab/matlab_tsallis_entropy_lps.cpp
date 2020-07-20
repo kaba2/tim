@@ -33,15 +33,15 @@ namespace
 		ENSURE_OP(inputs, ==, Inputs);
 		ENSURE_OP(outputs, ==, Outputs);
 
-		std::vector<Signal> xEnsemble = getSignals(inputSet[X]);
+		std::vector<MatlabMatrix<dreal>> xMatrices = matlabAsMatrixRange<dreal>(inputSet[X]) | ranges::to_vector;
+		std::vector<Signal> xSignals = matlabMatricesAsSignals(xMatrices) | ranges::to_vector;
 
-		real q = matlabAsScalar<real>(inputSet[Q]);
+		dreal q = matlabAsScalar<dreal>(inputSet[Q]);
 		integer kNearestSuggestion = matlabAsScalar<integer>(inputSet[KNearestSuggestion]);
 
-
-		real* outResult = matlabCreateScalar<real>(outputSet[Estimate]);
+		dreal* outResult = matlabCreateScalar<dreal>(outputSet[Estimate]);
 		*outResult = tsallisEntropyLps(
-			countingRange(xEnsemble.begin(), xEnsemble.end()),
+			xSignals,
 			q, kNearestSuggestion);
 	}
 

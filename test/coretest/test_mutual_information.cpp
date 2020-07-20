@@ -20,34 +20,34 @@ namespace
 
 	void testMutualInformationCase(
 		const std::string& name,
-		const SignalPtr& xSignal,
-		const SignalPtr& ySignal,
+		const Signal& xSignal,
+		const Signal& ySignal,
 		integer xLag,
 		integer yLag,
 		integer timeWindowRadius,
 		integer kNearest,
-		real correctMi)
+		dreal correctMi)
 	{
-		const real mi = mutualInformation(
+		const dreal mi = mutualInformation(
 			constantRange(xSignal), constantRange(ySignal), 
 			xLag, yLag, kNearest);
 
-		const SignalPtr temporalMi = temporalMutualInformation(
+		const Signal temporalMi = temporalMutualInformation(
 			constantRange(xSignal), constantRange(ySignal), 
 			timeWindowRadius,
 			xLag, yLag, kNearest);
-		const real averageMi = 
+		const dreal averageMi = 
 			std::accumulate(temporalMi->data().begin(), 
-			temporalMi->data().end(), (real)0) / temporalMi->samples();
+			temporalMi->data().end(), (dreal)0) / temporalMi->samples();
 
 		/*
-		std::vector<SignalPtr> signalSet;
+		std::vector<Signal> signalSet;
 		split(jointSignal, signalSet);
 
-		const real mi = mutualInformationFromEntropy(
+		const dreal mi = mutualInformationFromEntropy(
 			signalSet,
 			kNearest,
-			Euclidean_NormBijection<real>());
+			Euclidean_Norm<dreal>());
 		*/
 
 		log() << name << logNewLine;
@@ -55,7 +55,7 @@ namespace
 		log() << "  temporal average " << averageMi << "(" << averageMi - correctMi << ")" << logNewLine;
 
 		/*
-		const real re = relativeError<real>(averageMi, correctMi);
+		const dreal re = relativeError<dreal>(averageMi, correctMi);
 
 		log() << name << ": " << averageMi
 			<< " (de = " << averageMi - correctMi << ", " << re * 100 << "%)"
@@ -78,27 +78,27 @@ namespace
 
 			for (integer i = 0;i < 10;++i)
 			{
-				Matrix<real> covariance(dimension, dimension);
+				Matrix<dreal> covariance(dimension, dimension);
 
-				const real r = (real)i / 10;
+				const dreal r = (dreal)i / 10;
 
 				covariance |= 
 					1, r,
 					r, 1;
 
-				const CholeskyDecomposition<real> cholesky(
+				const CholeskyDecompositionInplace<dreal> cholesky(
 					covariance);
 
-				const real det = determinant(cholesky);
-				const real cond = (1 + r) / (1 - r);
+				const dreal det = determinant(cholesky);
+				const dreal cond = (1 + r) / (1 - r);
 
 				ENSURE(cholesky.succeeded());
 
-				const SignalPtr jointSignal = 
+				const Signal jointSignal = 
 					generateCorrelatedGaussian(samples, dimension, cholesky);
 
-				SignalPtr xSignal = split(jointSignal, 0, 1);
-				SignalPtr ySignal = split(jointSignal, 1, 2);
+				Signal xSignal = split(jointSignal, 0, 1);
+				Signal ySignal = split(jointSignal, 1, 2);
 
 				testMutualInformationCase(
 					"Cor.Gauss. det " + realToString(det) +
@@ -119,17 +119,17 @@ namespace
 			const integer dimension = 2;
 			for (integer i = 0;i < 10;++i)
 			{
-				Matrix<real> covariance(dimension, dimension);
+				Matrix<dreal> covariance(dimension, dimension);
 
-				const real cond = 10 - i;
-				const real det = 1 + i;
+				const dreal cond = 10 - i;
+				const dreal det = 1 + i;
 
-				//const real cond = 2;
-				//const real det = 1 + i;
+				//const dreal cond = 2;
+				//const dreal det = 1 + i;
 
 				/*
-				const real cond = 1 + i;
-				const real det = 2;
+				const dreal cond = 1 + i;
+				const dreal det = 2;
 				*/
 
 				/*
@@ -145,7 +145,7 @@ namespace
 					<< ", det = " << determinant(covariance) << logNewLine;
 				*/
 
-				const CholeskyDecomposition<real> cholesky(
+				const CholeskyDecompositionInplace<dreal> cholesky(
 					covariance);
 
 				ENSURE(cholesky.succeeded());
@@ -160,15 +160,15 @@ namespace
 				std::cout << determinant(cholesky) << ", " << det << std::endl;
 				*/
 
-				const SignalPtr jointSignal = 
+				const Signal jointSignal = 
 					generateCorrelatedGaussian(samples, dimension, cholesky);
-				const SignalPtr xSignal = split(jointSignal, 0, 1);
-				const SignalPtr ySignal = split(jointSignal, 1, 2);
+				const Signal xSignal = split(jointSignal, 0, 1);
+				const Signal ySignal = split(jointSignal, 1, 2);
 
 				//normalizeCovariance(jointSignal, covariance);
 
 				/*
-				Matrix<real> sampleCovariance;
+				Matrix<dreal> sampleCovariance;
 				computeCovariance(jointSignal, sampleCovariance);
 				std::cout << sampleCovariance << std::endl;
 				*/
@@ -230,27 +230,27 @@ namespace
 		const integer dimension = 2;
 		for (integer i = 0;i < 4;++i)
 		{
-			const integer samples = 100 * (integer)std::pow((real)10, (real)i);
+			const integer samples = 100 * (integer)std::pow((dreal)10, (dreal)i);
 
 			for (integer j = 0;j < 5;++j)
 			{
-				Matrix<real> covariance(dimension, dimension);
+				Matrix<dreal> covariance(dimension, dimension);
 
-				const real r = (real)j / 5;
+				const dreal r = (dreal)j / 5;
 
 				covariance |= 
 					1, r,
 					r, 1;
 
-				const CholeskyDecomposition<real> cholesky(
+				const CholeskyDecompositionInplace<dreal> cholesky(
 					covariance);
 
 				ENSURE(cholesky.succeeded());
 
-				const SignalPtr jointSignal = 
+				const Signal jointSignal = 
 					generateCorrelatedGaussian(samples, dimension, cholesky);
 
-				const real correctMi = correlatedGaussianMutualInformation(
+				const dreal correctMi = correlatedGaussianMutualInformation(
 					diagonalProduct(covariance), determinant(cholesky));
 
 				measureTable(Samples_Column, experiment).text() = 
@@ -260,13 +260,13 @@ namespace
 				measureTable(CorrectMi_Column, experiment).text() = 
 					realToString(correctMi, 4);
 
-				SignalPtr xSignal = split(jointSignal, 0, 1);
-				SignalPtr ySignal = split(jointSignal, 1, 2);
+				Signal xSignal = split(jointSignal, 0, 1);
+				Signal ySignal = split(jointSignal, 1, 2);
 
 				//Timer timer;
 				
 				//timer.setStart();
-				const real mi = mutualInformation(
+				const dreal mi = mutualInformation(
 					constantRange(xSignal),
 					constantRange(ySignal),
 					0, 0,
@@ -279,9 +279,8 @@ namespace
 					realToString(mi, 4);
 				
 				//timer.setStart();
-				Array<real> pairwiseMi = mutualInformationFromBinning(
-					jointSignal,
-					100);
+				MatrixData<dreal> pairwiseMi(jointSignal.dimension(), jointSignal.dimension());
+				mutualInformationFromBinning(jointSignal, 100, pairwise.view());
 				//timer.store();
 
 				measureTable(ElTime_Column, experiment).text() = 
@@ -299,8 +298,8 @@ namespace
 
 	void testBoundaryLag()
 	{
-		SignalPtr signal = generateGaussian(100, 1);
-		const SignalPtr temporalMi = temporalMutualInformation(
+		Signal signal = generateGaussian(100, 1);
+		const Signal temporalMi = temporalMutualInformation(
 			constantRange(signal), 
 			constantRange(signal), 
 			10, 
@@ -309,11 +308,11 @@ namespace
 
 	void testTemporal()
 	{
-		//SignalPtr signal(new Signal(10, 1));
+		//Signal signal(new Signal(10, 1));
 		//copy_n(countingIterator(0), 10, signal->data().begin());
-		SignalPtr signal = generateGaussian(10, 1);
-		real filter[] = {0.25, 0.5, 1, 0.5, 0.25};
-		const SignalPtr temporalMi = temporalMutualInformation(
+		Signal signal = generateGaussian(10, 1);
+		dreal filter[] = {0.25, 0.5, 1, 0.5, 0.25};
+		const Signal temporalMi = temporalMutualInformation(
 			constantRange(signal, 2),
 			constantRange(signal, 2),
 			2,

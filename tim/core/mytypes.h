@@ -22,7 +22,7 @@ namespace Tim
 
 	using namespace Pastel;
 
-	typedef Maximum_NormBijection<real> Default_NormBijection;
+	typedef Maximum_Norm<dreal> Default_Norm;
 	typedef SlidingMidpoint_SplitRule SplitRule;
 
 }

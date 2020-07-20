@@ -14,10 +14,10 @@ namespace
 
 	void testDivergence()
 	{
-		SignalPtr xSignal = generateGaussian(10000, 10);
-		SignalPtr ySignal = generateGaussian(10000, 10);
+		Signal xSignal = generateGaussian(10000, 10);
+		Signal ySignal = generateGaussian(10000, 10);
 
-		const real div = divergenceWkv(xSignal, ySignal);
+		const dreal div = divergenceWkv(xSignal, ySignal);
 		log() << "Divergence = " << div << logNewLine;
 	}
 

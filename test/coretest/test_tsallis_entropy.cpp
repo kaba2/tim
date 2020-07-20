@@ -17,32 +17,32 @@ namespace
 
 	void testTsallisEntropyCase(
 		const std::string& name,
-		const SignalPtr& signal,
-		real q,
-		real correct)
+		const Signal& signal,
+		dreal q,
+		dreal correct)
 	{
 		//const integer kNearest = 1;
 		//const integer timeWindowRadius = signal->samples() / 10;
 
-		SignalPtr signalSet[] = {signal};
+		Signal signalSet[] = {signal};
 
-		const real estimate = tsallisEntropyLps(
+		const dreal estimate = tsallisEntropyLps(
 			range(signalSet), q);
 
 		/*
-		const real estimate = tsallisEntropyKl(
+		const dreal estimate = tsallisEntropyKl(
 			range(signalSet), q, 
 			kNearest, 
-			normBijection);
+			norm);
 		*/
 
 		/*
-		std::vector<real> entropySet;
+		std::vector<dreal> entropySet;
 		entropySet.reserve(signal->samples());
 		temporalTsallisEntropyKl(
 			range(signalSet), signal->samples() / 10, std::back_inserter(entropySet), 
 			kNearest);
-		const real estimate = std::accumulate(entropySet.begin(), entropySet.end(), (real)0) /
+		const dreal estimate = std::accumulate(entropySet.begin(), entropySet.end(), (dreal)0) /
 			entropySet.size();
 		*/
 
@@ -52,7 +52,7 @@ namespace
 		*/
 		log() << name << ": " <<
 			realToString(estimate, 4) << " ("
-			<< realToString(100 * relativeError<real>(estimate, correct), 2) << "%)" << logNewLine;
+			<< realToString(100 * relativeError<dreal>(estimate, correct), 2) << "%)" << logNewLine;
 	}
 
 	void testTsallisEntropy()
@@ -65,7 +65,7 @@ namespace
 
 		const integer dimension = 5;
 		const integer samples = 10000;
-		const real q = 2;
+		const dreal q = 2;
 
 		testTsallisEntropyCase(
 			"Gaussian(0, 1)",
@@ -77,13 +77,13 @@ namespace
 		{
 			for (integer i = 1;i <= 32;i *= 2)
 			{
-				Matrix<real> covariance(dimension, dimension);
-				const real det = (real)i;
-				const real cond = 1;
+				Matrix<dreal> covariance(dimension, dimension);
+				const dreal det = (dreal)i;
+				const dreal cond = 1;
 				setRandomSymmetricPositiveDefinite(
 					det, cond, covariance);
 
-				const CholeskyDecomposition<real> cholesky(
+				const CholeskyDecompositionInplace<dreal> cholesky(
 					covariance);
 
 				testTsallisEntropyCase(
@@ -96,13 +96,13 @@ namespace
 
 			for (integer i = 1;i <= 32;i *= 2)
 			{
-				Matrix<real> covariance(dimension, dimension);
-				const real det = 1;
-				const real cond = (real)i;
+				Matrix<dreal> covariance(dimension, dimension);
+				const dreal det = 1;
+				const dreal cond = (dreal)i;
 				setRandomSymmetricPositiveDefinite(
 					det, cond, covariance);
 
-				const CholeskyDecomposition<real> cholesky(
+				const CholeskyDecompositionInplace<dreal> cholesky(
 					covariance);
 
 				testTsallisEntropyCase(
@@ -118,7 +118,7 @@ namespace
 			"Uniform(-1, 1)",
 			generateUniform(samples, dimension),
 			q,
-			uniformTsallisEntropy(q, std::pow((real)2, (real)dimension)));
+			uniformTsallisEntropy(q, std::pow((dreal)2, (dreal)dimension)));
 
 		//timer.store();
 		//log() << "Finished in " << timer.seconds() << " seconds." << logNewLine;

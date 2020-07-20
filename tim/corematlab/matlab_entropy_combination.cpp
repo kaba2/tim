@@ -34,15 +34,12 @@ namespace
 		ENSURE_OP(inputs, ==, Inputs);
 		ENSURE_OP(outputs, ==, Outputs);
 
-		Array<Signal> signalSet = getSignalArray(inputSet[SignalSet]);
+		Array<MatlabMatrix<dreal>> signalSet = matlabAsMatrixArray<dreal>(inputSet[SignalSet]);
+		MatlabMatrix<integer> lagSet = matlabAsMatrix<integer>(inputSet[LagSet]);
+		MatlabMatrix<dreal> rangeArray = matlabAsMatrix<dreal>(inputSet[RangeSet]);
+		integer kNearest = matlabAsScalar<integer>(inputSet[KNearest]);
 
-		std::vector<integer> lagSet;
-		matlabGetScalars(inputSet[LagSet], std::back_inserter(lagSet));
-
-		Array<real> rangeArray =
-			matlabAsArray<real>(inputSet[RangeSet]);
-
-		integer marginals = rangeArray.height();
+		integer marginals = rangeArray.rows();
 
 		std::vector<Integer3> rangeSet;
 		rangeSet.reserve(marginals);
@@ -57,22 +54,21 @@ namespace
 				// as [a - 1, b[.
 				rangeSet.push_back(
 					Integer3(
-					rangeArray(0, i) - 1,
-					rangeArray(1, i),
-					rangeArray(2, i)));
+					rangeArray.view()(i, 0) - 1,
+					rangeArray.view()(i, 1),
+					rangeArray.view()(i, 2)));
 			}
 		}
 
-		integer kNearest = matlabAsScalar<integer>(inputSet[KNearest]);
-
-		real* outResult = matlabCreateScalar<real>(outputSet[Estimate]);
-
-		*outResult = entropyCombination(
-			signalSet,
-			range(rangeSet.cbegin(), rangeSet.cend()),
-			range(lagSet.cbegin(), lagSet.cend()),
+		dreal result = entropyCombination(
+			asSignalArray(signalSet),
+			rangeSet,
+			lagSet.view().range(),
 			kNearest,
 			Digamma_LocalEstimator());
+
+		*matlabCreateScalar<dreal>(outputSet[Estimate]) = result;
+
 	}
 
 	void addFunction()

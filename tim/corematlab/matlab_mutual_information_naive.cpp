@@ -32,16 +32,16 @@ namespace
 		ENSURE_OP(inputs, ==, Inputs);
 		ENSURE_OP(outputs, ==, Outputs);
 
-		const Signal& data = asSignal(inputSet[X]);
+		MatlabMatrix<dreal> xMatrix = matlabAsMatrix<dreal>(inputSet[X]);
+
+		Signal data = asSignal(xMatrix.view());
 		integer bins = matlabAsScalar<integer>(inputSet[Bins]);
 
 		integer n = data.dimension();
 
-		Array<real> result =
-			matlabCreateArray<real>(Vector2i(n, n), 
-			outputSet[Estimate]);
+		MatrixView<dreal> result = matlabCreateMatrix<dreal>(n, n, outputSet[Estimate]);
 
-		result = mutualInformationFromBinning(data, bins);
+		mutualInformationFromBinning(data, bins, result);
 	}
 
 	void addFunction()

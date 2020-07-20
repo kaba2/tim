@@ -25,11 +25,11 @@ namespace Tim
 	If the estimate is undefined, a NaN is returned.
 	*/
 	template <
-		typename X_SignalPtr_Range,
-		typename Y_SignalPtr_Range>
-	real divergenceWkv(
-		const X_SignalPtr_Range& xSignalSet,
-		const Y_SignalPtr_Range& ySignalSet);
+		typename X_Signal_Range,
+		typename Y_Signal_Range>
+	dreal divergenceWkv(
+		const X_Signal_Range& xSignalSet,
+		const Y_Signal_Range& ySignalSet);
 
 	//! Computes Kullback-Leibler divergence between signals.
 	/*!
@@ -38,7 +38,7 @@ namespace Tim
 
 	See the documentation for that function.
 	*/
-	TIM real divergenceWkv(
+	TIM dreal divergenceWkv(
 		const Signal& xSignal,
 		const Signal& ySignal);
 

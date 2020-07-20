@@ -26,10 +26,13 @@ namespace Tim
 	*/
 	template <typename Real>
 	Real uniformRenyiEntropy(
-		const NoDeduction<Real>& supportVolume);
+		const NoDeduction<Real>& supportVolume)
+	{
+		PENSURE_OP(supportVolume, >, 0);
+
+		return std::log(supportVolume);
+	}
 
 }
-
-#include "tim/core/renyi_entropy_uniform.hpp"
 
 #endif

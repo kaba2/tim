@@ -5,8 +5,7 @@
 
 #include <pastel/math/matrix/matrix.h>
 
-#include <pastel/sys/iterator/sparse_iterator.h>
-#include <pastel/sys/iterator/counting_iterator.h>
+#include <pastel/sys/range.h>
 
 #include "tim/core/mytypes.h"
 
@@ -18,21 +17,11 @@ namespace Tim
 	//! Time series
 	class TIM Signal
 	{
-	private:
-		typedef SparseIterator<CountingIterator<real*> > 
-			Point_Iterator;
-		typedef ConstSparseIterator<CountingIterator<const real*> > 
-			Point_ConstIterator;
-
 	public:
 		//! Construct an empty signal.
-		Signal();
-
-		//! Copy-constructs from another signal.
-		Signal(const Signal& that);
-
-		//! Move-constructs from another signal.
-		Signal(Signal&& that);
+		Signal() = default;
+		Signal(const Signal& that) = default;
+		Signal(Signal&& that) = default;
 
 		//! Construct a zero signal.
 		/*!
@@ -40,98 +29,139 @@ namespace Tim
 		samples >= 0
 		dimension >= 0
 		*/
-		Signal(integer samples, integer dimension, integer t = 0);
-
-		//! Construct an aliasing signal.
-		/*!
-		Preconditions:
-		samples >= 0
-		dimension >= 0
-
-		Using aliasing, the signal will refer to the given
-		memory region, rather than allocating its own.
-		No attempts will be made to deallocate that memory.
-		This can be used to efficiently form sub-signals
-		which refer to a sub-ranges of dimensions for a
-		given signal.
-		*/
-		Signal(integer samples, integer dimension, 
-			integer t, real* dataToAlias);
+		Signal(MatrixView<dreal> view, integer t = 0)
+			: data_(view)
+			, t_(t)
+		{
+		}
 
 		//! Swaps two signals.
-		void swap(Signal& that);
+		void swap(Signal& that)
+		{
+			data_.swap(that.data_);
+			std::swap(t_, that.t_);
+		}
 
 		//! Assigns from another signal.
-		Signal& operator=(Signal that);
+		Signal& operator=(Signal that)
+		{
+			swap(that);
+			return *this;
+		}
 
 		//! Returns the dimension of the signal.
-		integer dimension() const;
+		integer dimension() const
+		{
+			return data_.cols();
+		}
 
 		//! Returns the number of samples in the signal.
-		integer samples() const;
+		integer samples() const
+		{
+			return data_.rows();
+		}
 
 		//! Returns the samples in a matrix.
 		/*!
 		Each row contains one sample.
 		*/
-		Matrix<real>& data();
+		MatrixView<dreal> data() const
+		{
+			return data_;
+		}
 
-		//! Returns the samples in a matrix.
-		/*!
-		See the documentation for the non-const version.
-		*/
-		const Matrix<real>& data() const;
+		auto matrix() const
+		{
+			return asMatrix(data());
+		}
 
 		//! Sets the time position of the first sample.
-		void setT(integer t);
+		void setT(integer t)
+		{
+			t_ = t;
+		}
 
 		//! Returns the time position of the first sample.
-		integer t() const;
+		integer t() const
+		{
+			return t_;
+		}
 
 		//! Returns an iterator to the beginning of the point set.
 		/*!
 		Here the signal data is interpreted so that each sample 
-		is a point which can be accessed by the Array_PointPolicy<real>
+		is a point which can be accessed by the Array_PointPolicy<dreal>
 		point policy. See 'pastel/sys/pointpolicy.txt'.
 		*/
-		Point_Iterator pointBegin(integer dimensionBegin = 0);
+		ranges::random_access_range auto pointRange(integer dimensionBegin = 0) {
+			return sparseRange(intervalRange(
+					data_.data() + dimensionBegin, data_.data() + dimensionBegin + samples() * dimension()), 
+				dimension());
+		}
 
 		//! Returns an iterator to the beginning of the point set.
 		/*!
-		See the documentation for the non-const version.
+		Here the signal data is interpreted so that each sample 
+		is a point which can be accessed by the Array_PointPolicy<dreal>
+		point policy. See 'pastel/sys/pointpolicy.txt'.
 		*/
-		Point_ConstIterator pointBegin(integer dimensionBegin = 0) const;
-
-		//! Returns an iterator to the end of the point set.
-		/*!
-		See the documentation for 'pointBegin'.
-		*/
-		Point_Iterator pointEnd(integer dimensionBegin = 0);
-
-		//! Returns an iterator to the end of the point set.
-		/*!
-		See the documentation for 'pointBegin'.
-		*/
-		Point_ConstIterator pointEnd(integer dimensionBegin = 0) const;
-
+		ranges::random_access_range auto pointRange(integer dimensionBegin = 0) const {
+			return sparseRange(intervalRange(
+					data_.data() + dimensionBegin, data_.data() + dimensionBegin + samples() * dimension()), 
+				dimension());
+		}
 	private:
-		//! The name of the signal.
-		std::string name_;
-		
 		//! The signal data.
 		/*!
 		Each row is one sample, and thus the width
 		of this matrix is the dimensionality. The number
 		of samples is given by the number of rows.
 		*/
-		Matrix<real> data_;
+		MatrixView<dreal> data_;
 		
 		//! The time position of the first sample.
-		integer t_;
+		integer t_ = 0;
+	};
+
+	class SignalData {
+	public:
+		SignalData() = default;
+		
+		SignalData(integer samples, integer dimension, integer t = 0) 
+		: data_(samples, dimension)
+		, t_(t)
+		{}
+
+		SignalData(const SignalData& that) = default;
+		SignalData(SignalData&& that) = default;
+		SignalData& operator=(const SignalData& that) = default;
+		SignalData& operator=(SignalData&& that) = default;
+
+		operator Signal() const {
+			return data();
+		}
+
+		integer samples() const {
+			return data_.rows();
+		}
+
+		integer dimension() const {
+			return data_.cols();
+		}
+
+		integer t() const {
+			return t_;
+		}
+
+		MatrixView<dreal> data() const {
+			return removeConst(data_).view();
+		}
+
+	private:
+		MatrixData<dreal> data_;
+		integer t_ = 0;
 	};
 
 }
-
-#include "tim/core/signal.hpp"
 
 #endif

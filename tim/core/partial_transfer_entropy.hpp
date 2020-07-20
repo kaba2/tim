@@ -7,7 +7,6 @@
 #include "tim/core/entropy_combination.h"
 #include "tim/core/entropy_combination_t.h"
 
-#include <pastel/sys/iterator/constant_iterator.h>
 #include <pastel/sys/iterator/null_iterator.h>
 
 namespace Tim
@@ -21,8 +20,8 @@ namespace Tim
 			typename Y_Signal_Range,
 			typename Z_Signal_Range,
 			typename W_Signal_Range,
-			typename Real_Filter_Iterator>
-		real partialTransferEntropy(
+			ranges::forward_range Filter_Range>
+		dreal partialTransferEntropy(
 			const X_Signal_Range& xSignalSet,
 			const Y_Signal_Range& ySignalSet,
 			const Z_Signal_Range& zSignalSet,
@@ -31,13 +30,13 @@ namespace Tim
 			Signal* result,
 			integer xLag, integer yLag,	integer zLag, integer wLag,
 			integer kNearest,
-			const boost::iterator_range<Real_Filter_Iterator>& filter)
+			const Filter_Range& filter)
 		{
 			ENSURE_OP(timeWindowRadius, >=, 0);
 			ENSURE_OP(kNearest, >, 0);
-			PENSURE_OP(xSignalSet.size(), ==, ySignalSet.size());
-			PENSURE_OP(xSignalSet.size(), ==, zSignalSet.size());
-			PENSURE_OP(xSignalSet.size(), ==, wSignalSet.size());
+			PENSURE_OP(ranges::size(xSignalSet), ==, ranges::size(ySignalSet));
+			PENSURE_OP(ranges::size(xSignalSet), ==, ranges::size(zSignalSet));
+			PENSURE_OP(ranges::size(xSignalSet), ==, wSignalSet.size());
 			PENSURE(equalDimension(xSignalSet));
 			PENSURE(equalDimension(ySignalSet));
 			PENSURE(equalDimension(zSignalSet));
@@ -47,7 +46,7 @@ namespace Tim
 				return 0;
 			}
 
-			integer trials = xSignalSet.size();
+			integer trials = ranges::size(xSignalSet);
 
 			// Form the joint signal. Note the signals 
 			// are merged in wXZY order.
@@ -57,9 +56,9 @@ namespace Tim
 
 			Array<Signal> signalSet(Vector2i(trials, 4));
 			std::copy(wSignalSet.begin(), wSignalSet.end(), signalSet.rowBegin(0));
-			std::copy(xSignalSet.begin(), xSignalSet.end(), signalSet.rowBegin(1));
-			std::copy(zSignalSet.begin(), zSignalSet.end(), signalSet.rowBegin(2));
-			std::copy(ySignalSet.begin(), ySignalSet.end(), signalSet.rowBegin(3));
+			std::copy(std::begin(xSignalSet), std::end(xSignalSet), signalSet.rowBegin(1));
+			std::copy(std::begin(zSignalSet), std::end(zSignalSet), signalSet.rowBegin(2));
+			std::copy(std::begin(ySignalSet), std::end(ySignalSet), signalSet.rowBegin(3));
 
 			integer lagSet[] = {wLag, xLag, zLag, yLag};
 
@@ -99,8 +98,8 @@ namespace Tim
 		typename Y_Signal_Range,
 		typename Z_Signal_Range,
 		typename W_Signal_Range,
-		typename Real_Filter_Iterator>
-	Signal temporalPartialTransferEntropy(
+		ranges::forward_range Filter_Range>
+	SignalData temporalPartialTransferEntropy(
 		const X_Signal_Range& xSignalSet,
 		const Y_Signal_Range& ySignalSet,
 		const Z_Signal_Range& zSignalSet,
@@ -108,9 +107,9 @@ namespace Tim
 		integer timeWindowRadius,
 		integer xLag, integer yLag, integer zLag, integer wLag,
 		integer kNearest,
-		const boost::iterator_range<Real_Filter_Iterator>& filter)
+		const Filter_Range& filter)
 	{
-		Signal result;
+		SignalData result;
 		Tim::Detail_PartialTransferEntropy::partialTransferEntropy(
 			xSignalSet, ySignalSet, zSignalSet, wSignalSet,
 			timeWindowRadius,
@@ -141,7 +140,7 @@ namespace Tim
 			timeWindowRadius,
 			xLag, yLag, zLag, wLag,
 			kNearest,
-			constantRange((real)1, 1));
+			constantRange((dreal)1, 1));
 	}
 
 	template <
@@ -149,7 +148,7 @@ namespace Tim
 		typename Y_Signal_Range,
 		typename Z_Signal_Range,
 		typename W_Signal_Range>
-	real partialTransferEntropy(
+	dreal partialTransferEntropy(
 		const X_Signal_Range& xSignalSet,
 		const Y_Signal_Range& ySignalSet,
 		const Z_Signal_Range& zSignalSet,
@@ -162,7 +161,7 @@ namespace Tim
 			0, 0,
 			xLag, yLag, zLag, wLag,
 			kNearest,
-			constantRange((real)1, 1));
+			constantRange((dreal)1, 1));
 	}
 
 }

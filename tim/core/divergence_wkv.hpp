@@ -16,11 +16,11 @@ namespace Tim
 {
 
 	template <
-		typename X_SignalPtr_Range,
-		typename Y_SignalPtr_Range>
-	real divergenceWkv(
-		const X_SignalPtr_Range& xSignalSet,
-		const Y_SignalPtr_Range& ySignalSet)
+		typename X_Signal_Range,
+		typename Y_Signal_Range>
+	dreal divergenceWkv(
+		const X_Signal_Range& xSignalSet,
+		const Y_Signal_Range& ySignalSet)
 	{
 		// "A Nearest-Neighbor Approach to Estimating
 		// Divergence between Continuous Random Vectors"
@@ -33,8 +33,8 @@ namespace Tim
 			return 0;
 		}
 
-		integer xDimension = xSignalSet.front()->dimension();
-		integer yDimension = ySignalSet.front()->dimension();
+		integer xDimension = std::begin(xSignalSet)->dimension();
+		integer yDimension = std::begin(ySignalSet)->dimension();
 
 		ENSURE_OP(xDimension, ==, yDimension);
 
@@ -49,13 +49,13 @@ namespace Tim
 		integer ySamples = yPointSet.samples();
 
 		using Block = tbb::blocked_range<integer>;
-		using Pair = std::pair<real, integer>;
+		using Pair = std::pair<dreal, integer>;
 		
 		auto compute = [&](
 			const Block& block,
 			const Pair& start)
 		{
-			real estimate = start.first;
+			dreal estimate = start.first;
 			integer acceptedSamples = start.second;
 			for (integer i = block.begin(); i < block.end(); ++i)
 			{
@@ -64,26 +64,26 @@ namespace Tim
 				Point_ConstIterator query =
 					*(xPointSet.begin() + i);
 
-				Vector<real> queryPoint(
+				Vector<dreal> queryPoint(
 					ofDimension(xDimension),
-					withAliasing((real*)(query->point())));
+					withAliasing((dreal*)(query->point())));
 
-				real xxDistance2 =
-					searchNearest(
+				dreal xxDistance2 =
+					(dreal)searchNearest(
 						kdTreeNearestSet(xPointSet.kdTree()), 
 						queryPoint,
 						PASTEL_TAG(accept), predicateIndicator(query, NotEqualTo())
 					).first;
 
-				if (xxDistance2 > 0 && xxDistance2 < infinity<real>())
+				if (xxDistance2 > 0 && xxDistance2 < infinity<dreal>())
 				{
 					// Find out the nearest neighbor in Y for a point in X.
 
-					real xyDistance2 =
-						searchNearest(kdTreeNearestSet(yPointSet.kdTree()), 
+					dreal xyDistance2 =
+						(dreal)searchNearest(kdTreeNearestSet(yPointSet.kdTree()), 
 							queryPoint).first;
 					
-					if (xyDistance2 > 0 && xyDistance2 < infinity<real>())
+					if (xyDistance2 > 0 && xyDistance2 < infinity<dreal>())
 					{
 						estimate += std::log(xyDistance2 / xxDistance2);
 						++acceptedSamples;
@@ -101,7 +101,7 @@ namespace Tim
 				left.second + right.second);
 		};
 
-		real estimate = 0;
+		dreal estimate = 0;
 		integer acceptedSamples = 0;
 
 		std::tie(estimate, acceptedSamples) =
@@ -118,12 +118,12 @@ namespace Tim
 			// and thus need to be taken a square root. However,
 			// this can be taken outside the logarithm with a 
 			// division by 2.
-			estimate *= (real)xDimension / (2 * acceptedSamples);
-			estimate += std::log((real)ySamples / (xSamples - 1));
+			estimate *= (dreal)xDimension / (2 * acceptedSamples);
+			estimate += std::log((dreal)ySamples / (xSamples - 1));
 		}
 		else
 		{
-			estimate = (real)Nan();
+			estimate = (dreal)Nan();
 		}
 
 		return estimate;

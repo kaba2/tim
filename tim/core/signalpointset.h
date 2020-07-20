@@ -23,7 +23,7 @@ namespace Tim
 	class TIM SignalPointSet
 	{
 	public:
-		using Settings = PointKdTree_Settings<Pointer_Locator<real>>;
+		using Settings = PointKdTree_Settings<Pointer_Locator<dreal>>;
 		typedef PointKdTree<Settings> KdTree;
 		typedef KdTree::Point_ConstIterator Point_ConstIterator;
 		typedef KdTree::Point Point;
@@ -35,9 +35,9 @@ namespace Tim
 		SignalPointSet() = default;
 
 		//! Constructs using the given ensemble of signals.
-		template <typename SignalPtr_Range>
+		template <ranges::forward_range Signal_Range>
 		explicit SignalPointSet(
-			const SignalPtr_Range& signalSet);
+			const Signal_Range& signalSet);
 
 		SignalPointSet(const SignalPointSet& that) = delete;
 
@@ -48,16 +48,16 @@ namespace Tim
 		Preconditions:
 		dimensionBegin <= dimensionEnd
 		dimensionBegin >= 0
-		dimensionEnd <= signalSet.front().dimension()
+		dimensionEnd <= std::begin(signalSet)->dimension()
 
 		The subdimension integer interval is
 		given by [dimensionBegin, dimensionEnd[. If 'startFull' is true,
 		then initially all samples are contained in the time-window.
 		Otherwise no samples are initially contained in the time-window.
 		*/
-		template <typename SignalPtr_Range>
+		template <ranges::forward_range Signal_Range>
 		SignalPointSet(
-			const SignalPtr_Range& signalSet,
+			const Signal_Range& signalSet,
 			integer dimensionBegin,
 			integer dimensionEnd);
 
@@ -129,9 +129,9 @@ namespace Tim
 		Each point is a pointer to the beginning of its coordinate
 		data. These pointers are placed in 'pointSet_'.
 		*/
-		template <typename SignalPtr_Range>
+		template <ranges::forward_range Signal_Range>
 		void createPointSet(
-			const SignalPtr_Range& signalSet);
+			const Signal_Range& signalSet);
 
 		void hide(
 			const AlignedBox<integer, 1>& range);
@@ -155,7 +155,7 @@ namespace Tim
 		to the beginning of point coordinate data. This set represents
 		the set of all available points without culling by a 
 		time-window. Note that kdTree_ uses a PointPolicy
-		in which the point is a const real*. This container is
+		in which the point is a const dreal*. This container is
 		needed to insert points when the time-window is moved.
 
 		samples_:

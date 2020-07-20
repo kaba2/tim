@@ -21,23 +21,23 @@ namespace Tim
 				integer kNearest_,
 				integer n_)
 				: kNearest(kNearest_)
-				, nLog(std::log((real)n_))
+				, nLog(std::log((dreal)n_))
 			{
 			}
 
-			real localJointEstimate() const
+			dreal localJointEstimate() const
 			{
-				return std::log((real)kNearest) - nLog;
+				return std::log((dreal)kNearest) - nLog;
 			}
 
-			real localMarginalEstimate(integer k) const
+			dreal localMarginalEstimate(integer k) const
 			{
-				return std::log((real)k) - nLog;
+				return std::log((dreal)k) - nLog;
 			}
 
 		private:
 			integer kNearest;
-			real nLog;
+			dreal nLog;
 		};
 	};
 

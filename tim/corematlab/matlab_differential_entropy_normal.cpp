@@ -34,13 +34,13 @@ namespace
 
 		integer dimension = 
 			matlabAsScalar<integer>(inputSet[Dimension]);
-		real covarianceDeterminant = 
-			matlabAsScalar<real>(inputSet[CovarianceDeterminant]);
+		dreal covarianceDeterminant = 
+			matlabAsScalar<dreal>(inputSet[CovarianceDeterminant]);
 
-		real* entropy = 
-			matlabCreateScalar<real>(outputSet[Entropy]);
+		dreal* entropy = 
+			matlabCreateScalar<dreal>(outputSet[Entropy]);
 		*entropy = 
-			differentialEntropyNormal<real>(dimension, covarianceDeterminant);
+			differentialEntropyNormal<dreal>(dimension, covarianceDeterminant);
 	}
 
 	void addFunction()

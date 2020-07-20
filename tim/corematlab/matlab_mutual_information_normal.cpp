@@ -32,15 +32,15 @@ namespace
 		ENSURE_OP(inputs, ==, Inputs);
 		ENSURE_OP(outputs, ==, Outputs);
 
-		real productDetCov =
-			matlabAsScalar<real>(inputSet[ProductOfCovarianceDeterminants]);
-		real jointDetCov = 
-			matlabAsScalar<real>(inputSet[JointCovarianceDeterminant]);
+		dreal productDetCov =
+			matlabAsScalar<dreal>(inputSet[ProductOfCovarianceDeterminants]);
+		dreal jointDetCov = 
+			matlabAsScalar<dreal>(inputSet[JointCovarianceDeterminant]);
 
-		real* mutualInformation = 
-			matlabCreateScalar<real>(outputSet[MutualInformation]);
+		dreal* mutualInformation = 
+			matlabCreateScalar<dreal>(outputSet[MutualInformation]);
 		*mutualInformation = 
-			mutualInformationNormal<real>(productDetCov, jointDetCov);
+			mutualInformationNormal<dreal>(productDetCov, jointDetCov);
 	}
 
 	void addFunction()

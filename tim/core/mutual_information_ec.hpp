@@ -7,7 +7,6 @@
 #include "tim/core/entropy_combination.h"
 #include "tim/core/entropy_combination_t.h"
 
-#include <pastel/sys/iterator/constant_iterator.h>
 #include <pastel/sys/iterator/null_iterator.h>
 
 namespace Tim
@@ -19,22 +18,22 @@ namespace Tim
 		template <
 			typename X_Signal_Range,
 			typename Y_Signal_Range,
-			typename Real_Filter_Iterator>
-		real mutualInformation(
+			ranges::forward_range Filter_Range>
+		dreal mutualInformation(
 			const X_Signal_Range& xSignalSet,
 			const Y_Signal_Range& ySignalSet,
 			integer timeWindowRadius,
 			Signal* result,
 			integer xLag, integer yLag,
 			integer kNearest,
-			const boost::iterator_range<Real_Filter_Iterator>& filter)
+			const Filter_Range& filter)
 		{
 			ENSURE_OP(timeWindowRadius, >=, 0);
 			ENSURE_OP(kNearest, >, 0);
-			PENSURE_OP(xSignalSet.size(), ==, ySignalSet.size());
+			PENSURE_OP(ranges::size(xSignalSet), ==, ranges::size(ySignalSet));
 			PENSURE(equalDimension(xSignalSet));
 			PENSURE(equalDimension(ySignalSet));
-			ENSURE(odd(filter.size()));
+			ENSURE(odd(ranges::size(filter)));
 
 			if (xSignalSet.empty() || ySignalSet.empty())
 			{
@@ -43,12 +42,12 @@ namespace Tim
 
 			// Copy the signals in an array.
 
-			integer trials = xSignalSet.size();
+			integer trials = ranges::size(xSignalSet);
 
 			Array<Signal> signalSet(Vector2i(trials, 2));
-			std::copy(xSignalSet.begin(), xSignalSet.end(),
+			std::copy(std::begin(xSignalSet), std::end(xSignalSet),
 				signalSet.rowBegin(0));
-			std::copy(ySignalSet.begin(), ySignalSet.end(),
+			std::copy(std::begin(ySignalSet), std::end(ySignalSet),
 				signalSet.rowBegin(1));
 
 			// Describe the marginal signals.
@@ -89,16 +88,16 @@ namespace Tim
 	template <
 		typename X_Signal_Range,
 		typename Y_Signal_Range,
-		typename Real_Filter_Iterator>
-	Signal temporalMutualInformation(
+		ranges::forward_range Filter_Range>
+	SignalData temporalMutualInformation(
 		const X_Signal_Range& xSignalSet,
 		const Y_Signal_Range& ySignalSet,
 		integer timeWindowRadius,
 		integer xLag, integer yLag,
 		integer kNearest,
-		const boost::iterator_range<Real_Filter_Iterator>& filter)
+		const Filter_Range& filter)
 	{
-		Signal result;
+		SignalData result;
 		Tim::Detail_MutualInformation::mutualInformation(
 			xSignalSet, ySignalSet,
 			timeWindowRadius,
@@ -124,13 +123,13 @@ namespace Tim
 			timeWindowRadius,
 			xLag, yLag,
 			kNearest,
-			constantRange((real)1, 1));
+			constantRange((dreal)1, 1));
 	}
 
 	template <
 		typename X_Signal_Range,
 		typename Y_Signal_Range>
-	real mutualInformation(
+	dreal mutualInformation(
 		const X_Signal_Range& xSignalSet,
 		const Y_Signal_Range& ySignalSet,
 		integer xLag, integer yLag,
@@ -142,7 +141,7 @@ namespace Tim
 			0,
 			xLag, yLag,
 			kNearest,
-			constantRange((real)1, 1));
+			constantRange((dreal)1, 1));
 	}
 
 }

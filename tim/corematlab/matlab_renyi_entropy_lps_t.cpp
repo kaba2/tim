@@ -35,31 +35,32 @@ namespace
 		ENSURE_OP(inputs, ==, Inputs);
 		ENSURE_OP(outputs, ==, Outputs);
 
-		std::vector<Signal> xEnsemble = getSignals(inputSet[X]);
+		std::vector<MatlabMatrix<dreal>> xMatrices = matlabAsMatrixRange<dreal>(inputSet[X]) | ranges::to_vector;
+		std::vector<Signal> xSignals = matlabMatricesAsSignals(xMatrices) | ranges::to_vector;
 
 		integer timeWindowRadius = matlabAsScalar<integer>(inputSet[TimeWindowRadius]);
-		real q = matlabAsScalar<real>(inputSet[Q]);
+		dreal q = matlabAsScalar<dreal>(inputSet[Q]);
 		integer kNearestSuggestion = matlabAsScalar<integer>(inputSet[KNearestSuggestion]);
 
-		std::vector<real> filter;
+		std::vector<dreal> filter;
 		matlabGetScalars(inputSet[FilterIndex], std::back_inserter(filter));
 
 		Signal estimate = temporalRenyiEntropyLps(
-			countingRange(xEnsemble.begin(), xEnsemble.end()),
+			xSignals,
 			timeWindowRadius, 
 			q,
 			kNearestSuggestion,
-			range(filter.begin(), filter.end()));
+			range(std::begin(filter), std::end(filter)));
 
 		integer nans = std::max(estimate.t(), (integer)0);
 		integer skip = std::max(-estimate.t(), (integer)0); 
 		integer samples = std::max(nans + estimate.samples() - skip, (integer)0);
 
-		Array<real> result = matlabCreateArray<real>(samples, 1, 
-			outputSet[Estimate]);
-		std::fill_n(result.begin(), nans, (real)Nan());
-		std::copy(estimate.data().begin() + skip, 
-			estimate.data().end(), result.begin() + nans);
+		MatrixView<dreal> result = matlabCreateMatrix<dreal>(1, samples, outputSet[Estimate]);
+		ranges::fill(result.slicex(0, nans).range(), (dreal)Nan());
+		ranges::copy(
+			estimate.data().slicex(skip).range(),
+			std::begin(result.slicex(nans).range()));
 	}
 
 	void addFunction()

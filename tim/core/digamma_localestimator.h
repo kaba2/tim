@@ -21,23 +21,23 @@ namespace Tim
 				integer kNearest_,
 				integer n_)
 				: kNearest(kNearest_)
-				, nDigamma(digamma<real>(n_))
+				, nDigamma(digamma<dreal>(n_))
 			{
 			}
 
-			real localJointEstimate() const
+			dreal localJointEstimate() const
 			{
-				return digamma<real>(kNearest) - nDigamma;
+				return digamma<dreal>(kNearest) - nDigamma;
 			}
 
-			real localMarginalEstimate(integer k) const
+			dreal localMarginalEstimate(integer k) const
 			{
-				return digamma<real>(k) - nDigamma;
+				return digamma<dreal>(k) - nDigamma;
 			}
 
 		private:
 			integer kNearest;
-			real nDigamma;
+			dreal nDigamma;
 		};
 	};
 

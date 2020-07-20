@@ -12,16 +12,16 @@ namespace
 
 	void useCase()
 	{
-		SignalPtr xSignal = generateGaussian(10000, 3);
-		SignalPtr ySignal = generateGaussian(10000, 5);
+		Signal xSignal = generateGaussian(10000, 3);
+		Signal ySignal = generateGaussian(10000, 5);
 
-		SignalPtr signalSet[2] = {xSignal, ySignal};
+		Signal signalSet[2] = {xSignal, ySignal};
 
 		const integer timeWindowRadius = 10;
 		const integer kNearest = 1;
-		real averageEstimate = 0;
+		dreal averageEstimate = 0;
 
-		Euclidean_NormBijection<real> normBijection;
+		Euclidean_Norm<dreal> norm;
 
 		// To compute differential entropy for
 		// a single signal:
@@ -39,17 +39,17 @@ namespace
 
 		temporalDifferentialEntropyKl(
 			constantRange(xSignal), timeWindowRadius,
-			kNearest, normBijection);
+			kNearest, norm);
 
 		averageEstimate = differentialEntropyKl(
-			constantRange(xSignal), kNearest, normBijection);
+			constantRange(xSignal), kNearest, norm);
 
 		temporalDifferentialEntropyKl(
 			constantRange(xSignal), timeWindowRadius,
 			kNearest);
 		temporalDifferentialEntropyKl(
 			constantRange(xSignal), timeWindowRadius,
-			kNearest, normBijection);
+			kNearest, norm);
 
 		// To compute differential entropy for
 		// a set of signals, where each signal is a 
@@ -63,7 +63,7 @@ namespace
 			range(signalSet), kNearest);
 		averageEstimate = differentialEntropyKl(
 			range(signalSet), 
-			kNearest, normBijection);
+			kNearest, norm);
 
 		// To compute temporal differential entropy for
 		// a set of signals, where each signal is a 
@@ -82,7 +82,7 @@ namespace
 		temporalDifferentialEntropyKl(
 			range(signalSet), timeWindowRadius, 
 			kNearest,
-			normBijection);
+			norm);
 	}
 
 }

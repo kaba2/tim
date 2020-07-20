@@ -30,8 +30,8 @@ namespace
 
 		void testSlice()
 		{
-			SignalPtr xy = 
-				SignalPtr(new Signal(5, 3));
+			Signal xy = 
+				Signal(new Signal(5, 3));
 
 			xy->data() |=
 				0, 5, 10,
@@ -40,17 +40,17 @@ namespace
 				3, 8, 13,
 				4, 9, 14;
 
-			SignalPtr x = split(xy, 0, 1);
-			SignalPtr xCorrect =
-				SignalPtr(new Signal(5, 1));
+			Signal x = split(xy, 0, 1);
+			Signal xCorrect =
+				Signal(new Signal(5, 1));
 			xCorrect->data() |=
 				0, 1, 2, 3, 4;
 
 			TEST_ENSURE(x->data() == xCorrect->data());
 
-			SignalPtr y = split(xy, 1, 3);
-			SignalPtr yCorrect =
-				SignalPtr(new Signal(5, 2));
+			Signal y = split(xy, 1, 3);
+			Signal yCorrect =
+				Signal(new Signal(5, 2));
 			yCorrect->data() |=
 				5, 10,
 				6, 11,
@@ -63,19 +63,19 @@ namespace
 
 		void testMerge()
 		{
-			SignalPtr x =
-				SignalPtr(new Signal(5, 1));
+			Signal x =
+				Signal(new Signal(5, 1));
 			x->data() |= 
 				1, 2, 3, 4, 5;
 
-			SignalPtr y =
-				SignalPtr(new Signal(5, 1));
+			Signal y =
+				Signal(new Signal(5, 1));
 			y->data() |= 
 				6, 7, 8, 9, 10;
 
-			SignalPtr z = merge(x, y);
-			SignalPtr zCorrect =
-				SignalPtr(new Signal(5, 2));
+			Signal z = merge(x, y);
+			Signal zCorrect =
+				Signal(new Signal(5, 2));
 			zCorrect->data() |= 
 				1, 6,
 				2, 7, 
@@ -86,9 +86,9 @@ namespace
 			TEST_ENSURE_OP(z->t(), ==, 0);
 
 			{
-				SignalPtr w = merge(z, z);
-				SignalPtr wCorrect =
-					SignalPtr(new Signal(5, 4));
+				Signal w = merge(z, z);
+				Signal wCorrect =
+					Signal(new Signal(5, 4));
 				wCorrect->data() |= 
 					1, 6, 1, 6,
 					2, 7, 2, 7,
@@ -99,20 +99,20 @@ namespace
 				TEST_ENSURE(w->data() == wCorrect->data());
 				TEST_ENSURE_OP(w->t(), ==, 0);
 
-				SignalPtr u = split(wCorrect, 0, 2);
+				Signal u = split(wCorrect, 0, 2);
 
 				TEST_ENSURE(u->data() == zCorrect->data());
 				TEST_ENSURE_OP(u->t(), ==, 0);
 
-				SignalPtr v = split(wCorrect, 2, 4);
+				Signal v = split(wCorrect, 2, 4);
 
 				TEST_ENSURE(v->data() == zCorrect->data());
 				TEST_ENSURE_OP(v->t(), ==, 0);
 			}
 			{
-				SignalPtr w = merge(z, z, 0, 1);
-				SignalPtr wCorrect =
-					SignalPtr(new Signal(4, 4));
+				Signal w = merge(z, z, 0, 1);
+				Signal wCorrect =
+					Signal(new Signal(4, 4));
 				wCorrect->data() |= 
 					2, 7, 1, 6,
 					3, 8, 2, 7,
@@ -123,9 +123,9 @@ namespace
 				TEST_ENSURE_OP(w->t(), ==, 1);
 			}
 			{
-				SignalPtr w = merge(z, z, 0, 2);
-				SignalPtr wCorrect =
-					SignalPtr(new Signal(3, 4));
+				Signal w = merge(z, z, 0, 2);
+				Signal wCorrect =
+					Signal(new Signal(3, 4));
 				wCorrect->data() |= 
 					3, 8, 1, 6,
 					4, 9, 2, 7,
@@ -135,12 +135,12 @@ namespace
 				TEST_ENSURE_OP(w->t(), ==, 2);
 			}
 			{
-				SignalPtr z2 = SignalPtr(new Signal(*z));
+				Signal z2 = Signal(new Signal(*z));
 				z2->setT(2);
 
-				SignalPtr w = merge(z, z2);
-				SignalPtr wCorrect =
-					SignalPtr(new Signal(3, 4));
+				Signal w = merge(z, z2);
+				Signal wCorrect =
+					Signal(new Signal(3, 4));
 				wCorrect->data() |= 
 					3, 8, 1, 6,
 					4, 9, 2, 7,
@@ -153,14 +153,14 @@ namespace
 
 		void testEmbed()
 		{
-			SignalPtr x = 
-				SignalPtr(new Signal(15, 1));
+			Signal x = 
+				Signal(new Signal(15, 1));
 			x->data() |= 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14;
 
 			{
-				SignalPtr y = delayEmbed(x, 3);
-				SignalPtr yCorrect =
-					SignalPtr(new Signal(13, 3));
+				Signal y = delayEmbed(x, 3);
+				Signal yCorrect =
+					Signal(new Signal(13, 3));
 				yCorrect->data() |=
 					0, 1, 2,
 					1, 2, 3,
@@ -181,9 +181,9 @@ namespace
 			}
 
 			{
-				SignalPtr y = delayEmbed(x, 3, 2);
-				SignalPtr yCorrect =
-					SignalPtr(new Signal(11, 3));
+				Signal y = delayEmbed(x, 3, 2);
+				Signal yCorrect =
+					Signal(new Signal(11, 3));
 				yCorrect->data() |=
 					0, 2, 4,
 					1, 3, 5,

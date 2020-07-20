@@ -6,6 +6,6 @@
 
 #include "tim/corematlab/tim_mex.h"
 
-#include <pastel/matlab/pastelmatlab.h>
+#include <pastelmatlab/pastelmatlab.h>
 
 #endif

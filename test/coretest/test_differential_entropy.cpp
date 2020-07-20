@@ -17,35 +17,35 @@ namespace
 
 	void testDifferentialEntropyCase(
 		const std::string& name,
-		const SignalPtr& signal,
-		real correct)
+		const Signal& signal,
+		dreal correct)
 	{
-		Euclidean_NormBijection<real> normBijection;
-		//Maximum_NormBijection<real> normBijection;
-		//Manhattan_NormBijection<real> normBijection;
+		Euclidean_Norm<dreal> norm;
+		//Maximum_Norm<dreal> norm;
+		//Manhattan_Norm<dreal> norm;
 
 		//const integer kNearest = 1;
 		//const integer timeWindowRadius = signal->samples() / 10;
 
-		SignalPtr signalSet[] = {signal};
+		Signal signalSet[] = {signal};
 
-		const real estimate = differentialEntropyNk(
+		const dreal estimate = differentialEntropyNk(
 			range(signalSet), 
-			normBijection);
+			norm);
 
 		/*
-		const real estimate = differentialEntropyKl(
+		const dreal estimate = differentialEntropyKl(
 			range(signalSet), kNearest, 
-			normBijection);
+			norm);
 		*/
 
 		/*
-		std::vector<real> entropySet;
+		std::vector<dreal> entropySet;
 		entropySet.reserve(signal->samples());
 		temporalDifferentialEntropyKl(
 			range(signalSet), signal->samples() / 10, std::back_inserter(entropySet), 
-			kNearest, normBijection);
-		const real estimate = std::accumulate(entropySet.begin(), entropySet.end(), (real)0) /
+			kNearest, norm);
+		const dreal estimate = std::accumulate(entropySet.begin(), entropySet.end(), (dreal)0) /
 			entropySet.size();
 		*/
 
@@ -55,7 +55,7 @@ namespace
 		*/
 		log() << name << ": " <<
 			realToString(estimate, 4) << " ("
-			<< realToString(100 * relativeError<real>(estimate, correct), 2) << "%)" << logNewLine;
+			<< realToString(100 * relativeError<dreal>(estimate, correct), 2) << "%)" << logNewLine;
 	}
 
 	void testDifferentialEntropy()
@@ -81,13 +81,13 @@ namespace
 		{
 			for (integer i = 1;i <= 32;i *= 2)
 			{
-				Matrix<real> covariance(dimension, dimension);
-				const real det = (real)i;
-				const real cond = 1;
+				Matrix<dreal> covariance(dimension, dimension);
+				const dreal det = (dreal)i;
+				const dreal cond = 1;
 				setRandomSymmetricPositiveDefinite(
 					det, cond, covariance);
 
-				const CholeskyDecomposition<real> cholesky(
+				const CholeskyDecompositionInplace<dreal> cholesky(
 					covariance);
 
 				testDifferentialEntropyCase(
@@ -99,13 +99,13 @@ namespace
 
 			for (integer i = 1;i <= 32;i *= 2)
 			{
-				Matrix<real> covariance(dimension, dimension);
-				const real det = 1;
-				const real cond = (real)i;
+				Matrix<dreal> covariance(dimension, dimension);
+				const dreal det = 1;
+				const dreal cond = (dreal)i;
 				setRandomSymmetricPositiveDefinite(
 					det, cond, covariance);
 
-				const CholeskyDecomposition<real> cholesky(
+				const CholeskyDecompositionInplace<dreal> cholesky(
 					covariance);
 
 				testDifferentialEntropyCase(
@@ -119,12 +119,12 @@ namespace
 		testDifferentialEntropyCase(
 			"Uniform(-1, 1)",
 			generateUniform(samples, dimension),
-			uniformDifferentialEntropy(std::pow((real)2, (real)dimension)));
+			uniformDifferentialEntropy(std::pow((dreal)2, (dreal)dimension)));
 
 		for (integer i = 2;i < 40;i += 8)
 		{
-			const real shape = i;
-			const real scale = varianceToGeneralizedGaussianScale<real>(shape, 1);
+			const dreal shape = i;
+			const dreal scale = varianceToGeneralizedGaussianScale<dreal>(shape, 1);
 
 			testDifferentialEntropyCase(
 				"Gen.G.(" + realToString(shape, 2) + ", " + realToString(scale, 3) + ")",
@@ -134,8 +134,8 @@ namespace
 
 		for (integer i = 2;i < 40;i += 8)
 		{
-			const real shape = i;
-			const real scale = 1;
+			const dreal shape = i;
+			const dreal scale = 1;
 
 			testDifferentialEntropyCase(
 				"Gen.G.(" + realToString(shape, 2) + ", " + realToString(scale, 2) + ")",
@@ -145,8 +145,8 @@ namespace
 
 		for (integer i = 1;i < 10;++i)
 		{
-			const real shape = 2 - i * 0.1;
-			const real scale = 1;
+			const dreal shape = 2 - i * 0.1;
+			const dreal scale = 1;
 
 			testDifferentialEntropyCase(
 				"Gen.G.(" + realToString(shape, 2) + ", " + realToString(scale, 2) + ")",

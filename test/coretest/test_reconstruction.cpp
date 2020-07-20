@@ -30,71 +30,71 @@ namespace
 			TEST_ENSURE(std::equal(data.begin(), data.end(), 
 				correct.begin()));
 
-			//std::copy(data.begin(), data.end(), std::ostream_iterator<real>(std::cout, " "));
+			//std::copy(data.begin(), data.end(), std::ostream_iterator<dreal>(std::cout, " "));
 			//std::cout << std::endl;
 		}
 
 		void testReconstruction()
 		{
 			{
-				real data[] = {1, (real)Nan(), (real)Nan(), (real)Nan(), 5};
-				const real correct[] = {1, 2, 3, 4, 5};
+				dreal data[] = {1, (dreal)Nan(), (dreal)Nan(), (dreal)Nan(), 5};
+				const dreal correct[] = {1, 2, 3, 4, 5};
 
 				testCase(range(data), 
 					range(correct));
 			}
 		
 			{
-				real data[] = {1, (real)Nan(), (real)Nan(), (real)Nan(), (real)Nan()};
-				const real correct[] = {1, 1, 1, 1, 1};
+				dreal data[] = {1, (dreal)Nan(), (dreal)Nan(), (dreal)Nan(), (dreal)Nan()};
+				const dreal correct[] = {1, 1, 1, 1, 1};
 
 				testCase(range(data), 
 					range(correct));
 			}
 
 			{
-				real data[] = {(real)Nan(), (real)Nan(), (real)Nan(), (real)Nan(), 5};
-				const real correct[] = {5, 5, 5, 5, 5};
+				dreal data[] = {(dreal)Nan(), (dreal)Nan(), (dreal)Nan(), (dreal)Nan(), 5};
+				const dreal correct[] = {5, 5, 5, 5, 5};
 
 				testCase(range(data), 
 					range(correct));
 			}
 
 			{
-				real data[] = {(real)Nan(), (real)Nan(), 3, 4, (real)Nan()};
-				const real correct[] = {3, 3, 3, 4, 4};
+				dreal data[] = {(dreal)Nan(), (dreal)Nan(), 3, 4, (dreal)Nan()};
+				const dreal correct[] = {3, 3, 3, 4, 4};
 
 				testCase(range(data), 
 					range(correct));
 			}
 
 			{
-				real data[] = {1, (real)Nan(), 3, (real)Nan(), 5};
-				const real correct[] = {1, 2, 3, 4, 5};
+				dreal data[] = {1, (dreal)Nan(), 3, (dreal)Nan(), 5};
+				const dreal correct[] = {1, 2, 3, 4, 5};
 
 				testCase(range(data), 
 					range(correct));
 			}
 
 			{
-				real data[] = {(real)Nan(), (real)Nan(), 3, (real)Nan(), (real)Nan()};
-				const real correct[] = {3, 3, 3, 3, 3};
+				dreal data[] = {(dreal)Nan(), (dreal)Nan(), 3, (dreal)Nan(), (dreal)Nan()};
+				const dreal correct[] = {3, 3, 3, 3, 3};
 
 				testCase(range(data), 
 					range(correct));
 			}
 
 			{
-				real data[] = {(real)Nan(), (real)Nan(), 3, 4, 5};
-				const real correct[] = {3, 3, 3, 4, 5};
+				dreal data[] = {(dreal)Nan(), (dreal)Nan(), 3, 4, 5};
+				const dreal correct[] = {3, 3, 3, 4, 5};
 
 				testCase(range(data), 
 					range(correct));
 			}
 
 			{
-				real data[] = {1, 2, 3, (real)Nan(), (real)Nan()};
-				const real correct[] = {1, 2, 3, 3, 3};
+				dreal data[] = {1, 2, 3, (dreal)Nan(), (dreal)Nan()};
+				const dreal correct[] = {1, 2, 3, 3, 3};
 
 				testCase(range(data), 
 					range(correct));

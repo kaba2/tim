@@ -12,9 +12,9 @@
 namespace Tim
 {
 
-	template <typename SignalPtr_Range>
-	real differentialEntropySp(
-		const SignalPtr_Range& signalSet);	
+	template <ranges::forward_range Signal_Range>
+	dreal differentialEntropySp(
+		const Signal_Range& signalSet);	
 
 }
 

@@ -15,8 +15,8 @@ namespace Tim
 	Preconditions:
 	timeWindowRadius >= 0
 	kNearest > 0
-	ySignalSet.size() == xSignalSet.size()
-	zSignalSet.size() == xSignalSet.size()
+	ranges::size(ySignalSet) == ranges::size(xSignalSet)
+	ranges::size(zSignalSet) == ranges::size(xSignalSet)
 
 	xSignalSet, ySignalSet, zSignalSet:
 	A set of measurements (trials) of signals
@@ -45,7 +45,7 @@ namespace Tim
 		typename X_Signal_Range,
 		typename Y_Signal_Range,
 		typename Z_Signal_Range,
-		typename Real_Filter_Iterator>
+		ranges::forward_range Filter_Range>
 	Signal temporalPartialMutualInformation(
 		const X_Signal_Range& xSignalSet,
 		const Y_Signal_Range& ySignalSet,
@@ -53,7 +53,7 @@ namespace Tim
 		integer timeWindowRadius,
 		integer xLag, integer yLag, integer zLag,
 		integer kNearest,
-		const boost::iterator_range<Real_Filter_Iterator>& filter);
+		const Filter_Range& filter);
 
 	//! Computes temporal partial mutual information.
 	/*!
@@ -66,7 +66,7 @@ namespace Tim
 		timeWindowRadius,
 		xLag, yLag, zLag, 
 		kNearest,
-		constantRange((real)1, 1));
+		constantRange((dreal)1, 1));
 
 	See the documentation for that function.
 	*/
@@ -87,8 +87,8 @@ namespace Tim
 	/*!
 	Preconditions:
 	kNearest > 0
-	ySignalSet.size() == xSignalSet.size()
-	zSignalSet.size() == xSignalSet.size()
+	ranges::size(ySignalSet) == ranges::size(xSignalSet)
+	ranges::size(zSignalSet) == ranges::size(xSignalSet)
 
 	xSignalSet, ySignalSet, zSignalSet:
 	A set of measurements (trials) of signals
@@ -110,7 +110,7 @@ namespace Tim
 		typename X_Signal_Range,
 		typename Y_Signal_Range,
 		typename Z_Signal_Range>
-	real partialMutualInformation(
+	dreal partialMutualInformation(
 		const X_Signal_Range& xSignalSet,
 		const Y_Signal_Range& ySignalSet,
 		const Z_Signal_Range& zSignalSet,

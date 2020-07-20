@@ -31,11 +31,11 @@ namespace
 		ENSURE_OP(inputs, ==, Inputs);
 		ENSURE_OP(outputs, ==, Outputs);
 
-		std::vector<Signal> xEnsemble = getSignals(inputSet[X]);
+		std::vector<MatlabMatrix<dreal>> xMatrices = matlabAsMatrixRange<dreal>(inputSet[X]) | ranges::to_vector;
+		std::vector<Signal> xSignals = matlabMatricesAsSignals(xMatrices) | ranges::to_vector;
 
-		real* outResult = matlabCreateScalar<real>(outputSet[Estimate]);
-		*outResult = differentialEntropySp(
-			countingRange(xEnsemble.begin(), xEnsemble.end()));
+		dreal* outResult = matlabCreateScalar<dreal>(outputSet[Estimate]);
+		*outResult = differentialEntropySp(xSignals);
 	}
 
 	void addFunction()

@@ -30,8 +30,8 @@ namespace
 
 		void testBasic()
 		{
-			SignalPtr xy = 
-				SignalPtr(new Signal(5, 3));
+			Signal xy = 
+				Signal(new Signal(5, 3));
 
 			xy->data() |=
 				0, 5, 10,
@@ -40,7 +40,7 @@ namespace
 				3, 8, 13,
 				4, 9, 14;
 
-			SignalPtr signalSet[] = {xy};
+			Signal signalSet[] = {xy};
 
 			SignalPointSet pointSet(range(signalSet));
 
@@ -98,8 +98,8 @@ namespace
 
 		void testBasic2()
 		{
-			SignalPtr xy = 
-				SignalPtr(new Signal(5, 3, 1));
+			Signal xy = 
+				Signal(new Signal(5, 3, 1));
 
 			xy->data() |=
 				0, 5, 10,
@@ -108,7 +108,7 @@ namespace
 				3, 8, 13,
 				4, 9, 14;
 
-			SignalPtr signalSet[] = {xy};
+			Signal signalSet[] = {xy};
 
 			SignalPointSet pointSet(range(signalSet));
 
