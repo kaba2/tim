@@ -12,8 +12,8 @@ namespace
 
 	void useCase()
 	{
-		Signal xSignal = generateGaussian(10000, 3);
-		Signal ySignal = generateGaussian(10000, 5);
+		SignalData xSignal = generateGaussian(3, 10000);
+		SignalData ySignal = generateGaussian(5, 10000);
 
 		Signal signalSet[2] = {xSignal, ySignal};
 

@@ -237,7 +237,7 @@ namespace Tim
 
 		if (ranges::empty(signalSet))
 		{
-			return SignalData(0, 1);
+			return SignalData();
 		}
 
 		integer kNearest = renyiDecideK(q, kNearestSuggestion);

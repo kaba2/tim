@@ -102,7 +102,7 @@ namespace Tim
 		if (ranges::empty(signalSet) || rangeSet.empty() || ranges::empty(filter))
 		{
 			// There's nothing to do.
-			return SignalData(0, 1);
+			return SignalData();
 		}
 
 		// Check that the trials of signals have the 
@@ -129,7 +129,7 @@ namespace Tim
 		{
 			// The signals do not share any time interval:
 			// return an empty signal.
-			return SignalData(0, 1);
+			return SignalData();
 		}
 		
 		// Construct the joint signal.

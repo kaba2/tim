@@ -127,8 +127,8 @@ namespace Tim
 	public:
 		SignalData() = default;
 		
-		SignalData(integer samples, integer dimension, integer t = 0) 
-		: data_(samples, dimension)
+		SignalData(integer dimension, integer samples, integer t = 0) 
+		: data_(dimension, samples)
 		, t_(t)
 		{}
 

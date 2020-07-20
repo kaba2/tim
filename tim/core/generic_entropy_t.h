@@ -78,7 +78,7 @@ namespace Tim
 
 		if (ranges::empty(signalSet))
 		{
-			return SignalData(0, 1);
+			return SignalData();
 		}
 
 		auto norm = entropyAlgorithm.norm();
@@ -119,7 +119,7 @@ namespace Tim
 			}
 		}
 
-		SignalData result(samples, 1, estimateBegin);
+		SignalData result(1, samples, estimateBegin);
 		integer missingValues = 0;
 
 #pragma omp parallel

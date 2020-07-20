@@ -24,6 +24,13 @@ namespace Tim
 		ranges::generate(signal.data().range(), [](){return 2 * random<dreal>() - 1;});
 	}
 
+	inline TIM SignalData generateUniform(integer dimension, integer samples)
+	{
+		SignalData signal(dimension, samples);
+		generateUniform(signal);
+		return signal;
+	}
+
 	//! Generates standard gaussian random variables in R^n.
 	/*!
 	Preconditions:
@@ -33,6 +40,13 @@ namespace Tim
 	inline TIM void generateGaussian(Signal signal)
 	{
 		ranges::generate(signal.data().range(), [](){return randomGaussian<dreal>();});
+	}
+
+	inline TIM SignalData generateGaussian(integer dimension, integer samples)
+	{
+		SignalData signal(dimension, samples);
+		generateGaussian(signal);
+		return signal;
 	}
 
 	//! Generates correlated gaussian random variables in R^n.
@@ -64,14 +78,27 @@ namespace Tim
 		asMatrix(signal.data()) *= asMatrix(covarianceCholesky.lower().transpose());
 	}
 
+	inline TIM SignalData generateCorrelatedGaussian(
+		integer dimension, integer samples, 
+		const CholeskyDecompositionInplace<dreal>& covarianceCholesky) {
+		SignalData signal(dimension, samples);
+		generateCorrelatedGaussian(signal, covarianceCholesky);
+		return signal;
+	}
+
 	inline TIM void generateGeneralizedGaussian(
-		Signal signal, 
-		dreal shape,
-		dreal scale)
+		Signal signal, dreal shape,	dreal scale)
 	{
-		for (auto& x : signal.data().range()) {
-			x = randomGeneralizedGaussian<dreal>(shape, scale);
-		}
+		ranges::generate(signal.data().range(), 
+			[shape, scale](){return randomGeneralizedGaussian<dreal>(shape, scale);});
+	}
+
+	inline TIM SignalData generateGeneralizedGaussian(
+		integer dimension, integer samples, dreal shape, dreal scale)
+	{
+		SignalData signal(dimension, samples);
+		generateGeneralizedGaussian(signal, shape, scale);
+		return signal;
 	}
 
 	//! Generates a signal with time-varying coupling.

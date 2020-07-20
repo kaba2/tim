@@ -74,7 +74,7 @@ namespace
 
 		testDifferentialEntropyCase(
 			"Gaussian(0, 1)",
-			generateGaussian(samples, dimension),
+			generateGaussian(dimension, samples),
 			gaussianDifferentialEntropy(dimension, 1));
 
 		if (dimension > 1)
@@ -93,7 +93,7 @@ namespace
 				testDifferentialEntropyCase(
 					"Cor.G.(" + realToString(determinant(covariance), 2) + ", " + 
 					realToString(cond) + ")",
-					generateCorrelatedGaussian(samples, dimension, cholesky),
+					generateCorrelatedGaussian(dimension, samples, cholesky),
 					gaussianDifferentialEntropy(dimension, determinant(cholesky)));
 			}
 
@@ -111,14 +111,14 @@ namespace
 				testDifferentialEntropyCase(
 					"Cor.G.(" + realToString(determinant(covariance), 2) + ", " + 
 					realToString(cond) + ")",
-					generateCorrelatedGaussian(samples, dimension, cholesky),
+					generateCorrelatedGaussian(dimension, samples, cholesky),
 					gaussianDifferentialEntropy(dimension, determinant(cholesky)));
 			}
 		}
 
 		testDifferentialEntropyCase(
 			"Uniform(-1, 1)",
-			generateUniform(samples, dimension),
+			generateUniform(dimension, samples),
 			uniformDifferentialEntropy(std::pow((dreal)2, (dreal)dimension)));
 
 		for (integer i = 2;i < 40;i += 8)
@@ -128,7 +128,7 @@ namespace
 
 			testDifferentialEntropyCase(
 				"Gen.G.(" + realToString(shape, 2) + ", " + realToString(scale, 3) + ")",
-				generateGeneralizedGaussian(samples, dimension, shape, scale),
+				generateGeneralizedGaussian(dimension, samples, shape, scale),
 				generalizedGaussianDifferentialEntropy(dimension, shape, scale));
 		}
 
@@ -139,7 +139,7 @@ namespace
 
 			testDifferentialEntropyCase(
 				"Gen.G.(" + realToString(shape, 2) + ", " + realToString(scale, 2) + ")",
-				generateGeneralizedGaussian(samples, dimension, shape, scale),
+				generateGeneralizedGaussian(dimension, samples, shape, scale),
 				generalizedGaussianDifferentialEntropy(dimension, shape, scale));
 		}
 
@@ -150,7 +150,7 @@ namespace
 
 			testDifferentialEntropyCase(
 				"Gen.G.(" + realToString(shape, 2) + ", " + realToString(scale, 2) + ")",
-				generateGeneralizedGaussian(samples, dimension, shape, scale),
+				generateGeneralizedGaussian(dimension, samples, shape, scale),
 				generalizedGaussianDifferentialEntropy(dimension, shape, scale));
 		}
 		}

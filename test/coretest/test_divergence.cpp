@@ -14,8 +14,8 @@ namespace
 
 	void testDivergence()
 	{
-		Signal xSignal = generateGaussian(10000, 10);
-		Signal ySignal = generateGaussian(10000, 10);
+		SignalData xSignal = generateGaussian(10, 10000);
+		SignalData ySignal = generateGaussian(10, 10000);
 
 		const dreal div = divergenceWkv(xSignal, ySignal);
 		log() << "Divergence = " << div << logNewLine;

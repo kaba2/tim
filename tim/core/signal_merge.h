@@ -41,7 +41,7 @@ namespace Tim
 
 		// Allocate the joint signal.
 
-		SignalData jointSignal(samples, jointDimension, sharedTime[0]);
+		SignalData jointSignal(jointDimension, samples, sharedTime[0]);
 		
 		if  (samples == 0)
 		{

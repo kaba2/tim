@@ -95,7 +95,7 @@ namespace
 				ENSURE(cholesky.succeeded());
 
 				const Signal jointSignal = 
-					generateCorrelatedGaussian(samples, dimension, cholesky);
+					generateCorrelatedGaussian(dimension, samples, cholesky);
 
 				Signal xSignal = split(jointSignal, 0, 1);
 				Signal ySignal = split(jointSignal, 1, 2);
@@ -161,7 +161,7 @@ namespace
 				*/
 
 				const Signal jointSignal = 
-					generateCorrelatedGaussian(samples, dimension, cholesky);
+					generateCorrelatedGaussian(dimension, samples, cholesky);
 				const Signal xSignal = split(jointSignal, 0, 1);
 				const Signal ySignal = split(jointSignal, 1, 2);
 
@@ -248,7 +248,7 @@ namespace
 				ENSURE(cholesky.succeeded());
 
 				const Signal jointSignal = 
-					generateCorrelatedGaussian(samples, dimension, cholesky);
+					generateCorrelatedGaussian(dimension, samples, cholesky);
 
 				const dreal correctMi = correlatedGaussianMutualInformation(
 					diagonalProduct(covariance), determinant(cholesky));
@@ -298,7 +298,7 @@ namespace
 
 	void testBoundaryLag()
 	{
-		Signal signal = generateGaussian(100, 1);
+		SignalData signal = generateGaussian(1, 100);
 		const Signal temporalMi = temporalMutualInformation(
 			constantRange(signal), 
 			constantRange(signal), 
@@ -310,7 +310,7 @@ namespace
 	{
 		//Signal signal(new Signal(10, 1));
 		//copy_n(countingIterator(0), 10, signal->data().begin());
-		Signal signal = generateGaussian(10, 1);
+		SignalData signal = generateGaussian(1, 10);
 		dreal filter[] = {0.25, 0.5, 1, 0.5, 0.25};
 		const Signal temporalMi = temporalMutualInformation(
 			constantRange(signal, 2),

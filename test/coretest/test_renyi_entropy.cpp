@@ -69,7 +69,7 @@ namespace
 
 		testRenyiEntropyCase(
 			"Gaussian(0, 1)",
-			generateGaussian(samples, dimension),
+			generateGaussian(dimension, samples),
 			q,
 			gaussianRenyiEntropy(q, dimension, 1));
 
@@ -89,7 +89,7 @@ namespace
 				testRenyiEntropyCase(
 					"Cor.G.(" + realToString(determinant(covariance), 2) + ", " + 
 					realToString(cond) + ")",
-					generateCorrelatedGaussian(samples, dimension, cholesky),
+					generateCorrelatedGaussian(dimension, samples, cholesky),
 					q,
 					gaussianRenyiEntropy(q, dimension, determinant(cholesky)));
 			}
@@ -108,7 +108,7 @@ namespace
 				testRenyiEntropyCase(
 					"Cor.G.(" + realToString(determinant(covariance), 2) + ", " + 
 					realToString(cond) + ")",
-					generateCorrelatedGaussian(samples, dimension, cholesky),
+					generateCorrelatedGaussian(dimension, samples, cholesky),
 					q,
 					gaussianRenyiEntropy(q, dimension, determinant(cholesky)));
 			}
@@ -116,7 +116,7 @@ namespace
 
 		testRenyiEntropyCase(
 			"Uniform(-1, 1)",
-			generateUniform(samples, dimension),
+			generateUniform(dimension, samples),
 			q,
 			uniformRenyiEntropy(std::pow((dreal)2, (dreal)dimension)));
 

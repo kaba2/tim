@@ -69,7 +69,7 @@ namespace
 
 		testTsallisEntropyCase(
 			"Gaussian(0, 1)",
-			generateGaussian(samples, dimension),
+			generateGaussian(dimension, samples),
 			q,
 			gaussianTsallisEntropy(q, dimension, 1));
 
@@ -89,7 +89,7 @@ namespace
 				testTsallisEntropyCase(
 					"Cor.G.(" + realToString(determinant(covariance), 2) + ", " + 
 					realToString(cond, 2) + ")",
-					generateCorrelatedGaussian(samples, dimension, cholesky),
+					generateCorrelatedGaussian(dimension, samples, cholesky),
 					q,
 					gaussianTsallisEntropy(q, dimension, determinant(cholesky)));
 			}
@@ -108,7 +108,7 @@ namespace
 				testTsallisEntropyCase(
 					"Cor.G.(" + realToString(determinant(covariance), 2) + ", " + 
 					realToString(cond, 2) + ")",
-					generateCorrelatedGaussian(samples, dimension, cholesky),
+					generateCorrelatedGaussian(dimension, samples, cholesky),
 					q,
 					gaussianTsallisEntropy(q, dimension, determinant(cholesky)));
 			}
@@ -116,7 +116,7 @@ namespace
 
 		testTsallisEntropyCase(
 			"Uniform(-1, 1)",
-			generateUniform(samples, dimension),
+			generateUniform(dimension, samples),
 			q,
 			uniformTsallisEntropy(q, std::pow((dreal)2, (dreal)dimension)));
 
