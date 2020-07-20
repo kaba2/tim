@@ -23,8 +23,8 @@ namespace Tim
 		// is that Matlab uses column-major storage
 		// while we use row-major storage.
 
-		integer samples = matrix.rows();
-		integer dimension = matrix.cols();
+		integer samples = matrix.cols();
+		integer dimension = matrix.rows();
 		
 		/*!
 		The output signal aliases the input signal such that
@@ -45,14 +45,14 @@ namespace Tim
 		integer nans = 0;
 		while(nans < samples)
 		{
-			if (!isNan(matrix(nans, 0)))
+			if (!isNan(matrix(0, nans)))
 			{
 				break;
 			}
 			++nans;
 		}
 
-		return Signal(matrix.slicey(nans), nans);
+		return Signal(matrix.slicex(nans), nans);
 	}
 
 	template <ranges::forward_range Range>

@@ -52,13 +52,13 @@ namespace Tim
 		//! Returns the dimension of the signal.
 		integer dimension() const
 		{
-			return data_.cols();
+			return data_.rows();
 		}
 
 		//! Returns the number of samples in the signal.
 		integer samples() const
 		{
-			return data_.rows();
+			return data_.cols();
 		}
 
 		//! Returns the samples in a matrix.
@@ -142,11 +142,11 @@ namespace Tim
 		}
 
 		integer samples() const {
-			return data_.rows();
+			return data_.cols();
 		}
 
 		integer dimension() const {
-			return data_.cols();
+			return data_.rows();
 		}
 
 		integer t() const {
