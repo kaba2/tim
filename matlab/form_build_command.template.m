@@ -155,7 +155,7 @@ for i = 1 : numel(librarySet)
 end
 
 % Other flags.
-if strcmp(mode, 'debug')
+if strcmp(mode, 'debug') || strcmp(mode, 'relwithdebinfo')
     commandSet{end + 1} = ' -g';
 end
 

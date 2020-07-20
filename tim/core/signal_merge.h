@@ -61,13 +61,13 @@ namespace Tim
 			const integer lagOffset = sharedTime[0] - (signal.t() + lag);
 			integer dimension = signal.dimension();
 
-			auto jointSliced = jointSignal.data().slicex(dimensionOffset);
+			auto jointSliced = jointSignal.data().slicey(dimensionOffset);
 
 			for (integer i = 0;i < samples;++i)
 			{
 				ranges::copy(
-					signal.data().rowRange(i + lagOffset),
-					std::begin(jointSliced.rowRange(i)));
+					signal.data().columnRange(i + lagOffset),
+					std::begin(jointSliced.columnRange(i)));
 			}
 
 			dimensionOffset += dimension;

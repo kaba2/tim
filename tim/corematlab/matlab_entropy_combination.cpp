@@ -40,6 +40,7 @@ namespace
 		integer kNearest = matlabAsScalar<integer>(inputSet[KNearest]);
 
 		integer marginals = rangeArray.rows();
+		ENSURE_OP(rangeArray.cols(), ==, 3);
 
 		std::vector<Integer3> rangeSet;
 		rangeSet.reserve(marginals);

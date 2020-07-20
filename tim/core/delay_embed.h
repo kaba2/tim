@@ -109,7 +109,7 @@ namespace Tim
 		const Signal& signal,
 		integer dt = 1)
 	{
-		return Signal(signal.data().slicey(dt), signal.t());
+		return Signal(signal.data().slicex(dt), signal.t());
 	}
 
 	//! Computes the futures of signals under a given delay-embedding.
