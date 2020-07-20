@@ -170,7 +170,7 @@ namespace Tim
 	}
 
 	//! Merges two signals into a higher-dimensional signal.
-	TIM Signal merge(
+	inline TIM Signal merge(
 		const Signal& xSignal,
 		const Signal& ySignal,
 		integer xLag = 0,

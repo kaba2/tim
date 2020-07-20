@@ -22,7 +22,7 @@ namespace Tim
 {
 
 	//! Prints the signal into an output stream.
-	TIM std::ostream& operator<<(
+	inline TIM std::ostream& operator<<(
 		std::ostream& stream, const Signal& signal)
 	{
 		integer dimension = signal.dimension();
@@ -91,7 +91,7 @@ namespace Tim
 	}
 
 	//! Computes the covariance of the signal samples.
-	TIM void computeCovariance(
+	inline TIM void computeCovariance(
 		const Signal& signal,
 		MatrixView<dreal>& result)
 	{
@@ -110,7 +110,7 @@ namespace Tim
 	}
 
 	//! Transforms the given signal to identity covariance.
-	TIM void normalizeCovariance(
+	inline TIM void normalizeCovariance(
 		Signal& signal,
 		const Matrix<dreal>& covariance)
 	{

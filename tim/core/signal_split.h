@@ -76,7 +76,7 @@ namespace Tim
 	with P and thus changes in either are reflected in
 	the other.
 	*/
-	TIM Signal split(
+	inline TIM Signal split(
 		const Signal& signal,
 		integer dimensionBegin,
 		integer dimensionEnd)
