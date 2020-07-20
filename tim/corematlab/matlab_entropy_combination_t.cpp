@@ -37,11 +37,11 @@ namespace
 		ENSURE_OP(outputs, ==, Outputs);
 
 		Array<MatlabMatrix<dreal>> signalSet = matlabAsMatrixArray<dreal>(inputSet[SignalSet]);
-		MatlabMatrix<integer> lagSet = matlabAsMatrix<integer>(inputSet[LagSet], true);
+		MatlabMatrix<integer> lagSet = matlabAsVectorizedMatrix<integer>(inputSet[LagSet]);
 		integer timeWindowRadius = matlabAsScalar<integer>(inputSet[TimeWindowRadius]);
 		integer kNearest = matlabAsScalar<integer>(inputSet[KNearest]);
-		MatlabMatrix<dreal> filter = matlabAsMatrix<dreal>(inputSet[FilterIndex], true);
-		MatlabMatrix<dreal> rangeArray = matlabAsMatrix<dreal>(inputSet[RangeSet], true);
+		MatlabMatrix<dreal> filter = matlabAsVectorizedMatrix<dreal>(inputSet[FilterIndex]);
+		MatlabMatrix<dreal> rangeArray = matlabAsVectorizedMatrix<dreal>(inputSet[RangeSet]);
 
 		integer marginals = rangeArray.rows();
 

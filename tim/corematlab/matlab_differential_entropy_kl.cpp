@@ -38,9 +38,7 @@ namespace
 		integer kNearest = matlabAsScalar<integer>(inputSet[KNearest]);
 
 		dreal* outResult = matlabCreateScalar<dreal>(outputSet[Estimate]);
-		*outResult = differentialEntropyKl(
-			xSignals,
-			kNearest);
+		*outResult = differentialEntropyKl(xSignals, kNearest);
 	}
 
 	void addFunction()

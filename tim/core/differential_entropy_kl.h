@@ -148,13 +148,8 @@ namespace Tim
 	{
 		ENSURE_OP(kNearest, >, 0);
 
-		KlDifferential_EntropyAlgorithm<Norm>
-			entropyAlgorithm(norm);
-
-		return genericEntropy(
-			signalSet,
-			entropyAlgorithm,
-			kNearest);
+		KlDifferential_EntropyAlgorithm<Norm> entropyAlgorithm(norm);
+		return genericEntropy(signalSet, entropyAlgorithm, kNearest);
 	}
 
 }
