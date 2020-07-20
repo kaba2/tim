@@ -25,7 +25,7 @@ if isnumeric(S)
     S = {S};
 end
 
-pastelsys.concept_check(...
+pastelmatlab.concept_check(...
     S, tim_package('signal_set'));
 
 if (size(S{1}, 1) > 3)

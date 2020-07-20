@@ -51,7 +51,7 @@ k = 1;
 lagSet = num2cell(zeros(size(signalSet, 1), 1));
 eval(process_options({'lagSet', 'k'}, varargin));
 
-pastelsys.concept_check(...
+pastelmatlab.concept_check(...
     k, 'integer', ...
     k, 'positive');
 
@@ -59,7 +59,7 @@ signals = size(signalSet, 1);
 marginals = size(rangeSet, 1);
 
 for i = 1 : signals
-    pastelsys.concept_check(signalSet(i, :), tim_package('signal_set'));
+    pastelmatlab.concept_check(signalSet(i, :), tim_package('signal_set'));
 end
 
 if marginals == 0
