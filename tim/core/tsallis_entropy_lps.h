@@ -96,7 +96,8 @@ namespace Tim
 			return norm_;
 		}
 		
-		dreal sumTerm(Distance_Concept auto distance) const
+		template <Distance_Concept Distance>
+		dreal sumTerm(Distance distance) const
 		{
 			// Let
 			// C_k = (Gamma(k) / Gamma(k + 1 - q))^(1 / (1 - q))
