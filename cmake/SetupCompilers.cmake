@@ -147,20 +147,20 @@ if (MSVC)
 
 	add_definitions (
 		# Disable Microsoft's Secure STL.
-		# /D_ITERATOR_DEBUG_LEVEL=0
+		/D_ITERATOR_DEBUG_LEVEL=0
+		# Embed debugging information into static libraries.
+		/Z7
 		# Use multiple processes for compiling.
 		/MP
 		# Enable exceptions.
 		/EHsc
 		# Use C++20 features.
 		/std:c++latest
-		/permissive-
 		# Boost uses std::unary_function etc which are removed from C++17.
 		# Bring them back.
 		/D_HAS_AUTO_PTR_ETC=1
 		# Disable language extensions
-		# Arma does not work with this flag (maybe a compiler bug in VS2017?)
-		#/permissive-
+		/permissive-
 	)
 
 	# Disable some warnings.
