@@ -31,6 +31,30 @@ namespace Tim
 		Tim::split(jointSignal, partition, signalSet);
 	}
 
+	//! Creates an alias for a marginal signal.
+	/*
+	Returns a signal S which refers to a marginal signal of P. 
+	For each sample x in P, S refers only to the dimension subrange 
+	[dimensionBegin, dimensionEnd[. S then has dimension
+	(dimensionEnd - dimensionBegin). Note S shares memory
+	with P and thus changes in either are reflected in
+	the other.
+	*/
+	inline TIM Signal split(
+		const Signal& signal,
+		integer dimensionBegin,
+		integer dimensionEnd)
+	{
+		ENSURE_OP(dimensionBegin, <=, dimensionEnd);
+		ENSURE_OP(dimensionBegin, >=, 0);
+		ENSURE_OP(dimensionEnd, <=, signal.dimension());
+
+		integer dimension = dimensionEnd - dimensionBegin;
+		integer samples = signal.samples();
+
+		return Signal(signal.data().slicex(dimensionBegin, dimensionEnd), signal.t());
+	}
+
 	//! Creates aliases for marginal signals.
 	/*!
 	Preconditions:
@@ -65,30 +89,6 @@ namespace Tim
 				partition[x] + marginalDimension);
 			++signalSet;
 		}
-	}
-
-	//! Creates an alias for a marginal signal.
-	/*
-	Returns a signal S which refers to a marginal signal of P. 
-	For each sample x in P, S refers only to the dimension subrange 
-	[dimensionBegin, dimensionEnd[. S then has dimension
-	(dimensionEnd - dimensionBegin). Note S shares memory
-	with P and thus changes in either are reflected in
-	the other.
-	*/
-	inline TIM Signal split(
-		const Signal& signal,
-		integer dimensionBegin,
-		integer dimensionEnd)
-	{
-		ENSURE_OP(dimensionBegin, <=, dimensionEnd);
-		ENSURE_OP(dimensionBegin, >=, 0);
-		ENSURE_OP(dimensionEnd, <=, signal.dimension());
-
-		integer dimension = dimensionEnd - dimensionBegin;
-		integer samples = signal.samples();
-
-		return Signal(signal.data().slicex(dimensionBegin, dimensionEnd), signal.t());
 	}
 
 }
