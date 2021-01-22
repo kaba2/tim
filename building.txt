@@ -8,60 +8,54 @@ This page describes how to build the TIM libraries.
 Compiler
 --------
 
-Since TIM uses C++11, it requires a recent compiler to
+Since TIM uses C++20, it requires a recent compiler to
 be built. Make sure you have one of the following:
 
- * Clang: 3.2 or later
- * GCC: 4.7 or later
- * Xcode: 4.6 or later
- * Visual Studio: 2013 or later
+ * Clang: 11 or later
+ * GCC: 10 or later
+ * Xcode: ? or later
+ * Visual Studio: 2019 or later
 
 If you also want to build the Matlab libraries, then the compiler
 version must _match_ the version of the supported compiler in Matlab.
 For example, Matlab 2013b supports GCC 4.7; GCC 4.8 will not work.
 
-Build process
--------------
-
-The steps to build TIM are as follows:
-
-### Install [Mercurial][]
-
-In Windows, you may want to use [TortoiseHg][], and in Mac Os X, [MacHg][].
-
-[MacHg]: http://jasonfharris.com/machg/
-[TortoiseHg]: http://tortoisehg.bitbucket.org/
-[Mercurial]: http://mercurial.selenic.com/
-
-### Install [CMake][]
+[CMake][]
+---------
 
 CMake can be downloaded from [here][DownloadCMake]. 
 
 [CMake]: http://www.cmake.org/
 [DownloadCMake]: http://www.cmake.org/cmake/resources/software.html
 
+Build process
+-------------
+
+The steps to build TIM are as follows:
+
+### Clone Tim from github
+
+    cd ~
+    mkdir code
+    cd code
+    git clone https://github.com/kaba2/tim
+
 ### Install external libraries
 
 See the [dependencies][Dependencies] page.
 
 [Dependencies]: [[Ref]]: dependencies.txt
- 
-### Get TIM source code
 
-We demonstrate this on the command-line; you may as well use
-the GUIs above. In the command-line, in some proper directory, write
+Either install vcpkg:
 
-	hg clone https://bitbucket.org/kaba2/tim
-	
-The source code always reflects the current development; it is unstable. 
-To obtain the source code corresponding to version 1.3.0, say, write
+    cd tim
+    git clone https://github.com/microsoft/vcpkg
+    ./vcpkg/bootstrap-vcpkg.sh
+    ./vcpkg/vcpkg integrate bash
 
-[[+Verbatim]]:
-	hg update -r 1.3.0
+or alternatively create a symbolic link to an existing vcpkg:
 
-The available tags can be obtained by
-
-	hg tags
+    ln -s ../pastel/vcpkg vcpkg
 
 ### Modify the CMake build file
 
@@ -69,35 +63,15 @@ In the TIM root directory, open the file `CMakeLists.txt`, and
 scroll down to the section `Paths`. It will look something like 
 this:
 
-	# The directory of the Pastel library's source code.
-	# The includes are of the form 'pastel/sys/array.h'
-	set (PastelIncludeDirectory ../pastel)
-	set (PastelLibraryDirectory ../pastel/lib)
-
-	# The directory of the Boost library's source code.
-	# The includes are of the form 'boost/static_assert.hpp'.
-	set (BoostIncludeDirectory ../boost_1_54_0)
-
-	# The directory of the Threading Building Blocks library's 
-	# source code. The includes are of the form 'tbb/parallel_for.h'.
-	set (TbbIncludeDirectory ../tbb42/include)
-
 	# The directory of the Matlab header files.
 	# The includes are of the form 'mex.h'.
-	set (MatlabIncludeDirectory /Applications/MATLAB_R2013a.app/extern/include)
+	set (MatlabIncludeDirectory /Applications/MATLAB_R2020b.app/extern/include)
 
 Modify the paths to correspond to your directory structure.
 
 ### Generate build-scripts using CMake
 
-* In the TIM root directory, create the `release/` directory.
-* In the TIM `release/` directory, type `cmake-gui ..`
-* Press the `Configure` button.
-* Select the tool-set to generate build-scripts for from the menu.
-* Make sure the `Advanced` button is not checked.
-* Select the desired build options.
-* Press the `Configure` button again.
-* Press the `Generate` button.
+    cmake -S . -DCMAKE_BUILD_TYPE=RelWithDebInfo -B build
 
 The build options are:
 
@@ -116,8 +90,7 @@ instructions again. The purpose of this file is to remember
 options so that they need not specified repeatedly.
 
 Note: You can follow similar instructions to create a debug build
-instead. The only difference is that you create a `debug/` directory,
-and choose `Debug` as the `CMAKE_BUILD_TYPE` in `cmake-gui`.  
+instead.
 
 ### Build
 
@@ -128,7 +101,7 @@ know how to proceed. Here are some specific examples.
 
 To build TIM using Visual Studio:
 
- * Open the solution file `Tim.sln` in Visual Studio.
+ * Open the solution file `build/Tim.sln` in Visual Studio.
  * Right click on the solution in Solution Explorer, and choose 
  Configuration Manager. 
  * Select the desired Active Solution Configuration.
@@ -137,7 +110,8 @@ To build TIM using Visual Studio:
 #### Makefiles
 
 To build TIM using makefiles, type 
-	
+
+	cd build	
 	make -j 4
 
 in the `release` directory. The `j` option specifies that `make`
@@ -148,14 +122,15 @@ you may want to increase or decrease this number.
 Configurations
 --------------
 
-TIM comes with two different build configurations. These are:
+TIM comes with different build configurations. These are:
 
- * debug
- * release
+ * Debug
+ * Release
+ * RelWithDebInfo
 
-The `debug` configuration enables debugging information, turns on all
+The `Debug` configuration enables debugging information, turns on all
 `ASSERT`s and `PENSURE`s, and disables multi-threaded processing. The 
-`release` configuration enables optimizations and multi-threaded 
+`Release` configuration enables optimizations and multi-threaded 
 processing. You may choose the debug configuration in the CMake
 GUI when generating the build-scripts. When using multi-configuration 
 tools, such as Visual Studio, the debug configuration is selected 
