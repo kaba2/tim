@@ -1,5 +1,7 @@
 // DocumentationOf: tim_matlab.h
 
+#include <tbb/scalable_allocator.h>
+
 /*
 This file is used as the sole file to build against the
 TIM libraries. The idea is to minimize the amount of the
@@ -17,6 +19,11 @@ units to self-register themselves to PastelMatlab.
 	{ \
 		force_linking_##name(); \
 	}
+
+void call_force_linking_scalable_free() {
+	void* ptr = 0;
+	scalable_free(ptr);
+}
 
 FORCE_LINKING(differential_entropy_kl);
 FORCE_LINKING(differential_entropy_kl_t);
