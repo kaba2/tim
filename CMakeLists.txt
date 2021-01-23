@@ -98,6 +98,12 @@ endif()
 get_filename_component(TbbLibraryDirectory ${TbbLibraryPath} DIRECTORY)
 get_filename_component(TbbLibraryName ${TbbLibraryPath} NAME)
 
+if (UNIX)
+	# FIX: This is a hack to get the library name correct under Linux.
+	string (REPLACE lib "" TbbLibraryName ${TbbLibraryName})
+	string (REPLACE .a "" TbbLibraryName ${TbbLibraryName})
+endif()
+
 if (BuildMatlab)
 	set (MatlabDirectoryWindows "C:/Program Files/Polyspace/R2020b")
 	set (MatlabDirectoryMac "/Applications/MATLAB_R2020b.app")
