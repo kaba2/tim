@@ -64,7 +64,7 @@ namespace
 			}
 		}
 
-		Signal estimate = temporalEntropyCombination(
+		SignalData estimate = temporalEntropyCombination(
 			asSignalArray(signalSet),
 			rangeSet,
 			timeWindowRadius,

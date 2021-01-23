@@ -146,10 +146,16 @@ namespace Tim
 	{
 		ENSURE_OP(ranges::size(lagSet), ==, ensembleSet.height());
 
+		std::vector<Signal> column(ensembleSet.height());
+
 		integer trials = ensembleSet.width();
 		for (integer i = 0;i < trials;++i)
 		{
-			*result = merge(ensembleSet.cColumnRange(i), lagSet);
+			for (integer j = 0;j < ensembleSet.height(); ++j) {
+				column[j] = (Signal)ensembleSet(i, j);
+			}
+
+			*result = merge(column, lagSet);
 			++result;
 		}
 	}
@@ -170,7 +176,7 @@ namespace Tim
 	}
 
 	//! Merges two signals into a higher-dimensional signal.
-	inline TIM Signal merge(
+	inline TIM SignalData merge(
 		const Signal& xSignal,
 		const Signal& ySignal,
 		integer xLag = 0,

@@ -45,7 +45,7 @@ namespace
 		std::vector<dreal> filter;
 		matlabGetScalars(inputSet[FilterIndex], std::back_inserter(filter));
 
-		Signal estimate = temporalRenyiEntropyLps(
+		SignalData estimate = temporalRenyiEntropyLps(
 			xSignals,
 			timeWindowRadius, 
 			q,

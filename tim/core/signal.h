@@ -137,7 +137,7 @@ namespace Tim
 		SignalData& operator=(const SignalData& that) = default;
 		SignalData& operator=(SignalData&& that) = default;
 
-		operator Signal() const {
+		explicit operator Signal() const {
 			return data();
 		}
 

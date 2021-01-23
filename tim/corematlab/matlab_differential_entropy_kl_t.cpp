@@ -43,7 +43,7 @@ namespace
 		std::vector<dreal> filter;
 		matlabGetScalars(inputSet[FilterIndex], std::back_inserter(filter));
 
-		Signal estimate = temporalDifferentialEntropyKl(
+		SignalData estimate = temporalDifferentialEntropyKl(
 			xSignals, 
 			timeWindowRadius, 
 			kNearest,

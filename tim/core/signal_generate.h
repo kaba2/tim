@@ -27,7 +27,7 @@ namespace Tim
 	inline TIM SignalData generateUniform(integer dimension, integer samples)
 	{
 		SignalData signal(dimension, samples);
-		generateUniform(signal);
+		generateUniform((Signal)signal);
 		return signal;
 	}
 
@@ -45,7 +45,7 @@ namespace Tim
 	inline TIM SignalData generateGaussian(integer dimension, integer samples)
 	{
 		SignalData signal(dimension, samples);
-		generateGaussian(signal);
+		generateGaussian((Signal)signal);
 		return signal;
 	}
 
@@ -82,7 +82,7 @@ namespace Tim
 		integer dimension, integer samples, 
 		const CholeskyDecompositionInplace<dreal>& covarianceCholesky) {
 		SignalData signal(dimension, samples);
-		generateCorrelatedGaussian(signal, covarianceCholesky);
+		generateCorrelatedGaussian((Signal)signal, covarianceCholesky);
 		return signal;
 	}
 
@@ -97,7 +97,7 @@ namespace Tim
 		integer dimension, integer samples, dreal shape, dreal scale)
 	{
 		SignalData signal(dimension, samples);
-		generateGeneralizedGaussian(signal, shape, scale);
+		generateGeneralizedGaussian((Signal)signal, shape, scale);
 		return signal;
 	}
 

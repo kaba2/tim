@@ -76,7 +76,7 @@ namespace Tim
 		auto iter = signalSet.begin();
 		for (integer i = 0;i < signals;++i)
 		{
-			const Signal& signal = *iter;
+			Signal signal = (Signal)*iter;
 			for (integer t = tBegin;t < tEnd;++t)
 			{
 				const dreal* point = 

@@ -94,7 +94,7 @@ namespace Tim
 
 		integer trials = signalSet.width();
 
-		std::vector<Signal> jointSignalSet;
+		std::vector<SignalData> jointSignalSet;
 		jointSignalSet.reserve(trials);
 		merge(signalSet, 
 			std::back_inserter(jointSignalSet), lagSet);
