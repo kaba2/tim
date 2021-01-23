@@ -26,8 +26,6 @@ if ((CMAKE_CXX_COMPILER_ID STREQUAL "GNU") OR
 
 	if (NOT CMAKE_CXX_SIMULATE_ID STREQUAL "MSVC")
 		add_definitions (
-			# Enables C++20 compiler support.
-			-std=c++20
 			# Enables position-independent code.
 			# This is needed to build the Matlab 
 			# libraries.
@@ -36,27 +34,11 @@ if ((CMAKE_CXX_COMPILER_ID STREQUAL "GNU") OR
 			-Wall 
 			# Stop build after one error.
 			-Wfatal-errors
-			# Under Linux, Armadillo has to use
-			# long-long for BLAS, to not conflict
-			# with Matlab; otherwise there will
-			# be a segmentation fault.
-			-DARMA_BLAS_LONG_LONG
 		)
 	endif()
 
 	# Disable some warnings.
 	add_definitions (
-		# Eigen does bitwise operations between different enums
-		-Wno-deprecated-anon-enum-enum-conversion
-		# Eigen forward-declares inline functions with.
-		-Wno-undefined-inline
-		# Assigning objects to themselves is useful in testing.
-		-Wno-self-assign-overloaded
-		-Wno-self-move
-		# volatile-qualified parameter type 'const volatile long long' is deprecated
-		# These errors come from the TBB library.
-		-Wno-deprecated-volatile
-		-Wno-parentheses
 		# Pragma warnings caused by OpenMP support not being enabled.
 		-Wno-unknown-pragmas
 		# Comparison between an unsigned and a signed integer.
@@ -105,13 +87,19 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 			)
 	endif()
 
-	add_definitions (
-		# For the Visual Studio Clang/C2
-		-Qunused-arguments
-	)
-
 	# Disable some warnings.
 	add_definitions (
+		# Eigen does bitwise operations between different enums
+		-Wno-deprecated-anon-enum-enum-conversion
+		# Eigen forward-declares inline functions with.
+		-Wno-undefined-inline
+		# volatile-qualified parameter type 'const volatile long long' is deprecated
+		# These errors come from the TBB library.
+		-Wno-deprecated-volatile
+		-Wno-parentheses
+		# Assigning objects to themselves is useful in testing.
+		-Wno-self-assign-overloaded
+		-Wno-self-move
 		# Compiler warns 'that >= 0' is always true for an 
 		# unsigned integer.
 		-Wno-tautological-compare
@@ -130,9 +118,10 @@ endif()
 
 if (MSVC)
 	if (BuildMatlabMex)
-		if (CMAKE_BUILD_TYPE MATCHES Debug)
+		if (CMAKE_BUILD_TYPE MATCHES Debug) 
 			# Force Visual Studio to use release-mode C and C++ standard libraries.
-			# This is needed for Matlab, because otherwise there will be LNK4098
+			# This is needed for Matlab, because its mex compilation flags only
+			# include /MD; there is no debug version. Otherwise there will be LNK4098
 			# about conflicting versions of the standard library.
 			string(REPLACE "/MDd" "/MD" CMAKE_CXX_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})
 			string(REPLACE "/D_DEBUG" "" CMAKE_CXX_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})
@@ -154,8 +143,8 @@ if (MSVC)
 		/MP
 		# Enable exceptions.
 		/EHsc
-		# Use C++20 features.
-		/std:c++latest
+		# Increase number of sections in .obj file.
+		/bigobj
 		# Boost uses std::unary_function etc which are removed from C++17.
 		# Bring them back.
 		/D_HAS_AUTO_PTR_ETC=1
