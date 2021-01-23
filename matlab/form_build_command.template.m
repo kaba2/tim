@@ -155,7 +155,7 @@ for i = 1 : numel(librarySet)
 end
 
 % Other flags.
-if strcmp(mode, 'debug') || strcmp(mode, 'relwithdebinfo')
+if strcmp(mode, 'debug')
     if strcmp('${CompilerId}', 'msvc')
         % Use debug-mode C++ standard library.
         commandSet{end + 1} = ' -g COMPFLAGS="$COMPFLAGS /MDd"';
@@ -164,6 +164,9 @@ if strcmp(mode, 'debug') || strcmp(mode, 'relwithdebinfo')
     end
 end
 
+if strcmp(mode, 'relwithdebinfo') 
+    commandSet{end + 1} = ' -g';
+end
 
 if strcmp(verbose, 'on')
     commandSet{end + 1} = ' -v';
