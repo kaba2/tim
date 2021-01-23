@@ -81,7 +81,7 @@ librarySet = breakSemicolons(librarySet);
 % Preprocessor definitions 
 % ------------------------
 
-% defineSet{end + 1} = '_ITERATOR_DEBUG_LEVEL=0';
+defineSet{end + 1} = '_ITERATOR_DEBUG_LEVEL=0';
 
 % Form the build-command
 % ----------------------
