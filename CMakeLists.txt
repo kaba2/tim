@@ -88,7 +88,13 @@ find_package(TBB CONFIG REQUIRED)
 include_directories(TBB::tbb)
 link_libraries(TBB::tbb)
 get_target_property(TbbIncludeDirectory TBB::tbb INTERFACE_INCLUDE_DIRECTORIES)
-get_target_property(TbbLibraryPath TBB::tbb IMPORTED_LOCATION_RELEASE)
+
+if (CMAKE_BUILD_TYPE MATCHES "Debug")
+	get_target_property(TbbLibraryPath TBB::tbb IMPORTED_LOCATION_DEBUG)
+else()
+	get_target_property(TbbLibraryPath TBB::tbb IMPORTED_LOCATION_RELEASE)
+endif()
+
 get_filename_component(TbbLibraryDirectory ${TbbLibraryPath} DIRECTORY)
 get_filename_component(TbbLibraryName ${TbbLibraryPath} NAME)
 
