@@ -158,7 +158,7 @@ set (TimDocumentationGlobSet *.txt)
 add_subdirectory (tim)
 
 if (BuildTests)
-	#add_subdirectory (test)
+	add_subdirectory (test)
 endif()
 
 if (BuildMatlab)

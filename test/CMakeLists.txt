@@ -1,3 +1,4 @@
 project (TimTest)
 
-add_subdirectory("coretest")
+add_subdirectory("anothertest")
+# add_subdirectory("coretest")

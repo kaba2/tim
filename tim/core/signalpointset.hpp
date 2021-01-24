@@ -73,7 +73,7 @@ namespace Tim
 
 		pointSet_.resize(samples * signals);
 
-		auto iter = signalSet.begin();
+		auto iter = ranges::begin(signalSet);
 		for (integer i = 0;i < signals;++i)
 		{
 			Signal signal = (Signal)*iter;

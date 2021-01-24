@@ -46,7 +46,7 @@ namespace Tim
 
 		auto lagIter = std::begin(lagSet);
 		auto lagIterEnd = std::end(lagSet);
-		auto signalIter = signalSet.begin();
+		auto signalIter = ranges::begin(signalSet);
 
 		integer tLeftMax = (*lagIter) + signalIter->t();
 		integer tRightMin = tLeftMax + signalIter->samples();

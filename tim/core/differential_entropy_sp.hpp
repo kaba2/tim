@@ -138,7 +138,7 @@ namespace Tim
 
 		std::vector<const dreal*> pointSet;
 		pointSet.reserve(n);
-		auto iter = signalSet.begin();
+		auto iter = ranges::begin(signalSet);
 		auto iterEnd = signalSet.end();
 		while(iter != iterEnd)
 		{

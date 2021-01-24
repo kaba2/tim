@@ -54,7 +54,7 @@ namespace Tim
 			return 0;
 		}
 
-		auto iter = signalSet.begin();
+		auto iter = ranges::begin(signalSet);
 		auto iterEnd = signalSet.end();
 
 		dreal estimate = 0;
