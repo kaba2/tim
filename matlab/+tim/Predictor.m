@@ -14,7 +14,7 @@ classdef Predictor < handle
                 error('dimension must be a positive integer');
             end
             
-            import pastelgeometry.PointKdTree;
+            import pastelmatlab.PointKdTree;
 
             self.kdTree_ = PointKdTree(dimension);
             self.correlationTime_ = 1;

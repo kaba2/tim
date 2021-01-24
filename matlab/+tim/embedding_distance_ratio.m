@@ -22,7 +22,7 @@ for i = 1 : embeddingFactors
     lowerPointSet = tim.delay_embed(pointSet, 1, 1);
     higherPointSet = tim.delay_embed(pointSet, embeddingFactor + 1, 1);
 
-    kdTree = pastelgeometry.PointKdTree(d);
+    kdTree = pastelmatlab.PointKdTree(d);
     idSet = kdTree.insert(lowerPointSet);
     kdTree.refine();
 

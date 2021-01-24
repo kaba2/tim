@@ -12,12 +12,12 @@ tim.spatial_plot(directionSet);
 
 d = size(pointSet, 1);
 
-kdTree = pastelgeometry.PointKdTree(d);
+kdTree = pastelmatlab.PointKdTree(d);
 idSet = kdTree.insert(directionSet);
 kdTree.refine();
 direction = pointSet(:, 3001) - pointSet(:, 3000);
 direction = direction / norm(direction);
-[indexSet, ignore] = kdTree.search_nearest(direction(:), 2 - 2 * 0.98, 128);
+[indexSet, ignore] = kdTree.search_nearest(direction(:), 'maxDistanceSet', 2 - 2 * 0.98, 'kNearest', 128);
 
 indexSet = sort(indexSet);
 

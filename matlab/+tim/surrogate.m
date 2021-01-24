@@ -86,7 +86,7 @@ kNearest = k;
 
 if strcmp(algorithm, 'preserve_dynamics')
 	% Create a kd-tree from the points in the input set.
-	kdTree = pastelgeometry.PointKdTree(d);
+	kdTree = pastelmatlab.PointKdTree(d);
 	idSet = kdTree.insert(inputSet);
 	kdTree.refine();
 
@@ -96,7 +96,9 @@ if strcmp(algorithm, 'preserve_dynamics')
 
 	% Pick a neighborhood of k points from the trajectory.
 	startSet = kdTree.search_nearest(...
-		kdTree.as_points(randi([1, n])), Inf, kNearest);
+		kdTree.as_points(randi([1, n])), ...
+		'maxDistanceSet', Inf, ...
+		'kNearest', kNearest);
 
 	% Choose the starting point as a random convex combination
 	% of the points in the neighborhood.
@@ -111,7 +113,9 @@ if strcmp(algorithm, 'preserve_dynamics')
 		% Pick a neighborhood of k points from the trajectory
 		% around the current point.
 		neighborSet = kdTree.search_nearest(...
-			currentPoint, Inf, kNearest);
+			currentPoint, ...
+			'maxDistanceSet', Inf, ...
+			'kNearest', kNearest);
 
 		% Evolve the neighborhood in time. This is always
 		% defined since we hided the last point in time.

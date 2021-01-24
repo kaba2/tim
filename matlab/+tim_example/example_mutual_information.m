@@ -8,7 +8,7 @@ close all;
 
 for i = 2 : 2
     d = 2^i;
-    R = pastelmath.random_orthogonal(d, 'orientation', 1);
+    R = pastelmatlab.random_orthogonal(d, 'orientation', 1);
     D = rand(d, 1);
     M = R * diag(D);
     cov = M * M';
