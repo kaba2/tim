@@ -81,7 +81,7 @@ namespace Tim
 			{
 				const dreal* point = 
 					std::begin(signal.pointRange(dimensionBegin_))[t - signal.t()];
-				pointSet_[(t - signal.t()) * signals + i] = kdTree_.insert(point);
+				pointSet_[(t - tBegin) * signals + i] = kdTree_.insert(point);
 			}
 			
 			++iter;

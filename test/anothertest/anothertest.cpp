@@ -1,5 +1,8 @@
 #include "tim/core/differential_entropy.h"
+#include "tim/core/mutual_information.h"
 #include "tim/core/signal_generate.h"
+
+#include <tbb/task_scheduler_init.h>
 
 #include <chrono>
 
@@ -15,11 +18,14 @@ static auto duration(F&& func, Args&&... args)
 } 
 
 int main() {
-    auto signal = generateGaussian(10, 100000);
-    SignalData signals[] = { signal };
+    tbb::task_scheduler_init init(1);
+
+    auto signal = generateGaussian(10, 1000);
+    Signal signals[] = { (Signal)signal };
 
     auto f = [&]() {
-        return differentialEntropyKl(signals);
+        auto kl = differentialEntropyKl(signals);
+        auto mu = mutualInformation(signals, signals, 0, 1);
     };
     
     std::cout << duration(f).count() << std::endl;

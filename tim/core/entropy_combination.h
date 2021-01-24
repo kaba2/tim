@@ -99,7 +99,7 @@ namespace Tim
 		merge(signalSet, 
 			std::back_inserter(jointSignalSet), lagSet);
 
-		integer samples = std::begin(signalSet)->samples();
+		integer samples = std::begin(jointSignalSet)->samples();
 		if (samples == 0)
 		{
 			return 0;
@@ -120,7 +120,7 @@ namespace Tim
 
 
 		const integer n = samples * trials;
-		integer marginals = rangeSet.size();
+		integer marginals = ranges::size(rangeSet);
 
 		// Construct point sets
 

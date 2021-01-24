@@ -23,7 +23,7 @@ namespace Tim
 			const X_Signal_Range& xSignalSet,
 			const Y_Signal_Range& ySignalSet,
 			integer timeWindowRadius,
-			Signal* result,
+			SignalData* result,
 			integer xLag, integer yLag,
 			integer kNearest,
 			const Filter_Range& filter)
@@ -35,7 +35,7 @@ namespace Tim
 			PENSURE(equalDimension(ySignalSet));
 			ENSURE(odd(ranges::size(filter)));
 
-			if (xSignalSet.empty() || ySignalSet.empty())
+			if (ranges::empty(xSignalSet) || ranges::empty(ySignalSet))
 			{
 				return 0;
 			}
