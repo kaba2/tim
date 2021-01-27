@@ -1,0 +1,58 @@
+{
+	"disable" : 
+	[
+	],
+
+	"flags" :
+	[
+	],
+
+	"include" :
+	[
+		"*.txt ",
+		"*.cpp",
+		"*.h",
+		"*.hpp",
+		"*.m",
+		"*.py",
+		"*.png",
+		"*.pdf",
+		"*.svg",
+		"*.zip",
+		"*.cmake",
+		"index.htm",
+        "*.svd",
+        "*.png",
+        "*.y",
+        "*.l",
+        "*.mat",
+        "license.htm"
+    ],
+
+	"exclude" :
+	[
+		"docs/*",
+		"debug/*",
+		"release/*",
+		"lib/*",
+		"bin/*",
+		"build*/*",
+		"*CMake*",
+		".hg*",
+		".DS_Store",
+		"*vcxproj*",
+		"*.sln",
+		"*.orig",
+		"*.mexmaci64",
+		"*.props",
+		"*.vsd",
+		"*.pcx",
+		"remark_options",
+        "tim_license.txt",
+        "tim_license_matlab.txt",
+        "license.txt",
+        "*.a",
+        "*.asv"
+    ]
+}
+
