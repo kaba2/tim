@@ -49,6 +49,4 @@ namespace Tim
 
 }
 
-#include "tim/core/tsallis_entropy_uniform.hpp"
-
 #endif

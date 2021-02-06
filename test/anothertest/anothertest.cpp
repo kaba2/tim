@@ -1,5 +1,10 @@
 #include "tim/core/differential_entropy.h"
+#include "tim/core/tsallis_entropy.h"
+#include "tim/core/renyi_entropy.h"
 #include "tim/core/mutual_information.h"
+#include "tim/core/partial_mutual_information.h"
+#include "tim/core/partial_transfer_entropy.h"
+#include "tim/core/transfer_entropy.h"
 #include "tim/core/signal_generate.h"
 
 #include <tbb/task_scheduler_init.h>
@@ -24,7 +29,9 @@ int main() {
     Signal signals[] = { (Signal)signal };
 
     auto f = [&]() {
-        auto kl = differentialEntropyKl(signals);
+        auto de = differentialEntropyKl(signals);
+        auto te = tsallisEntropyLps(signals);
+        auto re = renyiEntropyLps(signals);
         auto mu = mutualInformation(signals, signals, 0, 1);
     };
     

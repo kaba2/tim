@@ -4,14 +4,91 @@
 #define TIM_MUTUAL_INFORMATION_EC_H
 
 #include "tim/core/signal.h"
+#include "tim/core/signal_tools.h"
+#include "tim/core/signalpointset.h"
+#include "tim/core/entropy_combination.h"
+#include "tim/core/entropy_combination_t.h"
 
 #include <pastel/math/matrix/matrix.h>
 #include <pastel/math/matrix/cholesky_decomposition.h>
-
 #include <pastel/sys/range.h>
+#include <pastel/sys/iterator/null_iterator.h>
 
 namespace Tim
 {
+
+	namespace Detail_MutualInformation
+	{
+
+		template <
+			typename X_Signal_Range,
+			typename Y_Signal_Range,
+			ranges::forward_range Filter_Range>
+		dreal mutualInformation(
+			const X_Signal_Range& xSignalSet,
+			const Y_Signal_Range& ySignalSet,
+			integer timeWindowRadius,
+			SignalData* result,
+			integer xLag, integer yLag,
+			integer kNearest,
+			const Filter_Range& filter)
+		{
+			ENSURE_OP(timeWindowRadius, >=, 0);
+			ENSURE_OP(kNearest, >, 0);
+			PENSURE_OP(ranges::size(xSignalSet), ==, ranges::size(ySignalSet));
+			PENSURE(equalDimension(xSignalSet));
+			PENSURE(equalDimension(ySignalSet));
+			ENSURE(odd(ranges::size(filter)));
+
+			if (ranges::empty(xSignalSet) || ranges::empty(ySignalSet))
+			{
+				return 0;
+			}
+
+			// Copy the signals in an array.
+
+			integer trials = ranges::size(xSignalSet);
+
+			Array<Signal> signalSet(Vector2i(trials, 2));
+			std::copy(std::begin(xSignalSet), std::end(xSignalSet),
+				signalSet.rowBegin(0));
+			std::copy(std::begin(ySignalSet), std::end(ySignalSet),
+				signalSet.rowBegin(1));
+
+			// Describe the marginal signals.
+
+			Integer3 rangeSet[] = 
+			{
+				Integer3(0, 1, 1),
+				Integer3(1, 2, 1)
+			};
+
+			integer lagSet[] = {xLag, yLag};
+
+			// Compute entropy combination.
+
+			if (result)
+			{
+
+				*result = temporalEntropyCombination(
+					signalSet, 
+					range(rangeSet),
+					timeWindowRadius,
+					range(lagSet),
+					kNearest,
+					filter);
+				
+				return 0;
+			}
+
+			return entropyCombination(
+				signalSet,
+				range(rangeSet),
+				range(lagSet),
+				kNearest);
+		}
+
+	}
 
 	//! Computes temporal mutual information.
 	/*!
@@ -42,7 +119,6 @@ namespace Tim
 	then the minimum number of samples among the trials
 	is used.
 	*/
-
 	template <
 		typename X_Signal_Range,
 		typename Y_Signal_Range,
@@ -53,7 +129,18 @@ namespace Tim
 		integer timeWindowRadius,
 		integer xLag, integer yLag,
 		integer kNearest,
-		const Filter_Range& filter);
+		const Filter_Range& filter)
+	{
+		SignalData result;
+		Tim::Detail_MutualInformation::mutualInformation(
+			xSignalSet, ySignalSet,
+			timeWindowRadius,
+			&result,
+			xLag, yLag,
+			kNearest,
+			filter);
+		return result;
+	}
 
 	//! Computes temporal mutual information.
 	/*!
@@ -70,7 +157,6 @@ namespace Tim
 
 	See the documentation for that function.
 	*/
-
 	template <
 		typename X_Signal_Range,
 		typename Y_Signal_Range>
@@ -79,7 +165,15 @@ namespace Tim
 		const Y_Signal_Range& ySignalSet,
 		integer timeWindowRadius,
 		integer xLag = 0, integer yLag = 0,
-		integer kNearest = 1);
+		integer kNearest = 1)
+	{
+		return Tim::temporalMutualInformation(
+			xSignalSet, ySignalSet,
+			timeWindowRadius,
+			xLag, yLag,
+			kNearest,
+			constantRange((dreal)1, 1));
+	}
 
 	//! Computes mutual information.
 	/*!
@@ -102,7 +196,6 @@ namespace Tim
 	then the minimum number of samples among the trials
 	is used.
 	*/
-
 	template <
 		typename X_Signal_Range,
 		typename Y_Signal_Range>
@@ -110,10 +203,17 @@ namespace Tim
 		const X_Signal_Range& xSignalSet,
 		const Y_Signal_Range& ySignalSet,
 		integer xLag = 0, integer yLag = 0,
-		integer kNearest = 1);
+		integer kNearest = 1)
+	{
+		return Tim::Detail_MutualInformation::mutualInformation(
+			xSignalSet, ySignalSet,
+			0,
+			0,
+			xLag, yLag,
+			kNearest,
+			constantRange((dreal)1, 1));
+	}
 
 }
-
-#include "tim/core/mutual_information_ec.hpp"
 
 #endif

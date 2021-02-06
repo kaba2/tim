@@ -64,6 +64,4 @@ namespace Tim
 
 }
 
-#include "tim/core/tsallis_entropy_normal.hpp"
-
 #endif
