@@ -164,7 +164,7 @@ namespace Tim
 		typename X_Signal_Range,
 		typename Y_Signal_Range,
 		typename W_Signal_Range>
-	Signal temporalTransferEntropy(
+	SignalData temporalTransferEntropy(
 		const X_Signal_Range& xSignalSet,
 		const Y_Signal_Range& ySignalSet,
 		const W_Signal_Range& wSignalSet,

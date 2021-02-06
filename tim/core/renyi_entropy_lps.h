@@ -267,7 +267,7 @@ namespace Tim
 	See the documentation for that function.
 	*/
 	template <ranges::forward_range Signal_Range>
-	Signal temporalRenyiEntropyLps(
+	SignalData temporalRenyiEntropyLps(
 		const Signal_Range& signalSet,
 		integer timeWindowRadius,
 		dreal q = 2,

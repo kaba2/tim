@@ -85,7 +85,7 @@ namespace Tim
 	See the documentation for that function.
 	*/
 	template <ranges::forward_range Signal_Range>
-	Signal merge(
+	SignalData merge(
 		const Signal_Range& signalSet)
 	{
 		return Tim::merge(signalSet,

@@ -355,7 +355,7 @@ namespace Tim
 	template <
 		ranges::forward_range Integer3_Range,
 		ranges::forward_range Lag_Range>
-	Signal temporalEntropyCombination(
+	SignalData temporalEntropyCombination(
 		const Array<Signal>& signalSet,
 		const Integer3_Range& rangeSet,
 		integer timeWindowRadius,
@@ -384,7 +384,7 @@ namespace Tim
 	See the documentation for that function.
 	*/
 	template <ranges::forward_range Integer3_Range>
-	Signal temporalEntropyCombination(
+	SignalData temporalEntropyCombination(
 		const Array<Signal>& signalSet,
 		const Integer3_Range& rangeSet,
 		integer timeWindowRadius)

@@ -123,7 +123,7 @@ namespace Tim
 		typename X_Signal_Range,
 		typename Y_Signal_Range,
 		ranges::forward_range Filter_Range>
-	Signal temporalMutualInformation(
+	SignalData temporalMutualInformation(
 		const X_Signal_Range& xSignalSet,
 		const Y_Signal_Range& ySignalSet,
 		integer timeWindowRadius,
@@ -160,7 +160,7 @@ namespace Tim
 	template <
 		typename X_Signal_Range,
 		typename Y_Signal_Range>
-	Signal temporalMutualInformation(
+	SignalData temporalMutualInformation(
 		const X_Signal_Range& xSignalSet,
 		const Y_Signal_Range& ySignalSet,
 		integer timeWindowRadius,

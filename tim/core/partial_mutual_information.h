@@ -125,7 +125,7 @@ namespace Tim
 		typename Y_Signal_Range,
 		typename Z_Signal_Range,
 		ranges::forward_range Filter_Range>
-	Signal temporalPartialMutualInformation(
+	SignalData temporalPartialMutualInformation(
 		const X_Signal_Range& xSignalSet,
 		const Y_Signal_Range& ySignalSet,
 		const Z_Signal_Range& zSignalSet,
@@ -165,7 +165,7 @@ namespace Tim
 		typename X_Signal_Range,
 		typename Y_Signal_Range,
 		typename Z_Signal_Range>
-	Signal temporalPartialMutualInformation(
+	SignalData temporalPartialMutualInformation(
 		const X_Signal_Range& xSignalSet,
 		const Y_Signal_Range& ySignalSet,
 		const Z_Signal_Range& zSignalSet,

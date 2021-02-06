@@ -134,7 +134,7 @@ namespace Tim
 		typename Z_Signal_Range,
 		typename W_Signal_Range,
 		ranges::forward_range Filter_Range>
-	Signal temporalPartialTransferEntropy(
+	SignalData temporalPartialTransferEntropy(
 		const X_Signal_Range& xSignalSet,
 		const Y_Signal_Range& ySignalSet,
 		const Z_Signal_Range& zSignalSet,
@@ -173,7 +173,7 @@ namespace Tim
 		typename Y_Signal_Range,
 		typename Z_Signal_Range,
 		typename W_Signal_Range>
-	Signal temporalPartialTransferEntropy(
+	SignalData temporalPartialTransferEntropy(
 		const X_Signal_Range& xSignalSet,
 		const Y_Signal_Range& ySignalSet,
 		const Z_Signal_Range& zSignalSet,
