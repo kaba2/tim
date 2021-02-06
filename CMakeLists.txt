@@ -86,6 +86,9 @@ add_definitions (
 	-DEIGEN_HAS_STD_RESULT_OF=0
 )
 
+find_package(Threads REQUIRED)
+link_libraries(Threads::Threads)
+
 find_package(TBB CONFIG REQUIRED)
 include_directories(TBB::tbb)
 link_libraries(TBB::tbb)
