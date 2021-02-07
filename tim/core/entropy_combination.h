@@ -69,7 +69,7 @@ namespace Tim
 		const Array<Signal>& signalSet,
 		const Integer3_Range& rangeSet,
 		const Lag_Range& lagSet,
-		integer kNearest)
+		integer kNearest = 1)
 	{
 		ENSURE_OP(kNearest, >, 0);
 		ENSURE_OP(ranges::size(lagSet), ==, signalSet.height());
@@ -239,36 +239,10 @@ namespace Tim
 			estimate -= signalEstimate * weightSet[i];
 		}
 
-		estimate += digamma<real>(kNearest);
-		estimate += (signalWeightSum - 1) * digamma<real>(n);
+		estimate += digamma<dreal>(kNearest);
+		estimate += (signalWeightSum - 1) * digamma<dreal>(n);
 
 		return estimate;
-	}
-
-	//! Computes an entropy combination of signals.
-	/*!
-	This is a convenience function that calls:
-
-	entropyCombination(
-		signalSet,
-		rangeSet,
-		constantRange(0, signalSet.height()),
-		kNearest);
-
-	See the documentation for that function.
-	*/
-	template <
-		ranges::forward_range Integer3_Range,
-		ranges::forward_range Lag_Range>
-	dreal entropyCombination(
-		const Array<Signal>& signalSet,
-		const Integer3_Range& rangeSet,
-		const Lag_Range& lagSet,
-		integer kNearest = 1)
-	{
-		return Tim::entropyCombination(
-			signalSet, rangeSet,
-			lagSet, kNearest);
 	}
 
 	//! Computes an entropy combination of signals.
