@@ -188,7 +188,6 @@ namespace Tim
 			}
 		}
 
-#pragma omp parallel
 		{
 		// Compute SignalPointSets.
 
@@ -213,7 +212,6 @@ namespace Tim
 
 		Array<dreal> distanceArray(Vector2i(1, maxLocalFilterWidth * trials), infinity<dreal>());
 		
-#pragma omp for reduction(+ : missingValues)
 		for (integer t = estimateBegin;t < estimateEnd;++t)
 		{
 			jointPointSet.setTimeWindow(

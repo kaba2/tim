@@ -65,8 +65,7 @@ namespace
 			asSignalArray(signalSet),
 			rangeSet,
 			lagSet.view().range(),
-			kNearest,
-			Digamma_LocalEstimator());
+			kNearest);
 
 		*matlabCreateScalar<dreal>(outputSet[Estimate]) = result;
 

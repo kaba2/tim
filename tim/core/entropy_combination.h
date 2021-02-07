@@ -6,7 +6,6 @@
 #include "tim/core/mytypes.h"
 #include "tim/core/signal.h"
 #include "tim/core/signal_tools.h"
-#include "tim/core/localestimators.h"
 #include "tim/core/signalpointset.h"
 #include "tim/core/reconstruction.h"
 
@@ -60,28 +59,21 @@ namespace Tim
 	The k:th nearest neighbor that is used to
 	estimate entropy combination.
 
-	estimator:
-	The local estimator to use in the algorithm.
-	See localestimators.txt.
-
 	Returns:
 	An estimate of the entropy combination of the signals.
 	*/
 	template <
 		ranges::forward_range Integer3_Range,
-		ranges::forward_range Lag_Range,
-		typename LocalEstimator>
+		ranges::forward_range Lag_Range>
 	dreal entropyCombination(
 		const Array<Signal>& signalSet,
 		const Integer3_Range& rangeSet,
 		const Lag_Range& lagSet,
-		integer kNearest,
-		const LocalEstimator& localEstimator)
+		integer kNearest)
 	{
 		ENSURE_OP(kNearest, >, 0);
 		ENSURE_OP(ranges::size(lagSet), ==, signalSet.height());
 
-		typedef typename LocalEstimator::Instance Estimator;
 		typedef typename SignalPointSet::Point_ConstIterator
 			Point_ConstIterator;
 
@@ -176,12 +168,10 @@ namespace Tim
 
 		tbb::parallel_for(Block(0, n), search);
 
-		//const dreal signalWeightSum = 
-		//	std::accumulate(weightSet.begin(), weightSet.end(), (dreal)0);
+		const dreal signalWeightSum = 
+			std::accumulate(weightSet.begin(), weightSet.end(), (dreal)0);
 
-		Estimator estimator(kNearest, n);
-
-		dreal estimate = estimator.localJointEstimate();
+		dreal estimate = 0;
 		for (integer i = 0;i < marginals;++i)
 		{
 			using Block = tbb::blocked_range<integer>;
@@ -216,11 +206,11 @@ namespace Tim
 					// open search ball. These points are ignored.
 					if (k > 0)
 					{
-						signalEstimate += estimator.localMarginalEstimate(k);
+						signalEstimate += digamma<dreal>(k);
 						++acceptedSamples;
 					}
 				}
-
+				
 				return Pair(signalEstimate, acceptedSamples);
 			};
 			
@@ -249,6 +239,9 @@ namespace Tim
 			estimate -= signalEstimate * weightSet[i];
 		}
 
+		estimate += digamma<real>(kNearest);
+		estimate += (signalWeightSum - 1) * digamma<real>(n);
+
 		return estimate;
 	}
 
@@ -260,8 +253,7 @@ namespace Tim
 		signalSet,
 		rangeSet,
 		constantRange(0, signalSet.height()),
-		kNearest,
-		Log_LocalEstimator());
+		kNearest);
 
 	See the documentation for that function.
 	*/
@@ -276,8 +268,7 @@ namespace Tim
 	{
 		return Tim::entropyCombination(
 			signalSet, rangeSet,
-			lagSet, kNearest,
-			Log_LocalEstimator());
+			lagSet, kNearest);
 	}
 
 	//! Computes an entropy combination of signals.

@@ -122,7 +122,6 @@ namespace Tim
 		SignalData result(1, samples, estimateBegin);
 		integer missingValues = 0;
 
-#pragma omp parallel
 		{
 		// Each worker thread has to create its own copy of
 		// the signal point set. This is because the call
@@ -134,7 +133,6 @@ namespace Tim
 
 		SignalPointSet pointSet(signalSet);
 
-#pragma omp for reduction(+ : missingValues)
 		for (integer t = estimateBegin;t < estimateEnd;++t)
 		{
 			// Update the position of the time-window.
