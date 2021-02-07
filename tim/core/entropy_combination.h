@@ -10,6 +10,7 @@
 #include "tim/core/reconstruction.h"
 
 #include <pastel/geometry/pointkdtree/pointkdtree.h>
+#include <pastel/geometry/count_nearest.h>
 #include <pastel/geometry/search_nearest.h>
 #include <pastel/geometry/nearestset/kdtree_nearestset.h>
 
@@ -191,12 +192,9 @@ namespace Tim
 						ofDimension(pointSet[i].dimension()),
 						withAliasing((dreal*)(query->point())));
 
-					integer k = 0;
-					searchNearest(
+					integer k = countNearest(
 						kdTreeNearestSet(pointSet[i].kdTree()),
 						queryPoint,
-						PASTEL_TAG(kNearest), (integer)Infinity(),
-						PASTEL_TAG(report), [&](auto, auto) {++k;},
 						PASTEL_TAG(norm), norm,
 						PASTEL_TAG(maxDistance2), norm(distanceArray(j))
 					);
