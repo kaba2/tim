@@ -18,7 +18,6 @@ be built. Make sure you have one of the following:
 
 If you also want to build the Matlab libraries, then the compiler
 version must _match_ the version of the supported compiler in Matlab.
-For example, Matlab 2013b supports GCC 4.7; GCC 4.8 will not work.
 
 [CMake][]
 ---------

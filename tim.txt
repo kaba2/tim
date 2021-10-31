@@ -11,32 +11,37 @@ _TIM_ is a cross-platform C++ / Matlab library for efficient non-linear time-ser
 
 [TimHomepage]: http://kaba.hilvi.org/tim
 
-Download
---------
+Download TIM 1.3.0
+------------------
 
-[Download TIM Matlab 1.3.0 [[tim_version]]][TIM-Matlab-1.3.0]
+[Download TIM Matlab [[tim_version]]][TIM-Matlab-1.3.0]
 
-This package contains 64-bit prebuilds of Tim 1.3.0 for Windows and Linux. 
+This package contains 64-bit prebuilds of TIM 1.3.0 for Windows and Linux. 
 TIM 1.3.0 can also be built under Mac OS X, but unfortunately I don't have access to such a machine.
 Note that the interface has changed somewhat from 1.2.0.
 
-[Download TIM Matlab 1.2.0 [[tim_version]]][TIM-Matlab-1.2.0]
+__Note__: For Windows, you need to have the [Visual C++ Redistributable for Visual Studio 2019][VisualRedist-1.3.0] 
+installed for the prebuilt TIM 1.3.0 to work.
 
-This package contains 32-bit and 64-bit prebuilds of Tim 1.2.0 for Windows, Linux, and Mac OS X.
-
-__Note__: For Windows, you need to have the [Visual C++ Redistributable for Visual Studio 2019][VisualRedist] 
-installed for the prebuilt TIM to work.
-
-For previous versions, see the [release history][ReleaseHistory].
-
-[VisualRedist]: https://aka.ms/vs/16/release/vc_redist.x64.exe
-
+[VisualRedist-1.3.0]: https://aka.ms/vs/16/release/vc_redist.x64.exe
 [TIM-Matlab-1.3.0]: [[-+Ref]]: tim-matlab-1.3.0.zip
+
+Download TIM 1.2.0
+------------------
+
+[Download TIM Matlab 1.2.0][TIM-Matlab-1.2.0]
+
+This package contains 32-bit and 64-bit prebuilds of TIM 1.2.0 for Windows, Linux, and Mac OS X.
+
+__Note__: For Windows, you need to have the [Visual C++ Redistributable for Visual Studio 2012 Update 2][VisualRedist-1.2.0] installed for the prebuilt TIM 1.2.0 to work. 
+
+[VisualRedist-1.2.0]: http://www.microsoft.com/en-us/download/details.aspx?id=30679 
 [TIM-Matlab-1.2.0]: [[-+Ref]]: tim-matlab-1.2.0.zip
-[ReleaseHistory]: [[Ref]]: release_history.txt
 
 Getting started
 ---------------
+
+In Matlab console, assuming TIM is on Matlab path:
 
 	% Generate lots of 10-dimensional gaussian distributed vectors.
     A = randn(10, 100000)
@@ -71,8 +76,8 @@ To obtain the source code corresponding to this version, write
 [[+Verbatim]]:
 	git checkout [[tim_version]]
 
-[GitHub]: http://bitbucket.org/kaba2/tim
-[Git]: http://mercurial.selenic.com
+[GitHub]: http://github.com/kaba2/tim
+[Git]: http://git-scm.com
 
 License
 -------

@@ -8,9 +8,9 @@ This page lists the dependencies of TIM. The version number that follows the lib
 External dependencies
 ---------------------
 
-### Pastel 1.4
+### Pastel 1.6.0
 
-<http://kaba.hilvi.org/pastel-1.4.0>
+<http://kaba.hilvi.org/pastel-1.6.0>
 
 Pastel is licensed under the MIT license. TIM refers to Pastel's include files in the form `pastel/sys/array.h`.
 
@@ -26,14 +26,16 @@ Boost is licensed under the Boost license. TIM only uses the template code found
 
 Threading Building Blocks is licensed under the GPLv2 license, with the run-time exception. The latter specifically means that Pastel need not be made GPLv2 although it uses code from the TBB. This is similar to how the license of `libstdc++` works. Pastel refer's to Threading Building Blocks's include files in the form `tbb/parallel_for.h`.
 
-### Remark 1.6
+### Remark 1.7.8
 
-<http://kaba.hilvi.org/remark-1.6.0>
+<http://kaba.hilvi.org/remark-1.7.8>
 
-The documentation for TIM is written in Remark. This library is not required to build TIM.
+The documentation for TIM is written in Remark. 
+
+__This library is not required to build TIM.__
 
 ### CMake 3.0
 
 <http://www.cmake.org>
 
-The build-system is written in CMake. CMake takes in a generic description of the build-process and generates the build-files for a specific platform, such as Visual Studio projects, makefiles, or Xcode projects. This library is required to build Pastel. It is not required to use the build libraries.
+The build-system is written in CMake. CMake takes in a generic description of the build-process and generates the build-files for a specific platform, such as Visual Studio projects, makefiles, or Xcode projects. This library is required to build Pastel. It is not required to use the already built libraries.
