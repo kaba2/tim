@@ -8,7 +8,7 @@ This section summarizes the release history of TIM. The versioning of TIM is giv
 TIM 1.3.0
 ---------
 
-Release date xx.xx.2014.
+Release date 31.10.2021.
 
 [Original webpage][TIM-1.3.0]
 
@@ -21,15 +21,9 @@ Release date xx.xx.2014.
  * Changed to use Threading Building Blocks (over OpenMP).
  * Removed OpenMP dependencies.
  * Changed the license from LGPL to MIT.
- * Uploaded the source-code to BitBucket.
- * Source built over [Pastel 1.4](http://kaba.hilvi.org/pastel-1.4.0).
- * Documentation built over [Remark 1.6](http://kaba.hilvi.org/remark-1.6.0).
-
-### TIM Core
-
- * Changed to use the temporal kd-tree (over semi-dynamic kd-tree). The temporal kd-tree takes ''O(n log(n))'' memory, compared to ''O(n c)'' for the semi-dynamic kd-tree, where ''c'' is the number of processor cores.
- * Added Theiler correction; samples that are close in time and in the same trial are ignored. This requires the temporal kd-tree to have an efficient parallel solution.
- * Added false nearest-neighbors test for finding a good embedding dimension.
+ * Changed to use Git.
+ * Source built over [Pastel 1.6.0](http://kaba.hilvi.org/pastel-1.6.0).
+ * Documentation built over [Remark 1.7.8](http://kaba.hilvi.org/remark-1.7.8).
 
 ### TIM Matlab
 
@@ -43,12 +37,6 @@ Release date xx.xx.2014.
  * Added distance matrix computation.
  * Added non-linear prediction.
  * Added Poincare sections.
-
-### Acknowledgements
-
-This version was programmed under funding from the [Finnish National Doctoral Programme in Mathematics and its Applications][Gsmaa]. 
-
-[Gsmaa]: https://wiki.helsinki.fi/display/gsmaa/Main
 
 TIM 1.2.0
 ---------

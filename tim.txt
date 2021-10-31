@@ -17,15 +17,15 @@ Download
 
 [Download TIM Matlab [[tim_version]]][TIM-Matlab]
 
-The package contains prebuilds for Mac OS X, Windows, and Linux, in both 32-bit and 64-bit modes.
+The package contains 64-bit prebuilds for Windows and Linux. TIM can also be built under Mac OS X, but unfortunately I don't have access to such a machine.
 
 __Note__: For Windows, you need to have the 
-[Visual C++ Redistributable for Visual Studio 2012 Update 2][VisualRedist] 
+[Visual C++ Redistributable for Visual Studio 2019][VisualRedist] 
 installed for the prebuilt TIM to work.
 
 For previous versions, see the [release history][ReleaseHistory].
 
-[VisualRedist]: http://www.microsoft.com/en-us/download/details.aspx?id=30679
+[VisualRedist]: https://aka.ms/vs/16/release/vc_redist.x64.exe
 
 [TIM-Matlab]: [[-+Ref]]: tim-matlab-[[tim_version]].zip
 [ReleaseHistory]: [[Ref]]: release_history.txt
@@ -33,20 +33,20 @@ For previous versions, see the [release history][ReleaseHistory].
 Source code
 -----------
 
-The source code for TIM is hosted on [BitBucket][] in a [Mercurial][] 
+The source code for TIM is hosted on [GitHub][] in a [Git][] 
 repository. Assuming you have Mercurial installed, the repository can 
 be cloned from the command-line by
 
-	hg clone https://bitbucket.org/kaba2/tim
+	git clone https://bitbucket.org/kaba2/tim
 
 The source code always reflects the current development; it is unstable. 
 To obtain the source code corresponding to this version, write
 
 [[+Verbatim]]:
-	hg update -r [[tim_version]]
+	git checkout [[tim_version]]
 
-[BitBucket]: http://bitbucket.org/kaba2/tim
-[Mercurial]: http://mercurial.selenic.com
+[GitHub]: http://bitbucket.org/kaba2/tim
+[Git]: http://mercurial.selenic.com
 
 License
 -------
@@ -54,26 +54,3 @@ License
 TIM is licensed under the [MIT license][MIT]. 
 
 [MIT]: http://opensource.org/licenses/mit-license.php
-
-Issue tracker
--------------
-
-The issue tracker for TIM is hosted on Bitbucket in [here][TimBugs].
-
-[TimBugs]: https://bitbucket.org/kaba2/tim/issues
-
-[[Comment]]:
-	The following is a javascript for Google Analytics by which we can
-	monitor the visitor statistics of the TIM homepage.
-
-[[Html]]:
-	<script type="text/javascript">
-	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-	</script>
-	<script type="text/javascript">
-	try {
-	var pageTracker = _gat._getTracker("UA-15174506-1");
-	pageTracker._trackPageview();
-	} catch(err) {}</script>
-

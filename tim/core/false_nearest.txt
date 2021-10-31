@@ -1,4 +1,0 @@
-False nearest neighbors
-=======================
-
-[[Parent]]: embedding_dimension.txt
