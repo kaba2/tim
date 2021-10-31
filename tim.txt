@@ -30,6 +30,27 @@ For previous versions, see the [release history][ReleaseHistory].
 [TIM-Matlab]: [[-+Ref]]: tim-matlab-[[tim_version]].zip
 [ReleaseHistory]: [[Ref]]: release_history.txt
 
+Getting started
+---------------
+
+	% Generate lots of 10-dimensional gaussian distributed vectors.
+    A = randn(10, 100000)
+	% Estimate differential entropy for the underlying random vector.
+	tim.differential_entropy_kl(A);
+
+Core count
+----------
+
+The maximum number of threads Matlab uses for parallel computation is limited by `maxNumCompThreads`, which on my computer and Matlab version is set to 8. Check this value by executing on Matlab console:
+
+	maxNumCompThreads
+
+If your computer has a larger amount of logical processors (e.g. 8 physical cores + hyperthreading = 16 logical processors), set this number higher to make full use of them:
+
+	maxNumCompThreads(16)
+
+Employing all of the cores may make the computer unresponsive during the computation. While this is efficient, for multitasking it may be more productive to reserve some processors for other tasks (e.g. use 14 instead).
+
 Source code
 -----------
 

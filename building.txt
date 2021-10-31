@@ -71,7 +71,7 @@ Modify the paths to correspond to your directory structure.
 
 ### Generate build-scripts using CMake
 
-    cmake -S . -DCMAKE_BUILD_TYPE=RelWithDebInfo -B build
+    cmake -S . -DCMAKE_BUILD_TYPE=Release -B build
 
 The build options are:
 
@@ -101,11 +101,11 @@ know how to proceed. Here are some specific examples.
 
 To build TIM using Visual Studio:
 
- * Open the solution file `build/Tim.sln` in Visual Studio.
- * Right click on the solution in Solution Explorer, and choose 
- Configuration Manager. 
- * Select the desired Active Solution Configuration.
- * Build solution.
+* Open the Visual Studio project:
+
+    start build/Tim.sln
+
+ * Build solution (F7).
 
 #### Makefiles
 
@@ -122,7 +122,7 @@ you may want to increase or decrease this number.
 Configurations
 --------------
 
-TIM comes with different build configurations. These are:
+TIM comes with different build configurations which are to be passed to `CMAKE_BUILD_TYPE` when invoking CMake, as above. These are:
 
  * Debug
  * Release
@@ -139,7 +139,17 @@ inside the tool.
 Output files
 ------------
 
-The libraries and executables are written under the `lib/` directory. 
-The intermediate files are written under the `release/` directory.
+The libraries and executables are written under the `bin/` directory. 
+The intermediate files are written under the `build/` directory.
 
+Building TimMatlab
+------------------
 
+* Open Matlab.
+* Open the directory which contains the built libraries and executables (e.g. `tim/bin/msvc64-release`).
+* Open subdirectory `matlab`.
+* Execute `build_tim` in Matlab console. This produces `tim_matlab.mexw64` (on Windows) or similar (on Linux or Mac).
+* Test:
+
+     A = randn(10, 1000);
+     tim.differential_entropy_kl(A)
