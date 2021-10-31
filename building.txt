@@ -8,24 +8,17 @@ This page describes how to build the TIM libraries.
 Compiler
 --------
 
-Since TIM uses C++20, it requires a recent compiler to
-be built. Make sure you have one of the following:
+Since TIM uses C++20, it requires a recent compiler to be built. The following work:
 
- * Clang: 11 or later
- * GCC: 10 or later
- * Xcode: ? or later
- * Visual Studio: 2019 or later
+Operating system | Compiler
+-----------------|---------
+Windows  | Visual Studio 2019 16.11.5 or later
+Linux    | GCC 11 or later
+Linux    | Clang ? or later
+Mac OS X | Xcode ? or later
 
 If you also want to build the Matlab libraries, then the compiler
 version must _match_ the version of the supported compiler in Matlab.
-
-[CMake][]
----------
-
-CMake can be downloaded from [here][DownloadCMake]. 
-
-[CMake]: http://www.cmake.org/
-[DownloadCMake]: http://www.cmake.org/cmake/resources/software.html
 
 Build process
 -------------
@@ -68,9 +61,11 @@ this:
 
 Modify the paths to correspond to your directory structure.
 
-### Generate build-scripts using CMake
+### Generate build-scripts using [CMake][]
 
     cmake -S . -DCMAKE_BUILD_TYPE=Release -B build
+
+[CMake]: https://cmake.org/download/
 
 The build options are:
 
@@ -100,11 +95,8 @@ know how to proceed. Here are some specific examples.
 
 To build TIM using Visual Studio:
 
-* Open the Visual Studio project:
-
-    start build/Tim.sln
-
- * Build solution (F7).
+* Open the Visual Studio project `build/Tim.sln`.
+* Build solution (F7).
 
 #### Makefiles
 
@@ -123,9 +115,9 @@ Configurations
 
 TIM comes with different build configurations which are to be passed to `CMAKE_BUILD_TYPE` when invoking CMake, as above. These are:
 
- * Debug
- * Release
- * RelWithDebInfo
+* Debug
+* Release
+* RelWithDebInfo
 
 The `Debug` configuration enables debugging information, turns on all
 `ASSERT`s and `PENSURE`s, and disables multi-threaded processing. The 
@@ -148,7 +140,3 @@ Building TimMatlab
 * Open the directory which contains the built libraries and executables (e.g. `tim/bin/msvc64-release`).
 * Open subdirectory `matlab`.
 * Execute `build_tim` in Matlab console. This produces `tim_matlab.mexw64` (on Windows) or similar (on Linux or Mac).
-* Test:
-
-     A = randn(10, 1000);
-     tim.differential_entropy_kl(A)

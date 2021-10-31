@@ -14,7 +14,7 @@ External dependencies
 
 Pastel is licensed under the MIT license. TIM refers to Pastel's include files in the form `pastel/sys/array.h`.
 
-### Boost 1.54
+### Boost 1.77
 
 <http://www.boost.org>
 
