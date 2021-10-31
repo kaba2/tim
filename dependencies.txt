@@ -38,4 +38,6 @@ __This library is not required to build TIM.__
 
 <http://www.cmake.org>
 
-The build-system is written in CMake. CMake takes in a generic description of the build-process and generates the build-files for a specific platform, such as Visual Studio projects, makefiles, or Xcode projects. This library is required to build Pastel. It is not required to use the already built libraries.
+The build-system is written in CMake. CMake takes in a generic description of the build-process and generates the build-files for a specific platform, such as Visual Studio projects, makefiles, or Xcode projects. 
+
+__CMake generates the compiler-specific build scripts (e.g. Visual Studio project file) to build Tim.__
